@@ -47,29 +47,27 @@ import java.util.*;
 
 import static me.maxiiiiii.skyblockdragons.Functions.manaCostCalculator;
 
-@Getter
-@Setter
 public class PlayerSD implements Player {
     private final Player player;
-    private double damage;
-    private double strength;
-    private double critDamage;
-    private double critChance;
-    private double attackSpeed;
-    private double ferocity;
-    private double health;
-    private double defense;
-    private double speed;
-    private double mana;
-    private double intelligence;
+    public double damage;
+    public double strength;
+    public double critDamage;
+    public double critChance;
+    public double attackSpeed;
+    public double ferocity;
+    public double health;
+    public double defense;
+    public double speed;
+    public double mana;
+    public double intelligence;
 
-    private Skill skill;
-    private Wardrobe wardrobe;
+    public Skill skill;
+    public Wardrobe wardrobe;
 
-    private Pet activePet;
+    public Pet activePet;
 
-    private double purse;
-    private ArrayList<ItemStack> accessoryBag;
+    public double purse;
+    public ArrayList<ItemStack> accessoryBag;
 
     public PlayerSD(Player player, double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence, Skill skill, Wardrobe wardrobe, Pet activePet) {
         this.player = player;
@@ -167,16 +165,16 @@ public class PlayerSD implements Player {
 
     public ArrayList<Double> getStats() {
         ArrayList<Double> stats = new ArrayList<>();
-        stats.add(getDamage());
-        stats.add(getStrength());
-        stats.add(getCritDamage());
-        stats.add(getCritChance());
-        stats.add(getAttackSpeed());
-        stats.add(getFerocity());
-        stats.add(getHealth());
-        stats.add(getDefense());
-        stats.add(getSpeed());
-        stats.add(getIntelligence());
+        stats.add(this.damage);
+        stats.add(this.strength);
+        stats.add(this.critDamage);
+        stats.add(this.critChance);
+        stats.add(this.attackSpeed);
+        stats.add(this.ferocity);
+        stats.add(this.health);
+        stats.add(this.defense);
+        stats.add(this.speed);
+        stats.add(this.intelligence);
         return stats;
     }
 

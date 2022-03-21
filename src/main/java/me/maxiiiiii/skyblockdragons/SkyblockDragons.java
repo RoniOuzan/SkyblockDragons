@@ -226,34 +226,34 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (PlayerSD player : players.values()) {
-                if (!player.getPlayer().getWorld().getName().equalsIgnoreCase("work")) continue;
+                if (!player.getWorld().getName().equalsIgnoreCase("work")) continue;
 
-                setScoreboardScores(player.getPlayer());
+                setScoreboardScores(player);
 
-                player.getPlayer().setFoodLevel(20);
+                player.setFoodLevel(20);
                 player.applyStats(true);
 
-                if (player.getPlayer().getMaxHealth() != player.getHealth()) {
-                    player.getPlayer().setMaxHealth(player.getHealth());
+                if (player.getMaxHealth() != player.getHealth()) {
+                    player.setMaxHealth(player.getHealth());
                 }
 
-                if (player.getPlayer().getHealth() * HEALTH_REGEN < player.getHealth()) {
-                    player.getPlayer().setHealth(player.getPlayer().getHealth() * HEALTH_REGEN);
-                } else if (player.getPlayer().getHealth() * HEALTH_REGEN > player.getHealth()) {
-                    player.getPlayer().setHealth(player.getHealth());
+                if (player.getHealth() * HEALTH_REGEN < player.getHealth()) {
+                    player.setHealth(player.getHealth() * HEALTH_REGEN);
+                } else if (player.getHealth() * HEALTH_REGEN > player.getHealth()) {
+                    player.setHealth(player.getHealth());
                 }
 
-                player.getPlayer().setWalkSpeed((float) (player.getSpeed() / 500));
+                player.setWalkSpeed((float) (player.speed / 500));
 
                 sendActionBar(player);
-                playTime.put(player.getPlayer().getUniqueId(), playTime.getOrDefault(player.getPlayer().getUniqueId(), 0L) + 5L);
-                setVariable(player.getPlayer().getUniqueId(), "PlayTime", playTime.get(player.getPlayer().getUniqueId()) + "");
+                playTime.put(player.getUniqueId(), playTime.getOrDefault(player.getUniqueId(), 0L) + 5L);
+                setVariable(player.getUniqueId(), "PlayTime", playTime.get(player.getUniqueId()) + "");
 
-                if (player.getActivePet() != null && player.getActivePet().getArmorStand() == null) {
-                    Pet.spawnPet(player.getPlayer(), player.getActivePet());
+                if (player.activePet != null && player.activePet.getArmorStand() == null) {
+                    Pet.spawnPet(player, player.activePet);
                 }
-                if (player.getActivePet() != null && player.getActivePet().getArmorStand().getLocation().distance(player.getPlayer().getLocation()) > 3)
-                    new aifly(player.getActivePet().getArmorStand(), player.getPlayer(), 1000).runTaskTimer(plugin, 0L, 1L);
+                if (player.activePet != null && player.activePet.getArmorStand().getLocation().distance(player.getLocation()) > 3)
+                    new aifly(player.activePet.getArmorStand(), player, 1000).runTaskTimer(plugin, 0L, 1L);
             }
         }, 0L, 5L);
 
