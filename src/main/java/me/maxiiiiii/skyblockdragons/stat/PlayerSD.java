@@ -49,7 +49,7 @@ import static me.maxiiiiii.skyblockdragons.Functions.manaCostCalculator;
 
 @Getter
 @Setter
-public class MyPlayer implements Player {
+public class PlayerSD implements Player {
     private final Player player;
     private double damage;
     private double strength;
@@ -71,7 +71,7 @@ public class MyPlayer implements Player {
     private double purse;
     private ArrayList<ItemStack> accessoryBag;
 
-    public MyPlayer(Player player, double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence, Skill skill, Wardrobe wardrobe, Pet activePet) {
+    public PlayerSD(Player player, double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence, Skill skill, Wardrobe wardrobe, Pet activePet) {
         this.player = player;
         this.damage = damage;
         this.strength = strength;
@@ -94,7 +94,7 @@ public class MyPlayer implements Player {
 
         this.activePet = activePet;
 
-//        this.purse = HypixelItems.purses.get(player.getUniqueId());
+        this.purse = SkyblockDragons.economy.getBalance(this);
         this.accessoryBag = new ArrayList<>();
         for (int i = 0; i < 45; i++) {
             try {
@@ -104,7 +104,7 @@ public class MyPlayer implements Player {
         }
     }
 
-    public MyPlayer(Player player, Skill skill, Wardrobe wardrobe, Pet activePet) {
+    public PlayerSD(Player player, Skill skill, Wardrobe wardrobe, Pet activePet) {
         this(player, 0, 0, 0, 20, 0, 0, 100, 0, 100, 100, skill, wardrobe, activePet);
     }
 

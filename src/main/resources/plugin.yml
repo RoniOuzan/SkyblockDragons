@@ -2,3 +2,96 @@ name: SkyblockDragons
 version: '${project.version}'
 main: me.maxiiiiii.skyblockdragons.SkyblockDragons
 description: Skyblock Dragons but in java
+softdepend: [HolographicDisplays]
+commands:
+  JavaAnvil:
+    permission: hypixelitems.anvil
+    usage: /<command>
+    aliases:
+      - ja
+      - anvil
+      - av
+  JavaPlugin:
+    permission: hypixelitems.plugin
+    usage: /<command> <text>
+    aliases:
+      - jp
+  JavaMenu:
+    permission: hypixelitems.menu
+    usage: /<command> <player>
+    aliases:
+      - jm
+      - menu
+      - sbmenu
+  JavaItem:
+    permission: hypixelitems.item
+    usage: /<command> <item> <amount>
+    aliases:
+      - ji
+      - jItem
+      - javaI
+      - item
+  Stat:
+    permission: hypixelitems.stat
+    usage: /<command> <number>
+  EnchantingTable:
+    permission: hypixelitems.enchanting
+    usage: /<command>
+    aliases:
+      - et
+      - enchantingt
+      - etable
+  ReforgeMenu:
+    permission: hypixelitems.reforge
+    usage: /<command>
+    aliases:
+      - ref
+      - rm
+      - reforgem
+      - rmenu
+  JavaBook:
+    permission: hypixelitems.book
+    usage: /<command> <enchant> <level>
+    aliases:
+      - jb
+      - javab
+      - jbook
+  AccessoryBag:
+    permission: hypixelitems.accessorybag
+    usage: /<command> <player>
+    aliases:
+      - ac
+      - acb
+      - acbag
+  ViewRecipe:
+    permission: hypixelitems.viewrecipe
+    usage: /<command> <recipe>
+  CraftingTable:
+    permission: hypixelitems.craftingtable
+    usage: /<command>
+  JavaPurse:
+    permission: hypixelitems.purse
+    usage: /<command> <text> <object> [<object>]
+  JavaBits:
+    permission: hypixelitems.bits
+    usage: /<command> <text> <object> [<object>]
+  PlayTime:
+    permission: hypixelitems.playtime
+    usage: /<command>
+  SkillMenu:
+    permission: hypixelitems.skill.menu
+    usage: /<command>
+  SkillAdmin:
+    permission: hypixelitems.skill.admin
+    usage: /<command> <skill-name> <text> [<amount>] [<player>]
+  Wardrobe:
+    permission: hypixelitems.wardrobe.open
+    usage: /<command> <page> <player>
+    aliases:
+      - wd
+  PetAdmin:
+    permission: hypixelitems.pet.admi
+    usage: /<command> <pet>
+    aliases:
+      - pa
+      - peta

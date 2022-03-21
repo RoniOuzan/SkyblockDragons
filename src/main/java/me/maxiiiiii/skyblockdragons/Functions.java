@@ -16,7 +16,7 @@ import me.maxiiiiii.skyblockdragons.itemcreator.*;
 import me.maxiiiiii.skyblockdragons.material.*;
 import me.maxiiiiii.skyblockdragons.skill.Skill;
 import me.maxiiiiii.skyblockdragons.skill.Skills.*;
-import me.maxiiiiii.skyblockdragons.stat.PlayerData;
+import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.StorageUtil;
 import me.maxiiiiii.skyblockdragons.util.*;
 import me.maxiiiiii.skyblockdragons.wardrobe.Wardrobe;
@@ -1264,7 +1264,7 @@ public class Functions {
         return defaultValue;
     }
 
-    public static void loadPlayerData(Player player) {
+    public static void loadPlayerSD(Player player) {
         SkyblockDragons.purses.put(player.getUniqueId(), 0d);
         SkyblockDragons.bits.put(player.getUniqueId(), 0L);
         player.setHealthScale(40d);
@@ -1280,7 +1280,7 @@ public class Functions {
             ));
         }
 
-        SkyblockDragons.players.put(player.getUniqueId(), new PlayerData(
+        SkyblockDragons.players.put(player.getUniqueId(), new PlayerSD(
                 player,
                 new Skill(
                         new FarmingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Farming", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Farming", 2, "0"))),
@@ -1328,30 +1328,30 @@ public class Functions {
     }
 
     public static void setScoreboardScores(Player player) {
-        PlayerData playerData = SkyblockDragons.players.get(player.getUniqueId());
+        PlayerSD playerSD = SkyblockDragons.players.get(player.getUniqueId());
 
         ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
 
         Scoreboard scoreboard = scoreboardManager.getNewScoreboard();
 
-        Objective objective = scoreboard.registerNewObjective(playerData.getPlayer().getName(), "dummy");
+        Objective objective = scoreboard.registerNewObjective(playerSD.getPlayer().getName(), "dummy");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        objective.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "Skyblock");
+        objective.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "Skyblock Dragons");
         ArrayList<Score> scores = new ArrayList<>();
         Date now = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy");
         scores.add(objective.getScore(ChatColor.GRAY + format.format(now) + ChatColor.DARK_GRAY + " m000F"));
         scores.add(objective.getScore(" "));
-        scores.add(objective.getScore(ChatColor.WHITE + "Player: " + ChatColor.GREEN + playerData.getPlayer().getName()));
-        scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(SkyblockDragons.purses.get(playerData.getPlayer().getUniqueId()))));
+        scores.add(objective.getScore(ChatColor.WHITE + "Player: " + ChatColor.GREEN + playerSD.getPlayer().getName()));
+        scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(playerSD.getPurse())));
         String bitsAdder = "";
-        if (SkyblockDragons.playTime.getOrDefault(playerData.getPlayer().getUniqueId(), 0L) % 36000L >= 0L && SkyblockDragons.playTime.getOrDefault(playerData.getPlayer().getUniqueId(), 0L) % 36000L < 20L) {
+        if (SkyblockDragons.playTime.getOrDefault(playerSD.getPlayer().getUniqueId(), 0L) % 36000L >= 0L && SkyblockDragons.playTime.getOrDefault(playerSD.getPlayer().getUniqueId(), 0L) % 36000L < 20L) {
             bitsAdder = ChatColor.AQUA + "(+250 Bits)";
-            if (SkyblockDragons.playTime.getOrDefault(playerData.getPlayer().getUniqueId(), 0L) % 36000L < 5L) {
-                BitsUtil.add(playerData.getPlayer(), 250L);
+            if (SkyblockDragons.playTime.getOrDefault(playerSD.getPlayer().getUniqueId(), 0L) % 36000L < 5L) {
+                BitsUtil.add(playerSD.getPlayer(), 250L);
             }
         }
-        scores.add(objective.getScore(ChatColor.WHITE + "Bits: " + ChatColor.AQUA + getNumberFormat(SkyblockDragons.bits.get(playerData.getPlayer().getUniqueId())) + " " + bitsAdder));
+        scores.add(objective.getScore(ChatColor.WHITE + "Bits: " + ChatColor.AQUA + getNumberFormat(SkyblockDragons.bits.get(playerSD.getPlayer().getUniqueId())) + " " + bitsAdder));
         scores.add(objective.getScore(""));
         scores.add(objective.getScore(ChatColor.YELLOW + "www.error.net"));
         Collections.reverse(scores);

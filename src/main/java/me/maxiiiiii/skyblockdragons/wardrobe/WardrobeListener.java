@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.wardrobe;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.itemcreator.ItemType;
-import me.maxiiiiii.skyblockdragons.stat.PlayerData;
+import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.StorageUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -30,13 +30,13 @@ public class WardrobeListener implements Listener {
             if (secondPage) adder = 9;
 
             Player player = (Player) e.getPlayer();
-            PlayerData playerData = players.get(player.getUniqueId());
+            PlayerSD PlayerSD = players.get(player.getUniqueId());
             for (int i = 0; i < 36; i++) {
                 if (e.getInventory().getItem(i).getType() != Material.STAINED_GLASS_PANE) {
-                    playerData.getWardrobe().getSlot((i % 9) + adder).setPeace(e.getInventory().getItem(i), i / 9);
+                    PlayerSD.getWardrobe().getSlot((i % 9) + adder).setPeace(e.getInventory().getItem(i), i / 9);
                     StorageUtil.setVariable(player.getUniqueId(), "Wardrobe", SkyblockDragons.getSerializer().serialize(e.getInventory().getItem(i)), i + (adder * 4));
                 } else {
-                    playerData.getWardrobe().getSlot((i % 9) + adder).setPeace(null, i / 9);
+                    PlayerSD.getWardrobe().getSlot((i % 9) + adder).setPeace(null, i / 9);
                     StorageUtil.deleteVariable(player.getUniqueId(), "Wardrobe", i + (adder * 4));
                 }
             }
@@ -48,7 +48,7 @@ public class WardrobeListener implements Listener {
         try {
             if (e.getClickedInventory().getType() == InventoryType.PLAYER || e.getClickedInventory().getType() == InventoryType.CREATIVE) {
                 Player player = (Player) e.getWhoClicked();
-                PlayerData playerData = players.get(player.getUniqueId());
+                PlayerSD PlayerSD = players.get(player.getUniqueId());
                 new BukkitRunnable() {
                     @Override
                     public void run() {
@@ -56,35 +56,35 @@ public class WardrobeListener implements Listener {
                             int slot = Integer.parseInt(StorageUtil.getVariable(player.getUniqueId(), "WardrobeEquip").getValue()) - 1;
 
                             if (isNotAir(player.getEquipment().getHelmet())) {
-                                playerData.getWardrobe().getSlot(slot).setHelmet(player.getEquipment().getHelmet());
+                                PlayerSD.getWardrobe().getSlot(slot).setHelmet(player.getEquipment().getHelmet());
                                 StorageUtil.setVariable(player.getUniqueId(), "Wardrobe", SkyblockDragons.getSerializer().serialize(player.getEquipment().getHelmet()), slot);
                             } else {
                                 StorageUtil.deleteVariable(player.getUniqueId(), "Wardrobe", slot);
-                                playerData.getWardrobe().getSlot(slot).setPeace(null, 0);
+                                PlayerSD.getWardrobe().getSlot(slot).setPeace(null, 0);
                             }
 
                             if (isNotAir(player.getEquipment().getChestplate())) {
-                                playerData.getWardrobe().getSlot(slot).setChestplate(player.getEquipment().getChestplate());
+                                PlayerSD.getWardrobe().getSlot(slot).setChestplate(player.getEquipment().getChestplate());
                                 StorageUtil.setVariable(player.getUniqueId(), "Wardrobe", SkyblockDragons.getSerializer().serialize(player.getEquipment().getChestplate()), slot + 9);
                             } else {
                                 StorageUtil.deleteVariable(player.getUniqueId(), "Wardrobe", slot+ 9);
-                                playerData.getWardrobe().getSlot(slot).setPeace(null, 1);
+                                PlayerSD.getWardrobe().getSlot(slot).setPeace(null, 1);
                             }
 
                             if (isNotAir(player.getEquipment().getLeggings())) {
-                                playerData.getWardrobe().getSlot(slot).setLeggings(player.getEquipment().getLeggings());
+                                PlayerSD.getWardrobe().getSlot(slot).setLeggings(player.getEquipment().getLeggings());
                                 StorageUtil.setVariable(player.getUniqueId(), "Wardrobe", SkyblockDragons.getSerializer().serialize(player.getEquipment().getLeggings()), slot + 18);
                             } else {
                                 StorageUtil.deleteVariable(player.getUniqueId(), "Wardrobe", slot + 18);
-                                playerData.getWardrobe().getSlot(slot).setPeace(null, 2);
+                                PlayerSD.getWardrobe().getSlot(slot).setPeace(null, 2);
                             }
 
                             if (isNotAir(player.getEquipment().getBoots())) {
-                                playerData.getWardrobe().getSlot(slot).setBoots(player.getEquipment().getBoots());
+                                PlayerSD.getWardrobe().getSlot(slot).setBoots(player.getEquipment().getBoots());
                                 StorageUtil.setVariable(player.getUniqueId(), "Wardrobe", SkyblockDragons.getSerializer().serialize(player.getEquipment().getBoots()), slot + 27);
                             } else {
                                 StorageUtil.deleteVariable(player.getUniqueId(), "Wardrobe", slot + 27);
-                                playerData.getWardrobe().getSlot(slot).setPeace(null, 3);
+                                PlayerSD.getWardrobe().getSlot(slot).setPeace(null, 3);
                             }
                         }
                     }

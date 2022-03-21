@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.abilities;
 
 import me.maxiiiiii.skyblockdragons.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.stat.PlayerData;
+import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,7 +25,7 @@ public class Rogue_Sword implements Listener {
         if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         Player player = e.getPlayer();
-        PlayerData stat = SkyblockDragons.players.get(player.getUniqueId());
+        PlayerSD stat = SkyblockDragons.players.get(player.getUniqueId());
 
         if (stat.manaCost(item, 0)) return;
         SkyblockDragons.players.get(player.getUniqueId()).manaCost(player.getEquipment().getItemInMainHand(), 0);

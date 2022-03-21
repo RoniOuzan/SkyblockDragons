@@ -49,7 +49,7 @@ public class PlayerData {
     private double purse;
     private ArrayList<ItemStack> accessoryBag;
 
-    public PlayerData(Player player, double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence, Skill skill, Wardrobe wardrobe, Pet activePet) {
+   public PlayerData(Player player, double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence, Skill skill, Wardrobe wardrobe, Pet activePet) {
         this.player = player;
         this.damage = damage;
         this.strength = strength;
@@ -82,7 +82,7 @@ public class PlayerData {
         }
     }
 
-    public PlayerData(Player player) {
+   public PlayerData(Player player) {
         this(
                 player,
                 new Skill(
@@ -120,7 +120,7 @@ public class PlayerData {
         );
     }
 
-    public PlayerData(Player player, Skill skill, Wardrobe wardrobe, Pet activePet) {
+   public PlayerData(Player player, Skill skill, Wardrobe wardrobe, Pet activePet) {
         this(player, 0, 0, 0, 20, 0, 0, 100, 0, 100, 100, skill, wardrobe, activePet);
     }
 

@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.pet;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.stat.PlayerData;
+import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,14 +20,14 @@ public class PetListener implements Listener {
         if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         Player player = e.getPlayer();
-        PlayerData playerData = SkyblockDragons.players.get(player.getUniqueId());
+        PlayerSD PlayerSD = SkyblockDragons.players.get(player.getUniqueId());
 
-        if (playerData.getActivePet() != null && playerData.getActivePet().getArmorStand() != null)
-            playerData.getActivePet().getArmorStand().remove();
+        if (PlayerSD.getActivePet() != null && PlayerSD.getActivePet().getArmorStand() != null)
+            PlayerSD.getActivePet().getArmorStand().remove();
         else {
             Pet pet = Pet.getPet(item);
 
-            playerData.setActivePet(pet);
+            PlayerSD.setActivePet(pet);
         }
     }
 }

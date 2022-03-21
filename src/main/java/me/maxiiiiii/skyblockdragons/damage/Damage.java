@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.damage;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.stat.PlayerData;
+import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import org.bukkit.*;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
@@ -24,7 +24,7 @@ public class Damage implements Listener {
     public double damage(Player player, Entity entity, double activeFerocity) {
         double damage;
         boolean critHit = false;
-        PlayerData playerStat = players.get(player.getName());
+        PlayerSD playerStat = players.get(player.getName());
 
         damage = (5 + playerStat.getDamage()) * (1 + (playerStat.getStrength() / 100));
 

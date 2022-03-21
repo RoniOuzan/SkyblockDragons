@@ -33,11 +33,8 @@ public class Variable {
     }
 
     public String getValueOrDefault(String defaultValue) {
-        try {
-            String value = this.value;
-        } catch (NullPointerException ex) {
+        if (value == null)
             return defaultValue;
-        }
         return this.value;
     }
 }

@@ -22,17 +22,15 @@ import me.maxiiiiii.skyblockdragons.pet.Pet;
 import me.maxiiiiii.skyblockdragons.pet.PetCommand;
 import me.maxiiiiii.skyblockdragons.pet.PetListener;
 import me.maxiiiiii.skyblockdragons.pet.PetTabComplete;
-import me.maxiiiiii.skyblockdragons.purse.PurseCommand;
-import me.maxiiiiii.skyblockdragons.purse.PurseTabCompletion;
 import me.maxiiiiii.skyblockdragons.reforge.ReforgeCommand;
 import me.maxiiiiii.skyblockdragons.skill.Skill;
 import me.maxiiiiii.skyblockdragons.skill.SkillAdminCommand;
 import me.maxiiiiii.skyblockdragons.skill.SkillListener;
 import me.maxiiiiii.skyblockdragons.skill.SkillMenuCommand;
 import me.maxiiiiii.skyblockdragons.skill.Skills.*;
-import me.maxiiiiii.skyblockdragons.stat.MyPlayer;
+import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import me.maxiiiiii.skyblockdragons.stat.OnSlotChange;
-import me.maxiiiiii.skyblockdragons.stat.PlayerData;
+import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import me.maxiiiiii.skyblockdragons.stat.StatCommand;
 import me.maxiiiiii.skyblockdragons.storage.StorageUtil;
 import me.maxiiiiii.skyblockdragons.util.*;
@@ -40,6 +38,8 @@ import me.maxiiiiii.skyblockdragons.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeCommand;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeListener;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeSlot;
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -48,29 +48,34 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
+import java.security.acl.Permission;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
-import static me.maxiiiiii.skyblockdragons.Functions.loadPlayerData;
+import static me.maxiiiiii.skyblockdragons.Functions.loadPlayerSD;
 import static me.maxiiiiii.skyblockdragons.Functions.numberToItemSlot;
 import static me.maxiiiiii.skyblockdragons.Functions.sendActionBar;
 import static me.maxiiiiii.skyblockdragons.Functions.setScoreboardScores;
 import static me.maxiiiiii.skyblockdragons.storage.StorageUtil.setVariable;
 
 public final class SkyblockDragons extends JavaPlugin implements Listener {
-    public static final HashMap<UUID, PlayerData> players = new HashMap<>();
-    private static final ArrayList<MyPlayer> myPlayers = new ArrayList<>();
+    public static final HashMap<UUID, PlayerSD> players = new HashMap<>();
+    private static final ArrayList<PlayerSD> myPlayers = new ArrayList<>();
     public static final HashMap<UUID, Double> purses = new HashMap<>();
     public static final HashMap<UUID, Long> bits = new HashMap<>();
     public static final HashMap<UUID, Long> playTime = new HashMap<>();
     public static final HashMap<UUID, ArrayList<Inventory>> playerGoBack = new HashMap<>();
     public static boolean disablePlayTime = false;
+
+    public static Economy economy = null;
+    public static Permission perms = null;
+    public static Chat chat = null;
 
     public static SkyblockDragons plugin;
     private static final Serializer serializerInstance = new Serializer();
@@ -104,6 +109,9 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        setupPermissions();
+        setupChat();
 
         // Listeners
         getServer().getPluginManager().registerEvents(new EntityHealth(), this);
@@ -165,8 +173,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("JavaItem").setTabCompleter(new ItemCommandTabComplete());
         getCommand("JavaPlugin").setExecutor(new JavaPluginCommand());
         getCommand("JavaPlugin").setTabCompleter(new JavaPluginTabCompletion());
-        getCommand("JavaPurse").setExecutor(new PurseCommand());
-        getCommand("JavaPurse").setTabCompleter(new PurseTabCompletion());
         getCommand("JavaBits").setExecutor(new BitsCommand());
         getCommand("JavaBits").setTabCompleter(new BitsTabCompletion());
         getCommand("JavaAnvil").setExecutor(new AnvilCommand());
@@ -198,7 +204,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 ));
             }
 
-            myPlayers.add(new MyPlayer(
+            myPlayers.add(new PlayerSD(
                     player,
                     new Skill(
                             new FarmingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Farming", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Farming", 2, "0"))),
@@ -213,41 +219,41 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                     ), new Wardrobe(wardrobeSlots),
                     null
             ));
-            loadPlayerData(player);
+            loadPlayerSD(player);
         }
 
         final double HEALTH_REGEN = 1.02;
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            for (PlayerData playerData : players.values()) {
-                if (!playerData.getPlayer().getWorld().getName().equalsIgnoreCase("work")) continue;
+            for (PlayerSD PlayerSD : players.values()) {
+                if (!PlayerSD.getPlayer().getWorld().getName().equalsIgnoreCase("work")) continue;
 
-                setScoreboardScores(playerData.getPlayer());
+                setScoreboardScores(PlayerSD.getPlayer());
 
-                playerData.getPlayer().setFoodLevel(20);
-                playerData.applyStats(true);
+                PlayerSD.getPlayer().setFoodLevel(20);
+                PlayerSD.applyStats(true);
 
-                if (playerData.getPlayer().getMaxHealth() != playerData.getHealth()) {
-                    playerData.getPlayer().setMaxHealth(playerData.getHealth());
+                if (PlayerSD.getPlayer().getMaxHealth() != PlayerSD.getHealth()) {
+                    PlayerSD.getPlayer().setMaxHealth(PlayerSD.getHealth());
                 }
 
-                if (playerData.getPlayer().getHealth() * HEALTH_REGEN < playerData.getHealth()) {
-                    playerData.getPlayer().setHealth(playerData.getPlayer().getHealth() * HEALTH_REGEN);
-                } else if (playerData.getPlayer().getHealth() * HEALTH_REGEN > playerData.getHealth()) {
-                    playerData.getPlayer().setHealth(playerData.getHealth());
+                if (PlayerSD.getPlayer().getHealth() * HEALTH_REGEN < PlayerSD.getHealth()) {
+                    PlayerSD.getPlayer().setHealth(PlayerSD.getPlayer().getHealth() * HEALTH_REGEN);
+                } else if (PlayerSD.getPlayer().getHealth() * HEALTH_REGEN > PlayerSD.getHealth()) {
+                    PlayerSD.getPlayer().setHealth(PlayerSD.getHealth());
                 }
 
-                playerData.getPlayer().setWalkSpeed((float) (playerData.getSpeed() / 500));
+                PlayerSD.getPlayer().setWalkSpeed((float) (PlayerSD.getSpeed() / 500));
 
-                sendActionBar(playerData.getPlayer());
-                playTime.put(playerData.getPlayer().getUniqueId(), playTime.getOrDefault(playerData.getPlayer().getUniqueId(), 0L) + 5L);
-                setVariable(playerData.getPlayer().getUniqueId(), "PlayTime", playTime.get(playerData.getPlayer().getUniqueId()) + "");
+                sendActionBar(PlayerSD.getPlayer());
+                playTime.put(PlayerSD.getPlayer().getUniqueId(), playTime.getOrDefault(PlayerSD.getPlayer().getUniqueId(), 0L) + 5L);
+                setVariable(PlayerSD.getPlayer().getUniqueId(), "PlayTime", playTime.get(PlayerSD.getPlayer().getUniqueId()) + "");
 
-                if (playerData.getActivePet() != null && playerData.getActivePet().getArmorStand() == null) {
-                    Pet.spawnPet(playerData.getPlayer(), playerData.getActivePet());
+                if (PlayerSD.getActivePet() != null && PlayerSD.getActivePet().getArmorStand() == null) {
+                    Pet.spawnPet(PlayerSD.getPlayer(), PlayerSD.getActivePet());
                 }
-                if (playerData.getActivePet() != null && playerData.getActivePet().getArmorStand().getLocation().distance(playerData.getPlayer().getLocation()) > 3)
-                    new aifly(playerData.getActivePet().getArmorStand(), playerData.getPlayer(), 1000).runTaskTimer(plugin, 0L, 1L);
+                if (PlayerSD.getActivePet() != null && PlayerSD.getActivePet().getArmorStand().getLocation().distance(PlayerSD.getPlayer().getLocation()) > 3)
+                    new aifly(PlayerSD.getActivePet().getArmorStand(), PlayerSD.getPlayer(), 1000).runTaskTimer(plugin, 0L, 1L);
             }
         }, 0L, 5L);
 
@@ -259,12 +265,30 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         // Plugin shutdown logic
     }
 
-    public static Collection<? extends Player> getOnlinePlayers() {
-        return Bukkit.getOnlinePlayers();
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        economy = rsp.getProvider();
+        return economy != null;
     }
 
-    public static MyPlayer getPlayer(String name) {
-        for (MyPlayer myPlayer : myPlayers) {
+    private void setupChat() {
+        RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+        chat = rsp.getProvider();
+    }
+
+    private void setupPermissions() {
+        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+        perms = rsp.getProvider();
+    }
+
+    public static PlayerSD getPlayer(String name) {
+        for (PlayerSD myPlayer : myPlayers) {
             if (myPlayer.getName().equals(name)) {
                 return myPlayer;
             }
@@ -272,8 +296,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         return null;
     }
 
-    public static MyPlayer getPlayer(UUID uuid) {
-        for (MyPlayer myPlayer : myPlayers) {
+    public static PlayerSD getPlayer(UUID uuid) {
+        for (PlayerSD myPlayer : myPlayers) {
             if (myPlayer.getUniqueId() == uuid) {
                 return myPlayer;
             }
@@ -302,7 +326,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                     ));
                 }
 
-                SkyblockDragons.myPlayers.add(new MyPlayer(
+                SkyblockDragons.myPlayers.add(new PlayerSD(
                         player,
                         new Skill(
                                 new FarmingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Farming", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Farming", 2, "0"))),
@@ -318,7 +342,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                         null
                 ));
 
-                loadPlayerData(player);
+                loadPlayerSD(player);
             }
         }.runTaskLater(plugin, 1L);
     }
