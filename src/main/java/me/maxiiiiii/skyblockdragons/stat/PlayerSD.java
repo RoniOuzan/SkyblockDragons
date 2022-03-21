@@ -290,7 +290,7 @@ public class PlayerSD implements Player {
         int cost = Functions.manaCostCalculator(manaCost, item);
         if (this.mana >= cost) {
             this.mana -= cost;
-            Functions.sendActionBar(this.player, abilityName + ChatColor.AQUA + "! (" + cost + " Mana)");
+            Functions.sendActionBar(this, abilityName + ChatColor.AQUA + "! (" + cost + " Mana)");
             return false;
         }
         this.player.sendMessage(ChatColor.RED + "You don't have enough mana to use this item!");
@@ -303,7 +303,7 @@ public class PlayerSD implements Player {
         int cost = Functions.manaCostCalculator(manaCost, item);
         if (this.mana >= cost) {
             this.mana -= cost;
-            Functions.sendActionBar(this.player, ((WeaponMaterial) Functions.getItemMaterial(item)).getAbilities().get(i).getName() + ChatColor.AQUA + "! (" + cost + " Mana)");
+            Functions.sendActionBar(this, ((WeaponMaterial) Functions.getItemMaterial(item)).getAbilities().get(i).getName() + ChatColor.AQUA + "! (" + cost + " Mana)");
             return true;
         }
         return false;
@@ -316,14 +316,12 @@ public class PlayerSD implements Player {
         int cost = manaCostCalculator(material.getAbilities().get(i).getManaCost(), item);
         if (this.mana >= cost) {
             this.mana -= cost;
-            Functions.sendActionBar(this.player, material.getAbilities().get(i).getName() + ChatColor.AQUA + "! (" + cost + " Mana)");
+            Functions.sendActionBar(this, material.getAbilities().get(i).getName() + ChatColor.AQUA + "! (" + cost + " Mana)");
             return false;
         }
         this.player.sendMessage(ChatColor.RED + "You don't have enough mana to use this item!");
         return true;
     }
-
-
 
     @Override
     public String getDisplayName() {

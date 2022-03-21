@@ -74,16 +74,16 @@ public class Functions {
         return num;
     }
 
-    public static void sendActionBar(Player player, String message) {
+    public static void sendActionBar(PlayerSD player, String message) {
         int healthAdder = 0;
         if (Wither_Impact.witherShieldHealth.containsKey(player.getUniqueId()) && System.currentTimeMillis() - Wither_Impact.witherShield <= 5000) {
             healthAdder += Wither_Impact.witherShieldHealth.get(player.getUniqueId());
         }
-        message = "" + ChatColor.RED + (int) (player.getPlayer().getHealth() + healthAdder) + "/" + (int) player.getPlayer().getMaxHealth() + Stat.HEALTH.getIcon() + " " + ChatColor.GOLD + message + " " + ChatColor.AQUA + (int) SkyblockDragons.players.get(player.getUniqueId()).getMana() + "/" + (int) SkyblockDragons.players.get(player.getUniqueId()).getIntelligence() + Stat.INTELLIGENCE.getIcon();
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
+        message = "" + ChatColor.RED + (int) (player.getHealth() + healthAdder) + "/" + (int) player.getMaxHealth() + Stat.HEALTH.getIcon() + " " + ChatColor.GOLD + message + " " + ChatColor.AQUA + (int) SkyblockDragons.players.get(player.getUniqueId()).getMana() + "/" + (int) SkyblockDragons.players.get(player.getUniqueId()).getIntelligence() + Stat.INTELLIGENCE.getIcon();
+        player.sendActionBar(message);
     }
 
-    public static void sendActionBar(Player player) {
+    public static void sendActionBar(PlayerSD player) {
         sendActionBar(player, "" + ChatColor.GREEN + (int) SkyblockDragons.players.get(player.getUniqueId()).getDefense() + Stat.DEFENSE.getIcon());
     }
 

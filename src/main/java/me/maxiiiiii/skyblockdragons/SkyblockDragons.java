@@ -168,17 +168,17 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         // Commands
         getCommand("Stat").setExecutor(new StatCommand());
-        getCommand("JavaMenu").setExecutor(new JavaMenu());
-        getCommand("JavaItem").setExecutor(new ItemCommand());
-        getCommand("JavaItem").setTabCompleter(new ItemCommandTabComplete());
-        getCommand("JavaPlugin").setExecutor(new JavaPluginCommand());
-        getCommand("JavaPlugin").setTabCompleter(new JavaPluginTabCompletion());
-        getCommand("JavaBits").setExecutor(new BitsCommand());
-        getCommand("JavaBits").setTabCompleter(new BitsTabCompletion());
-        getCommand("JavaAnvil").setExecutor(new AnvilCommand());
+        getCommand("Menu").setExecutor(new JavaMenu());
+        getCommand("Item").setExecutor(new ItemCommand());
+        getCommand("Item").setTabCompleter(new ItemCommandTabComplete());
+        getCommand("SkyblockDragons").setExecutor(new JavaPluginCommand());
+        getCommand("SkyblockDragons").setTabCompleter(new JavaPluginTabCompletion());
+        getCommand("Bits").setExecutor(new BitsCommand());
+        getCommand("Bits").setTabCompleter(new BitsTabCompletion());
+        getCommand("Anvil").setExecutor(new AnvilCommand());
         getCommand("ReforgeMenu").setExecutor(new ReforgeCommand());
-        getCommand("JavaBook").setExecutor(new BookCommand());
-        getCommand("JavaBook").setTabCompleter(new BookCommandTabCompletion());
+        getCommand("Book").setExecutor(new BookCommand());
+        getCommand("Book").setTabCompleter(new BookCommandTabCompletion());
         getCommand("AccessoryBag").setExecutor(new AccessoryBagCommand());
         getCommand("ViewRecipe").setExecutor(new ViewRecipe());
         getCommand("CraftingTable").setExecutor(new CraftingTable());
@@ -225,35 +225,35 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         final double HEALTH_REGEN = 1.02;
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            for (PlayerSD PlayerSD : players.values()) {
-                if (!PlayerSD.getPlayer().getWorld().getName().equalsIgnoreCase("work")) continue;
+            for (PlayerSD player : players.values()) {
+                if (!player.getPlayer().getWorld().getName().equalsIgnoreCase("work")) continue;
 
-                setScoreboardScores(PlayerSD.getPlayer());
+                setScoreboardScores(player.getPlayer());
 
-                PlayerSD.getPlayer().setFoodLevel(20);
-                PlayerSD.applyStats(true);
+                player.getPlayer().setFoodLevel(20);
+                player.applyStats(true);
 
-                if (PlayerSD.getPlayer().getMaxHealth() != PlayerSD.getHealth()) {
-                    PlayerSD.getPlayer().setMaxHealth(PlayerSD.getHealth());
+                if (player.getPlayer().getMaxHealth() != player.getHealth()) {
+                    player.getPlayer().setMaxHealth(player.getHealth());
                 }
 
-                if (PlayerSD.getPlayer().getHealth() * HEALTH_REGEN < PlayerSD.getHealth()) {
-                    PlayerSD.getPlayer().setHealth(PlayerSD.getPlayer().getHealth() * HEALTH_REGEN);
-                } else if (PlayerSD.getPlayer().getHealth() * HEALTH_REGEN > PlayerSD.getHealth()) {
-                    PlayerSD.getPlayer().setHealth(PlayerSD.getHealth());
+                if (player.getPlayer().getHealth() * HEALTH_REGEN < player.getHealth()) {
+                    player.getPlayer().setHealth(player.getPlayer().getHealth() * HEALTH_REGEN);
+                } else if (player.getPlayer().getHealth() * HEALTH_REGEN > player.getHealth()) {
+                    player.getPlayer().setHealth(player.getHealth());
                 }
 
-                PlayerSD.getPlayer().setWalkSpeed((float) (PlayerSD.getSpeed() / 500));
+                player.getPlayer().setWalkSpeed((float) (player.getSpeed() / 500));
 
-                sendActionBar(PlayerSD.getPlayer());
-                playTime.put(PlayerSD.getPlayer().getUniqueId(), playTime.getOrDefault(PlayerSD.getPlayer().getUniqueId(), 0L) + 5L);
-                setVariable(PlayerSD.getPlayer().getUniqueId(), "PlayTime", playTime.get(PlayerSD.getPlayer().getUniqueId()) + "");
+                sendActionBar(player);
+                playTime.put(player.getPlayer().getUniqueId(), playTime.getOrDefault(player.getPlayer().getUniqueId(), 0L) + 5L);
+                setVariable(player.getPlayer().getUniqueId(), "PlayTime", playTime.get(player.getPlayer().getUniqueId()) + "");
 
-                if (PlayerSD.getActivePet() != null && PlayerSD.getActivePet().getArmorStand() == null) {
-                    Pet.spawnPet(PlayerSD.getPlayer(), PlayerSD.getActivePet());
+                if (player.getActivePet() != null && player.getActivePet().getArmorStand() == null) {
+                    Pet.spawnPet(player.getPlayer(), player.getActivePet());
                 }
-                if (PlayerSD.getActivePet() != null && PlayerSD.getActivePet().getArmorStand().getLocation().distance(PlayerSD.getPlayer().getLocation()) > 3)
-                    new aifly(PlayerSD.getActivePet().getArmorStand(), PlayerSD.getPlayer(), 1000).runTaskTimer(plugin, 0L, 1L);
+                if (player.getActivePet() != null && player.getActivePet().getArmorStand().getLocation().distance(player.getPlayer().getLocation()) > 3)
+                    new aifly(player.getActivePet().getArmorStand(), player.getPlayer(), 1000).runTaskTimer(plugin, 0L, 1L);
             }
         }, 0L, 5L);
 
@@ -349,9 +349,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
-        Player player = e.getPlayer();
-        myPlayers.removeIf(myPlayer -> myPlayer.getPlayer().getUniqueId() == player.getUniqueId());
-
         players.remove(e.getPlayer().getUniqueId());
     }
 }

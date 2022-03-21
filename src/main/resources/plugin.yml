@@ -4,27 +4,28 @@ main: me.maxiiiiii.skyblockdragons.SkyblockDragons
 description: Skyblock Dragons but in java
 softdepend: [HolographicDisplays]
 commands:
-  JavaAnvil:
-    permission: hypixelitems.anvil
+  Anvil:
+    permission: skyblockdragons.anvil
     usage: /<command>
     aliases:
       - ja
       - anvil
       - av
-  JavaPlugin:
-    permission: hypixelitems.plugin
+  Plugin:
+    permission: skyblockdragons.plugin
     usage: /<command> <text>
     aliases:
       - jp
-  JavaMenu:
-    permission: hypixelitems.menu
+      - sd
+  Menu:
+    permission: skyblockdragons.menu
     usage: /<command> <player>
     aliases:
       - jm
       - menu
       - sbmenu
-  JavaItem:
-    permission: hypixelitems.item
+  Item:
+    permission: skyblockdragons.item
     usage: /<command> <item> <amount>
     aliases:
       - ji
@@ -32,65 +33,62 @@ commands:
       - javaI
       - item
   Stat:
-    permission: hypixelitems.stat
+    permission: skyblockdragons.stat
     usage: /<command> <number>
   EnchantingTable:
-    permission: hypixelitems.enchanting
+    permission: skyblockdragons.enchanting
     usage: /<command>
     aliases:
       - et
       - enchantingt
       - etable
   ReforgeMenu:
-    permission: hypixelitems.reforge
+    permission: skyblockdragons.reforge
     usage: /<command>
     aliases:
       - ref
       - rm
       - reforgem
       - rmenu
-  JavaBook:
-    permission: hypixelitems.book
+  Book:
+    permission: skyblockdragons.book
     usage: /<command> <enchant> <level>
     aliases:
       - jb
       - javab
       - jbook
   AccessoryBag:
-    permission: hypixelitems.accessorybag
+    permission: skyblockdragons.accessorybag
     usage: /<command> <player>
     aliases:
       - ac
       - acb
       - acbag
   ViewRecipe:
-    permission: hypixelitems.viewrecipe
+    permission: skyblockdragons.viewrecipe
     usage: /<command> <recipe>
   CraftingTable:
-    permission: hypixelitems.craftingtable
+    permission: skyblockdragons.craftingtable
     usage: /<command>
-  JavaPurse:
-    permission: hypixelitems.purse
-    usage: /<command> <text> <object> [<object>]
-  JavaBits:
-    permission: hypixelitems.bits
+  Bits:
+    permission: skyblockdragons.bits
     usage: /<command> <text> <object> [<object>]
   PlayTime:
-    permission: hypixelitems.playtime
+    permission: skyblockdragons.playtime
     usage: /<command>
   SkillMenu:
-    permission: hypixelitems.skill.menu
+    permission: skyblockdragons.skill.menu
     usage: /<command>
   SkillAdmin:
-    permission: hypixelitems.skill.admin
+    permission: skyblockdragons.skill.admin
     usage: /<command> <skill-name> <text> [<amount>] [<player>]
   Wardrobe:
-    permission: hypixelitems.wardrobe.open
+    permission: skyblockdragons.wardrobe.open
     usage: /<command> <page> <player>
     aliases:
       - wd
   PetAdmin:
-    permission: hypixelitems.pet.admi
+    permission: skyblockdragons.pet.admi
     usage: /<command> <pet>
     aliases:
       - pa
