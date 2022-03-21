@@ -12,8 +12,8 @@ import org.bukkit.inventory.Inventory;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static me.maxiiiiii.hypixelitems.Functions.*;
-import static me.maxiiiiii.hypixelitems.HypixelItems.playerGoBack;
+import static me.maxiiiiii.skyblockdragons.Functions.setLore;
+import static me.maxiiiiii.skyblockdragons.SkyblockDragons.playerGoBack;
 
 public class GoBack implements Listener {
     @EventHandler

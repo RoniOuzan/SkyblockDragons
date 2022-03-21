@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.itemcreator;
 
-import me.maxiiiiii.skyblockdragons.HypixelItems;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,7 +16,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
 import static me.maxiiiiii.skyblockdragons.Functions.getItemMaterial;
 import static me.maxiiiiii.skyblockdragons.Functions.isByte;
 import static me.maxiiiiii.skyblockdragons.Functions.isItemMaterial;
@@ -24,7 +23,6 @@ import static me.maxiiiiii.skyblockdragons.Functions.isPlayerName;
 import static me.maxiiiiii.skyblockdragons.Functions.openSign;
 import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.ItemMaterials;
 import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
-import static me.maxiiiiii.skyblockdragons.menu.ItemList.*;
 import static me.maxiiiiii.skyblockdragons.menu.ItemList.openItemList;
 
 public class ItemCommand implements CommandExecutor, Listener {
@@ -50,7 +48,7 @@ public class ItemCommand implements CommandExecutor, Listener {
                                 cancel();
                             }
                         }
-                    }.runTaskTimer(HypixelItems.getInstance(), 0L, 10L);
+                    }.runTaskTimer(SkyblockDragons.getInstance(), 0L, 10L);
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Next Page")) {
                     p.closeInventory();
                     openItemList(p, Integer.parseInt(title[2]) + 1);

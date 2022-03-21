@@ -5,7 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
-import me.maxiiiiii.hypixelitems.HypixelItems;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class StorageUtil {
 
     public static void loadVariables() throws IOException {
         variables.clear();
-        File file = new File(HypixelItems.getInstance().getDataFolder().getAbsolutePath() + "/Variables.json");
+        File file = new File(SkyblockDragons.getInstance().getDataFolder().getAbsolutePath() + "/Variables.json");
         BufferedReader bufferedReader = new BufferedReader(
                 new FileReader(file.getAbsolutePath()));
         String json = bufferedReader.readLine();
@@ -174,7 +174,7 @@ public class StorageUtil {
     public static void saveVariables(boolean message) throws IOException {
 
         Gson gson = new Gson();
-        File file = new File(HypixelItems.getPlugin().getDataFolder().getAbsolutePath() + "/Variables.json");
+        File file = new File(SkyblockDragons.getPlugin().getDataFolder().getAbsolutePath() + "/Variables.json");
         file.getParentFile().mkdir();
         file.createNewFile();
         Writer writer = new FileWriter(file, false);

@@ -10,17 +10,17 @@ import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
-import me.maxiiiiii.hypixelitems.abilities.Wither_Impact;
-import me.maxiiiiii.hypixelitems.bits.BitsUtil;
-import me.maxiiiiii.hypixelitems.itemcreator.*;
-import me.maxiiiiii.hypixelitems.material.*;
-import me.maxiiiiii.hypixelitems.skill.Skill;
-import me.maxiiiiii.hypixelitems.skill.Skills.*;
-import me.maxiiiiii.hypixelitems.stat.PlayerData;
-import me.maxiiiiii.hypixelitems.storage.StorageUtil;
-import me.maxiiiiii.hypixelitems.util.*;
-import me.maxiiiiii.hypixelitems.wardrobe.Wardrobe;
-import me.maxiiiiii.hypixelitems.wardrobe.WardrobeSlot;
+import me.maxiiiiii.skyblockdragons.abilities.Wither_Impact;
+import me.maxiiiiii.skyblockdragons.bits.BitsUtil;
+import me.maxiiiiii.skyblockdragons.itemcreator.*;
+import me.maxiiiiii.skyblockdragons.material.*;
+import me.maxiiiiii.skyblockdragons.skill.Skill;
+import me.maxiiiiii.skyblockdragons.skill.Skills.*;
+import me.maxiiiiii.skyblockdragons.stat.PlayerData;
+import me.maxiiiiii.skyblockdragons.storage.StorageUtil;
+import me.maxiiiiii.skyblockdragons.util.*;
+import me.maxiiiiii.skyblockdragons.wardrobe.Wardrobe;
+import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeSlot;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -42,10 +42,9 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
-import static me.maxiiiiii.hypixelitems.material.ItemMaterial.*;
-import static me.maxiiiiii.hypixelitems.material.ItemMaterial.Items;
-import static me.maxiiiiii.hypixelitems.storage.StorageUtil.getVariable;
-import static me.maxiiiiii.hypixelitems.storage.StorageUtil.getVariableValue;
+import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
+import static me.maxiiiiii.skyblockdragons.storage.StorageUtil.getVariable;
+import static me.maxiiiiii.skyblockdragons.storage.StorageUtil.getVariableValue;
 
 public class Functions {
     public static ItemStack getSkull(ItemStack itemStack, String id, String value) {
@@ -80,12 +79,12 @@ public class Functions {
         if (Wither_Impact.witherShieldHealth.containsKey(player.getUniqueId()) && System.currentTimeMillis() - Wither_Impact.witherShield <= 5000) {
             healthAdder += Wither_Impact.witherShieldHealth.get(player.getUniqueId());
         }
-        message = "" + ChatColor.RED + (int) (player.getPlayer().getHealth() + healthAdder) + "/" + (int) player.getPlayer().getMaxHealth() + Stat.HEALTH.getIcon() + " " + ChatColor.GOLD + message + " " + ChatColor.AQUA + (int) HypixelItems.players.get(player.getUniqueId()).getMana() + "/" + (int) HypixelItems.players.get(player.getUniqueId()).getIntelligence() + Stat.INTELLIGENCE.getIcon();
+        message = "" + ChatColor.RED + (int) (player.getPlayer().getHealth() + healthAdder) + "/" + (int) player.getPlayer().getMaxHealth() + Stat.HEALTH.getIcon() + " " + ChatColor.GOLD + message + " " + ChatColor.AQUA + (int) SkyblockDragons.players.get(player.getUniqueId()).getMana() + "/" + (int) SkyblockDragons.players.get(player.getUniqueId()).getIntelligence() + Stat.INTELLIGENCE.getIcon();
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
     }
 
     public static void sendActionBar(Player player) {
-        sendActionBar(player, "" + ChatColor.GREEN + (int) HypixelItems.players.get(player.getUniqueId()).getDefense() + Stat.DEFENSE.getIcon());
+        sendActionBar(player, "" + ChatColor.GREEN + (int) SkyblockDragons.players.get(player.getUniqueId()).getDefense() + Stat.DEFENSE.getIcon());
     }
 
     public static void setArmorColor(ItemStack item, Color color) {
@@ -463,7 +462,7 @@ public class Functions {
                 sendPacketItem(slot, player, item);
                 loop++;
             }
-        }.runTaskTimer(HypixelItems.getInstance(), slot, 1L);
+        }.runTaskTimer(SkyblockDragons.getInstance(), slot, 1L);
     }
 
     public static void sendPacketItem(int slot, Player player, ItemStack itemStack, Material material, int ticks) {
@@ -482,7 +481,7 @@ public class Functions {
                 sendPacketItem(slot, player, item);
                 loop++;
             }
-        }.runTaskTimer(HypixelItems.getInstance(), slot, 1L);
+        }.runTaskTimer(SkyblockDragons.getInstance(), slot, 1L);
     }
 
     public static void setItem(ItemStack item1, Material material, Long wait) {
@@ -493,7 +492,7 @@ public class Functions {
             public void run() {
                 item1.setType(material1);
             }
-        }.runTaskLater(HypixelItems.getInstance(), wait);
+        }.runTaskLater(SkyblockDragons.getInstance(), wait);
     }
 
     public static int randomInt(int min, int max) {
@@ -515,23 +514,23 @@ public class Functions {
     }
 
     public static void createHologram(Location location, String text) {
-        Hologram hologram = HologramsAPI.createHologram(HypixelItems.getInstance(), location);
+        Hologram hologram = HologramsAPI.createHologram(SkyblockDragons.getInstance(), location);
         TextLine textLine = hologram.appendTextLine(text);
     }
 
     public static void createHologram(Location location, String text, int ticks) {
-        Hologram hologram = HologramsAPI.createHologram(HypixelItems.getInstance(), location.clone());
+        Hologram hologram = HologramsAPI.createHologram(SkyblockDragons.getInstance(), location.clone());
         hologram.appendTextLine(text);
         new BukkitRunnable() {
             @Override
             public void run() {
                 hologram.delete();
             }
-        }.runTaskLater(HypixelItems.getInstance(), ticks);
+        }.runTaskLater(SkyblockDragons.getInstance(), ticks);
     }
 
     public static void createHologram(Location location, ArrayList<String> text, int ticks) {
-        Hologram hologram = HologramsAPI.createHologram(HypixelItems.getInstance(), location);
+        Hologram hologram = HologramsAPI.createHologram(SkyblockDragons.getInstance(), location);
         for (String text1 : text) {
             hologram.appendTextLine(text1);
         }
@@ -540,7 +539,7 @@ public class Functions {
             public void run() {
                 hologram.delete();
             }
-        }.runTaskLater(HypixelItems.getInstance(), ticks);
+        }.runTaskLater(SkyblockDragons.getInstance(), ticks);
     }
 
     public static String rainbow(String text){
@@ -601,7 +600,7 @@ public class Functions {
                     public void run() {
                         recursiveBreakBlocks(block.getLocation(), amount1, material, ticks);
                     }
-                }.runTaskLater(HypixelItems.getInstance(), ticks);
+                }.runTaskLater(SkyblockDragons.getInstance(), ticks);
             }
         }
     }
@@ -638,7 +637,7 @@ public class Functions {
     }
 
     public static void openSign(Player player, ArrayList<String> strings) {
-        new SignMenu(HypixelItems.getInstance()).
+        new SignMenu(SkyblockDragons.getInstance()).
                 open(player.getUniqueId(), new String[]{"&a&lThis", "&e&lis", "&d&lan", "&b&lexample!"},
                         (player1, text) ->
                                 Arrays.stream(text).forEach(new Consumer<String>() {
@@ -1266,22 +1265,22 @@ public class Functions {
     }
 
     public static void loadPlayerData(Player player) {
-        HypixelItems.purses.put(player.getUniqueId(), 0d);
-        HypixelItems.bits.put(player.getUniqueId(), 0L);
+        SkyblockDragons.purses.put(player.getUniqueId(), 0d);
+        SkyblockDragons.bits.put(player.getUniqueId(), 0L);
         player.setHealthScale(40d);
 
         ArrayList<WardrobeSlot> wardrobeSlots = new ArrayList<>();
         for (int i = 0; i < 18; i++) {
             wardrobeSlots.add(new WardrobeSlot(
                     i,
-                    (ItemStack) HypixelItems.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0), "null"), null),
-                    (ItemStack) HypixelItems.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1), "null"), null),
-                    (ItemStack) HypixelItems.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2), "null"), null),
-                    (ItemStack) HypixelItems.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3), "null"), null)
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0), "null"), null),
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1), "null"), null),
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2), "null"), null),
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3), "null"), null)
             ));
         }
 
-        HypixelItems.players.put(player.getUniqueId(), new PlayerData(
+        SkyblockDragons.players.put(player.getUniqueId(), new PlayerData(
                 player,
                 new Skill(
                         new FarmingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Farming", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Farming", 2, "0"))),
@@ -1300,36 +1299,36 @@ public class Functions {
         ArrayList<ItemStack> accessories = new ArrayList<>();
         for (int i = 0; i < 45; i++) {
             try {
-                accessories.add((ItemStack) HypixelItems.getSerializer().deserialize(StorageUtil.getVariable(player.getUniqueId(), "AccessoryBag", i).getValue()));
+                accessories.add((ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariable(player.getUniqueId(), "AccessoryBag", i).getValue()));
             } catch (NullPointerException ex) {
                 accessories.add(new ItemStack(Material.AIR));
             }
         }
-        HypixelItems.players.get(player.getUniqueId()).setAccessoryBag(accessories);
+        SkyblockDragons.players.get(player.getUniqueId()).setAccessoryBag(accessories);
 
         try {
-            HypixelItems.purses.put(player.getUniqueId(), Double.parseDouble(StorageUtil.getVariable(player.getUniqueId(), "Purse").getValue()));
+            SkyblockDragons.purses.put(player.getUniqueId(), Double.parseDouble(StorageUtil.getVariable(player.getUniqueId(), "Purse").getValue()));
         } catch (NullPointerException ex) {
-            HypixelItems.purses.put(player.getUniqueId(), 0d);
+            SkyblockDragons.purses.put(player.getUniqueId(), 0d);
         }
 
         try {
-            HypixelItems.bits.put(player.getUniqueId(), Long.parseLong(StorageUtil.getVariable(player.getUniqueId(), "Bits").getValue()));
+            SkyblockDragons.bits.put(player.getUniqueId(), Long.parseLong(StorageUtil.getVariable(player.getUniqueId(), "Bits").getValue()));
         } catch (NullPointerException ex) {
-            HypixelItems.bits.put(player.getUniqueId(), 0L);
+            SkyblockDragons.bits.put(player.getUniqueId(), 0L);
         }
 
-        if (!HypixelItems.disablePlayTime) {
+        if (!SkyblockDragons.disablePlayTime) {
             try {
-                HypixelItems.playTime.put(player.getUniqueId(), Long.parseLong(StorageUtil.getVariable(player.getUniqueId(), "PlayTime").getValue()));
+                SkyblockDragons.playTime.put(player.getUniqueId(), Long.parseLong(StorageUtil.getVariable(player.getUniqueId(), "PlayTime").getValue()));
             } catch (NullPointerException ex) {
-                HypixelItems.playTime.put(player.getUniqueId(), 0L);
+                SkyblockDragons.playTime.put(player.getUniqueId(), 0L);
             }
         }
     }
 
     public static void setScoreboardScores(Player player) {
-        PlayerData playerData = HypixelItems.players.get(player.getUniqueId());
+        PlayerData playerData = SkyblockDragons.players.get(player.getUniqueId());
 
         ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
 
@@ -1344,15 +1343,15 @@ public class Functions {
         scores.add(objective.getScore(ChatColor.GRAY + format.format(now) + ChatColor.DARK_GRAY + " m000F"));
         scores.add(objective.getScore(" "));
         scores.add(objective.getScore(ChatColor.WHITE + "Player: " + ChatColor.GREEN + playerData.getPlayer().getName()));
-        scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(HypixelItems.purses.get(playerData.getPlayer().getUniqueId()))));
+        scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(SkyblockDragons.purses.get(playerData.getPlayer().getUniqueId()))));
         String bitsAdder = "";
-        if (HypixelItems.playTime.getOrDefault(playerData.getPlayer().getUniqueId(), 0L) % 36000L >= 0L && HypixelItems.playTime.getOrDefault(playerData.getPlayer().getUniqueId(), 0L) % 36000L < 20L) {
+        if (SkyblockDragons.playTime.getOrDefault(playerData.getPlayer().getUniqueId(), 0L) % 36000L >= 0L && SkyblockDragons.playTime.getOrDefault(playerData.getPlayer().getUniqueId(), 0L) % 36000L < 20L) {
             bitsAdder = ChatColor.AQUA + "(+250 Bits)";
-            if (HypixelItems.playTime.getOrDefault(playerData.getPlayer().getUniqueId(), 0L) % 36000L < 5L) {
+            if (SkyblockDragons.playTime.getOrDefault(playerData.getPlayer().getUniqueId(), 0L) % 36000L < 5L) {
                 BitsUtil.add(playerData.getPlayer(), 250L);
             }
         }
-        scores.add(objective.getScore(ChatColor.WHITE + "Bits: " + ChatColor.AQUA + getNumberFormat(HypixelItems.bits.get(playerData.getPlayer().getUniqueId())) + " " + bitsAdder));
+        scores.add(objective.getScore(ChatColor.WHITE + "Bits: " + ChatColor.AQUA + getNumberFormat(SkyblockDragons.bits.get(playerData.getPlayer().getUniqueId())) + " " + bitsAdder));
         scores.add(objective.getScore(""));
         scores.add(objective.getScore(ChatColor.YELLOW + "www.error.net"));
         Collections.reverse(scores);
@@ -1390,7 +1389,7 @@ public class Functions {
             public void run() {
                 task.task();
             }
-        }.runTaskLater(HypixelItems.plugin, delay);
+        }.runTaskLater(SkyblockDragons.plugin, delay);
     }
 
     // Loop(amount, delay, (amount) -> {TASK});
@@ -1407,7 +1406,7 @@ public class Functions {
                 task.task(i);
                 i++;
             }
-        }.runTaskTimer(HypixelItems.plugin, 0L, delay);
+        }.runTaskTimer(SkyblockDragons.plugin, 0L, delay);
     }
 
     public static void Loop(int amount, long delay, LoopTask loop) {
@@ -1429,7 +1428,7 @@ public class Functions {
                 task.task(i);
                 i++;
             }
-        }.runTaskTimer(HypixelItems.plugin, 0L, delay);
+        }.runTaskTimer(SkyblockDragons.plugin, 0L, delay);
     }
 
     public static void While(While condition, long delay, LoopTask loop) {

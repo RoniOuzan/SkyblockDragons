@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import static me.maxiiiiii.hypixelitems.HypixelItems.plugin;
+import static me.maxiiiiii.skyblockdragons.SkyblockDragons.plugin;
 
 public class aifly extends BukkitRunnable {
     int i = 0;

@@ -4,7 +4,6 @@ import lombok.Getter;
 import org.bukkit.ChatColor;
 
 import static me.maxiiiiii.skyblockdragons.Functions.*;
-import static me.maxiiiiii.skyblockdragons.Functions.setTitleCase;
 
 @Getter
 public enum Stat {
