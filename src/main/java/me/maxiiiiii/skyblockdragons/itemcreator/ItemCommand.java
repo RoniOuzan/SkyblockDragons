@@ -1,0 +1,134 @@
+package me.maxiiiiii.skyblockdragons.itemcreator;
+
+import me.maxiiiiii.skyblockdragons.HypixelItems;
+import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
+
+import static me.maxiiiiii.skyblockdragons.Functions.*;
+import static me.maxiiiiii.skyblockdragons.Functions.getItemMaterial;
+import static me.maxiiiiii.skyblockdragons.Functions.isByte;
+import static me.maxiiiiii.skyblockdragons.Functions.isItemMaterial;
+import static me.maxiiiiii.skyblockdragons.Functions.isPlayerName;
+import static me.maxiiiiii.skyblockdragons.Functions.openSign;
+import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.ItemMaterials;
+import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
+import static me.maxiiiiii.skyblockdragons.menu.ItemList.*;
+import static me.maxiiiiii.skyblockdragons.menu.ItemList.openItemList;
+
+public class ItemCommand implements CommandExecutor, Listener {
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent e) {
+        try {
+            if (e.getClickedInventory().getTitle().contains("Item List")) {
+                e.setCancelled(true);
+                Player p = (Player) e.getWhoClicked();
+                String[] title = e.getClickedInventory().getTitle().split(" ");
+                if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Search Items")) {
+                    p.closeInventory();
+                    // searchItem.put(p, true);
+                    ArrayList<String> lines = new ArrayList<>();
+                    lines.add("");
+                    openSign(p, lines);
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            if (!lines.get(0).equals("")) {
+                                openItemList(p, 1, lines.get(0));
+                                cancel();
+                            }
+                        }
+                    }.runTaskTimer(HypixelItems.getInstance(), 0L, 10L);
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Next Page")) {
+                    p.closeInventory();
+                    openItemList(p, Integer.parseInt(title[2]) + 1);
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Previous Page")) {
+                    if (title[2].equals("1")) {
+                        p.sendMessage(ChatColor.RED + "You can't go to the previous page!");
+                        return;
+                    } else {
+                        openItemList(p, Integer.parseInt(title[2]) - 1);
+                    }
+                } else if (!e.getCurrentItem().getItemMeta().getDisplayName().contains("Close") && !e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.RESET + "")) {
+                    ItemMaterial material = getItemMaterial(e.getCurrentItem());
+                    e.getWhoClicked().getInventory().addItem(new Item(material).toItem());
+                }
+            }
+        } catch (NullPointerException ignored) {
+        }
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            ItemStack item;
+            byte amount = 1;
+            if (args.length > 0 && !args[0].equalsIgnoreCase("list")) {
+                if (isItemMaterial(args[0])) {
+                    if (args.length > 1) {
+                        if (isByte(args[1])) {
+                            amount = Byte.parseByte(args[1]);
+                            if (args.length > 2 && isPlayerName(args[2])) player = Bukkit.getPlayerExact(args[2]);
+                        } else if (args.length > 2 && isByte(args[2])) {
+                            amount = Byte.parseByte(args[2]);
+                            if (isPlayerName(args[1])) player = Bukkit.getPlayerExact(args[1]);
+                        } else if (isPlayerName(args[1])) {
+                            player = Bukkit.getPlayerExact(args[1]);
+                            if (args.length > 2 && isByte(args[2])) amount = Byte.parseByte(args[2]);
+                        } else if (args.length > 2 && isPlayerName(args[2])) {
+                            player = Bukkit.getPlayerExact(args[2]);
+                            if (isByte(args[1])) amount = Byte.parseByte(args[1]);
+                        }
+                    }
+
+                    for (int i = 0; i < amount; i++) {
+                        item = new Item(Items.get(args[0].toUpperCase())).toItem();
+                        player.getInventory().addItem(item);
+                    }
+                    sender.sendMessage(ChatColor.GREEN + "Gave " + args[0].toUpperCase() + " to " + player.getName());
+                } else {
+                    for (ItemMaterial itemMaterial : ItemMaterials.values()) {
+                        if (itemMaterial.name().contains(args[0].toUpperCase())) {
+                            if (args.length > 1) {
+                                if (isByte(args[1])) {
+                                    amount = Byte.parseByte(args[1]);
+                                    if (args.length > 2 && isPlayerName(args[2])) player = Bukkit.getPlayerExact(args[2]);
+                                } else if (args.length > 2 && isByte(args[2])) {
+                                    amount = Byte.parseByte(args[2]);
+                                    if (isPlayerName(args[1])) player = Bukkit.getPlayerExact(args[1]);
+                                } else if (isPlayerName(args[1])) {
+                                    player = Bukkit.getPlayerExact(args[1]);
+                                    if (args.length > 2 && isByte(args[2])) amount = Byte.parseByte(args[2]);
+                                } else if (args.length > 2 && isPlayerName(args[2])) {
+                                    player = Bukkit.getPlayerExact(args[2]);
+                                    if (isByte(args[1])) amount = Byte.parseByte(args[1]);
+                                }
+                            }
+
+                            for (int i = 0; i < amount; i++) {
+                                player.getInventory().addItem(new Item(itemMaterial).toItem());
+                            }
+                            sender.sendMessage(ChatColor.GREEN + "Gave " + itemMaterial.name() + " to " + player.getName());
+                        }
+                    }
+                }
+            } else {
+                openItemList(player, 1);
+            }
+        }
+        return true;
+    }
+}

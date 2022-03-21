@@ -1,0 +1,4 @@
+name: SkyblockDragons
+version: '${project.version}'
+main: me.maxiiiiii.skyblockdragons.SkyblockDragons
+description: Skyblock Dragons but in java
