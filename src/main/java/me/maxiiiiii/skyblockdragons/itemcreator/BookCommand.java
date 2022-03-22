@@ -25,7 +25,7 @@ public class BookCommand implements CommandExecutor {
                     }
                     Map<EnchantType, Short> enchants = new HashMap<>();
                     enchants.put(EnchantType.valueOf(args[0]), level);
-                    ItemStack item = new Item(ItemMaterial.ENCHANTED_BOOK).toItem(0, ReforgeType.NULL, false, SkinMaterial.NULL, enchants);
+                    ItemStack item = new Item(ItemMaterial.ENCHANTED_BOOK, 0, ReforgeType.NULL, false, SkinMaterial.NULL, enchants);
                     ((Player) sender).getInventory().addItem(item);
                 } else if (args[0].equalsIgnoreCase("ALL")) {
                     Map<EnchantType, Short> enchants = new HashMap<>();
@@ -33,7 +33,7 @@ public class BookCommand implements CommandExecutor {
                         if (enchantType.name().equals("ONE_FOR_ALL")) continue;
                         enchants.put(enchantType, enchantType.getMaxLevel());
                     }
-                    ItemStack item = new Item(ItemMaterial.ENCHANTED_BOOK).toItem(0, ReforgeType.NULL, false, SkinMaterial.NULL, enchants);
+                    ItemStack item = new Item(ItemMaterial.ENCHANTED_BOOK, 0, ReforgeType.NULL, false, SkinMaterial.NULL, enchants);
                     ((Player) sender).getInventory().addItem(item);
                 }
             } else {

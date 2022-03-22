@@ -29,7 +29,7 @@ public class Reforge {
         NBTCompound nbt = nbtItem.getCompound("Item");
         if (!nbt.getString("Reforge").equals(this.reforgeType.toString().trim())) {
             nbt.setString("Reforge", this.reforgeType.toString().trim());
-            item = new Item(Functions.getItemMaterial(this.item)).toItem(getHotPotato(this.item), getReforge(nbt.getString("Reforge")), isRecombed(this.item), getSkin(this.item), getEnchants(this.item), getNecronScrolls(this.item));
+            item = new Item(Functions.getItemMaterial(this.item), getHotPotato(this.item), getReforge(nbt.getString("Reforge")), isRecombed(this.item), getSkin(this.item), getEnchants(this.item), getNecronScrolls(this.item));
         }
         return item;
     }

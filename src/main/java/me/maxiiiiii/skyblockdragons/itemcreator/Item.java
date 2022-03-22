@@ -2,10 +2,12 @@ package me.maxiiiiii.skyblockdragons.itemcreator;
 
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.Functions;
 import me.maxiiiiii.skyblockdragons.material.*;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -18,39 +20,43 @@ import static me.maxiiiiii.skyblockdragons.Functions.*;
 import static me.maxiiiiii.skyblockdragons.Functions.manaCostCalculator;
 
 @Getter
-public class Item {
+public class Item extends ItemStack {
     private final ItemMaterial material;
-    private final byte amount;
+    private final int amount;
 
-    public Item(ItemMaterial material, byte amount) {
+    public Item(ItemMaterial material, int amount, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
+        super(material.getMaterial(), amount, material.getMaterial() == Material.SKULL_ITEM ? (short) 3 : (short) 0);
         this.material = material;
         this.amount = amount;
+
+        this.toItem(hotPotato, reforge, recombabulated, skin, enchants, necronBladeAbilities);
+    }
+
+    public Item(ItemMaterial material, int amount, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants) {
+        this(material, amount, hotPotato, reforge, recombabulated, skin, enchants, new ArrayList<>());
+    }
+
+    public Item(ItemMaterial material, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
+        this(material, 1, hotPotato, reforge, recombabulated, skin, enchants, necronBladeAbilities);
+    }
+
+    public Item(ItemMaterial material, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants) {
+        this(material, 1, hotPotato, reforge, recombabulated, skin, enchants, new ArrayList<>());
     }
 
     public Item(ItemMaterial material, int amount) {
-        this(material, (byte) amount);
+        this(material, amount, 0, ReforgeType.NULL, false, SkinMaterial.NULL, new HashMap<>(), new ArrayList<>());
     }
 
     public Item(ItemMaterial material) {
-        this.material = material;
-        this.amount = 1;
+         this(material, 1);
     }
 
-    public ItemStack toItem() {
-        return this.toItem(0, ReforgeType.NULL, false, SkinMaterial.NULL, new HashMap<>(), new ArrayList<>());
+    public Item(ItemMaterial material, ItemStack fromItem) {
+        this(material, fromItem.getAmount(), getHotPotato(fromItem), getReforge(fromItem), isRecombed(fromItem), getSkin(fromItem), getEnchants(fromItem), getNecronScrolls(fromItem));
     }
 
-    public ItemStack toItem(int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants) {
-        return this.toItem(hotPotato, reforge, recombabulated, skin, enchants, new ArrayList<>());
-    }
-
-    public ItemStack toItem(int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
-        byte data = (byte) 0;
-        try {
-            if (this.material.getNbt().equals("") && !this.material.getId().equals("")) data = Byte.parseByte(this.material.getId());
-        } catch (NumberFormatException ignored) {}
-        ItemStack item = new ItemStack(this.material.getMaterial(), amount, data);
-
+    private void toItem(int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
         int recombed = recombabulated ? 1 : 0;
 
         ArrayList<String> enchantsString = new ArrayList<>();
@@ -169,7 +175,7 @@ public class Item {
             }
         }
 
-        NBTItem nbtItem = new NBTItem(item);
+        NBTItem nbtItem = new NBTItem(this, true);
         NBTCompound nbt = nbtItem.addCompound("Item");
         if (this.material instanceof BookMaterial) {
             nbt.setString("id", "ENCHANTED_BOOK");
@@ -218,22 +224,29 @@ public class Item {
             necronScrolls.setBoolean("SHADOW_WARP", necronBladeAbilities.contains(NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP));
         }
 
-        nbtItem.applyNBT(item);
 
         if (!material.getNbt().equals("")) {
+            NBTCompound skull = nbtItem.addCompound("SkullOwner");
             if (skin != null && skin != SkinMaterial.NULL) {
+                skull.setString("Id", skin.getId());
+                NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
+                texture.setString("Value", skin.getNbt());
+
                 nbt.setString("Skin", skin.name());
-                nbtItem.applyNBT(item);
-                item = Functions.getSkull(item, skin.getId(), skin.getNbt());
+                System.out.println("did 1");
             } else {
-                item = Functions.getSkull(item, material.getId(), material.getNbt());
+                skull.setString("Id", material.getId());
+                NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
+                texture.setString("Value", material.getNbt());
+
                 nbt.setString("Skin", "");
             }
         } else {
             nbt.setString("Skin", "");
+            System.out.println("did 3");
         }
 
-        ItemMeta meta = item.getItemMeta();
+        ItemMeta meta = this.getItemMeta();
         String reforgeText = "";
         if (reforge != ReforgeType.NULL) {
             reforgeText = reforge + " ";
@@ -257,15 +270,10 @@ public class Item {
             if (material.isEnchanted()) meta.addEnchant(Enchantment.DURABILITY, 3, true);
         }
 
-        item.setItemMeta(meta);
+        this.setItemMeta(meta);
 
-        try {
-            Functions.setArmorColor(item, ((ArmorMaterial) this.material).getColor());
-        } catch (ClassCastException ignored) {}
-
-        item.setAmount(this.amount);
-
-        return item;
+        if (this.material instanceof ArmorMaterial)
+            Functions.setArmorColor(this, ((ArmorMaterial) this.material).getColor());
     }
 
     private void applyFullSet(ArrayList<String> lores) {

@@ -67,8 +67,7 @@ public class ItemList {
         int length = 28 * (num - 1);
         for (int i = 0; i < 28; i++) {
             try {
-                player.sendMessage(materials[i + length].name() + " | " + i + length + " | " + materials.length);
-                inv.setItem(Functions.intToSlot(i), new Item(materials[i + length]).toItem());
+                inv.setItem(Functions.intToSlot(i), new Item(materials[i + length]));
             } catch (IndexOutOfBoundsException e){
                 inv.setItem(Functions.intToSlot(i), new ItemStack(Material.AIR));
             }
@@ -119,7 +118,7 @@ public class ItemList {
         int length = 28 * (num - 1);
         for (int i = 0; i < 28; i++) {
             try {
-                inv.setItem(Functions.intToSlot(i), new Item(materials.get(i+ length)).toItem());
+                inv.setItem(Functions.intToSlot(i), new Item(materials.get(i+ length)));
             } catch (IndexOutOfBoundsException e){
                 inv.setItem(Functions.intToSlot(i), new ItemStack(Material.AIR));
             }

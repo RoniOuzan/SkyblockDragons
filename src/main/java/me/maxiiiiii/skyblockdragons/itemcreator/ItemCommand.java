@@ -55,13 +55,12 @@ public class ItemCommand implements CommandExecutor, Listener {
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Previous Page")) {
                     if (title[2].equals("1")) {
                         p.sendMessage(ChatColor.RED + "You can't go to the previous page!");
-                        return;
                     } else {
                         openItemList(p, Integer.parseInt(title[2]) - 1);
                     }
                 } else if (!e.getCurrentItem().getItemMeta().getDisplayName().contains("Close") && !e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.RESET + "")) {
                     ItemMaterial material = getItemMaterial(e.getCurrentItem());
-                    e.getWhoClicked().getInventory().addItem(new Item(material).toItem());
+                    e.getWhoClicked().getInventory().addItem(new Item(material));
                 }
             }
         } catch (NullPointerException ignored) {
@@ -93,7 +92,7 @@ public class ItemCommand implements CommandExecutor, Listener {
                     }
 
                     for (int i = 0; i < amount; i++) {
-                        item = new Item(Items.get(args[0].toUpperCase())).toItem();
+                        item = new Item(Items.get(args[0].toUpperCase()));
                         player.getInventory().addItem(item);
                     }
                     sender.sendMessage(ChatColor.GREEN + "Gave " + args[0].toUpperCase() + " to " + player.getName());
@@ -117,7 +116,7 @@ public class ItemCommand implements CommandExecutor, Listener {
                             }
 
                             for (int i = 0; i < amount; i++) {
-                                player.getInventory().addItem(new Item(itemMaterial).toItem());
+                                player.getInventory().addItem(new Item(itemMaterial));
                             }
                             sender.sendMessage(ChatColor.GREEN + "Gave " + itemMaterial.name() + " to " + player.getName());
                         }
