@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.craftingtable.Menus;
+package me.maxiiiiii.skyblockdragons.craftingtable.menus;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 import static me.maxiiiiii.skyblockdragons.Functions.*;
 
-public class CraftingTable {
+public class CraftingTableMenu {
     public static void openCraftingTable(Player player) {
         Inventory inventory = Bukkit.createInventory(player, 54, ChatColor.DARK_GRAY + "Craft Item");
 

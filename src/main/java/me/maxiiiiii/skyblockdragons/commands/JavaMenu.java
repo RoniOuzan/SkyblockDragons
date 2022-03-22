@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.commands;
 
-import me.maxiiiiii.skyblockdragons.craftingtable.Menus.CraftingTable;
+import me.maxiiiiii.skyblockdragons.craftingtable.menus.CraftingTableMenu;
 import me.maxiiiiii.skyblockdragons.skill.SkillMenu;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeMenu;
 import org.bukkit.Material;
@@ -50,7 +50,7 @@ public class JavaMenu implements CommandExecutor, Listener {
                     SkillMenu.openSkillsMenu(player);
                 } else if (e.getSlot() == 31) {
                     player.closeInventory();
-                    CraftingTable.openCraftingTable(player);
+                    CraftingTableMenu.openCraftingTable(player);
                 } else if (e.getSlot() == 32) {
                     player.closeInventory();
                     WardrobeMenu.openWardrobe(player, 1);

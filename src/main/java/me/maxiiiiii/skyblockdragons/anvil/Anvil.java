@@ -146,20 +146,20 @@ public class Anvil {
                     ReforgeType reforgeType = getReforge(reforge.getReforgeName());
                     if (reforgeType.getTypes().contains(material1.getType())) {
                         if (!nbt1.getString("Reforge").equals(reforge.name())) {
-                            item = new Item(material1).toItem(getHotPotato(item), reforgeType, isRecombed(item1), getSkin(item1), getEnchants(item1), getNecronScrolls(item1));
+                            item = new Item(material1, getHotPotato(item), reforgeType, isRecombed(item1), getSkin(item1), getEnchants(item1), getNecronScrolls(item1));
                         }
                     }
                 } else if (material2 instanceof SkinMaterial) {
                     SkinMaterial skin = (SkinMaterial) material2;
                     if (material1.name().equals(skin.name().replaceAll("_SKIN", ""))) {
                         if (!nbt1.getString("Skin").equals(skin.name())) {
-                            item = new Item(material1).toItem(getHotPotato(item), getReforge(item1), isRecombed(item1), skin, getEnchants(item1), getNecronScrolls(item1));
+                            item = new Item(material1, getHotPotato(item), getReforge(item1), isRecombed(item1), skin, getEnchants(item1), getNecronScrolls(item1));
                         }
                     }
                 } else if (nbt2.getString("id").equals("RECOMBABULATOR")) {
                     if (isRecombable(material1)) {
                         if (!nbt1.getBoolean("RarityUpgrade")) {
-                            item = new Item(material1).toItem(getHotPotato(item), getReforge(item1), true, getSkin(item1), getEnchants(item1), getNecronScrolls(item1));
+                            item = new Item(material1, getHotPotato(item), getReforge(item1), true, getSkin(item1), getEnchants(item1), getNecronScrolls(item1));
                         }
                     }
                 } else if (material2 instanceof BookMaterial) {
@@ -188,7 +188,7 @@ public class Anvil {
                             enchants.put(enchantType, Short.parseShort(enchants2.getInteger(enchantType.name()) + ""));
                         }
                     }
-                    item = new Item(material1).toItem(getHotPotato(item), getReforge(item1), isRecombed(item1), getSkin(item1), enchants, getNecronScrolls(item1));
+                    item = new Item(material1, getHotPotato(item), getReforge(item1), isRecombed(item1), getSkin(item1), enchants, getNecronScrolls(item1));
                 } else if (material2 instanceof NecronBladeMaterial.NecronBladeScroll && material1 instanceof NecronBladeMaterial) {
                     ArrayList<NecronBladeMaterial.NecronBladeAbility> scrolls = getNecronScrolls(item1);
                     if (material2.equals(ItemMaterial.IMPLOSION) && !nbt2.getBoolean("IMPLOSION")) {
@@ -207,10 +207,10 @@ public class Anvil {
                         scrolls.add(NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP);
                     }
 
-                    item = new Item(material1).toItem(getHotPotato(item), getReforge(item1), isRecombed(item1), getSkin(item1), getEnchants(item1), scrolls);
+                    item = new Item(material1, getHotPotato(item), getReforge(item1), isRecombed(item1), getSkin(item1), getEnchants(item1), scrolls);
                 } else if (material2.getFamily() == ItemFamily.HOT_POTATO && material2 instanceof NormalMaterial && (material1 instanceof WeaponMaterial || material1 instanceof ArmorMaterial)) {
                     if ((material2.name().contains("FUMING") && getHotPotato(item1) < 15) || (material2.name().contains("HOT") && getHotPotato(item1) < 10)) {
-                        item = new Item(material1).toItem(getHotPotato(item1) + 1, getReforge(item1), isRecombed(item1), getSkin(item1), getEnchants(item1), getNecronScrolls(item1));
+                        item = new Item(material1, getHotPotato(item1) + 1, getReforge(item1), isRecombed(item1), getSkin(item1), getEnchants(item1), getNecronScrolls(item1));
                     }
                 }
             }

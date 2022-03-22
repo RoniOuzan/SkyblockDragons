@@ -55,12 +55,12 @@ public enum Recipe {
         ItemStack craftingTable = createItem(Material.WORKBENCH, ChatColor.GREEN + "Crafting Table", new ArrayList<>(Arrays.asList(ChatColor.GRAY + "Craft this recipe by using a", ChatColor.GRAY + "crafting table.")));
         inventory.setItem(23, craftingTable);
 
-        ItemStack item = this.item.toItem();
+        ItemStack item = this.item;
         inventory.setItem(25, item);
 
         for (int i = 0; i < 9; i++) {
             try {
-                inventory.setItem(numToSlot(i), this.items[i].toItem());
+                inventory.setItem(numToSlot(i), this.items[i]);
             } catch (NullPointerException ex) {
                 inventory.setItem(numToSlot(i), new ItemStack(Material.AIR));
             }
@@ -70,7 +70,6 @@ public enum Recipe {
     }
 
     private static Item[] getItems(Item item1, Item item2, Item item3, Item item4, Item item5, Item item6, Item item7, Item item8, Item item9) {
-        Item[] items = {item1, item2, item3, item4, item5, item6, item7, item8, item9};
-        return items;
+        return new Item[]{item1, item2, item3, item4, item5, item6, item7, item8, item9};
     }
 }

@@ -15,7 +15,7 @@ public class InventoryChecker {
                 ItemMeta meta = item.getItemMeta();
                 player.sendMessage(meta.getLore().size() + " | " + item.getType());
                 if (meta.getLore().size() <= 0) {
-                    player.getInventory().setItem(i, new Item(ItemMaterial.Items.get(item.getType().name())).toItem());
+                    player.getInventory().setItem(i, new Item(ItemMaterial.Items.get(item.getType().name())));
                 }
             } catch (NullPointerException ignored) {}
         }

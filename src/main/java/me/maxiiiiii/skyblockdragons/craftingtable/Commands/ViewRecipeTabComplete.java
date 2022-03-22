@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.craftingtable.Commands;
+package me.maxiiiiii.skyblockdragons.craftingtable.commands;
 
 import me.maxiiiiii.skyblockdragons.craftingtable.Recipe;
 import org.bukkit.command.Command;

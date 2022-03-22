@@ -1,8 +1,9 @@
-package me.maxiiiiii.skyblockdragons.craftingtable.Commands;
+package me.maxiiiiii.skyblockdragons.craftingtable.commands;
 
 import me.maxiiiiii.skyblockdragons.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.craftingtable.Recipe;
+import me.maxiiiiii.skyblockdragons.craftingtable.menus.CraftingTableMenu;
 import me.maxiiiiii.skyblockdragons.itemcreator.EnchantType;
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
 import me.maxiiiiii.skyblockdragons.itemcreator.ReforgeType;
@@ -27,14 +28,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static me.maxiiiiii.skyblockdragons.Functions.getHotPotato;
-import static me.maxiiiiii.skyblockdragons.Functions.getReforge;
 
 public class CraftingTable implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            me.maxiiiiii.skyblockdragons.craftingtable.Menus.CraftingTable.openCraftingTable(player);
+            CraftingTableMenu.openCraftingTable(player);
         }
         return true;
     }
@@ -89,13 +89,13 @@ public class CraftingTable implements CommandExecutor, Listener {
                     if (e.getClick().isShiftClick()) {
                         takeItem(player, recipe);
 
-                        player.getInventory().addItem(recipe.getItem().toItem(hotPotato, reforge, recombabulated, skin, enchants));
+                        player.getInventory().addItem(new Item(recipe.getItem().getMaterial(), recipe.getItem().getAmount(), hotPotato, reforge, recombabulated, skin, enchants));
                         InventoryClickEvent event = new InventoryClickEvent(player.getOpenInventory(), InventoryType.SlotType.CONTAINER, 23, ClickType.SHIFT_LEFT, InventoryAction.NOTHING);
                         Bukkit.getServer().getPluginManager().callEvent(event);
                     } else if (e.getClick().isLeftClick()) {
                         takeItem(player, recipe);
 
-                        player.setItemOnCursor(recipe.getItem().toItem(hotPotato, reforge, recombabulated, skin, enchants));
+                        player.setItemOnCursor(new Item(recipe.getItem().getMaterial(), recipe.getItem().getAmount(), hotPotato, reforge, recombabulated, skin, enchants));
                     }
                 }
             }
@@ -162,7 +162,7 @@ public class CraftingTable implements CommandExecutor, Listener {
                     enchants = new HashMap<>();
                 }
 
-                player.getOpenInventory().setItem(23, recipe.getItem().toItem(hotPotato, reforge, recombabulated, skin, enchants));
+                player.getOpenInventory().setItem(23, new Item(recipe.getItem().getMaterial(), recipe.getItem().getAmount(), hotPotato, reforge, recombabulated, skin, enchants));
 
                 putBack = false;
                 updateLine(player, false);

@@ -27,7 +27,7 @@ public class Radiant_Power_Orb implements Listener {
         Location location = player.getLocation();
 
         ArmorStand stand = (ArmorStand) player.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
-        ItemStack head = new Item(Functions.getItemMaterial(item)).toItem();
+        ItemStack head = new Item(Functions.getItemMaterial(item));
         stand.setHelmet(head);
         stand.setGravity(false);
         stand.setInvulnerable(true);
