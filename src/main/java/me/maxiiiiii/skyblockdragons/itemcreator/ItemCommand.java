@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +16,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static me.maxiiiiii.skyblockdragons.Functions.getItemMaterial;
 import static me.maxiiiiii.skyblockdragons.Functions.isByte;
@@ -25,8 +28,7 @@ import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.ItemMaterials;
 import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
 import static me.maxiiiiii.skyblockdragons.menu.ItemList.openItemList;
 
-public class ItemCommand implements CommandExecutor, Listener {
-
+public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         try {
@@ -127,5 +129,20 @@ public class ItemCommand implements CommandExecutor, Listener {
             }
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        ArrayList<String> tabs = new ArrayList<>();
+        if (args.length == 1) {
+            for (ItemMaterial tab : ItemMaterial.Items.values()) {
+                if (tab.name().startsWith(args[0].toUpperCase())) {
+                    tabs.add(tab.name());
+                }
+            }
+            Collections.sort(tabs);
+            return tabs;
+        }
+        return null;
     }
 }

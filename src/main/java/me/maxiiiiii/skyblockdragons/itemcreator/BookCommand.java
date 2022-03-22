@@ -7,13 +7,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class BookCommand implements CommandExecutor {
+public class BookCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
@@ -41,5 +41,21 @@ public class BookCommand implements CommandExecutor {
             }
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        ArrayList<String> tabs = new ArrayList<>();
+        if (args.length == 1) {
+            for (EnchantType tab : EnchantType.Enchants.values()) {
+                if (tab.name().contains("NULL")) continue;
+                if (tab.name().startsWith(args[0].toUpperCase())) {
+                    tabs.add(tab.name());
+                }
+            }
+            Collections.sort(tabs);
+            return tabs;
+        }
+        return null;
     }
 }

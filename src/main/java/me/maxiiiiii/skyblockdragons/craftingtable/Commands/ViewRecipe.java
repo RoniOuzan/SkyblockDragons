@@ -5,15 +5,19 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static me.maxiiiiii.skyblockdragons.Functions.*;
 import static me.maxiiiiii.skyblockdragons.Functions.getItemMaterial;
 
-public class ViewRecipe implements CommandExecutor, Listener {
+public class ViewRecipe implements CommandExecutor, Listener, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
@@ -33,6 +37,15 @@ public class ViewRecipe implements CommandExecutor, Listener {
             }
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> tabs = new ArrayList<>();
+        for (Recipe recipe : Recipe.values()) {
+            tabs.add(recipe.name());
+        }
+        return tabs;
     }
 
     @EventHandler(ignoreCancelled = true)

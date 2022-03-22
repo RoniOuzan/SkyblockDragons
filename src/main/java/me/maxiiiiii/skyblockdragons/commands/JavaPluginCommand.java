@@ -10,15 +10,17 @@ import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class JavaPluginCommand implements CommandExecutor {
-
+public class JavaPluginCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
@@ -103,5 +105,20 @@ public class JavaPluginCommand implements CommandExecutor {
             }
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        ArrayList<String> tabs = new ArrayList<>();
+        if (args.length > 1 && args[0].equalsIgnoreCase("sound")) {
+            for (Sound sound : Sound.values()) {
+                if (sound.name().contains(args[1].toUpperCase())) {
+                    tabs.add(sound.name());
+                }
+            }
+            Collections.sort(tabs);
+            return tabs;
+        }
+        return null;
     }
 }

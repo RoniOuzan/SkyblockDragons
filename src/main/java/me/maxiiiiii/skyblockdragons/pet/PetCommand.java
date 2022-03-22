@@ -4,10 +4,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class PetCommand implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class PetCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
@@ -25,5 +29,16 @@ public class PetCommand implements CommandExecutor {
             }
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> tabs = new ArrayList<>();
+        for (PetMaterial pet : PetMaterial.Pets.values()) {
+            if (!pet.name().equals("NULL")) {
+                tabs.add(pet.name());
+            }
+        }
+        return tabs;
     }
 }
