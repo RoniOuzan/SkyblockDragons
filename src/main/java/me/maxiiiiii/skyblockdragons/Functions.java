@@ -47,9 +47,7 @@ import static me.maxiiiiii.skyblockdragons.storage.StorageUtil.getVariable;
 import static me.maxiiiiii.skyblockdragons.storage.StorageUtil.getVariableValue;
 
 public class Functions {
-    public static ItemStack getSkull(ItemStack itemStack, String id, String value) {
-        ItemStack item = new ItemStack(itemStack.getType(), itemStack.getAmount(), (short) 3);
-        item.setItemMeta(itemStack.getItemMeta());
+    public static ItemStack getSkull(ItemStack item, String id, String value) {
         if (value.isEmpty()) return item;
 
         NBTItem nbt = new NBTItem(item);
@@ -57,8 +55,6 @@ public class Functions {
         skull.setString("Id", id);
         NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
         texture.setString("Value", value);
-        nbt.applyNBT(item);
-
         nbt.applyNBT(item);
 
         return item;
@@ -1264,7 +1260,7 @@ public class Functions {
         return defaultValue;
     }
 
-    public static void loadPlayerSD(Player player) {
+    public static void loadPlayerData(Player player) {
         SkyblockDragons.purses.put(player.getUniqueId(), 0d);
         SkyblockDragons.bits.put(player.getUniqueId(), 0L);
         player.setHealthScale(40d);

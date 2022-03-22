@@ -11,7 +11,7 @@ commands:
       - ja
       - anvil
       - av
-  Plugin:
+  SkyblockDragons:
     permission: skyblockdragons.plugin
     usage: /<command> <text>
     aliases:

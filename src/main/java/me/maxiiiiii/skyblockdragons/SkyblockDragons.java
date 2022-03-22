@@ -18,10 +18,7 @@ import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.itemcreator.*;
 import me.maxiiiiii.skyblockdragons.listeners.EntityHealth;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.pet.Pet;
-import me.maxiiiiii.skyblockdragons.pet.PetCommand;
-import me.maxiiiiii.skyblockdragons.pet.PetListener;
-import me.maxiiiiii.skyblockdragons.pet.PetTabComplete;
+import me.maxiiiiii.skyblockdragons.pet.*;
 import me.maxiiiiii.skyblockdragons.reforge.ReforgeCommand;
 import me.maxiiiiii.skyblockdragons.skill.Skill;
 import me.maxiiiiii.skyblockdragons.skill.SkillAdminCommand;
@@ -30,7 +27,6 @@ import me.maxiiiiii.skyblockdragons.skill.SkillMenuCommand;
 import me.maxiiiiii.skyblockdragons.skill.Skills.*;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import me.maxiiiiii.skyblockdragons.stat.OnSlotChange;
-import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import me.maxiiiiii.skyblockdragons.stat.StatCommand;
 import me.maxiiiiii.skyblockdragons.storage.StorageUtil;
 import me.maxiiiiii.skyblockdragons.util.*;
@@ -57,8 +53,9 @@ import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.logging.Logger;
 
-import static me.maxiiiiii.skyblockdragons.Functions.loadPlayerSD;
+import static me.maxiiiiii.skyblockdragons.Functions.loadPlayerData;
 import static me.maxiiiiii.skyblockdragons.Functions.numberToItemSlot;
 import static me.maxiiiiii.skyblockdragons.Functions.sendActionBar;
 import static me.maxiiiiii.skyblockdragons.Functions.setScoreboardScores;
@@ -66,7 +63,6 @@ import static me.maxiiiiii.skyblockdragons.storage.StorageUtil.setVariable;
 
 public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static final HashMap<UUID, PlayerSD> players = new HashMap<>();
-    private static final ArrayList<PlayerSD> myPlayers = new ArrayList<>();
     public static final HashMap<UUID, Double> purses = new HashMap<>();
     public static final HashMap<UUID, Long> bits = new HashMap<>();
     public static final HashMap<UUID, Long> playTime = new HashMap<>();
@@ -77,6 +73,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static Permission perms = null;
     public static Chat chat = null;
 
+    public static final Logger log = Logger.getLogger("SkyblockDragons");
     public static SkyblockDragons plugin;
     private static final Serializer serializerInstance = new Serializer();
     public SkyblockDragons() {
@@ -99,6 +96,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         ItemMaterial.registerItems();
         EnchantType.registerEnchants();
+        PetMaterial.registerItems();
 
         for (Hologram holo: HologramsAPI.getHolograms(this)) {
             holo.delete();
@@ -110,8 +108,11 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
 
-        setupPermissions();
-        setupChat();
+        if (!setupEconomy() ) {
+            log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
 
         // Listeners
         getServer().getPluginManager().registerEvents(new EntityHealth(), this);
@@ -193,41 +194,13 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         this.signMenu = new SignMenu(this);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            ArrayList<WardrobeSlot> wardrobeSlots = new ArrayList<>();
-            for (int i = 0; i < 18; i++) {
-                wardrobeSlots.add(new WardrobeSlot(
-                        i,
-                        (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0), "null"), null),
-                        (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1), "null"), null),
-                        (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2), "null"), null),
-                        (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3), "null"), null)
-                ));
-            }
-
-            myPlayers.add(new PlayerSD(
-                    player,
-                    new Skill(
-                            new FarmingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Farming", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Farming", 2, "0"))),
-                            new MiningSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Mining", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Mining", 2, "0"))),
-                            new CombatSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Combat", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Combat", 2, "0"))),
-                            new ForagingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Foraging", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Foraging", 2, "0"))),
-                            new FishingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Fishing", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Fishing", 2, "0"))),
-                            new EnchantingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Enchanting", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Enchanting", 2, "0"))),
-                            new AlchemySkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Alchemy", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Alchemy", 2, "0"))),
-                            new TamingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Taming", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Taming", 2, "0"))),
-                            new DungeoneeringSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Dungeoneering", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Dungeoneering", 2, "0")))
-                    ), new Wardrobe(wardrobeSlots),
-                    null
-            ));
-            loadPlayerSD(player);
+            loadPlayerData(player);
         }
 
         final double HEALTH_REGEN = 1.02;
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (PlayerSD player : players.values()) {
-                if (!player.getWorld().getName().equalsIgnoreCase("work")) continue;
-
                 setScoreboardScores(player);
 
                 player.setFoodLevel(20);
@@ -254,10 +227,14 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 }
                 if (player.activePet != null && player.activePet.getArmorStand().getLocation().distance(player.getLocation()) > 3)
                     new aifly(player.activePet.getArmorStand(), player, 1000).runTaskTimer(plugin, 0L, 1L);
+
+//                if (player.getActivePet() != null && player.getActivePet().levelUp(player)) {
+//
+//                }
             }
         }, 0L, 5L);
 
-        System.out.println("Hypixel Items plugin has been loaded!");
+        System.out.println("Skyblock Dragons plugin has been loaded!");
     }
 
     @Override
@@ -277,18 +254,18 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         return economy != null;
     }
 
-    private void setupChat() {
-        RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
-        chat = rsp.getProvider();
-    }
-
-    private void setupPermissions() {
-        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-        perms = rsp.getProvider();
-    }
+//    private void setupChat() {
+//        RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+//        chat = rsp.getProvider();
+//    }
+//
+//    private void setupPermissions() {
+//        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+//        perms = rsp.getProvider();
+//    }
 
     public static PlayerSD getPlayer(String name) {
-        for (PlayerSD myPlayer : myPlayers) {
+        for (PlayerSD myPlayer : players.values()) {
             if (myPlayer.getName().equals(name)) {
                 return myPlayer;
             }
@@ -297,7 +274,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     }
 
     public static PlayerSD getPlayer(UUID uuid) {
-        for (PlayerSD myPlayer : myPlayers) {
+        for (PlayerSD myPlayer : players.values()) {
             if (myPlayer.getUniqueId() == uuid) {
                 return myPlayer;
             }
@@ -326,7 +303,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                     ));
                 }
 
-                SkyblockDragons.myPlayers.add(new PlayerSD(
+                SkyblockDragons.players.put(player.getUniqueId(), new PlayerSD(
                         player,
                         new Skill(
                                 new FarmingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Farming", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Farming", 2, "0"))),
@@ -342,7 +319,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                         null
                 ));
 
-                loadPlayerSD(player);
+                loadPlayerData(player);
             }
         }.runTaskLater(plugin, 1L);
     }

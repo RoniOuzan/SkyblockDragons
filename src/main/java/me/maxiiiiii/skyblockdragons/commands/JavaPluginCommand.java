@@ -33,9 +33,9 @@ public class JavaPluginCommand implements CommandExecutor {
                         }
                     }
                 } else if (args[0].equalsIgnoreCase("reload")) {
-                    sender.sendMessage(ChatColor.GREEN + "You have been reloaded HypixelItems plugin.");
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "plugman reload HypixelItems");
-                    sender.sendMessage(ChatColor.GREEN + "Successfully reloaded HypixelItems.");
+                    sender.sendMessage(ChatColor.GREEN + "You have been reloaded SkyblockDragons plugin.");
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "plugman reload SkyblockDragons");
+                    sender.sendMessage(ChatColor.GREEN + "Successfully reloaded SkyblockDragons.");
                 } else if (args[0].equalsIgnoreCase("sound")) {
                     if (args.length > 1) {
                         float pitch = 1f;

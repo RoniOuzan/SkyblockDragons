@@ -18,7 +18,7 @@ public class PetCommand implements CommandExecutor {
                     return true;
                 }
 
-                PetMaterial petMaterial = PetMaterial.valueOf(args[0].toUpperCase());
+                PetMaterial petMaterial = PetMaterial.Pets.get(args[0].toUpperCase());
                 ItemStack pet = new Pet(petMaterial, petMaterial.getRarities().get(0), 1, 0).toItem(true);
 
                 player.getInventory().addItem(pet);

@@ -11,7 +11,7 @@ public class PetTabComplete implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> tabs = new ArrayList<>();
-        for (PetMaterial pet : PetMaterial.values()) {
+        for (PetMaterial pet : PetMaterial.Pets.values()) {
             if (!pet.name().equals("NULL")) {
                 tabs.add(pet.name());
             }

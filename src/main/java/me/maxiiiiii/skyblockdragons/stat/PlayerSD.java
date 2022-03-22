@@ -47,6 +47,8 @@ import java.util.*;
 
 import static me.maxiiiiii.skyblockdragons.Functions.manaCostCalculator;
 
+@Getter
+@Setter
 public class PlayerSD implements Player {
     private final Player player;
     public double damage;

@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.pet;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.itemcreator.Rarity;
 import me.maxiiiiii.skyblockdragons.itemcreator.Stat;
 import me.maxiiiiii.skyblockdragons.skill.SkillType;
@@ -8,13 +9,16 @@ import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 @Getter
-public enum PetMaterial {
+@Setter
+public class PetMaterial {
     //        Items.put("ENDER_DRAGON_PET", new PetMaterial("Ender Dragon", Rarity.EPIC, "", "", new ArrayList<>(Arrays.asList(0d, 0.5d, 0.5d, 0.1d, 0d, 0d, 0d, 0d, 0d, 0d)), new ArrayList<>(Arrays.asList()))));
+    public static final HashMap<String, PetMaterial> Pets = new HashMap<>();
 
-    ENDER_DRAGON("Ender Dragon", new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY)), "083a89e8-c8b9-4c15-bccb-7b4af8d31b20", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTFkMDhjMDI4OWQ5ZWZlNTE5ZTg3ZjdiODE0Y2IyMzQ5ZjQ0NzViZDNjMzdkNDRmOWM0ZjBlNTA4ZTc3OTgxZSJ9fX0=", new ArrayList<>(Arrays.asList(0d, 0.5d, 0.5d, 0.1d, 0d, 0d, 0d, 0d, 0d, 0d)), new ArrayList<>(Arrays.asList(new PetAbility("End Strike", "Deal " + ChatColor.GREEN + "0.2% " + ChatColor.GRAY + "more damage to end mobs", new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY))), new PetAbility("One with the Dragons", "Buffs the Aspect of the Dragons sword by " + ChatColor.GREEN + "0.5 " + Stat.DAMAGE.getIconAndText() + " " + ChatColor.GRAY + "and " + ChatColor.GREEN + "0.3 " + Stat.STRENGTH.getIconAndText(), new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY))), new PetAbility("Superior", "Increases most stats by " + ChatColor.GREEN + "0.1%", new ArrayList<>(Arrays.asList(Rarity.LEGENDARY))))), SkillType.COMBAT),
-    NULL("Null", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)), "", "", new ArrayList<>(Arrays.asList(0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d)), new ArrayList<>(Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL))))), SkillType.COMBAT);
+    public static PetMaterial ENDER_DRAGON = null;
+    public static PetMaterial NULL = null;
 
     private String name;
     private ArrayList<Rarity> rarities;
@@ -35,11 +39,28 @@ public enum PetMaterial {
     }
 
     public static boolean isPetMaterial(String name) {
-        for (PetMaterial pet : PetMaterial.values()) {
-            if (pet.name().equals(name.toUpperCase())) {
+        for (String pet : Pets.keySet()) {
+            if (pet.equals(name.toUpperCase())) {
                 return true;
             }
         }
         return false;
+    }
+
+    public static void registerItems() {
+        Pets.put("ENDER_DRAGON", new PetMaterial("Ender Dragon", new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY)), "083a89e8-c8b9-4c15-bccb-7b4af8d31b20", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTFkMDhjMDI4OWQ5ZWZlNTE5ZTg3ZjdiODE0Y2IyMzQ5ZjQ0NzViZDNjMzdkNDRmOWM0ZjBlNTA4ZTc3OTgxZSJ9fX0=", new ArrayList<>(Arrays.asList(0d, 0.5d, 0.5d, 0.1d, 0d, 0d, 0d, 0d, 0d, 0d)), new ArrayList<>(Arrays.asList(new PetAbility("End Strike", "Deal " + ChatColor.GREEN + "0.2% " + ChatColor.GRAY + "more damage to end mobs", new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY))), new PetAbility("One with the Dragons", "Buffs the Aspect of the Dragons sword by " + ChatColor.GREEN + "0.5 " + Stat.DAMAGE.getIconAndText() + " " + ChatColor.GRAY + "and " + ChatColor.GREEN + "0.3 " + Stat.STRENGTH.getIconAndText(), new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY))), new PetAbility("Superior", "Increases most stats by " + ChatColor.GREEN + "0.1%", new ArrayList<>(Arrays.asList(Rarity.LEGENDARY))))), SkillType.COMBAT));
+
+        ENDER_DRAGON = Pets.get("ENDER_DRAGON");
+
+        NULL = new PetMaterial("Null", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)), "", "", new ArrayList<>(Arrays.asList(0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d)), new ArrayList<>(Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL))))), SkillType.COMBAT);
+    }
+
+    public String name() {
+        for (String key : Pets.keySet()) {
+            if (Pets.get(key) == this) {
+                return key;
+            }
+        }
+        return "";
     }
 }
