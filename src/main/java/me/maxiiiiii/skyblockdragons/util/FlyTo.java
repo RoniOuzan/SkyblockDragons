@@ -11,20 +11,29 @@ public class FlyTo extends BukkitRunnable {
     public Entity entity;
     public Entity target;
     public long denominator;
+
     public double stopAt;
+
+    public Vector adder;
 
     public boolean lookAtTarget;
 
-    public FlyTo(Entity entity, Entity target, long denominator, double stopAt, boolean lookAtTarget) {
+    public FlyTo(Entity entity, Entity target, long denominator, double stopAt, boolean lookAtTarget, Vector adder) {
         this.entity = entity;
         this.target = target;
         this.denominator = denominator;
 
         this.stopAt = stopAt;
 
+        this.adder = adder;
+
         this.lookAtTarget = lookAtTarget;
 
         this.runTaskTimer(SkyblockDragons.plugin, 0L, 1L);
+    }
+
+    public FlyTo(Entity entity, Entity target, long denominator, double stopAt, boolean lookAtTarget) {
+        this(entity, target, denominator, stopAt, lookAtTarget, new Vector());
     }
 
     @Override
@@ -34,7 +43,7 @@ public class FlyTo extends BukkitRunnable {
             return;
         }
         double x = (target.getLocation().getX() - entity.getLocation().getX()) / denominator;
-        double y = (target.getLocation().add(0, 0.5, 0).getY() - entity.getLocation().getY()) / denominator;
+        double y = (target.getLocation().add(0, 0.5, 0).add(adder).getY() - entity.getLocation().getY()) / denominator;
         double z = (target.getLocation().getZ() - entity.getLocation().getZ()) / denominator;
 
         Location targetLocation = entity.getLocation();

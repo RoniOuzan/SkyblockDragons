@@ -8,11 +8,14 @@ import me.maxiiiiii.skyblockdragons.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.abilities.Atomsplit_Katana;
 import me.maxiiiiii.skyblockdragons.abilities.Rogue_Sword;
+import me.maxiiiiii.skyblockdragons.itemcreator.Item;
 import me.maxiiiiii.skyblockdragons.itemcreator.ItemType;
 import me.maxiiiiii.skyblockdragons.material.ArmorMaterial;
+import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.material.ToolMaterial;
 import me.maxiiiiii.skyblockdragons.material.WeaponMaterial;
 import me.maxiiiiii.skyblockdragons.pet.Pet;
+import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
 import me.maxiiiiii.skyblockdragons.skill.Skill;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.wardrobe.Wardrobe;
@@ -45,8 +48,8 @@ import org.bukkit.util.Vector;
 import java.net.InetSocketAddress;
 import java.util.*;
 
-import static me.maxiiiiii.skyblockdragons.Functions.createHologram;
-import static me.maxiiiiii.skyblockdragons.Functions.manaCostCalculator;
+import static me.maxiiiiii.skyblockdragons.Functions.*;
+import static me.maxiiiiii.skyblockdragons.Functions.getItemMaterial;
 
 @Getter
 @Setter
@@ -235,33 +238,34 @@ public class PlayerSD implements Player {
 
     public void applyStats(boolean manaRegan) {
         ItemStack tool = this.getPlayer().getEquipment().getItemInMainHand();
+        ToolMaterial toolMaterial = ToolMaterial.NULL;
         if (Functions.getItemMaterial(tool) instanceof ToolMaterial) {
-            ToolMaterial toolMaterial = (ToolMaterial) Functions.getItemMaterial(tool);
+            toolMaterial = (ToolMaterial) Functions.getItemMaterial(tool);
         }
 
         ItemStack helmet = this.getPlayer().getEquipment().getHelmet();
         ArmorMaterial helmetMaterial = ArmorMaterial.NULL;
-        try {
+        if (Functions.getItemMaterial(helmet) instanceof ArmorMaterial) {
             helmetMaterial = (ArmorMaterial) Functions.getItemMaterial(helmet);
-        } catch (ClassCastException ignored) {}
+        }
 
         ItemStack chestplate = this.getPlayer().getEquipment().getChestplate();
         ArmorMaterial chestplateMaterial = ArmorMaterial.NULL;
-        try {
+        if (Functions.getItemMaterial(chestplate) instanceof ArmorMaterial) {
             chestplateMaterial = (ArmorMaterial) Functions.getItemMaterial(chestplate);
-        } catch (ClassCastException ignored) {}
+        }
 
         ItemStack leggings = this.getPlayer().getEquipment().getLeggings();
         ArmorMaterial leggingsMaterial = ArmorMaterial.NULL;
-        try {
+        if (Functions.getItemMaterial(leggings) instanceof ArmorMaterial) {
             leggingsMaterial = (ArmorMaterial) Functions.getItemMaterial(leggings);
-        } catch (ClassCastException ignored) {}
+        }
 
         ItemStack boots = this.getPlayer().getEquipment().getBoots();
         ArmorMaterial bootsMaterial = ArmorMaterial.NULL;
-        try {
+        if (Functions.getItemMaterial(boots) instanceof ArmorMaterial) {
             bootsMaterial = (ArmorMaterial) Functions.getItemMaterial(boots);
-        } catch (ClassCastException ignored) {}
+        }
 
         String fullSet = "";
         if (helmetMaterial.getFullSet().getName().equals(chestplateMaterial.getFullSet().getName()) && chestplateMaterial.getFullSet().getName().equals(leggingsMaterial.getFullSet().getName()) && leggingsMaterial.getFullSet().getName().equals(bootsMaterial.getFullSet().getName())) {
@@ -378,6 +382,22 @@ public class PlayerSD implements Player {
         }
         this.player.sendMessage(ChatColor.RED + "You don't have enough mana to use this item!");
         return true;
+    }
+
+    public void updatePlayerInventory() {
+        for (int i = 0; i < player.getInventory().getContents().length; i++) {
+            ItemStack itemStack = player.getInventory().getContents()[i];
+
+            if (!isNotAir(itemStack)) continue;
+
+            ItemMaterial itemMaterial = getItemMaterial(itemStack);
+
+            Item item = new Item(itemMaterial, itemStack);
+            copyNBTStack(item, itemStack);
+            if (!item.isSimilar(itemStack) && !getId(itemStack).contains("_PET")) {
+                player.getInventory().setItem(i, item);
+            }
+        }
     }
 
     @Override
@@ -1167,6 +1187,19 @@ public class PlayerSD implements Player {
 
     @Override
     public void sendMessage(String message) {
+        this.player.sendMessage(message);
+    }
+
+    public void sendMessage(Object message) {
+        this.player.sendMessage(String.valueOf(message));
+    }
+
+    public void sendMessage(Object... messages) {
+        String message = ",";
+        for (Object value : messages) {
+            message += ", " + value;
+        }
+        message = message.replace(",, ", "");
         this.player.sendMessage(message);
     }
 

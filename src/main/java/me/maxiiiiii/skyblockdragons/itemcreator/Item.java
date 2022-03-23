@@ -53,7 +53,7 @@ public class Item extends ItemStack {
     }
 
     public Item(ItemMaterial material, ItemStack fromItem) {
-        this(material, fromItem.getAmount(), getHotPotato(fromItem), getReforge(fromItem), isRecombed(fromItem), getSkin(fromItem), getEnchants(fromItem), getNecronScrolls(fromItem));
+        this(material, (isStackable(fromItem) ? fromItem.getAmount() : 1), getHotPotato(fromItem), getReforge(fromItem), isRecombed(fromItem), getSkin(fromItem), getEnchants(fromItem), getNecronScrolls(fromItem));
     }
 
     private void toItem(int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
@@ -185,7 +185,7 @@ public class Item extends ItemStack {
         nbt.setIntArray("Stats", stats);
         if (material.getType() != ItemType.ITEM || rarity.getLevel() >= 5 || ((material instanceof NormalMaterial) && !((NormalMaterial) material).isStackAble())) {
             int random = Functions.randomInt(1, 10000);
-            nbt.setString("Stack", random + "");
+            nbt.setInteger("Stack", random);
             Date now = new Date();
             SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             nbt.setString("Date", format.format(now));
@@ -281,9 +281,7 @@ public class Item extends ItemStack {
                 if (!lores.get(lores.size() - 1).isEmpty()) lores.add("");
                 lores.add(ChatColor.GOLD + "Full Set Bonus: " + material.getFullSet().getName());
 
-                for (String line : Functions.loreBuilder(material.getFullSet().getDescription())) {
-                    lores.add(line);
-                }
+                lores.addAll(loreBuilder(material.getFullSet().getDescription()));
 
                 if (material.getFullSet().getCooldown() != 0)
                     lores.add(ChatColor.DARK_GRAY + "Cooldown: " + ChatColor.GREEN + material.getFullSet().getCooldown() + "s");
@@ -296,9 +294,7 @@ public class Item extends ItemStack {
         if (this.material instanceof NecronBladeMaterial) {
             lores.add(ChatColor.GOLD + "Item Ability: " + ability.getAbility().getName() + " " + ability.getAbility().getAction().toString());
 
-            for (String line : Functions.loreBuilder(ability.getAbility().getDescription())) {
-                lores.add(line);
-            }
+            lores.addAll(loreBuilder(ability.getAbility().getDescription()));
 
             if (ability.getAbility().getManaCost() != 0) {
                 if (ability.getAbility().getManaCost() >= 10000) {
@@ -322,9 +318,7 @@ public class Item extends ItemStack {
 
                     lores.add(ChatColor.GOLD + "Item Ability: " + ability.getName() + " " + ChatColor.YELLOW + "" + ChatColor.BOLD + ability.getAction().toString());
 
-                    for (String line : Functions.loreBuilder(ability.getDescription())) {
-                        lores.add(line);
-                    }
+                    lores.addAll(loreBuilder(ability.getDescription()));
 
                     if (ability.getManaCost() != 0) {
                         if (ability.getManaCost() >= 10000) {
@@ -347,25 +341,19 @@ public class Item extends ItemStack {
             ToolMaterial material = (ToolMaterial) this.material;
             if (!material.getDescription().isEmpty()) {
                 if (isNotLastEmpty(lores)) lores.add("");
-                for (String line : Functions.loreBuilder(material.getDescription())) {
-                    lores.add(line);
-                }
+                lores.addAll(loreBuilder(material.getDescription()));
             }
         } else if (this.material instanceof AccessoryMaterial) {
             AccessoryMaterial material = (AccessoryMaterial) this.material;
             if (!material.getDescription().isEmpty()) {
                 if (isNotLastEmpty(lores)) lores.add("");
-                for (String line : Functions.loreBuilder(material.getDescription())) {
-                    lores.add(line);
-                }
+                lores.addAll(loreBuilder(material.getDescription()));
             }
         } else if (this.material instanceof ArmorMaterial) {
             ArmorMaterial material = (ArmorMaterial) this.material;
             if (!material.getDescription().isEmpty()) {
                 if (isNotLastEmpty(lores)) lores.add("");
-                for (String line : Functions.loreBuilder(material.getDescription())) {
-                    lores.add(line);
-                }
+                lores.addAll(loreBuilder(material.getDescription()));
             }
         }
     }
@@ -480,7 +468,7 @@ public class Item extends ItemStack {
         } else {
             boolean everyLine = (enchantList.size() <= 6);
             int times = 0;
-            String enchant = ",";
+            StringBuilder enchant = new StringBuilder(",");
             if (!enchants.containsKey(EnchantType.NULL)) {
                 for (EnchantType enchantType : enchantList) {
                     if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
@@ -493,37 +481,24 @@ public class Item extends ItemStack {
                             }
                         } else {
                             if (enchantType instanceof UltimateEnchantType) {
-                                enchant += ", " + ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + enchantType + " " + Functions.integerToRoman(enchants.get(enchantType));
+                                enchant.append(", " + ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD).append(enchantType).append(" ").append(Functions.integerToRoman(enchants.get(enchantType)));
                             } else {
-                                enchant += ", " + ChatColor.BLUE + enchantType + " " + Functions.integerToRoman(enchants.get(enchantType));
+                                enchant.append(", " + ChatColor.BLUE).append(enchantType).append(" ").append(Functions.integerToRoman(enchants.get(enchantType)));
                             }
                             if (times % 3 == 0) {
-                                enchant = enchant.replaceAll(",, ", "");
-                                lores.add(enchant);
-                                enchant = ",";
+                                enchant = new StringBuilder(enchant.toString().replaceAll(",, ", ""));
+                                lores.add(enchant.toString());
+                                enchant = new StringBuilder(",");
                             } else if (times == enchants.size()) {
-                                enchant = enchant.replaceAll(",, ", "");
-                                lores.add(enchant);
-                                enchant = ",";
+                                enchant = new StringBuilder(enchant.toString().replaceAll(",, ", ""));
+                                lores.add(enchant.toString());
+                                enchant = new StringBuilder(",");
                             }
                         }
                     }
                 }
             }
         }
-    }
-
-    public Map<EnchantType, Short> sortByKey(Map<EnchantType, Short> values) {
-        // TreeMap to store values of HashMap
-        TreeMap<EnchantType, Short> sorted
-                = new TreeMap<>(values);
-
-        // Display the TreeMap which is naturally sorted
-        values.clear();
-        for (Map.Entry<EnchantType, Short> entry : sorted.entrySet()) {
-            values.put(entry.getKey(), entry.getValue());
-        }
-        return values;
     }
 
     public static Stat getStat(int num) {
@@ -562,331 +537,26 @@ public class Item extends ItemStack {
         }
         return true;
     }
-}
 
-
-
-//        int recombed = recombabulated ? 1 : 0;
-//        enchants = sortByKey(enchants);
-//        EnchantType[] enchantTypes = EnchantType.values();
-//        Arrays.sort(enchantTypes);
+//    @Override
+//    public boolean isSimilar(ItemStack item) {
+//        if (item == null)
+//            return false;
 //
-//        short data = 0;
-//        if (!material.getNbt().equals("")) {
-//            data = 3;
-//        } else if (!material.getId().equals("") && !material.getId().contains(",")) {
-//            data = Short.parseShort(material.getId());
-//        }
-//        String reforge = "";
-//        if (reforge1 != null && reforge1 != ReforgeType.NULL) {
-//            reforge = reforge1.toString() + " ";
-//        }
-//        ItemStack item = new ItemStack(material.getMaterial(), this.getAmount(), data);
-//        ItemMeta meta = item.getItemMeta();
-//        if (material.getType() == ItemType.BOOK) {
-//            meta.setDisplayName(getRarity(getBookRarity(enchants).getLevel() + recombed).getColor() + reforge + material.getName());
-//        } else {
-//            meta.setDisplayName(getRarity(material.getRarity().getLevel() + recombed).getColor() + reforge + material.getName());
-//        }
-//        List<String> lore = new ArrayList<>();
-//        if (material.getType() == ItemType.BOOK) {
-//            int cost = 3;
-//            for (EnchantType enchant : enchantTypes) {
-//                if (enchants.containsKey(enchant)) {
-//                    lore.add(getEnchantColor(enchants.get(enchant)) + enchant.toString() + " " + enchants.get(enchant));
-//                    cost += enchants.get(enchant) * 5;
-//                }
-//            }
-//            lore.add("");
-//            lore.add(ChatColor.GRAY + "Apply Cost: " + ChatColor.AQUA + cost + " Exp Levels");
-//            lore.add("");
-//            lore.add(ChatColor.GRAY + "Use this on an item in an Anvil");
-//            lore.add(ChatColor.GRAY + "to apply it!");
-//            lore.add("");
-//            // Rarity
-//            if (recombabulated) {
-//                Rarity rarity = getBookRarity(enchants);
-//                lore.add(rarity.getColor() + "" + ChatColor.MAGIC + "" + ChatColor.BOLD + "X" + ChatColor.RESET + " " + rarity.toString() + " " + material.getType().toString() + " " + rarity.getColor() + "" + ChatColor.MAGIC + "" + ChatColor.BOLD + "X");
-//            } else {
-//                lore.add(getBookRarity(enchants).toString() + " " + material.getType().toString());
-//            }
-//            meta.setLore(lore);
-//            item.setItemMeta(meta);
+//        if (item == this)
+//            return true;
 //
-//            // NBT
-//            NBTItem nbtItem = new NBTItem(item);
-//            NBTCompound nbt = nbtItem.addCompound("Item");
-//            nbt.setString("id", this.getMaterial().name());
-//            nbt.setIntArray("Stats", new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-//            int random = randomInt(1, 10000);
-//            nbt.setString("Stack", random + "");
-//            Date now = new Date();
-//            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-//            nbt.setString("Date", format.format(now));
-//            nbt.setInteger("Rarity", material.getRarity().getLevel());
-//            nbt.setBoolean("RarityUpgraded", recombabulated);
-//            NBTCompound enchantsCompound = nbt.addCompound("Enchants");
-//            for (EnchantType enchant : enchantTypes) {
-//                if (enchants.containsKey(enchant)) {
-//                    enchantsCompound.setInteger(enchant.name(), (int) enchants.get(enchant));
-//                }
-//            }
-//            nbtItem.applyNBT(item);
+//        NBTItem nbtItem1 = new NBTItem(this.clone());
+//        NBTItem nbtItem2 = new NBTItem(item.clone());
 //
-//        } else if (material.getType() == ItemType.REFORGE_STONE) {
-//            lore.add(ChatColor.DARK_GRAY + "Reforge Stone");
-//            lore.add("");
-//            lore.add(ChatColor.GRAY + "Can be used in a Reforge Anvil");
-//            lore.add(ChatColor.GRAY + "or with the Dungeon Blacksmith");
-//            lore.add(ChatColor.GRAY + "to apply the " + ChatColor.BLUE + material.getItemDescription() + ChatColor.GRAY + " reforge");
-//            lore.add(ChatColor.GRAY + "to armor.");
-//            lore.add("");
-//            lore.add(material.getRarity().toString() + " " + material.getType().toString());
-//            meta.setLore(lore);
-//            meta.setUnbreakable(true);
-//            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-//            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-//            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-//            item.setItemMeta(meta);
-//            NBTItem nbtItem = new NBTItem(item);
-//            NBTCompound nbt = nbtItem.addCompound("Item");
-//            nbt.setString("id", this.getMaterial().name());
-//            int random = randomInt(1, 10000);
-//            nbt.setString("Stack", random + "");
-//            Date now = new Date();
-//            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-//            nbt.setString("Date", format.format(now));
-//            nbt.setIntArray("Stats", new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-//            nbtItem.applyNBT(item);
-//            if (!material.getNbt().equals("")) {
-//                item = getSkull(item, material.getId(), material.getNbt());
-//            }
-//        } else if (material.getType() == ItemType.SKIN) {
-//            lore.add(ChatColor.GRAY + "Skins give your gear fresh");
-//            lore.add(ChatColor.GRAY + "new look! Apply them with an item");
-//            lore.add(ChatColor.GRAY + "in a anvil.");
-//            lore.add("");
-//            lore.add(ChatColor.GRAY + "This skin can be applied to");
-//            for (int i = 0; i < material.getAbilityName().size(); i++) {
-//                lore.add(ItemMaterial.get(material.getAbilityName().get(i)).getRarity().getColor() + ItemMaterial.get(material.getAbilityName().get(i)).getName());
-//            }
-//            lore.add("");
-//            lore.add(material.getRarity().toString() + " " + material.getType().toString());
-//            meta.setLore(lore);
-//            meta.setUnbreakable(true);
-//            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-//            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-//            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-//            item.setItemMeta(meta);
-//            NBTItem nbtItem = new NBTItem(item);
-//            NBTCompound nbt = nbtItem.addCompound("Item");
-//            nbt.setString("id", this.getMaterial().name());
-//            int random = randomInt(1, 10000);
-//            nbt.setString("Stack", random + "");
-//            Date now = new Date();
-//            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-//            nbt.setString("Date", format.format(now));
-//            nbt.setIntArray("Stats", new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-//            nbtItem.applyNBT(item);
-//            if (!material.getNbt().equals("")) {
-//                item = getSkull(item, material.getId(), material.getNbt());
-//            }
-//        } else {
+//        NBTCompound nbt1 = nbtItem1.getCompound("Item");
+//        NBTCompound nbt2 = nbtItem2.getCompound("Item");
 //
-//            // Stats
-//            int a = 0;
-//            int b = 0;
-//            String precent;
-//            String reforgeStats = "";
-//            int adder;
-//            int[] ints = new int[material.getStats().size()];
-//            for (int stats : material.getStats()) {
-//                adder = 0;
-//                a++;
-//                if (a == 3 || a == 4 || a == 5) {
-//                    precent = "%";
-//                } else {
-//                    precent = "";
-//                }
-//                String chatColor;
-//                if (numToStat(a).isDamageStat()) {
-//                    chatColor = ChatColor.RED + "";
-//                } else {
-//                    chatColor = ChatColor.GREEN + "";
-//                }
-//                try {
-//                    if (!reforge.equals("") && reforge1.getStats().get(material.getRarity().getLevel() + recombed - 1).get(a - 1) != 0) {
-//                        if (reforge1.getStats().get(material.getRarity().getLevel() + recombed - 1).get(a - 1) < 0) {
-//                            reforgeStats = ChatColor.BLUE + "(" + reforge1.toString() + " -" + Math.abs(reforge1.getStats().get(material.getRarity().getLevel() + recombed - 1).get(a - 1)) + precent + ")";
-//                        } else {
-//                            reforgeStats = ChatColor.BLUE + "(" + reforge1.toString() + " +" + reforge1.getStats().get(material.getRarity().getLevel() + recombed - 1).get(a - 1) + precent + ")";
-//                        }
-//                        adder += reforge1.getStats().get(material.getRarity().getLevel() + recombed - 1).get(a - 1);
-//                    } else {
-//                        reforgeStats = "";
-//                    }
-//                    for (EnchantType enchantType : enchantTypes) {
-//                        if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(material.getType())) {
-//                            adder += enchantType.getStats().get(a - 1) * enchants.get(enchantType);
-//                        }
-//                    }
-//                } catch (IndexOutOfBoundsException ignored) {}
-//                ints[a - 1] = stats + adder;
-//                if ((stats + adder) != 0) {
-//                    if (stats + adder < 0) {
-//                        lore.add(ChatColor.GRAY + setTitleCase(numToStat(a).toString()) + ": " + chatColor + (stats + adder) + precent + " " + reforgeStats);
-//                    } else {
-//                        lore.add(ChatColor.GRAY + setTitleCase(numToStat(a).toString()) + ": " + chatColor + "+" + (stats + adder) + precent + " " + reforgeStats);
-//                    }
-//                } else {
-//                    b++;
-//                }
-//            }
-//            if (b != material.getStats().size()) {
-//                lore.add("");
-//            }
+//        nbt1.removeKey("Stack");
+//        nbt2.removeKey("Stack");
+//        nbt1.removeKey("Date");
+//        nbt2.removeKey("Date");
 //
-//            // Enchants
-//            String enchant = "";
-//            if (enchants.size() > 0) {
-//                int times = 0;
-//                for (EnchantType enchantType : enchantTypes) {
-//                    if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(material.getType())) {
-//                        times++;
-//                        if (enchants.size() < 10) {
-//                            lore.add(ChatColor.BLUE + enchantType.toString() + " " + enchants.get(enchantType));
-//                        } else {
-//                            if (times % 4 == 0) {
-//                                lore.add(ChatColor.BLUE + enchant);
-//                                enchant = "";
-//                            } else {
-//                                if (times == enchants.size()) {
-//                                    enchant = enchant + enchantType.toString() + " " + enchants.get(enchantType);
-//                                    lore.add(ChatColor.BLUE + enchant);
-//                                } else {
-//                                    enchant = enchant + enchantType.toString() + " " + enchants.get(enchantType) + ", ";
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//                if (material.getAction().get(0) != AbilityAction.NONE || !material.getItemDescription().equals("")) {
-//                    if (!lore.get(lore.size() - 1).equals("")) {
-//                        lore.add("");
-//                    }
-//                }
-//            }
-//
-//
-//            // Full Set Bonus
-//            if (material.getAction().get(0) == AbilityAction.FULL_SET) {
-//                lore.add(ChatColor.GOLD + "Full Set Bonus: " + material.getAbilityName().get(0));
-//                for (String string : loreBuilder(material.getAbilityDescription().get(0), 30)) {
-//                    lore.add(string);
-//                }
-//                lore.add("");
-//            }
-//
-//
-//            // Item Description
-//            if (!material.getItemDescription().equals("")) {
-//                for (String string : loreBuilder(material.getItemDescription(), 30)) {
-//                    lore.add(string);
-//                }
-//                if (!material.getAbilityName().get(0).equals("") || material.getAction().get(0) == AbilityAction.FULL_SET) {
-//                    lore.add("");
-//                }
-//            }
-//
-//
-//            // Abilities
-//            if (material.getAction().get(0) != AbilityAction.FULL_SET) {
-//                for (int i = 0; i < material.getAbilityName().size(); i++) {
-//                    if (!material.getAbilityName().get(i).equals("")) {
-//                        lore.add(ChatColor.GOLD + "Item Ability: " + material.getAbilityName().get(i) + " " + material.getAction().get(i).toString());
-//                        for (String string : loreBuilder(material.getAbilityDescription().get(i), 30)) {
-//                            lore.add(string);
-//                        }
-//                    }
-//                    if (material.getManaCost().get(i) != 0) {
-//                        if (material.getManaCost().get(i) >= 10000) {
-//                            lore.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + (material.getManaCost().get(i) / 10000) + "%");
-//                        } else {
-//                            lore.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + material.getManaCost().get(i));
-//                        }
-//                    }
-//                    if (material.getCooldown().get(i) != 0) {
-//                        lore.add(ChatColor.DARK_GRAY + "Cooldown: " + ChatColor.GREEN + material.getCooldown().get(i) + "s");
-//                    }
-//                    lore.add("");
-//                }
-//            }
-//
-//
-//            // Rarity
-//            Rarity rarity = material.getRarity();
-//            if (recombabulated) {
-//                rarity = getRarity(material.getRarity().getLevel() + 1);
-//                lore.add(rarity.getColor() + "" + ChatColor.MAGIC + "" + ChatColor.BOLD + "X" + ChatColor.RESET + " " + rarity.toString() + " " + material.getType().toString() + " " + rarity.getColor() + "" + ChatColor.MAGIC + "" + ChatColor.BOLD + "X");
-//            } else {
-//                lore.add(material.getRarity().toString() + " " + material.getType().toString());
-//            }
-//
-//
-//            // Appliers
-//            meta.setLore(lore);
-//            meta.setUnbreakable(true);
-//            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-//            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-//            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-//            item.setItemMeta(meta);
-//
-//
-//            // NBT
-//            NBTItem nbtItem = new NBTItem(item);
-//            NBTCompound nbt = nbtItem.addCompound("Item");
-//            nbt.setString("id", this.getMaterial().name());
-//            nbt.setIntArray("Stats", ints);
-//            if (material.getType() != ItemType.ITEM || this.getMaterial().name().contains("RECOMBABULATOR")) {
-//                int random = randomInt(1, 10000);
-//                nbt.setString("Stack", random + "");
-//                Date now = new Date();
-//                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-//                nbt.setString("Date", format.format(now));
-//            }
-//            nbt.setString("Reforge", reforge.trim());
-//            nbt.setInteger("Rarity", material.getRarity().getLevel());
-//            nbt.setString("Skin", "");
-//            nbt.setBoolean("RarityUpgraded", recombabulated);
-//            NBTCompound enchantsCompound = nbt.addCompound("Enchants");
-//            if (enchants.size() > 0) {
-//                for (EnchantType enchantType : enchantTypes) {
-//                    if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(material.getType())) {
-//                        enchantsCompound.setInteger(enchantType.name(), (int) enchants.get(enchantType));
-//                    }
-//                }
-//            }
-//            nbtItem.applyNBT(item);
-//
-//
-//            // Skin
-//            if (!material.getNbt().equals("")) {
-//                if (skin.getType() == ItemType.SKIN) {
-//                    nbt.setString("Skin", skin.name());
-//                    nbtItem.applyNBT(item);
-//                    item = getSkull(item, skin.getId(), skin.getNbt());
-//                } else {
-//                    item = getSkull(item, material.getId(), material.getNbt());
-//                }
-//
-//                // Leather Armor Color
-//            } else if (material.getId().contains(",")) {
-//                String[] rgb = material.getId().split(",");
-//                int red = Integer.parseInt(rgb[0]);
-//                int blue = Integer.parseInt(rgb[1]);
-//                int green = Integer.parseInt(rgb[2]);
-//                setArmorColor(item, Color.fromRGB(red, blue, green));
-//            }
-//        }
-//        return item;
+//        return getType() == item.getType() && getAmount() == item.getAmount() && nbtItem1.equals(nbtItem2);
 //    }
+}
