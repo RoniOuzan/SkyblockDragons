@@ -45,10 +45,10 @@ public class PetMenuCommand implements CommandExecutor, Listener {
                 if (Functions.isNotAir(e.getInventory().getItem(Functions.intToSlot(i)))) {
                     Variables.setVariable(e.getPlayer().getUniqueId(), "Pets", SkyblockDragons.getSerializer().serialize(e.getInventory().getItem(Functions.intToSlot(i))), i + (28 * (page - 1)));
 
-                    if (i + (28 * (page - 1)) < pets.size())
-                        pets.set(i + (28 * (page - 1)), Pet.getPet(e.getInventory().getItem(Functions.intToSlot(i)), false));
-//                    else
-//                        pets.add(Pet.getPet(e.getInventory().getItem(Functions.intToSlot(i)), false));
+                    if (i + (28 * (page - 1)) < pets.size()) {
+                        Pet pet = Pet.getPet(e.getInventory().getItem(Functions.intToSlot(i)), false);
+                        pets.set(i + (28 * (page - 1)), pet);
+                    }
                 } else if (i + (28 * (page - 1)) < pets.size()) {
                     pets.remove(i + (28 * (page - 1)));
                 }
@@ -84,7 +84,8 @@ public class PetMenuCommand implements CommandExecutor, Listener {
 
                 if (e.getInventory().getItem(50).getDurability() == 10) {
                     if (player.getActivePet() == Functions.slotToInt(e.getSlot(), page)) {
-                        player.setActivePet(-1);
+                        player.sendMessage(ChatColor.RED + "You have to despawn your pet!");
+                        return;
                     }
                     player.getInventory().addItem(Pet.getBetterPet(item));
                     e.getInventory().setItem(e.getSlot(), new ItemStack(Material.AIR));
@@ -98,6 +99,9 @@ public class PetMenuCommand implements CommandExecutor, Listener {
                         player.setActivePet(Functions.slotToInt(e.getSlot(), page));
                         player.sendMessage(ChatColor.GREEN + "You summoned your " + item.getItemMeta().getDisplayName() + ChatColor.GREEN + "!");
                     }
+                    player.petArmorStand.armorStand.remove();
+                    player.petArmorStand.slot = -1;
+                    player.petArmorStand.hologram.delete();
                     player.closeInventory();
                 }
             }

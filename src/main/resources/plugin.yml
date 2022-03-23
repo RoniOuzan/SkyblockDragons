@@ -99,3 +99,6 @@ commands:
     aliases:
       - pm
       - pets
+  FlyTo:
+    permission: skyblockdragons.flyto
+    usage: /<command> <ticks>

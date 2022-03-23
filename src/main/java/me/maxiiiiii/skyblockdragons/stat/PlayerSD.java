@@ -45,6 +45,7 @@ import org.bukkit.util.Vector;
 import java.net.InetSocketAddress;
 import java.util.*;
 
+import static me.maxiiiiii.skyblockdragons.Functions.createHologram;
 import static me.maxiiiiii.skyblockdragons.Functions.manaCostCalculator;
 
 @Getter
@@ -68,6 +69,7 @@ public class PlayerSD implements Player {
 
     public int activePet;
     public ArrayList<Pet> pets;
+    public Pet.ArmorStand petArmorStand;
 
     public double purse;
     public ArrayList<ItemStack> accessoryBag;
@@ -96,15 +98,23 @@ public class PlayerSD implements Player {
         this.pets = new ArrayList<>();
         for (int i = 0; i < 112; i++) {
             try {
-                this.pets.add(Pet.getPet((ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariable(player.getUniqueId(), "Pets", i).getValue()), false));
+//                if (SkyblockDragons.getSerializer().deserialize(Variables.getVariable(player.getUniqueId(), "Pets", i).getValue()) instanceof Pet)
+//                    this.pets.add((Pet) SkyblockDragons.getSerializer().deserialize(Variables.getVariable(player.getUniqueId(), "Pets", i).getValue(), false));
+//                else
+                    this.pets.add(Pet.getPet((ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariable(player.getUniqueId(), "Pets", i).getValue()), false));
             } catch (NullPointerException ignored) {
             }
         }
 
         try {
             this.activePet = Integer.parseInt(Variables.getVariable(player.getUniqueId(), "ActivePet").getValue());
+            if (this.activePet < 0)
+                this.petArmorStand = null;
+            else
+                this.petArmorStand = new Pet.ArmorStand(this, this.getPetActive(), Pet.spawnPet(this, this.getPetActive()), this.activePet);
         } catch (NullPointerException ex) {
             this.activePet = -1;
+            this.petArmorStand = null;
         }
 
         this.purse = SkyblockDragons.economy.getBalance(this);
@@ -199,6 +209,15 @@ public class PlayerSD implements Player {
         }
     }
 
+    public void addPetStats(Pet pet) {
+        try {
+            NBTItem nbtItem = new NBTItem(pet);
+            NBTCompound nbt = nbtItem.getCompound("Item");
+            ArrayList<Double> stats = new ArrayList<>(nbt.getDoubleList("Stats"));
+            addPlayerStat(stats);
+        } catch (NullPointerException ignored) {}
+    }
+
     public ArrayList<Double> getStats() {
         ArrayList<Double> stats = new ArrayList<>();
         stats.add(this.damage);
@@ -290,6 +309,10 @@ public class PlayerSD implements Player {
         try {
             if (Functions.getItemMaterial(boots).getType() == ItemType.BOOTS) this.addItemStat(boots);
         } catch (NullPointerException ignored) {}
+
+        if (this.activePet >= 0) {
+            this.addPetStats(this.getPetActive());
+        }
 
         // Full Sets
         if (fullSet.equals("Superior Blood")) {
@@ -1524,6 +1547,23 @@ public class PlayerSD implements Player {
     @Override
     public Block getTargetBlock(Set<Material> transparent, int maxDistance) {
         return this.player.getTargetBlock(transparent, maxDistance);
+    }
+
+    public Entity getTargetEntity(int maxDistance) {
+        Location location = player.getLocation();
+
+        for (int i = 0; i < maxDistance; i++) {
+            Location loc = location.clone().add(location.clone().getDirection().multiply(i));
+
+            for (Entity entity : Functions.loopEntities(loc, 1.5)) {
+                if (entity instanceof Creature) {
+                    return entity;
+                }
+            }
+
+            if (loc.getBlock().getType() != Material.AIR) break;
+        }
+        return null;
     }
 
     @Override

@@ -6,6 +6,7 @@ import me.maxiiiiii.skyblockdragons.abilities.*;
 import me.maxiiiiii.skyblockdragons.accessorybag.AccessoryBagCommand;
 import me.maxiiiiii.skyblockdragons.anvil.AnvilCommand;
 import me.maxiiiiii.skyblockdragons.bits.BitsCommand;
+import me.maxiiiiii.skyblockdragons.commands.FlyToCommand;
 import me.maxiiiiii.skyblockdragons.commands.JavaMenu;
 import me.maxiiiiii.skyblockdragons.commands.JavaPluginCommand;
 import me.maxiiiiii.skyblockdragons.commands.PlayTime;
@@ -34,8 +35,9 @@ import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeListener;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeSlot;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import org.bukkit.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -54,10 +56,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import static me.maxiiiiii.skyblockdragons.Functions.loadPlayerData;
-import static me.maxiiiiii.skyblockdragons.Functions.numberToItemSlot;
-import static me.maxiiiiii.skyblockdragons.Functions.sendActionBar;
-import static me.maxiiiiii.skyblockdragons.Functions.setScoreboardScores;
+import static me.maxiiiiii.skyblockdragons.Functions.*;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.setVariable;
 
 public final class SkyblockDragons extends JavaPlugin implements Listener {
@@ -191,6 +190,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("PetAdmin").setExecutor(new PetCommand());
         getCommand("PetAdmin").setTabCompleter(new PetCommand());
         getCommand("PetMenu").setExecutor(new PetMenuCommand());
+        getCommand("FlyTo").setExecutor(new FlyToCommand());
 
         this.signMenu = new SignMenu(this);
 
@@ -223,24 +223,24 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 playTime.put(player.getUniqueId(), playTime.getOrDefault(player.getUniqueId(), 0L) + 5L);
                 setVariable(player.getUniqueId(), "PlayTime", playTime.get(player.getUniqueId()) + "");
 
-//                if (player.activePet >= 0 && player.getPetActive().getArmorStand() == null) {
-//                    Pet.spawnPet(player, player.getPetActive());
-//                }
-//                if (player.activePet >= 0 && player.getPetActive().getArmorStand().getLocation().distance(player.getLocation()) > 3) {
-//                    new aifly(player.getPetActive().getArmorStand(), player, 1000, true).runTaskTimer(plugin, 0L, 1L);
-//                    Location targetLocation = player.getPetActive().getArmorStand().getLocation();
-//                    targetLocation.add(
-//                            (player.getLocation().getX() - player.getPetActive().getArmorStand().getLocation().getX()) / 4d,
-//                            (player.getLocation().getY() - player.getPetActive().getArmorStand().getLocation().getY()) / 4d + Functions.randomDouble(-1, 1),
-//                            (player.getLocation().getZ() - player.getPetActive().getArmorStand().getLocation().getZ()) / 4d
-//                    );
-//                    player.getPetActive().getArmorStand().teleport(targetLocation);
-//                }
+                if (player.activePet >= 0 && (player.getPetArmorStand() == null || player.getPetArmorStand().slot != player.activePet)) {
+                    player.petArmorStand = new Pet.ArmorStand(player, player.getPetActive(), Pet.spawnPet(player, player.getPetActive()), player.activePet);
+                }
+                if (player.activePet >= 0) {
+                    if (player.getPetArmorStand().armorStand.getLocation().distance(player.getLocation()) > 3)
+                        new FlyTo(player.getPetArmorStand().armorStand, player, 20, 2, true);
+                    player.petArmorStand.armorStand.teleport(player.petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.2 : -0.2), 0));
+                    for (Particle particle : player.getPetActive().petMaterial.particles) {
+                        player.getWorld().spawnParticle(particle, player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0), 3, 0.1, 0.1, 0.1, 0);
+                    }
+                    player.petArmorStand.hologram.teleport(player.petArmorStand.armorStand.getLocation().add(0, 1.5, 0));
+                }
 
-//                Pet pet = Pet.getPet(player.getEquipment().getItemInMainHand(), true);
-//                if (Functions.isNotAir(player.getEquipment().getItemInMainHand()) && pet.levelUp(player)) {
-//                    player.getEquipment().setItemInMainHand(pet);
-//                }
+                if (player.activePet >= 0) {
+                    if (player.getPetActive().levelUp(player)) {
+                        player.pets.set(player.activePet, player.getPetActive());
+                    }
+                }
             }
         }, 0L, 5L);
 
@@ -249,7 +249,19 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        for (World world : Bukkit.getWorlds()) {
+            for (Entity entity : world.getEntities()) {
+                if (entity.getType() == EntityType.ARMOR_STAND && entity.getScoreboardTags().contains("Pet")) {
+                    entity.remove();
+                }
+            }
+        }
+
+        for (PlayerSD player : players.values()) {
+            for (int i = 0; i < player.pets.size(); i++) {
+                Variables.setVariable(player.getUniqueId(), "Pets", SkyblockDragons.getSerializer().serialize(player.pets.get(i).getAsItem()), i);
+            }
+        }
     }
 
     private boolean setupEconomy() {
@@ -290,6 +302,10 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             }
         }
         return null;
+    }
+
+    public static PlayerSD getPlayer(Player player) {
+        return players.get(player.getUniqueId());
     }
 
     public static SkyblockDragons getPlugin() {

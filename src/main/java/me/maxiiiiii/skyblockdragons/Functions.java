@@ -510,12 +510,13 @@ public class Functions {
         return location.getWorld().getBlockAt(location);
     }
 
-    public static void createHologram(Location location, String text) {
+    public static Hologram createHologram(Location location, String text) {
         Hologram hologram = HologramsAPI.createHologram(SkyblockDragons.getInstance(), location);
         TextLine textLine = hologram.appendTextLine(text);
+        return hologram;
     }
 
-    public static void createHologram(Location location, String text, int ticks) {
+    public static Hologram createHologram(Location location, String text, int ticks) {
         Hologram hologram = HologramsAPI.createHologram(SkyblockDragons.getInstance(), location.clone());
         hologram.appendTextLine(text);
         new BukkitRunnable() {
@@ -524,9 +525,10 @@ public class Functions {
                 hologram.delete();
             }
         }.runTaskLater(SkyblockDragons.getInstance(), ticks);
+        return hologram;
     }
 
-    public static void createHologram(Location location, ArrayList<String> text, int ticks) {
+    public static Hologram createHologram(Location location, ArrayList<String> text, int ticks) {
         Hologram hologram = HologramsAPI.createHologram(SkyblockDragons.getInstance(), location);
         for (String text1 : text) {
             hologram.appendTextLine(text1);
@@ -537,6 +539,7 @@ public class Functions {
                 hologram.delete();
             }
         }.runTaskLater(SkyblockDragons.getInstance(), ticks);
+        return hologram;
     }
 
     public static String rainbow(String text){
