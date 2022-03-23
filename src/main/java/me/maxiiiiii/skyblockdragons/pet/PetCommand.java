@@ -1,29 +1,83 @@
 package me.maxiiiiii.skyblockdragons.pet;
 
+import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class PetCommand implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class PetCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            Player player = (Player) sender;
+            PlayerSD player = SkyblockDragons.players.get(((Player) sender).getUniqueId());
             if (args.length > 0) {
-                if (!PetMaterial.isPetMaterial(args[0])) {
-                    player.sendMessage(ChatColor.RED + "Can't understand this pet!");
-                    return true;
-                }
-
                 PetMaterial petMaterial = PetMaterial.Pets.get(args[0].toUpperCase());
-                ItemStack pet = new Pet(petMaterial, petMaterial.getRarities().get(0), 1, 0).toItem(true);
+                if (args[0].equalsIgnoreCase("xp")) {
+                    if (!Functions.isNotAir(player.getEquipment().getItemInMainHand())) {
+                        player.sendMessage(ChatColor.RED + "You have to hold a pet to use that command!");
+                        return true;
+                    }
 
-                player.getInventory().addItem(pet);
+                    Pet pet = Pet.getPet(player.getEquipment().getItemInMainHand(), true);
+                    if (args.length > 1) {
+                        if (args[1].equalsIgnoreCase("give") && args.length > 2) {
+                            pet.setCurrentXp(pet.getCurrentXp() + Double.parseDouble(args[2]));
+                            pet.update();
+                            player.getEquipment().setItemInMainHand(pet);
+                        } else if (args[1].equalsIgnoreCase("set") && args.length > 2) {
+                            pet.setCurrentXp(Double.parseDouble(args[2]));
+                            pet.update();
+                            player.getEquipment().setItemInMainHand(pet);
+                        } else if (args[1].equalsIgnoreCase("levelup")) {
+                            pet.setCurrentXp(pet.getNeedXp());
+                            pet.update();
+                            player.getEquipment().setItemInMainHand(pet);
+                            player.sendMessage(Functions.getNumberFormat(pet.getNeedXp()));
+                        } else if (args[1].equalsIgnoreCase("level") && args.length > 2) {
+                            int level = Integer.parseInt(args[2]);
+                            pet.setCurrentXp(0);
+                            pet.setLevel(level);
+                            pet.update();
+                            player.getEquipment().setItemInMainHand(pet);
+                        }
+                    } else {
+                        player.sendMessage(ChatColor.GREEN + "Your pet has " + Functions.getNumberFormat(pet.getCurrentXp()) + " xp.");
+                    }
+                } else {
+                    if (!PetMaterial.isPetMaterial(args[0])) {
+                        player.sendMessage(ChatColor.RED + "Can't understand this pet!");
+                        return true;
+                    }
+                    int rarity = args.length > 1 ? Integer.parseInt(args[1]) : 0;
+                    rarity = Math.max(Math.min(rarity, petMaterial.getRarities().size()) - 1, 0);
+                    int level = args.length > 2 ? Integer.parseInt(args[2]) : 1;
+                    level = Math.max(Math.min(level, petMaterial.getMaxLevel()), 1);
+                    double currentXp = args.length > 3 ? Double.parseDouble(args[3]) : 0;
+
+                    ItemStack pet = new Pet(petMaterial, petMaterial.getRarities().get(rarity), level, currentXp, true);
+
+                    player.getInventory().addItem(pet);
+                }
             }
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> tabs = new ArrayList<>();
+        for (PetMaterial pet : PetMaterial.Pets.values()) {
+            tabs.add(pet.name());
+        }
+        return tabs;
     }
 }

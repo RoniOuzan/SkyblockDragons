@@ -17,14 +17,10 @@ import me.maxiiiiii.skyblockdragons.material.*;
 import me.maxiiiiii.skyblockdragons.skill.Skill;
 import me.maxiiiiii.skyblockdragons.skill.Skills.*;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
-import me.maxiiiiii.skyblockdragons.storage.StorageUtil;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.*;
 import me.maxiiiiii.skyblockdragons.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeSlot;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_16_R1.NBTTagCompound;
-import net.minecraft.server.v1_16_R1.NBTTagList;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Creature;
@@ -34,11 +30,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
 import org.bukkit.util.Vector;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -46,8 +44,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
-import static me.maxiiiiii.skyblockdragons.storage.StorageUtil.getVariable;
-import static me.maxiiiiii.skyblockdragons.storage.StorageUtil.getVariableValue;
+import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariable;
+import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariableValue;
 
 public class Functions {
     public static ItemStack getSkull(ItemStack item, String id, String value) {
@@ -100,15 +98,15 @@ public class Functions {
         if (num >= 1000000000000000000d) {
             output = num + "";
         } else if (num >= 1000000000000000d) {
-            output = num / 1000000000000000d + "Q";
+            output = Math.round(num / 1000000000000000d * 100d) / 100d + "Q";
         } else if (num >= 1000000000000d) {
-            output = num / 1000000000000d + "T";
+            output = Math.round(num / 1000000000000d * 100d) / 100d + "T";
         } else if (num >= 1000000000d) {
-            output = num / 1000000000d + "B";
+            output = Math.round(num / 1000000000d * 100d) / 100d + "B";
         } else if (num >= 1000000d) {
-            output = num / 1000000d + "M";
+            output = Math.round(num / 1000000d * 100d) / 100d + "M";
         } else if (num >= 1000d) {
-            output = num / 1000d + "K";
+            output = Math.round(num / 1000d * 100d) / 100d + "K";
         }
         return output;
     }
@@ -499,7 +497,7 @@ public class Functions {
     }
 
     public static double randomDouble(double min, double max) {
-        return ThreadLocalRandom.current().nextDouble(min, max + 1);
+        return ThreadLocalRandom.current().nextDouble(min, max);
     }
 
     public static Block getBlockBelow(Location location) {
@@ -618,21 +616,25 @@ public class Functions {
     }
 
     public static int intToSlot(int num) {
-        boolean isFinished = false;
         int num1 = 0;
         int num2 = 7;
         int adder = 10;
 
-        while (!isFinished) {
+        while (true) {
             if (num >= num1 && num < num2) {
-                isFinished = true;
                 return num + adder;
             }
             num1 += 7;
             num2 += 7;
             adder += 2;
         }
-        return 0;
+    }
+
+    public static int slotToInt(int slot, int page) {
+        if (slot % 9 == 0 || slot % 9 == 8)
+            return -1;
+
+        return slot - 10 - (((slot / 9) - 1) * 2) + (28 * (page - 1));
     }
 
     public static void openSign(Player player, ArrayList<String> strings) {
@@ -1272,33 +1274,32 @@ public class Functions {
         for (int i = 0; i < 18; i++) {
             wardrobeSlots.add(new WardrobeSlot(
                     i,
-                    (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0), "null"), null),
-                    (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1), "null"), null),
-                    (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2), "null"), null),
-                    (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3), "null"), null)
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0), "null"), null),
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1), "null"), null),
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2), "null"), null),
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3), "null"), null)
             ));
         }
 
         SkyblockDragons.players.put(player.getUniqueId(), new PlayerSD(
                 player,
                 new Skill(
-                        new FarmingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Farming", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Farming", 2, "0"))),
-                        new MiningSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Mining", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Mining", 2, "0"))),
-                        new CombatSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Combat", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Combat", 2, "0"))),
-                        new ForagingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Foraging", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Foraging", 2, "0"))),
-                        new FishingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Fishing", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Fishing", 2, "0"))),
-                        new EnchantingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Enchanting", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Enchanting", 2, "0"))),
-                        new AlchemySkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Alchemy", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Alchemy", 2, "0"))),
-                        new TamingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Taming", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Taming", 2, "0"))),
-                        new DungeoneeringSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Dungeoneering", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Dungeoneering", 2, "0")))
-                ), new Wardrobe(wardrobeSlots),
-                null
+                        new FarmingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Farming", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Farming", 2, "0"))),
+                        new MiningSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Mining", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Mining", 2, "0"))),
+                        new CombatSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Combat", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Combat", 2, "0"))),
+                        new ForagingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Foraging", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Foraging", 2, "0"))),
+                        new FishingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Fishing", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Fishing", 2, "0"))),
+                        new EnchantingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Enchanting", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Enchanting", 2, "0"))),
+                        new AlchemySkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Alchemy", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Alchemy", 2, "0"))),
+                        new TamingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Taming", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Taming", 2, "0"))),
+                        new DungeoneeringSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Dungeoneering", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Dungeoneering", 2, "0")))
+                ), new Wardrobe(wardrobeSlots)
         ));
 
         ArrayList<ItemStack> accessories = new ArrayList<>();
         for (int i = 0; i < 45; i++) {
             try {
-                accessories.add((ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariable(player.getUniqueId(), "AccessoryBag", i).getValue()));
+                accessories.add((ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariable(player.getUniqueId(), "AccessoryBag", i).getValue()));
             } catch (NullPointerException ex) {
                 accessories.add(new ItemStack(Material.AIR));
             }
@@ -1306,20 +1307,20 @@ public class Functions {
         SkyblockDragons.players.get(player.getUniqueId()).setAccessoryBag(accessories);
 
         try {
-            SkyblockDragons.purses.put(player.getUniqueId(), Double.parseDouble(StorageUtil.getVariable(player.getUniqueId(), "Purse").getValue()));
+            SkyblockDragons.purses.put(player.getUniqueId(), Double.parseDouble(Variables.getVariable(player.getUniqueId(), "Purse").getValue()));
         } catch (NullPointerException ex) {
             SkyblockDragons.purses.put(player.getUniqueId(), 0d);
         }
 
         try {
-            SkyblockDragons.bits.put(player.getUniqueId(), Long.parseLong(StorageUtil.getVariable(player.getUniqueId(), "Bits").getValue()));
+            SkyblockDragons.bits.put(player.getUniqueId(), Long.parseLong(Variables.getVariable(player.getUniqueId(), "Bits").getValue()));
         } catch (NullPointerException ex) {
             SkyblockDragons.bits.put(player.getUniqueId(), 0L);
         }
 
         if (!SkyblockDragons.disablePlayTime) {
             try {
-                SkyblockDragons.playTime.put(player.getUniqueId(), Long.parseLong(StorageUtil.getVariable(player.getUniqueId(), "PlayTime").getValue()));
+                SkyblockDragons.playTime.put(player.getUniqueId(), Long.parseLong(Variables.getVariable(player.getUniqueId(), "PlayTime").getValue()));
             } catch (NullPointerException ex) {
                 SkyblockDragons.playTime.put(player.getUniqueId(), 0L);
             }
@@ -1340,7 +1341,7 @@ public class Functions {
         Date now = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy");
         scores.add(objective.getScore(ChatColor.GRAY + format.format(now) + ChatColor.DARK_GRAY + " m000F"));
-        scores.add(objective.getScore(" "));
+        scores.add(objective.getScore(""));
         scores.add(objective.getScore(ChatColor.WHITE + "Player: " + ChatColor.GREEN + playerSD.getPlayer().getName()));
         scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(playerSD.getPurse())));
         String bitsAdder = "";
@@ -1351,7 +1352,12 @@ public class Functions {
             }
         }
         scores.add(objective.getScore(ChatColor.WHITE + "Bits: " + ChatColor.AQUA + getNumberFormat(SkyblockDragons.bits.get(playerSD.getPlayer().getUniqueId())) + " " + bitsAdder));
-        scores.add(objective.getScore(""));
+        scores.add(objective.getScore(" "));
+        if (playerSD.getActivePet() >= 0) {
+            scores.add(objective.getScore(ChatColor.WHITE + "Active Pet:"));
+            scores.add(objective.getScore("  " +playerSD.getPetActive().getRarity().getColor() + playerSD.getPetActive().getPetMaterial().getName()));
+            scores.add(objective.getScore("  "));
+        }
         scores.add(objective.getScore(ChatColor.YELLOW + "www.error.net"));
         Collections.reverse(scores);
 
@@ -1498,5 +1504,28 @@ public class Functions {
 
             player.getWorld().spawnParticle(particle, loc, 1, 0.1, 0.1, 0.1, 0);
         });
+    }
+
+    public static double stringCalculator(String string) {
+        ScriptEngineManager mgr = new ScriptEngineManager();
+        ScriptEngine engine = mgr.getEngineByName("JavaScript");
+        try {
+            return Math.round((double) engine.eval(string) * 100d) / 100d;
+        } catch (ScriptException ignored) {}
+        return 0;
+    }
+
+    public static String progressBar(double current, double need, int amount) {
+        StringBuilder progressBar = new StringBuilder();
+        double percent = current / need * 100d;
+        for (int i = 0; i < 20; i++) {
+            if (i < percent / (100d / amount)) {
+                progressBar.append(ChatColor.GREEN);
+            } else {
+                progressBar.append(ChatColor.WHITE);
+            }
+            progressBar.append("-");
+        }
+        return progressBar.toString();
     }
 }

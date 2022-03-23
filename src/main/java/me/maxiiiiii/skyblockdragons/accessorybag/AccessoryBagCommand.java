@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.accessorybag;
 
 import me.maxiiiiii.skyblockdragons.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.storage.StorageUtil;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -36,7 +36,7 @@ public class AccessoryBagCommand implements CommandExecutor, Listener {
             if (title.length > 2) return;
             ArrayList<ItemStack> accessories = new ArrayList<>();
             for (int i = 0; i < 45; i++) {
-                StorageUtil.setVariable(event.getPlayer().getUniqueId(), "AccessoryBag", SkyblockDragons.getSerializer().serialize(event.getInventory().getItem(i)), i);
+                Variables.setVariable(event.getPlayer().getUniqueId(), "AccessoryBag", SkyblockDragons.getSerializer().serialize(event.getInventory().getItem(i)), i);
                 accessories.add(event.getInventory().getItem(i));
             }
             SkyblockDragons.players.get(event.getPlayer().getUniqueId()).setAccessoryBag(accessories);

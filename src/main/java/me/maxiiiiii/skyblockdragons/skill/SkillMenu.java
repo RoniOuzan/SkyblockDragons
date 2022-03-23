@@ -75,20 +75,11 @@ public class SkillMenu {
     }
 
     private static ArrayList<String> getItemLores(AbstractSkill skill) {
-        ArrayList<String> lores = new ArrayList<>();
-        lores.addAll(loreBuilder(skill.getDescription()));
+        ArrayList<String> lores = new ArrayList<>(loreBuilder(skill.getDescription()));
         lores.add("");
-        double farmingPercent = (skill.getCurrentXp() / skill.getCurrentNeedXp() * 100);
-        lores.add(ChatColor.GRAY + "Progress to Level " + (skill.getLevel() + 1) + ": " + ChatColor.YELLOW + farmingPercent + "%");
-        StringBuilder progressBar = new StringBuilder();
-        for (int i = 0; i < 20; i++) {
-            if (i < farmingPercent / 5) {
-                progressBar.append(ChatColor.GREEN);
-            } else {
-                progressBar.append(ChatColor.WHITE);
-            }
-            progressBar.append("-");
-        }
+        double percent = (skill.getCurrentXp() / skill.getCurrentNeedXp() * 100);
+        lores.add(ChatColor.GRAY + "Progress to Level " + (skill.getLevel() + 1) + ": " + ChatColor.YELLOW + percent + "%");
+        String progressBar = progressBar(skill.getCurrentXp(), skill.getCurrentNeedXp(), 20);
         lores.add(progressBar + " " + ChatColor.YELLOW + getNumberFormat(skill.getCurrentXp()) + ChatColor.GOLD + "/" + ChatColor.YELLOW + getShortNumber(skill.getCurrentNeedXp()));
         lores.add("");
         lores.add(ChatColor.GRAY + "Level " + (skill.getLevel() + 1) + " Rewards:");

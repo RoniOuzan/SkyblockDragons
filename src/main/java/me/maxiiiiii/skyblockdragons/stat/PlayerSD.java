@@ -14,7 +14,7 @@ import me.maxiiiiii.skyblockdragons.material.ToolMaterial;
 import me.maxiiiiii.skyblockdragons.material.WeaponMaterial;
 import me.maxiiiiii.skyblockdragons.pet.Pet;
 import me.maxiiiiii.skyblockdragons.skill.Skill;
-import me.maxiiiiii.skyblockdragons.storage.StorageUtil;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.wardrobe.Wardrobe;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -66,12 +66,13 @@ public class PlayerSD implements Player {
     public Skill skill;
     public Wardrobe wardrobe;
 
-    public Pet activePet;
+    public int activePet;
+    public ArrayList<Pet> pets;
 
     public double purse;
     public ArrayList<ItemStack> accessoryBag;
 
-    public PlayerSD(Player player, double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence, Skill skill, Wardrobe wardrobe, Pet activePet) {
+    public PlayerSD(Player player, double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence, Skill skill, Wardrobe wardrobe) {
         this.player = player;
         this.damage = damage;
         this.strength = strength;
@@ -92,20 +93,53 @@ public class PlayerSD implements Player {
         this.wardrobe = wardrobe;
         this.skill = skill;
 
-        this.activePet = activePet;
+        this.pets = new ArrayList<>();
+        for (int i = 0; i < 112; i++) {
+            try {
+                this.pets.add(Pet.getPet((ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariable(player.getUniqueId(), "Pets", i).getValue()), false));
+            } catch (NullPointerException ignored) {
+            }
+        }
+
+        try {
+            this.activePet = Integer.parseInt(Variables.getVariable(player.getUniqueId(), "ActivePet").getValue());
+        } catch (NullPointerException ex) {
+            this.activePet = -1;
+        }
 
         this.purse = SkyblockDragons.economy.getBalance(this);
         this.accessoryBag = new ArrayList<>();
         for (int i = 0; i < 45; i++) {
             try {
-                accessoryBag.add((ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariable(player.getUniqueId(), "AccessoryBag", i).getValue()));
+                this.accessoryBag.add((ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariable(player.getUniqueId(), "AccessoryBag", i).getValue()));
             } catch (NullPointerException ignored) {
             }
         }
     }
 
-    public PlayerSD(Player player, Skill skill, Wardrobe wardrobe, Pet activePet) {
-        this(player, 0, 0, 0, 20, 0, 0, 100, 0, 100, 100, skill, wardrobe, activePet);
+    public PlayerSD(Player player, Skill skill, Wardrobe wardrobe) {
+        this(player, 0, 0, 0, 20, 0, 0, 100, 0, 100, 100, skill, wardrobe);
+    }
+
+    public void setActivePet(int activePet) {
+        this.activePet = activePet;
+        Variables.setVariable(player.getUniqueId(), "ActivePet", activePet + "");
+    }
+
+    public Pet getPetActive() {
+        return this.pets.get(this.activePet);
+    }
+
+    public Pet getPet() {
+        return this.getPetActive();
+    }
+
+    public double getHealthStat() {
+        return this.health;
+    }
+
+    public void setHealthStat(double health) {
+        this.health = health;
     }
 
     public void increasePlayerStat(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence) {

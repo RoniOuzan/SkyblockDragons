@@ -36,7 +36,7 @@ public class CraftingTableMenu {
         ItemStack recipe = createItem(Material.BARRIER, ChatColor.RED + "Recipe Required", new ArrayList<>(Arrays.asList(ChatColor.GRAY + "Add the items for valid recipe", ChatColor.GRAY + "in the crafting grid to the", ChatColor.GRAY + "left!")));
         inventory.setItem(23, recipe);
 
-        ItemStack quickCraft = createItem(Material.STAINED_GLASS_PANE, 7, ChatColor.RED + "Quick Crafting Slot", new ArrayList<>(Arrays.asList(ChatColor.GRAY + "Quick crafting allows you to", ChatColor.GRAY + "craft items without assembling", ChatColor.GRAY + "the recipe.")));
+        ItemStack quickCraft = createItem(Material.STAINED_GLASS_PANE, 1, 7, ChatColor.RED + "Quick Crafting Slot", new ArrayList<>(Arrays.asList(ChatColor.GRAY + "Quick crafting allows you to", ChatColor.GRAY + "craft items without assembling", ChatColor.GRAY + "the recipe.")));
         inventory.setItem(16, quickCraft);
         inventory.setItem(25, quickCraft);
         inventory.setItem(34, quickCraft);

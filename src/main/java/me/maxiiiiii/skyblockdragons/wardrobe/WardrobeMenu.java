@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.wardrobe;
 
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
-import me.maxiiiiii.skyblockdragons.storage.StorageUtil;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -34,7 +34,7 @@ public class WardrobeMenu {
             }
         }
 
-        int currentSlot = Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "WardrobeEquip", "0"));
+        int currentSlot = Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "WardrobeEquip", "0"));
         if (currentSlot != 0) {
             if (page > 1 && currentSlot > 9) {
                 inventory.setItem(currentSlot + 26, createItem(Material.INK_SACK, 1, 10, ChatColor.GRAY + "Slot " + (currentSlot) + ": " + ChatColor.GREEN + "Equipped", ChatColor.GRAY + "This wardrobe slot contains your", ChatColor.GRAY + "current armor set", "", ChatColor.YELLOW + "Click to unequip this armor set!"));

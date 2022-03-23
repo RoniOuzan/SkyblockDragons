@@ -3,22 +3,24 @@ package me.maxiiiiii.skyblockdragons.commands;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
-import me.maxiiiiii.skyblockdragons.storage.StorageUtil;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class JavaPluginCommand implements CommandExecutor {
-
+public class JavaPluginCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
@@ -26,10 +28,10 @@ public class JavaPluginCommand implements CommandExecutor {
                 if (args[0].equalsIgnoreCase("variables")) {
                     if (args.length > 1) {
                         if (args[1].equalsIgnoreCase("clear")) {
-                            StorageUtil.clearVariables();
+                            Variables.clearVariables();
                         } else if (args[1].equalsIgnoreCase("send")) {
-                            sender.sendMessage(StorageUtil.variables.size() + "");
-                            sender.sendMessage(StorageUtil.variables.toString());
+                            sender.sendMessage(Variables.variables.size() + "");
+                            sender.sendMessage(Variables.variables.toString());
                         }
                     }
                 } else if (args[0].equalsIgnoreCase("reload")) {
@@ -103,5 +105,20 @@ public class JavaPluginCommand implements CommandExecutor {
             }
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        ArrayList<String> tabs = new ArrayList<>();
+        if (args.length > 1 && args[0].equalsIgnoreCase("sound")) {
+            for (Sound sound : Sound.values()) {
+                if (sound.name().contains(args[1].toUpperCase())) {
+                    tabs.add(sound.name());
+                }
+            }
+            Collections.sort(tabs);
+            return tabs;
+        }
+        return null;
     }
 }

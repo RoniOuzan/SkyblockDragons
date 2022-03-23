@@ -3,7 +3,9 @@ package me.maxiiiiii.skyblockdragons.util;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
+import static me.maxiiiiii.skyblockdragons.SkyblockDragons.players;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.plugin;
 
 public class aifly extends BukkitRunnable {
@@ -19,6 +21,7 @@ public class aifly extends BukkitRunnable {
     double x1;
     double y1;
     double z1;
+    boolean changeDirection;
 
     public aifly(Entity e, Location loc, long duration){
         this.e = e;
@@ -41,6 +44,11 @@ public class aifly extends BukkitRunnable {
     }
 
     public aifly(Entity e, Entity loc, long duration) {
+        this(e, loc, duration, false);
+    }
+
+    public aifly(Entity e, Entity loc, long duration, boolean changeDirection) {
+        this.changeDirection = changeDirection;
         new BukkitRunnable() {
             int i = 0;
             @Override
@@ -83,6 +91,10 @@ public class aifly extends BukkitRunnable {
         my = y1 + dy / times * i;
         mz = z1 + dz / times * i;
         tpLoc = new Location(e.getWorld(), mx, my, mz);
+
+        if (changeDirection)
+            tpLoc.setDirection(new Vector(mx, my, mz));
+
         e.teleport(tpLoc);
         i++;
         if (i > times){

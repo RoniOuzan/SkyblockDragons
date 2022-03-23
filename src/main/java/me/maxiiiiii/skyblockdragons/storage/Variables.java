@@ -11,7 +11,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class StorageUtil {
+public class Variables {
     public static ArrayList<Variable> variables = new ArrayList<>();
 
     public static void loadVariables() throws IOException {
@@ -156,7 +156,7 @@ public class StorageUtil {
         createVariable(uuid, id, value, data);
         return null;
     }
-    
+
     public static void deleteVariable(UUID uuid, String id, int data) {
         for (Variable variable : variables) {
             if (variable.getUUID().equals(uuid) && variable.getId().equalsIgnoreCase(id) && variable.getData() == data) {
@@ -164,6 +164,24 @@ public class StorageUtil {
                 break;
             }
         }
+        try {
+            saveVariables();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteVariables(UUID uuid, String id) {
+        variables.removeIf(variable -> variable.getUUID().equals(uuid) && variable.getId().equalsIgnoreCase(id));
+        try {
+            saveVariables();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteVariables(UUID uuid, String id, int minData, int maxData) {
+        variables.removeIf(variable -> variable.getUUID().equals(uuid) && variable.getId().equalsIgnoreCase(id) && variable.getData() >= minData && variable.getData() <= maxData);
         try {
             saveVariables();
         } catch (IOException e) {

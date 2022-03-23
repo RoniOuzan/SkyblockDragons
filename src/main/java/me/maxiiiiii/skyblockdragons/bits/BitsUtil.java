@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.bits;
 import org.bukkit.entity.Player;
 
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.bits;
-import static me.maxiiiiii.skyblockdragons.storage.StorageUtil.setVariable;
+import static me.maxiiiiii.skyblockdragons.storage.Variables.setVariable;
 
 public class BitsUtil {
     public static void add(Player player, long amount) {
