@@ -18,13 +18,14 @@ import static me.maxiiiiii.skyblockdragons.Functions.particleLine;
 import static me.maxiiiiii.skyblockdragons.Functions.rainbow;
 import static me.maxiiiiii.skyblockdragons.Functions.randomDouble;
 import static me.maxiiiiii.skyblockdragons.Functions.setScoreboardScores;
+import static me.maxiiiiii.skyblockdragons.SkyblockDragons.getPlayer;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.players;
 
 public class Damage implements Listener {
     public double damage(Player player, Entity entity, double activeFerocity) {
         double damage;
         boolean critHit = false;
-        PlayerSD playerStat = players.get(player.getName());
+        PlayerSD playerStat = getPlayer(player);
 
         damage = (5 + playerStat.getDamage()) * (1 + (playerStat.getStrength() / 100));
 

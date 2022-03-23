@@ -22,32 +22,26 @@ public class PetCommand implements CommandExecutor, TabCompleter {
             if (args.length > 0) {
                 PetMaterial petMaterial = PetMaterial.Pets.get(args[0].toUpperCase());
                 if (args[0].equalsIgnoreCase("xp")) {
-                    if (!Functions.isNotAir(player.getEquipment().getItemInMainHand())) {
-                        player.sendMessage(ChatColor.RED + "You have to hold a pet to use that command!");
-                        return true;
-                    }
-
-                    Pet pet = Pet.getPet(player.getEquipment().getItemInMainHand(), true);
+                    Pet pet = player.getPetActive();
                     if (args.length > 1) {
                         if (args[1].equalsIgnoreCase("give") && args.length > 2) {
                             pet.setCurrentXp(pet.getCurrentXp() + Double.parseDouble(args[2]));
                             pet.update();
-                            player.getEquipment().setItemInMainHand(pet);
+                            player.pets.set(player.activePet, player.getPetActive());
                         } else if (args[1].equalsIgnoreCase("set") && args.length > 2) {
                             pet.setCurrentXp(Double.parseDouble(args[2]));
                             pet.update();
-                            player.getEquipment().setItemInMainHand(pet);
+                            player.pets.set(player.activePet, player.getPetActive());
                         } else if (args[1].equalsIgnoreCase("levelup")) {
                             pet.setCurrentXp(pet.getNeedXp());
                             pet.update();
-                            player.getEquipment().setItemInMainHand(pet);
-                            player.sendMessage(Functions.getNumberFormat(pet.getNeedXp()));
+                            player.pets.set(player.activePet, player.getPetActive());
                         } else if (args[1].equalsIgnoreCase("level") && args.length > 2) {
                             int level = Integer.parseInt(args[2]);
                             pet.setCurrentXp(0);
                             pet.setLevel(level);
                             pet.update();
-                            player.getEquipment().setItemInMainHand(pet);
+                            player.pets.set(player.activePet, player.getPetActive());
                         }
                     } else {
                         player.sendMessage(ChatColor.GREEN + "Your pet has " + Functions.getNumberFormat(pet.getCurrentXp()) + " xp.");
