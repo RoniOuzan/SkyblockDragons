@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.skill;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.storage.StorageUtil;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -62,8 +62,8 @@ public abstract class AbstractSkill {
             player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "--------------------------------------------------");
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
         }
-        StorageUtil.setVariable(player.getUniqueId(), this.name, this.level + "", 1);
-        StorageUtil.setVariable(player.getUniqueId(), this.name, this.totalXp + "", 2);
+        Variables.setVariable(player.getUniqueId(), this.name, this.level + "", 1);
+        Variables.setVariable(player.getUniqueId(), this.name, this.totalXp + "", 2);
     }
 
     public void setXp(double amount, Player player) {

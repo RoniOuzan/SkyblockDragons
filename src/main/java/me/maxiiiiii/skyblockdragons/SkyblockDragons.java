@@ -14,6 +14,7 @@ import me.maxiiiiii.skyblockdragons.craftingtable.commands.ViewRecipe;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.itemcreator.*;
 import me.maxiiiiii.skyblockdragons.listeners.EntityHealth;
+import me.maxiiiiii.skyblockdragons.listeners.JoinQuitListener;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.pet.*;
 import me.maxiiiiii.skyblockdragons.reforge.ReforgeCommand;
@@ -25,7 +26,7 @@ import me.maxiiiiii.skyblockdragons.skill.Skills.*;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import me.maxiiiiii.skyblockdragons.stat.OnSlotChange;
 import me.maxiiiiii.skyblockdragons.stat.StatCommand;
-import me.maxiiiiii.skyblockdragons.storage.StorageUtil;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.*;
 import me.maxiiiiii.skyblockdragons.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeCommand;
@@ -34,6 +35,7 @@ import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeSlot;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -56,7 +58,7 @@ import static me.maxiiiiii.skyblockdragons.Functions.loadPlayerData;
 import static me.maxiiiiii.skyblockdragons.Functions.numberToItemSlot;
 import static me.maxiiiiii.skyblockdragons.Functions.sendActionBar;
 import static me.maxiiiiii.skyblockdragons.Functions.setScoreboardScores;
-import static me.maxiiiiii.skyblockdragons.storage.StorageUtil.setVariable;
+import static me.maxiiiiii.skyblockdragons.storage.Variables.setVariable;
 
 public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static final HashMap<UUID, PlayerSD> players = new HashMap<>();
@@ -72,7 +74,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
     public static final Logger log = Logger.getLogger("SkyblockDragons");
     public static SkyblockDragons plugin;
-    private static final Serializer serializerInstance = new Serializer();
+    public static final Serializer serializer = new Serializer();
     public SkyblockDragons() {
         plugin = this;
     }
@@ -84,7 +86,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     private SignMenu signMenu;
 
     public static Serializer getSerializer() {
-        return serializerInstance;
+        return serializer;
     }
 
     @Override
@@ -100,7 +102,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         }
 
         try {
-            StorageUtil.loadVariables();
+            Variables.loadVariables();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -112,7 +114,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         }
 
         // Listeners
-        getServer().getPluginManager().registerEvents(new EntityHealth(), this);
+        getServer().getPluginManager().registerEvents(new JoinQuitListener(), this);
         getServer().getPluginManager().registerEvents(new ClickCanceller(), this);
         getServer().getPluginManager().registerEvents(new Damage(), this);
         getServer().getPluginManager().registerEvents(new PlayerList(), this);
@@ -163,6 +165,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new ViewRecipe(), this);
         getServer().getPluginManager().registerEvents(new SkillListener(), this);
         getServer().getPluginManager().registerEvents(new WardrobeListener(), this);
+        getServer().getPluginManager().registerEvents(new PetMenuCommand(), this);
 
         // Commands
         getCommand("Stat").setExecutor(new StatCommand());
@@ -187,6 +190,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("Wardrobe").setExecutor(new WardrobeCommand());
         getCommand("PetAdmin").setExecutor(new PetCommand());
         getCommand("PetAdmin").setTabCompleter(new PetCommand());
+        getCommand("PetMenu").setExecutor(new PetMenuCommand());
 
         this.signMenu = new SignMenu(this);
 
@@ -203,13 +207,13 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 player.setFoodLevel(20);
                 player.applyStats(true);
 
-                if (player.getMaxHealth() != player.getHealth()) {
-                    player.setMaxHealth(player.getHealth());
+                if (player.getMaxHealth() != player.getHealthStat()) {
+                    player.setMaxHealth(player.getHealthStat());
                 }
 
-                if (player.getHealth() * HEALTH_REGEN < player.getHealth()) {
+                if (player.getHealth() * HEALTH_REGEN < player.getMaxHealth()) {
                     player.setHealth(player.getHealth() * HEALTH_REGEN);
-                } else if (player.getHealth() * HEALTH_REGEN > player.getHealth()) {
+                } else if (player.getHealth() * HEALTH_REGEN > player.getMaxHealth()) {
                     player.setHealth(player.getHealth());
                 }
 
@@ -219,14 +223,23 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 playTime.put(player.getUniqueId(), playTime.getOrDefault(player.getUniqueId(), 0L) + 5L);
                 setVariable(player.getUniqueId(), "PlayTime", playTime.get(player.getUniqueId()) + "");
 
-                if (player.activePet != null && player.activePet.getArmorStand() == null) {
-                    Pet.spawnPet(player, player.activePet);
-                }
-                if (player.activePet != null && player.activePet.getArmorStand().getLocation().distance(player.getLocation()) > 3)
-                    new aifly(player.activePet.getArmorStand(), player, 1000).runTaskTimer(plugin, 0L, 1L);
+//                if (player.activePet >= 0 && player.getPetActive().getArmorStand() == null) {
+//                    Pet.spawnPet(player, player.getPetActive());
+//                }
+//                if (player.activePet >= 0 && player.getPetActive().getArmorStand().getLocation().distance(player.getLocation()) > 3) {
+//                    new aifly(player.getPetActive().getArmorStand(), player, 1000, true).runTaskTimer(plugin, 0L, 1L);
+//                    Location targetLocation = player.getPetActive().getArmorStand().getLocation();
+//                    targetLocation.add(
+//                            (player.getLocation().getX() - player.getPetActive().getArmorStand().getLocation().getX()) / 4d,
+//                            (player.getLocation().getY() - player.getPetActive().getArmorStand().getLocation().getY()) / 4d + Functions.randomDouble(-1, 1),
+//                            (player.getLocation().getZ() - player.getPetActive().getArmorStand().getLocation().getZ()) / 4d
+//                    );
+//                    player.getPetActive().getArmorStand().teleport(targetLocation);
+//                }
 
-//                if (player.getActivePet() != null && player.getActivePet().levelUp(player)) {
-//
+//                Pet pet = Pet.getPet(player.getEquipment().getItemInMainHand(), true);
+//                if (Functions.isNotAir(player.getEquipment().getItemInMainHand()) && pet.levelUp(player)) {
+//                    player.getEquipment().setItemInMainHand(pet);
 //                }
             }
         }, 0L, 5L);
@@ -281,48 +294,5 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
     public static SkyblockDragons getPlugin() {
         return plugin;
-    }
-
-    @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
-        new BukkitRunnable() {
-            final Player player = e.getPlayer();
-            @Override
-            public void run() {
-                ArrayList<WardrobeSlot> wardrobeSlots = new ArrayList<>();
-                for (int i = 0; i < 18; i++) {
-                    wardrobeSlots.add(new WardrobeSlot(
-                            i,
-                            (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0), "null"), null),
-                            (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1), "null"), null),
-                            (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2), "null"), null),
-                            (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3), "null"), null)
-                    ));
-                }
-
-                SkyblockDragons.players.put(player.getUniqueId(), new PlayerSD(
-                        player,
-                        new Skill(
-                                new FarmingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Farming", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Farming", 2, "0"))),
-                                new MiningSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Mining", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Mining", 2, "0"))),
-                                new CombatSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Combat", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Combat", 2, "0"))),
-                                new ForagingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Foraging", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Foraging", 2, "0"))),
-                                new FishingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Fishing", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Fishing", 2, "0"))),
-                                new EnchantingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Enchanting", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Enchanting", 2, "0"))),
-                                new AlchemySkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Alchemy", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Alchemy", 2, "0"))),
-                                new TamingSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Taming", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Taming", 2, "0"))),
-                                new DungeoneeringSkill(Integer.parseInt(StorageUtil.getVariableValue(player.getUniqueId(), "Dungeoneering", 1, "0")), Double.parseDouble(StorageUtil.getVariableValue(player.getUniqueId(), "Dungeoneering", 2, "0")))
-                        ), new Wardrobe(wardrobeSlots),
-                        null
-                ));
-
-                loadPlayerData(player);
-            }
-        }.runTaskLater(plugin, 1L);
-    }
-
-    @EventHandler
-    public void onQuit(PlayerQuitEvent e) {
-        players.remove(e.getPlayer().getUniqueId());
     }
 }

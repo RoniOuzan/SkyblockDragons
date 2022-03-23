@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ItemList {
-    public static void openItemList(Player player, int num) {
-        Inventory inv = Bukkit.createInventory(player, 54, ChatColor.DARK_GRAY + "Item List " + num);
+    public static void openItemList(Player player, int page) {
+        Inventory inv = Bukkit.createInventory(player, 54, ChatColor.DARK_GRAY + "Item List " + page);
 
         ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
         ItemMeta glassItemMeta = glass.getItemMeta();
@@ -64,7 +64,7 @@ public class ItemList {
             a++;
         }
 
-        int length = 28 * (num - 1);
+        int length = 28 * (page - 1);
         for (int i = 0; i < 28; i++) {
             try {
                 inv.setItem(Functions.intToSlot(i), new Item(materials[i + length]));

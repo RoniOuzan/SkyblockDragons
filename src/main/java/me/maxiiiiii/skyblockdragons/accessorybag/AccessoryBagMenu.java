@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.accessorybag;
 
 import me.maxiiiiii.skyblockdragons.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.storage.StorageUtil;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -31,7 +31,7 @@ public class AccessoryBagMenu {
 
         for (int i = 0; i < 45; i++) {
             try {
-                inv.setItem(i, (ItemStack) SkyblockDragons.getSerializer().deserialize(StorageUtil.getVariable(arg.getUniqueId(), "AccessoryBag", i).getValue()));
+                inv.setItem(i, (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariable(arg.getUniqueId(), "AccessoryBag", i).getValue()));
             } catch (NullPointerException ignored) {}
         }
 

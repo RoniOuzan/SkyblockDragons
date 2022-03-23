@@ -233,7 +233,6 @@ public class Item extends ItemStack {
                 texture.setString("Value", skin.getNbt());
 
                 nbt.setString("Skin", skin.name());
-                System.out.println("did 1");
             } else {
                 skull.setString("Id", material.getId());
                 NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
@@ -243,7 +242,6 @@ public class Item extends ItemStack {
             }
         } else {
             nbt.setString("Skin", "");
-            System.out.println("did 3");
         }
 
         ItemMeta meta = this.getItemMeta();

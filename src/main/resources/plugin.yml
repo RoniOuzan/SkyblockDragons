@@ -93,3 +93,9 @@ commands:
     aliases:
       - pa
       - peta
+  PetMenu:
+    permission: skyblockdragons.pet.menu
+    usage: /<command> <page>
+    aliases:
+      - pm
+      - pets

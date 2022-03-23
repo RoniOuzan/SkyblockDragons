@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.commands;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
-import me.maxiiiiii.skyblockdragons.storage.StorageUtil;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -28,10 +28,10 @@ public class JavaPluginCommand implements CommandExecutor, TabCompleter {
                 if (args[0].equalsIgnoreCase("variables")) {
                     if (args.length > 1) {
                         if (args[1].equalsIgnoreCase("clear")) {
-                            StorageUtil.clearVariables();
+                            Variables.clearVariables();
                         } else if (args[1].equalsIgnoreCase("send")) {
-                            sender.sendMessage(StorageUtil.variables.size() + "");
-                            sender.sendMessage(StorageUtil.variables.toString());
+                            sender.sendMessage(Variables.variables.size() + "");
+                            sender.sendMessage(Variables.variables.toString());
                         }
                     }
                 } else if (args[0].equalsIgnoreCase("reload")) {
