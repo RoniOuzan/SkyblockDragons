@@ -18,9 +18,9 @@ import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
 
 @Getter
 public enum Recipe {
-    ASPECT_OF_THE_END(new Item(ItemMaterial.ASPECT_OF_THE_END), getItems(null, new Item(ItemMaterial.ENCHANTED_EYE_OF_ENDER, 16), null, null, new Item(ItemMaterial.ENCHANTED_EYE_OF_ENDER, 16), null, null, new Item(ItemMaterial.ENCHANTED_DIAMOND), null), 0),
-    ASPECT_OF_THE_VOID(new Item(ItemMaterial.ASPECT_OF_THE_VOID), getItems(null, new Item(ItemMaterial.NULL_OVOID, 8), null, new Item(ItemMaterial.NULL_OVOID, 8), new Item(ItemMaterial.ASPECT_OF_THE_END), new Item(ItemMaterial.NULL_OVOID, 8), null, new Item(ItemMaterial.NULL_OVOID, 8), null), 4),
-    ENCHANTED_DIAMOND(new Item(ItemMaterial.ENCHANTED_DIAMOND), getItems(new Item(Items.get("DIAMOND"), 32), new Item(Items.get("DIAMOND"), 32), new Item(Items.get("DIAMOND"), 32), new Item(Items.get("DIAMOND"), 32), new Item(Items.get("DIAMOND"), 32), null, null, null, null), 0);
+    ASPECT_OF_THE_END(new Item(ItemMaterial.get("ASPECT_OF_THE_END")), getItems(null, new Item(ItemMaterial.get("ENCHANTED_EYE_OF_ENDER"), 16), null, null, new Item(ItemMaterial.get("ENCHANTED_EYE_OF_ENDER"), 16), null, null, new Item(ItemMaterial.get("ENCHANTED_DIAMOND")), null), 0),
+    ASPECT_OF_THE_VOID(new Item(ItemMaterial.get("ASPECT_OF_THE_VOID")), getItems(null, new Item(ItemMaterial.get("NULL_OVOID"), 8), null, new Item(ItemMaterial.get("NULL_OVOID"), 8), new Item(ItemMaterial.get("ASPECT_OF_THE_END")), new Item(ItemMaterial.get("NULL_OVOID"), 8), null, new Item(ItemMaterial.get("NULL_OVOID"), 8), null), 4),
+    ENCHANTED_DIAMOND(new Item(ItemMaterial.get("ENCHANTED_DIAMOND")), getItems(new Item(Items.get("DIAMOND"), 32), new Item(Items.get("DIAMOND"), 32), new Item(Items.get("DIAMOND"), 32), new Item(Items.get("DIAMOND"), 32), new Item(Items.get("DIAMOND"), 32), null, null, null, null), 0);
 
     private final Item item;
     private final Item[] items;

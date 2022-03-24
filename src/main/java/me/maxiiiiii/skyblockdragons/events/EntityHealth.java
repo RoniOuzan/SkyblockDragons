@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.listeners;
+package me.maxiiiiii.skyblockdragons.events;
 
 import me.maxiiiiii.skyblockdragons.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;

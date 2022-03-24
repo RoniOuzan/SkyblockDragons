@@ -10,6 +10,7 @@ import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
+import javafx.scene.control.Skin;
 import me.maxiiiiii.skyblockdragons.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.bits.BitsUtil;
 import me.maxiiiiii.skyblockdragons.itemcreator.*;
@@ -911,13 +912,16 @@ public class Functions {
     }
 
     public static SkinMaterial getSkin(ItemStack item) {
-        NBTItem nbtItem = new NBTItem(item);
-        NBTCompound nbt = nbtItem.getCompound("Item");
-        SkinMaterial skin = (SkinMaterial) Items.get("NULL");
-        if (!nbt.getString("Skin").equals("")) {
-            skin = (SkinMaterial) Items.get(nbt.getString("Skin"));
-        }
-        return skin;
+        try {
+            NBTItem nbtItem = new NBTItem(item);
+            NBTCompound nbt = nbtItem.getCompound("Item");
+            SkinMaterial skin = SkinMaterial.NULL;
+            if (!nbt.getString("Skin").equals("")) {
+                skin = (SkinMaterial) Items.get(nbt.getString("Skin"));
+            }
+            return skin;
+        } catch (NullPointerException ignored) {}
+        return SkinMaterial.NULL;
     }
 
     public static ItemStack createItem(Material material, int amount, int data, String name, ArrayList<String> lores) {

@@ -14,51 +14,37 @@ import me.maxiiiiii.skyblockdragons.craftingtable.commands.CraftingTable;
 import me.maxiiiiii.skyblockdragons.craftingtable.commands.ViewRecipe;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.itemcreator.*;
-import me.maxiiiiii.skyblockdragons.listeners.EntityHealth;
-import me.maxiiiiii.skyblockdragons.listeners.JoinQuitListener;
+import me.maxiiiiii.skyblockdragons.events.JoinQuitListener;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.pet.*;
 import me.maxiiiiii.skyblockdragons.reforge.ReforgeCommand;
-import me.maxiiiiii.skyblockdragons.skill.Skill;
 import me.maxiiiiii.skyblockdragons.skill.SkillAdminCommand;
 import me.maxiiiiii.skyblockdragons.skill.SkillListener;
 import me.maxiiiiii.skyblockdragons.skill.SkillMenuCommand;
-import me.maxiiiiii.skyblockdragons.skill.Skills.*;
-import me.maxiiiiii.skyblockdragons.stat.PlayerFunctions;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import me.maxiiiiii.skyblockdragons.stat.OnSlotChange;
 import me.maxiiiiii.skyblockdragons.stat.StatCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.*;
-import me.maxiiiiii.skyblockdragons.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeCommand;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeListener;
-import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeSlot;
-import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.io.IOException;
-import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.setVariable;
 
 public final class SkyblockDragons extends JavaPlugin implements Listener {
@@ -70,8 +56,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static boolean disablePlayTime = false;
 
     public static Economy economy = null;
-    public static Permission perms = null;
-    public static Chat chat = null;
 
     public static final Logger log = Logger.getLogger("SkyblockDragons");
     public static SkyblockDragons plugin;
@@ -83,8 +67,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static SkyblockDragons getInstance() {
         return plugin;
     }
-
-    private SignMenu signMenu;
 
     public static Serializer getSerializer() {
         return serializer;
@@ -194,44 +176,35 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("PetMenu").setExecutor(new PetMenuCommand());
         getCommand("FlyTo").setExecutor(new FlyToCommand());
 
-        this.signMenu = new SignMenu(this);
-
         for (Player player : Bukkit.getOnlinePlayers()) {
-            PlayerFunctions.loadPlayerData(player);
+            PlayerSD.loadPlayerData(player);
         }
-
-        final double HEALTH_REGEN = 1.02;
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (PlayerSD player : players.values()) {
-                PlayerFunctions.setScoreboardScores(player);
+                player.updatePlayerInventory();
+                player.setScoreboardScores();
 
                 player.setFoodLevel(20);
+
                 player.applyStats(true);
 
-                if (player.getMaxHealth() != player.getHealthStat()) {
-                    player.setMaxHealth(player.getHealthStat());
-                }
-
-                if (player.getHealth() * HEALTH_REGEN < player.getMaxHealth()) {
-                    player.setHealth(player.getHealth() * HEALTH_REGEN);
-                } else if (player.getHealth() * HEALTH_REGEN > player.getMaxHealth()) {
-                    player.setHealth(player.getHealth());
-                }
-
-                player.setWalkSpeed((float) (player.speed / 500));
-
-                sendActionBar(player);
+                // playtime
                 playTime.put(player.getUniqueId(), playTime.getOrDefault(player.getUniqueId(), 0L) + 5L);
                 setVariable(player.getUniqueId(), "PlayTime", playTime.get(player.getUniqueId()) + "");
+            }
+        }, 0L, 20L);
 
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            for (PlayerSD player : players.values()) {
+                // pets
                 if (player.activePet >= 0 && (player.getPetArmorStand() == null || player.getPetArmorStand().slot != player.activePet)) {
                     player.petArmorStand = new Pet.ArmorStand(player, player.getPetActive(), Pet.spawnPet(player, player.getPetActive()), player.activePet);
                 }
                 if (player.activePet >= 0) {
                     if (player.getPetArmorStand().armorStand.getLocation().distance(player.getLocation()) > 3)
-                        new FlyTo(player.getPetArmorStand().armorStand, player, 20, 1.5, true);
-                    player.petArmorStand.armorStand.teleport(player.petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.2 : -0.2), 0));
+                        new FlyTo(player.getPetArmorStand().armorStand, player, 20, 1.5, true, player.petArmorStand.hologram, new Vector(0, 1.6, 0));
+                    player.petArmorStand.armorStand.teleport(player.petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.1 : -0.1), 0));
                     for (Particle particle : player.getPetActive().petMaterial.particles) {
                         player.getWorld().spawnParticle(particle, player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0), 3, 0.1, 0.1, 0.1, 0);
                     }
@@ -245,12 +218,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 }
             }
         }, 0L, 5L);
-
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            for (PlayerSD player : players.values()) {
-                player.updatePlayerInventory();
-            }
-        }, 0L, 20L);
 
         System.out.println("Skyblock Dragons plugin has been loaded!");
     }

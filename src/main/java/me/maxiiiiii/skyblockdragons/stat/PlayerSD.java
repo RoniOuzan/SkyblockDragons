@@ -8,6 +8,7 @@ import me.maxiiiiii.skyblockdragons.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.abilities.Atomsplit_Katana;
 import me.maxiiiiii.skyblockdragons.abilities.Rogue_Sword;
+import me.maxiiiiii.skyblockdragons.bits.BitsUtil;
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
 import me.maxiiiiii.skyblockdragons.itemcreator.ItemType;
 import me.maxiiiiii.skyblockdragons.material.ArmorMaterial;
@@ -17,8 +18,10 @@ import me.maxiiiiii.skyblockdragons.material.WeaponMaterial;
 import me.maxiiiiii.skyblockdragons.pet.Pet;
 import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
 import me.maxiiiiii.skyblockdragons.skill.Skill;
+import me.maxiiiiii.skyblockdragons.skill.Skills.*;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.wardrobe.Wardrobe;
+import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeSlot;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -42,14 +45,14 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.*;
 import org.bukkit.util.Vector;
 
 import java.net.InetSocketAddress;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static me.maxiiiiii.skyblockdragons.Functions.*;
-import static me.maxiiiiii.skyblockdragons.Functions.getItemMaterial;
 
 @Getter
 @Setter
@@ -74,8 +77,9 @@ public class PlayerSD implements Player {
     public ArrayList<Pet> pets;
     public Pet.ArmorStand petArmorStand;
 
-    public double purse;
     public ArrayList<ItemStack> accessoryBag;
+
+    public static final double HEALTH_REGEN = 1.02;
 
     public PlayerSD(Player player, double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence, Skill skill, Wardrobe wardrobe) {
         this.player = player;
@@ -120,7 +124,6 @@ public class PlayerSD implements Player {
             this.petArmorStand = null;
         }
 
-        this.purse = SkyblockDragons.economy.getBalance(this);
         this.accessoryBag = new ArrayList<>();
         for (int i = 0; i < 45; i++) {
             try {
@@ -153,6 +156,10 @@ public class PlayerSD implements Player {
 
     public void setHealthStat(double health) {
         this.health = health;
+    }
+
+    public double getPurse() {
+        return SkyblockDragons.economy.getBalance(this);
     }
 
     public void increasePlayerStat(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence) {
@@ -336,13 +343,27 @@ public class PlayerSD implements Player {
         }
 
         if (manaRegan) {
-            if (mana < intelligence) {
-                mana += intelligence / 200;
+            if (this.mana < this.intelligence) {
+                this.mana += this.intelligence / 50;
             }
         }
-        if (mana > intelligence) {
-            mana = intelligence;
+        if (this.mana > this.intelligence) {
+            this.mana = this.intelligence;
         }
+
+        if (this.getMaxHealth() != this.getHealthStat()) {
+            this.setMaxHealth(this.getHealthStat());
+        }
+
+        if (this.getHealth() * HEALTH_REGEN < this.getMaxHealth()) {
+            this.setHealth(this.getHealth() * HEALTH_REGEN);
+        } else if (this.getHealth() * HEALTH_REGEN > this.getMaxHealth()) {
+            this.setHealth(this.getHealth());
+        }
+
+        this.setWalkSpeed((float) (this.speed / 500));
+
+        Functions.sendActionBar(this);
     }
 
     public boolean manaCost(int manaCost, ItemStack item, String abilityName) {
@@ -396,6 +417,107 @@ public class PlayerSD implements Player {
             copyNBTStack(item, itemStack);
             if (!item.isSimilar(itemStack) && !getId(itemStack).contains("_PET")) {
                 player.getInventory().setItem(i, item);
+            }
+        }
+    }
+
+    public void setScoreboardScores() {
+        ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
+
+        Scoreboard scoreboard = scoreboardManager.getNewScoreboard();
+
+        Objective objective = scoreboard.registerNewObjective(this.getPlayer().getName(), "dummy");
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        objective.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "Skyblock Dragons");
+        ArrayList<Score> scores = new ArrayList<>();
+        Date now = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy");
+        scores.add(objective.getScore(ChatColor.GRAY + format.format(now) + ChatColor.DARK_GRAY + " " + this.getWorld().getName()));
+        scores.add(objective.getScore(""));
+        scores.add(objective.getScore(ChatColor.WHITE + "Player: " + ChatColor.GREEN + this.getPlayer().getName()));
+        scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse())));
+        String bitsAdder = "";
+        if (SkyblockDragons.playTime.getOrDefault(this.getPlayer().getUniqueId(), 0L) % 36000L >= 0L && SkyblockDragons.playTime.getOrDefault(this.getPlayer().getUniqueId(), 0L) % 36000L < 20L) {
+            bitsAdder = ChatColor.AQUA + "(+250 Bits)";
+            if (SkyblockDragons.playTime.getOrDefault(this.getPlayer().getUniqueId(), 0L) % 36000L < 5L) {
+                BitsUtil.add(this.getPlayer(), 250L);
+            }
+        }
+        scores.add(objective.getScore(ChatColor.WHITE + "Bits: " + ChatColor.AQUA + getNumberFormat(SkyblockDragons.bits.get(this.getPlayer().getUniqueId())) + " " + bitsAdder));
+        scores.add(objective.getScore(" "));
+        if (this.getActivePet() >= 0) {
+            scores.add(objective.getScore(ChatColor.WHITE + "Active Pet:"));
+            scores.add(objective.getScore("  " + this.getPetActive().getRarity().getColor() + this.getPetActive().getPetMaterial().getName()));
+            scores.add(objective.getScore("  "));
+        }
+        scores.add(objective.getScore(ChatColor.YELLOW + "www.error.net"));
+        Collections.reverse(scores);
+
+        for (int i = 0; i < scores.size(); i++) {
+            scores.get(i).setScore(i);
+        }
+
+        this.setScoreboard(scoreboard);
+    }
+
+    public static void loadPlayerData(Player player) {
+        SkyblockDragons.purses.put(player.getUniqueId(), 0d);
+        SkyblockDragons.bits.put(player.getUniqueId(), 0L);
+        player.setHealthScale(40d);
+
+        ArrayList<WardrobeSlot> wardrobeSlots = new ArrayList<>();
+        for (int i = 0; i < 18; i++) {
+            wardrobeSlots.add(new WardrobeSlot(
+                    i,
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0), "null"), null),
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1), "null"), null),
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2), "null"), null),
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3), "null"), null)
+            ));
+        }
+
+        SkyblockDragons.players.put(player.getUniqueId(), new PlayerSD(
+                player,
+                new Skill(
+                        new FarmingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Farming", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Farming", 2, "0"))),
+                        new MiningSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Mining", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Mining", 2, "0"))),
+                        new CombatSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Combat", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Combat", 2, "0"))),
+                        new ForagingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Foraging", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Foraging", 2, "0"))),
+                        new FishingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Fishing", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Fishing", 2, "0"))),
+                        new EnchantingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Enchanting", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Enchanting", 2, "0"))),
+                        new AlchemySkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Alchemy", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Alchemy", 2, "0"))),
+                        new TamingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Taming", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Taming", 2, "0"))),
+                        new DungeoneeringSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Dungeoneering", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Dungeoneering", 2, "0")))
+                ), new Wardrobe(wardrobeSlots)
+        ));
+
+        ArrayList<ItemStack> accessories = new ArrayList<>();
+        for (int i = 0; i < 45; i++) {
+            try {
+                accessories.add((ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariable(player.getUniqueId(), "AccessoryBag", i).getValue()));
+            } catch (NullPointerException ex) {
+                accessories.add(new ItemStack(Material.AIR));
+            }
+        }
+        SkyblockDragons.players.get(player.getUniqueId()).setAccessoryBag(accessories);
+
+        try {
+            SkyblockDragons.purses.put(player.getUniqueId(), Double.parseDouble(Variables.getVariable(player.getUniqueId(), "Purse").getValue()));
+        } catch (NullPointerException ex) {
+            SkyblockDragons.purses.put(player.getUniqueId(), 0d);
+        }
+
+        try {
+            SkyblockDragons.bits.put(player.getUniqueId(), Long.parseLong(Variables.getVariable(player.getUniqueId(), "Bits").getValue()));
+        } catch (NullPointerException ex) {
+            SkyblockDragons.bits.put(player.getUniqueId(), 0L);
+        }
+
+        if (!SkyblockDragons.disablePlayTime) {
+            try {
+                SkyblockDragons.playTime.put(player.getUniqueId(), Long.parseLong(Variables.getVariable(player.getUniqueId(), "PlayTime").getValue()));
+            } catch (NullPointerException ex) {
+                SkyblockDragons.playTime.put(player.getUniqueId(), 0L);
             }
         }
     }

@@ -31,8 +31,10 @@ public class Leaping_Sword implements Listener {
     @EventHandler
     public void onClick(PlayerInteractEvent e) {
         ItemStack item = e.getItem();
+
         if (!getId(item).equals("LEAPING_SWORD")) return;
         if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+
         Player player = e.getPlayer();
 
         if (players.get(player.getUniqueId()).manaCost(player.getEquipment().getItemInMainHand(), 0)) return;
@@ -42,7 +44,7 @@ public class Leaping_Sword implements Listener {
         Vector v = new Vector(l.getDirection().getX() * 5, l.getDirection().getY() / 3 + 1, l.getDirection().getZ() * 5);
         player.setVelocity(v);
 
-        if (!isEnabled.get(player.getUniqueId())) {
+        if (!isEnabled.getOrDefault(player.getUniqueId(), false)) {
             isEnabled.put(player.getUniqueId(), true);
             new BukkitRunnable() {
                 @Override
