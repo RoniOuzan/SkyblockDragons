@@ -8,18 +8,13 @@ import me.maxiiiiii.skyblockdragons.Functions;
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
 import me.maxiiiiii.skyblockdragons.itemcreator.Rarity;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
-import net.milkbowl.vault.chat.Chat;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.util.EulerAngle;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -167,7 +162,7 @@ public class Pet extends ItemStack {
                 if (this.petMaterial.getStats().get(i) < 0)
                     statSymbol = "-";
 
-                lores.add(ChatColor.GRAY + Item.getStat(i).toString() + " " + ChatColor.GREEN + statSymbol + Math.abs(stat) + percent);
+                lores.add(ChatColor.GRAY + Item.getStat(i).toString() + " " + ChatColor.GREEN + statSymbol + Functions.getInt(Math.abs(Math.floor(stat * 100d) / 100d) + "") + percent);
             }
         }
 

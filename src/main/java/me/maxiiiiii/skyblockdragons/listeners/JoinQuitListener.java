@@ -2,7 +2,6 @@ package me.maxiiiiii.skyblockdragons.listeners;
 
 import me.maxiiiiii.skyblockdragons.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.stat.PlayerFunctions;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,7 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class JoinQuitListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        Functions.Wait(1L, () -> PlayerFunctions.loadPlayerData(e.getPlayer()));
+        Functions.Wait(1L, () -> PlayerSD.loadPlayerData(e.getPlayer()));
     }
 
     @EventHandler
