@@ -1,9 +1,12 @@
 package me.maxiiiiii.skyblockdragons.commands;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.bank.BankMenu;
 import me.maxiiiiii.skyblockdragons.craftingtable.menus.CraftingTableMenu;
 import me.maxiiiiii.skyblockdragons.pet.Pet;
 import me.maxiiiiii.skyblockdragons.pet.PetMenu;
 import me.maxiiiiii.skyblockdragons.skill.SkillMenu;
+import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeMenu;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -46,7 +49,7 @@ public class JavaMenu implements CommandExecutor, Listener {
             }
 
             if (e.getClickedInventory().getTitle().contains("Skyblock Menu")) {
-                Player player = (Player) e.getWhoClicked();
+                PlayerSD player = SkyblockDragons.getPlayer((Player) e.getWhoClicked());
                 if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Your Skills")) {
                     player.closeInventory();
                     SkillMenu.openSkillsMenu(player);
@@ -59,6 +62,9 @@ public class JavaMenu implements CommandExecutor, Listener {
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Wardrobe")) {
                     player.closeInventory();
                     WardrobeMenu.openWardrobe(player, 1);
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Bank")) {
+                    player.closeInventory();
+                    BankMenu.openBank(player);
                 }
             }
         } catch (NullPointerException ignored) {

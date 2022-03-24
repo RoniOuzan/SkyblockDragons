@@ -8,6 +8,7 @@ import me.maxiiiiii.skyblockdragons.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.abilities.Atomsplit_Katana;
 import me.maxiiiiii.skyblockdragons.abilities.Rogue_Sword;
+import me.maxiiiiii.skyblockdragons.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.bits.BitsUtil;
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
 import me.maxiiiiii.skyblockdragons.itemcreator.ItemType;
@@ -16,7 +17,6 @@ import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.material.ToolMaterial;
 import me.maxiiiiii.skyblockdragons.material.WeaponMaterial;
 import me.maxiiiiii.skyblockdragons.pet.Pet;
-import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
 import me.maxiiiiii.skyblockdragons.skill.Skill;
 import me.maxiiiiii.skyblockdragons.skill.Skills.*;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
@@ -37,6 +37,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.*;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.map.MapView;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.permissions.Permission;
@@ -73,6 +74,8 @@ public class PlayerSD implements Player {
     public Skill skill;
     public Wardrobe wardrobe;
 
+    public BankAccount bank;
+
     public int activePet;
     public ArrayList<Pet> pets;
     public Pet.ArmorStand petArmorStand;
@@ -102,13 +105,16 @@ public class PlayerSD implements Player {
         this.wardrobe = wardrobe;
         this.skill = skill;
 
+        try {
+            this.bank = new BankAccount(this, Double.parseDouble(Variables.getVariable(player.getUniqueId(), "BankPersonal").getValue()), Double.parseDouble(Variables.getVariable(player.getUniqueId(), "BankCoop").getValue()));
+        } catch (NullPointerException ex) {
+            this.bank = new BankAccount(this, 0, 0);
+        }
+
         this.pets = new ArrayList<>();
         for (int i = 0; i < 112; i++) {
             try {
-//                if (SkyblockDragons.getSerializer().deserialize(Variables.getVariable(player.getUniqueId(), "Pets", i).getValue()) instanceof Pet)
-//                    this.pets.add((Pet) SkyblockDragons.getSerializer().deserialize(Variables.getVariable(player.getUniqueId(), "Pets", i).getValue(), false));
-//                else
-                    this.pets.add(Pet.getPet((ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariable(player.getUniqueId(), "Pets", i).getValue()), false));
+                this.pets.add(Pet.getPet((ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariable(player.getUniqueId(), "Pets", i).getValue()), false));
             } catch (NullPointerException ignored) {
             }
         }
@@ -160,6 +166,20 @@ public class PlayerSD implements Player {
 
     public double getPurse() {
         return SkyblockDragons.economy.getBalance(this);
+    }
+
+    public double getPersonalBank() {
+        return this.bank.personal;
+    }
+
+    public double getCoopBank() {
+        return this.bank.coop;
+    }
+
+    public double getBankBalance(BankAccount.Type type) {
+        if (type == BankAccount.Type.COOP)
+            return this.getCoopBank();
+        return this.getPersonalBank();
     }
 
     public void increasePlayerStat(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence) {
@@ -427,9 +447,21 @@ public class PlayerSD implements Player {
 
             Item item = new Item(itemMaterial, itemStack);
             copyNBTStack(item, itemStack);
-            if (!item.isSimilar(itemStack) && !getId(itemStack).contains("_PET")) {
+            if (!item.isSimilar(itemStack) && !getId(itemStack).contains("_PET") && !item.getMaterial().name().equals("SKYBLOCK_MENU")) {
                 player.getInventory().setItem(i, item);
             }
+
+        }
+
+        if (Functions.isNotAir(player.getInventory().getItem(8)) || !Functions.getId(player.getInventory().getItem(8)).equals("SKYBLOCK_MENU")) {
+            Item menu = new Item(ItemMaterial.get("SKYBLOCK_MENU"), 1);
+            ItemMeta menuMeta = menu.getItemMeta();
+            List<String> lores = menuMeta.getLore();
+            lores.remove(lores.size() - 1);
+            lores.add(ChatColor.YELLOW + "Click to open!");
+            menuMeta.setLore(lores);
+            menu.setItemMeta(menuMeta);
+            player.getInventory().setItem(8, menu);
         }
     }
 

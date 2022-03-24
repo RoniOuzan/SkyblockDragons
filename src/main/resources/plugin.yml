@@ -102,3 +102,9 @@ commands:
   FlyTo:
     permission: skyblockdragons.flyto
     usage: /<command> <ticks>
+  Bank:
+    permission: skyblockdragons.bank
+    usage: /<command> <text>
+  Sound:
+    permission: skyblockdragons.sound
+    usage: /<command> <sound> <pitch>

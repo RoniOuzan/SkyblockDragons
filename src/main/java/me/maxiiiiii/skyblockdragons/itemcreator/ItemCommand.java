@@ -1,6 +1,5 @@
 package me.maxiiiiii.skyblockdragons.itemcreator;
 
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,7 +12,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,18 +37,7 @@ public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
                 if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Search Items")) {
                     p.closeInventory();
                     // searchItem.put(p, true);
-                    ArrayList<String> lines = new ArrayList<>();
-                    lines.add("");
-                    openSign(p, lines);
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            if (!lines.get(0).equals("")) {
-                                openItemList(p, 1, lines.get(0));
-                                cancel();
-                            }
-                        }
-                    }.runTaskTimer(SkyblockDragons.getInstance(), 0L, 10L);
+                    openSign(p, (lines) -> openItemList(p, 1, lines.get(0)));
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Next Page")) {
                     p.closeInventory();
                     openItemList(p, Integer.parseInt(title[2]) + 1);
