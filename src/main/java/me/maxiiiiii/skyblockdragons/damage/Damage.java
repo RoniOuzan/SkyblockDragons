@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.damage;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.stat.PlayerFunctions;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import org.bukkit.*;
 import org.bukkit.entity.Creature;
@@ -17,7 +18,6 @@ import static me.maxiiiiii.skyblockdragons.Functions.createHologram;
 import static me.maxiiiiii.skyblockdragons.Functions.particleLine;
 import static me.maxiiiiii.skyblockdragons.Functions.rainbow;
 import static me.maxiiiiii.skyblockdragons.Functions.randomDouble;
-import static me.maxiiiiii.skyblockdragons.Functions.setScoreboardScores;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.getPlayer;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.players;
 
@@ -85,7 +85,7 @@ public class Damage implements Listener {
         if (e.getDamager() instanceof Player) {
             if (e.getEntity() instanceof Creature && e.getEntityType() != EntityType.PLAYER) {
                 Player player = (Player) e.getDamager();
-                setScoreboardScores(player);
+                PlayerFunctions.setScoreboardScores(player);
                 if (e.getCause() == EntityDamageEvent.DamageCause.FLY_INTO_WALL) return;
 
                 e.setDamage(damage((Player) e.getDamager(), e.getEntity(), players.get(e.getDamager().getUniqueId()).getFerocity()));

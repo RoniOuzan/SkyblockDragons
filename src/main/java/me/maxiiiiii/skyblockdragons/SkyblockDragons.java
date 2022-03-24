@@ -24,6 +24,7 @@ import me.maxiiiiii.skyblockdragons.skill.SkillAdminCommand;
 import me.maxiiiiii.skyblockdragons.skill.SkillListener;
 import me.maxiiiiii.skyblockdragons.skill.SkillMenuCommand;
 import me.maxiiiiii.skyblockdragons.skill.Skills.*;
+import me.maxiiiiii.skyblockdragons.stat.PlayerFunctions;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import me.maxiiiiii.skyblockdragons.stat.OnSlotChange;
 import me.maxiiiiii.skyblockdragons.stat.StatCommand;
@@ -48,6 +49,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.io.IOException;
 import java.security.acl.Permission;
@@ -195,14 +197,14 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         this.signMenu = new SignMenu(this);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            loadPlayerData(player);
+            PlayerFunctions.loadPlayerData(player);
         }
 
         final double HEALTH_REGEN = 1.02;
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (PlayerSD player : players.values()) {
-                setScoreboardScores(player);
+                PlayerFunctions.setScoreboardScores(player);
 
                 player.setFoodLevel(20);
                 player.applyStats(true);
@@ -228,12 +230,12 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 }
                 if (player.activePet >= 0) {
                     if (player.getPetArmorStand().armorStand.getLocation().distance(player.getLocation()) > 3)
-                        new FlyTo(player.getPetArmorStand().armorStand, player, 20, 2, true);
+                        new FlyTo(player.getPetArmorStand().armorStand, player, 20, 1.5, true);
                     player.petArmorStand.armorStand.teleport(player.petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.2 : -0.2), 0));
                     for (Particle particle : player.getPetActive().petMaterial.particles) {
                         player.getWorld().spawnParticle(particle, player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0), 3, 0.1, 0.1, 0.1, 0);
                     }
-                    player.petArmorStand.hologram.teleport(player.petArmorStand.armorStand.getLocation().add(0, 1.5, 0));
+                    player.petArmorStand.hologram.teleport(player.petArmorStand.armorStand.getLocation().add(0, 1.6, 0));
                 }
 
                 if (player.activePet >= 0) {
@@ -243,6 +245,12 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 }
             }
         }, 0L, 5L);
+
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            for (PlayerSD player : players.values()) {
+                player.updatePlayerInventory();
+            }
+        }, 0L, 20L);
 
         System.out.println("Skyblock Dragons plugin has been loaded!");
     }

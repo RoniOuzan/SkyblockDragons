@@ -19,6 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.EulerAngle;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -279,7 +280,6 @@ public class Pet extends ItemStack {
         stand.setInvulnerable(true);
         stand.setVisible(false);
         stand.setCustomName(player.getName());
-//        stand.setCustomNameVisible(true);
         // ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv" + pet.level + ChatColor.DARK_GRAY + "] " + pet.rarity.getColor() + player.getName() + "'s " + pet.getPetMaterial().getName()
         stand.addScoreboardTag("Pet");
 
