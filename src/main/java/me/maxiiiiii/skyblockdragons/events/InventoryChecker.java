@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.listeners;
+package me.maxiiiiii.skyblockdragons.events;
 
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;

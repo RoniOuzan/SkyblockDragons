@@ -14,7 +14,7 @@ import me.maxiiiiii.skyblockdragons.craftingtable.commands.CraftingTable;
 import me.maxiiiiii.skyblockdragons.craftingtable.commands.ViewRecipe;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.itemcreator.*;
-import me.maxiiiiii.skyblockdragons.listeners.JoinQuitListener;
+import me.maxiiiiii.skyblockdragons.events.JoinQuitListener;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.pet.*;
 import me.maxiiiiii.skyblockdragons.reforge.ReforgeCommand;
@@ -45,7 +45,6 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.setVariable;
 
 public final class SkyblockDragons extends JavaPlugin implements Listener {
