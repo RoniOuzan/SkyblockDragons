@@ -61,6 +61,8 @@ public class Functions {
         texture.setString("Value", value);
         nbt.applyNBT(item);
 
+        nbt.applyNBT(item);
+
         return item;
     }
 

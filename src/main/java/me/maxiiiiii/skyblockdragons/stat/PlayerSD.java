@@ -351,6 +351,18 @@ public class PlayerSD implements Player {
             this.mana = this.intelligence;
         }
 
+        this.damage = Math.floor(this.damage * 100d) / 100d;
+        this.strength = Math.floor(this.strength * 100d) / 100d;
+        this.critDamage = Math.floor(this.critDamage * 100d) / 100d;
+        this.critChance = Math.floor(this.critChance * 100d) / 100d;
+        this.attackSpeed = Math.floor(this.attackSpeed * 100d) / 100d;
+        this.ferocity = Math.floor(this.damage * 100d) / 100d;
+        this.health = Math.floor(this.health * 100d) / 100d;
+        this.defense = Math.floor(this.defense * 100d) / 100d;
+        this.speed = Math.floor(this.speed * 100d) / 100d;
+        this.intelligence = Math.floor(this.intelligence * 100d) / 100d;
+        this.mana = Math.floor(this.mana * 100d) / 100d;
+
         if (this.getMaxHealth() != this.getHealthStat()) {
             this.setMaxHealth(this.getHealthStat());
         }

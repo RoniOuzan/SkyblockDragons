@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.menu;
 
+import com.mojang.datafixers.types.Func;
 import me.maxiiiiii.skyblockdragons.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.itemcreator.Stat;
@@ -125,16 +126,18 @@ public class SkyblockMenu {
         wardrobe.setItemMeta(leatherArmorMeta);
         inv.setItem(32, wardrobe);
 
-        ItemStack bank = new ItemStack(Material.SKULL_ITEM, 1, (short) 1);
+        ItemStack bank = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         ItemMeta bankItemMeta = bank.getItemMeta();
         bankItemMeta.setDisplayName(ChatColor.GREEN + "Bank");
         bank.setItemMeta(bankItemMeta);
+        Functions.getSkull(bank, "34e13082-c38c-4a10-9932-509cf78f4ee1", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjA5Mjk5YTExN2JlZTg4ZDMyNjJmNmFiOTgyMTFmYmEzNDRlY2FlMzliNDdlYzg0ODEyOTcwNmRlZGM4MWU0ZiJ9fX0=");
         inv.setItem(33, bank);
 
-        ItemStack fastTravel = new ItemStack(Material.SKULL_ITEM, 1, (short) 0);
+        ItemStack fastTravel = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         ItemMeta fastTravelItemMeta = fastTravel.getItemMeta();
         fastTravelItemMeta.setDisplayName(ChatColor.AQUA + "Fast Travel");
         fastTravel.setItemMeta(fastTravelItemMeta);
+        Functions.getSkull(fastTravel, "b8c1ed51-5698-4a3c-a062-8ffd4bb471ed", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODc5ZTU0Y2JlODc4NjdkMTRiMmZiZGYzZjE4NzA4OTQzNTIwNDhkZmVjZDk2Mjg0NmRlYTg5M2IyMTU0Yzg1In19fQ==");
         inv.setItem(47, fastTravel);
 
         ItemStack profile = new ItemStack(Material.NAME_TAG);
@@ -149,10 +152,11 @@ public class SkyblockMenu {
         settings.setItemMeta(settingsItemMeta);
         inv.setItem(50, settings);
 
-        ItemStack accessoryBag = new ItemStack(Material.SKULL_ITEM, 1, (short) 2);
+        ItemStack accessoryBag = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         ItemMeta accessoryBagItemMeta = accessoryBag.getItemMeta();
         accessoryBagItemMeta.setDisplayName(ChatColor.GREEN + "Accessory Bag");
         accessoryBag.setItemMeta(accessoryBagItemMeta);
+        Functions.getSkull(accessoryBag, "c3ffd9cc-db06-4eea-ab09-571aa5454092", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTYxYTkxOGMwYzQ5YmE4ZDA1M2U1MjJjYjkxYWJjNzQ2ODkzNjdiNGQ4YWEwNmJmYzFiYTkxNTQ3MzA5ODVmZiJ9fX0=");
         inv.setItem(53, accessoryBag);
 
         player.openInventory(inv);

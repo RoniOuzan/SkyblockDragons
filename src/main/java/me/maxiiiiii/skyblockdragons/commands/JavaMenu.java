@@ -1,6 +1,8 @@
 package me.maxiiiiii.skyblockdragons.commands;
 
 import me.maxiiiiii.skyblockdragons.craftingtable.menus.CraftingTableMenu;
+import me.maxiiiiii.skyblockdragons.pet.Pet;
+import me.maxiiiiii.skyblockdragons.pet.PetMenu;
 import me.maxiiiiii.skyblockdragons.skill.SkillMenu;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeMenu;
 import org.bukkit.Material;
@@ -45,13 +47,16 @@ public class JavaMenu implements CommandExecutor, Listener {
 
             if (e.getClickedInventory().getTitle().contains("Skyblock Menu")) {
                 Player player = (Player) e.getWhoClicked();
-                if (e.getSlot() == 19) {
+                if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Your Skills")) {
                     player.closeInventory();
                     SkillMenu.openSkillsMenu(player);
-                } else if (e.getSlot() == 31) {
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Pets")) {
+                    player.closeInventory();
+                    PetMenu.openPetMenu(player, 1);
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Crafting Table")) {
                     player.closeInventory();
                     CraftingTableMenu.openCraftingTable(player);
-                } else if (e.getSlot() == 32) {
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Wardrobe")) {
                     player.closeInventory();
                     WardrobeMenu.openWardrobe(player, 1);
                 }
