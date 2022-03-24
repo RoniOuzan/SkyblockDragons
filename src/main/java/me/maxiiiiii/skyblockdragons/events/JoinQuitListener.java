@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class JoinQuitListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        Functions.Wait(1L, () -> PlayerSD.loadPlayerData(e.getPlayer()));
+        Functions.Wait(5L, () -> PlayerSD.loadPlayerData(e.getPlayer()));
     }
 
     @EventHandler

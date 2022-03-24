@@ -5,14 +5,14 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.maxiiiiii.skyblockdragons.abilities.*;
 import me.maxiiiiii.skyblockdragons.accessorybag.AccessoryBagCommand;
 import me.maxiiiiii.skyblockdragons.anvil.AnvilCommand;
+import me.maxiiiiii.skyblockdragons.bank.BankCommand;
 import me.maxiiiiii.skyblockdragons.bits.BitsCommand;
-import me.maxiiiiii.skyblockdragons.commands.FlyToCommand;
-import me.maxiiiiii.skyblockdragons.commands.JavaMenu;
-import me.maxiiiiii.skyblockdragons.commands.JavaPluginCommand;
-import me.maxiiiiii.skyblockdragons.commands.PlayTime;
+import me.maxiiiiii.skyblockdragons.commands.*;
 import me.maxiiiiii.skyblockdragons.craftingtable.commands.CraftingTable;
 import me.maxiiiiii.skyblockdragons.craftingtable.commands.ViewRecipe;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
+import me.maxiiiiii.skyblockdragons.events.ClickListener;
+import me.maxiiiiii.skyblockdragons.events.InventoryClickListener;
 import me.maxiiiiii.skyblockdragons.itemcreator.*;
 import me.maxiiiiii.skyblockdragons.events.JoinQuitListener;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
@@ -57,7 +57,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
     public static Economy economy = null;
 
-    public static final Logger log = Logger.getLogger("SkyblockDragons");
+    public static Logger logger = null;
     public static SkyblockDragons plugin;
     public static final Serializer serializer = new Serializer();
     public SkyblockDragons() {
@@ -75,6 +75,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         plugin = this;
+        logger = this.getLogger();
 
         ItemMaterial.registerItems();
         EnchantType.registerEnchants();
@@ -91,7 +92,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         }
 
         if (!setupEconomy() ) {
-            log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
+            logger.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -104,6 +105,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new OnSlotChange(), this);
         getServer().getPluginManager().registerEvents(new GoBack(), this);
         getServer().getPluginManager().registerEvents(new PetListener(), this);
+        getServer().getPluginManager().registerEvents(new ClickListener(), this);
+        getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
 
         // Abilities
         getServer().getPluginManager().registerEvents(new Aspect_of_The_End(), this);
@@ -149,6 +152,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new SkillListener(), this);
         getServer().getPluginManager().registerEvents(new WardrobeListener(), this);
         getServer().getPluginManager().registerEvents(new PetMenuCommand(), this);
+        getServer().getPluginManager().registerEvents(new BankCommand(), this);
 
         // Commands
         getCommand("Stat").setExecutor(new StatCommand());
@@ -175,6 +179,9 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("PetAdmin").setTabCompleter(new PetCommand());
         getCommand("PetMenu").setExecutor(new PetMenuCommand());
         getCommand("FlyTo").setExecutor(new FlyToCommand());
+        getCommand("Bank").setExecutor(new BankCommand());
+        getCommand("Sound").setExecutor(new SoundCommand());
+        getCommand("Sound").setTabCompleter(new SoundCommand());
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             PlayerSD.loadPlayerData(player);

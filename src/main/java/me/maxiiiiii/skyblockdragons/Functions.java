@@ -30,6 +30,7 @@ import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -47,6 +48,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
+import static me.maxiiiiii.skyblockdragons.menu.ItemList.openItemList;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariable;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariableValue;
 
@@ -59,6 +61,8 @@ public class Functions {
         skull.setString("Id", id);
         NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
         texture.setString("Value", value);
+        nbt.applyNBT(item);
+
         nbt.applyNBT(item);
 
         return item;
@@ -670,6 +674,25 @@ public class Functions {
                                         }
                                     }
                                 }));
+    }
+
+    public interface SignRunnable {
+        void run(ArrayList<String> lines);
+    }
+
+    public static void openSign(Player player, SignRunnable runnable) {
+        ArrayList<String> lines = new ArrayList<>();
+        lines.add("");
+        openSign(player, lines);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!lines.get(0).equals("")) {
+                    runnable.run(lines);
+                    cancel();
+                }
+            }
+        }.runTaskTimer(SkyblockDragons.getInstance(), 0L, 10L);
     }
 
 //    public static EnchantType getEnchant(String name) {
@@ -1483,6 +1506,20 @@ public class Functions {
             NBTCompound nbt = nbtItem.getCompound("Item");
             nbt.removeKey("Stack");
             nbt.removeKey("Date");
+        }
+    }
+
+    public static void setLine(ItemStack item, int line, String text) {
+        ItemMeta meta = item.getItemMeta();
+        List<String> lores = meta.getLore();
+        lores.set(line - 1, text);
+        meta.setLore(lores);
+        item.setItemMeta(meta);
+    }
+
+    public static void putGlasses(Inventory inventory) {
+        for (int i = 0; i < inventory.getSize(); i++) {
+            inventory.setItem(i, createItem(Material.STAINED_GLASS_PANE, 1, 15, ChatColor.RESET + ""));
         }
     }
 }

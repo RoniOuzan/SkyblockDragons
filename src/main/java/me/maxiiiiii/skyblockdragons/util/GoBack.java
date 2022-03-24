@@ -25,7 +25,7 @@ public class GoBack implements Listener {
             ArrayList<Inventory> inventories = playerGoBack.getOrDefault(player.getUniqueId(), defaultValue);
 
             try {
-                if (!inventories.get(inventories.size() - 1).getTitle().contains(inventory.getTitle().split(" ")[0])) {
+                if (!inventories.get(inventories.size() - 1).getTitle().contains(inventory.getTitle().split(" ")[0]) && !inventory.getTitle().contains("Bank")) {
                     inventories.add(inventory);
                 }
             } catch (ArrayIndexOutOfBoundsException ex) {
