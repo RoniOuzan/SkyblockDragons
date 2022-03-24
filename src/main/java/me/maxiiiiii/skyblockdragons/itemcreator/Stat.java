@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.itemcreator;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 @Getter
 public enum Stat {

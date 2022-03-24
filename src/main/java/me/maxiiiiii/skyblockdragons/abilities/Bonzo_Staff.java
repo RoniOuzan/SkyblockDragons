@@ -19,10 +19,10 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static me.maxiiiiii.skyblockdragons.Functions.cooldown;
-import static me.maxiiiiii.skyblockdragons.Functions.getId;
-import static me.maxiiiiii.skyblockdragons.Functions.getSkull;
-import static me.maxiiiiii.skyblockdragons.Functions.randomInt;
+import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getId;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getSkull;
+import static me.maxiiiiii.skyblockdragons.util.Functions.randomInt;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.*;
 
 public class Bonzo_Staff implements Listener {

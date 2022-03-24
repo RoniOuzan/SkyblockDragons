@@ -12,7 +12,7 @@ import org.bukkit.inventory.Inventory;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static me.maxiiiiii.skyblockdragons.Functions.setLore;
+import static me.maxiiiiii.skyblockdragons.util.Functions.setLore;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.playerGoBack;
 
 public class GoBack implements Listener {

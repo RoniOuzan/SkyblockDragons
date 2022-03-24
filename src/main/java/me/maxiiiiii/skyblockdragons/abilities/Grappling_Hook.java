@@ -9,8 +9,8 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
-import static me.maxiiiiii.skyblockdragons.Functions.cooldown;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
 
 public class Grappling_Hook implements Listener {
     private final Cooldown cooldown = new Cooldown();

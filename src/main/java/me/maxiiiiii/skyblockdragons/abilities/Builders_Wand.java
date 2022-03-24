@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class Builders_Wand implements Listener {
     @EventHandler

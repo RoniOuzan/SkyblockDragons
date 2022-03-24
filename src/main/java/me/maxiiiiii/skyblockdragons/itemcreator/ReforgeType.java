@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.itemcreator;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 
 import java.util.ArrayList;
 import java.util.Arrays;

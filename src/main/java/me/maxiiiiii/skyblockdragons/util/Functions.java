@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons;
+package me.maxiiiiii.skyblockdragons.util;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -11,6 +11,7 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import javafx.scene.control.Skin;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.bits.BitsUtil;
 import me.maxiiiiii.skyblockdragons.itemcreator.*;

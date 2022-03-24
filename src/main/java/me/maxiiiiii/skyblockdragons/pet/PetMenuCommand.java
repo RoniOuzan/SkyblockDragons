@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.pet;
 
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
-import static me.maxiiiiii.skyblockdragons.Functions.getId;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getId;
 import static me.maxiiiiii.skyblockdragons.menu.ItemList.openItemList;
 
 public class PetMenuCommand implements CommandExecutor, Listener {

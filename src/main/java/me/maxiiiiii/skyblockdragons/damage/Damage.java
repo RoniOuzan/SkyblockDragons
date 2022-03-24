@@ -13,10 +13,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import static me.maxiiiiii.skyblockdragons.Functions.createHologram;
-import static me.maxiiiiii.skyblockdragons.Functions.particleLine;
-import static me.maxiiiiii.skyblockdragons.Functions.rainbow;
-import static me.maxiiiiii.skyblockdragons.Functions.randomDouble;
+import static me.maxiiiiii.skyblockdragons.util.Functions.createHologram;
+import static me.maxiiiiii.skyblockdragons.util.Functions.particleLine;
+import static me.maxiiiiii.skyblockdragons.util.Functions.rainbow;
+import static me.maxiiiiii.skyblockdragons.util.Functions.randomDouble;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.getPlayer;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.players;
 

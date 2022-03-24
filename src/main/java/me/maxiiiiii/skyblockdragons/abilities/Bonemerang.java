@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.abilities;
 
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.util.SlotCooldown;
 import me.maxiiiiii.skyblockdragons.util.aifly;

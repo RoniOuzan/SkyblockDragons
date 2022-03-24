@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.*;
 
 public class WardrobeMenu {

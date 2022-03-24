@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.material;
 
 import lombok.Getter;
 import lombok.ToString;
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.itemcreator.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -140,7 +140,7 @@ public class ItemMaterial {
         ItemMaterials = (HashMap<String, ItemMaterial>) Items.clone();
 
         for (Material material : Material.values()) {
-            if (material.isItem() && !Items.containsKey(material.name())) {
+            if (!material.isBlock() && !Items.containsKey(material.name())) {
                 Rarity rarity = Rarity.COMMON;
                 if (material == Material.NETHER_STAR || material == Material.BEDROCK) rarity = Rarity.LEGENDARY;
                 Items.put(material.name(), new ItemMaterial(material, ItemFamily.ITEM, Functions.setTitleCase(material.name()), ItemType.ITEM, rarity, "", ""));

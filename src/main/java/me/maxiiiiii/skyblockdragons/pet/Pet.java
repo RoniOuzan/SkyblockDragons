@@ -4,7 +4,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import de.tr7zw.changeme.nbtapi.*;
 import lombok.Getter;
 import lombok.Setter;
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
 import me.maxiiiiii.skyblockdragons.itemcreator.Rarity;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 @Getter
 @Setter

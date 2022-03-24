@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.pet;
 
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import org.bukkit.Bukkit;
@@ -13,9 +13,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class PetMenu {
     public static ItemStack convertPetDisabled = createItem(Material.INK_SACK, 1, 8, ChatColor.GREEN + "Convert Pet to an Item", ChatColor.GRAY + "Enable this setting and click", ChatColor.GRAY + "any pet to convert it to an", ChatColor.GRAY + "item.", "", ChatColor.RED + "Disabled");

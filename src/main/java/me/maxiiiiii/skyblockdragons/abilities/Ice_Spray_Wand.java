@@ -3,8 +3,6 @@ package me.maxiiiiii.skyblockdragons.abilities;
 import me.maxiiiiii.skyblockdragons.util.Cooldown;
 import org.bukkit.event.Listener;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
-
 public class Ice_Spray_Wand implements Listener {
     private final Cooldown cooldown = new Cooldown();
 

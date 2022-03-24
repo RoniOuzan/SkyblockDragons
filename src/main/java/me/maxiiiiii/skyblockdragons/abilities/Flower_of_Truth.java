@@ -16,8 +16,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
-import static me.maxiiiiii.skyblockdragons.Functions.Wait;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.Wait;
 
 public class Flower_of_Truth implements Listener {
     private final Cooldown cooldown = new Cooldown();

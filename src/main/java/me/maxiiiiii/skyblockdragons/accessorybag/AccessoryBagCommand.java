@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.accessorybag;
 
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import org.bukkit.Bukkit;

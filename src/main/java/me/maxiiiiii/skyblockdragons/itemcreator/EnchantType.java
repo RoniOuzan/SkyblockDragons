@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
-import static me.maxiiiiii.skyblockdragons.Functions.setTitleCase;
+import static me.maxiiiiii.skyblockdragons.util.Functions.setTitleCase;
 
 @Getter
 public class EnchantType {

@@ -1,7 +1,6 @@
 package me.maxiiiiii.skyblockdragons.util;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import me.maxiiiiii.skyblockdragons.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;

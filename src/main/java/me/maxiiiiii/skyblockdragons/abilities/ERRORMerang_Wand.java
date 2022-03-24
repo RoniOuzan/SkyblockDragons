@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.abilities;
 
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -10,8 +10,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
-import static me.maxiiiiii.skyblockdragons.Functions.getId;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getId;
 
 public class ERRORMerang_Wand implements Listener {
     private final int blocks = 50;

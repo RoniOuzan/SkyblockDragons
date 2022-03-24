@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.skill;
 
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import org.bukkit.Bukkit;

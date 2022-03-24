@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-import static me.maxiiiiii.skyblockdragons.Functions.getId;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getId;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.plugin;
 
 public class Twister_Wand implements Listener {

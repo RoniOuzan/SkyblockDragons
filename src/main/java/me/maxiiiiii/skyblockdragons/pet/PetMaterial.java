@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.pet;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.itemcreator.Rarity;
 import me.maxiiiiii.skyblockdragons.itemcreator.Stat;
 import me.maxiiiiii.skyblockdragons.skill.SkillType;

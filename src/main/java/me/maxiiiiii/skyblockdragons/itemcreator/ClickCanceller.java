@@ -6,8 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
-import static me.maxiiiiii.skyblockdragons.Functions.getItemMaterial;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getItemMaterial;
 
 public class ClickCanceller implements Listener {
     @EventHandler

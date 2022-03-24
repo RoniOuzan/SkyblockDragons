@@ -1,19 +1,15 @@
 package me.maxiiiiii.skyblockdragons.pet;
 
-import me.maxiiiiii.skyblockdragons.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.itemcreator.Item;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import static me.maxiiiiii.skyblockdragons.Functions.getId;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getId;
 
 public class PetListener implements Listener {
     @EventHandler

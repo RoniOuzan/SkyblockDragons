@@ -14,8 +14,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
-import static me.maxiiiiii.skyblockdragons.Functions.getItemMaterial;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getItemMaterial;
 
 public class ViewRecipe implements CommandExecutor, Listener, TabCompleter {
     @Override

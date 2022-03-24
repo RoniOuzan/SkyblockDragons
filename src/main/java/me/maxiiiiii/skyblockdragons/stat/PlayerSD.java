@@ -4,7 +4,7 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import lombok.Setter;
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.abilities.Atomsplit_Katana;
 import me.maxiiiiii.skyblockdragons.abilities.Rogue_Sword;
@@ -53,7 +53,7 @@ import java.net.InetSocketAddress;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 @Getter
 @Setter
@@ -1062,18 +1062,8 @@ public class PlayerSD implements Player {
     }
 
     @Override
-    public void hidePlayer(Plugin plugin, Player player) {
-        this.player.hidePlayer(plugin, player);
-    }
-
-    @Override
     public void showPlayer(Player player) {
         this.player.showPlayer(player);
-    }
-
-    @Override
-    public void showPlayer(Plugin plugin, Player player) {
-        this.player.showPlayer(plugin, player);
     }
 
     @Override

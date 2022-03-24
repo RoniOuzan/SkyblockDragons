@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.craftingtable.commands;
 
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.craftingtable.menus.CraftingTableMenu;
@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static me.maxiiiiii.skyblockdragons.Functions.getHotPotato;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getHotPotato;
 
 public class CraftingTable implements CommandExecutor, Listener {
     @Override

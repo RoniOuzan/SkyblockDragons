@@ -20,7 +20,7 @@ import org.bukkit.util.Vector;
 import java.util.HashMap;
 import java.util.UUID;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.players;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.plugin;
 
