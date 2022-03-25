@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.events;
 
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import org.bukkit.event.EventHandler;
@@ -17,8 +17,9 @@ public class JoinQuitListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
-        player.petArmorStand.armorStand.remove();
-        player.petArmorStand.hologram.delete();
+        if (player.activePet >= 0)
+            player.petArmorStand.armorStand.remove();
+            player.petArmorStand.hologram.delete();
         SkyblockDragons.players.remove(e.getPlayer().getUniqueId());
     }
 }

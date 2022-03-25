@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-import static me.maxiiiiii.skyblockdragons.Functions.getId;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getId;
 
 public class Tornado_Wand implements Listener {
     private static final DyeColor[] RAINBOW = new DyeColor[] {

@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.commands;
 
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

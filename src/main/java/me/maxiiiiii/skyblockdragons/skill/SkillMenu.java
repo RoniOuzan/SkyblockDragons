@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.players;
 
 public class SkillMenu {

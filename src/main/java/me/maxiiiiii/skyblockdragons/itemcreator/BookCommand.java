@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.itemcreator;
 
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.material.SkinMaterial;
 import org.bukkit.ChatColor;

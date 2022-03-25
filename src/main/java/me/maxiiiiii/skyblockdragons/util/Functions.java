@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons;
+package me.maxiiiiii.skyblockdragons.util;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -11,6 +11,7 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import javafx.scene.control.Skin;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.bits.BitsUtil;
 import me.maxiiiiii.skyblockdragons.itemcreator.*;
@@ -24,8 +25,10 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.*;
 import me.maxiiiiii.skyblockdragons.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeSlot;
+import net.minecraft.server.v1_12_R1.Packet;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -1521,5 +1524,30 @@ public class Functions {
         for (int i = 0; i < inventory.getSize(); i++) {
             inventory.setItem(i, createItem(Material.STAINED_GLASS_PANE, 1, 15, ChatColor.RESET + ""));
         }
+    }
+
+    public static void spawnParticle(ArrayList<Player> players, ParticleUtil particle, Location location) {
+        for (Player player : players) {
+            Packet<?> packet = particle.getParticle(location);
+            ((CraftPlayer) player.getPlayer()).getHandle().playerConnection.sendPacket(packet);
+        }
+    }
+
+    public static ArrayList<Player> getPlayerShowedPets() {
+        ArrayList<Player> players = new ArrayList<>();
+        for (PlayerSD player : SkyblockDragons.players.values()) {
+            if (!player.hidePets)
+                players.add(player);
+        }
+        return players;
+    }
+
+    public static ArrayList<Player> getPlayerShowedPets(Location location, double distance) {
+        ArrayList<Player> players = new ArrayList<>();
+        for (PlayerSD player : SkyblockDragons.players.values()) {
+            if (!player.hidePets && player.getLocation().distance(location) < distance)
+                players.add(player);
+        }
+        return players;
     }
 }

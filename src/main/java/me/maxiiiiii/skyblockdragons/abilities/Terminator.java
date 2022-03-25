@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.abilities;
 
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.util.Cooldown;
 import org.bukkit.Bukkit;
@@ -21,7 +21,7 @@ import org.bukkit.util.Vector;
 import java.util.HashMap;
 import java.util.Map;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class Terminator implements Listener {
     private final Map<Projectile, BukkitTask> tasks = new HashMap<>();

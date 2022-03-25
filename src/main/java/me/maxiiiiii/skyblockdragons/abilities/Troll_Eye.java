@@ -12,9 +12,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import static me.maxiiiiii.skyblockdragons.Functions.getId;
-import static me.maxiiiiii.skyblockdragons.Functions.getTargetEntity;
-import static me.maxiiiiii.skyblockdragons.Functions.randomDouble;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getId;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getTargetEntity;
+import static me.maxiiiiii.skyblockdragons.util.Functions.randomDouble;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.*;
 
 public class Troll_Eye implements Listener {

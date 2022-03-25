@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.pet;
 
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import org.bukkit.Bukkit;
@@ -13,9 +13,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class PetMenu {
     public static ItemStack convertPetDisabled = createItem(Material.INK_SACK, 1, 8, ChatColor.GREEN + "Convert Pet to an Item", ChatColor.GRAY + "Enable this setting and click", ChatColor.GRAY + "any pet to convert it to an", ChatColor.GRAY + "item.", "", ChatColor.RED + "Disabled");
@@ -46,10 +45,15 @@ public class PetMenu {
         ItemStack goBack = createItem(Material.ARROW, ChatColor.GREEN + "Go Back");
         inventory.setItem(48, goBack);
 
-        if (isConvertToItem)
+        if (isConvertToItem) {
             inventory.setItem(50, convertPetEnabled);
-        else
+        }
+        else {
             inventory.setItem(50, convertPetDisabled);
+        }
+
+        ItemStack hidePets = createItem(Material.STONE_BUTTON, (playerSD.hidePets ? ChatColor.RED : ChatColor.GREEN) + "Hide Pets", ChatColor.GRAY + "Hide all pets which are little", ChatColor.GRAY + "heads from being visible in the", ChatColor.GRAY + "world.", "", ChatColor.GRAY + "Pet effects remain active.", "", ChatColor.GRAY + "Currently " + (playerSD.hidePets ? ChatColor.RED + "Pets hidden!" : ChatColor.GREEN + "Pets shown!"), ChatColor.GRAY + "Selected Pet: " + (playerSD.activePet < 0 ? ChatColor.RED + "None" : playerSD.getPetActive().getName()), "", ChatColor.YELLOW + "Click to " + (playerSD.hidePets ? "show!" : "hide!"));
+        inventory.setItem(51, hidePets);
 
         ItemStack nextPage = new ItemStack(Material.ARROW);
         Functions.setName(nextPage, ChatColor.GREEN + "Next Page");

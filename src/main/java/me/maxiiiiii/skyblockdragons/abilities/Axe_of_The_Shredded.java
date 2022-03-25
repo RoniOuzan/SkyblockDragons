@@ -16,7 +16,7 @@ import org.bukkit.util.EulerAngle;
 
 import java.util.HashMap;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.players;
 
 public class Axe_of_The_Shredded implements Listener {

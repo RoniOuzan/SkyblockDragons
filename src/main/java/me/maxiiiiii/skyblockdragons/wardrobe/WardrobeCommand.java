@@ -7,8 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
-import static me.maxiiiiii.skyblockdragons.Functions.isPlayerName;
+import static me.maxiiiiii.skyblockdragons.util.Functions.isPlayerName;
 import static me.maxiiiiii.skyblockdragons.wardrobe.WardrobeMenu.openWardrobe;
 
 public class WardrobeCommand implements CommandExecutor {

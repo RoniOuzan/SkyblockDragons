@@ -6,8 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
-import static me.maxiiiiii.skyblockdragons.Functions.createItem;
+import static me.maxiiiiii.skyblockdragons.util.Functions.createItem;
 
 @Getter
 @Setter

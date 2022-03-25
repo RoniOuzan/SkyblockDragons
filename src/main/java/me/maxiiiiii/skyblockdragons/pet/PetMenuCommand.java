@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.pet;
 
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
-import static me.maxiiiiii.skyblockdragons.Functions.getId;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getId;
 import static me.maxiiiiii.skyblockdragons.menu.ItemList.openItemList;
 
 public class PetMenuCommand implements CommandExecutor, Listener {
@@ -78,6 +78,11 @@ public class PetMenuCommand implements CommandExecutor, Listener {
                     }
                 } else if (item.getItemMeta().getDisplayName().contains("Convert Pet to an Item")) {
                     e.getClickedInventory().setItem(e.getSlot(), item.getDurability() == 8 ? PetMenu.convertPetEnabled : PetMenu.convertPetDisabled);
+                } else if (item.getItemMeta().getDisplayName().contains("Hide Pets")) {
+                    player.hidePets = !player.hidePets;
+                    player.sendMessage((player.hidePets ? ChatColor.GREEN : ChatColor.RED) + "Hide Pets is now " + (player.hidePets ? "Enabled!" : "Disabled!"));
+                    Variables.setVariable(player.getUniqueId(), "HidePets", player.hidePets ? "1" : "0");
+                    player.closeInventory();
                 }
 
                 if (!getId(item).contains("_PET")) return;

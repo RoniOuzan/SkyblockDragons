@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.bank.objects;
 
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;

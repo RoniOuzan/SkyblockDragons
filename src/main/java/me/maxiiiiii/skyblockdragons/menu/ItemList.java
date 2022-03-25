@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.menu;
 
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import org.bukkit.Bukkit;

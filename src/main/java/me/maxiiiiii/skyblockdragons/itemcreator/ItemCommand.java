@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static me.maxiiiiii.skyblockdragons.Functions.getItemMaterial;
-import static me.maxiiiiii.skyblockdragons.Functions.isByte;
-import static me.maxiiiiii.skyblockdragons.Functions.isItemMaterial;
-import static me.maxiiiiii.skyblockdragons.Functions.isPlayerName;
-import static me.maxiiiiii.skyblockdragons.Functions.openSign;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getItemMaterial;
+import static me.maxiiiiii.skyblockdragons.util.Functions.isByte;
+import static me.maxiiiiii.skyblockdragons.util.Functions.isItemMaterial;
+import static me.maxiiiiii.skyblockdragons.util.Functions.isPlayerName;
+import static me.maxiiiiii.skyblockdragons.util.Functions.openSign;
 import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.ItemMaterials;
 import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
 import static me.maxiiiiii.skyblockdragons.menu.ItemList.openItemList;

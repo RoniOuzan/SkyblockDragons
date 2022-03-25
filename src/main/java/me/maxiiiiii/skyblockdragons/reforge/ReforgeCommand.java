@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.reforge;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.itemcreator.ItemType;
 import me.maxiiiiii.skyblockdragons.itemcreator.ReforgeType;

@@ -1,20 +1,18 @@
 package me.maxiiiiii.skyblockdragons.bank;
 
-import me.maxiiiiii.skyblockdragons.Functions;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
-import static me.maxiiiiii.skyblockdragons.SkyblockDragons.purses;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class BankMenu {
     public static void openBank(PlayerSD player) {

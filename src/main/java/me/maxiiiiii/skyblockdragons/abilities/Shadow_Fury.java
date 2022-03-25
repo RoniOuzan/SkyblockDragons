@@ -15,8 +15,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static me.maxiiiiii.skyblockdragons.Functions.*;
-import static me.maxiiiiii.skyblockdragons.Functions.cooldown;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.*;
 
 public class Shadow_Fury implements Listener {
