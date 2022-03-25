@@ -206,7 +206,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                     for (SoundUtil sound : player.getPetActive().petMaterial.getSounds()) {
     //                    sound.play(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0));
                         for (Player value : Functions.getPlayerShowedPets()) {
-                            value.playSound(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0), sound.sound, (2f - (float) value.getEyeLocation().distance(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0))) / 10, sound.pitch);
+                            value.playSound(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0), sound.sound, (2f - (float) value.getEyeLocation().distance(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0))) / 8, sound.pitch);
                         }
                     }
             }
@@ -223,7 +223,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                         new FlyTo(player.getPetArmorStand().armorStand, player, 20, 1.5, true, player.petArmorStand.hologram, new Vector(0, 1.6, 0));
                     player.petArmorStand.armorStand.teleport(player.petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.1 : -0.1), 0));
                     for (ParticleUtil particle : player.getPetActive().petMaterial.particles) {
-                        Functions.spawnParticle(Functions.getPlayerShowedPets(), particle, player.petArmorStand.armorStand.getLocation());
+                        Functions.spawnParticle(Functions.getPlayerShowedPets(), particle, player.petArmorStand.armorStand.getLocation().add(0, 0.8, 0));
                     }
                     player.petArmorStand.hologram.teleport(player.petArmorStand.armorStand.getLocation().add(0, 1.6, 0));
                 }

@@ -25,7 +25,7 @@ public class ParticleUtil {
     }
 
     public ParticleUtil(EnumWrappers.Particle particle) {
-        this(particle, 0.1f, 0.1f, 0.1f, 0f, 3);
+        this(particle, 0.3f, 0.3f, 0.3f, 0.1f, 3);
     }
 
     public PacketContainer getParticle(Location location) {

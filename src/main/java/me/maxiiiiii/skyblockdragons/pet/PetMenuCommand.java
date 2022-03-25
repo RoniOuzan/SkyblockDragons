@@ -88,7 +88,7 @@ public class PetMenuCommand implements CommandExecutor, Listener {
                 if (!getId(item).contains("_PET")) return;
 
                 if (e.getInventory().getItem(50).getDurability() == 10) {
-                    if (player.activePet < 0) {
+                    if (player.activePet >= 0) {
                         player.sendMessage(ChatColor.RED + "You have to despawn your pet!");
                         return;
                     }
