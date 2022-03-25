@@ -28,7 +28,6 @@ import me.maxiiiiii.skyblockdragons.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeSlot;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.*;
 import org.bukkit.Material;
 import org.bukkit.SoundCategory;
@@ -42,7 +41,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.PistonMoveReaction;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -460,6 +458,7 @@ public class PlayerSD implements Player {
 
     public void updatePlayerInventory() {
         for (int i = 0; i < player.getInventory().getContents().length; i++) {
+            if (i > 39) continue;
             ItemStack itemStack = player.getInventory().getContents()[i];
 
             if (!isNotAir(itemStack)) continue;
@@ -470,10 +469,6 @@ public class PlayerSD implements Player {
             copyNBTStack(item, itemStack);
             if (!item.isSimilar(itemStack) && !getId(itemStack).contains("_PET") && !Functions.getId(item).equals("SKYBLOCK_MENU")) {
                 player.getInventory().setItem(i, item);
-            }
-
-            if (Functions.getId(itemStack).equals("SKYBLOCK_MENU") && i != 8) {
-                player.getInventory().setItem(8, new ItemStack(Material.AIR));
             }
         }
 
@@ -1085,6 +1080,11 @@ public class PlayerSD implements Player {
         this.player.hidePlayer(player);
     }
 
+    @Override
+    public void hidePlayer(Plugin plugin, Player player) {
+        this.player.hidePlayer(plugin, player);
+    }
+
     public void hideEntity(Entity entity) {
         if (entity == null) return;
 
@@ -1097,13 +1097,18 @@ public class PlayerSD implements Player {
         if (entity == null) return;
 
         SkyblockDragons.entityHider.showEntity(player, entity);
-//        PacketPlayOutSpawnEntity packet = new PacketPlayOutSpawnEntity((net.minecraft.server.v1_12_R1.Entity) entity, entity.getEntityId());
+//        PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving((EntityLiving) entity);
 //        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 
     @Override
     public void showPlayer(Player player) {
         this.player.showPlayer(player);
+    }
+
+    @Override
+    public void showPlayer(Plugin plugin, Player player) {
+        this.player.showPlayer(plugin, player);
     }
 
     @Override

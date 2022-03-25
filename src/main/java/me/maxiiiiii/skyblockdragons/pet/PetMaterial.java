@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.pet;
 
+import com.comphenix.protocol.wrappers.EnumWrappers;
 import lombok.Getter;
 import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -8,9 +9,7 @@ import me.maxiiiiii.skyblockdragons.itemcreator.Stat;
 import me.maxiiiiii.skyblockdragons.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.ParticleUtil;
 import me.maxiiiiii.skyblockdragons.util.SoundUtil;
-import net.minecraft.server.v1_12_R1.EnumParticle;
 import org.bukkit.ChatColor;
-import org.bukkit.Particle;
 import org.bukkit.Sound;
 
 import java.util.ArrayList;
@@ -49,8 +48,8 @@ public class PetMaterial {
         for (Object object : array) {
             if (object instanceof ParticleUtil) {
                 particles.add((ParticleUtil) object);
-            } else if (object instanceof EnumParticle) {
-                particles.add(new ParticleUtil((EnumParticle) object));
+            } else if (object instanceof EnumWrappers.Particle) {
+                particles.add(new ParticleUtil((EnumWrappers.Particle) object));
             } else if (object instanceof SoundUtil) {
                 sounds.add((SoundUtil) object);
             } else if (object instanceof Sound) {
@@ -83,11 +82,11 @@ public class PetMaterial {
                 new ArrayList<>(Arrays.asList(0d, 0.5d, 0.5d, 0.1d, 0d, 0d, 0d, 0d, 0d, 0d)),
                 new ArrayList<>(Arrays.asList(new PetAbility("End Strike", "Deal " + ChatColor.GREEN + "LEVEL*0.2% " + ChatColor.GRAY + "more damage to end mobs", new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY))), new PetAbility("One with the Dragons", "Buffs the Aspect of the Dragons sword by " + ChatColor.GREEN + "LEVEL*0.5 " + Stat.DAMAGE.getIconAndText() + " " + ChatColor.GRAY + "and " + ChatColor.GREEN + "LEVEL*0.3 " + Stat.STRENGTH.getIconAndText(), new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY))), new PetAbility("Superior", "Increases most stats by " + ChatColor.GREEN + "LEVEL*0.1%", new ArrayList<>(Arrays.asList(Rarity.LEGENDARY))))),
                 SkillType.COMBAT,
-                EnumParticle.SMOKE_NORMAL, EnumParticle.SPELL_WITCH,
+                EnumWrappers.Particle.SMOKE_NORMAL, EnumWrappers.Particle.SPELL_WITCH,
                 Sound.ENTITY_ENDERDRAGON_FLAP
         ));
 
-        NULL = new PetMaterial("Null", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)), "", "", new ArrayList<>(Arrays.asList(0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d)), new ArrayList<>(Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL))))), SkillType.COMBAT, EnumParticle.BLOCK_CRACK);
+        NULL = new PetMaterial("Null", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)), "", "", new ArrayList<>(Arrays.asList(0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d)), new ArrayList<>(Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL))))), SkillType.COMBAT, EnumWrappers.Particle.BLOCK_CRACK);
     }
 
     public String name() {

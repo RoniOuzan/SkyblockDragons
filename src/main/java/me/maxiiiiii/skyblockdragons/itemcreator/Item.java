@@ -25,7 +25,7 @@ public class Item extends ItemStack {
     private final int amount;
 
     public Item(ItemMaterial material, int amount, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
-        super(material.getMaterial(), amount, material.getMaterial() == Material.SKULL_ITEM ? (short) 3 : (short) 0);
+        super(material.getMaterial(), amount, material.getMaterial() == Material.SKULL_ITEM ? (short) 3 : ((material.getNbt().equals("") && !material.getId().equals("")) ? Short.parseShort(material.getId()) : (short) 0));
         this.material = material;
         this.amount = amount;
 

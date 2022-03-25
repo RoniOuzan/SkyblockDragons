@@ -25,10 +25,11 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.*;
 import me.maxiiiiii.skyblockdragons.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeSlot;
-import net.minecraft.server.v1_12_R1.Packet;
+import net.minecraft.server.v1_16_R1.Packet;
+import net.minecraft.server.v1_16_R1.PacketPlayOutWorldParticles;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -51,6 +52,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
+import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.VanillaMaterials;
 import static me.maxiiiiii.skyblockdragons.menu.ItemList.openItemList;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariable;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariableValue;
@@ -553,28 +555,41 @@ public class Functions {
     }
 
     public static String rainbow(String text){
-        String b = "";
+        StringBuilder b = new StringBuilder();
         ChatColor[] ch = {ChatColor.WHITE, ChatColor.YELLOW, ChatColor.GOLD, ChatColor.RED, ChatColor.RED, ChatColor.WHITE};
         int i = 0;
         for (char c : text.toCharArray()) {
-            b = b + ch[i] + c;
+            b.append(ch[i]).append(c);
             i++;
             i = (i+ch.length) % ch.length; //modulus is amazing use it more
         }      //             ^------------------------------<
-        return b;
+        return b.toString();
+    }
+
+    public static boolean isColorable(Material material) {
+        return material == Material.WOOL || material == Material.INK_SACK || material == Material.STAINED_GLASS || material == Material.STAINED_GLASS_PANE || material == Material.CARPET || material == Material.BANNER || material == Material.STAINED_CLAY;
     }
 
     public static ItemMaterial getItemMaterial(ItemStack item) {
+        if (!isNotAir(item)) return ItemMaterial.NULL;
+
         try {
             NBTItem nbtItem = new NBTItem(item);
             NBTCompound nbt = nbtItem.getCompound("Item");
             String id = nbt.getString("id");
-            for (ItemMaterial material : Items.values()) {
-                if (material.name().equals(id)) {
-                    return material;
-                }
-            }
+            Object[] value = Items.values().stream().filter(material -> material.name().equals(id)).toArray();
+            if (value.length > 0 && value[0] instanceof ItemMaterial)
+                return (ItemMaterial) value[0];
         } catch (NullPointerException ignored) {}
+        for (ItemMaterial material : VanillaMaterials.values()) {
+            if (material.getMaterial() == item.getType()) {
+                if (isColorable(material.getMaterial())) {
+                    if (material.getId().equals(item.getDurability() + ""))
+                        return material;
+                } else
+                    return material;
+            }
+        }
         return ItemMaterial.NULL;
     }
 
@@ -1527,9 +1542,16 @@ public class Functions {
     }
 
     public static void spawnParticle(ArrayList<Player> players, ParticleUtil particle, Location location) {
+        PacketContainer packet = particle.getParticle(location);
+        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
         for (Player player : players) {
-            Packet<?> packet = particle.getParticle(location);
-            ((CraftPlayer) player.getPlayer()).getHandle().playerConnection.sendPacket(packet);
+//            PacketPlayOutWorldParticles packet = particle.getParticle(location);
+//            ((CraftPlayer) player.getPlayer()).getHandle().playerConnection.sendPacket(packet);
+            try {
+                protocolManager.sendServerPacket(player, packet);
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -1549,5 +1571,43 @@ public class Functions {
                 players.add(player);
         }
         return players;
+    }
+
+    public static String getColorName(int color) {
+        switch (color) {
+            case 0:
+                return "White";
+            case 1:
+                return "Orange";
+            case 2:
+                return "Magenta";
+            case 3:
+                return "Light BLue";
+            case 4:
+                return "Yellow";
+            case 5:
+                return "Lime";
+            case 6:
+                return "Pink";
+            case 7:
+                return "Gray";
+            case 8:
+                return "Light Gray";
+            case 9:
+                return "Cyan";
+            case 10:
+                return "Purple";
+            case 11:
+                return "Blue";
+            case 12:
+                return "Brown";
+            case 13:
+                return "Green";
+            case 14:
+                return "Red";
+            case 15:
+                return "Black";
+        }
+        return "";
     }
 }

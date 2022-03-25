@@ -1,13 +1,8 @@
 package me.maxiiiiii.skyblockdragons.util;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.PacketContainer;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-
-import java.lang.reflect.InvocationTargetException;
 
 public class SoundUtil {
     public Sound sound;
