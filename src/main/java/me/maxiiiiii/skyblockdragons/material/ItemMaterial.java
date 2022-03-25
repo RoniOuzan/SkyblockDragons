@@ -17,6 +17,7 @@ import java.util.HashMap;
 public class ItemMaterial {
     public static HashMap<String, ItemMaterial> Items = new HashMap<>();
     public static HashMap<String, ItemMaterial> ItemMaterials = new HashMap<>();
+    public static HashMap<String, ItemMaterial> VanillaMaterials = new HashMap<>();
 
     public static ToolMaterial NULL = null;
 
@@ -140,12 +141,25 @@ public class ItemMaterial {
         ItemMaterials = (HashMap<String, ItemMaterial>) Items.clone();
 
         for (Material material : Material.values()) {
-            if (!material.isBlock() && !Items.containsKey(material.name())) {
+            if (!Items.containsKey(material.name())) {
                 Rarity rarity = Rarity.COMMON;
-                if (material == Material.NETHER_STAR || material == Material.BEDROCK) rarity = Rarity.LEGENDARY;
-                Items.put(material.name(), new ItemMaterial(material, ItemFamily.ITEM, Functions.setTitleCase(material.name()), ItemType.ITEM, rarity, "", ""));
+                if (Functions.isColorable(material)) {
+                    if (material == Material.INK_SACK)
+                        for (short i = 0; i < 16; i++) {
+                            VanillaMaterials.put(Functions.getColorName(15 - i).toUpperCase() + "_DYE", new ItemMaterial(material, ItemFamily.ITEM, Functions.setTitleCase(Functions.getColorName(15 - i) + " DYE"), ItemType.ITEM, rarity, i + "", ""));
+                        }
+                    else
+                        for (short i = 0; i < 16; i++) {
+                            VanillaMaterials.put(Functions.getColorName(i).toUpperCase() + "_" + material.name(), new ItemMaterial(material, ItemFamily.ITEM, Functions.setTitleCase(Functions.getColorName(i) + " " +  material.name()), ItemType.ITEM, rarity, i + "", ""));
+                        }
+                } else {
+                    if (material == Material.NETHER_STAR || material == Material.BEDROCK) rarity = Rarity.LEGENDARY;
+                    VanillaMaterials.put(material.name(), new ItemMaterial(material, ItemFamily.ITEM, Functions.setTitleCase(material.name()), ItemType.ITEM, rarity, "", ""));
+                }
             }
         }
+
+        Items.putAll(VanillaMaterials);
 
         NULL = new ToolMaterial(Material.BARRIER, ItemFamily.NULL,"Null", ItemType.NULL, Rarity.SPECIAL, "", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Null barrier that created by " + ChatColor.GRAY + "" + ChatColor.ITALIC + "ERROR with an item.");
 
@@ -153,7 +167,7 @@ public class ItemMaterial {
     }
 
     public static ItemMaterial get(String name) {
-        return Items.get(name);
+        return Items.getOrDefault(name, ItemMaterial.NULL);
     }
 
     public String name() {

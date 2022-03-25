@@ -190,7 +190,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (PlayerSD player : players.values()) {
-                player.updatePlayerInventory();
+//                player.updatePlayerInventory();
                 player.setScoreboardScores();
 
                 player.setFoodLevel(20);
@@ -206,7 +206,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                     for (SoundUtil sound : player.getPetActive().petMaterial.getSounds()) {
     //                    sound.play(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0));
                         for (Player value : Functions.getPlayerShowedPets()) {
-                            value.playSound(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0), sound.sound, (3f - (float) value.getEyeLocation().distance(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0))) / 5, sound.pitch);
+                            value.playSound(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0), sound.sound, (2f - (float) value.getEyeLocation().distance(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0))) / 10, sound.pitch);
                         }
                     }
             }
@@ -267,6 +267,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
+        Bukkit.getScheduler().cancelTasks(this);
         for (World world : Bukkit.getWorlds()) {
             for (Entity entity : world.getEntities()) {
                 if (entity.getType() == EntityType.ARMOR_STAND && entity.getScoreboardTags().contains("Pet")) {
