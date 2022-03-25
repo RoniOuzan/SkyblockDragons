@@ -1,8 +1,10 @@
-package me.maxiiiiii.skyblockdragons.itemcreator;
+package me.maxiiiiii.skyblockdragons.itemcreator.enchants;
 
+import me.maxiiiiii.skyblockdragons.itemcreator.Item;
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.ReforgeType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.material.SkinMaterial;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.SkinMaterial;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

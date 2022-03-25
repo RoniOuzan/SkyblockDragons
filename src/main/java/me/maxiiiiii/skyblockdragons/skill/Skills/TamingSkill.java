@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.skill.Skills;
 
-import me.maxiiiiii.skyblockdragons.itemcreator.Stat;
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.Stat;
 import me.maxiiiiii.skyblockdragons.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.skill.SkillRewards;
 import org.bukkit.ChatColor;

@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.itemcreator;
+package me.maxiiiiii.skyblockdragons.itemcreator.objects;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.util.Functions;

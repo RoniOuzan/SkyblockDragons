@@ -1,8 +1,8 @@
-package me.maxiiiiii.skyblockdragons.material;
+package me.maxiiiiii.skyblockdragons.itemcreator.material;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.maxiiiiii.skyblockdragons.itemcreator.*;
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.*;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -16,29 +16,29 @@ public class ToolMaterial extends ItemMaterial {
     private String description;
     private ArrayList<ItemAbility> abilities;
 
-    ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, String description, ArrayList<ItemAbility> abilities) {
+    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, String description, ArrayList<ItemAbility> abilities) {
         super(material, family, name, type, rarity, id, nbt);
         this.description = description;
         this.abilities = abilities;
     }
 
-    ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, String description, ItemAbility ability) {
+    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, String description, ItemAbility ability) {
         this(material, family, name, type, rarity, id, nbt, description, new ArrayList<>(Arrays.asList(ability)));
     }
 
-    ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description, ArrayList<ItemAbility> abilities) {
+    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description, ArrayList<ItemAbility> abilities) {
         this(material, family, name, type, rarity, "", "", description, abilities);
     }
 
-    ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description, ItemAbility ability) {
+    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description, ItemAbility ability) {
         this(material, family, name, type, rarity, "", "", description, new ArrayList<>(Arrays.asList(ability)));
     }
 
-    ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description) {
+    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description) {
         this(material, family, name, type, rarity, "", "", description, new ArrayList<>(Arrays.asList(new ItemAbility(AbilityAction.NULL, "", "", 0, 0))));
     }
 
-    ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, String description) {
+    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, String description) {
         this(material, family, name, type, rarity, id, nbt, description, new ArrayList<>(Arrays.asList(new ItemAbility(AbilityAction.NULL, "", "", 0, 0))));
     }
 }

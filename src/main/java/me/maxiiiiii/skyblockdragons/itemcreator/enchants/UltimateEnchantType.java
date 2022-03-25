@@ -1,4 +1,6 @@
-package me.maxiiiiii.skyblockdragons.itemcreator;
+package me.maxiiiiii.skyblockdragons.itemcreator.enchants;
+
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemType;
 
 import java.util.ArrayList;
 

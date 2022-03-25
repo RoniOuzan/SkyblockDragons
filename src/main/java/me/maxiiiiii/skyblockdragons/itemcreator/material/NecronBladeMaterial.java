@@ -1,8 +1,8 @@
-package me.maxiiiiii.skyblockdragons.material;
+package me.maxiiiiii.skyblockdragons.itemcreator.material;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.maxiiiiii.skyblockdragons.itemcreator.*;
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
@@ -11,10 +11,10 @@ import java.util.Arrays;
 
 @Getter
 @Setter
-public class NecronBladeMaterial extends SwordMaterial{
+public class NecronBladeMaterial extends SwordMaterial {
     private NecronBladeType bladeType;
 
-    NecronBladeMaterial(Material material, ItemFamily family, String name, Rarity rarity, ArrayList<Integer> stats, NecronBladeType bladeType) {
+    public NecronBladeMaterial(Material material, ItemFamily family, String name, Rarity rarity, ItemStats stats, NecronBladeType bladeType) {
         super(material, family, name, rarity, stats, "Deals +" + ChatColor.GREEN + "50% " + ChatColor.GRAY + "damage to Withers. Grants " + ChatColor.RED + "+1" + Stat.DAMAGE.getIconAndText() + " " + ChatColor.GRAY + "and " + ChatColor.RED + "+1" + Stat.STRENGTH.getIconAndText() + " " + ChatColor.GRAY + "per " + ChatColor.RED + "Catacombs " + ChatColor.GRAY + "level." + " NEW_LINE " + ChatColor.GRAY + "Your Catacombs Level: " + ChatColor.RED + "0", new ItemAbility(AbilityAction.NULL, "", "", 0, 0));
         this.bladeType = bladeType;
     }
@@ -37,11 +37,11 @@ public class NecronBladeMaterial extends SwordMaterial{
     }
 
     public static class NecronBladeScroll extends ToolMaterial {
-        NecronBladeScroll(Material material, String name, Rarity rarity, String description, ArrayList<ItemAbility> abilities) {
+        public NecronBladeScroll(Material material, String name, Rarity rarity, String description, ArrayList<ItemAbility> abilities) {
             super(material, ItemFamily.SCROLL, name, ItemType.ITEM, rarity, "", "", description, abilities);
         }
 
-        NecronBladeScroll(Material material, String name, Rarity rarity, String description, ItemAbility ability) {
+        public NecronBladeScroll(Material material, String name, Rarity rarity, String description, ItemAbility ability) {
             this(material, name, rarity, description, new ArrayList<>(Arrays.asList(ability)));
         }
     }

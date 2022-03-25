@@ -1,13 +1,9 @@
 package me.maxiiiiii.skyblockdragons.stat;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.PacketContainer;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import lombok.Setter;
-import me.maxiiiiii.skyblockdragons.util.EntityHider;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.abilities.Atomsplit_Katana;
@@ -15,11 +11,11 @@ import me.maxiiiiii.skyblockdragons.abilities.Rogue_Sword;
 import me.maxiiiiii.skyblockdragons.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.bits.BitsUtil;
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
-import me.maxiiiiii.skyblockdragons.itemcreator.ItemType;
-import me.maxiiiiii.skyblockdragons.material.ArmorMaterial;
-import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.material.ToolMaterial;
-import me.maxiiiiii.skyblockdragons.material.WeaponMaterial;
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.ArmorMaterial;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.ToolMaterial;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.WeaponMaterial;
 import me.maxiiiiii.skyblockdragons.pet.Pet;
 import me.maxiiiiii.skyblockdragons.skill.Skill;
 import me.maxiiiiii.skyblockdragons.skill.Skills.*;
@@ -75,6 +71,8 @@ public class PlayerSD implements Player {
     public double strength;
     public double critDamage;
     public double critChance;
+    public double abilityDamage;
+    public double abilityScaling;
     public double attackSpeed;
     public double ferocity;
     public double health;
@@ -97,12 +95,13 @@ public class PlayerSD implements Player {
 
     public static final double HEALTH_REGEN = 1.02;
 
-    public PlayerSD(Player player, double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence, Skill skill, Wardrobe wardrobe) {
+    public PlayerSD(Player player, double damage, double strength, double critDamage, double critChance, double abilityDamage, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence, Skill skill, Wardrobe wardrobe) {
         this.player = player;
         this.damage = damage;
         this.strength = strength;
         this.critDamage = critDamage;
         this.critChance = critChance;
+        this.abilityDamage = abilityDamage;
         if (attackSpeed <= 100) {
             this.attackSpeed = attackSpeed;
         }
@@ -159,7 +158,7 @@ public class PlayerSD implements Player {
     }
 
     public PlayerSD(Player player, Skill skill, Wardrobe wardrobe) {
-        this(player, 0, 0, 0, 20, 0, 0, 100, 0, 100, 100, skill, wardrobe);
+        this(player, 0, 0, 0, 20, 0, 0, 0, 100, 0, 100, 100, skill, wardrobe);
     }
 
     public void setActivePet(int activePet) {

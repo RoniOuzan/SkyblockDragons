@@ -10,26 +10,18 @@ import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
-import javafx.scene.control.Skin;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.abilities.Wither_Impact;
-import me.maxiiiiii.skyblockdragons.bits.BitsUtil;
-import me.maxiiiiii.skyblockdragons.itemcreator.*;
-import me.maxiiiiii.skyblockdragons.material.*;
-import me.maxiiiiii.skyblockdragons.pet.Pet;
+import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
+import me.maxiiiiii.skyblockdragons.itemcreator.enchants.UltimateEnchantType;
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.ReforgeType;
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.Stat;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.*;
 import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
-import me.maxiiiiii.skyblockdragons.skill.Skill;
-import me.maxiiiiii.skyblockdragons.skill.Skills.*;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
-import me.maxiiiiii.skyblockdragons.storage.Variables;
-import me.maxiiiiii.skyblockdragons.util.*;
-import me.maxiiiiii.skyblockdragons.wardrobe.Wardrobe;
-import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeSlot;
-import net.minecraft.server.v1_16_R1.Packet;
-import net.minecraft.server.v1_16_R1.PacketPlayOutWorldParticles;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -39,20 +31,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.*;
 import org.bukkit.util.Vector;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.lang.reflect.InvocationTargetException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
-import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
-import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.VanillaMaterials;
+import static me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial.Items;
+import static me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial.VanillaMaterials;
 import static me.maxiiiiii.skyblockdragons.menu.ItemList.openItemList;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariable;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariableValue;
@@ -1609,5 +1599,16 @@ public class Functions {
                 return "Black";
         }
         return "";
+    }
+
+    public static short getEnchantLevel(ItemStack item, EnchantType enchant) {
+        if (!isNotAir(item)) return 0;
+
+        NBTItem nbtItem = new NBTItem(item);
+        NBTCompound nbt = nbtItem.getCompound("Item");
+        NBTCompound enchants = nbt.getCompound("Enchants");
+        if (enchants.hasKey(enchant.name()))
+            return enchants.getShort(enchant.name());
+        return 0;
     }
 }

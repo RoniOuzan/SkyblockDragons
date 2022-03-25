@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.itemcreator;
+package me.maxiiiiii.skyblockdragons.itemcreator.objects;
 
 import org.bukkit.ChatColor;
 

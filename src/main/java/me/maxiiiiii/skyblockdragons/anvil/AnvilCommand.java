@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.anvil;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.itemcreator.ItemType;
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemType;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;

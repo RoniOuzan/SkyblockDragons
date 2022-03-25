@@ -3,10 +3,7 @@ package me.maxiiiiii.skyblockdragons.damage;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import org.bukkit.*;
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -21,15 +18,19 @@ import static me.maxiiiiii.skyblockdragons.SkyblockDragons.getPlayer;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.players;
 
 public class Damage implements Listener {
-    public double damage(Player player, Entity entity, double activeFerocity) {
+    public double damage(PlayerSD player, Entity entity, double activeFerocity) {
         double damage;
         boolean critHit = false;
-        PlayerSD playerStat = getPlayer(player);
 
-        damage = (5 + playerStat.getDamage()) * (1 + (playerStat.getStrength() / 100));
+        double baseMultiplayer = 1;
+        double postMultiplayer = 1;
 
-        if (randomDouble(1, 100) <= playerStat.getCritChance()) {
-            damage = damage * (1 + (playerStat.getCritDamage() / 100));
+        damage = (5 + player.getDamage()) * (1 + (player.getStrength() / 100)); // damage formula / calculation
+
+        baseMultiplayer += player.getSkill().getCombatSkill().getLevel() * 0.04;
+
+        if (randomDouble(1, 100) <= player.getCritChance()) {
+            damage = damage * (1 + (player.getCritDamage() / 100));
             critHit = true;
         }
         damage = Math.floor(damage);
@@ -87,7 +88,7 @@ public class Damage implements Listener {
                 player.setScoreboardScores();
                 if (e.getCause() == EntityDamageEvent.DamageCause.FLY_INTO_WALL) return;
 
-                e.setDamage(damage((Player) e.getDamager(), e.getEntity(), players.get(e.getDamager().getUniqueId()).getFerocity()));
+                e.setDamage(damage(player, e.getEntity(), players.get(e.getDamager().getUniqueId()).getFerocity()));
 
                 if (e.getEntity().getName().contains("Dummy")) e.setDamage(0);
             }

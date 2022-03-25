@@ -2,11 +2,11 @@ package me.maxiiiiii.skyblockdragons.anvil;
 
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
-import me.maxiiiiii.skyblockdragons.itemcreator.EnchantType;
+import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
-import me.maxiiiiii.skyblockdragons.itemcreator.ItemFamily;
-import me.maxiiiiii.skyblockdragons.itemcreator.ReforgeType;
-import me.maxiiiiii.skyblockdragons.material.*;
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.ReforgeType;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
-import static me.maxiiiiii.skyblockdragons.itemcreator.EnchantType.Enchants;
+import static me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType.Enchants;
 
 public class Anvil {
     private ItemStack item1;

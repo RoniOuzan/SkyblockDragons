@@ -2,10 +2,14 @@ package me.maxiiiiii.skyblockdragons.itemcreator;
 
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.NBTList;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
+import me.maxiiiiii.skyblockdragons.itemcreator.enchants.UltimateEnchantType;
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.*;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.material.*;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -81,7 +85,7 @@ public class Item extends ItemStack {
 
         ArrayList<String> lores = new ArrayList<>();
 
-        int[] stats = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        double[] stats = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
         if (this.material instanceof WeaponMaterial) {
             stats = applyStats(lores, hotPotato, reforge, rarity, enchants);
@@ -182,7 +186,8 @@ public class Item extends ItemStack {
         } else {
             nbt.setString("id", this.material.name());
         }
-        nbt.setIntArray("Stats", stats);
+        NBTList<Double> statList = nbt.getDoubleList("Stats");
+        statList.addAll(statList);
         if (material.getType() != ItemType.ITEM || rarity.getLevel() >= 5 || ((material instanceof NormalMaterial) && !((NormalMaterial) material).isStackAble())) {
             int random = Functions.randomInt(1, 10000);
             nbt.setInteger("Stack", random);
@@ -358,19 +363,19 @@ public class Item extends ItemStack {
         }
     }
 
-    private int[] applyStats(ArrayList<String> lores, int hotPotato, ReforgeType reforge, Rarity rarity) {
+    private double[] applyStats(ArrayList<String> lores, int hotPotato, ReforgeType reforge, Rarity rarity) {
         Map<EnchantType, Short> enchants = new HashMap<>();
         enchants.put(EnchantType.NULL, (short) 0);
         return applyStats(lores, hotPotato, reforge, rarity, enchants, false);
     }
 
-    private int[] applyStats(ArrayList<String> lores, int hotPotato, ReforgeType reforge, Rarity rarity, Map<EnchantType, Short> enchants) {
+    private double[] applyStats(ArrayList<String> lores, int hotPotato, ReforgeType reforge, Rarity rarity, Map<EnchantType, Short> enchants) {
         return applyStats(lores, hotPotato, reforge, rarity, enchants, true);
     }
 
-    private int[] applyStats(ArrayList<String> lores, int hotPotato, ReforgeType reforge, Rarity rarity, Map<EnchantType, Short> enchants, boolean enchant) {
-        int[] stats = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        for (int i = 0; i < 10; i++) {
+    private double[] applyStats(ArrayList<String> lores, int hotPotato, ReforgeType reforge, Rarity rarity, Map<EnchantType, Short> enchants, boolean enchant) {
+        double[] stats = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        for (int i = 0; i < stats.length; i++) {
             String statReforge = "";
             String statPotato = "";
 
@@ -410,7 +415,7 @@ public class Item extends ItemStack {
             if (this.material instanceof WeaponMaterial) {
                 WeaponMaterial material = (WeaponMaterial) this.material;
 
-                int stat = material.getStats().get(i) + statAdder;
+                double stat = material.getStats().get(i) + statAdder;
                 stats[i] = stat;
                 if (material.getStats().get(i) + statAdder != 0) {
                     if (material.getStats().get(i) + statAdder < 0) statSymbol = "-";
@@ -420,7 +425,7 @@ public class Item extends ItemStack {
             } else if (this.material instanceof ArmorMaterial) {
                 ArmorMaterial material = (ArmorMaterial) this.material;
 
-                int stat = material.getStats().get(i) + statAdder;
+                double stat = material.getStats().get(i) + statAdder;
                 stats[i] = stat;
                 if (material.getStats().get(i) + statAdder != 0) {
                     if (material.getStats().get(i) + statAdder < 0) statSymbol = "-";

@@ -1,9 +1,9 @@
-package me.maxiiiiii.skyblockdragons.material;
+package me.maxiiiiii.skyblockdragons.itemcreator.material;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.itemcreator.ItemFamily;
-import me.maxiiiiii.skyblockdragons.itemcreator.ItemType;
-import me.maxiiiiii.skyblockdragons.itemcreator.Rarity;
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.Rarity;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
@@ -17,7 +17,7 @@ public class AccessoryMaterial extends ItemMaterial {
     private final ArrayList<Integer> stats;
     private final String description;
 
-    AccessoryMaterial(Material material, ItemFamily family, String name, Rarity rarity, String id, String nbt, ArrayList<Integer> stats, String description) {
+    public AccessoryMaterial(Material material, ItemFamily family, String name, Rarity rarity, String id, String nbt, ArrayList<Integer> stats, String description) {
         super(material, family, name, ItemType.ACCESSORY, rarity, id, nbt);
         this.stats = stats;
         this.description = description;
