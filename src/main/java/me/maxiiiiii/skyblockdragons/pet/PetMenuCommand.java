@@ -78,6 +78,11 @@ public class PetMenuCommand implements CommandExecutor, Listener {
                     }
                 } else if (item.getItemMeta().getDisplayName().contains("Convert Pet to an Item")) {
                     e.getClickedInventory().setItem(e.getSlot(), item.getDurability() == 8 ? PetMenu.convertPetEnabled : PetMenu.convertPetDisabled);
+                } else if (item.getItemMeta().getDisplayName().contains("Hide Pets")) {
+                    player.hidePets = !player.hidePets;
+                    player.sendMessage((player.hidePets ? ChatColor.GREEN : ChatColor.RED) + "Hide Pets is now " + (player.hidePets ? "Enabled!" : "Disabled!"));
+                    Variables.setVariable(player.getUniqueId(), "HidePets", player.hidePets ? "1" : "0");
+                    player.closeInventory();
                 }
 
                 if (!getId(item).contains("_PET")) return;

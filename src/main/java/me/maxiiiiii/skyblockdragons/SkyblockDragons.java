@@ -46,6 +46,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 import static me.maxiiiiii.skyblockdragons.storage.Variables.setVariable;
+import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
 
 public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static final HashMap<UUID, PlayerSD> players = new HashMap<>();
@@ -53,6 +54,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static final HashMap<UUID, Long> bits = new HashMap<>();
     public static final HashMap<UUID, Long> playTime = new HashMap<>();
     public static final HashMap<UUID, ArrayList<Inventory>> playerGoBack = new HashMap<>();
+    public static final HashMap<Player, Cooldown> petSoundCooldown = new HashMap<>();
     public static boolean disablePlayTime = false;
 
     public static Economy economy = null;
@@ -60,9 +62,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static Logger logger = null;
     public static SkyblockDragons plugin;
     public static final Serializer serializer = new Serializer();
-    public SkyblockDragons() {
-        plugin = this;
-    }
+    public static EntityHider entityHider = null;
 
     public static SkyblockDragons getInstance() {
         return plugin;
@@ -76,6 +76,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public void onEnable() {
         plugin = this;
         logger = this.getLogger();
+        entityHider = new EntityHider(this, EntityHider.Policy.BLACKLIST);
 
         ItemMaterial.registerItems();
         EnchantType.registerEnchants();
@@ -199,6 +200,15 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 // playtime
                 playTime.put(player.getUniqueId(), playTime.getOrDefault(player.getUniqueId(), 0L) + 5L);
                 setVariable(player.getUniqueId(), "PlayTime", playTime.get(player.getUniqueId()) + "");
+
+                // pet sound
+                if (player.activePet >= 0)
+                    for (SoundUtil sound : player.getPetActive().petMaterial.getSounds()) {
+    //                    sound.play(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0));
+                        for (Player value : Functions.getPlayerShowedPets()) {
+                            value.playSound(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0), sound.sound, (3f - (float) value.getEyeLocation().distance(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0))) / 5, sound.pitch);
+                        }
+                    }
             }
         }, 0L, 20L);
 
@@ -212,8 +222,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                     if (player.getPetArmorStand().armorStand.getLocation().distance(player.getLocation()) > 3)
                         new FlyTo(player.getPetArmorStand().armorStand, player, 20, 1.5, true, player.petArmorStand.hologram, new Vector(0, 1.6, 0));
                     player.petArmorStand.armorStand.teleport(player.petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.1 : -0.1), 0));
-                    for (Particle particle : player.getPetActive().petMaterial.particles) {
-                        player.getWorld().spawnParticle(particle, player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0), 3, 0.1, 0.1, 0.1, 0);
+                    for (ParticleUtil particle : player.getPetActive().petMaterial.particles) {
+                        Functions.spawnParticle(Functions.getPlayerShowedPets(), particle, player.petArmorStand.armorStand.getLocation());
                     }
                     player.petArmorStand.hologram.teleport(player.petArmorStand.armorStand.getLocation().add(0, 1.6, 0));
                 }
@@ -221,6 +231,32 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 if (player.activePet >= 0) {
                     if (player.getPetActive().levelUp(player)) {
                         player.pets.set(player.activePet, player.getPetActive());
+                    }
+                }
+
+                if (player.hidePets) {
+                    for (Entity entity : player.getWorld().getEntities()) {
+                        if (entity.getScoreboardTags().contains("Pet")) {
+                            player.hideEntity(entity);
+                        }
+                    }
+
+                    for (Hologram hologram : HologramsAPI.getHolograms(this)) {
+                        if (hologram.getLine(0).toString().contains(ChatColor.GREEN + "" + ChatColor.DARK_GREEN + "" + ChatColor.GREEN + "" + ChatColor.DARK_GREEN)) {
+                            hologram.getVisibilityManager().hideTo(player);
+                        }
+                    }
+                } else {
+                    for (Entity entity : player.getWorld().getEntities()) {
+                        if (entity.getScoreboardTags().contains("Pet")) {
+                            player.showEntity(entity);
+                        }
+                    }
+
+                    for (Hologram hologram : HologramsAPI.getHolograms(this)) {
+                        if (hologram.getLine(0).toString().contains(ChatColor.GREEN + "" + ChatColor.DARK_GREEN + "" + ChatColor.GREEN + "" + ChatColor.DARK_GREEN)) {
+                            hologram.getVisibilityManager().showTo(player);
+                        }
                     }
                 }
             }
@@ -257,16 +293,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         economy = rsp.getProvider();
         return economy != null;
     }
-
-//    private void setupChat() {
-//        RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
-//        chat = rsp.getProvider();
-//    }
-//
-//    private void setupPermissions() {
-//        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-//        perms = rsp.getProvider();
-//    }
 
     public static PlayerSD getPlayer(String name) {
         for (PlayerSD myPlayer : players.values()) {

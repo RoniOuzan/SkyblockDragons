@@ -6,8 +6,12 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.itemcreator.Rarity;
 import me.maxiiiiii.skyblockdragons.itemcreator.Stat;
 import me.maxiiiiii.skyblockdragons.skill.SkillType;
+import me.maxiiiiii.skyblockdragons.util.ParticleUtil;
+import me.maxiiiiii.skyblockdragons.util.SoundUtil;
+import net.minecraft.server.v1_12_R1.EnumParticle;
 import org.bukkit.ChatColor;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,8 +23,6 @@ public class PetMaterial {
     //        Items.put("ENDER_DRAGON_PET", new PetMaterial("Ender Dragon", Rarity.EPIC, "", "", new ArrayList<>(Arrays.asList(0d, 0.5d, 0.5d, 0.1d, 0d, 0d, 0d, 0d, 0d, 0d)), new ArrayList<>(Arrays.asList()))));
     public static final HashMap<String, PetMaterial> Pets = new HashMap<>();
 
-    public static PetMaterial ENDER_DRAGON = null;
-
     public static PetMaterial NULL = null;
 
     public String name;
@@ -31,9 +33,10 @@ public class PetMaterial {
     public ArrayList<PetAbility> abilities;
     public SkillType skill;
     public int maxLevel;
-    public ArrayList<Particle> particles;
+    public ParticleUtil[] particles;
+    public SoundUtil[] sounds;
 
-    PetMaterial(String name, ArrayList<Rarity> rarities, String id, String nbt, ArrayList<Double> stats, ArrayList<PetAbility> abilities, SkillType skill, ArrayList<Particle> particles, int maxLevel) {
+    PetMaterial(String name, ArrayList<Rarity> rarities, String id, String nbt, ArrayList<Double> stats, ArrayList<PetAbility> abilities, SkillType skill, int maxLevel, Object... array) {
         this.name = name;
         this.rarities = rarities;
         this.id = id;
@@ -41,12 +44,26 @@ public class PetMaterial {
         this.stats = stats;
         this.abilities = abilities;
         this.skill = skill;
-        this.particles = particles;
+        ArrayList<ParticleUtil> particles = new ArrayList<>();
+        ArrayList<SoundUtil> sounds = new ArrayList<>();
+        for (Object object : array) {
+            if (object instanceof ParticleUtil) {
+                particles.add((ParticleUtil) object);
+            } else if (object instanceof EnumParticle) {
+                particles.add(new ParticleUtil((EnumParticle) object));
+            } else if (object instanceof SoundUtil) {
+                sounds.add((SoundUtil) object);
+            } else if (object instanceof Sound) {
+                sounds.add(new SoundUtil((Sound) object, 1f));
+            }
+        }
+        this.particles = particles.toArray(new ParticleUtil[0]);
+        this.sounds = sounds.toArray(new SoundUtil[0]);
         this.maxLevel = maxLevel;
     }
 
-    PetMaterial(String name, ArrayList<Rarity> rarities, String id, String nbt, ArrayList<Double> stats, ArrayList<PetAbility> abilities, SkillType skill, ArrayList<Particle> particles) {
-        this(name, rarities, id, nbt, stats, abilities, skill, particles, 100);
+    PetMaterial(String name, ArrayList<Rarity> rarities, String id, String nbt, ArrayList<Double> stats, ArrayList<PetAbility> abilities, SkillType skill, Object... array) {
+        this(name, rarities, id, nbt, stats, abilities, skill, 100, array);
     }
 
     public static boolean isPetMaterial(String name) {
@@ -66,11 +83,11 @@ public class PetMaterial {
                 new ArrayList<>(Arrays.asList(0d, 0.5d, 0.5d, 0.1d, 0d, 0d, 0d, 0d, 0d, 0d)),
                 new ArrayList<>(Arrays.asList(new PetAbility("End Strike", "Deal " + ChatColor.GREEN + "LEVEL*0.2% " + ChatColor.GRAY + "more damage to end mobs", new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY))), new PetAbility("One with the Dragons", "Buffs the Aspect of the Dragons sword by " + ChatColor.GREEN + "LEVEL*0.5 " + Stat.DAMAGE.getIconAndText() + " " + ChatColor.GRAY + "and " + ChatColor.GREEN + "LEVEL*0.3 " + Stat.STRENGTH.getIconAndText(), new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY))), new PetAbility("Superior", "Increases most stats by " + ChatColor.GREEN + "LEVEL*0.1%", new ArrayList<>(Arrays.asList(Rarity.LEGENDARY))))),
                 SkillType.COMBAT,
-                new ArrayList<>(Arrays.asList(Particle.SMOKE_NORMAL, Particle.SPELL_WITCH))));
+                EnumParticle.SMOKE_NORMAL, EnumParticle.SPELL_WITCH,
+                Sound.ENTITY_ENDERDRAGON_FLAP
+        ));
 
-        ENDER_DRAGON = Pets.get("ENDER_DRAGON");
-
-        NULL = new PetMaterial("Null", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)), "", "", new ArrayList<>(Arrays.asList(0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d)), new ArrayList<>(Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL))))), SkillType.COMBAT, new ArrayList<>(Arrays.asList(Particle.BLOCK_CRACK)));
+        NULL = new PetMaterial("Null", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)), "", "", new ArrayList<>(Arrays.asList(0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d)), new ArrayList<>(Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL))))), SkillType.COMBAT, EnumParticle.BLOCK_CRACK);
     }
 
     public String name() {

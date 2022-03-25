@@ -1,9 +1,13 @@
 package me.maxiiiiii.skyblockdragons.stat;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.PacketContainer;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import lombok.Setter;
+import me.maxiiiiii.skyblockdragons.util.EntityHider;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.abilities.Atomsplit_Katana;
@@ -24,7 +28,12 @@ import me.maxiiiiii.skyblockdragons.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeSlot;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.*;
+import org.bukkit.Material;
+import org.bukkit.SoundCategory;
+import org.bukkit.Statistic;
+import org.bukkit.World;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.attribute.Attribute;
@@ -33,10 +42,14 @@ import org.bukkit.block.Block;
 import org.bukkit.block.PistonMoveReaction;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.*;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.map.MapView;
 import org.bukkit.metadata.MetadataValue;
@@ -47,6 +60,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.*;
+import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
 
 import java.net.InetSocketAddress;
@@ -79,6 +93,7 @@ public class PlayerSD implements Player {
     public int activePet;
     public ArrayList<Pet> pets;
     public Pet.ArmorStand petArmorStand;
+    public boolean hidePets;
 
     public ArrayList<ItemStack> accessoryBag;
 
@@ -128,6 +143,12 @@ public class PlayerSD implements Player {
         } catch (NullPointerException ex) {
             this.activePet = -1;
             this.petArmorStand = null;
+        }
+
+        try {
+            this.hidePets = Variables.getVariable(player.getUniqueId(), "HidePets").equals("1");
+        } catch (NullPointerException ex) {
+            this.hidePets = false;
         }
 
         this.accessoryBag = new ArrayList<>();
@@ -447,13 +468,16 @@ public class PlayerSD implements Player {
 
             Item item = new Item(itemMaterial, itemStack);
             copyNBTStack(item, itemStack);
-            if (!item.isSimilar(itemStack) && !getId(itemStack).contains("_PET") && !item.getMaterial().name().equals("SKYBLOCK_MENU")) {
+            if (!item.isSimilar(itemStack) && !getId(itemStack).contains("_PET") && !Functions.getId(item).equals("SKYBLOCK_MENU")) {
                 player.getInventory().setItem(i, item);
             }
 
+            if (Functions.getId(itemStack).equals("SKYBLOCK_MENU") && i != 8) {
+                player.getInventory().setItem(8, new ItemStack(Material.AIR));
+            }
         }
 
-        if (Functions.isNotAir(player.getInventory().getItem(8)) || !Functions.getId(player.getInventory().getItem(8)).equals("SKYBLOCK_MENU")) {
+        if (!Functions.isNotAir(player.getInventory().getItem(8)) || !Functions.getId(player.getInventory().getItem(8)).equals("SKYBLOCK_MENU")) {
             Item menu = new Item(ItemMaterial.get("SKYBLOCK_MENU"), 1);
             ItemMeta menuMeta = menu.getItemMeta();
             List<String> lores = menuMeta.getLore();
@@ -1059,6 +1083,22 @@ public class PlayerSD implements Player {
     @Override
     public void hidePlayer(Player player) {
         this.player.hidePlayer(player);
+    }
+
+    public void hideEntity(Entity entity) {
+        if (entity == null) return;
+
+        SkyblockDragons.entityHider.hideEntity(player, entity);
+//        PacketPlayOutEntityDestroy packet = new PacketPlayOutEntityDestroy(entity.getEntityId());
+//        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+    }
+
+    public void showEntity(Entity entity) {
+        if (entity == null) return;
+
+        SkyblockDragons.entityHider.showEntity(player, entity);
+//        PacketPlayOutSpawnEntity packet = new PacketPlayOutSpawnEntity((net.minecraft.server.v1_12_R1.Entity) entity, entity.getEntityId());
+//        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 
     @Override

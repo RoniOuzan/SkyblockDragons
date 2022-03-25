@@ -10,6 +10,8 @@ import me.maxiiiiii.skyblockdragons.itemcreator.Rarity;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -40,6 +42,10 @@ public class Pet extends ItemStack {
         this.currentXp = currentXp;
 
         this.toItem(rightClickToAdd);
+    }
+
+    public String getName() {
+        return this.rarity.getColor() + this.petMaterial.getName();
     }
 
     public void update() {
@@ -108,17 +114,10 @@ public class Pet extends ItemStack {
 
         NBTCompound nbt = nbtItem.addCompound("Item");
         nbt.setString("id", this.petMaterial.name() + "_PET");
-        new NBTList<Double>(nbt, "Stats", NBTType.NBTTagDouble, stats) {
-            @Override
-            public Double get(int index) {
-                return stats[index];
-            }
-
-            @Override
-            protected Object asTag(Double object) {
-                return object;
-            }
-        };
+        NBTList<Double> statList = nbt.getDoubleList("Stats");
+        for (double stat : stats) {
+            statList.add(stat);
+        }
         int random = Functions.randomInt(1, 10000);
         nbt.setString("Stack", random + "");
         Date now = new Date();
@@ -331,7 +330,7 @@ public class Pet extends ItemStack {
             this.armorStand = armorStand;
             this.slot = slot;
 
-            hologram = createHologram(armorStand.getLocation(), getArmorStandName(player, pet));
+            hologram = createHologram(armorStand.getLocation(), getArmorStandName(player, pet) + ChatColor.GREEN + "" + ChatColor.DARK_GREEN + "" + ChatColor.GREEN + "" + ChatColor.DARK_GREEN);
         }
 
         public static String getArmorStandName(Player player, Pet pet) {
