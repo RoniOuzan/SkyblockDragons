@@ -15,10 +15,10 @@ import me.maxiiiiii.skyblockdragons.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.bits.BitsUtil;
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemType;
-import me.maxiiiiii.skyblockdragons.material.ArmorMaterial;
-import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.material.ToolMaterial;
-import me.maxiiiiii.skyblockdragons.material.WeaponMaterial;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.ArmorMaterial;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.ToolMaterial;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.WeaponMaterial;
 import me.maxiiiiii.skyblockdragons.pet.Pet;
 import me.maxiiiiii.skyblockdragons.skill.Skill;
 import me.maxiiiiii.skyblockdragons.skill.Skills.*;
@@ -204,9 +204,9 @@ public class PlayerSD implements Player {
     }
 
     public void give(ItemDrop item) {
-        ItemDrop itemDrop = item.generate();
-        if (itemDrop != null)
-            this.player.getInventory().addItem(itemDrop);
+        ItemStack itemStack = item.generate();
+        if (itemStack != null)
+            this.player.getInventory().addItem(itemStack);
     }
 
     public void increasePlayerStat(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence) {

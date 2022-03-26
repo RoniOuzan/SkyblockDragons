@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.itemcreator;
 
-import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -22,8 +22,8 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.isByte;
 import static me.maxiiiiii.skyblockdragons.util.Functions.isItemMaterial;
 import static me.maxiiiiii.skyblockdragons.util.Functions.isPlayerName;
 import static me.maxiiiiii.skyblockdragons.util.Functions.openSign;
-import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.ItemMaterials;
-import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
+import static me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial.ItemMaterials;
+import static me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial.Items;
 import static me.maxiiiiii.skyblockdragons.menu.ItemList.openItemList;
 
 public class ItemCommand implements CommandExecutor, Listener, TabCompleter {

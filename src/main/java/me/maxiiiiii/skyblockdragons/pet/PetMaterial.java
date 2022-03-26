@@ -10,6 +10,7 @@ import me.maxiiiiii.skyblockdragons.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.ParticleUtil;
 import me.maxiiiiii.skyblockdragons.util.SoundUtil;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class PetMaterial {
                 Sound.ENTITY_ENDERDRAGON_FLAP
         ));
 
-        NULL = new PetMaterial("Null", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)), "", "", new ArrayList<>(Arrays.asList(0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d)), new ArrayList<>(Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL))))), SkillType.COMBAT, EnumWrappers.Particle.BLOCK_CRACK);
+        NULL = new PetMaterial("Null", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)), "", "", new ArrayList<>(Arrays.asList(0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d)), new ArrayList<>(Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL))))), SkillType.COMBAT, new ParticleUtil(EnumWrappers.Particle.BLOCK_CRACK, 5f, 5f, 5f, 1f, 200, Material.STONE));
     }
 
     public String name() {

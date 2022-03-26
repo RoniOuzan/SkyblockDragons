@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.craftingtable;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
-import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
-import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
+import static me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial.Items;
 
 @Getter
 public enum Recipe {

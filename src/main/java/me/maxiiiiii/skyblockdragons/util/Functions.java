@@ -19,7 +19,7 @@ import me.maxiiiiii.skyblockdragons.itemcreator.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.ReforgeType;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.Stat;
-import me.maxiiiiii.skyblockdragons.material.*;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.*;
 import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import org.bukkit.*;
@@ -38,12 +38,11 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
-import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.VanillaMaterials;
+import static me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial.Items;
+import static me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial.VanillaMaterials;
 import static me.maxiiiiii.skyblockdragons.menu.ItemList.openItemList;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariable;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariableValue;
@@ -497,13 +496,15 @@ public class Functions {
 
     public static int randomInt(int min, int max) {
         max++;
-        min *= 100;
-        max *= 100;
-        return (int) (Math.random() * (max - min) + min) / 100;
+        min *= 1000;
+        max *= 1000;
+        return (int) (Math.random() * (max - min) + min) / 1000;
     }
 
     public static double randomDouble(double min, double max) {
-        return Math.random() * (max - min) + min;
+        min *= 1000;
+        max *= 1000;
+        return (Math.random() * (max - min) + min) / 1000;
     }
 
     public static Block getBlockBelow(Location location) {

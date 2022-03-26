@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.material;
+package me.maxiiiiii.skyblockdragons.itemcreator.material;
 
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.*;
 import org.bukkit.Material;

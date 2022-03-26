@@ -47,9 +47,9 @@ public class Terminator implements Listener {
 //        a2.addScoreboardTag("TERMINATOR");
 //        a3.addScoreboardTag("TERMINATOR");
 
-        Vector vector1 = player.getLocation().getDirection().multiply(2);
-        Vector vector2 = getVector(player, 5, 0, 2);
-        Vector vector3 = getVector(player, -5, 0, 2);
+        Vector vector1 = player.getLocation().getDirection().multiply(3);
+        Vector vector2 = getVector(player, 5, 0, 3);
+        Vector vector3 = getVector(player, -5, 0, 3);
         Arrow arrow1 = player.launchProjectile(Arrow.class, vector1);
         Arrow arrow2 = player.launchProjectile(Arrow.class, vector2);
         Arrow arrow3 = player.launchProjectile(Arrow.class, vector3);

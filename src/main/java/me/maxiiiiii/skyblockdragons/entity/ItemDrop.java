@@ -1,8 +1,10 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
-import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
 
@@ -32,11 +34,10 @@ public class ItemDrop extends Item {
     }
 
     @Nullable
-    public ItemDrop generate() {
+    public ItemStack generate() {
         if (Functions.randomDouble(0, 100) > this.chance)
             return null;
         int amount = Functions.randomInt(this.minAmount, this.maxAmount);
-        this.setAmount(amount);
-        return this;
+        return new Item(this.getMaterial(), amount);
     }
 }

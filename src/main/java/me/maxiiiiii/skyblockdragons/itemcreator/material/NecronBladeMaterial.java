@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.material;
+package me.maxiiiiii.skyblockdragons.itemcreator.material;
 
 import lombok.Getter;
 import lombok.Setter;

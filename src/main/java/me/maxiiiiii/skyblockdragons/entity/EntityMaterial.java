@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
-import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.util.Equipment;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -51,7 +51,7 @@ public class EntityMaterial {
                 new Equipment(null, null, null, null, new ItemStack(Material.WOOD_SWORD), null),
                 0.2,
                 0,
-                new ItemDrop(ItemMaterial.get("ROTTEN_FLESH"), 1, 64, 100), new ItemDrop(ItemMaterial.get("ATOMSPLIT_KATANA"), 1, 50d)));
+                new ItemDrop(ItemMaterial.get("ROTTEN_FLESH"), 5, 8, 100)));
 
         Entities.put("DUMMY", new EntityMaterial(EntityType.ZOMBIE, "Dummy", Integer.MAX_VALUE, 50000000, 0, new Equipment(null, null, null, null, null, null), 0, 1, false));
 
