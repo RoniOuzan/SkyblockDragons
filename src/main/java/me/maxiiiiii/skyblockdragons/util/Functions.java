@@ -12,19 +12,19 @@ import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.abilities.Wither_Impact;
+import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
+import me.maxiiiiii.skyblockdragons.events.EntityHealth;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.ReforgeType;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.Stat;
-import me.maxiiiiii.skyblockdragons.itemcreator.material.*;
+import me.maxiiiiii.skyblockdragons.material.*;
 import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
 import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -40,9 +40,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
-import static me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial.Items;
-import static me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial.VanillaMaterials;
+import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
+import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.VanillaMaterials;
 import static me.maxiiiiii.skyblockdragons.menu.ItemList.openItemList;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariable;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariableValue;
@@ -495,11 +496,14 @@ public class Functions {
     }
 
     public static int randomInt(int min, int max) {
-        return ThreadLocalRandom.current().nextInt(min, max + 1);
+        max++;
+        min *= 100;
+        max *= 100;
+        return (int) (Math.random() * (max - min) + min) / 100;
     }
 
     public static double randomDouble(double min, double max) {
-        return ThreadLocalRandom.current().nextDouble(min, max);
+        return Math.random() * (max - min) + min;
     }
 
     public static Block getBlockBelow(Location location) {
@@ -558,6 +562,20 @@ public class Functions {
 
     public static boolean isColorable(Material material) {
         return material == Material.WOOL || material == Material.INK_SACK || material == Material.STAINED_GLASS || material == Material.STAINED_GLASS_PANE || material == Material.CARPET || material == Material.BANNER || material == Material.STAINED_CLAY;
+    }
+
+    public static String getEntityName(Entity entity) {
+        String name = entity.getCustomName().replaceAll("'", "");
+        List<String> names = Arrays.stream(name.split(EntityHealth.SPLITTER)[0].split(" ")).collect(Collectors.toList());
+        names.remove(0);
+        names.remove(0);
+        return String.join("_", names);
+    }
+
+    public static EntityMaterial getEntityMaterial(LivingEntity entity) {
+        String s = getEntityName(entity);
+
+        return EntityMaterial.get(ChatColor.stripColor(s.toUpperCase()));
     }
 
     public static ItemMaterial getItemMaterial(ItemStack item) {
@@ -1607,8 +1625,21 @@ public class Functions {
         NBTItem nbtItem = new NBTItem(item);
         NBTCompound nbt = nbtItem.getCompound("Item");
         NBTCompound enchants = nbt.getCompound("Enchants");
-        if (enchants.hasKey(enchant.name()))
+        if (enchants.hasKey(enchant.name())) {
             return enchants.getShort(enchant.name());
+        }
         return 0;
+    }
+
+    public static boolean isEntityUndead(Entity entity) {
+        return entity instanceof Skeleton || entity instanceof Zombie;
+    }
+
+    public static boolean isEntityBaneOfArthropods(Entity entity) {
+        return entity instanceof Spider || entity instanceof Silverfish;
+    }
+
+    public static boolean isEntityBaneOfArthropods() {
+        return false;
     }
 }

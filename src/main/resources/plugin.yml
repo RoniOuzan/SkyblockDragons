@@ -108,3 +108,6 @@ commands:
   Sound:
     permission: skyblockdragons.sound
     usage: /<command> <sound> <pitch>
+  SpawnMob:
+    permission: skyblockdragons.mob.spawn
+    usage: /<command> <mob>

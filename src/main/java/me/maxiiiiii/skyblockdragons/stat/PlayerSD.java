@@ -4,6 +4,9 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import lombok.Setter;
+import me.maxiiiiii.skyblockdragons.entity.ItemDrop;
+import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
+import me.maxiiiiii.skyblockdragons.util.Condition;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.abilities.Atomsplit_Katana;
@@ -12,10 +15,10 @@ import me.maxiiiiii.skyblockdragons.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.bits.BitsUtil;
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemType;
-import me.maxiiiiii.skyblockdragons.itemcreator.material.ArmorMaterial;
-import me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.itemcreator.material.ToolMaterial;
-import me.maxiiiiii.skyblockdragons.itemcreator.material.WeaponMaterial;
+import me.maxiiiiii.skyblockdragons.material.ArmorMaterial;
+import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.material.ToolMaterial;
+import me.maxiiiiii.skyblockdragons.material.WeaponMaterial;
 import me.maxiiiiii.skyblockdragons.pet.Pet;
 import me.maxiiiiii.skyblockdragons.skill.Skill;
 import me.maxiiiiii.skyblockdragons.skill.Skills.*;
@@ -200,6 +203,12 @@ public class PlayerSD implements Player {
         return this.getPersonalBank();
     }
 
+    public void give(ItemDrop item) {
+        ItemDrop itemDrop = item.generate();
+        if (itemDrop != null)
+            this.player.getInventory().addItem(itemDrop);
+    }
+
     public void increasePlayerStat(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence) {
         this.damage *= 1 + damage / 100;
         this.strength *= 1 + strength / 100;
@@ -221,7 +230,7 @@ public class PlayerSD implements Player {
         this.intelligence *= 1 + intelligence / 100;
     }
 
-    public void addPlayerStat(ArrayList<Double> num) {
+    public void addPlayerStat(List<Double> num) {
         try {
             this.damage += num.get(0);
             this.strength += num.get(1);
@@ -248,10 +257,7 @@ public class PlayerSD implements Player {
         try {
             NBTItem nbtItem = new NBTItem(item);
             NBTCompound nbt = nbtItem.getCompound("Item");
-            ArrayList<Double> stats = new ArrayList<>();
-            for (int num : nbt.getIntArray("Stats")) {
-                stats.add(num * 1.0);
-            }
+            List<Double> stats = nbt.getDoubleList("Stats");
             addPlayerStat(stats);
         } catch (NullPointerException ignored) {
         }
@@ -261,7 +267,7 @@ public class PlayerSD implements Player {
         try {
             NBTItem nbtItem = new NBTItem(pet);
             NBTCompound nbt = nbtItem.getCompound("Item");
-            ArrayList<Double> stats = new ArrayList<>(nbt.getDoubleList("Stats"));
+            List<Double> stats = nbt.getDoubleList("Stats");
             addPlayerStat(stats);
         } catch (NullPointerException ignored) {}
     }
@@ -335,29 +341,24 @@ public class PlayerSD implements Player {
         }
 
         // tool
-        try {
-            if (Functions.getItemMaterial(tool).getType().isTool()) this.addItemStat(tool);
-        } catch (NullPointerException ignored) {}
+        if (Functions.isNotAir(tool))
+            if (toolMaterial.getType().isTool()) this.addItemStat(tool);
 
         // helmet
-        try {
-            if (Functions.getItemMaterial(helmet).getType() == ItemType.HELMET) this.addItemStat(helmet);
-        } catch (NullPointerException ignored) {}
+        if (Functions.isNotAir(helmet))
+            if (helmetMaterial.getType() == ItemType.HELMET) this.addItemStat(helmet);
 
         // chestplate
-        try {
-            if (Functions.getItemMaterial(chestplate).getType() == ItemType.CHESTPLATE) this.addItemStat(chestplate);
-        } catch (NullPointerException ignored) {}
+        if (Functions.isNotAir(chestplate))
+            if (chestplateMaterial.getType() == ItemType.CHESTPLATE) this.addItemStat(chestplate);
 
         // leggings
-        try {
-            if (Functions.getItemMaterial(leggings).getType() == ItemType.LEGGINGS) this.addItemStat(leggings);
-        } catch (NullPointerException ignored) {}
+        if (Functions.isNotAir(leggings))
+            if (leggingsMaterial.getType() == ItemType.LEGGINGS) this.addItemStat(leggings);
 
         // boots
-        try {
-            if (Functions.getItemMaterial(boots).getType() == ItemType.BOOTS) this.addItemStat(boots);
-        } catch (NullPointerException ignored) {}
+        if (Functions.isNotAir(boots))
+            if (bootsMaterial.getType() == ItemType.BOOTS) this.addItemStat(boots);
 
         if (this.activePet >= 0) {
             this.addPetStats(this.getPetActive());
@@ -453,6 +454,16 @@ public class PlayerSD implements Player {
         }
         this.player.sendMessage(ChatColor.RED + "You don't have enough mana to use this item!");
         return true;
+    }
+
+    public short getEnchantLevel(EnchantType enchant) {
+        return Functions.getEnchantLevel(player.getEquipment().getItemInMainHand(), enchant);
+    }
+
+    public short getEnchantLevel(EnchantType enchant, Condition condition) {
+        if (!condition.check())
+            return 0;
+        return Functions.getEnchantLevel(player.getEquipment().getItemInMainHand(), enchant);
     }
 
     public void updatePlayerInventory() {

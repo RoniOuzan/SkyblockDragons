@@ -6,7 +6,7 @@ import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.ReforgeType;
-import me.maxiiiiii.skyblockdragons.itemcreator.material.*;
+import me.maxiiiiii.skyblockdragons.material.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

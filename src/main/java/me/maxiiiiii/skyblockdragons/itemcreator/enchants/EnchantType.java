@@ -1,8 +1,11 @@
 package me.maxiiiiii.skyblockdragons.itemcreator.enchants;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemStats;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemTypeGroup;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
@@ -91,92 +94,92 @@ public class EnchantType {
     public static HashMap<String, EnchantType> Enchants = new HashMap<>();
 
     // Ultimate Enchants
-    public static final UltimateEnchantType CHIMERA = (UltimateEnchantType) Enchants.get("AAACHIMERA");
-    public static final UltimateEnchantType ONE_FOR_ALL = (UltimateEnchantType) Enchants.get("AAAONE_FOR_ALL");
-    public static final UltimateEnchantType ULTIMATE_WISE = (UltimateEnchantType) Enchants.get("AAAULTIMATE_WISE");
+    public static UltimateEnchantType CHIMERA = (UltimateEnchantType) Enchants.get("AAACHIMERA");
+    public static UltimateEnchantType ONE_FOR_ALL = (UltimateEnchantType) Enchants.get("AAAONE_FOR_ALL");
+    public static UltimateEnchantType ULTIMATE_WISE = (UltimateEnchantType) Enchants.get("AAAULTIMATE_WISE");
     // Swords
-    public static final EnchantType BANE_OF_ARTHROPODS = Enchants.get("BANE_OF_ARTHROPODS");
-    public static final EnchantType CLEAVE = Enchants.get("CLEAVE");
-    public static final EnchantType CRITICAL = Enchants.get("CRITICAL");
-    public static final EnchantType ENDER_SLAYER = Enchants.get("ENDER_SLAYER");
-    public static final EnchantType EXECUTE = Enchants.get("EXECUTE");
-    public static final EnchantType EXPERIENCE = Enchants.get("EXPERIENCE");
-    public static final EnchantType FIRE_ASPECT = Enchants.get("FIRE_ASPECT");
-    public static final EnchantType FIRST_STRIKE = Enchants.get("TRIPLE_STRIKE");
-    public static final EnchantType GIANT_KILLER = Enchants.get("TITAN_KILLER");
-    public static final EnchantType KNOCKBACK = Enchants.get("KNOCKBACK");
-    public static final EnchantType LETHALITY = Enchants.get("LETHALITY");
-    public static final EnchantType LIFE_STEAL = Enchants.get("LIFE_STEAL");
-    public static final EnchantType LOOTING = Enchants.get("LOOTING");
-    public static final EnchantType LUCK = Enchants.get("LUCK");
-    public static final EnchantType MANA_STEAL = Enchants.get("MANA_STEAL");
-    public static final EnchantType PROSECUTE = Enchants.get("PROSECUTE");
-    public static final EnchantType SCAVENGER = Enchants.get("SCAVENGER");
-    public static final EnchantType SHARPNESS = Enchants.get("SHARPNESS");
-    public static final EnchantType SMITE = Enchants.get("SMITE");
-    public static final EnchantType SYPHON = Enchants.get("SYPHON");
-    public static final EnchantType THUNDERBOLT = Enchants.get("THUNDERLORD");
-    public static final EnchantType THUNDERLORD = Enchants.get("THUNDERBOLT");
-    public static final EnchantType TITAN_KILLER = Enchants.get("TITAN_KILLER");
-    public static final EnchantType TRIPLE_STRIKE = Enchants.get("TRIPLE_STRIKE");
-    public static final EnchantType VAMPIRISM = Enchants.get("VAMPIRISM");
-    public static final EnchantType VENOMOUS = Enchants.get("VENOMOUS");
+    public static EnchantType BANE_OF_ARTHROPODS = null;
+    public static EnchantType CLEAVE = null;
+    public static EnchantType CRITICAL = null;
+    public static EnchantType ENDER_SLAYER = null;
+    public static EnchantType EXECUTE = null;
+    public static EnchantType EXPERIENCE = null;
+    public static EnchantType FIRE_ASPECT = null;
+    public static EnchantType FIRST_STRIKE = null;
+    public static EnchantType GIANT_KILLER = null;
+    public static EnchantType KNOCKBACK = null;
+    public static EnchantType LETHALITY = null;
+    public static EnchantType LIFE_STEAL = null;
+    public static EnchantType LOOTING = null;
+    public static EnchantType LUCK = null;
+    public static EnchantType MANA_STEAL = null;
+    public static EnchantType PROSECUTE = null;
+    public static EnchantType SCAVENGER = null;
+    public static EnchantType SHARPNESS = null;
+    public static EnchantType SMITE = null;
+    public static EnchantType SYPHON = null;
+    public static EnchantType THUNDERBOLT = null;
+    public static EnchantType THUNDERLORD = null;
+    public static EnchantType TITAN_KILLER = null;
+    public static EnchantType TRIPLE_STRIKE = null;
+    public static EnchantType VAMPIRISM = null;
+    public static EnchantType VENOMOUS = null;
 
     // Bows
-    public static final EnchantType CHANCE = Enchants.get("CHANCE");
-    public static final EnchantType DRAGON_TRACER = Enchants.get("DRAGON_TRACER");
-    public static final EnchantType FLAME = Enchants.get("FLAME");
-    public static final EnchantType INFINITE_QUIVER = Enchants.get("INFINITE_QUIVER");
-    public static final EnchantType PIERCING = Enchants.get("PIERCING");
-    public static final EnchantType OVERLOAD = Enchants.get("OVERLOAD");
-    public static final EnchantType POWER = Enchants.get("POWER");
-    public static final EnchantType PUNCH = Enchants.get("PUNCH");
-    public static final EnchantType SNIPE = Enchants.get("SNIPE");
+    public static EnchantType CHANCE = null;
+    public static EnchantType DRAGON_TRACER = null;
+    public static EnchantType FLAME = null;
+    public static EnchantType INFINITE_QUIVER = null;
+    public static EnchantType PIERCING = null;
+    public static EnchantType OVERLOAD = null;
+    public static EnchantType POWER = null;
+    public static EnchantType PUNCH = null;
+    public static EnchantType SNIPE = null;
 
     // Weapons
-    public static final EnchantType CUBISM = Enchants.get("CUBISM");
-    public static final EnchantType DRAGON_HUNTER = Enchants.get("DRAGON_HUNTER");
-    public static final EnchantType IMPALING = Enchants.get("IMPALING");
-    public static final EnchantType VICIOUS = Enchants.get("VICIOUS");
+    public static EnchantType CUBISM = null;
+    public static EnchantType DRAGON_HUNTER = null;
+    public static EnchantType IMPALING = null;
+    public static EnchantType VICIOUS = null;
 
     // Armor
     // Helmet
-    public static final EnchantType AQUA_AFFINITY = Enchants.get("AQUA_AFFINITY");
-    public static final EnchantType BIG_BRAIN = Enchants.get("BIG_BRAIN");
-    public static final EnchantType RESPIRATION = Enchants.get("RESPIRATION");
+    public static EnchantType AQUA_AFFINITY = null;
+    public static EnchantType BIG_BRAIN = null;
+    public static EnchantType RESPIRATION = null;
     // Chestplate
-    public static final EnchantType COUNTER_STRIKE = Enchants.get("COUNTER_STRIKE");
-    public static final EnchantType TRUE_PROTECTION = Enchants.get("TRUE_PROTECTION");
+    public static EnchantType COUNTER_STRIKE = null;
+    public static EnchantType TRUE_PROTECTION = null;
     // Leggings
-    public static final EnchantType SMARTY_PANTS = Enchants.get("SMARTY_PANTS");
+    public static EnchantType SMARTY_PANTS = null;
     // Boots
-    public static final EnchantType DEPTH_STRIDER = Enchants.get("DEPTH_STRIDER");
-    public static final EnchantType FEATHER_FALLING = Enchants.get("FEATHER_FALLING");
-    public static final EnchantType FROST_WALKER = Enchants.get("FROST_WALKER");
-    public static final EnchantType SUGAR_RUSH = Enchants.get("SUGAR_RUSH");
+    public static EnchantType DEPTH_STRIDER = null;
+    public static EnchantType FEATHER_FALLING = null;
+    public static EnchantType FROST_WALKER = null;
+    public static EnchantType SUGAR_RUSH = null;
     // All
-    public static final EnchantType BLAST_PROTECTION = Enchants.get("BLAST_PROTECTION");
-    public static final EnchantType FIRE_PROTECTION = Enchants.get("FIRE_PROTECTION");
-    public static final EnchantType GROWTH = Enchants.get("GROWTH");
-    public static final EnchantType PROJECTILE_PROTECTION = Enchants.get("PROJECTILE_PROTECTION");
-    public static final EnchantType PROTECTION = Enchants.get("PROTECTION");
-    public static final EnchantType REJUVENATE = Enchants.get("REJUVENATE");
-    public static final EnchantType RESPITE = Enchants.get("RESPITE");
+    public static EnchantType BLAST_PROTECTION = null;
+    public static EnchantType FIRE_PROTECTION = null;
+    public static EnchantType GROWTH = null;
+    public static EnchantType PROJECTILE_PROTECTION = null;
+    public static EnchantType PROTECTION = null;
+    public static EnchantType REJUVENATE = null;
+    public static EnchantType RESPITE = null;
 
     // Not For Armors
-    public static final EnchantType TELEKINESIS = Enchants.get("TELEKINESIS");
+    public static EnchantType TELEKINESIS = null;
 
     // Null
-    public static final EnchantType NULL = new EnchantType(0, "", 1);
+    public static EnchantType NULL = new EnchantType(0, "", 1);
 
-    private final ArrayList<Integer> stats; // dmg, str, cd, cc, as, fer, hp, def, speed, mana
+    private final ItemStats stats; // dmg, str, cd, cc, as, fer, hp, def, speed, mana
     private final short maxLevel;
     private final String description;
     private final double multiplayer;
     private final ArrayList<ItemType> types;
     private final ArrayList<String> distractions;
 
-    EnchantType(ArrayList<Integer> stats, int maxLevel ,String description, double multiplayer, ArrayList<ItemType> types, ArrayList<String> distractions) {
+    EnchantType(ItemStats stats, int maxLevel ,String description, double multiplayer, ArrayList<ItemType> types, ArrayList<String> distractions) {
         this.stats = stats;
         this.description = description;
         this.multiplayer = multiplayer;
@@ -187,46 +190,42 @@ public class EnchantType {
     }
 
     EnchantType(int maxLevel, String description, double multiplayer, ArrayList<ItemType> types, ArrayList<String> distractions) {
-        this(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)), maxLevel, description, multiplayer, types, distractions);
+        this(new ItemStats(), maxLevel, description, multiplayer, types, distractions);
     }
 
     EnchantType(int maxLevel, String description, double multiplayer, ItemType type, ArrayList<String> distractions) {
-        this(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)), maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(type)), distractions);
+        this(new ItemStats(), maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(type)), distractions);
     }
 
     EnchantType(int maxLevel, String description, double multiplayer, ItemType type, String distraction) {
-        this(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)), maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(type)), new ArrayList<>(Arrays.asList(distraction)));
+        this(new ItemStats(), maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(type)), new ArrayList<>(Arrays.asList(distraction)));
     }
 
     EnchantType(int maxLevel, String description, double multiplayer, ItemType type) {
-        this(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)), maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(type)), new ArrayList<>());
+        this(new ItemStats(), maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(type)), new ArrayList<>());
     }
 
     EnchantType(int maxLevel, String description, double multiplayer, ArrayList<ItemType> types) {
-        this(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)), maxLevel, description, multiplayer, types, new ArrayList<>());
+        this(new ItemStats(), maxLevel, description, multiplayer, types, new ArrayList<>());
     }
 
-    EnchantType(int maxLevel, ArrayList<Integer> stats , String description, double multiplayer, ItemType type) {
-        this(stats, maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(type)), new ArrayList<>());
-    }
-
-    EnchantType(ArrayList<Integer> stats, int maxLevel, String description, double multiplayer, ArrayList<ItemType> types) {
+    EnchantType(ItemStats stats, int maxLevel, String description, double multiplayer, ArrayList<ItemType> types) {
         this(stats, maxLevel, description, multiplayer, types, new ArrayList<>());
     }
 
-    EnchantType(ArrayList<Integer> stats, int maxLevel, String description, double multiplayer, ItemType type) {
+    EnchantType(ItemStats stats, int maxLevel, String description, double multiplayer, ItemType type) {
         this(stats, maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(type)), new ArrayList<>());
     }
 
     EnchantType(int maxLevel, String description, double multiplayer) {
-        this(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)), maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(ItemType.values())), new ArrayList<>());
+        this(new ItemStats(), maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(ItemType.values())), new ArrayList<>());
     }
 
     public static void registerEnchants() {
         // Swords
         Enchants.put("BANE_OF_ARTHROPODS", new EnchantType(5, "", 0, ItemType.SWORD, new ArrayList<>(Arrays.asList("SHARPNESS", "SMITE"))));
         Enchants.put("CLEAVE", new EnchantType(5, "", 0, ItemType.SWORD));
-        Enchants.put("CRITICAL", new EnchantType(new ArrayList<>(Arrays.asList(0, 0, 10, 0, 0, 0, 0, 0, 0, 0)), 5, "", 0, ItemType.SWORD));
+        Enchants.put("CRITICAL", new EnchantType(new ItemStats(0, 0, 10, 0, 0, 0, 0, 0, 0, 0), 5, "", 0, ItemType.SWORD));
         Enchants.put("ENDER_SLAYER", new EnchantType(5, "", 0, ItemType.SWORD));
         Enchants.put("EXECUTE", new EnchantType(5, "", 0, ItemType.SWORD, "PROSECUTE"));
         Enchants.put("EXPERIENCE", new EnchantType(3, "", 0, ItemType.SWORD));
@@ -266,29 +265,29 @@ public class EnchantType {
         Enchants.put("CUBISM", new EnchantType(5, "", 0, ItemTypeGroup.WEAPON.toType()));
         Enchants.put("DRAGON_HUNTER", new EnchantType(5, "", 0, ItemTypeGroup.WEAPON.toType()));
         Enchants.put("IMPALING", new EnchantType(3, "", 0, ItemTypeGroup.WEAPON.toType()));
-        Enchants.put("VICIOUS", new EnchantType(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 1, 0, 0, 0, 0)), 5, "", 0, ItemTypeGroup.WEAPON.toType()));
+        Enchants.put("VICIOUS", new EnchantType(new ItemStats(0, 0, 0, 0, 0, 1, 0, 0, 0, 0), 5, "", 0, ItemTypeGroup.WEAPON.toType()));
 
         // Armor
         // Helmet
         Enchants.put("AQUA_AFFINITY", new EnchantType(1, "", 0, ItemType.HELMET));
-        Enchants.put("BIG_BRAIN", new EnchantType(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 5)), 5, "", 0, ItemType.HELMET));
+        Enchants.put("BIG_BRAIN", new EnchantType(new ItemStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 5), 5, "", 0, ItemType.HELMET));
         Enchants.put("RESPIRATION", new EnchantType(3, "", 0, ItemType.HELMET));
         // Chestplate
         Enchants.put("COUNTER_STRIKE", new EnchantType(5, "", 0, ItemType.CHESTPLATE));
         Enchants.put("TRUE_PROTECTION", new EnchantType(1, "", 0, ItemType.CHESTPLATE));
         // Leggings
-        Enchants.put("SMARTY_PANTS", new EnchantType(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 5)), 5, "", 0, ItemType.LEGGINGS));
+        Enchants.put("SMARTY_PANTS", new EnchantType(new ItemStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 5), 5, "", 0, ItemType.LEGGINGS));
         // Boots
         Enchants.put("DEPTH_STRIDER", new EnchantType(3, "", 0, ItemType.BOOTS, new ArrayList<>(Arrays.asList("FROST_WALKER"))));
         Enchants.put("FEATHER_FALLING", new EnchantType(4, "", 0, ItemType.BOOTS));
         Enchants.put("FROST_WALKER", new EnchantType(2, "", 0, ItemType.BOOTS, new ArrayList<>(Arrays.asList("DEPTH_STRIDER"))));
-        Enchants.put("SUGAR_RUSH", new EnchantType(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 2, 0)), 3, "", 0, ItemType.BOOTS));
+        Enchants.put("SUGAR_RUSH", new EnchantType(new ItemStats(0, 0, 0, 0, 0, 0, 0, 0, 2, 0), 3, "", 0, ItemType.BOOTS));
         // All Armors
         Enchants.put("BLAST_PROTECTION", new EnchantType(5, "", 0, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("FIRE_PROTECTION", "PROJECTILE_PROTECTION", "PROTECTION"))));
         Enchants.put("FIRE_PROTECTION", new EnchantType(5, "", 0, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("BLAST_PROTECTION", "PROJECTILE_PROTECTION", "PROTECTION"))));
-        Enchants.put("GROWTH", new EnchantType(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 15, 0, 0, 0)), 5, "", 0, ItemTypeGroup.ARMOR.toType()));
+        Enchants.put("GROWTH", new EnchantType(new ItemStats(0, 0, 0, 0, 0, 0, 15, 0, 0, 0), 5, "", 0, ItemTypeGroup.ARMOR.toType()));
         Enchants.put("PROJECTILE_PROTECTION", new EnchantType(5, "", 0, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("BLAST_PROTECTION", "FIRE_PROTECTION", "PROTECTION"))));
-        Enchants.put("PROTECTION", new EnchantType(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 3, 0, 0)), 5, "", 0, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("BLAST_PROTECTION", "FIRE_PROTECTION", "PROJEC)TILE_PROTECTION"))));
+        Enchants.put("PROTECTION", new EnchantType(new ItemStats(0, 0, 0, 0, 0, 0, 0, 3, 0, 0), 5, "", 0, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("BLAST_PROTECTION", "FIRE_PROTECTION", "PROJEC)TILE_PROTECTION"))));
         Enchants.put("REJUVENATE", new EnchantType(5, "", 0, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("RESPITE"))));
         Enchants.put("RESPITE", new EnchantType(5, "", 0, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("REJUVENATE"))));
 
@@ -296,9 +295,67 @@ public class EnchantType {
         Enchants.put("TELEKINESIS", new EnchantType(1, "", 0, new ArrayList<>(Arrays.asList(ItemType.ACCESSORY, ItemType.SWORD, ItemType.AXE, ItemType.ITEM, ItemType.BOW, ItemType.PICKAXE, ItemType.ROD, ItemType.WAND, ItemType.HOE))));
 
         // Ultimate Enchants
-        Enchants.put("AAACHIMERA", new UltimateEnchantType(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)), 5, "", 0, new ArrayList<>(Arrays.asList(ItemType.SWORD)), "CHIMERA"));
-        Enchants.put("AAAONE_FOR_ALL", new UltimateEnchantType(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)), 1, "", 0, new ArrayList<>(Arrays.asList(ItemType.SWORD)), "ONE_FOR_ALL"));
-        Enchants.put("AAAULTIMATE_WISE", new UltimateEnchantType(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)), 5, "", 0, new ArrayList<>(Arrays.asList(ItemType.SWORD)), "ULTIMATE_WISE"));
+        Enchants.put("AAACHIMERA", new UltimateEnchantType(5, "", 0, new ArrayList<>(Arrays.asList(ItemType.SWORD)), "CHIMERA"));
+        Enchants.put("AAAONE_FOR_ALL", new UltimateEnchantType(1, "", 0, new ArrayList<>(Arrays.asList(ItemType.SWORD)), "ONE_FOR_ALL"));
+        Enchants.put("AAAULTIMATE_WISE", new UltimateEnchantType(5, "", 0, new ArrayList<>(Arrays.asList(ItemType.SWORD)), "ULTIMATE_WISE"));
+
+        BANE_OF_ARTHROPODS = Enchants.get("BANE_OF_ARTHROPODS");
+        CLEAVE = Enchants.get("CLEAVE");
+        CRITICAL = Enchants.get("CRITICAL");
+        ENDER_SLAYER = Enchants.get("ENDER_SLAYER");
+        EXECUTE = Enchants.get("EXECUTE");
+        EXPERIENCE = Enchants.get("EXPERIENCE");
+        FIRE_ASPECT = Enchants.get("FIRE_ASPECT");
+        FIRST_STRIKE = Enchants.get("TRIPLE_STRIKE");
+        GIANT_KILLER = Enchants.get("TITAN_KILLER");
+        KNOCKBACK = Enchants.get("KNOCKBACK");
+        LETHALITY = Enchants.get("LETHALITY");
+        LIFE_STEAL = Enchants.get("LIFE_STEAL");
+        LOOTING = Enchants.get("LOOTING");
+        LUCK = Enchants.get("LUCK");
+        MANA_STEAL = Enchants.get("MANA_STEAL");
+        PROSECUTE = Enchants.get("PROSECUTE");
+        SCAVENGER = Enchants.get("SCAVENGER");
+        SHARPNESS = Enchants.get("SHARPNESS");
+        SMITE = Enchants.get("SMITE");
+        SYPHON = Enchants.get("SYPHON");
+        THUNDERBOLT = Enchants.get("THUNDERLORD");
+        THUNDERLORD = Enchants.get("THUNDERBOLT");
+        TITAN_KILLER = Enchants.get("TITAN_KILLER");
+        TRIPLE_STRIKE = Enchants.get("TRIPLE_STRIKE");
+        VAMPIRISM = Enchants.get("VAMPIRISM");
+        VENOMOUS = Enchants.get("VENOMOUS");
+        CHANCE = Enchants.get("CHANCE");
+        DRAGON_TRACER = Enchants.get("DRAGON_TRACER");
+        FLAME = Enchants.get("FLAME");
+        INFINITE_QUIVER = Enchants.get("INFINITE_QUIVER");
+        PIERCING = Enchants.get("PIERCING");
+        OVERLOAD = Enchants.get("OVERLOAD");
+        POWER = Enchants.get("POWER");
+        PUNCH = Enchants.get("PUNCH");
+        SNIPE = Enchants.get("SNIPE");
+        CUBISM = Enchants.get("CUBISM");
+        DRAGON_HUNTER = Enchants.get("DRAGON_HUNTER");
+        IMPALING = Enchants.get("IMPALING");
+        VICIOUS = Enchants.get("VICIOUS");
+        AQUA_AFFINITY = Enchants.get("AQUA_AFFINITY");
+        BIG_BRAIN = Enchants.get("BIG_BRAIN");
+        RESPIRATION = Enchants.get("RESPIRATION");
+        COUNTER_STRIKE = Enchants.get("COUNTER_STRIKE");
+        TRUE_PROTECTION = Enchants.get("TRUE_PROTECTION");
+        SMARTY_PANTS = Enchants.get("SMARTY_PANTS");
+        DEPTH_STRIDER = Enchants.get("DEPTH_STRIDER");
+        FEATHER_FALLING = Enchants.get("FEATHER_FALLING");
+        FROST_WALKER = Enchants.get("FROST_WALKER");
+        SUGAR_RUSH = Enchants.get("SUGAR_RUSH");
+        BLAST_PROTECTION = Enchants.get("BLAST_PROTECTION");
+        FIRE_PROTECTION = Enchants.get("FIRE_PROTECTION");
+        GROWTH = Enchants.get("GROWTH");
+        PROJECTILE_PROTECTION = Enchants.get("PROJECTILE_PROTECTION");
+        PROTECTION = Enchants.get("PROTECTION");
+        REJUVENATE = Enchants.get("REJUVENATE");
+        RESPITE = Enchants.get("RESPITE");
+        TELEKINESIS = Enchants.get("TELEKINESIS");
     }
 
     public String name() {

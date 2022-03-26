@@ -5,11 +5,12 @@ import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTList;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.events.EntityHealth;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.*;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.itemcreator.material.*;
+import me.maxiiiiii.skyblockdragons.material.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 import static me.maxiiiiii.skyblockdragons.util.Functions.manaCostCalculator;
@@ -181,13 +183,18 @@ public class Item extends ItemStack {
 
         NBTItem nbtItem = new NBTItem(this, true);
         NBTCompound nbt = nbtItem.addCompound("Item");
+        NBTCompound extra = nbtItem.addCompound("ExtraAttributes");
         if (this.material instanceof BookMaterial) {
             nbt.setString("id", "ENCHANTED_BOOK");
+            extra.setString("id", "ENCHANTED_BOOK");
         } else {
             nbt.setString("id", this.material.name());
+            extra.setString("id", this.material.name());
         }
         NBTList<Double> statList = nbt.getDoubleList("Stats");
-        statList.addAll(statList);
+        for (double num : stats) {
+            statList.add(Double.parseDouble(num + ""));
+        }
         if (material.getType() != ItemType.ITEM || rarity.getLevel() >= 5 || ((material instanceof NormalMaterial) && !((NormalMaterial) material).isStackAble())) {
             int random = Functions.randomInt(1, 10000);
             nbt.setInteger("Stack", random);
@@ -400,12 +407,16 @@ public class Item extends ItemStack {
                     statReforge = ChatColor.BLUE + "(" + reforge + " SYMBOL" + Math.abs(reforge.getStats().get(rarity.getLevel() - 1).get(i)) + percent + ")";
                 }
             }
+            boolean oneForAll = false;
             if (enchant) {
                 if (!enchants.containsKey(EnchantType.NULL)) {
                     for (EnchantType enchantType : EnchantType.Enchants.values()) {
                         if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
                             if (enchantType.getStats().get(i) != 0) {
                                 statAdder += enchantType.getStats().get(i) * enchants.get(enchantType);
+                            }
+                            if (enchantType.name().equals("ONE_FOR_ALL")) {
+                                oneForAll = true;
                             }
                         }
                     }
@@ -415,32 +426,41 @@ public class Item extends ItemStack {
             if (this.material instanceof WeaponMaterial) {
                 WeaponMaterial material = (WeaponMaterial) this.material;
 
-                double stat = material.getStats().get(i) + statAdder;
-                stats[i] = stat;
-                if (material.getStats().get(i) + statAdder != 0) {
-                    if (material.getStats().get(i) + statAdder < 0) statSymbol = "-";
-                    statReforge = statReforge.replaceAll("SYMBOL", statSymbol);
-                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Math.abs(stat) + percent + " " + statPotato + statReforge);
-                }
-            } else if (this.material instanceof ArmorMaterial) {
-                ArmorMaterial material = (ArmorMaterial) this.material;
+                if (oneForAll && i == 0)
+                    statAdder += (material.getStats().get(i) + statAdder * 6);
 
                 double stat = material.getStats().get(i) + statAdder;
                 stats[i] = stat;
                 if (material.getStats().get(i) + statAdder != 0) {
                     if (material.getStats().get(i) + statAdder < 0) statSymbol = "-";
                     statReforge = statReforge.replaceAll("SYMBOL", statSymbol);
-                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Math.abs(stat) + percent + " " + statPotato + statReforge);
+                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Functions.getInt(Math.abs(stat) + "") + percent + " " + statPotato + statReforge);
+                }
+            } else if (this.material instanceof ArmorMaterial) {
+                ArmorMaterial material = (ArmorMaterial) this.material;
+
+                if (oneForAll && i == 0)
+                    statAdder += (material.getStats().get(i) + statAdder * 6);
+
+                double stat = material.getStats().get(i) + statAdder;
+                stats[i] = stat;
+                if (material.getStats().get(i) + statAdder != 0) {
+                    if (material.getStats().get(i) + statAdder < 0) statSymbol = "-";
+                    statReforge = statReforge.replaceAll("SYMBOL", statSymbol);
+                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Functions.getInt(Math.abs(stat) + "") + percent + " " + statPotato + statReforge);
                 }
             } else if (this.material instanceof AccessoryMaterial) {
                 AccessoryMaterial material = (AccessoryMaterial) this.material;
+
+                if (oneForAll && i == 0)
+                    statAdder += (material.getStats().get(i) + statAdder * 6);
 
                 int stat = material.getStats().get(i) + statAdder;
                 stats[i] = stat;
                 if (material.getStats().get(i) + statAdder != 0) {
                     if (material.getStats().get(i) + statAdder < 0) statSymbol = "-";
                     statReforge = statReforge.replaceAll("SYMBOL", statSymbol);
-                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Math.abs(stat) + percent + " " + statPotato + statReforge);
+                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Functions.getInt(Math.abs(stat) + "") + percent + " " + statPotato + statReforge);
                 }
             }
         }
@@ -517,16 +537,20 @@ public class Item extends ItemStack {
             case 3:
                 return Stat.CRIT_CHANCE;
             case 4:
-                return Stat.ATTACK_SPEED;
+                return Stat.ABILITY_DAMAGE;
             case 5:
-                return Stat.FEROCITY;
+                return Stat.ABILITY_SCALING;
             case 6:
-                return Stat.HEALTH;
+                return Stat.ATTACK_SPEED;
             case 7:
-                return Stat.DEFENSE;
+                return Stat.FEROCITY;
             case 8:
-                return Stat.SPEED;
+                return Stat.HEALTH;
             case 9:
+                return Stat.DEFENSE;
+            case 10:
+                return Stat.SPEED;
+            case 11:
                 return Stat.INTELLIGENCE;
         }
         return Stat.DAMAGE;
