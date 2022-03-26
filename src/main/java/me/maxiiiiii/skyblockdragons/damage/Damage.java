@@ -78,6 +78,9 @@ public class Damage implements Listener {
         damage *= baseMultiplayer;
         damage *= postMultiplayer;
 //        damage *= 1 - (damageReduction / 100);
+        if (entity instanceof Player) {
+            damage /= 5;
+        }
         damage = Math.floor(damage);
 
         // hologram
@@ -128,7 +131,7 @@ public class Damage implements Listener {
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player) {
-            if (e.getEntity() instanceof Creature && e.getEntityType() != EntityType.PLAYER) {
+            if (e.getEntity() instanceof Creature) {
                 PlayerSD player = SkyblockDragons.getPlayer((Player) e.getDamager());
                 player.setScoreboardScores();
                 if (e.getCause() == EntityDamageEvent.DamageCause.FLY_INTO_WALL) return;

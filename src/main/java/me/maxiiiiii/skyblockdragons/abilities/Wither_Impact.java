@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.abilities;
 
-import me.maxiiiiii.skyblockdragons.itemcreator.material.NecronBladeMaterial;
+import me.maxiiiiii.skyblockdragons.material.NecronBladeMaterial;
 import me.maxiiiiii.skyblockdragons.util.Cooldown;
 import org.bukkit.Particle;
 import org.bukkit.Sound;

@@ -1,9 +1,8 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
-import me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;

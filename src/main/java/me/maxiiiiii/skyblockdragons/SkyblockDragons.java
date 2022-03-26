@@ -17,7 +17,7 @@ import me.maxiiiiii.skyblockdragons.events.*;
 import me.maxiiiiii.skyblockdragons.itemcreator.*;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.BookCommand;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
-import me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.pet.*;
 import me.maxiiiiii.skyblockdragons.reforge.ReforgeCommand;
 import me.maxiiiiii.skyblockdragons.skill.SkillAdminCommand;

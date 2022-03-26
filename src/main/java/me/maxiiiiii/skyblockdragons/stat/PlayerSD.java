@@ -15,10 +15,10 @@ import me.maxiiiiii.skyblockdragons.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.bits.BitsUtil;
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemType;
-import me.maxiiiiii.skyblockdragons.itemcreator.material.ArmorMaterial;
-import me.maxiiiiii.skyblockdragons.itemcreator.material.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.itemcreator.material.ToolMaterial;
-import me.maxiiiiii.skyblockdragons.itemcreator.material.WeaponMaterial;
+import me.maxiiiiii.skyblockdragons.material.ArmorMaterial;
+import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.material.ToolMaterial;
+import me.maxiiiiii.skyblockdragons.material.WeaponMaterial;
 import me.maxiiiiii.skyblockdragons.pet.Pet;
 import me.maxiiiiii.skyblockdragons.skill.Skill;
 import me.maxiiiiii.skyblockdragons.skill.Skills.*;
@@ -209,11 +209,13 @@ public class PlayerSD implements Player {
             this.player.getInventory().addItem(itemStack);
     }
 
-    public void increasePlayerStat(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence) {
+    public void increasePlayerStat(double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence) {
         this.damage *= 1 + damage / 100;
         this.strength *= 1 + strength / 100;
         this.critDamage *= 1 + critDamage / 100;
         this.critChance *= 1 + critChance / 100;
+        this.abilityDamage *= 1 + abilityDamage / 100;
+        this.abilityScaling *= 1 + abilityScaling / 100;
         if (this.attackSpeed * (attackSpeed / 100) > 100) {
             this.attackSpeed = 100;
         } else {
@@ -236,18 +238,20 @@ public class PlayerSD implements Player {
             this.strength += num.get(1);
             this.critDamage += num.get(2);
             this.critChance += num.get(3);
-            this.attackSpeed += num.get(4);
+            this.abilityDamage += num.get(4);
+            this.abilityScaling += num.get(5);
+            this.attackSpeed += num.get(6);
             if (this.attackSpeed > 100) {
                 this.attackSpeed = 100;
             }
-            this.ferocity += num.get(5);
-            this.health += num.get(6);
-            this.defense += num.get(7);
-            this.speed += num.get(8);
+            this.ferocity += num.get(7);
+            this.health += num.get(8);
+            this.defense += num.get(9);
+            this.speed += num.get(10);
             if (this.speed > 500) {
                 this.speed = 500;
             }
-            this.intelligence += num.get(9);
+            this.intelligence += num.get(11);
 
         } catch (IndexOutOfBoundsException ignored) {
         }
@@ -278,6 +282,8 @@ public class PlayerSD implements Player {
         stats.add(this.strength);
         stats.add(this.critDamage);
         stats.add(this.critChance);
+        stats.add(this.abilityDamage);
+        stats.add(this.abilityScaling);
         stats.add(this.attackSpeed);
         stats.add(this.ferocity);
         stats.add(this.health);
@@ -366,7 +372,7 @@ public class PlayerSD implements Player {
 
         // Full Sets
         if (fullSet.equals("Superior Blood")) {
-            increasePlayerStat(0, 5, 5, 5, 5, 5, 5, 5, 5, 5);
+            increasePlayerStat(0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5);
         }
 
         if (System.currentTimeMillis() - Atomsplit_Katana.atomsplitAbility <= 4000) {
@@ -394,6 +400,8 @@ public class PlayerSD implements Player {
         this.strength = Math.floor(this.strength * 100d) / 100d;
         this.critDamage = Math.floor(this.critDamage * 100d) / 100d;
         this.critChance = Math.floor(this.critChance * 100d) / 100d;
+        this.abilityDamage = Math.floor(this.abilityDamage * 100d) / 100d;
+        this.abilityScaling = Math.floor(this.abilityScaling * 100d) / 100d;
         this.attackSpeed = Math.floor(this.attackSpeed * 100d) / 100d;
         this.ferocity = Math.floor(this.damage * 100d) / 100d;
         this.health = Math.floor(this.health * 100d) / 100d;

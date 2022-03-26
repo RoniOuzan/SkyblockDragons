@@ -9,7 +9,7 @@ import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.*;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.itemcreator.material.*;
+import me.maxiiiiii.skyblockdragons.material.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
