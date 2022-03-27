@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.events;
 
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;

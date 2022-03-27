@@ -1,13 +1,23 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
-import me.maxiiiiii.skyblockdragons.util.Functions;import org.bukkit.ChatColor;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.util.Functions;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 public class EntitySD {
+    public static final HashMap<UUID, EntitySD> entities = new HashMap<>();
+
     public LivingEntity entity;
     public EntityMaterial type;
+    public PlayerSD attacker;
 
     public EntitySD(Location location, EntityMaterial type) {
         this.type = type;
@@ -34,11 +44,16 @@ public class EntitySD {
 
         this.entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(this.type.speed);
         this.entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(this.type.health);
+        this.entity.setHealth(this.type.health);
         this.entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(this.type.knockbackResistance);
         this.entity.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv " + this.type.level + ChatColor.DARK_GRAY + "] " + ChatColor.WHITE + this.type.name);
         this.entity.setCustomNameVisible(true);
         this.entity.setAI(this.type.ai);
         this.entity.setCanPickupItems(false);
+
+        this.attacker = null;
+
+        entities.put(this.entity.getUniqueId(), this);
     }
 
     public EntitySD(LivingEntity entity) {
@@ -46,11 +61,25 @@ public class EntitySD {
 
         this.type = Functions.getEntityMaterial(entity);
         this.entity = entity;
+
+        entities.put(this.entity.getUniqueId(), this);
+    }
+
+    public static EntitySD get(UUID uuid) {
+        return entities.get(uuid);
     }
 
     public static boolean isEntitySD(LivingEntity entity) {
         EntityMaterial type = Functions.getEntityMaterial(entity);
         return type != EntityMaterial.NULL;
+    }
+
+    public void setAttacker(PlayerSD attacker) {
+        this.attacker = attacker;
+    }
+
+    public PlayerSD getKiller() {
+        return this.attacker;
     }
 
     public double getHealth() {

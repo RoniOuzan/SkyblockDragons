@@ -53,7 +53,9 @@ public class EntityMaterial {
                 0,
                 new ItemDrop(ItemMaterial.get("ROTTEN_FLESH"), 5, 8, 100)));
 
-        Entities.put("DUMMY", new EntityMaterial(EntityType.ZOMBIE, "Dummy", Integer.MAX_VALUE, 50000000, 0, new Equipment(null, null, null, null, null, null), 0, 1, false));
+        Entities.put("DUMMY", new EntityMaterial(EntityType.ZOMBIE, "Dummy", Integer.MAX_VALUE, 500000, 0, new Equipment(null, null, null, null, null, null), 0, 1, false));
+
+        Entities.put("PLAYER", new EntityMaterial(EntityType.PLAYER, "", -1, -1, -1, new Equipment(null, null, null, null, null, null), -1, -1));
 
         NULL = new EntityMaterial(EntityType.SKELETON, "Null", 0, 1, 0, new Equipment(null, null, null, null, null ,null), 0, 1);
     }

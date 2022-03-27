@@ -24,7 +24,7 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.isPlayerName;
 import static me.maxiiiiii.skyblockdragons.util.Functions.openSign;
 import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.ItemMaterials;
 import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
-import static me.maxiiiiii.skyblockdragons.menu.ItemList.openItemList;
+import static me.maxiiiiii.skyblockdragons.commands.menu.ItemList.openItemList;
 
 public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
     @EventHandler

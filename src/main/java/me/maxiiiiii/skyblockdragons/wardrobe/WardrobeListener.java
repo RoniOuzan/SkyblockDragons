@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.wardrobe;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemType;
-import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

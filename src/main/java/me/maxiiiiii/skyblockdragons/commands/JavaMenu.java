@@ -1,12 +1,11 @@
 package me.maxiiiiii.skyblockdragons.commands;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.bank.BankMenu;
+import me.maxiiiiii.skyblockdragons.player.bank.BankMenu;
 import me.maxiiiiii.skyblockdragons.craftingtable.menus.CraftingTableMenu;
-import me.maxiiiiii.skyblockdragons.pet.Pet;
-import me.maxiiiiii.skyblockdragons.pet.PetMenu;
-import me.maxiiiiii.skyblockdragons.skill.SkillMenu;
-import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.pet.PetMenu;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillMenu;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeMenu;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -17,7 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import static me.maxiiiiii.skyblockdragons.menu.SkyblockMenu.*;
+import static me.maxiiiiii.skyblockdragons.commands.menu.SkyblockMenu.*;
 
 public class JavaMenu implements CommandExecutor, Listener {
     @Override

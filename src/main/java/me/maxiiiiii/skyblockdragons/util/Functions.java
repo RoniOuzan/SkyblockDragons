@@ -11,17 +11,21 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.abilities.Wither_Impact;
+import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.itemcreator.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.events.EntityHealth;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.itemcreator.objects.ReforgeType;
+import me.maxiiiiii.skyblockdragons.itemcreator.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.Stat;
 import me.maxiiiiii.skyblockdragons.material.*;
-import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
-import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.pet.PetMaterial;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.util.interfaces.LoopTask;
+import me.maxiiiiii.skyblockdragons.util.interfaces.Task;
+import me.maxiiiiii.skyblockdragons.util.interfaces.While;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -43,7 +47,7 @@ import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
 import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.VanillaMaterials;
-import static me.maxiiiiii.skyblockdragons.menu.ItemList.openItemList;
+import static me.maxiiiiii.skyblockdragons.commands.menu.ItemList.openItemList;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariable;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariableValue;
 
@@ -566,11 +570,17 @@ public class Functions {
     }
 
     public static String getEntityName(Entity entity) {
-        String name = entity.getCustomName().replaceAll("'", "");
-        List<String> names = Arrays.stream(name.split(EntityHealth.SPLITTER)[0].split(" ")).collect(Collectors.toList());
-        names.remove(0);
-        names.remove(0);
-        return String.join("_", names);
+        if (entity instanceof Player) {
+            return "Player";
+        }
+        try {
+            String name = entity.getCustomName().replaceAll("'", "");
+            List<String> names = Arrays.stream(name.split(EntityHealth.SPLITTER)[0].split(" ")).collect(Collectors.toList());
+            names.remove(0);
+            names.remove(0);
+            return String.join("_", names);
+        } catch (IndexOutOfBoundsException ignored) {}
+        return "Player";
     }
 
     public static EntityMaterial getEntityMaterial(LivingEntity entity) {

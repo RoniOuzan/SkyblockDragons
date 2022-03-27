@@ -2,11 +2,11 @@ package me.maxiiiiii.skyblockdragons;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import me.maxiiiiii.skyblockdragons.abilities.*;
-import me.maxiiiiii.skyblockdragons.accessorybag.AccessoryBagCommand;
-import me.maxiiiiii.skyblockdragons.anvil.AnvilCommand;
-import me.maxiiiiii.skyblockdragons.bank.BankCommand;
-import me.maxiiiiii.skyblockdragons.bits.BitsCommand;
+import me.maxiiiiii.skyblockdragons.itemcreator.abilities.*;
+import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
+import me.maxiiiiii.skyblockdragons.itemcreator.anvil.AnvilCommand;
+import me.maxiiiiii.skyblockdragons.player.bank.BankCommand;
+import me.maxiiiiii.skyblockdragons.player.bits.BitsCommand;
 import me.maxiiiiii.skyblockdragons.commands.*;
 import me.maxiiiiii.skyblockdragons.craftingtable.commands.CraftingTable;
 import me.maxiiiiii.skyblockdragons.craftingtable.commands.ViewRecipe;
@@ -18,14 +18,14 @@ import me.maxiiiiii.skyblockdragons.itemcreator.*;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.BookCommand;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.pet.*;
-import me.maxiiiiii.skyblockdragons.reforge.ReforgeCommand;
-import me.maxiiiiii.skyblockdragons.skill.SkillAdminCommand;
-import me.maxiiiiii.skyblockdragons.skill.SkillListener;
-import me.maxiiiiii.skyblockdragons.skill.SkillMenuCommand;
-import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
-import me.maxiiiiii.skyblockdragons.stat.OnSlotChange;
-import me.maxiiiiii.skyblockdragons.stat.StatCommand;
+import me.maxiiiiii.skyblockdragons.player.pet.*;
+import me.maxiiiiii.skyblockdragons.itemcreator.reforge.ReforgeCommand;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillAdminCommand;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillListener;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillMenuCommand;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.events.OnSlotChange;
+import me.maxiiiiii.skyblockdragons.player.StatCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.*;
 import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeCommand;
@@ -313,25 +313,15 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     }
 
     public static PlayerSD getPlayer(String name) {
-        for (PlayerSD myPlayer : players.values()) {
-            if (myPlayer.getName().equals(name)) {
-                return myPlayer;
-            }
-        }
-        return null;
+        return getPlayer(Bukkit.getPlayer(name).getUniqueId());
     }
 
     public static PlayerSD getPlayer(UUID uuid) {
-        for (PlayerSD myPlayer : players.values()) {
-            if (myPlayer.getUniqueId() == uuid) {
-                return myPlayer;
-            }
-        }
-        return null;
+        return players.get(uuid);
     }
 
     public static PlayerSD getPlayer(Player player) {
-        return players.get(player.getUniqueId());
+        return getPlayer(player.getUniqueId());
     }
 
     public static SkyblockDragons getPlugin() {

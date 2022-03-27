@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.wardrobe;
 
-import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

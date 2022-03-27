@@ -6,7 +6,7 @@ import me.maxiiiiii.skyblockdragons.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.craftingtable.menus.CraftingTableMenu;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
-import me.maxiiiiii.skyblockdragons.itemcreator.objects.ReforgeType;
+import me.maxiiiiii.skyblockdragons.itemcreator.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.material.SkinMaterial;
 import org.bukkit.Bukkit;

@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.events;
 
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.menu.SkyblockMenu;
+import me.maxiiiiii.skyblockdragons.commands.menu.SkyblockMenu;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;

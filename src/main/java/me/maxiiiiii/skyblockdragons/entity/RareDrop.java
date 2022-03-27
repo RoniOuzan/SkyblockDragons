@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.entity;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.stat.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 

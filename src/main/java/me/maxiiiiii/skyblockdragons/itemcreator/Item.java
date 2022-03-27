@@ -8,6 +8,7 @@ import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.*;
+import me.maxiiiiii.skyblockdragons.itemcreator.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.material.*;
 import org.bukkit.ChatColor;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.UnaryOperator;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 import static me.maxiiiiii.skyblockdragons.util.Functions.manaCostCalculator;
@@ -275,6 +277,7 @@ public class Item extends ItemStack {
         } else {
             lores.add(rarity + " " + this.material.getType().toString());
         }
+        lores.replaceAll(s -> s.replace(".0", ""));
         meta.setLore(lores);
 
         if (this.material instanceof NormalMaterial) {
@@ -397,7 +400,7 @@ public class Item extends ItemStack {
             String percent = "";
             if (i == 2 || i == 3 || i == 4) percent = "%";
 
-            int statAdder = 0;
+            double statAdder = 0;
             if (hotPotato > 0) {
                 if (i == 0 || i == 1) {
                     statAdder += hotPotato * 2;
@@ -437,7 +440,7 @@ public class Item extends ItemStack {
                 if (material.getStats().get(i) + statAdder != 0) {
                     if (material.getStats().get(i) + statAdder < 0) statSymbol = "-";
                     statReforge = statReforge.replaceAll("SYMBOL", statSymbol);
-                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Functions.getInt(Math.abs(stat) + "") + percent + " " + statPotato + statReforge);
+                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Math.abs(stat) + percent + " " + statPotato + statReforge);
                 }
             } else if (this.material instanceof ArmorMaterial) {
                 ArmorMaterial material = (ArmorMaterial) this.material;
@@ -450,7 +453,7 @@ public class Item extends ItemStack {
                 if (material.getStats().get(i) + statAdder != 0) {
                     if (material.getStats().get(i) + statAdder < 0) statSymbol = "-";
                     statReforge = statReforge.replaceAll("SYMBOL", statSymbol);
-                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Functions.getInt(Math.abs(stat) + "") + percent + " " + statPotato + statReforge);
+                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Math.abs(stat) + percent + " " + statPotato + statReforge);
                 }
             } else if (this.material instanceof AccessoryMaterial) {
                 AccessoryMaterial material = (AccessoryMaterial) this.material;
@@ -458,12 +461,12 @@ public class Item extends ItemStack {
                 if (oneForAll && i == 0)
                     statAdder += (material.getStats().get(i) + statAdder * 6);
 
-                int stat = material.getStats().get(i) + statAdder;
+                double stat = material.getStats().get(i) + statAdder;
                 stats[i] = stat;
                 if (material.getStats().get(i) + statAdder != 0) {
                     if (material.getStats().get(i) + statAdder < 0) statSymbol = "-";
                     statReforge = statReforge.replaceAll("SYMBOL", statSymbol);
-                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Functions.getInt(Math.abs(stat) + "") + percent + " " + statPotato + statReforge);
+                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Math.abs(stat) + percent + " " + statPotato + statReforge);
                 }
             }
         }

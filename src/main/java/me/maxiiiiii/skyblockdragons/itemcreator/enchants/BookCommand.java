@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.itemcreator.enchants;
 
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
-import me.maxiiiiii.skyblockdragons.itemcreator.objects.ReforgeType;
+import me.maxiiiiii.skyblockdragons.itemcreator.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.material.SkinMaterial;
