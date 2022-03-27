@@ -323,6 +323,11 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 continue;
             entity.kill();
         }
+
+        for (Entity entity : Bonzo_Staff.entities) {
+            if (!entity.isDead())
+                entity.remove();
+        }
     }
 
     private boolean setupEconomy() {

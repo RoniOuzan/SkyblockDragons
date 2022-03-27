@@ -3,10 +3,7 @@ package me.maxiiiiii.skyblockdragons.itemcreator.abilities;
 import de.tr7zw.changeme.nbtapi.NBTEntity;
 import me.maxiiiiii.skyblockdragons.util.Cooldown;
 import org.bukkit.*;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Firework;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -39,6 +36,7 @@ public class Bonzo_Staff implements Listener {
     ));
 
     private final ArrayList<Color> colors = new ArrayList<>(Arrays.asList(Color.RED, Color.ORANGE, Color.YELLOW, Color.LIME, Color.AQUA, Color.BLUE, Color.PURPLE, Color.FUCHSIA));
+    public static final ArrayList<Entity> entities = new ArrayList<>();
 
     @EventHandler
     public void onClick(PlayerInteractEvent e) {
@@ -62,6 +60,7 @@ public class Bonzo_Staff implements Listener {
         stand.setVisible(false);
         stand.setMarker(true);
         stand.addScoreboardTag("Bonzo_Staff");
+        entities.add(stand);
 
         new BukkitRunnable() {
             float i = 0;

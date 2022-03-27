@@ -32,7 +32,6 @@ public class Atomsplit_Katana implements Listener {
         if (SkyblockDragons.players.get(player.getUniqueId()).manaCost(player.getEquipment().getItemInMainHand(), 0)) return;
         if (cooldown(player, cooldown, 4000, true)) return;
 
-        SkyblockDragons.players.get(player.getUniqueId()).manaCost(player.getEquipment().getItemInMainHand(), 0);
         player.playSound(player.getLocation(), Sound.ENTITY_GHAST_SCREAM, 1f, 1f);
         item.setType(Material.GOLD_SWORD);
         atomsplitAbility.put(player, System.currentTimeMillis());

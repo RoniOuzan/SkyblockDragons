@@ -1,11 +1,9 @@
 package me.maxiiiiii.skyblockdragons.itemcreator.enchants;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemStats;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemTypeGroup;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;

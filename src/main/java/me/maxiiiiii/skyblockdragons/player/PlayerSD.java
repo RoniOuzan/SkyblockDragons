@@ -79,14 +79,22 @@ public class PlayerSD extends EntitySD implements Player {
     public double critDamage;
     public double critChance;
     public double abilityDamage;
+    public double baseAbilityDamage;
     public double abilityScaling;
     public double attackSpeed;
     public double ferocity;
     public double health;
     public double defense;
+    public double trueDefense;
     public double speed;
     public double mana;
     public double intelligence;
+    public double magicFind;
+    public double petLuck;
+    public double miningSpeed;
+    public double miningFortune;
+    public double seaCreatureChance;
+    public double absorption;
 
     public Skill skill;
     public Wardrobe wardrobe;
@@ -102,29 +110,54 @@ public class PlayerSD extends EntitySD implements Player {
 
     public static final double HEALTH_REGEN = 1.02;
 
-    public PlayerSD(Player player, double damage, double strength, double critDamage, double critChance, double abilityDamage, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence, Skill skill, Wardrobe wardrobe) {
+    public PlayerSD(Player player) {
         super(player);
 
         this.player = player;
-        this.damage = damage;
-        this.strength = strength;
-        this.critDamage = critDamage;
-        this.critChance = critChance;
-        this.abilityDamage = abilityDamage;
-        if (attackSpeed <= 100) {
-            this.attackSpeed = attackSpeed;
-        }
-        this.ferocity = ferocity;
-        this.health = health;
-        this.defense = defense;
-        if (speed <= 500) {
-            this.speed = speed;
-        }
+        this.damage = 0;
+        this.strength = 0;
+        this.critDamage = 0;
+        this.critChance = 20;
+        this.abilityDamage = 0;
+        this.baseAbilityDamage = 0;
+        this.abilityScaling = 0;
+        this.attackSpeed = 0;
+        this.ferocity = 0;
+        this.health = 100;
+        this.defense = 0;
+        this.trueDefense = 0;
+        this.speed = 100;
+        this.intelligence = 100;
         this.mana = intelligence;
-        this.intelligence = intelligence;
+        this.magicFind = 0;
+        this.petLuck = 0;
+        this.miningSpeed = 0;
+        this.miningFortune= 0;
+        this.seaCreatureChance = 0;
+        this.absorption = 0;
 
-        this.wardrobe = wardrobe;
-        this.skill = skill;
+        ArrayList<WardrobeSlot> wardrobeSlots = new ArrayList<>();
+        for (int i = 0; i < 18; i++) {
+            wardrobeSlots.add(new WardrobeSlot(
+                    i,
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0), "null"), null),
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1), "null"), null),
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2), "null"), null),
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3), "null"), null)
+            ));
+        }
+        this.wardrobe = new Wardrobe(wardrobeSlots);
+        this.skill = new Skill(
+                new FarmingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Farming", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Farming", 2, "0"))),
+                new MiningSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Mining", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Mining", 2, "0"))),
+                new CombatSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Combat", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Combat", 2, "0"))),
+                new ForagingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Foraging", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Foraging", 2, "0"))),
+                new FishingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Fishing", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Fishing", 2, "0"))),
+                new EnchantingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Enchanting", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Enchanting", 2, "0"))),
+                new AlchemySkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Alchemy", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Alchemy", 2, "0"))),
+                new TamingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Taming", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Taming", 2, "0"))),
+                new DungeoneeringSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Dungeoneering", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Dungeoneering", 2, "0")))
+        );
 
         try {
             this.bank = new BankAccount(this, Double.parseDouble(Variables.getVariable(player.getUniqueId(), "BankPersonal").getValue()), Double.parseDouble(Variables.getVariable(player.getUniqueId(), "BankCoop").getValue()));
@@ -164,47 +197,6 @@ public class PlayerSD extends EntitySD implements Player {
             } catch (NullPointerException ignored) {
             }
         }
-    }
-
-    public PlayerSD(Player player) {
-        this(player,
-                0,
-                0,
-                0,
-                20,
-                0,
-                0,
-                0,
-                100,
-                0,
-                100,
-                100,
-                new Skill(
-                        new FarmingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Farming", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Farming", 2, "0"))),
-                        new MiningSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Mining", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Mining", 2, "0"))),
-                        new CombatSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Combat", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Combat", 2, "0"))),
-                        new ForagingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Foraging", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Foraging", 2, "0"))),
-                        new FishingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Fishing", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Fishing", 2, "0"))),
-                        new EnchantingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Enchanting", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Enchanting", 2, "0"))),
-                        new AlchemySkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Alchemy", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Alchemy", 2, "0"))),
-                        new TamingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Taming", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Taming", 2, "0"))),
-                        new DungeoneeringSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Dungeoneering", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Dungeoneering", 2, "0")))
-                ),
-                new Wardrobe(getWardrobeSlots(player)));
-    }
-
-    private static ArrayList<WardrobeSlot> getWardrobeSlots(Player player) {
-        ArrayList<WardrobeSlot> wardrobeSlots = new ArrayList<>();
-        for (int i = 0; i < 18; i++) {
-            wardrobeSlots.add(new WardrobeSlot(
-                    i,
-                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0), "null"), null),
-                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1), "null"), null),
-                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2), "null"), null),
-                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3), "null"), null)
-            ));
-        }
-        return wardrobeSlots;
     }
 
     public void setActivePet(int activePet) {

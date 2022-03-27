@@ -57,7 +57,7 @@ public class FlyTo extends BukkitRunnable {
         if (lookAtTarget)
             targetLocation.setDirection(new Vector(x, y, z));
         entity.teleport(targetLocation);
-        if (this.hologram != null) {
+        if (this.hologram != null && !this.hologram.isDeleted()) {
             this.hologram.teleport(entity.getLocation().add(this.hologramAdder));
         }
     }

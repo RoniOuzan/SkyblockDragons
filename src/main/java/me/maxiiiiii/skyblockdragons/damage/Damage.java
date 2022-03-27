@@ -25,10 +25,14 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.randomDouble;
 
 public class Damage implements Listener {
     public enum DamageType {
-        NORMAL, PROJECTILE, MAGIC, TRUE, FALL, FIRE;
+        NORMAL, PROJECTILE, MAGIC, CRITICAL_MAGIC, TRUE, FALL, FIRE;
 
         public boolean isNormal() {
             return this == NORMAL || this == TRUE || this == PROJECTILE;
+        }
+
+        public boolean isMagic() {
+            return this == MAGIC || this == CRITICAL_MAGIC;
         }
     }
 
@@ -105,38 +109,40 @@ public class Damage implements Listener {
 //        player.sendMessage("def " + entity.getDefense());
 //        player.sendMessage("red " + damageReduction);
 
-        damage = (5 + player.getDamage()) * (1 + (player.getStrength() / 100)); // damage formula / calculation
+        if (damageType.isMagic())
+            damage = player.getBaseAbilityDamage() * (1 + ((player.getIntelligence() * player.getAbilityScaling()) / 100)); // damage formula / calculation
+        else
+            damage = (5 + player.getDamage()) * (1 + (player.getStrength() / 100)); // damage formula / calculation
 
         // crit
-        if (randomDouble(1, 100) <= player.getCritChance()) {
+        if (randomDouble(1, 100) <= player.getCritChance() && damageType != DamageType.MAGIC) {
             damage *= (1 + (player.getCritDamage() / 100));
             critHit = true;
         }
-
         baseMultiplayer += player.getSkill().getCombatSkill().getLevel() * 0.04;
-        if (damageType == DamageType.MAGIC) {
-            baseMultiplayer += 0.5 * player.getAbilityDamage();
+
+        if (damageType.isMagic()) {
+            postMultiplayer += 0.5 * player.getAbilityDamage();
         }
+
         // enchants
-        if (damageType.isNormal()) {
-            if (damageType != DamageType.PROJECTILE) {
-                baseMultiplayer += player.getEnchantLevel(EnchantType.SHARPNESS) * 0.05;
-                baseMultiplayer += player.getEnchantLevel(EnchantType.SMITE, entity::isUndead) * 0.08;
-                baseMultiplayer += player.getEnchantLevel(EnchantType.BANE_OF_ARTHROPODS, entity::isBaneOfArthropods) * 0.08;
-                baseMultiplayer += player.getEnchantLevel(EnchantType.GIANT_KILLER) * (Math.max((entity.getHealth() - player.getHealth()) / player.getMaxHealth(), 0) / 10) * 0.1;
-                baseMultiplayer += player.getEnchantLevel(EnchantType.TITAN_KILLER) * (Math.max((entity.getHealth() - player.getHealth()) / player.getMaxHealth(), 0) / 10) * 0.1;
-                baseMultiplayer += player.getEnchantLevel(EnchantType.ENDER_SLAYER, entity::isEnderMob) * 0.12;
-                baseMultiplayer += player.getEnchantLevel(EnchantType.DRAGON_HUNTER, () -> entity.entity instanceof EnderDragon) * 0.08;
-                baseMultiplayer += player.getEnchantLevel(EnchantType.EXECUTE) * (entity.getMaxHealth() - entity.getHealth()) / entity.getMaxHealth() * 0.002;
-                baseMultiplayer += player.getEnchantLevel(EnchantType.PROSECUTE) * entity.getHealth() / entity.getMaxHealth() * 0.001;
-                baseMultiplayer += player.getEnchantLevel(EnchantType.CUBISM, entity::isCubism) * 0.1;
-                baseMultiplayer += player.getEnchantLevel(EnchantType.FIRST_STRIKE, () -> Math.floor((entity.getHealth() / entity.getMaxHealth()) * 100d) >= 99) * 0.25;
-                baseMultiplayer += player.getEnchantLevel(EnchantType.TRIPLE_STRIKE, () -> Math.floor((entity.getHealth() / entity.getMaxHealth()) * 100d) >= 67) * 0.1;
-                baseMultiplayer += player.getEnchantLevel(EnchantType.IMPALING, entity::isImpaled) * 0.1;
-            } else {
-                baseMultiplayer += player.getEnchantLevel(EnchantType.POWER) * 0.08;
-                baseMultiplayer += player.getEnchantLevel(EnchantType.SNIPE) * (player.getLocation().distance(entity.getLocation()) / 5) * 0.01;
-            }
+        if (damageType == DamageType.PROJECTILE) {
+            baseMultiplayer += player.getEnchantLevel(EnchantType.POWER) * 0.08;
+            baseMultiplayer += player.getEnchantLevel(EnchantType.SNIPE) * (player.getLocation().distance(entity.getLocation()) / 5) * 0.01;
+        } else {
+            baseMultiplayer += player.getEnchantLevel(EnchantType.SHARPNESS) * 0.05;
+            baseMultiplayer += player.getEnchantLevel(EnchantType.SMITE, entity::isUndead) * 0.08;
+            baseMultiplayer += player.getEnchantLevel(EnchantType.BANE_OF_ARTHROPODS, entity::isBaneOfArthropods) * 0.08;
+            baseMultiplayer += player.getEnchantLevel(EnchantType.GIANT_KILLER) * (Math.max((entity.getHealth() - player.getHealth()) / player.getMaxHealth(), 0) / 10) * 0.1;
+            baseMultiplayer += player.getEnchantLevel(EnchantType.TITAN_KILLER) * (Math.max((entity.getHealth() - player.getHealth()) / player.getMaxHealth(), 0) / 10) * 0.1;
+            baseMultiplayer += player.getEnchantLevel(EnchantType.ENDER_SLAYER, entity::isEnderMob) * 0.12;
+            baseMultiplayer += player.getEnchantLevel(EnchantType.DRAGON_HUNTER, () -> entity.entity instanceof EnderDragon) * 0.08;
+            baseMultiplayer += player.getEnchantLevel(EnchantType.EXECUTE) * (entity.getMaxHealth() - entity.getHealth()) / entity.getMaxHealth() * 0.002;
+            baseMultiplayer += player.getEnchantLevel(EnchantType.PROSECUTE) * entity.getHealth() / entity.getMaxHealth() * 0.001;
+            baseMultiplayer += player.getEnchantLevel(EnchantType.CUBISM, entity::isCubism) * 0.1;
+            baseMultiplayer += player.getEnchantLevel(EnchantType.FIRST_STRIKE, () -> Math.floor((entity.getHealth() / entity.getMaxHealth()) * 100d) >= 99) * 0.25;
+            baseMultiplayer += player.getEnchantLevel(EnchantType.TRIPLE_STRIKE, () -> Math.floor((entity.getHealth() / entity.getMaxHealth()) * 100d) >= 67) * 0.1;
+            baseMultiplayer += player.getEnchantLevel(EnchantType.IMPALING, entity::isImpaled) * 0.1;
         }
 
         // final damage
@@ -179,8 +185,13 @@ public class Damage implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
         if (e.getEntity() instanceof Creature) {
+            if (e.getEntity() instanceof Player) {
+                Player player = (Player) e.getEntity();
+                Functions.Wait(1L, () -> player.spigot().respawn());
+            }
             EntitySD entity = EntitySD.get(e.getEntity().getUniqueId());
             e.getDrops().clear();
+            e.setDroppedExp(0);
 
             EntitySD.entities.remove(entity.entity.getUniqueId());
             if (entity.getKiller() == null) return;
