@@ -44,12 +44,15 @@ public class FlyTo extends BukkitRunnable {
             this.cancel();
             return;
         }
+        if (target.getWorld() != entity.getWorld()) {
+            entity.remove();
+            return;
+        }
         double x = (target.getLocation().getX() - entity.getLocation().getX()) / denominator;
         double y = (target.getLocation().add(0, 0.5, 0).getY() - entity.getLocation().getY()) / denominator;
         double z = (target.getLocation().getZ() - entity.getLocation().getZ()) / denominator;
 
         Location targetLocation = entity.getLocation();
-        targetLocation.setWorld(target.getWorld());
         targetLocation.add(x, y, z);
         if (lookAtTarget)
             targetLocation.setDirection(new Vector(x, y, z));

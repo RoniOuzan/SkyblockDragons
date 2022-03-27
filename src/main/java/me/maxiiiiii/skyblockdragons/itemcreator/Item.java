@@ -20,7 +20,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.function.UnaryOperator;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 import static me.maxiiiiii.skyblockdragons.util.Functions.manaCostCalculator;

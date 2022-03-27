@@ -1633,12 +1633,14 @@ public class Functions {
     public static short getEnchantLevel(ItemStack item, EnchantType enchant) {
         if (!isNotAir(item)) return 0;
 
-        NBTItem nbtItem = new NBTItem(item);
-        NBTCompound nbt = nbtItem.getCompound("Item");
-        NBTCompound enchants = nbt.getCompound("Enchants");
-        if (enchants.hasKey(enchant.name())) {
-            return enchants.getShort(enchant.name());
-        }
+        try {
+            NBTItem nbtItem = new NBTItem(item);
+            NBTCompound nbt = nbtItem.getCompound("Item");
+            NBTCompound enchants = nbt.getCompound("Enchants");
+            if (enchants.hasKey(enchant.name())) {
+                return enchants.getShort(enchant.name());
+            }
+        } catch (NullPointerException ignored) {}
         return 0;
     }
 
@@ -1654,9 +1656,12 @@ public class Functions {
         return false;
     }
 
+    @SafeVarargs
     public static List<String> getTabs(String[] args, Collection<String>... collection) {
         List<String> tabs = new ArrayList<>();
         for (int i = 0; i < args.length; i++) {
+            if (i >= collection.length)
+                continue;
             int finalI = i;
             tabs = collection[i].stream().filter(s -> s.startsWith(args[finalI])).collect(Collectors.toList());
         }

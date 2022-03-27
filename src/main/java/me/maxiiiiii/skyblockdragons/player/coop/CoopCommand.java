@@ -44,7 +44,8 @@ public class CoopCommand implements CommandExecutor, TabCompleter {
                             player.sendMessage(ChatColor.RED + "This player does not have a coop!");
                             return true;
                         }
-                        coop.add(target);
+                        player.sendMessage(ChatColor.GREEN + "You joined " + target.getName() + "'s coop.");
+                        coop.add(player);
                     }
                 } else if (args[0].equalsIgnoreCase("leave")) {
                     Coop coop = Coop.getPlayerCoop(player);
@@ -77,6 +78,15 @@ public class CoopCommand implements CommandExecutor, TabCompleter {
                             player.sendMessage(ChatColor.RED + "This player is not in your coop!");
                     } else
                         player.sendMessage(ChatColor.RED + "You have to give a player to transfer!");
+                } else if (args[0].equalsIgnoreCase("list")) {
+                    Coop coop = Coop.getPlayerCoop(player);
+                    if (coop == null) {
+                        player.sendMessage(ChatColor.RED + "You have to be in a coop to use this command!");
+                        return true;
+                    }
+                    for (PlayerSD playerSD : coop.getPlayers()) {
+                        player.sendMessage(ChatColor.GREEN + playerSD.getName());
+                    }
                 }
             }
         }
@@ -85,7 +95,7 @@ public class CoopCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        List<String> tabs1 = new ArrayList<>(Arrays.asList("create", "join", "leave", "transfer"));
+        List<String> tabs1 = new ArrayList<>(Arrays.asList("create", "join", "leave", "transfer", "list"));
         return Functions.getTabs(args, tabs1);
     }
 }

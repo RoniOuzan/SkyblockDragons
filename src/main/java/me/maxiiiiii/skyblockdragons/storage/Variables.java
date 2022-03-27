@@ -201,7 +201,7 @@ public class Variables {
     public static void saveVariables(boolean message) throws IOException {
 
         Gson gson = new Gson();
-        File file = new File(SkyblockDragons.getPlugin().getDataFolder().getAbsolutePath() + "/Variables.json");
+        File file = new File(SkyblockDragons.plugin.getDataFolder().getAbsolutePath() + "/Variables.json");
         file.getParentFile().mkdir();
         file.createNewFile();
         Writer writer = new FileWriter(file, false);

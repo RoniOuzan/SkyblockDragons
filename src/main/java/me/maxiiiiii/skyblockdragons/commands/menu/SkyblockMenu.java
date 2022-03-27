@@ -45,16 +45,17 @@ public class SkyblockMenu {
         }
         playerStats.setItemMeta(skullMeta);
         Functions.setLore(playerStats, new ArrayList<>(Arrays.asList(
-            Stat.HEALTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getHealth()),
-            Stat.DEFENSE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getDefense()),
-            Stat.SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getSpeed() + "%"),
-            Stat.INTELLIGENCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getIntelligence()),
             Stat.DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getDamage()),
             Stat.STRENGTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStrength()),
             Stat.CRIT_DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getCritDamage() + "%"),
             Stat.CRIT_CHANCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getCritChance() + "%"),
+            Stat.ABILITY_DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId())),
             Stat.ATTACK_SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getAttackSpeed() + "%"),
-            Stat.FEROCITY.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getFerocity())
+            Stat.FEROCITY.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getFerocity()),
+            Stat.HEALTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getHealth()),
+            Stat.DEFENSE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getDefense()),
+            Stat.SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getSpeed() + "%"),
+            Stat.INTELLIGENCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getIntelligence())
         )));
         inv.setItem(13, playerStats);
 

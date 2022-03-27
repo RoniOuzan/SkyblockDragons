@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.itemcreator.abilities.*;
 import me.maxiiiiii.skyblockdragons.material.Items;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
@@ -18,8 +19,6 @@ import me.maxiiiiii.skyblockdragons.events.*;
 import me.maxiiiiii.skyblockdragons.itemcreator.*;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.BookCommand;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
-import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.player.coop.Coop;
 import me.maxiiiiii.skyblockdragons.player.coop.CoopCommand;
 import me.maxiiiiii.skyblockdragons.player.pet.*;
 import me.maxiiiiii.skyblockdragons.itemcreator.reforge.ReforgeCommand;
@@ -60,14 +59,12 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static final HashMap<UUID, Long> bits = new HashMap<>();
     public static final HashMap<UUID, Long> playTime = new HashMap<>();
     public static final HashMap<UUID, ArrayList<Inventory>> playerGoBack = new HashMap<>();
-    public static final HashMap<Player, Cooldown> petSoundCooldown = new HashMap<>();
     public static boolean disablePlayTime = false;
 
-    public static Economy economy = null;
-
-    public static Logger logger = null;
     public static SkyblockDragons plugin;
-    public static final Serializer serializer = new Serializer();
+    public static Economy economy = null;
+    public static Logger logger = null;
+    public static Serializer serializer = new Serializer();
     public static EntityHider entityHider = null;
 
     public static PlayerSD maxi = null;
@@ -120,6 +117,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
         getServer().getPluginManager().registerEvents(new DropListener(), this);
         getServer().getPluginManager().registerEvents(new EntityHealth(), this);
+        getServer().getPluginManager().registerEvents(new PlayerClickOnPlayerListener(), this);
 
         // Abilities
         getServer().getPluginManager().registerEvents(new Aspect_of_The_End(), this);
@@ -224,7 +222,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                     for (SoundUtil sound : player.getPetActive().petMaterial.getSounds()) {
     //                    sound.play(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0));
                         for (Player value : Functions.getPlayerShowedPets()) {
-                            value.playSound(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0), sound.sound, (2f - (float) value.getEyeLocation().distance(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0))) / 4, sound.pitch);
+                            if (value.getWorld() == player.petArmorStand.armorStand.getWorld())
+                                value.playSound(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0), sound.sound, (2f - (float) value.getEyeLocation().distance(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0))) / 4, sound.pitch);
                         }
                     }
             }
@@ -233,10 +232,19 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (PlayerSD player : players.values()) {
                 // pets
-                if (player.activePet >= 0 && (player.getPetArmorStand() == null || player.getPetArmorStand().slot != player.activePet)) {
-                    player.petArmorStand = new Pet.ArmorStand(player, player.getPetActive(), Pet.spawnPet(player, player.getPetActive()), player.activePet);
-                }
                 if (player.activePet >= 0) {
+                    if (player.petArmorStand != null && player.petArmorStand.armorStand.getWorld() != player.getWorld()) {
+                        player.petArmorStand.armorStand.remove();
+                        player.petArmorStand.hologram.delete();
+                        if (player.petArmorStand.slot == 0)
+                            player.petArmorStand.slot++;
+                        else
+                            player.petArmorStand.slot--;
+                        return;
+                    }
+                    if (player.getPetArmorStand() == null || player.getPetArmorStand().slot != player.activePet)
+                        player.petArmorStand = new Pet.ArmorStand(player, player.getPetActive(), Pet.spawnPet(player, player.getPetActive()), player.activePet);
+
                     if (player.getPetArmorStand().armorStand.getLocation().distance(player.getLocation()) > 3)
                         new FlyTo(player.getPetArmorStand().armorStand, player, 20, 1.5, true, player.petArmorStand.hologram, new Vector(0, 1.6, 0));
                     player.petArmorStand.armorStand.teleport(player.petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.1 : -0.1), 0));
@@ -309,6 +317,12 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         for (Hologram holo: HologramsAPI.getHolograms(this)) {
             holo.delete();
         }
+
+        for (EntitySD entity : EntitySD.entities.values()) {
+            if (entity instanceof PlayerSD)
+                continue;
+            entity.kill();
+        }
     }
 
     private boolean setupEconomy() {
@@ -333,9 +347,5 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
     public static PlayerSD getPlayer(Player player) {
         return getPlayer(player.getUniqueId());
-    }
-
-    public static SkyblockDragons getPlugin() {
-        return plugin;
     }
 }

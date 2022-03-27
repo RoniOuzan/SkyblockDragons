@@ -41,9 +41,10 @@ public class Damage implements Listener {
         boolean critHit = damageCalculator.critHit;
 
         // hologram
-        String damageDisplay = ChatColor.GRAY + "" + ((int) damage);
+        String damageDisplay = ChatColor.GRAY + "" + damage;
         if (critHit) {
-            damageDisplay = rainbow(((int) damage) + "");
+            damageDisplay = rainbow(damage + "");
+            damageDisplay = Functions.getNumberFormat(damageDisplay);
             damageDisplay = ChatColor.WHITE + "✧" + damageDisplay + ChatColor.WHITE + "✧";
         }
         Location hologram = entity.getLocation().clone();
@@ -65,7 +66,7 @@ public class Damage implements Listener {
                         Location start = entity.getLocation().clone();
                         Location end = entity.getLocation().clone();
 
-                        if (((int) activeFerocity * 1.1) % 2 == 0) {
+                        if (Math.random() < 0.5) {
                             start.add(1.5, 0.5, 0);
                             end.add(-1.5, -1.5, 0);
                         } else {
@@ -73,7 +74,7 @@ public class Damage implements Listener {
                             end.add(1.5, -1.5, 0);
                         }
 
-                        PlayerDamageEntity playerDamageEntity = new PlayerDamageEntity(player, entity.entity, DamageType.NORMAL, 1, true);
+                        PlayerDamageEntity playerDamageEntity = new PlayerDamageEntity(player, entity.entity, DamageType.NORMAL, damage, true);
                         Bukkit.getServer().getPluginManager().callEvent(playerDamageEntity);
 
                         particleLine(start, end, Particle.REDSTONE, 155, 0, 0);
@@ -81,8 +82,7 @@ public class Damage implements Listener {
                 }.runTaskLater(SkyblockDragons.getInstance(), 5L);
             }
         }
-        player.sendMessage(damage);
-        return ((int) damage);
+        return damage;
     }
 
     private static class DamageCalculator {
@@ -156,7 +156,7 @@ public class Damage implements Listener {
 
         double damage;
         if (e.isFerocity()) {
-            damage = this.getDamage(player, entity, DamageType.NORMAL).damage;
+            damage = e.getDamage();
         } else {
             damage = damage(player, entity, players.get(e.getDamager().getUniqueId()).getFerocity(), DamageType.NORMAL);
         }
@@ -182,6 +182,7 @@ public class Damage implements Listener {
             EntitySD entity = EntitySD.get(e.getEntity().getUniqueId());
             e.getDrops().clear();
 
+            EntitySD.entities.remove(entity.entity.getUniqueId());
             if (entity.getKiller() == null) return;
 
             PlayerSD player = SkyblockDragons.getPlayer(entity.getKiller());

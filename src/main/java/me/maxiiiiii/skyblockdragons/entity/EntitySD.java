@@ -74,6 +74,11 @@ public class EntitySD {
         return type != EntityMaterial.NULL;
     }
 
+    public void kill() {
+        this.entity.remove();
+        entities.remove(this.entity.getUniqueId());
+    }
+
     public void setAttacker(PlayerSD attacker) {
         this.attacker = attacker;
     }
