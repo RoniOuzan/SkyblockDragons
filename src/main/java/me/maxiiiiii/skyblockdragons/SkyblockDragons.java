@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.maxiiiiii.skyblockdragons.itemcreator.abilities.*;
+import me.maxiiiiii.skyblockdragons.material.Items;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
 import me.maxiiiiii.skyblockdragons.itemcreator.anvil.AnvilCommand;
 import me.maxiiiiii.skyblockdragons.player.bank.BankCommand;
@@ -18,6 +19,8 @@ import me.maxiiiiii.skyblockdragons.itemcreator.*;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.BookCommand;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.player.coop.Coop;
+import me.maxiiiiii.skyblockdragons.player.coop.CoopCommand;
 import me.maxiiiiii.skyblockdragons.player.pet.*;
 import me.maxiiiiii.skyblockdragons.itemcreator.reforge.ReforgeCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillAdminCommand;
@@ -84,7 +87,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         logger = this.getLogger();
         entityHider = new EntityHider(this, EntityHider.Policy.BLACKLIST);
 
-        ItemMaterial.registerItems();
+        Items.registerItems();
         EnchantType.registerEnchants();
         PetMaterial.registerItems();
         EntityMaterial.registerItems();
@@ -194,6 +197,10 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("Sound").setTabCompleter(new SoundCommand());
         getCommand("SpawnMob").setExecutor(new EntityCommand());
         getCommand("SpawnMob").setTabCompleter(new EntityCommand());
+        getCommand("Coop").setExecutor(new CoopCommand());
+        getCommand("Coop").setTabCompleter(new CoopCommand());
+
+//        Coop.load();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             PlayerSD.loadPlayerData(player);
@@ -297,6 +304,10 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             for (int i = 0; i < player.pets.size(); i++) {
                 Variables.setVariable(player.getUniqueId(), "Pets", SkyblockDragons.getSerializer().serialize(player.pets.get(i).getAsItem()), i);
             }
+        }
+
+        for (Hologram holo: HologramsAPI.getHolograms(this)) {
+            holo.delete();
         }
     }
 

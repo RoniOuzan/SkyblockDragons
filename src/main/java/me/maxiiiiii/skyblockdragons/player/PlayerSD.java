@@ -7,6 +7,7 @@ import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.ItemDrop;
 import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
+import me.maxiiiiii.skyblockdragons.player.coop.Coop;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
@@ -71,6 +72,8 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 @Setter
 public class PlayerSD extends EntitySD implements Player {
     private final Player player;
+    public Coop coop;
+
     public double damage;
     public double strength;
     public double critDamage;
@@ -101,6 +104,7 @@ public class PlayerSD extends EntitySD implements Player {
 
     public PlayerSD(Player player, double damage, double strength, double critDamage, double critChance, double abilityDamage, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence, Skill skill, Wardrobe wardrobe) {
         super(player);
+
         this.player = player;
         this.damage = damage;
         this.strength = strength;
@@ -162,8 +166,45 @@ public class PlayerSD extends EntitySD implements Player {
         }
     }
 
-    public PlayerSD(Player player, Skill skill, Wardrobe wardrobe) {
-        this(player, 0, 0, 0, 20, 0, 0, 0, 100, 0, 100, 100, skill, wardrobe);
+    public PlayerSD(Player player) {
+        this(player,
+                0,
+                0,
+                0,
+                20,
+                0,
+                0,
+                0,
+                100,
+                0,
+                100,
+                100,
+                new Skill(
+                        new FarmingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Farming", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Farming", 2, "0"))),
+                        new MiningSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Mining", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Mining", 2, "0"))),
+                        new CombatSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Combat", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Combat", 2, "0"))),
+                        new ForagingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Foraging", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Foraging", 2, "0"))),
+                        new FishingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Fishing", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Fishing", 2, "0"))),
+                        new EnchantingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Enchanting", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Enchanting", 2, "0"))),
+                        new AlchemySkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Alchemy", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Alchemy", 2, "0"))),
+                        new TamingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Taming", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Taming", 2, "0"))),
+                        new DungeoneeringSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Dungeoneering", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Dungeoneering", 2, "0")))
+                ),
+                new Wardrobe(getWardrobeSlots(player)));
+    }
+
+    private static ArrayList<WardrobeSlot> getWardrobeSlots(Player player) {
+        ArrayList<WardrobeSlot> wardrobeSlots = new ArrayList<>();
+        for (int i = 0; i < 18; i++) {
+            wardrobeSlots.add(new WardrobeSlot(
+                    i,
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0), "null"), null),
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1), "null"), null),
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2), "null"), null),
+                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3), "null"), null)
+            ));
+        }
+        return wardrobeSlots;
     }
 
     public void setActivePet(int activePet) {
@@ -548,31 +589,7 @@ public class PlayerSD extends EntitySD implements Player {
         SkyblockDragons.bits.put(player.getUniqueId(), 0L);
         player.setHealthScale(40d);
 
-        ArrayList<WardrobeSlot> wardrobeSlots = new ArrayList<>();
-        for (int i = 0; i < 18; i++) {
-            wardrobeSlots.add(new WardrobeSlot(
-                    i,
-                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0), "null"), null),
-                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1), "null"), null),
-                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2), "null"), null),
-                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3), "null"), null)
-            ));
-        }
-
-        SkyblockDragons.players.put(player.getUniqueId(), new PlayerSD(
-                player,
-                new Skill(
-                        new FarmingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Farming", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Farming", 2, "0"))),
-                        new MiningSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Mining", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Mining", 2, "0"))),
-                        new CombatSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Combat", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Combat", 2, "0"))),
-                        new ForagingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Foraging", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Foraging", 2, "0"))),
-                        new FishingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Fishing", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Fishing", 2, "0"))),
-                        new EnchantingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Enchanting", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Enchanting", 2, "0"))),
-                        new AlchemySkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Alchemy", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Alchemy", 2, "0"))),
-                        new TamingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Taming", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Taming", 2, "0"))),
-                        new DungeoneeringSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Dungeoneering", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Dungeoneering", 2, "0")))
-                ), new Wardrobe(wardrobeSlots)
-        ));
+        SkyblockDragons.players.put(player.getUniqueId(), new PlayerSD(player));
 
         ArrayList<ItemStack> accessories = new ArrayList<>();
         for (int i = 0; i < 45; i++) {

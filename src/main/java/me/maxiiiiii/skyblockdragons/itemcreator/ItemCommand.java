@@ -22,8 +22,7 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.isByte;
 import static me.maxiiiiii.skyblockdragons.util.Functions.isItemMaterial;
 import static me.maxiiiiii.skyblockdragons.util.Functions.isPlayerName;
 import static me.maxiiiiii.skyblockdragons.util.Functions.openSign;
-import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.ItemMaterials;
-import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
+import static me.maxiiiiii.skyblockdragons.material.Items.items;
 import static me.maxiiiiii.skyblockdragons.commands.menu.ItemList.openItemList;
 
 public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
@@ -81,12 +80,12 @@ public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
                     }
 
                     for (int i = 0; i < amount; i++) {
-                        item = new Item(Items.get(args[0].toUpperCase()));
+                        item = new Item(items.get(args[0].toUpperCase()));
                         player.getInventory().addItem(item);
                     }
                     sender.sendMessage(ChatColor.GREEN + "Gave " + args[0].toUpperCase() + " to " + player.getName());
                 } else {
-                    for (ItemMaterial itemMaterial : ItemMaterials.values()) {
+                    for (ItemMaterial itemMaterial : items.values()) {
                         if (itemMaterial.name().contains(args[0].toUpperCase())) {
                             if (args.length > 1) {
                                 if (isByte(args[1])) {
@@ -122,7 +121,7 @@ public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         ArrayList<String> tabs = new ArrayList<>();
         if (args.length == 1) {
-            for (ItemMaterial tab : ItemMaterial.Items.values()) {
+            for (ItemMaterial tab : items.values()) {
                 if (tab.name().startsWith(args[0].toUpperCase())) {
                     tabs.add(tab.name());
                 }

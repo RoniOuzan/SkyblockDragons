@@ -49,6 +49,7 @@ public class FlyTo extends BukkitRunnable {
         double z = (target.getLocation().getZ() - entity.getLocation().getZ()) / denominator;
 
         Location targetLocation = entity.getLocation();
+        targetLocation.setWorld(target.getWorld());
         targetLocation.add(x, y, z);
         if (lookAtTarget)
             targetLocation.setDirection(new Vector(x, y, z));

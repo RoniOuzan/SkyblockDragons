@@ -160,7 +160,7 @@ public class Item extends ItemStack {
             lores.add(ChatColor.GRAY + "in a anvil.");
             lores.add("");
             lores.add(ChatColor.GRAY + "This skin can be applied to");
-            lores.add(ItemMaterial.Items.get(material.name().replaceAll("_SKIN", "")).getRarity().getColor() + ItemMaterial.Items.get(material.name().replaceAll("_SKIN", "")).getName());
+            lores.add(Items.items.get(material.name().replaceAll("_SKIN", "")).getRarity().getColor() + Items.items.get(material.name().replaceAll("_SKIN", "")).getName());
         } else if (this.material instanceof AccessoryMaterial) {
             stats = applyStats(lores, hotPotato, reforge, rarity);
 

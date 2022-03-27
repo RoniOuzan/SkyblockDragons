@@ -68,7 +68,16 @@ public class Variables {
 
     public static Variable getVariable(String value) {
         for (Variable variable : variables) {
-            if (variable.getValue().equalsIgnoreCase(value)) {
+            if (variable.getValue().equals(value)) {
+                return variable;
+            }
+        }
+        return null;
+    }
+
+    public static Variable getVariable(String value, int data) {
+        for (Variable variable : variables) {
+            if (variable.getValue().equals(value) && variable.getData() == data) {
                 return variable;
             }
         }
@@ -204,6 +213,26 @@ public class Variables {
 
     public static void saveVariables() throws IOException {
         saveVariables(false);
+    }
+
+    public static int getVariableSize(String name) {
+        int i = 0;
+        for (Variable variable : variables) {
+            if (variable.getId().equals(name)) {
+                i++;
+            }
+        }
+        return i;
+    }
+
+    public static int getVariableSize(UUID uuid, String name) {
+        int i = 0;
+        for (Variable variable : variables) {
+            if (variable.getUUID() == uuid && variable.getId().equals(name)) {
+                i++;
+            }
+        }
+        return i;
     }
 
     public static void clearVariables() {

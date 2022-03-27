@@ -111,3 +111,6 @@ commands:
   SpawnMob:
     permission: skyblockdragons.mob.spawn
     usage: /<command> <mob>
+  Coop:
+    permission: skyblockdragons.coop
+    usage: /<command> <text> <player>

@@ -45,8 +45,8 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.Items;
-import static me.maxiiiiii.skyblockdragons.material.ItemMaterial.VanillaMaterials;
+import static me.maxiiiiii.skyblockdragons.material.Items.items;
+import static me.maxiiiiii.skyblockdragons.material.Items.vanillaMaterials;
 import static me.maxiiiiii.skyblockdragons.commands.menu.ItemList.openItemList;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariable;
 import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariableValue;
@@ -590,17 +590,17 @@ public class Functions {
     }
 
     public static ItemMaterial getItemMaterial(ItemStack item) {
-        if (!isNotAir(item)) return ItemMaterial.NULL;
+        if (!isNotAir(item)) return Items.NULL;
 
         try {
             NBTItem nbtItem = new NBTItem(item);
             NBTCompound nbt = nbtItem.getCompound("Item");
             String id = nbt.getString("id");
-            Object[] value = Items.values().stream().filter(material -> material.name().equals(id)).toArray();
+            Object[] value = items.values().stream().filter(material -> material.name().equals(id)).toArray();
             if (value.length > 0 && value[0] instanceof ItemMaterial)
                 return (ItemMaterial) value[0];
         } catch (NullPointerException ignored) {}
-        for (ItemMaterial material : VanillaMaterials.values()) {
+        for (ItemMaterial material : vanillaMaterials.values()) {
             if (material.getMaterial() == item.getType()) {
                 if (isColorable(material.getMaterial())) {
                     if (material.getId().equals(item.getDurability() + ""))
@@ -609,7 +609,7 @@ public class Functions {
                     return material;
             }
         }
-        return ItemMaterial.NULL;
+        return Items.NULL;
     }
 
     public static PetMaterial getPetMaterial(ItemStack item) {
@@ -750,7 +750,7 @@ public class Functions {
 //    }
 
     public static boolean isItemMaterial(String name) {
-        for (ItemMaterial itemMaterial : Items.values()) {
+        for (ItemMaterial itemMaterial : items.values()) {
             if (itemMaterial.name().equals(name.toUpperCase())) {
                 return true;
             }
@@ -786,16 +786,16 @@ public class Functions {
     }
 
     public static ItemMaterial getSkin(String name) {
-        for (ItemMaterial material : Items.values()) {
+        for (ItemMaterial material : items.values()) {
             if (material.name().equals(name.toUpperCase())) {
                 return material;
             }
         }
-        return Items.get("NULL");
+        return items.get("NULL");
     }
 
     public static ItemMaterial setSkin(ItemStack item) {
-        ItemMaterial skin = ItemMaterial.NULL;
+        ItemMaterial skin = Items.NULL;
         NBTItem nbtItem = new NBTItem(item);
         NBTCompound nbt = nbtItem.getCompound("Item");
         if (!nbt.getString("Skin").equals("")) {
@@ -1652,5 +1652,14 @@ public class Functions {
 
     public static boolean isEntityBaneOfArthropods() {
         return false;
+    }
+
+    public static List<String> getTabs(String[] args, Collection<String>... collection) {
+        List<String> tabs = new ArrayList<>();
+        for (int i = 0; i < args.length; i++) {
+            int finalI = i;
+            tabs = collection[i].stream().filter(s -> s.startsWith(args[finalI])).collect(Collectors.toList());
+        }
+        return tabs;
     }
 }

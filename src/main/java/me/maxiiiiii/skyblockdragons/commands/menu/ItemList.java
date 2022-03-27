@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.commands.menu;
 
+import me.maxiiiiii.skyblockdragons.material.Items;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.itemcreator.Item;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
@@ -47,20 +48,20 @@ public class ItemList {
         Functions.setLore(previousPage, new ArrayList<>(Arrays.asList("", ChatColor.YELLOW + "Click to go previous page!")));
         inv.setItem(45, previousPage);
 
-        String[] strings = new String[ItemMaterial.ItemMaterials.size()];
+        String[] strings = new String[Items.itemMaterials.size()];
 
         int a = 0;
-        for (String key : ItemMaterial.ItemMaterials.keySet()) {
+        for (String key : Items.itemMaterials.keySet()) {
             strings[a] = key;
             a++;
         }
 
         Arrays.sort(strings);
 
-        ItemMaterial[] materials = new ItemMaterial[ItemMaterial.ItemMaterials.size()];
+        ItemMaterial[] materials = new ItemMaterial[Items.items.size()];
         a = 0;
         for (String string : strings) {
-            materials[a] = ItemMaterial.ItemMaterials.get(string);
+            materials[a] = Items.items.get(string);
             a++;
         }
 
@@ -109,7 +110,7 @@ public class ItemList {
         inv.setItem(45, previousPage);
 
         ArrayList<ItemMaterial> materials = new ArrayList<>();
-        for (ItemMaterial material : ItemMaterial.Items.values()) {
+        for (ItemMaterial material : Items.items.values()) {
             if (material.getName().toLowerCase().contains(searchItem.toLowerCase())) {
                 materials.add(material);
             }

@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.craftingtable.commands;
 
+import me.maxiiiiii.skyblockdragons.material.Items;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.craftingtable.Recipe;
@@ -117,7 +118,7 @@ public class CraftingTable implements CommandExecutor, Listener {
             try {
                 items[i] = new Item(Functions.getItemMaterial(player.getOpenInventory().getItem(Functions.numToSlot(i))), player.getOpenInventory().getItem(Functions.numToSlot(i)).getAmount());
             } catch (NullPointerException ex) {
-                items[i] = new Item(ItemMaterial.NULL, 0);
+                items[i] = new Item(Items.NULL, 0);
             }
         }
         for (Recipe recipe : Recipe.values()) {
@@ -129,7 +130,7 @@ public class CraftingTable implements CommandExecutor, Listener {
                 try {
                     item2 = recipe.getItems()[i];
                 } catch (NullPointerException ex) {
-                    item2 = new Item(ItemMaterial.NULL, 0);
+                    item2 = new Item(Items.NULL, 0);
                 }
 
                 try {
@@ -210,7 +211,7 @@ public class CraftingTable implements CommandExecutor, Listener {
             try {
                 items[i] = new Item(Functions.getItemMaterial(player.getOpenInventory().getItem(Functions.numToSlot(i))), player.getOpenInventory().getItem(Functions.numToSlot(i)).getAmount());
             } catch (NullPointerException ex) {
-                items[i] = new Item(ItemMaterial.NULL, 0);
+                items[i] = new Item(Items.NULL, 0);
             }
         }
         for (Recipe recipe : Recipe.values()) {
@@ -222,7 +223,7 @@ public class CraftingTable implements CommandExecutor, Listener {
                 try {
                     item2 = recipe.getItems()[i];
                 } catch (NullPointerException ex) {
-                    item2 = new Item(ItemMaterial.NULL, 0);
+                    item2 = new Item(Items.NULL, 0);
                 }
 
                 try {
