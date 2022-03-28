@@ -2,11 +2,11 @@ package me.maxiiiiii.skyblockdragons.commands;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.bank.BankMenu;
-import me.maxiiiiii.skyblockdragons.craftingtable.menus.CraftingTableMenu;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.CraftingTableMenu;
 import me.maxiiiiii.skyblockdragons.player.pet.PetMenu;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillMenu;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeMenu;
+import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeMenu;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

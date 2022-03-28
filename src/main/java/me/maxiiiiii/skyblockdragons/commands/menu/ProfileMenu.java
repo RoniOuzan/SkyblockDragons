@@ -1,8 +1,6 @@
 package me.maxiiiiii.skyblockdragons.commands.menu;
 
-import com.mojang.datafixers.types.Func;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.itemcreator.objects.Stat;
+import me.maxiiiiii.skyblockdragons.item.objects.Stat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;

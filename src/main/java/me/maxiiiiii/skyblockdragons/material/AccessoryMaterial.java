@@ -1,15 +1,12 @@
 package me.maxiiiiii.skyblockdragons.material;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemFamily;
-import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemStats;
-import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemType;
-import me.maxiiiiii.skyblockdragons.itemcreator.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemStats;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 @Getter
 public class AccessoryMaterial extends ItemMaterial {

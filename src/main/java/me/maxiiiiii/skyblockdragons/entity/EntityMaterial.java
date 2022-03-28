@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.util.Equipment;
+import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;

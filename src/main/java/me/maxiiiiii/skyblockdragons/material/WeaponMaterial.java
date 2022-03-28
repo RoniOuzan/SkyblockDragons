@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.material;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.maxiiiiii.skyblockdragons.itemcreator.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 

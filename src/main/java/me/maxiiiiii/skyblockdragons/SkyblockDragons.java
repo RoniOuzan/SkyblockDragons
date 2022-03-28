@@ -3,25 +3,25 @@ package me.maxiiiiii.skyblockdragons;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.itemcreator.abilities.*;
+import me.maxiiiiii.skyblockdragons.item.abilities.*;
 import me.maxiiiiii.skyblockdragons.material.Items;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
-import me.maxiiiiii.skyblockdragons.itemcreator.anvil.AnvilCommand;
+import me.maxiiiiii.skyblockdragons.item.anvil.AnvilCommand;
 import me.maxiiiiii.skyblockdragons.player.bank.BankCommand;
 import me.maxiiiiii.skyblockdragons.player.bits.BitsCommand;
 import me.maxiiiiii.skyblockdragons.commands.*;
-import me.maxiiiiii.skyblockdragons.craftingtable.commands.CraftingTable;
-import me.maxiiiiii.skyblockdragons.craftingtable.commands.ViewRecipe;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.commands.CraftingTable;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.commands.ViewRecipe;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.entity.EntityCommand;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.events.*;
-import me.maxiiiiii.skyblockdragons.itemcreator.*;
-import me.maxiiiiii.skyblockdragons.itemcreator.enchants.BookCommand;
-import me.maxiiiiii.skyblockdragons.itemcreator.enchants.EnchantType;
+import me.maxiiiiii.skyblockdragons.item.*;
+import me.maxiiiiii.skyblockdragons.item.enchants.BookCommand;
+import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.player.coop.CoopCommand;
 import me.maxiiiiii.skyblockdragons.player.pet.*;
-import me.maxiiiiii.skyblockdragons.itemcreator.reforge.ReforgeCommand;
+import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillAdminCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillListener;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillMenuCommand;
@@ -30,8 +30,12 @@ import me.maxiiiiii.skyblockdragons.events.OnSlotChange;
 import me.maxiiiiii.skyblockdragons.player.StatCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.*;
-import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeCommand;
-import me.maxiiiiii.skyblockdragons.wardrobe.WardrobeListener;
+import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeCommand;
+import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeListener;
+import me.maxiiiiii.skyblockdragons.util.objects.FlyTo;
+import me.maxiiiiii.skyblockdragons.util.objects.ParticleUtil;
+import me.maxiiiiii.skyblockdragons.util.objects.Serializer;
+import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
@@ -59,6 +63,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static final HashMap<UUID, Long> bits = new HashMap<>();
     public static final HashMap<UUID, Long> playTime = new HashMap<>();
     public static final HashMap<UUID, ArrayList<Inventory>> playerGoBack = new HashMap<>();
+    public static final ArrayList<Entity> entitiesToKill = new ArrayList<>();
     public static boolean disablePlayTime = false;
 
     public static SkyblockDragons plugin;
@@ -109,7 +114,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new JoinQuitListener(), this);
         getServer().getPluginManager().registerEvents(new ClickCanceller(), this);
         getServer().getPluginManager().registerEvents(new Damage(), this);
-        getServer().getPluginManager().registerEvents(new PlayerList(), this);
         getServer().getPluginManager().registerEvents(new OnSlotChange(), this);
         getServer().getPluginManager().registerEvents(new GoBack(), this);
         getServer().getPluginManager().registerEvents(new PetListener(), this);
@@ -236,10 +240,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                     if (player.petArmorStand != null && player.petArmorStand.armorStand.getWorld() != player.getWorld()) {
                         player.petArmorStand.armorStand.remove();
                         player.petArmorStand.hologram.delete();
-                        if (player.petArmorStand.slot == 0)
-                            player.petArmorStand.slot++;
-                        else
-                            player.petArmorStand.slot--;
+                        player.petArmorStand = null;
                         return;
                     }
                     if (player.getPetArmorStand() == null || player.getPetArmorStand().slot != player.activePet)
@@ -324,7 +325,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             entity.kill();
         }
 
-        for (Entity entity : Bonzo_Staff.entities) {
+        for (Entity entity : entitiesToKill) {
             if (!entity.isDead())
                 entity.remove();
         }

@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
-import me.maxiiiiii.skyblockdragons.itemcreator.Item;
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.inventory.ItemStack;

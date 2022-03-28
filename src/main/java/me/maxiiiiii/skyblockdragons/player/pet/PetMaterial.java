@@ -4,11 +4,11 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import lombok.Getter;
 import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.itemcreator.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.itemcreator.objects.Stat;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.item.objects.Stat;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
-import me.maxiiiiii.skyblockdragons.util.ParticleUtil;
-import me.maxiiiiii.skyblockdragons.util.SoundUtil;
+import me.maxiiiiii.skyblockdragons.util.objects.ParticleUtil;
+import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 

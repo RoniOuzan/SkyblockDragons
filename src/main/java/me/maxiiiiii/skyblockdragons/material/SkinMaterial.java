@@ -2,9 +2,9 @@ package me.maxiiiiii.skyblockdragons.material;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemFamily;
-import me.maxiiiiii.skyblockdragons.itemcreator.objects.ItemType;
-import me.maxiiiiii.skyblockdragons.itemcreator.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import org.bukkit.Material;
 
 @Getter

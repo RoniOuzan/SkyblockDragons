@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.commands.menu;
 
 import me.maxiiiiii.skyblockdragons.material.Items;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.itemcreator.Item;
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

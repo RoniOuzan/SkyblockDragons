@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.player.skill;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.itemcreator.objects.Stat;
+import me.maxiiiiii.skyblockdragons.item.objects.Stat;
 
 import java.util.Arrays;
 
