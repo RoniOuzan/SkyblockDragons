@@ -17,9 +17,16 @@ public enum Stat {
     FEROCITY(ChatColor.RED + "⫽", ChatColor.RED + "⫽ Ferocity", true),
     HEALTH(ChatColor.RED + "❤", ChatColor.RED + "❤ Health", false),
     DEFENSE(ChatColor.GREEN + "❈", ChatColor.GREEN + "❈ Defense", false),
+    TRUE_DEFENSE(ChatColor.WHITE + "❂", ChatColor.WHITE + "❂ Defense", false),
     SPEED(ChatColor.WHITE + "✦", ChatColor.WHITE + "✦ Speed", false),
     MANA(ChatColor.AQUA + "✎", ChatColor.AQUA + "✎ Mana", false),
     INTELLIGENCE(ChatColor.AQUA + "✎", ChatColor.AQUA + "✎ Intelligence", false),
+    MAGIC_FIND(ChatColor.AQUA + "✯", ChatColor.AQUA + "✯ Magic Find", false),
+    PET_LUCK(ChatColor.LIGHT_PURPLE + "♣", ChatColor.LIGHT_PURPLE + "♣ Pet Luck", false),
+    MINING_SPEED(ChatColor.GOLD + "⸕", ChatColor.GOLD + "⸕ Mining Speed", false),
+    MINING_FORTUNE(ChatColor.GOLD + "☘", ChatColor.GOLD + "☘ Mining Fortune", false),
+    SEA_CREATURE_CHANCE(ChatColor.DARK_AQUA + "α", ChatColor.DARK_AQUA + "α Sea Create Chance", false),
+    ABSORPTION(ChatColor.GOLD + "❤", ChatColor.GOLD + "❤ Intelligence", false),
     ;
 
     private final String icon;

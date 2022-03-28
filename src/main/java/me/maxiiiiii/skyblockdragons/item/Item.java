@@ -91,7 +91,7 @@ public class Item extends ItemStack {
 
         ArrayList<String> lores = new ArrayList<>();
 
-        double[] stats = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        double[] stats = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
         if (this.material instanceof WeaponMaterial) {
             stats = applyStats(lores, hotPotato, reforge, rarity, enchants);
@@ -270,7 +270,7 @@ public class Item extends ItemStack {
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-        if (lores.size() > 0) lores.add("");
+        if (lores.size() > 0 && isNotLastEmpty(lores)) lores.add("");
         if (recombabulated) {
             lores.add(rarity.getColor() + "" + ChatColor.MAGIC + "X" + ChatColor.RESET + " " + rarity + " " + this.material.getType().toString() + " " + rarity.getColor() + "" + ChatColor.MAGIC + "X");
         } else {
@@ -386,7 +386,7 @@ public class Item extends ItemStack {
     }
 
     private double[] applyStats(ArrayList<String> lores, int hotPotato, ReforgeType reforge, Rarity rarity, Map<EnchantType, Short> enchants, boolean enchant) {
-        double[] stats = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        double[] stats = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         for (int i = 0; i < stats.length; i++) {
             String statReforge = "";
             String statPotato = "";
@@ -397,7 +397,7 @@ public class Item extends ItemStack {
             if (getStat(i).isDamageStat()) statColor = ChatColor.RED;
 
             String percent = "";
-            if (i == 2 || i == 3 || i == 4) percent = "%";
+            if (i == 2 || i == 3 || i == 4 || i == 6) percent = "%";
 
             double statAdder = 0;
             if (hotPotato > 0) {
@@ -554,9 +554,23 @@ public class Item extends ItemStack {
             case 9:
                 return Stat.DEFENSE;
             case 10:
-                return Stat.SPEED;
+                return Stat.TRUE_DEFENSE;
             case 11:
+                return Stat.SPEED;
+            case 12:
                 return Stat.INTELLIGENCE;
+            case 13:
+                return Stat.MAGIC_FIND;
+            case 14:
+                return Stat.PET_LUCK;
+            case 15:
+                return Stat.MINING_SPEED;
+            case 16:
+                return Stat.MINING_FORTUNE;
+            case 17:
+                return Stat.SEA_CREATURE_CHANCE;
+            case 18:
+                return Stat.ABSORPTION;
         }
         return Stat.DAMAGE;
     }

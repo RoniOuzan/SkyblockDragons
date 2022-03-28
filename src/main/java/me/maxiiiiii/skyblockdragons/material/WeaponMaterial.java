@@ -8,6 +8,7 @@ import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,7 +18,7 @@ public class WeaponMaterial extends ToolMaterial {
     private ItemStats stats;
     private String description;
 
-    public WeaponMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, ItemStats stats, String description, ArrayList<ItemAbility> abilities) {
+    public WeaponMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, ItemStats stats, String description, List<ItemAbility> abilities) {
         super(material, family, name, type, rarity, id, nbt, description, abilities);
         this.stats = stats;
         this.description = description;

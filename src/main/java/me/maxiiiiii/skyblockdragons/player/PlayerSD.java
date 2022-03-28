@@ -27,6 +27,7 @@ import me.maxiiiiii.skyblockdragons.player.skill.Skills.*;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeSlot;
+import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -108,6 +109,8 @@ public class PlayerSD extends EntitySD implements Player {
 
     public ArrayList<ItemStack> accessoryBag;
 
+    public final Cooldown cooldown = new Cooldown();
+
     public static final double HEALTH_REGEN = 1.02;
 
     public PlayerSD(Player player) {
@@ -148,6 +151,7 @@ public class PlayerSD extends EntitySD implements Player {
         }
         this.wardrobe = new Wardrobe(wardrobeSlots);
         this.skill = new Skill(
+                this,
                 new FarmingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Farming", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Farming", 2, "0"))),
                 new MiningSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Mining", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Mining", 2, "0"))),
                 new CombatSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Combat", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Combat", 2, "0"))),
@@ -244,7 +248,7 @@ public class PlayerSD extends EntitySD implements Player {
             this.player.getInventory().addItem(itemStack);
     }
 
-    public void increasePlayerStat(double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence) {
+    public void increasePlayerStat(double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double seaCreatureChance, double absorption) {
         this.damage *= 1 + damage / 100;
         this.strength *= 1 + strength / 100;
         this.critDamage *= 1 + critDamage / 100;
@@ -259,12 +263,19 @@ public class PlayerSD extends EntitySD implements Player {
         this.ferocity *= 1 + ferocity / 100;
         this.health *= 1 + health / 100;
         this.defense *= 1 + defense / 100;
+        this.trueDefense *= 1 + trueDefense / 100;
         if (this.speed * (speed / 100) > 500) {
             this.speed = 500;
         } else {
             this.speed *= 1 + speed / 100;
         }
         this.intelligence *= 1 + intelligence / 100;
+        this.magicFind *= 1 + magicFind / 100;
+        this.petLuck *= 1 + petLuck / 100;
+        this.miningSpeed *= 1 + miningSpeed / 100;
+        this.miningFortune *= 1 + miningFortune / 100;
+        this.seaCreatureChance *= 1 + seaCreatureChance / 100;
+        this.absorption *= 1 + absorption / 100;
     }
 
     public void addPlayerStat(List<Double> num) {
@@ -281,12 +292,19 @@ public class PlayerSD extends EntitySD implements Player {
             }
             this.ferocity += num.get(7);
             this.health += num.get(8);
-            this.defense += num.get(9);
-            this.speed += num.get(10);
+            this.trueDefense += num.get(9);
+            this.defense += num.get(10);
+            this.speed += num.get(11);
             if (this.speed > 500) {
                 this.speed = 500;
             }
-            this.intelligence += num.get(11);
+            this.intelligence += num.get(12);
+            this.magicFind += num.get(12);
+            this.petLuck += num.get(12);
+            this.miningSpeed += num.get(12);
+            this.miningFortune += num.get(12);
+            this.seaCreatureChance += num.get(12);
+            this.absorption += num.get(12);
 
         } catch (IndexOutOfBoundsException ignored) {
         }
@@ -323,8 +341,15 @@ public class PlayerSD extends EntitySD implements Player {
         stats.add(this.ferocity);
         stats.add(this.health);
         stats.add(this.defense);
+        stats.add(this.trueDefense);
         stats.add(this.speed);
         stats.add(this.intelligence);
+        stats.add(this.magicFind);
+        stats.add(this.petLuck);
+        stats.add(this.miningSpeed);
+        stats.add(this.miningFortune);
+        stats.add(this.seaCreatureChance);
+        stats.add(this.absorption);
         return stats;
     }
 
@@ -372,8 +397,15 @@ public class PlayerSD extends EntitySD implements Player {
         ferocity = 0;
         health = 100;
         defense = 0;
+        trueDefense = 0;
         speed = 100;
         intelligence = 100;
+        magicFind = 0;
+        petLuck = 0;
+        miningSpeed = 0;
+        miningFortune = 0;
+        seaCreatureChance = 0;
+        absorption = 0;
 
         for (ItemStack accessory : accessoryBag) {
             if (Functions.getItemMaterial(accessory).getType() == ItemType.ACCESSORY) {
@@ -407,7 +439,7 @@ public class PlayerSD extends EntitySD implements Player {
 
         // Full Sets
         if (fullSet.equals("Superior Blood")) {
-            increasePlayerStat(0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5);
+            increasePlayerStat(0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 0, 0, 0, 0);
         }
 
         if (System.currentTimeMillis() - Atomsplit_Katana.atomsplitAbility.getOrDefault(player, 0L) <= 4000) {
@@ -441,16 +473,23 @@ public class PlayerSD extends EntitySD implements Player {
         this.ferocity = Math.floor(this.ferocity * 100d) / 100d;
         this.health = Math.floor(this.health * 100d) / 100d;
         this.defense = Math.floor(this.defense * 100d) / 100d;
+        this.trueDefense = Math.floor(this.trueDefense * 100d) / 100d;
         this.speed = Math.floor(this.speed * 100d) / 100d;
-        this.intelligence = Math.floor(this.intelligence * 100d) / 100d;
         this.mana = Math.floor(this.mana * 100d) / 100d;
+        this.intelligence = Math.floor(this.intelligence * 100d) / 100d;
+        this.magicFind = Math.floor(this.magicFind * 100d) / 100d;
+        this.petLuck = Math.floor(this.petLuck * 100d) / 100d;
+        this.miningSpeed = Math.floor(this.miningSpeed * 100d) / 100d;
+        this.miningFortune = Math.floor(this.miningFortune * 100d) / 100d;
+        this.seaCreatureChance = Math.floor(this.seaCreatureChance * 100d) / 100d;
+        this.absorption = Math.floor(this.absorption * 100d) / 100d;
 
         if (this.getMaxHealth() != this.getHealthStat()) {
             this.setMaxHealth(this.getHealthStat());
         }
 
         if (this.getHealth() * HEALTH_REGEN < this.getMaxHealth()) {
-            this.setHealth(this.getHealth() * HEALTH_REGEN);
+            this.setHealth(Math.floor(this.getHealth() * HEALTH_REGEN * 100d) / 100d);
         } else if (this.getHealth() * HEALTH_REGEN > this.getMaxHealth()) {
             this.setHealth(this.getHealth());
         }
@@ -1439,6 +1478,8 @@ public class PlayerSD extends EntitySD implements Player {
     }
 
     public void sendActionBar(String message) {
+        if (cooldown(player, cooldown, 500, false)) return;
+
         this.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));;
     }
 

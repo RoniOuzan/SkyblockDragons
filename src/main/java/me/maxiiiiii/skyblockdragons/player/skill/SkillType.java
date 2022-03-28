@@ -1,5 +1,7 @@
 package me.maxiiiiii.skyblockdragons.player.skill;
 
+import me.maxiiiiii.skyblockdragons.util.Functions;
+
 public enum SkillType {
     FARMING,
     MINING,
@@ -9,5 +11,10 @@ public enum SkillType {
     ENCHANTING,
     ALCHEMY,
     TAMING,
-    DUNGEONEERING
+    DUNGEONEERING;
+
+    @Override
+    public String toString() {
+        return Functions.setTitleCase(this.name());
+    }
 }

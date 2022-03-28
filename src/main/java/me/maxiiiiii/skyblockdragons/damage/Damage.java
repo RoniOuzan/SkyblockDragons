@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.ItemDrop;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.*;
 import org.bukkit.entity.*;
@@ -12,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -174,7 +176,11 @@ public class Damage implements Listener {
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player) {
             if (e.getEntity() instanceof LivingEntity && !(e.getEntity() instanceof ArmorStand) && !(e instanceof PlayerDamageEntity)) {
-                PlayerDamageEntity playerDamageEntity = new PlayerDamageEntity((Player) e.getDamager(), e.getEntity(), DamageType.NORMAL, 1, false);
+                PlayerDamageEntity playerDamageEntity;
+                if (e.getCause() == EntityDamageEvent.DamageCause.PROJECTILE)
+                    playerDamageEntity = new PlayerDamageEntity((Player) e.getDamager(), e.getEntity(), DamageType.PROJECTILE, 1, false);
+                else
+                    playerDamageEntity = new PlayerDamageEntity((Player) e.getDamager(), e.getEntity(), DamageType.NORMAL, 1, false);
                 Bukkit.getServer().getPluginManager().callEvent(playerDamageEntity);
                 e.setCancelled(true);
             }
@@ -196,6 +202,7 @@ public class Damage implements Listener {
             if (entity.getKiller() == null) return;
 
             PlayerSD player = SkyblockDragons.getPlayer(entity.getKiller());
+            player.getSkill().give(SkillType.COMBAT, entity.type.combatXp);
             if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0)
                 for (ItemDrop drop : entity.type.drops) {
                     player.give(drop);

@@ -7,6 +7,7 @@ import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,12 +15,12 @@ public class ToolMaterial extends ItemMaterial {
     public static final ToolMaterial NULL = new ToolMaterial(Material.BARRIER, ItemFamily.NULL,"Null", ItemType.NULL, Rarity.SPECIAL, "", "", "", new ItemAbility(AbilityAction.NONE, "", "", 0, 0));
 
     private String description;
-    private ArrayList<ItemAbility> abilities;
+    private List<ItemAbility> abilities;
 
-    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, String description, ArrayList<ItemAbility> abilities) {
+    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, String description, List<ItemAbility> abilities) {
         super(material, family, name, type, rarity, id, nbt);
         this.description = description;
-        this.abilities = abilities;
+        this.abilities = abilities == null || abilities.size() == 0 ? new ArrayList<>(Arrays.asList(new ItemAbility(AbilityAction.NULL, "", "", 0, 0))) : abilities;
     }
 
     public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, String description, ItemAbility ability) {

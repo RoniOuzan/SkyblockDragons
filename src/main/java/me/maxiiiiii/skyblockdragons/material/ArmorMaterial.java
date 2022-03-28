@@ -21,7 +21,7 @@ public class ArmorMaterial extends ItemMaterial {
         super(material, family, name, type, rarity, id, nbt);
         this.stats = stats;
         this.description = description;
-        this.fullSet = fullSet;
+        this.fullSet = fullSet == null ? ItemFullSet.NULL : fullSet;
         this.color = color;
     }
 
@@ -31,5 +31,9 @@ public class ArmorMaterial extends ItemMaterial {
 
     public ArmorMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, ItemStats stats, String description, ItemFullSet fullSet, Color color) {
         this(material, family, name, type, rarity, "", "", stats, description, fullSet, color);
+    }
+
+    public ArmorMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, ItemStats stats, String description, ItemFullSet fullSet) {
+        this(material, family, name, type, rarity, "", "", stats, description, fullSet, Color.BLACK);
     }
 }
