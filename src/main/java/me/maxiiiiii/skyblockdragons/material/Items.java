@@ -31,6 +31,7 @@ public class Items {
         items.put("ROGUE_SWORD", new SwordMaterial(Material.GOLD_SWORD, ItemFamily.ROGUE_SWORD, "Rogue Sword", Rarity.COMMON, new ItemStats(20, 0, 0, 0, 0, 0, 0, 0, 0, 0), "", new ItemAbility(AbilityAction.RIGHT_CLICK, "Speed Boost", "Increases your movement " + Stat.SPEED.getIconAndText() + " " + ChatColor.GRAY + "by " + ChatColor.GREEN + "+20 " + ChatColor.GRAY + "for " + ChatColor.GREEN + "30 " + ChatColor.GRAY + "seconds. Only gives " + ChatColor.GREEN + "+10 " + Stat.SPEED.getIconAndText() + " " + ChatColor.GRAY + "if already in use.", 50, 0)));
         items.put("AXE_OF_THE_SHREDDED", new SwordMaterial(Material.DIAMOND_AXE, ItemFamily.REVENANT_FALCHION, "Axe of the Shredded", Rarity.LEGENDARY, new ItemStats(140, 115, 0, 0, 0, 0, 0, 0, 0, 0), "Heal " + ChatColor.RED + "50" + Stat.HEALTH.getIcon() + " " + ChatColor.GRAY + "per hit." + " NEW_LINE " + "Deal " + ChatColor.GREEN + "+250% " + ChatColor.GRAY + "damage to Zombies." + " NEW_LINE " + "Receive " + ChatColor.GREEN + "25% " + ChatColor.GRAY + "less damage from Zombies when held.", new ItemAbility(AbilityAction.RIGHT_CLICK, "Throw", "Throw your axe damaging all enemies in its path dealing " + ChatColor.RED + "10% " + ChatColor.GRAY + "melee damage. Consecutive throws stack " + ChatColor.RED + "2x " + ChatColor.GRAY + "damage but cost " + ChatColor.BLUE + "2x " + ChatColor.GRAY + "mana up to 16x", 20, 0)));
         items.put("MIDAS_STAFF", new SwordMaterial(Material.GOLD_SPADE, ItemFamily.MIDAS_STAFF, "Midas Staff", Rarity.LEGENDARY, new ItemStats(130, 150, 0, 0, 0, 0, 0, 0, 0, 50), ChatColor.GOLD + "Ability Greed" + " NEW_LINE " + ChatColor.GRAY + "The " + ChatColor.DARK_AQUA + "ability damage bonus " + ChatColor.GRAY + "of this item is dependent on the price paid for it at the " + ChatColor.DARK_PURPLE + "Dark Action" + ChatColor.GRAY + "! The maximum bonus of this item is " + ChatColor.DARK_AQUA + "26,000 " + ChatColor.GRAY + "if the bid was " + ChatColor.GOLD + "100,000,000 Coins " + ChatColor.GRAY + "or higher!", new ItemAbility(AbilityAction.RIGHT_CLICK, "Molten Wave", "Cast a wave of molten gold in the direction you are facing! Deals up to " + ChatColor.RED + "6,000 " + ChatColor.GRAY + "damage.", 500, 1)));
+        items.put("PIGMAN_DAGGER", new SwordMaterial(Material.GOLD_SWORD, ItemFamily.PIGMAN, "Pigman Dagger", Rarity.UNCOMMON, new ItemStats(25, 20, 5, 0, 0, 0, 0, 0, 0, 0), "", new ItemAbility(AbilityAction.RIGHT_CLICK, "Burning", "Cast vortex of " + ChatColor.RED + "flames " + ChatColor.GRAY + "towards enemies.", 15, 1)));
 
         items.put("VALKYRIE", new NecronBladeMaterial(Material.IRON_SWORD, ItemFamily.NECRON_BLADE, "Valkyrie", Rarity.LEGENDARY, new ItemStats(270, 145, 0, 0, 0, 60, 0, 0, 0, 60), NecronBladeMaterial.NecronBladeType.VALKYRIE));
 
@@ -40,22 +41,27 @@ public class Items {
         items.put("GOLDEN_SKELETON_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Golden Skeleton Bow", Rarity.COMMON, new ItemStats(30, 0, 0, 0, 0, 0, 0, 0, 0, 0), ""));
 
         // Armors
-        items.put("GOLDEN_SKELETON_HELMET", new ArmorMaterial(Material.GOLD_HELMET, ItemFamily.NULL, "Golden Skeleton Helmet", ItemType.HELMET, Rarity.COMMON, new ItemStats(25, 25, 0, 0, 0, 0, 0, 0, 0, 5), "", null));
+        items.put("GOLDEN_SKELETON_HELMET", new ArmorMaterial(Material.GOLD_HELMET, ItemFamily.NULL, "Golden Skeleton Helmet", ItemType.HELMET, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 25, 25, 0, 5), "", null));
+        // Pigman
+        items.put("PIGMAN_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.PIGMAN, "Pigman Helmet", ItemType.HELMET, Rarity.UNCOMMON, "a94086e2-ae98-42c2-a96b-d7b548e3ae2a", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjg1Mzg2Zjc4MDMzNDNlNWU2YjdlOGVlMDYxNjc3ZmYxN2U0ZjU2MTAwNTQ3OWQzOTQ3MmIyNjU3ZTA4ODQyZSJ9fX0=", new ItemStats(0, 5, 5, 0, 0, 0, 70, 40, 0, 10), "", ItemFullSet.PIGMAN));
+        items.put("PIGMAN_CHESTPLATE", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.PIGMAN, "Pigman Chestplate", ItemType.CHESTPLATE, Rarity.UNCOMMON, "", "", new ItemStats(0, 5, 5, 0, 0, 0, 70, 40, 0, 10), "", ItemFullSet.PIGMAN));
+        items.put("PIGMAN_LEGGINGS", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.PIGMAN, "Pigman Leggings", ItemType.LEGGINGS, Rarity.UNCOMMON, "", "", new ItemStats(0, 5, 5, 0, 0, 0, 70, 40, 0, 10), "", ItemFullSet.PIGMAN));
+        items.put("PIGMAN_BOOTS", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.PIGMAN, "Pigman Boots", ItemType.BOOTS, Rarity.UNCOMMON, "", "", new ItemStats(0, 5, 5, 0, 0, 0, 70, 40, 0, 10), "", ItemFullSet.PIGMAN));
         // Necron
-        items.put("NECRON_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.NECRON_ARMOR, "Necron's Helmet", ItemType.HELMET, Rarity.LEGENDARY, "16b91b55-02b7-3315-bd9a-7da8467e4a96", "ewogICJ0aW1lc3RhbXAiIDogMTYwNTYyMzI0OTc5MywKICAicHJvZmlsZUlkIiA6ICIwNjEzY2I1Y2QxYjg0M2JjYjI4OTk1NWU4N2QzMGEyYyIsCiAgInByb2ZpbGVOYW1lIiA6ICJicmVhZGxvYWZzcyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8yYmJiMmZhN2E2Y2EwODcyODBlYTBjYjU2NGI0MWVmMWFlNDA0YTE5ZjdhODEyOGQzZDI4YzUxOWE4NWUwNjNmIgogICAgfQogIH0KfQ", new ItemStats(0, 40, 30, 0, 0, 0, 180, 100, 0, 30), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHERBORN));
-        items.put("NECRON_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.NECRON_ARMOR, "Necron's Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new ItemStats(0, 40, 30, 0, 0, 0, 260, 140, 0, 10), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHERBORN, Color.fromRGB(231,65,60)));
-        items.put("NECRON_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.NECRON_ARMOR, "Necron's Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new ItemStats(0, 40, 30, 0, 0, 0, 230, 125, 0, 30), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHERBORN, Color.fromRGB(231,92,60)));
-        items.put("NECRON_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.NECRON_ARMOR, "Necron's Boots", ItemType.BOOTS, Rarity.LEGENDARY, new ItemStats(0, 40, 30, 0, 0, 0, 145, 85, 0, 10), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHERBORN, Color.fromRGB(231,110,60)));
+        items.put("NECRON_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.NECRON_ARMOR, "Necron's Helmet", ItemType.HELMET, Rarity.LEGENDARY, "16b91b55-02b7-3315-bd9a-7da8467e4a96", "ewogICJ0aW1lc3RhbXAiIDogMTYwNTYyMzI0OTc5MywKICAicHJvZmlsZUlkIiA6ICIwNjEzY2I1Y2QxYjg0M2JjYjI4OTk1NWU4N2QzMGEyYyIsCiAgInByb2ZpbGVOYW1lIiA6ICJicmVhZGxvYWZzcyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8yYmJiMmZhN2E2Y2EwODcyODBlYTBjYjU2NGI0MWVmMWFlNDA0YTE5ZjdhODEyOGQzZDI4YzUxOWE4NWUwNjNmIgogICAgfQogIH0KfQ", new ItemStats(0, 40, 30, 0, 0, 0, 180, 100, 0, 30), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHER_ARMOR));
+        items.put("NECRON_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.NECRON_ARMOR, "Necron's Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new ItemStats(0, 40, 30, 0, 0, 0, 260, 140, 0, 10), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHER_ARMOR, Color.fromRGB(231,65,60)));
+        items.put("NECRON_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.NECRON_ARMOR, "Necron's Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new ItemStats(0, 40, 30, 0, 0, 0, 230, 125, 0, 30), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHER_ARMOR, Color.fromRGB(231,92,60)));
+        items.put("NECRON_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.NECRON_ARMOR, "Necron's Boots", ItemType.BOOTS, Rarity.LEGENDARY, new ItemStats(0, 40, 30, 0, 0, 0, 145, 85, 0, 10), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHER_ARMOR, Color.fromRGB(231,110,60)));
         // Storm
-        items.put("STORM_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.STORM_ARMOR, "Storm's Helmet", ItemType.HELMET, Rarity.LEGENDARY, "a3552cdc-39ab-3f9f-9373-61c035f61b7d", "ewogICJ0aW1lc3RhbXAiIDogMTYwNTYyMzM2NjgxNiwKICAicHJvZmlsZUlkIiA6ICI5MWYwNGZlOTBmMzY0M2I1OGYyMGUzMzc1Zjg2ZDM5ZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJTdG9ybVN0b3JteSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9mODMxNTljNWJiN2Q4MDQ1NGQyZDY0NmIxNTc3NGI3MTE2YWFiY2IzYWY1YjY3NzdhMjc1NzNmYzQ1Zjc4NTRmIgogICAgfQogIH0KfQ", new ItemStats(0, 0, 0, 0, 0, 0, 180, 80, 0, 400), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHERBORN));
-        items.put("STORM_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.STORM_ARMOR,"Storm's Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new ItemStats(0, 0, 0, 0, 0, 0, 260, 120, 0, 250), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHERBORN, Color.fromRGB(23,147,196)));
-        items.put("STORM_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.STORM_ARMOR, "Storm's Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new ItemStats(0, 0, 0, 0, 0, 0, 230, 105, 0, 250), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHERBORN, Color.fromRGB(23,168,196)));
-        items.put("STORM_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.STORM_ARMOR, "Storm's Boots", ItemType.BOOTS, Rarity.LEGENDARY, new ItemStats(0, 0, 0, 0, 0, 0, 145, 65, 0, 250), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHERBORN, Color.fromRGB(28,212,228)));
+        items.put("STORM_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.STORM_ARMOR, "Storm's Helmet", ItemType.HELMET, Rarity.LEGENDARY, "a3552cdc-39ab-3f9f-9373-61c035f61b7d", "ewogICJ0aW1lc3RhbXAiIDogMTYwNTYyMzM2NjgxNiwKICAicHJvZmlsZUlkIiA6ICI5MWYwNGZlOTBmMzY0M2I1OGYyMGUzMzc1Zjg2ZDM5ZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJTdG9ybVN0b3JteSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9mODMxNTljNWJiN2Q4MDQ1NGQyZDY0NmIxNTc3NGI3MTE2YWFiY2IzYWY1YjY3NzdhMjc1NzNmYzQ1Zjc4NTRmIgogICAgfQogIH0KfQ", new ItemStats(0, 0, 0, 0, 0, 0, 180, 80, 0, 400), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHER_ARMOR));
+        items.put("STORM_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.STORM_ARMOR,"Storm's Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new ItemStats(0, 0, 0, 0, 0, 0, 260, 120, 0, 250), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHER_ARMOR, Color.fromRGB(23,147,196)));
+        items.put("STORM_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.STORM_ARMOR, "Storm's Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new ItemStats(0, 0, 0, 0, 0, 0, 230, 105, 0, 250), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHER_ARMOR, Color.fromRGB(23,168,196)));
+        items.put("STORM_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.STORM_ARMOR, "Storm's Boots", ItemType.BOOTS, Rarity.LEGENDARY, new ItemStats(0, 0, 0, 0, 0, 0, 145, 65, 0, 250), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHER_ARMOR, Color.fromRGB(28,212,228)));
         // Superior
-        items.put("SUPERIOR_DRAGON_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.SUPERIOR_DRAGON_ARMOR, "Superior Dragon Helmet", ItemType.HELMET, Rarity.LEGENDARY, "7fd17d6f-9e42-478c-8cce-68aec1d52eec", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzU1OGVmYmU2Njk3NjA5OWNmZDYyNzYwZDllMDUxNzBkMmJiOGY1MWU2ODgyOWFiOGEwNTFjNDhjYmM0MTVjYiJ9fX0=", new ItemStats(0, 10, 10, 2, 0, 0, 90, 130, 3, 25), "", ItemFullSet.SUPERIOR_BLOOD));
-        items.put("SUPERIOR_DRAGON_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.SUPERIOR_DRAGON_ARMOR, "Superior Dragon Helmet", ItemType.CHESTPLATE, Rarity.LEGENDARY, new ItemStats(0, 10, 10, 2, 0, 0, 150, 190, 3, 25), "", ItemFullSet.SUPERIOR_BLOOD, Color.fromRGB(242,223,17)));
-        items.put("SUPERIOR_DRAGON_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.SUPERIOR_DRAGON_ARMOR, "Superior Dragon Helmet", ItemType.LEGGINGS, Rarity.LEGENDARY, new ItemStats(0, 10, 10, 2, 0, 0, 130, 170, 3, 25), "", ItemFullSet.SUPERIOR_BLOOD, Color.fromRGB(242,223,17)));
-        items.put("SUPERIOR_DRAGON_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.SUPERIOR_DRAGON_ARMOR, "Superior Dragon Helmet", ItemType.BOOTS, Rarity.LEGENDARY, new ItemStats(0, 10, 10, 2, 0, 0, 80, 110, 3, 25), "", ItemFullSet.SUPERIOR_BLOOD, Color.fromRGB(242,93,24)));
+        items.put("SUPERIOR_DRAGON_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.SUPERIOR_DRAGON_ARMOR, "Superior Dragon Helmet", ItemType.HELMET, Rarity.LEGENDARY, "7fd17d6f-9e42-478c-8cce-68aec1d52eec", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzU1OGVmYmU2Njk3NjA5OWNmZDYyNzYwZDllMDUxNzBkMmJiOGY1MWU2ODgyOWFiOGEwNTFjNDhjYmM0MTVjYiJ9fX0=", new ItemStats(0, 10, 10, 2, 0, 0, 90, 130, 3, 25), "", ItemFullSet.SUPERIOR_DRAGON));
+        items.put("SUPERIOR_DRAGON_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.SUPERIOR_DRAGON_ARMOR, "Superior Dragon Helmet", ItemType.CHESTPLATE, Rarity.LEGENDARY, new ItemStats(0, 10, 10, 2, 0, 0, 150, 190, 3, 25), "", ItemFullSet.SUPERIOR_DRAGON, Color.fromRGB(242,223,17)));
+        items.put("SUPERIOR_DRAGON_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.SUPERIOR_DRAGON_ARMOR, "Superior Dragon Helmet", ItemType.LEGGINGS, Rarity.LEGENDARY, new ItemStats(0, 10, 10, 2, 0, 0, 130, 170, 3, 25), "", ItemFullSet.SUPERIOR_DRAGON, Color.fromRGB(242,223,17)));
+        items.put("SUPERIOR_DRAGON_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.SUPERIOR_DRAGON_ARMOR, "Superior Dragon Helmet", ItemType.BOOTS, Rarity.LEGENDARY, new ItemStats(0, 10, 10, 2, 0, 0, 80, 110, 3, 25), "", ItemFullSet.SUPERIOR_DRAGON, Color.fromRGB(242,93,24)));
 
         // Tools
         items.put("TREE_CAPITATOR", new ToolMaterial(Material.GOLD_AXE, ItemFamily.JUNGLE_AXE, "Tree Capitator", ItemType.AXE, Rarity.EPIC, "A forceful Gold Axe which can break a large amount of logs in a single hit!", new ItemAbility(AbilityAction.NULL, "", "", 0, 0)));
@@ -73,6 +79,7 @@ public class Items {
 
         // Accessories
         items.put("NETHER_ARTIFACT", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.NETHER_ARTIFACT, "Nether Artifact", Rarity.EPIC, "0ef495a4-e5df-41c2-b9a2-b2e647cbb491", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDgzNTcxZmY1ODlmMWE1OWJiMDJiODA4MDBmYzczNjExNmUyN2MzZGNmOWVmZWJlZGU4Y2YxZmRkZSJ9fX0=", new ItemStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Reduces the damage taken from Zombie Pigmen, Magma Cubes, Ghasts and Blazes by " + ChatColor.GREEN + "5%" + ChatColor.GRAY + ". NEW_LINE NEW_LINE While in the " + ChatColor.GOLD + "Blazing Fortress " + ChatColor.GRAY + "you will receive the damage reduction from all mobs."));
+        items.put("SLIME_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.SLIME, "Slime Talisman", Rarity.UNCOMMON, "7f0b0873-df6a-4a19-9bcd-f6c90ef804c7", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODk1YWVlYzZiODQyYWRhODY2OWY4NDZkNjViYzQ5NzYyNTk3ODI0YWI5NDRmMjJmNDViZjNiYmI5NDFhYmU2YyJ9fX0=", new ItemStats(0, 2, 2, 0, 0, 0, 0, 0, 0, 0), ""));
 
         // Wands
         items.put("GYROKINETIC_WAND", new ToolMaterial(Material.BLAZE_ROD, ItemFamily.GYROKINETIC_WAND, "Gyrokinetic Wand", ItemType.WAND, Rarity.EPIC, "", new ArrayList<>(Arrays.asList(new ItemAbility(AbilityAction.LEFT_CLICK, "Gravity Storm", "Create a large " + ChatColor.DARK_PURPLE + "rift " + ChatColor.GRAY + "at aimed location, pulling all mobs toegether.", 1200, 5), new ItemAbility(AbilityAction.RIGHT_CLICK, "Cells Alignment", "Apply " + ChatColor.GREEN + "Aligned " + ChatColor.GRAY + "to 4 nearby players and yourself for " + ChatColor.GREEN + "6 seconds" + ChatColor.GRAY + ".", 220, 10)))));
@@ -103,8 +110,7 @@ public class Items {
         items.put("ELECTRO_MAGNET", new ToolMaterial(Material.TORCH, ItemFamily.ELECTRO_MAGNET, "Electro Magnet", ItemType.ITEM, Rarity.EPIC, "", new ItemAbility(AbilityAction.NONE, "Force Field", "Repel hostile creatures and projectiles in radius of " + ChatColor.GREEN + "10 blocks" + ChatColor.GRAY + ".", 0, 0)));
 
         // Normal Items
-        items.put("ENCHANTED_EYE_OF_ENDER", new NormalMaterial(Material.EYE_OF_ENDER, ItemFamily.ENCHANTED_ITEM, "Enchanted Eye of Ender", ItemType.ITEM, Rarity.UNCOMMON, "", "", true, true));
-        items.put("ENCHANTED_DIAMOND", new NormalMaterial(Material.DIAMOND, ItemFamily.ENCHANTED_ITEM, "Enchanted Diamond", ItemType.ITEM, Rarity.UNCOMMON, "", "", true, true));
+//        items.put("ENCHANTED_EYE_OF_ENDER", new NormalMaterial(Material.EYE_OF_ENDER, ItemFamily.ENCHANTED_ITEM, "Enchanted Eye of Ender", ItemType.ITEM, Rarity.UNCOMMON, "", "", true, true));
         items.put("HOT_POTATO_BOOK", new NormalMaterial(Material.BOOK, ItemFamily.HOT_POTATO, "Hot Potato Book", ItemType.ITEM, Rarity.EPIC, "", "", "Combine this Book in an Anvil with a weapon or armor piece to gain a small but permanent stat boost!", true, false, false));
         items.put("FUMING_POTATO_BOOK", new NormalMaterial(Material.BOOK, ItemFamily.HOT_POTATO, "Fuming Potato Book", ItemType.ITEM, Rarity.EPIC, "", "", "Use in an anvil to combine this book with a weapon or armor pieace to gain a small but permanent stat boost!" + " NEW_LINE NEW_LINE " + "This book bypasses the Hot Potato Book limit of 10, allowing you to upgrade an item up to " + ChatColor.GREEN + "15 " + ChatColor.GRAY + "times!", true, false, false));
         items.put("SKYBLOCK_MENU", new NormalMaterial(Material.NETHER_STAR, ItemFamily.NULL, "Skyblock Menu", ItemType.ITEM, Rarity.UNCOMMON, "", "", ChatColor.GRAY + "View all of your Skyblock progress, including your Skills, Recipes and more!", true, false, false));
@@ -127,20 +133,56 @@ public class Items {
                 if (Functions.isColorable(material)) {
                     if (material == Material.INK_SACK)
                         for (short i = 0; i < 16; i++) {
-                            vanillaMaterials.put(Functions.getColorName(15 - i).toUpperCase() + "_DYE", new ItemMaterial(material, ItemFamily.ITEM, Functions.setTitleCase(Functions.getColorName(15 - i) + " DYE"), ItemType.ITEM, rarity, i + "", ""));
+                            vanillaMaterials.put(Functions.getColorName(15 - i).toUpperCase() + "_DYE", new ItemMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(15 - i) + " DYE"), ItemType.ITEM, rarity, i + "", ""));
                         }
                     else
                         for (short i = 0; i < 16; i++) {
-                            vanillaMaterials.put(Functions.getColorName(i).toUpperCase() + "_" + material.name(), new ItemMaterial(material, ItemFamily.ITEM, Functions.setTitleCase(Functions.getColorName(i) + " " +  material.name()), ItemType.ITEM, rarity, i + "", ""));
+                            vanillaMaterials.put(Functions.getColorName(i).toUpperCase() + "_" + material.name(), new ItemMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(i) + " " +  material.name()), ItemType.ITEM, rarity, i + "", ""));
                         }
                 } else {
                     if (material == Material.NETHER_STAR || material == Material.BEDROCK) rarity = Rarity.LEGENDARY;
-                    vanillaMaterials.put(material.name(), new ItemMaterial(material, ItemFamily.ITEM, Functions.setTitleCase(material.name()), ItemType.ITEM, rarity, "", ""));
+                    if (material.toString().contains("PICKAXE"))
+                        vanillaMaterials.put(material.name(), new ToolMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.PICKAXE, rarity, ""));
+                    else if (material.toString().contains("AXE"))
+                        vanillaMaterials.put(material.name(), new ToolMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.AXE, rarity, ""));
+                    else if (material.toString().contains("HOE"))
+                        vanillaMaterials.put(material.name(), new ToolMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.HOE, rarity, ""));
+                    else if (material.toString().contains("HELMET"))
+                        vanillaMaterials.put(material.name(), new ArmorMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.HELMET, rarity, new ItemStats(), "", null));
+                    else if (material.toString().contains("CHESTPLATE"))
+                        vanillaMaterials.put(material.name(), new ArmorMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.CHESTPLATE, rarity, new ItemStats(), "", null));
+                    else if (material.toString().contains("LEGGINGS"))
+                        vanillaMaterials.put(material.name(), new ArmorMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.LEGGINGS, rarity, new ItemStats(), "", null));
+                    else if (material.toString().contains("BOOTS"))
+                        vanillaMaterials.put(material.name(), new ArmorMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.BOOTS, rarity, new ItemStats(), "", null));
+                    else if (material.toString().contains("SWORD"))
+                        vanillaMaterials.put(material.name(), new SwordMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), rarity, new ItemStats(), ""));
+                    else if (material.toString().contains("BOW"))
+                        vanillaMaterials.put(material.name(), new BowMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), rarity, new ItemStats(), "", (ItemAbility) null));
+                    else if (material.toString().contains("ROD"))
+                        vanillaMaterials.put(material.name(), new ToolMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.ROD, rarity, "", (ItemAbility) null));
+                    else
+                        vanillaMaterials.put(material.name(), new ItemMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.ITEM, rarity, "", ""));
                 }
             }
         }
+        vanillaMaterials.put("LAPIS", new ItemMaterial(Material.INK_SACK, ItemFamily.VANILLA, "Lapis Lazuli", ItemType.ITEM, Rarity.COMMON, "4", ""));
+        vanillaMaterials.remove("BLUE_DYE");
 
         items.putAll(vanillaMaterials);
+
+        ArrayList<String> keys = new ArrayList<>();
+        for (String material : Items.items.keySet()) {
+            ItemMaterial item = Items.items.get(material);
+            if (item.getType() == ItemType.ITEM && !material.contains("ENCHANTED_")) {
+                keys.add(material);
+            }
+        }
+        for (String string : keys) {
+            ItemMaterial item = ItemMaterial.get(string);
+            NormalMaterial normalMaterial = new NormalMaterial(item.getMaterial(), ItemFamily.ENCHANTED_ITEM, "Enchanted " + item.getName(), ItemType.ITEM, Rarity.values()[item.getRarity().getLevel()], item.getId(), item.getNbt(), true, true, true);
+            Items.items.put("ENCHANTED_" + string, normalMaterial);
+        }
 
         NULL = new ToolMaterial(Material.BARRIER, ItemFamily.NULL,"Null", ItemType.NULL, Rarity.SPECIAL, "", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Null barrier that created by " + ChatColor.GRAY + "" + ChatColor.ITALIC + "ERROR with an item.");
 

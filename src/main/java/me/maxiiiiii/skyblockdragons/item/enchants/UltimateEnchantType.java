@@ -16,7 +16,7 @@ public class UltimateEnchantType extends EnchantType {
 
     private static ArrayList<String> getAllDistractions(String distraction) {
         ArrayList<String> distractions = new ArrayList<>();
-        for (EnchantType enchantType : Enchants.values()) {
+        for (EnchantType enchantType : enchants.values()) {
             if (enchantType instanceof UltimateEnchantType) {
                 if (enchantType.name().equals(distraction.toUpperCase())) continue;
                 distractions.add(enchantType.name());

@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.player.skill;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.Skills.*;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -34,7 +35,7 @@ public class Skill {
 
     public void give(SkillType skillType, double amount) {
         this.get(skillType.name()).setXp(this.get(skillType.name()).getCurrentXp() + amount, player);
-        player.sendActionBar(ChatColor.DARK_AQUA + "+" + amount + " " + skillType + " (" + (player.getSkill().get(skillType).getCurrentXp() / player.getSkill().get(skillType).getCurrentNeedXp()) * 100d + "%)");
+        player.sendActionBar(ChatColor.DARK_AQUA + "+" + Functions.getInt(amount + "") + " " + skillType + " (" + (player.getSkill().get(skillType).getCurrentXp() / player.getSkill().get(skillType).getCurrentNeedXp()) * 100d + "%)", true);
     }
 
     public AbstractSkill get(String name) {

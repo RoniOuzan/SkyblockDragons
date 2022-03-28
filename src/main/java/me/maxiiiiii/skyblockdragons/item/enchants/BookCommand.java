@@ -31,7 +31,7 @@ public class BookCommand implements CommandExecutor, TabCompleter {
                     ((Player) sender).getInventory().addItem(item);
                 } else if (args[0].equalsIgnoreCase("ALL")) {
                     Map<EnchantType, Short> enchants = new HashMap<>();
-                    for (EnchantType enchantType : EnchantType.Enchants.values()) {
+                    for (EnchantType enchantType : EnchantType.enchants.values()) {
                         if (enchantType.name().equals("ONE_FOR_ALL")) continue;
                         enchants.put(enchantType, enchantType.getMaxLevel());
                     }
@@ -49,7 +49,7 @@ public class BookCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         ArrayList<String> tabs = new ArrayList<>();
         if (args.length == 1) {
-            for (EnchantType tab : EnchantType.Enchants.values()) {
+            for (EnchantType tab : EnchantType.enchants.values()) {
                 if (tab.name().contains("NULL")) continue;
                 if (tab.name().startsWith(args[0].toUpperCase())) {
                     tabs.add(tab.name());

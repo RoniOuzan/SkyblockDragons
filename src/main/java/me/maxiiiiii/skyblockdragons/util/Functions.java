@@ -764,7 +764,7 @@ public class Functions {
     }
 
     public static boolean isEnchant(String name) {
-        for (EnchantType enchantType : EnchantType.Enchants.values()) {
+        for (EnchantType enchantType : EnchantType.enchants.values()) {
             if (enchantType.name().equals(name.toUpperCase())) {
                 return true;
             }
@@ -902,7 +902,7 @@ public class Functions {
 
     public static Rarity getBookRarity(Map<EnchantType, Short> enchants) {
         short highest = 0;
-        for (EnchantType enchant : EnchantType.Enchants.values()) {
+        for (EnchantType enchant : EnchantType.enchants.values()) {
             if (enchants.containsKey(enchant)) {
                 if (enchant instanceof UltimateEnchantType) {
                     highest = 10;
@@ -940,7 +940,7 @@ public class Functions {
             NBTCompound nbt = nbtItem.getCompound("Item");
             NBTCompound compound1 = nbt.getCompound("Enchants");
             NBTCompound compound2 = nbt.getCompound("UltimateEnchant");
-            for (EnchantType enchant : EnchantType.Enchants.values()) {
+            for (EnchantType enchant : EnchantType.enchants.values()) {
                 if (compound1.hasKey(enchant.name())) {
                     enchants.put(enchant, Short.parseShort(compound1.getInteger(enchant.name()) + ""));
                 }
@@ -956,7 +956,7 @@ public class Functions {
             NBTItem nbtItem = new NBTItem(item);
             NBTCompound nbt = nbtItem.getCompound("Item");
             NBTCompound compound = nbt.getCompound("Enchants");
-            EnchantType[] enchantTypes = EnchantType.Enchants.values().toArray(new EnchantType[0]);
+            EnchantType[] enchantTypes = EnchantType.enchants.values().toArray(new EnchantType[0]);
             Arrays.sort(enchantTypes);
             for (EnchantType enchant : enchantTypes) {
                 if (compound.hasKey(enchant.name())) {
@@ -968,7 +968,7 @@ public class Functions {
     }
 
     public static EnchantType getEnchant(String name) {
-        for (EnchantType enchantType : EnchantType.Enchants.values()) {
+        for (EnchantType enchantType : EnchantType.enchants.values()) {
             if (enchantType.name().equals(name.toUpperCase())) {
                 return enchantType;
             }

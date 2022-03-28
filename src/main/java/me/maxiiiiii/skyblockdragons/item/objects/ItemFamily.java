@@ -41,6 +41,9 @@ public enum ItemFamily {
     HOT_POTATO,
     ERRORMERANG_WAND,
     BACKPACK,
+    VANILLA,
+    SLIME,
+    PIGMAN,
     NULL
 }
 

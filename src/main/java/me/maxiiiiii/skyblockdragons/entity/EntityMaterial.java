@@ -65,9 +65,59 @@ public class EntityMaterial {
                 100,
                 0,
                 2,
-                new ItemDrop(ItemMaterial.get("GOLDEN_SKELETON_BOW"), 1, 1d), 
+                new ItemDrop(ItemMaterial.get("GOLDEN_SKELETON_BOW"), 1, 1d),
                 new ItemDrop(ItemMaterial.get("GOLDEN_SKELETON_HELMET"), 1, 1d),
-                new ItemDrop(ItemMaterial.get("BONE"), 1, 4)
+                new ItemDrop(ItemMaterial.get("BONE"), 1, 4),
+                new ItemDrop(ItemMaterial.get("ARROW"), 2, 10)
+        ));
+
+        Entities.put("LAPIS_ZOMBIE", new EntityMaterial(
+                EntityType.ZOMBIE,
+                ChatColor.BLUE + "Lapis Zombie",
+                2,
+                100,
+                0,
+                new Equipment(Material.LAPIS_BLOCK, null, null, null, Material.STONE_SWORD, null),
+                100,
+                0,
+                5,
+                new ItemDrop(ItemMaterial.get("LAPIS"), 1, 6),
+                new RareDrop(ItemMaterial.get("ENCHANTED_LAPIS"), 1, 2, 2d, RareDrop.Rarity.RARE)
+        ));
+
+        Entities.put("REDSTONE_PIGMAN", new EntityMaterial(
+                EntityType.PIG_ZOMBIE,
+                ChatColor.RED + "Redstone Pigman",
+                3,
+                300,
+                5,
+                new Equipment(null, null, null, null, Material.GOLD_SWORD, null),
+                110,
+                0,
+                8,
+                new ItemDrop(ItemMaterial.get("ROTTEN_FLESH"), 1, 6),
+                new ItemDrop(ItemMaterial.get("REDSTONE"), 1, 5),
+                new RareDrop(ItemMaterial.get("ENCHANTED_REDSTONE"), 1, 2, 2d, RareDrop.Rarity.RARE),
+                new RareDrop(ItemMaterial.get("PIGMAN_HELMET"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(ItemMaterial.get("PIGMAN_CHESTPLATE"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(ItemMaterial.get("PIGMAN_LEGGINGS"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(ItemMaterial.get("PIGMAN_BOOTS"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(ItemMaterial.get("PIGMAN_DAGGER"), 1, 2d, RareDrop.Rarity.RARE)
+        ));
+
+        Entities.put("SLIME", new EntityMaterial(
+                EntityType.SLIME,
+                ChatColor.GREEN + "Slime",
+                5,
+                350,
+                10,
+                new Equipment(),
+                120,
+                0,
+                10,
+                new ItemDrop(ItemMaterial.get("SLIME_BALL"), 1, 10),
+                new ItemDrop(ItemMaterial.get("EMERALD"), 1, 6),
+                new RareDrop(ItemMaterial.get("SLIME_TALISMAN"), 1, 1d, RareDrop.Rarity.RARE)
         ));
 
         Entities.put("DUMMY", new EntityMaterial(EntityType.ZOMBIE, "Dummy", Integer.MAX_VALUE, 500000, 0, new Equipment(), 0, 1, false, 0));

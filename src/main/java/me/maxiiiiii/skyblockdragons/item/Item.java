@@ -57,6 +57,10 @@ public class Item extends ItemStack {
          this(material, 1);
     }
 
+    public Item(ItemStack itemStack) {
+        this(Functions.getItemMaterial(itemStack), itemStack);
+    }
+
     public Item(ItemMaterial material, ItemStack fromItem) {
         this(material, (isStackable(fromItem) ? fromItem.getAmount() : 1), getHotPotato(fromItem), getReforge(fromItem), isRecombed(fromItem), getSkin(fromItem), getEnchants(fromItem), getNecronScrolls(fromItem));
     }
@@ -139,6 +143,8 @@ public class Item extends ItemStack {
             lores.add(ChatColor.GRAY + "Use this item on an item in an Anvil");
             lores.add(ChatColor.GRAY + "to apply it!");
         } else if (this.material instanceof ToolMaterial) {
+            applyEnchants(lores, enchants, enchantList);
+
             applyDescription(lores);
 
             applyAbilities(lores, enchants);
@@ -219,7 +225,7 @@ public class Item extends ItemStack {
             }
             nbtEnchants.setShort("ONE_FOR_ALL", (short) 1);
         } else {
-            for (EnchantType enchantType : EnchantType.Enchants.values()) {
+            for (EnchantType enchantType : EnchantType.enchants.values()) {
                 if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
                     if (enchantType instanceof UltimateEnchantType) {
                         nbtUltimateEnchant.setShort(enchantType.name(), enchants.get(enchantType));
@@ -415,7 +421,7 @@ public class Item extends ItemStack {
             boolean oneForAll = false;
             if (enchant) {
                 if (!enchants.containsKey(EnchantType.NULL)) {
-                    for (EnchantType enchantType : EnchantType.Enchants.values()) {
+                    for (EnchantType enchantType : EnchantType.enchants.values()) {
                         if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
                             if (enchantType.getStats().get(i) != 0) {
                                 statAdder += enchantType.getStats().get(i) * enchants.get(enchantType);
@@ -478,7 +484,7 @@ public class Item extends ItemStack {
     private int getBookCost(Map<EnchantType, Short> enchants) {
         int cost = 3;
         if (!enchants.containsKey(EnchantType.NULL)) {
-            for (EnchantType enchantType : EnchantType.Enchants.values()) {
+            for (EnchantType enchantType : EnchantType.enchants.values()) {
                 if (enchants.containsKey(enchantType)) {
                     cost += enchants.get(enchantType) * 4;
                 }

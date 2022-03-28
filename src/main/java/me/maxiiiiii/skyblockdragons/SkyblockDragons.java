@@ -36,6 +36,7 @@ import me.maxiiiiii.skyblockdragons.util.objects.FlyTo;
 import me.maxiiiiii.skyblockdragons.util.objects.ParticlePacketUtil;
 import me.maxiiiiii.skyblockdragons.util.objects.Serializer;
 import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
+import me.maxiiiiii.skyblockdragons.worlds.deepmines.DeepMines;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
@@ -154,7 +155,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Axe_of_The_Shredded(), this);
         getServer().getPluginManager().registerEvents(new Midas_Staff(), this);
         getServer().getPluginManager().registerEvents(new ERRORMerang_Wand(), this);
-        getServer().getPluginManager().registerEvents(new Backpack(), this);
+
+        getServer().getPluginManager().registerEvents(new DeepMines(this), this);
 
         // Command Listeners
         getServer().getPluginManager().registerEvents(new ItemCommand(), this);

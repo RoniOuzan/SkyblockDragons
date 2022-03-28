@@ -1,9 +1,11 @@
 package me.maxiiiiii.skyblockdragons.damage;
 
+import lombok.Getter;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+@Getter
 public class PlayerDamageEntity extends EntityDamageByEntityEvent {
     public boolean ferocity;
     public Damage.DamageType damageType;

@@ -4,6 +4,12 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTEntity;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.material.Items;
+import me.maxiiiiii.skyblockdragons.material.NormalMaterial;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
@@ -21,6 +27,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class JavaPluginCommand implements CommandExecutor, TabCompleter {
     @Override

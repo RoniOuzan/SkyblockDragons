@@ -109,7 +109,8 @@ public class PlayerSD extends EntitySD implements Player {
 
     public ArrayList<ItemStack> accessoryBag;
 
-    public final Cooldown cooldown = new Cooldown();
+    public final Cooldown actionBarCooldown = new Cooldown();
+    public final Cooldown damageCooldown = new Cooldown();
 
     public static final double HEALTH_REGEN = 1.02;
 
@@ -242,10 +243,14 @@ public class PlayerSD extends EntitySD implements Player {
         return this.getPersonalBank();
     }
 
-    public void give(ItemDrop item) {
-        ItemStack itemStack = item.generate();
-        if (itemStack != null)
-            this.player.getInventory().addItem(itemStack);
+    public void give(ItemStack item) {
+        if (item instanceof ItemDrop) {
+            ItemStack itemStack = ((ItemDrop) item).generate();
+            if (itemStack != null)
+                this.player.getInventory().addItem(itemStack);
+        } else {
+            this.player.getInventory().addItem(item);
+        }
     }
 
     public void increasePlayerStat(double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double seaCreatureChance, double absorption) {
@@ -1477,10 +1482,14 @@ public class PlayerSD extends EntitySD implements Player {
         this.player.sendMessage(messages);
     }
 
-    public void sendActionBar(String message) {
-        if (cooldown(player, cooldown, 500, false)) return;
+    public void sendActionBar(String message, boolean ignoreCooldown) {
+        if (cooldown(player, actionBarCooldown, 500, false) && !ignoreCooldown) return;
 
-        this.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));;
+        this.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
+    }
+
+    public void sendActionBar(String message) {
+        this.sendActionBar(message, false);
     }
 
     @Override
@@ -1763,12 +1772,10 @@ public class PlayerSD extends EntitySD implements Player {
         return this.player.hasCooldown(material);
     }
 
-    @Override
     public int getCooldown(Material material) {
         return this.player.getCooldown(material);
     }
 
-    @Override
     public void setCooldown(Material material, int ticks) {
         this.player.setCooldown(material, ticks);
     }
