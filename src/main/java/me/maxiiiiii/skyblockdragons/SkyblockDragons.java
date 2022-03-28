@@ -105,7 +105,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         }
 
         if (!setupEconomy() ) {
-            logger.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
+            logger.severe("Disabled due to no Vault dependency found!");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -155,6 +155,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Axe_of_The_Shredded(), this);
         getServer().getPluginManager().registerEvents(new Midas_Staff(), this);
         getServer().getPluginManager().registerEvents(new ERRORMerang_Wand(), this);
+        getServer().getPluginManager().registerEvents(new Backpack(), this);
 
         // Command Listeners
         getServer().getPluginManager().registerEvents(new ItemCommand(), this);

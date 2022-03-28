@@ -51,8 +51,8 @@ public class ProfileMenu {
         inventory.setItem(28, Functions.isNotAir(leggings) ? leggings : Functions.createItem(Material.STAINED_GLASS_PANE, 0, ChatColor.YELLOW + "Player Leggings"));
         ItemStack boots = target.getEquipment().getBoots();
         inventory.setItem(37, Functions.isNotAir(boots) ? boots : Functions.createItem(Material.STAINED_GLASS_PANE, 0, ChatColor.YELLOW + "Player Boots"));
-        ItemStack pet = target.getPetActive();
-        inventory.setItem(46, Functions.isNotAir(pet) ? pet : Functions.createItem(Material.STAINED_GLASS_PANE, 0, ChatColor.YELLOW + "Player Pet"));
+        ItemStack pet = target.activePet < 0 ? Functions.createItem(Material.STAINED_GLASS_PANE, 0, ChatColor.YELLOW + "Player Pet") : target.getPetActive();
+        inventory.setItem(46, pet);
 
         ItemStack close = Functions.createItem(Material.BARRIER, ChatColor.RED + "Close", ChatColor.YELLOW + "Click to close!");
         inventory.setItem(49, close);

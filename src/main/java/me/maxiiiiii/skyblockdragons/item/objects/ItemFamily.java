@@ -40,6 +40,7 @@ public enum ItemFamily {
     ICE_SPRAY_WAND,
     HOT_POTATO,
     ERRORMERANG_WAND,
+    BACKPACK,
     NULL
 }
 

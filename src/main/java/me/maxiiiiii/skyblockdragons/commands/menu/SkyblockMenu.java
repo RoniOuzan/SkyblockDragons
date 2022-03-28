@@ -49,7 +49,7 @@ public class SkyblockMenu {
             Stat.STRENGTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStrength()),
             Stat.CRIT_DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getCritDamage() + "%"),
             Stat.CRIT_CHANCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getCritChance() + "%"),
-            Stat.ABILITY_DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId())),
+            Stat.ABILITY_DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getAbilityDamage() + "%"),
             Stat.ATTACK_SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getAttackSpeed() + "%"),
             Stat.FEROCITY.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getFerocity()),
             Stat.HEALTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getHealth()),
