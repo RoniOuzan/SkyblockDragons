@@ -19,7 +19,6 @@ public class JoinQuitListener implements Listener {
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
         if (player.activePet >= 0)
             player.petArmorStand.armorStand.remove();
-            player.petArmorStand.hologram.delete();
         SkyblockDragons.players.remove(e.getPlayer().getUniqueId());
     }
 }

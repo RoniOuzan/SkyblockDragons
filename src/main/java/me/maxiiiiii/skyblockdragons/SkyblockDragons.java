@@ -33,7 +33,7 @@ import me.maxiiiiii.skyblockdragons.util.*;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeCommand;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeListener;
 import me.maxiiiiii.skyblockdragons.util.objects.FlyTo;
-import me.maxiiiiii.skyblockdragons.util.objects.ParticleUtil;
+import me.maxiiiiii.skyblockdragons.util.objects.ParticlePacketUtil;
 import me.maxiiiiii.skyblockdragons.util.objects.Serializer;
 import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
 import net.milkbowl.vault.economy.Economy;
@@ -122,6 +122,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new DropListener(), this);
         getServer().getPluginManager().registerEvents(new EntityHealth(), this);
         getServer().getPluginManager().registerEvents(new PlayerClickOnPlayerListener(), this);
+        getServer().getPluginManager().registerEvents(new ArmorStandManipulateListener(), this);
+        getServer().getPluginManager().registerEvents(new PlaceHeadListener(), this);
 
         // Abilities
         getServer().getPluginManager().registerEvents(new Aspect_of_The_End(), this);
@@ -147,10 +149,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Wither_Impact(), this);
         getServer().getPluginManager().registerEvents(new Spirit_Sceptre(), this);
         getServer().getPluginManager().registerEvents(new Rogue_Sword(), this);
-        getServer().getPluginManager().registerEvents(new Radiant_Power_Orb(), this);
-        getServer().getPluginManager().registerEvents(new Mana_Flux_Power_Orb(), this);
-        getServer().getPluginManager().registerEvents(new Overflux_Power_Orb(), this);
-        getServer().getPluginManager().registerEvents(new Plasma_Power_Orb(), this);
+        getServer().getPluginManager().registerEvents(new Power_Orb(), this);
         getServer().getPluginManager().registerEvents(new Builders_Wand(), this);
         getServer().getPluginManager().registerEvents(new Axe_of_The_Shredded(), this);
         getServer().getPluginManager().registerEvents(new Midas_Staff(), this);
@@ -250,10 +249,9 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                     if (player.getPetArmorStand().armorStand.getLocation().distance(player.getLocation()) > 3)
                         new FlyTo(player.getPetArmorStand().armorStand, player, 20, 1.5, true, player.petArmorStand.hologram, new Vector(0, 1.6, 0));
                     player.petArmorStand.armorStand.teleport(player.petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.1 : -0.1), 0));
-                    for (ParticleUtil particle : player.getPetActive().petMaterial.particles) {
+                    for (ParticlePacketUtil particle : player.getPetActive().petMaterial.particles) {
                         Functions.spawnParticle(Functions.getPlayerShowedPets(), particle, player.petArmorStand.armorStand.getLocation().add(0, 0.8, 0));
                     }
-                    player.petArmorStand.hologram.teleport(player.petArmorStand.armorStand.getLocation().add(0, 1.6, 0));
                 }
 
                 if (player.activePet >= 0) {

@@ -4,6 +4,7 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
@@ -27,7 +28,7 @@ import me.maxiiiiii.skyblockdragons.util.interfaces.LoopTask;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Task;
 import me.maxiiiiii.skyblockdragons.util.interfaces.While;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
-import me.maxiiiiii.skyblockdragons.util.objects.ParticleUtil;
+import me.maxiiiiii.skyblockdragons.util.objects.ParticlePacketUtil;
 import me.maxiiiiii.skyblockdragons.util.objects.SignMenu;
 import me.maxiiiiii.skyblockdragons.util.objects.SlotCooldown;
 import org.bukkit.*;
@@ -1564,16 +1565,24 @@ public class Functions {
         }
     }
 
-    public static void spawnParticle(ArrayList<Player> players, ParticleUtil particle, Location location) {
+    public static void spawnParticle(ArrayList<Player> players, ParticlePacketUtil particle, Location location) {
         PacketContainer packet = particle.getParticle(location);
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
         for (Player player : players) {
-//            PacketPlayOutWorldParticles packet = particle.getParticle(location);
-//            ((CraftPlayer) player.getPlayer()).getHandle().playerConnection.sendPacket(packet);
-            try {
-                protocolManager.sendServerPacket(player, packet);
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
+            if (particle.particle == EnumWrappers.Particle.REDSTONE) {
+                for (int i = 0; i < particle.amount; i++) {
+                    try {
+                        protocolManager.sendServerPacket(player, packet);
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                try {
+                    protocolManager.sendServerPacket(player, packet);
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

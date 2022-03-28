@@ -105,8 +105,8 @@ public class PetMenuCommand implements CommandExecutor, Listener {
                         player.sendMessage(ChatColor.GREEN + "You summoned your " + item.getItemMeta().getDisplayName() + ChatColor.GREEN + "!");
                     }
                     player.petArmorStand.armorStand.remove();
-                    player.petArmorStand.slot = -1;
                     player.petArmorStand.hologram.delete();
+                    player.petArmorStand.slot = -1;
                     player.closeInventory();
                 }
             }

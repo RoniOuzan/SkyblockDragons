@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.objects;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ItemStats extends ArrayList<Double> {
     public double damage;
@@ -8,7 +9,6 @@ public class ItemStats extends ArrayList<Double> {
     public double critDamage;
     public double critChance;
     public double abilityDamage;
-    public double baseAbilityDamage;
     public double abilityScaling;
     public double attackSpeed;
     public double ferocity;
@@ -24,13 +24,13 @@ public class ItemStats extends ArrayList<Double> {
     public double seaCreatureChance;
     public double absorption;
 
-    public ItemStats(double damage, double strength, double critDamage, double critChance, double abilityDamage, double baseAbilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double seaCreatureChance, double absorption) {
+    public ItemStats(double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double seaCreatureChance, double absorption) {
+        super(new ArrayList<>(Arrays.asList(damage, strength, critDamage, critChance, abilityDamage, abilityScaling, attackSpeed, ferocity, health, defense, trueDefense, speed, intelligence, magicFind, petLuck, miningSpeed, miningFortune, seaCreatureChance, absorption)));
         this.damage = damage;
         this.strength = strength;
         this.critDamage = critDamage;
         this.critChance = critChance;
         this.abilityDamage = abilityDamage;
-        this.baseAbilityDamage = baseAbilityDamage;
         this.abilityScaling = abilityScaling;
         this.attackSpeed = attackSpeed;
         this.ferocity = ferocity;
@@ -48,10 +48,10 @@ public class ItemStats extends ArrayList<Double> {
     }
 
     public ItemStats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence) {
-        this(damage, strength, critDamage, critChance, 0, 0, 0, attackSpeed, ferocity, health, defense, 0, speed, intelligence, 0, 0, 0, 0, 0, 0);
+        this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, health, defense, 0, speed, intelligence, 0, 0, 0, 0, 0, 0);
     }
 
     public ItemStats() {
-        this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 }

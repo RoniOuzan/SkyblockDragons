@@ -7,7 +7,7 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stat;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
-import me.maxiiiiii.skyblockdragons.util.objects.ParticleUtil;
+import me.maxiiiiii.skyblockdragons.util.objects.ParticlePacketUtil;
 import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -32,7 +32,7 @@ public class PetMaterial {
     public ArrayList<PetAbility> abilities;
     public SkillType skill;
     public int maxLevel;
-    public ParticleUtil[] particles;
+    public ParticlePacketUtil[] particles;
     public SoundUtil[] sounds;
 
     PetMaterial(String name, ArrayList<Rarity> rarities, String id, String nbt, ArrayList<Double> stats, ArrayList<PetAbility> abilities, SkillType skill, int maxLevel, Object... array) {
@@ -43,20 +43,20 @@ public class PetMaterial {
         this.stats = stats;
         this.abilities = abilities;
         this.skill = skill;
-        ArrayList<ParticleUtil> particles = new ArrayList<>();
+        ArrayList<ParticlePacketUtil> particles = new ArrayList<>();
         ArrayList<SoundUtil> sounds = new ArrayList<>();
         for (Object object : array) {
-            if (object instanceof ParticleUtil) {
-                particles.add((ParticleUtil) object);
+            if (object instanceof ParticlePacketUtil) {
+                particles.add((ParticlePacketUtil) object);
             } else if (object instanceof EnumWrappers.Particle) {
-                particles.add(new ParticleUtil((EnumWrappers.Particle) object));
+                particles.add(new ParticlePacketUtil((EnumWrappers.Particle) object));
             } else if (object instanceof SoundUtil) {
                 sounds.add((SoundUtil) object);
             } else if (object instanceof Sound) {
                 sounds.add(new SoundUtil((Sound) object, 1f));
             }
         }
-        this.particles = particles.toArray(new ParticleUtil[0]);
+        this.particles = particles.toArray(new ParticlePacketUtil[0]);
         this.sounds = sounds.toArray(new SoundUtil[0]);
         this.maxLevel = maxLevel;
     }
@@ -86,7 +86,7 @@ public class PetMaterial {
                 Sound.ENTITY_ENDERDRAGON_FLAP
         ));
 
-        NULL = new PetMaterial("Null", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)), "", "", new ArrayList<>(Arrays.asList(0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d)), new ArrayList<>(Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL))))), SkillType.COMBAT, EnumWrappers.Particle.REDSTONE);
+        NULL = new PetMaterial("Null", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)), "", "", new ArrayList<>(Arrays.asList(0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d)), new ArrayList<>(Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL))))), SkillType.COMBAT, new ParticlePacketUtil(EnumWrappers.Particle.REDSTONE, 1, 0, 0, 1f, 5));
     }
 
     public String name() {
