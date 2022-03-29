@@ -53,6 +53,32 @@ public class Variables {
         return data;
     }
 
+    public static Variable createVariable(String id, String value) {
+        Variable data =  new Variable(id, value);
+        variables.add(data);
+
+        try {
+            saveVariables();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return data;
+    }
+
+    public static Variable createVariable(String id, String value, int data) {
+        Variable variable =  new Variable(id, value, data);
+        variables.add(variable);
+
+        try {
+            saveVariables();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return variable;
+    }
+
     public static Variable createVariable(UUID uuid, String id, String value, int data) {
         Variable variable =  new Variable(uuid, id, value, data);
         variables.add(variable);
@@ -163,6 +189,43 @@ public class Variables {
             a++;
         }
         createVariable(uuid, id, value, data);
+        return null;
+    }
+
+    public static Variable setVariable(String id, String value, int data) {
+        int a = 0;
+        for (Variable variable : variables) {
+            if (variable.getId().equalsIgnoreCase(id) && variable.getData() == data) {
+                variables.get(a).setValue(value);
+                variables.get(a).setData(data);
+                try {
+                    saveVariables();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return variable;
+            }
+            a++;
+        }
+        createVariable(id, value, data);
+        return null;
+    }
+
+    public static Variable setVariable(String id, String value) {
+        int a = 0;
+        for (Variable variable : variables) {
+            if (variable.getId().equalsIgnoreCase(id)) {
+                variables.get(a).setValue(value);
+                try {
+                    saveVariables();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return variable;
+            }
+            a++;
+        }
+        createVariable(id, value);
         return null;
     }
 

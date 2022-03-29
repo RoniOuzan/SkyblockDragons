@@ -851,7 +851,7 @@ public class Functions {
         double x = Math.floor(location.getX() * 100) / 100;
         double y = Math.floor(location.getY() * 100) / 100;
         double z = Math.floor(location.getZ() * 100) / 100;
-        return x + "," + y + "," + z;
+        return x + ", " + y + ", " + z + " " + location.getWorld();
     }
 
     public static boolean chanceOf(double percent) {

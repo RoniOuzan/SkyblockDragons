@@ -24,6 +24,14 @@ public class Variable {
         this(uuid, id, value,-1);
     }
 
+    public Variable(String id, String value) {
+        this(null, id, value,-1);
+    }
+
+    public Variable(String id, String value, int data) {
+        this(null, id, value,data);
+    }
+
     public String getId() {
         try {
             return ID;

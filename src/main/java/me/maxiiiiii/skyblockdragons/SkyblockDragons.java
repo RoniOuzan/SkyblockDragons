@@ -105,6 +105,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
 
+        me.maxiiiiii.skyblockdragons.storage2.Variables.load();
+
         if (!setupEconomy() ) {
             logger.severe("Disabled due to no Vault dependency found!");
             getServer().getPluginManager().disablePlugin(this);
@@ -199,12 +201,13 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("Bank").setExecutor(new BankCommand());
         getCommand("Sound").setExecutor(new SoundCommand());
         getCommand("Sound").setTabCompleter(new SoundCommand());
-        getCommand("SpawnMob").setExecutor(new EntityCommand());
-        getCommand("SpawnMob").setTabCompleter(new EntityCommand());
+        getCommand("EntitySD").setExecutor(new EntityCommand());
+        getCommand("EntitySD").setTabCompleter(new EntityCommand());
         getCommand("Coop").setExecutor(new CoopCommand());
         getCommand("Coop").setTabCompleter(new CoopCommand());
 
 //        Coop.load();
+        EntitySD.loadLocations();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             PlayerSD.loadPlayerData(player);
@@ -289,6 +292,14 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 }
             }
         }, 0L, 5L);
+
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            for (Location location : EntitySD.entitiesLocations.keySet()) {
+                if (!EntitySD.entities.values().stream().filter(e -> e.type == EntitySD.entitiesLocations.get(location)).map(e -> e.location).collect(Collectors.toList()).contains(location)) {
+                    new EntitySD(location, EntitySD.entitiesLocations.get(location));
+                }
+            }
+        }, 0L, 200L);
 
         String names = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.joining());
         if (names.contains("MAXIIIIII"))
