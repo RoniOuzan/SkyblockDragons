@@ -144,69 +144,54 @@ public class PlayerSD extends EntitySD implements Player {
         for (int i = 0; i < 18; i++) {
             wardrobeSlots.add(new WardrobeSlot(
                     i,
-                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0), "null"), null),
-                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1), "null"), null),
-                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2), "null"), null),
-                    (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariableValue(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3), "null"), null)
+                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0), (ItemStack) null),
+                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1), (ItemStack) null),
+                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2), (ItemStack) null),
+                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3), (ItemStack) null)
             ));
         }
         this.wardrobe = new Wardrobe(wardrobeSlots);
         this.skill = new Skill(
                 this,
-                new FarmingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Farming", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Farming", 2, "0"))),
-                new MiningSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Mining", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Mining", 2, "0"))),
-                new CombatSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Combat", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Combat", 2, "0"))),
-                new ForagingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Foraging", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Foraging", 2, "0"))),
-                new FishingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Fishing", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Fishing", 2, "0"))),
-                new EnchantingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Enchanting", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Enchanting", 2, "0"))),
-                new AlchemySkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Alchemy", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Alchemy", 2, "0"))),
-                new TamingSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Taming", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Taming", 2, "0"))),
-                new DungeoneeringSkill(Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "Dungeoneering", 1, "0")), Double.parseDouble(Variables.getVariableValue(player.getUniqueId(), "Dungeoneering", 2, "0")))
-        );
+                new FarmingSkill(Variables.get(player.getUniqueId(), "Farming", 1, 0), Variables.get(player.getUniqueId(), "Farming", 2, 0d)),
+                new MiningSkill(Variables.get(player.getUniqueId(), "Mining", 1, 0), Variables.get(player.getUniqueId(), "Mining", 2, 0d)),
+                new CombatSkill(Variables.get(player.getUniqueId(), "Combat", 1, 0), Variables.get(player.getUniqueId(), "Combat", 2, 0d)),
+                new ForagingSkill(Variables.get(player.getUniqueId(), "Foraging", 1, 0), Variables.get(player.getUniqueId(), "Foraging", 2, 0d)),
+                new FishingSkill(Variables.get(player.getUniqueId(), "Fishing", 1, 0), Variables.get(player.getUniqueId(), "Fishing", 2, 0d)),
+                new EnchantingSkill(Variables.get(player.getUniqueId(), "Enchanting", 1, 0), Variables.get(player.getUniqueId(), "Enchanting", 2, 0d)),
+                new AlchemySkill(Variables.get(player.getUniqueId(), "Alchemy", 1, 0), Variables.get(player.getUniqueId(), "Alchemy", 2, 0d)),
+                new TamingSkill(Variables.get(player.getUniqueId(), "Taming", 1, 0), Variables.get(player.getUniqueId(), "Taming", 2, 0d)),
+                new DungeoneeringSkill(Variables.get(player.getUniqueId(), "Dungeoneering", 1, 0), Variables.get(player.getUniqueId(), "Dungeoneering", 2, 0d)
+        ));
 
-        try {
-            this.bank = new BankAccount(this, Double.parseDouble(Variables.getVariable(player.getUniqueId(), "BankPersonal").getValue()), Double.parseDouble(Variables.getVariable(player.getUniqueId(), "BankCoop").getValue()));
-        } catch (NullPointerException ex) {
-            this.bank = new BankAccount(this, 0, 0);
-        }
+        this.bank = new BankAccount(this, Variables.get(player.getUniqueId(), "BankPersonal", 0d), Variables.get(player.getUniqueId(), "BankCoop", 0d));
 
         this.pets = new ArrayList<>();
         for (int i = 0; i < 112; i++) {
-            try {
-                this.pets.add(Pet.getPet((ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariable(player.getUniqueId(), "Pets", i).getValue()), false));
-            } catch (NullPointerException ignored) {
-            }
+            ItemStack pet = Variables.get(player.getUniqueId(), "Pets", i, null);
+            if (pet != null)
+                this.pets.add(Pet.getPet(pet, false));
         }
 
-        try {
-            this.activePet = Integer.parseInt(Variables.getVariable(player.getUniqueId(), "ActivePet").getValue());
-            if (this.activePet < 0)
-                this.petArmorStand = null;
-            else
-                this.petArmorStand = new Pet.ArmorStand(this, this.getPetActive(), Pet.spawnPet(this, this.getPetActive()), this.activePet);
-        } catch (NullPointerException ex) {
-            this.activePet = -1;
+        this.activePet = Variables.get(player.getUniqueId(), "ActivePet", -1);
+        if (this.activePet < 0)
             this.petArmorStand = null;
-        }
+        else
+            this.petArmorStand = new Pet.ArmorStand(this, this.getPetActive(), Pet.spawnPet(this, this.getPetActive()), this.activePet);
 
-        try {
-            this.hidePets = Variables.getVariable(player.getUniqueId(), "HidePets").equals("1");
-        } catch (NullPointerException ex) {
-            this.hidePets = false;
-        }
+        this.hidePets = Variables.get(player.getUniqueId(), "HidePets", 0) == 1;
 
         this.accessoryBag = new ArrayList<>();
         for (int i = 0; i < 45; i++) {
-            try {
-                this.accessoryBag.add((ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariable(player.getUniqueId(), "AccessoryBag", i).getValue()));
-            } catch (NullPointerException ignored) {
-            }
+            ItemStack accessory = Variables.get(player.getUniqueId(), "AccessoryBag", i, null);
+            if (accessory != null)
+                this.accessoryBag.add(accessory);
         }
     }
 
     public void setActivePet(int activePet) {
         this.activePet = activePet;
-        Variables.setVariable(player.getUniqueId(), "ActivePet", activePet + "");
+        Variables.set(player.getUniqueId(), "ActivePet", activePet);
     }
 
     public Pet getPetActive() {
@@ -297,19 +282,19 @@ public class PlayerSD extends EntitySD implements Player {
             }
             this.ferocity += num.get(7);
             this.health += num.get(8);
-            this.trueDefense += num.get(9);
-            this.defense += num.get(10);
+            this.defense += num.get(9);
+            this.trueDefense += num.get(10);
             this.speed += num.get(11);
             if (this.speed > 500) {
                 this.speed = 500;
             }
             this.intelligence += num.get(12);
-            this.magicFind += num.get(12);
-            this.petLuck += num.get(12);
-            this.miningSpeed += num.get(12);
-            this.miningFortune += num.get(12);
-            this.seaCreatureChance += num.get(12);
-            this.absorption += num.get(12);
+            this.magicFind += num.get(13);
+            this.petLuck += num.get(14);
+            this.miningSpeed += num.get(15);
+            this.miningFortune += num.get(16);
+            this.seaCreatureChance += num.get(17);
+            this.absorption += num.get(18);
 
         } catch (IndexOutOfBoundsException ignored) {
         }
@@ -621,7 +606,6 @@ public class PlayerSD extends EntitySD implements Player {
     }
 
     public static void loadPlayerData(Player player) {
-        SkyblockDragons.purses.put(player.getUniqueId(), 0d);
         SkyblockDragons.bits.put(player.getUniqueId(), 0L);
         player.setHealthScale(40d);
 
@@ -629,32 +613,18 @@ public class PlayerSD extends EntitySD implements Player {
 
         ArrayList<ItemStack> accessories = new ArrayList<>();
         for (int i = 0; i < 45; i++) {
-            try {
-                accessories.add((ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariable(player.getUniqueId(), "AccessoryBag", i).getValue()));
-            } catch (NullPointerException ex) {
-                accessories.add(new ItemStack(Material.AIR));
-            }
+            accessories.add(Variables.get(player.getUniqueId(), "AccessoryBag", i, new ItemStack(Material.AIR)));
         }
         SkyblockDragons.players.get(player.getUniqueId()).setAccessoryBag(accessories);
 
         try {
-            SkyblockDragons.purses.put(player.getUniqueId(), Double.parseDouble(Variables.getVariable(player.getUniqueId(), "Purse").getValue()));
-        } catch (NullPointerException ex) {
-            SkyblockDragons.purses.put(player.getUniqueId(), 0d);
-        }
-
-        try {
-            SkyblockDragons.bits.put(player.getUniqueId(), Long.parseLong(Variables.getVariable(player.getUniqueId(), "Bits").getValue()));
+            SkyblockDragons.bits.put(player.getUniqueId(), Variables.get(player.getUniqueId(), "Bits", 0L));
         } catch (NullPointerException ex) {
             SkyblockDragons.bits.put(player.getUniqueId(), 0L);
         }
 
         if (!SkyblockDragons.disablePlayTime) {
-            try {
-                SkyblockDragons.playTime.put(player.getUniqueId(), Long.parseLong(Variables.getVariable(player.getUniqueId(), "PlayTime").getValue()));
-            } catch (NullPointerException ex) {
-                SkyblockDragons.playTime.put(player.getUniqueId(), 0L);
-            }
+            SkyblockDragons.playTime.put(player.getUniqueId(), Variables.get(player.getUniqueId(), "PlayTime", 0L));
         }
     }
 

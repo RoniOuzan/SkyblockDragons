@@ -62,8 +62,8 @@ public abstract class AbstractSkill {
             player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "--------------------------------------------------");
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
         }
-        Variables.setVariable(player.getUniqueId(), this.name, this.level + "", 1);
-        Variables.setVariable(player.getUniqueId(), this.name, this.totalXp + "", 2);
+        Variables.set(player.getUniqueId(), this.name, 1, this.level);
+        Variables.set(player.getUniqueId(), this.name, 2, this.totalXp);
     }
 
     public void setXp(double amount, Player player) {

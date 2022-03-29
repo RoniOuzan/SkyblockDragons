@@ -34,10 +34,10 @@ public class WardrobeListener implements Listener {
             for (int i = 0; i < 36; i++) {
                 if (e.getInventory().getItem(i).getType() != Material.STAINED_GLASS_PANE) {
                     PlayerSD.getWardrobe().getSlot((i % 9) + adder).setPeace(e.getInventory().getItem(i), i / 9);
-                    Variables.setVariable(player.getUniqueId(), "Wardrobe", SkyblockDragons.getSerializer().serialize(e.getInventory().getItem(i)), i + (adder * 4));
+                    Variables.set(player.getUniqueId(), "Wardrobe", i + (adder * 4), e.getInventory().getItem(i));
                 } else {
                     PlayerSD.getWardrobe().getSlot((i % 9) + adder).setPeace(null, i / 9);
-                    Variables.deleteVariable(player.getUniqueId(), "Wardrobe", i + (adder * 4));
+                    Variables.delete(player.getUniqueId(), "Wardrobe", i + (adder * 4));
                 }
             }
         }
@@ -52,38 +52,38 @@ public class WardrobeListener implements Listener {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        if (!Variables.getVariableValue(player.getUniqueId(), "WardrobeEquip", "0").equals("0")) {
-                            int slot = Integer.parseInt(Variables.getVariable(player.getUniqueId(), "WardrobeEquip").getValue()) - 1;
+                        if (Variables.get(player.getUniqueId(), "WardrobeEquip", 0) != 0) {
+                            int slot = Variables.get(player.getUniqueId(), "WardrobeEquip", 0) - 1;
 
                             if (isNotAir(player.getEquipment().getHelmet())) {
                                 PlayerSD.getWardrobe().getSlot(slot).setHelmet(player.getEquipment().getHelmet());
-                                Variables.setVariable(player.getUniqueId(), "Wardrobe", SkyblockDragons.getSerializer().serialize(player.getEquipment().getHelmet()), slot);
+                                Variables.set(player.getUniqueId(), "Wardrobe", player.getEquipment().getHelmet(), slot);
                             } else {
-                                Variables.deleteVariable(player.getUniqueId(), "Wardrobe", slot);
+                                Variables.delete(player.getUniqueId(), "Wardrobe", slot);
                                 PlayerSD.getWardrobe().getSlot(slot).setPeace(null, 0);
                             }
 
                             if (isNotAir(player.getEquipment().getChestplate())) {
                                 PlayerSD.getWardrobe().getSlot(slot).setChestplate(player.getEquipment().getChestplate());
-                                Variables.setVariable(player.getUniqueId(), "Wardrobe", SkyblockDragons.getSerializer().serialize(player.getEquipment().getChestplate()), slot + 9);
+                                Variables.set(player.getUniqueId(), "Wardrobe", player.getEquipment().getChestplate(), slot + 9);
                             } else {
-                                Variables.deleteVariable(player.getUniqueId(), "Wardrobe", slot+ 9);
+                                Variables.delete(player.getUniqueId(), "Wardrobe", slot + 9);
                                 PlayerSD.getWardrobe().getSlot(slot).setPeace(null, 1);
                             }
 
                             if (isNotAir(player.getEquipment().getLeggings())) {
                                 PlayerSD.getWardrobe().getSlot(slot).setLeggings(player.getEquipment().getLeggings());
-                                Variables.setVariable(player.getUniqueId(), "Wardrobe", SkyblockDragons.getSerializer().serialize(player.getEquipment().getLeggings()), slot + 18);
+                                Variables.set(player.getUniqueId(), "Wardrobe", player.getEquipment().getLeggings(), slot + 18);
                             } else {
-                                Variables.deleteVariable(player.getUniqueId(), "Wardrobe", slot + 18);
+                                Variables.delete(player.getUniqueId(), "Wardrobe", slot + 18);
                                 PlayerSD.getWardrobe().getSlot(slot).setPeace(null, 2);
                             }
 
                             if (isNotAir(player.getEquipment().getBoots())) {
                                 PlayerSD.getWardrobe().getSlot(slot).setBoots(player.getEquipment().getBoots());
-                                Variables.setVariable(player.getUniqueId(), "Wardrobe", SkyblockDragons.getSerializer().serialize(player.getEquipment().getBoots()), slot + 27);
+                                Variables.set(player.getUniqueId(), "Wardrobe", player.getEquipment().getBoots(), slot + 27);
                             } else {
-                                Variables.deleteVariable(player.getUniqueId(), "Wardrobe", slot + 27);
+                                Variables.delete(player.getUniqueId(), "Wardrobe", slot + 27);
                                 PlayerSD.getWardrobe().getSlot(slot).setPeace(null, 3);
                             }
                         }
@@ -109,7 +109,7 @@ public class WardrobeListener implements Listener {
                     if (e.getSlot() > 35) e.setCancelled(true);
 
                     else {
-                        if (Variables.getVariableValue(player.getUniqueId(), "WardrobeEquip", "0").equalsIgnoreCase(((e.getSlot() % 9) + 1) + "")) {
+                        if (Variables.get(player.getUniqueId(), "WardrobeEquip", 0) == (e.getSlot() % 9) + 1) {
                             e.setCancelled(true);
                             return;
                         }
@@ -140,7 +140,7 @@ public class WardrobeListener implements Listener {
                     if (e.getSlot() > 35 && e.getSlot() < 45 && !e.getCurrentItem().getItemMeta().getDisplayName().contains("Empty")) {
                         int currentSlot = e.getSlot() - 35;
                         if (secondPage) currentSlot += 9;
-                        if (!Variables.getVariableValue(player.getUniqueId(), "WardrobeEquip", "0").equals(currentSlot + "")) {
+                        if (Variables.get(player.getUniqueId(), "WardrobeEquip", 0) != currentSlot) {
                             e.setCurrentItem(createItem(Material.INK_SACK, 1, 10, ChatColor.GRAY + "Slot " + currentSlot + ": " + ChatColor.GREEN + "Equipped", ChatColor.GRAY + "This wardrobe slot contains your", ChatColor.GRAY + "current armor set", "", ChatColor.YELLOW + "Click to unequip this armor set!"));
 
                             updateSlots(player);
@@ -149,7 +149,7 @@ public class WardrobeListener implements Listener {
                             ItemStack chestplate = (e.getInventory().getItem(e.getSlot() - 27).getType() != Material.STAINED_GLASS_PANE) ? e.getInventory().getItem(e.getSlot() - 27) : new ItemStack(Material.AIR);
                             ItemStack leggings = (e.getInventory().getItem(e.getSlot() - 18).getType() != Material.STAINED_GLASS_PANE) ? e.getInventory().getItem(e.getSlot() - 18) : new ItemStack(Material.AIR);
                             ItemStack boots = (e.getInventory().getItem(e.getSlot() - 9).getType() != Material.STAINED_GLASS_PANE) ? e.getInventory().getItem(e.getSlot() - 9) : new ItemStack(Material.AIR);
-                            if (Variables.getVariableValue(player.getUniqueId(), "WardrobeEquip", "0").equals("0")) {
+                            if (Variables.get(player.getUniqueId(), "WardrobeEquip", 0) == 0) {
                                 if (isNotAir(player.getEquipment().getHelmet())) player.getInventory().addItem(player.getEquipment().getHelmet());
                                 if (isNotAir(player.getEquipment().getChestplate())) player.getInventory().addItem(player.getEquipment().getChestplate());
                                 if (isNotAir(player.getEquipment().getLeggings())) player.getInventory().addItem(player.getEquipment().getLeggings());
@@ -160,9 +160,9 @@ public class WardrobeListener implements Listener {
                             player.getEquipment().setLeggings(leggings);
                             player.getEquipment().setBoots(boots);
 
-                            Variables.setVariable(player.getUniqueId(), "WardrobeEquip", currentSlot + "");
+                            Variables.set(player.getUniqueId(), "WardrobeEquip", currentSlot);
                         } else {
-                            Variables.setVariable(player.getUniqueId(), "WardrobeEquip", "0");
+                            Variables.set(player.getUniqueId(), "WardrobeEquip", 0);
                             e.setCurrentItem(createItem(Material.INK_SACK, 1, 9, ChatColor.GRAY + "Slot " + currentSlot + ": " + ChatColor.GREEN + "Ready", ChatColor.GRAY + "This wardrobe slot is ready to", ChatColor.GRAY + "be equipped.", "", ChatColor.YELLOW + "Click to equip this armor set!"));
                             player.getEquipment().setHelmet(new ItemStack(Material.AIR));
                             player.getEquipment().setChestplate(new ItemStack(Material.AIR));
@@ -179,7 +179,7 @@ public class WardrobeListener implements Listener {
                         if (getItemMaterial(e.getCurrentItem()).getType() == ItemType.BOOTS) startValue = 27;
                         if (startValue != -1) {
                             for (int i = startValue; i < 9 + startValue; i++) {
-                                if (e.getInventory().getItem(i).getType() == Material.STAINED_GLASS_PANE && !Variables.getVariableValue(player.getUniqueId(), "WardrobeEquip", "0").equals((i - startValue + 1) + "")) {
+                                if (e.getInventory().getItem(i).getType() == Material.STAINED_GLASS_PANE && Variables.get(player.getUniqueId(), "WardrobeEquip", 0) != i - startValue + 1) {
                                     e.getInventory().setItem(i, e.getCurrentItem());
                                     e.setCurrentItem(new ItemStack(Material.AIR));
                                     break;
@@ -211,12 +211,12 @@ public class WardrobeListener implements Listener {
                 player.getOpenInventory().setItem(i, createItem(Material.INK_SACK, 1, 9, ChatColor.GRAY + "Slot " + (i - 35 + adder) + ": " + ChatColor.GREEN + "Ready", ChatColor.GRAY + "This wardrobe slot is ready to", ChatColor.GRAY + "be equipped.", "", ChatColor.YELLOW + "Click to equip this armor set!"));
             }
         }
-        int slot = Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "WardrobeEquip", "0"));
+        int slot = Variables.get(player.getUniqueId(), "WardrobeEquip", 0);
         if (slot != 0)
             if (secondPage && slot > 9) {
-                player.getOpenInventory().setItem(slot + 26, createItem(Material.INK_SACK, 1, 10, ChatColor.GRAY + "Slot " + Variables.getVariableValue(player.getUniqueId(), "WardrobeEquip", "0") + ": " + ChatColor.GREEN + "Equipped", ChatColor.GRAY + "This wardrobe slot contains your", ChatColor.GRAY + "current armor set", "", ChatColor.YELLOW + "Click to unequip this armor set!"));
+                player.getOpenInventory().setItem(slot + 26, createItem(Material.INK_SACK, 1, 10, ChatColor.GRAY + "Slot " + Variables.get(player.getUniqueId(), "WardrobeEquip", 0) + ": " + ChatColor.GREEN + "Equipped", ChatColor.GRAY + "This wardrobe slot contains your", ChatColor.GRAY + "current armor set", "", ChatColor.YELLOW + "Click to unequip this armor set!"));
             } else if (!secondPage && slot <= 9) {
-                player.getOpenInventory().setItem(slot + 35, createItem(Material.INK_SACK, 1, 10, ChatColor.GRAY + "Slot " + Variables.getVariableValue(player.getUniqueId(), "WardrobeEquip", "0") + ": " + ChatColor.GREEN + "Equipped", ChatColor.GRAY + "This wardrobe slot contains your", ChatColor.GRAY + "current armor set", "", ChatColor.YELLOW + "Click to unequip this armor set!"));
+                player.getOpenInventory().setItem(slot + 35, createItem(Material.INK_SACK, 1, 10, ChatColor.GRAY + "Slot " + Variables.get(player.getUniqueId(), "WardrobeEquip", 0) + ": " + ChatColor.GREEN + "Equipped", ChatColor.GRAY + "This wardrobe slot contains your", ChatColor.GRAY + "current armor set", "", ChatColor.YELLOW + "Click to unequip this armor set!"));
             }
     }
 

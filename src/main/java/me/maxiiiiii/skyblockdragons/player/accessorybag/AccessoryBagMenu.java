@@ -30,9 +30,7 @@ public class AccessoryBagMenu {
         inv.setItem(49, close);
 
         for (int i = 0; i < 45; i++) {
-            try {
-                inv.setItem(i, (ItemStack) SkyblockDragons.getSerializer().deserialize(Variables.getVariable(arg.getUniqueId(), "AccessoryBag", i).getValue()));
-            } catch (NullPointerException ignored) {}
+            inv.setItem(i, Variables.get(arg.getUniqueId(), "AccessoryBag", i, new ItemStack(Material.AIR)));
         }
 
         player.openInventory(inv);

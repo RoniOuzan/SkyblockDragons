@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
+import com.google.common.reflect.TypeToken;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
@@ -10,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 
+import java.lang.reflect.Type;
 import java.util.*;
 
 public class EntitySD {
@@ -70,25 +72,11 @@ public class EntitySD {
     }
 
     public static void saveLocations() {
-        Variables.setVariable("EntitiesLocations", SkyblockDragons.serializer.serialize(entitiesLocations));
-        int a = 0;
-        for (Location location : entitiesLocations.keySet()) {
-            Variables.setVariable("EntitiesSpawnsKeys", SkyblockDragons.serializer.serialize(location), a);
-            Variables.setVariable("EntitiesSpawnsValues", SkyblockDragons.serializer.serialize(entitiesLocations.get(location)), a);
-            a++;
-        }
+        Variables.set("EntitiesLocations", entitiesLocations);
     }
 
     public static void loadLocations() {
-        HashMap<Location, EntityMaterial> hashMap = new HashMap<>();
-        for (int i = 0; i < Variables.getVariableSize("EntitiesSpawnsKeys"); i++) {
-            try {
-                hashMap.put((Location) SkyblockDragons.serializer.deserialize(Variables.getVariable("EntitiesSpawnsKeys", i).getValue()), (EntityMaterial) SkyblockDragons.serializer.deserialize(Variables.getVariable("EntitiesSpawnsValues", i).getValue()));
-            } catch (NullPointerException ex) {
-                break;
-            }
-        }
-        entitiesLocations = hashMap;
+        entitiesLocations = Variables.get("EntitiesLocations", new HashMap<>());
     }
 
     public static EntitySD get(UUID uuid) {

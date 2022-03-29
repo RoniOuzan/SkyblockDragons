@@ -53,8 +53,6 @@ import java.util.stream.Collectors;
 import static me.maxiiiiii.skyblockdragons.material.Items.items;
 import static me.maxiiiiii.skyblockdragons.material.Items.vanillaMaterials;
 import static me.maxiiiiii.skyblockdragons.commands.menu.ItemList.openItemList;
-import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariable;
-import static me.maxiiiiii.skyblockdragons.storage.Variables.getVariableValue;
 
 public class Functions {
     public static ItemStack getSkull(ItemStack item, String id, String value) {

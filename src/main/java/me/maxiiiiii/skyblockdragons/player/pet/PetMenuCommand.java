@@ -19,7 +19,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.getId;
-import static me.maxiiiiii.skyblockdragons.commands.menu.ItemList.openItemList;
 
 public class PetMenuCommand implements CommandExecutor, Listener {
     @Override
@@ -38,12 +37,12 @@ public class PetMenuCommand implements CommandExecutor, Listener {
             String[] title = e.getInventory().getTitle().split(" ");
             int page = Integer.parseInt(title[2]);
 
-            Variables.deleteVariables(player.getUniqueId(), "Pets", (28 * (page - 1)), (28 * page) - 1);
+            Variables.delete(player.getUniqueId(), "Pets", (28 * (page - 1)), (28 * page) - 1);
 
             ArrayList<Pet> pets = player.getPets();
             for (int i = 0; i < 28; i++) {
                 if (Functions.isNotAir(e.getInventory().getItem(Functions.intToSlot(i)))) {
-                    Variables.setVariable(e.getPlayer().getUniqueId(), "Pets", SkyblockDragons.getSerializer().serialize(e.getInventory().getItem(Functions.intToSlot(i))), i + (28 * (page - 1)));
+                    Variables.set(e.getPlayer().getUniqueId(), "Pets", e.getInventory().getItem(Functions.intToSlot(i)), i + (28 * (page - 1)));
 
                     if (i + (28 * (page - 1)) < pets.size()) {
                         Pet pet = Pet.getPet(e.getInventory().getItem(Functions.intToSlot(i)), false);
@@ -54,6 +53,7 @@ public class PetMenuCommand implements CommandExecutor, Listener {
                 }
             }
             player.setPets(pets);
+//            Variables.save();
         }
     }
 
@@ -81,7 +81,7 @@ public class PetMenuCommand implements CommandExecutor, Listener {
                 } else if (item.getItemMeta().getDisplayName().contains("Hide Pets")) {
                     player.hidePets = !player.hidePets;
                     player.sendMessage((player.hidePets ? ChatColor.GREEN : ChatColor.RED) + "Hide Pets is now " + (player.hidePets ? "Enabled!" : "Disabled!"));
-                    Variables.setVariable(player.getUniqueId(), "HidePets", player.hidePets ? "1" : "0");
+                    Variables.set(player.getUniqueId(), "HidePets", player.hidePets ? 1 : 0);
                     player.closeInventory();
                 }
 

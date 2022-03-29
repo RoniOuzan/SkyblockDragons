@@ -28,6 +28,7 @@ import me.maxiiiiii.skyblockdragons.player.skill.SkillMenuCommand;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.events.OnSlotChange;
 import me.maxiiiiii.skyblockdragons.player.StatCommand;
+import me.maxiiiiii.skyblockdragons.storage.Variable;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.*;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeCommand;
@@ -56,11 +57,8 @@ import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static me.maxiiiiii.skyblockdragons.storage.Variables.setVariable;
-
 public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static final HashMap<UUID, PlayerSD> players = new HashMap<>();
-    public static final HashMap<UUID, Double> purses = new HashMap<>();
     public static final HashMap<UUID, Long> bits = new HashMap<>();
     public static final HashMap<UUID, Long> playTime = new HashMap<>();
     public static final HashMap<UUID, ArrayList<Inventory>> playerGoBack = new HashMap<>();
@@ -99,13 +97,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             holo.delete();
         }
 
-        try {
-            Variables.loadVariables();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        me.maxiiiiii.skyblockdragons.storage2.Variables.load();
+        Variables.load();
 
         if (!setupEconomy() ) {
             logger.severe("Disabled due to no Vault dependency found!");
@@ -224,7 +216,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
                 // playtime
                 playTime.put(player.getUniqueId(), playTime.getOrDefault(player.getUniqueId(), 0L) + 5L);
-                setVariable(player.getUniqueId(), "PlayTime", playTime.get(player.getUniqueId()) + "");
+                Variables.set(player.getUniqueId(), "PlayTime", playTime.get(player.getUniqueId()));
 
                 // pet sound
                 if (player.activePet >= 0)
@@ -313,6 +305,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(this);
+        Variables.save();
         for (World world : Bukkit.getWorlds()) {
             for (Entity entity : world.getEntities()) {
                 if (entity.getType() == EntityType.ARMOR_STAND && entity.getScoreboardTags().contains("Pet")) {
@@ -323,7 +316,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         for (PlayerSD player : players.values()) {
             for (int i = 0; i < player.pets.size(); i++) {
-                Variables.setVariable(player.getUniqueId(), "Pets", SkyblockDragons.getSerializer().serialize(player.pets.get(i).getAsItem()), i);
+                Variables.set(player.getUniqueId(), "Pets", SkyblockDragons.getSerializer().serialize(player.pets.get(i).getAsItem()), i);
             }
         }
 

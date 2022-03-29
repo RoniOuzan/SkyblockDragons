@@ -125,8 +125,8 @@ public class BankAccount {
     }
 
     public void update() {
-        Variables.setVariable(player.getUniqueId(), "BankPersonal", this.personal + "");
-        Variables.setVariable(player.getUniqueId(), "BankCoop", this.coop + "");
+        Variables.set(player.getUniqueId(), "BankPersonal", this.personal);
+        Variables.set(player.getUniqueId(), "BankCoop", this.coop);
         SkyblockDragons.logger.info(player.getName() + "'s Bank Saved!");
     }
 }

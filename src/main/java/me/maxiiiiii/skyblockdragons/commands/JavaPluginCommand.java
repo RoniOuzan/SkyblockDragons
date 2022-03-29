@@ -34,16 +34,7 @@ public class JavaPluginCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             if (args.length > 0) {
-                if (args[0].equalsIgnoreCase("variables")) {
-                    if (args.length > 1) {
-                        if (args[1].equalsIgnoreCase("clear")) {
-                            Variables.clearVariables();
-                        } else if (args[1].equalsIgnoreCase("send")) {
-                            sender.sendMessage(Variables.variables.size() + "");
-                            sender.sendMessage(Variables.variables.toString());
-                        }
-                    }
-                } else if (args[0].equalsIgnoreCase("reload")) {
+                if (args[0].equalsIgnoreCase("reload")) {
                     sender.sendMessage(ChatColor.GREEN + "You have been reloaded SkyblockDragons plugin.");
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "plugman reload SkyblockDragons");
                     sender.sendMessage(ChatColor.GREEN + "Successfully reloaded SkyblockDragons.");

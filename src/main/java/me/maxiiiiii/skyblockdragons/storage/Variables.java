@@ -1,308 +1,158 @@
 package me.maxiiiiii.skyblockdragons.storage;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class Variables {
-    public static ArrayList<Variable> variables = new ArrayList<>();
+    public static ArrayList<Variable<?>> variables = new ArrayList<>();
+//    public static HashMap<Variable, Object> variables = new HashMap<>();
 
-    public static void loadVariables() throws IOException {
-        variables.clear();
-        File file = new File(SkyblockDragons.getInstance().getDataFolder().getAbsolutePath() + "/Variables.json");
-        BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(file.getAbsolutePath()));
-        String json = bufferedReader.readLine();
-        JsonReader reader = new JsonReader(new StringReader(json));
-        // reader.setLenient(true);
-        JsonParser parser = new JsonParser();
-        JsonArray arr = parser.parse(reader).getAsJsonArray();
-        // JSONArray arr = new JSONArray(json);
-        // JSONArray object = new Gson().fromJson(json, JSONArray.class);
-        // JSONArray scam = new JSONArray(json);
-        // LOGGER.info("Your File Has {}", arr);
-        for (JsonElement variable : arr) {
-            UUID uuid = UUID.fromString(variable.getAsJsonObject().get("UUID").getAsString());
-            String id = variable.getAsJsonObject().get("ID").getAsString();
-            String value = variable.getAsJsonObject().get("value").getAsString();
-            int data = variable.getAsJsonObject().get("data").getAsInt();
-            variables.add(new Variable(uuid, id, value, data));
-        }
-        /*for (Variable variable : variables) {
-            LOGGER.info("{} {} {}",variable.getId(),variable.getValue(),variable.getSlot());
-        }*/
-    }
+    public static final Variable<?> NULL = new Variable<>(null, "null", -1, -1);
 
-    public static Variable createVariable(UUID uuid, String id, String value) {
-        Variable data =  new Variable(uuid, id, value);
-        variables.add(data);
-
-        try {
-            saveVariables();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return data;
-    }
-
-    public static Variable createVariable(String id, String value) {
-        Variable data =  new Variable(id, value);
-        variables.add(data);
-
-        try {
-            saveVariables();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return data;
-    }
-
-    public static Variable createVariable(String id, String value, int data) {
-        Variable variable =  new Variable(id, value, data);
+    public static <T> T create(UUID uuid, String id, Object data, T value) {
+        Variable<T> variable = new Variable<>(uuid, id, data, value);
         variables.add(variable);
-
-        try {
-            saveVariables();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return variable;
+        return value;
     }
 
-    public static Variable createVariable(UUID uuid, String id, String value, int data) {
-        Variable variable =  new Variable(uuid, id, value, data);
-        variables.add(variable);
-
-        try {
-            saveVariables();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return variable;
+    public static <T> T create(UUID uuid, String id, T value) {
+        return create(uuid, id, -1, value);
     }
 
-    public static Variable getVariable(String value) {
-        for (Variable variable : variables) {
-            if (variable.getValue().equals(value)) {
-                return variable;
-            }
-        }
-        return null;
+    public static <T> T create(String id, Object data, T value) {
+        return create(null, id, data, value);
     }
 
-    public static Variable getVariable(String value, int data) {
-        for (Variable variable : variables) {
-            if (variable.getValue().equals(value) && variable.getData() == data) {
-                return variable;
-            }
-        }
-        return null;
+    public static <T> T create(String id, T value) {
+        return create(null, id, -1, value);
     }
 
-    public static Variable getVariable(UUID uuid, String id, int data) {
-        for (Variable variable : variables) {
-            if (variable.getUUID().equals(uuid) && variable.getId().equalsIgnoreCase(id) && variable.getData() == data) {
-                return variable;
-            }
-        }
-        return null;
-    }
+//    public static <T> T getOrDefault(UUID uuid, String id, Object data, T defaultValue) {
+//        T value = (T) get(uuid, id, data, defaultValue.getClass());
+//        return value == null ? defaultValue : value;
+//    }
+//
+//    public static <T> T getOrDefault(UUID uuid, String id, T defaultValue) {
+//        T value = (T) get(uuid, id, defaultValue.getClass());
+//        return value == null ? defaultValue : value;
+//    }
+//
+//    public static <T> T getOrDefault(String id, T defaultValue) {
+//        T value = (T) get(id, defaultValue.getClass());
+//        return value == null ? defaultValue : value;
+//    }
 
-    public static String getVariableValue(UUID uuid, String id, int data, String defaultValue) {
-        for (Variable variable : variables) {
-            if (variable.getUUID().equals(uuid) && variable.getId().equalsIgnoreCase(id) && variable.getData() == data) {
-                return variable.getValue();
+    public static <T> T get(UUID uuid, String id, Object data, T defaultValue) {
+        for (Variable<?> variable : variables) {
+            if (variable.uuid.equals(uuid) && variable.id.equals(id) && variable.data.equals(data)) {
+                return (T) variable.value;
             }
         }
         return defaultValue;
     }
 
-    public static String getVariableValue(UUID uuid, String id, String defaultValue) {
-        for (Variable variable : variables) {
-            if (variable.getUUID().equals(uuid) && variable.getId().equalsIgnoreCase(id)) {
-                return variable.getValue();
+    public static <T> Variable<T> getVariable(UUID uuid, String id, Object data, Class<T> tClass) {
+        for (Variable<?> variable : variables) {
+            if (variable.uuid.equals(uuid) && variable.id.equals(id) && variable.data.equals(data)) {
+                return (Variable<T>) variable;
             }
         }
-        return defaultValue;
+        return (Variable<T>) NULL;
     }
 
-    public static Object getVariableOrDefault(UUID uuid, String id, int data, Object defaultValue) {
-        for (Variable variable : variables) {
-            if (variable.getUUID().equals(uuid) && variable.getId().equalsIgnoreCase(id) && variable.getData() == data) {
-                return variable;
-            }
-        }
-        return defaultValue;
+    public static <T> T get(UUID uuid, String id, T defaultValue) {
+        return get(uuid, id, -1, defaultValue);
     }
 
-    public static Variable getVariable(UUID uuid, String id) {
-        for (Variable variable : variables) {
-            if (variable.getUUID().equals(uuid) && variable.getId().equalsIgnoreCase(id)) {
-                return variable;
-            }
-        }
-        return null;
+    public static <T> T get(String id, Object data, T defaultValue) {
+        return get(null, id, data, defaultValue);
     }
 
-    public static ArrayList<Variable> getVariables() {
-        return variables;
+    public static <T> T get(String id, T defaultValue) {
+        return get(null, id, -1, defaultValue);
     }
 
-    public static Variable setVariable(UUID uuid, String id, Variable newVariable) {
-        for (Variable variable : variables) {
-            if (variable.getUUID().equals(uuid) && variable.getId().equalsIgnoreCase(id)) {
-                variable.setValue(newVariable.getValue());
-                return variable;
-            }
-        }
-        return null;
-    }
-
-    public static Variable setVariable(UUID uuid, String id, String value) {
-        return setVariable(uuid, id, value, -1);
-    }
-
-    public static Variable setVariable(UUID uuid, String id, String value, int data) {
-        int a = 0;
-        for (Variable variable : variables) {
-            if (variable.getUUID().equals(uuid) && variable.getId().equalsIgnoreCase(id) && variable.getData() == data) {
-                variables.get(a).setValue(value);
-                variables.get(a).setData(data);
-                try {
-                    saveVariables();
-                } catch (IOException e) {
-                    e.printStackTrace();
+    public static <T> T set(UUID uuid, String id, Object data, T value) {
+        T variableValue = get(uuid, id, data, value);
+        if (variableValue == value) {
+            return create(uuid, id, data, value);
+        } else {
+            for (int i = 0; i < variables.size(); i++) {
+                Variable<T> variable = (Variable<T>) variables.get(i);
+                if (variable.uuid.equals(uuid) && variable.id.equals(id) && variable.data.equals(data)) {
+                    variable.value = value;
+                    variables.set(i, variable);
                 }
-                return variable;
             }
-            a++;
-        }
-        createVariable(uuid, id, value, data);
-        return null;
-    }
-
-    public static Variable setVariable(String id, String value, int data) {
-        int a = 0;
-        for (Variable variable : variables) {
-            if (variable.getId().equalsIgnoreCase(id) && variable.getData() == data) {
-                variables.get(a).setValue(value);
-                variables.get(a).setData(data);
-                try {
-                    saveVariables();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return variable;
-            }
-            a++;
-        }
-        createVariable(id, value, data);
-        return null;
-    }
-
-    public static Variable setVariable(String id, String value) {
-        int a = 0;
-        for (Variable variable : variables) {
-            if (variable.getId().equalsIgnoreCase(id)) {
-                variables.get(a).setValue(value);
-                try {
-                    saveVariables();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return variable;
-            }
-            a++;
-        }
-        createVariable(id, value);
-        return null;
-    }
-
-    public static void deleteVariable(UUID uuid, String id, int data) {
-        for (Variable variable : variables) {
-            if (variable.getUUID().equals(uuid) && variable.getId().equalsIgnoreCase(id) && variable.getData() == data) {
-                variables.remove(variable);
-                break;
-            }
-        }
-        try {
-            saveVariables();
-        } catch (IOException e) {
-            e.printStackTrace();
+            return value;
         }
     }
 
-    public static void deleteVariables(UUID uuid, String id) {
-        variables.removeIf(variable -> variable.getUUID().equals(uuid) && variable.getId().equalsIgnoreCase(id));
-        try {
-            saveVariables();
-        } catch (IOException e) {
-            e.printStackTrace();
+    public static <T> T set(UUID uuid, String id, T value) {
+        return set(uuid, id, -1, value);
+    }
+
+    public static <T> T set(String id, Object data, T value) {
+        return set(null, id, data, value);
+    }
+
+    public static <T> T set(String id, T value) {
+        return set(null, id, -1, value);
+    }
+
+    public static void delete(UUID uuid, String id, Object data) {
+        variables.removeIf(v -> v.uuid.equals(uuid) && v.id.equals(id) && v.data.equals(data));
+    }
+
+    public static void delete(UUID uuid, String id, int minData, int maxData) {
+        for (int i = minData; i <= maxData; i++) {
+            delete(uuid, id, i);
         }
     }
 
-    public static void deleteVariables(UUID uuid, String id, int minData, int maxData) {
-        variables.removeIf(variable -> variable.getUUID().equals(uuid) && variable.getId().equalsIgnoreCase(id) && variable.getData() >= minData && variable.getData() <= maxData);
-        try {
-            saveVariables();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static void delete(UUID uuid, String id) {
+        delete(uuid, id, -1);
     }
 
-    public static void saveVariables(boolean message) throws IOException {
+    public static void delete(String id, Object data) {
+        delete(null, id, data);
+    }
 
+    public static void delete(String id) {
+        delete(null, id, -1);
+    }
+
+    public static void save() {
         Gson gson = new Gson();
-        File file = new File(SkyblockDragons.plugin.getDataFolder().getAbsolutePath() + "/Variables.json");
-        file.getParentFile().mkdir();
-        file.createNewFile();
-        Writer writer = new FileWriter(file, false);
-        gson.toJson(variables, writer);
-        writer.flush();
-        writer.close();
-        if (message) System.out.println("Variables saved.");
-    }
-
-    public static void saveVariables() throws IOException {
-        saveVariables(false);
-    }
-
-    public static int getVariableSize(String name) {
-        int i = 0;
-        for (Variable variable : variables) {
-            if (variable.getId().equals(name)) {
-                i++;
-            }
-        }
-        return i;
-    }
-
-    public static int getVariableSize(UUID uuid, String name) {
-        int i = 0;
-        for (Variable variable : variables) {
-            if (variable.getUUID() == uuid && variable.getId().equals(name)) {
-                i++;
-            }
-        }
-        return i;
-    }
-
-    public static void clearVariables() {
+        String json = gson.toJson(variables);
         try {
-            saveVariables();
+            FileWriter file = new FileWriter(SkyblockDragons.plugin.getDataFolder().getAbsolutePath() + "/Variables.json");
+            file.write(json);
+            file.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void load() {
+        Gson gson = new Gson();
+        String json = "";
+        try {
+            BufferedReader file = new BufferedReader(new FileReader(SkyblockDragons.plugin.getDataFolder().getAbsolutePath() + "/Variables.json"));
+            json = file.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Type type = new TypeToken<ArrayList<Variable>>() {}.getType();
+        variables = gson.fromJson(json, type);
+        if (variables == null)
+            variables = new ArrayList<>();
     }
 }

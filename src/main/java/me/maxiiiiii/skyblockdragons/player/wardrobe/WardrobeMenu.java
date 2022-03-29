@@ -34,7 +34,7 @@ public class WardrobeMenu {
             }
         }
 
-        int currentSlot = Integer.parseInt(Variables.getVariableValue(player.getUniqueId(), "WardrobeEquip", "0"));
+        int currentSlot = Variables.get(player.getUniqueId(), "WardrobeEquip", 0);
         if (currentSlot != 0) {
             if (page > 1 && currentSlot > 9) {
                 inventory.setItem(currentSlot + 26, createItem(Material.INK_SACK, 1, 10, ChatColor.GRAY + "Slot " + (currentSlot) + ": " + ChatColor.GREEN + "Equipped", ChatColor.GRAY + "This wardrobe slot contains your", ChatColor.GRAY + "current armor set", "", ChatColor.YELLOW + "Click to unequip this armor set!"));
