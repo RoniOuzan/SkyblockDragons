@@ -29,6 +29,7 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.events.OnSlotChange;
 import me.maxiiiiii.skyblockdragons.player.StatCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variable;
+import me.maxiiiiii.skyblockdragons.storage.VariableCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.*;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeCommand;
@@ -197,6 +198,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("EntitySD").setTabCompleter(new EntityCommand());
         getCommand("Coop").setExecutor(new CoopCommand());
         getCommand("Coop").setTabCompleter(new CoopCommand());
+        getCommand("Variables").setExecutor(new VariableCommand());
 
 //        Coop.load();
         EntitySD.loadLocations();
@@ -215,8 +217,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 player.applyStats(true);
 
                 // playtime
-                playTime.put(player.getUniqueId(), playTime.getOrDefault(player.getUniqueId(), 0L) + 5L);
-                Variables.set(player.getUniqueId(), "PlayTime", playTime.get(player.getUniqueId()));
+//                playTime.put(player.getUniqueId(), playTime.getOrDefault(player.getUniqueId(), 0L) + 5L);
+//                Variables.set(player.getUniqueId(), "PlayTime", playTime.get(player.getUniqueId()));
 
                 // pet sound
                 if (player.activePet >= 0)
@@ -305,7 +307,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(this);
-        Variables.save();
         for (World world : Bukkit.getWorlds()) {
             for (Entity entity : world.getEntities()) {
                 if (entity.getType() == EntityType.ARMOR_STAND && entity.getScoreboardTags().contains("Pet")) {
@@ -316,7 +317,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         for (PlayerSD player : players.values()) {
             for (int i = 0; i < player.pets.size(); i++) {
-                Variables.set(player.getUniqueId(), "Pets", SkyblockDragons.getSerializer().serialize(player.pets.get(i).getAsItem()), i);
+                Variables.set(player.getUniqueId(), "Pets", i, player.pets.get(i).getAsItem());
             }
         }
 
@@ -334,6 +335,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             if (!entity.isDead())
                 entity.remove();
         }
+        Variables.save();
     }
 
     private boolean setupEconomy() {

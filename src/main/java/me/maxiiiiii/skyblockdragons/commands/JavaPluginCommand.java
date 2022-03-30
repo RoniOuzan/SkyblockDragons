@@ -4,12 +4,14 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTEntity;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.material.Items;
 import me.maxiiiiii.skyblockdragons.material.NormalMaterial;
+import me.maxiiiiii.skyblockdragons.storage.Variable;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
@@ -99,6 +101,8 @@ public class JavaPluginCommand implements CommandExecutor, TabCompleter {
                             }
                         } catch (NullPointerException ignored) {}
                     }
+                } else if (args[0].equalsIgnoreCase("test")) {
+                    sender.sendMessage(SkyblockDragons.serializer.serialize("scam"));
                 }
             } else {
                 sender.sendMessage(ChatColor.RED + "Invalid arguments!");

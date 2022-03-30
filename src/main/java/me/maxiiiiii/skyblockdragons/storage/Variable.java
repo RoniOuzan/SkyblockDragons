@@ -8,10 +8,10 @@ import java.util.UUID;
 public class Variable<T> {
     public UUID uuid;
     public String id;
-    public Object data;
+    public int data;
     public T value;
 
-    public Variable(UUID uuid, String id, Object data, T value) {
+    public Variable(UUID uuid, String id, int data, T value) {
         this.uuid = uuid;
         this.id = id;
         this.data = data;

@@ -36,7 +36,7 @@ public class AccessoryBagCommand implements CommandExecutor, Listener {
             if (title.length > 2) return;
             ArrayList<ItemStack> accessories = new ArrayList<>();
             for (int i = 0; i < 45; i++) {
-                Variables.set(event.getPlayer().getUniqueId(), "AccessoryBag", event.getInventory().getItem(i), i);
+                Variables.set(event.getPlayer().getUniqueId(), "AccessoryBag", i, event.getInventory().getItem(i));
                 accessories.add(event.getInventory().getItem(i));
             }
             SkyblockDragons.players.get(event.getPlayer().getUniqueId()).setAccessoryBag(accessories);

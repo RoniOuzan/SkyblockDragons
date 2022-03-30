@@ -421,6 +421,10 @@ public class Functions {
         }
     }
 
+    public static boolean isNumber(String num) {
+        return isLong(num) || isInt(num) || isShort(num) || isByte(num) || isDouble(num) || isFloat(num);
+    }
+
     public static void hideEntity(Entity entity, Player player) {
         try {
             ProtocolManager manager = ProtocolLibrary.getProtocolManager();

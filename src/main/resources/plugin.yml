@@ -116,3 +116,8 @@ commands:
   Coop:
     permission: skyblockdragons.coop
     usage: /<command> <text> <player>
+  Variables:
+    permission: skyblockdragons.variables
+    usage: /<command> <text>
+    aliases:
+      - var

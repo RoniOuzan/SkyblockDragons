@@ -582,12 +582,12 @@ public class PlayerSD extends EntitySD implements Player {
         scores.add(objective.getScore(ChatColor.WHITE + "Player: " + ChatColor.GREEN + this.getPlayer().getName()));
         scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse())));
         String bitsAdder = "";
-        if (SkyblockDragons.playTime.getOrDefault(this.getPlayer().getUniqueId(), 0L) % 36000L >= 0L && SkyblockDragons.playTime.getOrDefault(this.getPlayer().getUniqueId(), 0L) % 36000L < 20L) {
-            bitsAdder = ChatColor.AQUA + "(+250 Bits)";
-            if (SkyblockDragons.playTime.getOrDefault(this.getPlayer().getUniqueId(), 0L) % 36000L < 5L) {
-                BitsUtil.add(this.getPlayer(), 250L);
-            }
-        }
+//        if (SkyblockDragons.playTime.getOrDefault(this.getPlayer().getUniqueId(), 0L) % 36000L >= 0L && SkyblockDragons.playTime.getOrDefault(this.getPlayer().getUniqueId(), 0L) % 36000L < 20L) {
+//            bitsAdder = ChatColor.AQUA + "(+250 Bits)";
+//            if (SkyblockDragons.playTime.getOrDefault(this.getPlayer().getUniqueId(), 0L) % 36000L < 5L) {
+//                BitsUtil.add(this.getPlayer(), 250L);
+//            }
+//        }
         scores.add(objective.getScore(ChatColor.WHITE + "Bits: " + ChatColor.AQUA + getNumberFormat(SkyblockDragons.bits.get(this.getPlayer().getUniqueId())) + " " + bitsAdder));
         scores.add(objective.getScore(" "));
         if (this.getActivePet() >= 0) {

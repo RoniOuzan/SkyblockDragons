@@ -57,7 +57,7 @@ public class WardrobeListener implements Listener {
 
                             if (isNotAir(player.getEquipment().getHelmet())) {
                                 PlayerSD.getWardrobe().getSlot(slot).setHelmet(player.getEquipment().getHelmet());
-                                Variables.set(player.getUniqueId(), "Wardrobe", player.getEquipment().getHelmet(), slot);
+                                Variables.set(player.getUniqueId(), "Wardrobe", slot, player.getEquipment().getHelmet());
                             } else {
                                 Variables.delete(player.getUniqueId(), "Wardrobe", slot);
                                 PlayerSD.getWardrobe().getSlot(slot).setPeace(null, 0);
@@ -65,7 +65,7 @@ public class WardrobeListener implements Listener {
 
                             if (isNotAir(player.getEquipment().getChestplate())) {
                                 PlayerSD.getWardrobe().getSlot(slot).setChestplate(player.getEquipment().getChestplate());
-                                Variables.set(player.getUniqueId(), "Wardrobe", player.getEquipment().getChestplate(), slot + 9);
+                                Variables.set(player.getUniqueId(), "Wardrobe", slot + 9, player.getEquipment().getChestplate());
                             } else {
                                 Variables.delete(player.getUniqueId(), "Wardrobe", slot + 9);
                                 PlayerSD.getWardrobe().getSlot(slot).setPeace(null, 1);
@@ -73,7 +73,7 @@ public class WardrobeListener implements Listener {
 
                             if (isNotAir(player.getEquipment().getLeggings())) {
                                 PlayerSD.getWardrobe().getSlot(slot).setLeggings(player.getEquipment().getLeggings());
-                                Variables.set(player.getUniqueId(), "Wardrobe", player.getEquipment().getLeggings(), slot + 18);
+                                Variables.set(player.getUniqueId(), "Wardrobe", slot + 18, player.getEquipment().getLeggings());
                             } else {
                                 Variables.delete(player.getUniqueId(), "Wardrobe", slot + 18);
                                 PlayerSD.getWardrobe().getSlot(slot).setPeace(null, 2);
@@ -81,7 +81,7 @@ public class WardrobeListener implements Listener {
 
                             if (isNotAir(player.getEquipment().getBoots())) {
                                 PlayerSD.getWardrobe().getSlot(slot).setBoots(player.getEquipment().getBoots());
-                                Variables.set(player.getUniqueId(), "Wardrobe", player.getEquipment().getBoots(), slot + 27);
+                                Variables.set(player.getUniqueId(), "Wardrobe", slot + 27, player.getEquipment().getBoots());
                             } else {
                                 Variables.delete(player.getUniqueId(), "Wardrobe", slot + 27);
                                 PlayerSD.getWardrobe().getSlot(slot).setPeace(null, 3);

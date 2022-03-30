@@ -42,7 +42,7 @@ public class PetMenuCommand implements CommandExecutor, Listener {
             ArrayList<Pet> pets = player.getPets();
             for (int i = 0; i < 28; i++) {
                 if (Functions.isNotAir(e.getInventory().getItem(Functions.intToSlot(i)))) {
-                    Variables.set(e.getPlayer().getUniqueId(), "Pets", e.getInventory().getItem(Functions.intToSlot(i)), i + (28 * (page - 1)));
+                    Variables.set(e.getPlayer().getUniqueId(), "Pets", i + (28 * (page - 1)), e.getInventory().getItem(Functions.intToSlot(i)));
 
                     if (i + (28 * (page - 1)) < pets.size()) {
                         Pet pet = Pet.getPet(e.getInventory().getItem(Functions.intToSlot(i)), false);
