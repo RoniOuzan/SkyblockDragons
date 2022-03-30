@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.util.objects;
 
+import org.bukkit.Location;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 

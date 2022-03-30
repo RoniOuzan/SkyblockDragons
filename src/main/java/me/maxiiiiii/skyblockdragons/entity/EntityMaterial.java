@@ -4,12 +4,14 @@ import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.Map;
 
-public class EntityMaterial {
+public class EntityMaterial implements ConfigurationSerializable {
     public static HashMap<String, EntityMaterial> Entities = new HashMap<>();
 
     public static EntityMaterial NULL = null;
@@ -138,5 +140,21 @@ public class EntityMaterial {
             }
         }
         return "";
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("entityType", entityType);
+        map.put("name", name);
+        map.put("level", level);
+        map.put("health", health);
+        map.put("defense", defense);
+        map.put("equipment", equipment);
+        map.put("speed", speed);
+        map.put("knockbackResistance", knockbackResistance);
+        map.put("ai", ai);
+        map.put("combatXp", combatXp);
+        return map;
     }
 }

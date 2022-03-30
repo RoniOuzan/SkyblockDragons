@@ -207,6 +207,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             PlayerSD.loadPlayerData(player);
         }
 
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, Variables::save, 0L, 6000L);
+
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (PlayerSD player : players.values()) {
 //                player.updatePlayerInventory();
@@ -217,8 +219,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 player.applyStats(true);
 
                 // playtime
-//                playTime.put(player.getUniqueId(), playTime.getOrDefault(player.getUniqueId(), 0L) + 5L);
-//                Variables.set(player.getUniqueId(), "PlayTime", playTime.get(player.getUniqueId()));
+                playTime.put(player.getUniqueId(), playTime.getOrDefault(player.getUniqueId(), 0L) + 5L);
+                Variables.set(player.getUniqueId(), "PlayTime", playTime.get(player.getUniqueId()));
 
                 // pet sound
                 if (player.activePet >= 0)

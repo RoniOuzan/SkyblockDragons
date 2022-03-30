@@ -7,12 +7,14 @@ import com.google.gson.stream.JsonReader;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Variables {
@@ -56,7 +58,7 @@ public class Variables {
 
     public static <T> T get(UUID uuid, String id, int data, T defaultValue) {
         for (Variable<?> variable : variables) {
-            if (variable.uuid.equals(uuid) && variable.id.equals(id) && variable.data== data) {
+            if (Objects.equals(variable.uuid, uuid) && variable.id.equals(id) && variable.data== data) {
                 return (T) variable.value;
             }
         }
@@ -65,7 +67,7 @@ public class Variables {
 
     public static <T> Variable<T> getVariable(UUID uuid, String id, int data, Class<T> tClass) {
         for (Variable<?> variable : variables) {
-            if (variable.uuid.equals(uuid) && variable.id.equals(id) && variable.data== data) {
+            if (Objects.equals(variable.uuid, uuid) && variable.id.equals(id) && variable.data== data) {
                 return (Variable<T>) variable;
             }
         }
@@ -85,13 +87,13 @@ public class Variables {
     }
 
     public static <T> T set(UUID uuid, String id, int data, T value) {
-        T variableValue = get(uuid, id, data, value);
-        if (variableValue == value) {
+        T variableValue = get(uuid, id, data, null);
+        if (variableValue == null) {
             return create(uuid, id, data, value);
         } else {
             for (int i = 0; i < variables.size(); i++) {
                 Variable<T> variable = (Variable<T>) variables.get(i);
-                if (variable.uuid.equals(uuid) && variable.id.equals(id) && variable.data== data) {
+                if (Objects.equals(variable.uuid, uuid) && variable.id.equals(id) && variable.data== data) {
                     variable.value = value;
                     variables.set(i, variable);
                 }
@@ -134,6 +136,28 @@ public class Variables {
         delete(null, id, -1);
     }
 
+    public static int getSize(UUID uuid, String id, int data) {
+        int amount = 0;
+        for (Variable<?> variable : variables) {
+            if (Objects.equals(variable.uuid, uuid) && variable.id.equals(id) && variable.data == data) {
+                amount++;
+            }
+        }
+        return amount;
+    }
+
+    public static int getSize(UUID uuid, String id) {
+        return getSize(uuid, id, -1);
+    }
+
+    public static int getSize(String id, int data) {
+        return getSize(null, id, data);
+    }
+
+    public static int getSize(String id) {
+        return getSize(null, id, -1);
+    }
+
     public static void save() {
         Gson gson = new Gson();
         ArrayList<Variable<?>> variablesToAdd = new ArrayList<>();
@@ -164,16 +188,17 @@ public class Variables {
             JsonParser parser = new JsonParser();
             JsonArray arr = parser.parse(reader).getAsJsonArray();
             for (JsonElement variable : arr) {
-                UUID uuid = UUID.fromString(variable.getAsJsonObject().get("uuid").getAsString());
+                JsonElement uuidElement = variable.getAsJsonObject().get("uuid");
+                UUID uuid;
+                if (uuidElement == null)
+                    uuid = null;
+                else
+                    uuid = UUID.fromString(uuidElement.getAsString());
                 String id = variable.getAsJsonObject().get("id").getAsString();
                 int data = variable.getAsJsonObject().get("data").getAsInt();
                 String value = variable.getAsJsonObject().get("value").getAsString();
-                if (Functions.isInt(value)) {
-                    variables.add(new Variable<>(uuid, id, data, Integer.parseInt(value)));
-                } else if (Functions.isLong(value)) {
+                if (Functions.isLong(value)) {
                     variables.add(new Variable<>(uuid, id, data, Long.parseLong(value)));
-                } else if (Functions.isFloat(value)) {
-                    variables.add(new Variable<>(uuid, id, data, Float.parseFloat(value)));
                 } else if (Functions.isDouble(value)) {
                     variables.add(new Variable<>(uuid, id, data, Double.parseDouble(value)));
                 } else {

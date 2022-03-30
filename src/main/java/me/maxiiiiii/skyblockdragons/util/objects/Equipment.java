@@ -1,9 +1,13 @@
 package me.maxiiiiii.skyblockdragons.util.objects;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 
-public class Equipment {
+import java.util.HashMap;
+import java.util.Map;
+
+public class Equipment implements ConfigurationSerializable {
     public ItemStack helmet;
     public ItemStack chestplate;
     public ItemStack leggings;
@@ -31,5 +35,23 @@ public class Equipment {
 
     public Equipment() {
         this((Material) null, null, null, null, null, null);
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = new HashMap<>();
+        if (helmet != null)
+            map.put("helmet", helmet);
+        if (chestplate != null)
+            map.put("chestplate", chestplate);
+        if (leggings != null)
+            map.put("leggings", leggings);
+        if (boots != null)
+            map.put("boots", boots);
+        if (hand != null)
+            map.put("hand", hand);
+        if (offHand != null)
+            map.put("offHand", offHand);
+        return map;
     }
 }

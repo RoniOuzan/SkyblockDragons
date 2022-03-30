@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
+import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Type;
 import java.util.*;
@@ -72,11 +73,19 @@ public class EntitySD {
     }
 
     public static void saveLocations() {
-        Variables.set("EntitiesLocations", entitiesLocations);
+        int i = 0;
+        for (Location location : entitiesLocations.keySet()) {
+            Variables.set("EntitiesSpawnsLocations", i, location);
+            Variables.set("EntitiesSpawnsEntity", i, entitiesLocations.get(location));
+            i++;
+        }
     }
 
     public static void loadLocations() {
-        entitiesLocations = Variables.get("EntitiesLocations", new HashMap<>());
+//        entitiesLocations = Variables.get("EntitiesLocations", new HashMap<>());
+        for (int i = 0; i < Variables.getSize("EntitiesSpawnsLocations"); i++) {
+            entitiesLocations.put(Variables.get("EntitiesSpawnsLocations", i, null), Variables.get("EntitiesSpawnsEntity", i, EntityMaterial.NULL));
+        }
     }
 
     public static EntitySD get(UUID uuid) {
