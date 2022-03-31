@@ -30,16 +30,21 @@ public class AccessoryBagCommand implements CommandExecutor, Listener {
     }
 
     @EventHandler
-    public void onInventoryClose(InventoryCloseEvent event) {
-        if (event.getInventory().getTitle().contains("Accessory Bag")) {
-            String[] title = event.getInventory().getTitle().split(" ");
+    public void onInventoryClose(InventoryCloseEvent e) {
+        if (e.getInventory().getTitle().contains("Accessory Bag")) {
+            String[] title = e.getInventory().getTitle().split(" ");
             if (title.length > 2) return;
             ArrayList<ItemStack> accessories = new ArrayList<>();
+            Variables.delete(e.getPlayer().getUniqueId(), "AccessoryBag", 0, 44);
+            int i2 = 0;
             for (int i = 0; i < 45; i++) {
-                Variables.set(event.getPlayer().getUniqueId(), "AccessoryBag", i, event.getInventory().getItem(i));
-                accessories.add(event.getInventory().getItem(i));
+                if (Functions.isNotAir(e.getInventory().getItem(i))) {
+                    Variables.set(e.getPlayer().getUniqueId(), "AccessoryBag", i2, e.getInventory().getItem(i));
+                    accessories.add(e.getInventory().getItem(i));
+                    i2++;
+                }
             }
-            SkyblockDragons.players.get(event.getPlayer().getUniqueId()).setAccessoryBag(accessories);
+            SkyblockDragons.players.get(e.getPlayer().getUniqueId()).setAccessoryBag(accessories);
         }
     }
 

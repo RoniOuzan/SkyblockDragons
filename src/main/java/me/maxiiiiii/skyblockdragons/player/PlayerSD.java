@@ -4,9 +4,11 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import lombok.Setter;
+import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.ItemDrop;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
+import me.maxiiiiii.skyblockdragons.material.*;
 import me.maxiiiiii.skyblockdragons.player.coop.Coop;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -14,13 +16,8 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.abilities.Atomsplit_Katana;
 import me.maxiiiiii.skyblockdragons.item.abilities.Rogue_Sword;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
-import me.maxiiiiii.skyblockdragons.player.bits.BitsUtil;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
-import me.maxiiiiii.skyblockdragons.material.ArmorMaterial;
-import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.material.ToolMaterial;
-import me.maxiiiiii.skyblockdragons.material.WeaponMaterial;
 import me.maxiiiiii.skyblockdragons.player.pet.Pet;
 import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.Skills.*;
@@ -28,8 +25,11 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeSlot;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
+import me.maxiiiiii.skyblockdragons.worlds.mining.Mining;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_12_R1.EntityPlayer;
+import net.minecraft.server.v1_12_R1.Packet;
 import org.bukkit.*;
 import org.bukkit.Material;
 import org.bukkit.SoundCategory;
@@ -43,6 +43,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.PistonMoveReaction;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -97,6 +98,9 @@ public class PlayerSD extends EntitySD implements Player {
     public double seaCreatureChance;
     public double absorption;
 
+    public int playTime;
+    public int bits;
+
     public Skill skill;
     public Wardrobe wardrobe;
 
@@ -110,7 +114,11 @@ public class PlayerSD extends EntitySD implements Player {
     public ArrayList<ItemStack> accessoryBag;
 
     public final Cooldown actionBarCooldown = new Cooldown();
-    public final Cooldown damageCooldown = new Cooldown();
+    public final Cooldown damageCooldownMelee = new Cooldown();
+    public final Cooldown damageCooldownMagic = new Cooldown();
+    public final Cooldown damageCooldownProjectile = new Cooldown();
+
+    public final Cooldown updateStatsCooldown = new Cooldown();
 
     public static final double HEALTH_REGEN = 1.02;
 
@@ -139,6 +147,9 @@ public class PlayerSD extends EntitySD implements Player {
         this.miningFortune= 0;
         this.seaCreatureChance = 0;
         this.absorption = 0;
+
+        this.playTime = Variables.get(player.getUniqueId(), "PlayTime", 0);
+        this.bits = Variables.get(player.getUniqueId(), "Bits", 0);
 
         ArrayList<WardrobeSlot> wardrobeSlots = new ArrayList<>();
         for (int i = 0; i < 18; i++) {
@@ -189,6 +200,42 @@ public class PlayerSD extends EntitySD implements Player {
         }
     }
 
+    public void sendPacket(Packet<?> packet) {
+        EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+        entityPlayer.playerConnection.sendPacket(packet);
+    }
+
+    public void addPlayTime(int amount) {
+        this.playTime += amount;
+        Variables.set(player.getUniqueId(), "PlayTime", this.playTime);
+    }
+
+    public void addBits(int amount) {
+        this.bits += amount;
+        Variables.set(player.getUniqueId(), "Bits", this.bits);
+    }
+
+    public void setBits(int amount) {
+        this.bits = amount;
+        Variables.set(player.getUniqueId(), "Bits", this.bits);
+    }
+
+    public Cooldown getDamageCooldown(Damage.DamageType type) {
+        switch (type) {
+            case NORMAL:
+            case FALL:
+                return this.damageCooldownMelee;
+
+            case PROJECTILE:
+                return this.damageCooldownProjectile;
+
+            case MAGIC:
+            case CRITICAL_MAGIC:
+                return this.damageCooldownMagic;
+        }
+        return this.damageCooldownMelee;
+    }
+
     public void setActivePet(int activePet) {
         this.activePet = activePet;
         Variables.set(player.getUniqueId(), "ActivePet", activePet);
@@ -200,6 +247,14 @@ public class PlayerSD extends EntitySD implements Player {
 
     public Pet getPet() {
         return this.getPetActive();
+    }
+
+    public int getBreakingPower() {
+        ItemMaterial material = Items.get(Functions.getId(player.getEquipment().getItemInMainHand()));
+        if (material instanceof MiningMaterial) {
+            return ((MiningMaterial) material).getBreakingPower();
+        }
+        return 0;
     }
 
     public double getHealthStat() {
@@ -397,6 +452,10 @@ public class PlayerSD extends EntitySD implements Player {
         seaCreatureChance = 0;
         absorption = 0;
 
+        if (Mining.miningWorlds.contains(player.getWorld().getName())) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, -1, false, false));
+        }
+
         for (ItemStack accessory : accessoryBag) {
             if (Functions.getItemMaterial(accessory).getType() == ItemType.ACCESSORY) {
                 this.addItemStat(accessory);
@@ -582,13 +641,14 @@ public class PlayerSD extends EntitySD implements Player {
         scores.add(objective.getScore(ChatColor.WHITE + "Player: " + ChatColor.GREEN + this.getPlayer().getName()));
         scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse())));
         String bitsAdder = "";
-//        if (SkyblockDragons.playTime.getOrDefault(this.getPlayer().getUniqueId(), 0L) % 36000L >= 0L && SkyblockDragons.playTime.getOrDefault(this.getPlayer().getUniqueId(), 0L) % 36000L < 20L) {
-//            bitsAdder = ChatColor.AQUA + "(+250 Bits)";
-//            if (SkyblockDragons.playTime.getOrDefault(this.getPlayer().getUniqueId(), 0L) % 36000L < 5L) {
-//                BitsUtil.add(this.getPlayer(), 250L);
-//            }
-//        }
-        scores.add(objective.getScore(ChatColor.WHITE + "Bits: " + ChatColor.AQUA + getNumberFormat(SkyblockDragons.bits.get(this.getPlayer().getUniqueId())) + " " + bitsAdder));
+
+        if (playTime % 36000L >= 0L && playTime % 36000L < 20L) {
+            bitsAdder = ChatColor.AQUA + "(+250 Bits)";
+            if (playTime % 36000L < 5L) {
+                this.addBits(250);
+            }
+        }
+        scores.add(objective.getScore(ChatColor.WHITE + "Bits: " + ChatColor.AQUA + getNumberFormat(bits) + " " + bitsAdder));
         scores.add(objective.getScore(" "));
         if (this.getActivePet() >= 0) {
             scores.add(objective.getScore(ChatColor.WHITE + "Active Pet:"));
@@ -606,7 +666,6 @@ public class PlayerSD extends EntitySD implements Player {
     }
 
     public static void loadPlayerData(Player player) {
-        SkyblockDragons.bits.put(player.getUniqueId(), 0L);
         player.setHealthScale(40d);
 
         SkyblockDragons.players.put(player.getUniqueId(), new PlayerSD(player));
@@ -616,16 +675,6 @@ public class PlayerSD extends EntitySD implements Player {
             accessories.add(Variables.get(player.getUniqueId(), "AccessoryBag", i, new ItemStack(Material.AIR)));
         }
         SkyblockDragons.players.get(player.getUniqueId()).setAccessoryBag(accessories);
-
-        try {
-            SkyblockDragons.bits.put(player.getUniqueId(), Variables.get(player.getUniqueId(), "Bits", 0L));
-        } catch (NullPointerException ex) {
-            SkyblockDragons.bits.put(player.getUniqueId(), 0L);
-        }
-
-        if (!SkyblockDragons.disablePlayTime) {
-            SkyblockDragons.playTime.put(player.getUniqueId(), Variables.get(player.getUniqueId(), "PlayTime", 0L));
-        }
     }
 
     @Override
@@ -1833,7 +1882,7 @@ public class PlayerSD extends EntitySD implements Player {
     public Entity getTargetEntity(int maxDistance) {
         Location location = player.getLocation();
 
-        for (int i = 0; i < maxDistance; i++) {
+        for (int i = 0; i <= maxDistance; i++) {
             Location loc = location.clone().add(location.clone().getDirection().multiply(i));
 
             for (Entity entity : Functions.loopEntities(loc, 1.5)) {

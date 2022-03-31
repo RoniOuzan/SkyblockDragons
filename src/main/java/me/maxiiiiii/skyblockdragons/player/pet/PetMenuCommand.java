@@ -17,6 +17,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.getId;
 
@@ -53,7 +54,6 @@ public class PetMenuCommand implements CommandExecutor, Listener {
                 }
             }
             player.setPets(pets);
-//            Variables.save();
         }
     }
 

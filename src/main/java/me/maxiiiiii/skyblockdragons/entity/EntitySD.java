@@ -92,6 +92,10 @@ public class EntitySD {
         return entities.get(uuid);
     }
 
+    public static EntitySD get(Entity entity) {
+        return entities.get(entity.getUniqueId());
+    }
+
     public static boolean isEntitySD(LivingEntity entity) {
         EntityMaterial type = Functions.getEntityMaterial(entity);
         return type != EntityMaterial.NULL;

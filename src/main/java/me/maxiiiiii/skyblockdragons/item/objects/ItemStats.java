@@ -51,6 +51,10 @@ public class ItemStats extends ArrayList<Double> {
         this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, health, defense, 0, speed, intelligence, 0, 0, 0, 0, 0, 0);
     }
 
+    public ItemStats(double miningSpeed, double miningFortune) {
+        this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, miningSpeed, miningFortune, 0, 0);
+    }
+
     public ItemStats() {
         this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }

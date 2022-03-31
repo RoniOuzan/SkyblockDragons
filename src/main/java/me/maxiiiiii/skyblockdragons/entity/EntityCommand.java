@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
-import com.mojang.datafixers.types.Func;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.TextMessage;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -11,33 +12,36 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class EntityCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            Player player = (Player) sender;
+            PlayerSD player = SkyblockDragons.getPlayer((Player) sender);
             if (args.length > 1) {
-                if (args[0].equalsIgnoreCase("spawn")) {
+                if (args[0].toLowerCase().startsWith("s")) {
                     new EntitySD(player.getLocation(), EntityMaterial.get(args[1]));
                     player.sendMessage(ChatColor.GREEN + "Summoned new " + Functions.setTitleCase(args[1]) + ".");
-                } else if (args[0].equalsIgnoreCase("add")) {
+                } else if (args[0].toLowerCase().startsWith("a")) {
                     if (!EntityMaterial.Entities.containsKey(args[1].toUpperCase())) {
                         player.sendMessage(ChatColor.RED + "Can't understand this entity!");
                         return true;
                     }
-                    Location location = Functions.getCenter(player.getLocation());
+                    Location location = Functions.getBlockBelow(Functions.getCenter(player.getLocation())).getLocation();
                     EntitySD.entitiesLocations.put(location, EntityMaterial.get(args[1]));
                     EntitySD.saveLocations();
-                    player.sendMessage(ChatColor.GREEN + "You have set new spawn to " + Functions.setTitleCase(args[1]) + ".");
-                } else if (args[0].equalsIgnoreCase("remove")) {
+                    player.sendMessage(ChatColor.GREEN + "You have set new spawn to " + Functions.setTitleCase(args[1]) + " in " + Functions.getLocation(location) + ".");
+                } else if (args[0].toLowerCase().startsWith("r")) {
                     Location location = Functions.getCenter(player.getLocation());
                     if (!EntitySD.entitiesLocations.containsKey(location)) {
                         player.sendMessage(ChatColor.RED + "This location does not saved!");
@@ -50,7 +54,7 @@ public class EntityCommand implements CommandExecutor, TabCompleter {
                     EntitySD.entitiesLocations.remove(location);
                     EntitySD.saveLocations();
                     player.sendMessage(ChatColor.GREEN + "You have removed the spawn of " + Functions.setTitleCase(args[1]) + ".");
-                } else if (args[0].equalsIgnoreCase("delete")) {
+                } else if (args[0].toLowerCase().startsWith("d")) {
                     if (!EntityMaterial.Entities.containsKey(args[1].toUpperCase())) {
                         player.sendMessage(ChatColor.RED + "Can't understand this entity!");
                         return true;
@@ -64,6 +68,12 @@ public class EntityCommand implements CommandExecutor, TabCompleter {
                     EntitySD.entitiesLocations.remove(location);
                     EntitySD.saveLocations();
                 }
+            } else if (args.length > 0) {
+                if (args[0].toLowerCase().startsWith("k")) {
+                    Entity target = player.getTargetEntity(20);
+                    if (target != null && EntitySD.isEntitySD((LivingEntity) target))
+                        EntitySD.get(target).kill();
+                }
             }
         }
         return true;
@@ -72,8 +82,8 @@ public class EntityCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1)
-            return new ArrayList<>(Arrays.asList("spawn", "add", "delete", "remove")).stream().sorted().collect(Collectors.toList());
-        else if (args[0].equalsIgnoreCase("spawn") || args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("remove"))
+            return new ArrayList<>(Arrays.asList("spawn", "kill", "add", "delete", "remove")).stream().sorted().collect(Collectors.toList()).stream().filter(s -> s.startsWith(args[0].toLowerCase().toLowerCase())).collect(Collectors.toList());
+        else if (args[0].toLowerCase().startsWith("s") || args[0].toLowerCase().startsWith("a") || args[0].toLowerCase().startsWith("d") || args[0].toLowerCase().startsWith("r"))
             return EntityMaterial.Entities.values().stream().map(EntityMaterial::name).filter(s -> s.startsWith(args[1].toUpperCase())).collect(Collectors.toList());
         return null;
     }

@@ -11,12 +11,15 @@ import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.material.Items;
 import me.maxiiiiii.skyblockdragons.material.NormalMaterial;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variable;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,6 +29,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -102,7 +106,7 @@ public class JavaPluginCommand implements CommandExecutor, TabCompleter {
                         } catch (NullPointerException ignored) {}
                     }
                 } else if (args[0].equalsIgnoreCase("test")) {
-                    sender.sendMessage(SkyblockDragons.serializer.serialize("scam"));
+                    PlayerSD player = SkyblockDragons.getPlayer((Player) sender);
                 }
             } else {
                 sender.sendMessage(ChatColor.RED + "Invalid arguments!");

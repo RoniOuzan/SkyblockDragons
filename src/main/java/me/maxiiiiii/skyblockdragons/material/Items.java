@@ -19,6 +19,12 @@ public class Items {
 
     public static void registerItems() {
         // Swords
+        items.put("WOOD_SWORD", new SwordMaterial(Material.WOOD_SWORD, ItemFamily.WOOD, "Wood Sword", Rarity.COMMON, new ItemStats(5, 0, 0, 0, 0,0 ,0, 0, 0, 0), ""));
+        items.put("STONE_SWORD", new SwordMaterial(Material.STONE_SWORD, ItemFamily.STONE, "Stone Sword", Rarity.COMMON, new ItemStats(5, 5, 0, 0, 0,0 ,0, 0, 0, 0), ""));
+        items.put("IRON_SWORD", new SwordMaterial(Material.IRON_SWORD, ItemFamily.IRON, "Iron Sword", Rarity.COMMON, new ItemStats(10, 5, 0, 0, 0,0 ,0, 0, 0, 0), ""));
+        items.put("GOLD_SWORD", new SwordMaterial(Material.GOLD_SWORD, ItemFamily.GOLD, "Gold Sword", Rarity.COMMON, new ItemStats(15, 5, 0, 0, 0,0 ,0, 0, 0, 0), ""));
+        items.put("DIAMOND_SWORD", new SwordMaterial(Material.DIAMOND_SWORD, ItemFamily.DIAMOND, "Diamond Sword", Rarity.UNCOMMON, new ItemStats(15, 10, 0, 0, 0,0 ,0, 0, 0, 0), ""));
+
         items.put("ASPECT_OF_THE_END", new SwordMaterial(Material.DIAMOND_SWORD, ItemFamily.ASPECT_OF_THE_END,"Aspect of The End", Rarity.RARE, new ItemStats(100, 100, 0, 0, 0, 0, 0, 0, 0, 0), "", new ItemAbility(AbilityAction.RIGHT_CLICK, "Transmission", ChatColor.GRAY + "Teleport " + ChatColor.GREEN + "8 blocks " + ChatColor.GRAY + "ahead of you and gain " + ChatColor.GREEN + "+50 " + Stat.SPEED.getIconAndText() + " NEW_LINE for " + ChatColor.GREEN + "3 seconds" + ChatColor.GRAY + ".", 50, 0)));
         items.put("ASPECT_OF_THE_VOID", new SwordMaterial(Material.DIAMOND_SPADE, ItemFamily.ASPECT_OF_THE_END, "Aspect of The Void", Rarity.EPIC, new ItemStats(120, 100, 0, 0, 0, 0, 0, 0, 0, 0), "", new ArrayList<>(Arrays.asList(new ItemAbility(AbilityAction.RIGHT_CLICK, "Transmission", ChatColor.GRAY + "Teleport " + ChatColor.GREEN + "12 blocks " + ChatColor.GRAY + "ahead of you and gain " + ChatColor.GREEN + "+50 " + Stat.SPEED.getIconAndText() + " NEW_LINE for " + ChatColor.GREEN + "3 seconds" + ChatColor.GRAY + ".", 45, 0), new ItemAbility(AbilityAction.RIGHT_SHIFT_CLICK, "Ether Transmission", ChatColor.GRAY + "Teleport to your targeted block up to " + ChatColor.GREEN + "61 blocks " + ChatColor.GRAY + "away.", 180, 0)))));
         items.put("BONZO_STAFF", new SwordMaterial(Material.BLAZE_ROD, ItemFamily.BONZO_STAFF, "Bonzo's Staff", Rarity.RARE , new ItemStats(160, 0, 0, 0, 0, 0, 0, 0, 0, 250), "", new ItemAbility(AbilityAction.RIGHT_CLICK, "Showtime", ChatColor.GRAY + "Shoots balloons that create a large explosion on impact", 50, 0)));
@@ -36,17 +42,46 @@ public class Items {
         items.put("VALKYRIE", new NecronBladeMaterial(Material.IRON_SWORD, ItemFamily.NECRON_BLADE, "Valkyrie", Rarity.LEGENDARY, new ItemStats(270, 145, 0, 0, 0, 60, 0, 0, 0, 60), NecronBladeMaterial.NecronBladeType.VALKYRIE));
 
         // Bows
-        items.put("TERMINATOR", new BowMaterial(Material.BOW, ItemFamily.JUJU,"Terminator", Rarity.LEGENDARY, new ItemStats(335, 50, 250, 0, 40, 0, 0, 0, 0, 0), ChatColor.GOLD + "Shortbow: Instantly Shoots! NEW_LINE " + ChatColor.GRAY + "Shoots " + ChatColor.AQUA + "3 " + ChatColor.GRAY + "arrows at once. " + ChatColor.GRAY + "Can damage endermen. NEW_LINE NEW_LINE " + ChatColor.RED + "Divides your RESET_LENGTH " + Stat.CRIT_CHANCE.getIconAndText() + ChatColor.RED + " by 4!", new ItemAbility(AbilityAction.RIGHT_CLICK, "Salvation", ChatColor.GRAY + "Can be casted after landing RESET_LENGTH " + ChatColor.GOLD + "3 " + ChatColor.GRAY + "hits. NEW_LINE Shoot a beam, penetrating up NEW_LINE to " + ChatColor.YELLOW + "5 " + ChatColor.GRAY + "foes and dealing " + ChatColor.RED + "2x " + ChatColor.GRAY + "the damage an arrow would. NEW_LINE The beam always crits.", 0, 2)));
-        items.put("BONEMERANG", new BowMaterial(Material.BONE, ItemFamily.BONEMERANG, "Bonemerang", Rarity.LEGENDARY, new ItemStats(270, 130, 0, 0, 0, 0, 0, 0, 0, 0), "Deals " + ChatColor.RED + "double damage " + ChatColor.GRAY + "when coming back. Pierces up to " + ChatColor.YELLOW + "10 " + ChatColor.GRAY + "foes.", new ItemAbility(AbilityAction.RIGHT_CLICK, "Swing", "Throw the bone a short distance, dealing the damage an arrow would.", 0, 0)));
+        items.put("BOW", new BowMaterial(Material.BOW, ItemFamily.WOOD, "Bow", Rarity.COMMON, new ItemStats(5, 5, 0, 0, 0, 0, 0, 0, 0, 0), ""));
+
         items.put("GOLDEN_SKELETON_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Golden Skeleton Bow", Rarity.COMMON, new ItemStats(30, 0, 0, 0, 0, 0, 0, 0, 0, 0), ""));
 
+        items.put("TERMINATOR", new BowMaterial(Material.BOW, ItemFamily.JUJU,"Terminator", Rarity.LEGENDARY, new ItemStats(335, 50, 250, 0, 40, 0, 0, 0, 0, 0), ChatColor.GOLD + "Shortbow: Instantly Shoots! NEW_LINE " + ChatColor.GRAY + "Shoots " + ChatColor.AQUA + "3 " + ChatColor.GRAY + "arrows at once. " + ChatColor.GRAY + "Can damage endermen. NEW_LINE NEW_LINE " + ChatColor.RED + "Divides your RESET_LENGTH " + Stat.CRIT_CHANCE.getIconAndText() + ChatColor.RED + " by 4!", new ItemAbility(AbilityAction.RIGHT_CLICK, "Salvation", ChatColor.GRAY + "Can be casted after landing RESET_LENGTH " + ChatColor.GOLD + "3 " + ChatColor.GRAY + "hits. NEW_LINE Shoot a beam, penetrating up NEW_LINE to " + ChatColor.YELLOW + "5 " + ChatColor.GRAY + "foes and dealing " + ChatColor.RED + "2x " + ChatColor.GRAY + "the damage an arrow would. NEW_LINE The beam always crits.", 0, 2)));
+        items.put("BONEMERANG", new BowMaterial(Material.BONE, ItemFamily.BONEMERANG, "Bonemerang", Rarity.LEGENDARY, new ItemStats(270, 130, 0, 0, 0, 0, 0, 0, 0, 0), "Deals " + ChatColor.RED + "double damage " + ChatColor.GRAY + "when coming back. Pierces up to " + ChatColor.YELLOW + "10 " + ChatColor.GRAY + "foes.", new ItemAbility(AbilityAction.RIGHT_CLICK, "Swing", "Throw the bone a short distance, dealing the damage an arrow would.", 0, 0)));
+
         // Armors
-        items.put("GOLDEN_SKELETON_HELMET", new ArmorMaterial(Material.GOLD_HELMET, ItemFamily.NULL, "Golden Skeleton Helmet", ItemType.HELMET, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 25, 25, 0, 5), "", null));
+        // Leather
+        items.put("LEATHER_HELMET", new ArmorMaterial(Material.LEATHER_HELMET, ItemFamily.LEATHER, "Leather Helmet", ItemType.HELMET, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 5, 0, 0, 0), "", ItemFullSet.NULL));
+        items.put("LEATHER_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.LEATHER, "Leather Chestplate", ItemType.CHESTPLATE, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 5, 0, 0, 0), "", ItemFullSet.NULL));
+        items.put("LEATHER_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.LEATHER, "Leather Leggings", ItemType.LEGGINGS, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 5, 0, 0, 0), "", ItemFullSet.NULL));
+        items.put("LEATHER_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.LEATHER, "Leather Boots", ItemType.BOOTS, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 5, 0, 0, 0), "", ItemFullSet.NULL));
+        // Chain
+        items.put("CHAIN_HELMET", new ArmorMaterial(Material.CHAINMAIL_HELMET, ItemFamily.CHAIN, "Chain Helmet", ItemType.HELMET, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 8, 5, 0, 0), "", ItemFullSet.NULL));
+        items.put("CHAIN_CHESTPLATE", new ArmorMaterial(Material.CHAINMAIL_CHESTPLATE, ItemFamily.CHAIN, "Chain Chestplate", ItemType.CHESTPLATE, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 8, 5, 0, 0), "", ItemFullSet.NULL));
+        items.put("CHAIN_LEGGINGS", new ArmorMaterial(Material.CHAINMAIL_LEGGINGS, ItemFamily.CHAIN, "Chain Leggings", ItemType.LEGGINGS, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 8, 5, 0, 0), "", ItemFullSet.NULL));
+        items.put("CHAIN_BOOTS", new ArmorMaterial(Material.CHAINMAIL_BOOTS, ItemFamily.CHAIN, "Chain Boots", ItemType.BOOTS, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 8, 0, 5, 0), "", ItemFullSet.NULL));
+        // Iron
+        items.put("IRON_HELMET", new ArmorMaterial(Material.IRON_HELMET, ItemFamily.IRON, "Iron Helmet", ItemType.HELMET, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 10, 8, 0, 0), "", ItemFullSet.NULL));
+        items.put("IRON_CHESTPLATE", new ArmorMaterial(Material.IRON_CHESTPLATE, ItemFamily.IRON, "Iron Chestplate", ItemType.CHESTPLATE, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 10, 8, 0, 0), "", ItemFullSet.NULL));
+        items.put("IRON_LEGGINGS", new ArmorMaterial(Material.IRON_LEGGINGS, ItemFamily.IRON, "Iron Leggings", ItemType.LEGGINGS, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 10, 8, 0, 0), "", ItemFullSet.NULL));
+        items.put("IRON_BOOTS", new ArmorMaterial(Material.IRON_BOOTS, ItemFamily.IRON, "Iron Boots", ItemType.BOOTS, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 10, 8, 0, 0), "", ItemFullSet.NULL));
+        // Gold
+        items.put("GOLD_HELMET", new ArmorMaterial(Material.GOLD_HELMET, ItemFamily.GOLD, "Gold Helmet", ItemType.HELMET, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 15, 10, 0, 0), "", ItemFullSet.NULL));
+        items.put("GOLD_CHESTPLATE", new ArmorMaterial(Material.GOLD_CHESTPLATE, ItemFamily.GOLD, "Gold Chestplate", ItemType.CHESTPLATE, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 15, 10, 0, 0), "", ItemFullSet.NULL));
+        items.put("GOLD_LEGGINGS", new ArmorMaterial(Material.GOLD_LEGGINGS, ItemFamily.GOLD, "Gold Leggings", ItemType.LEGGINGS, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 15, 10, 0, 0), "", ItemFullSet.NULL));
+        items.put("GOLD_BOOTS", new ArmorMaterial(Material.GOLD_BOOTS, ItemFamily.GOLD, "Gold Boots", ItemType.BOOTS, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 15, 10, 0, 0), "", ItemFullSet.NULL));
+        // Diamond
+        items.put("DIAMOND_HELMET", new ArmorMaterial(Material.DIAMOND_HELMET, ItemFamily.DIAMOND, "Diamond Helmet", ItemType.HELMET, Rarity.UNCOMMON, new ItemStats(0, 0, 0, 0, 0, 0, 25, 15, 0, 0), "", ItemFullSet.NULL));
+        items.put("DIAMOND_CHESTPLATE", new ArmorMaterial(Material.DIAMOND_CHESTPLATE, ItemFamily.DIAMOND, "Diamond Chestplate", ItemType.CHESTPLATE, Rarity.UNCOMMON, new ItemStats(0, 0, 0, 0, 0, 0, 25, 15, 0, 0), "", ItemFullSet.NULL));
+        items.put("DIAMOND_LEGGINGS", new ArmorMaterial(Material.DIAMOND_LEGGINGS, ItemFamily.DIAMOND, "Diamond Leggings", ItemType.LEGGINGS, Rarity.UNCOMMON, new ItemStats(0, 0, 0, 0, 0, 0, 25, 15, 0, 0), "", ItemFullSet.NULL));
+        items.put("DIAMOND_BOOTS", new ArmorMaterial(Material.DIAMOND_BOOTS, ItemFamily.DIAMOND, "Diamond Boots", ItemType.BOOTS, Rarity.UNCOMMON, new ItemStats(0, 0, 0, 0, 0, 0, 25, 15, 0, 0), "", ItemFullSet.NULL));
+        // Golden Skeleton
+        items.put("GOLDEN_SKELETON_HELMET", new ArmorMaterial(Material.GOLD_HELMET, ItemFamily.NULL, "Golden Skeleton Helmet", ItemType.HELMET, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 25, 25, 0, 5), "Deals " + ChatColor.GREEN + "+20% " + ChatColor.GRAY + "damage with " + ChatColor.WHITE + "Golden Skeleton Bow" + ChatColor.GRAY + ".", null));
         // Pigman
         items.put("PIGMAN_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.PIGMAN, "Pigman Helmet", ItemType.HELMET, Rarity.UNCOMMON, "a94086e2-ae98-42c2-a96b-d7b548e3ae2a", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjg1Mzg2Zjc4MDMzNDNlNWU2YjdlOGVlMDYxNjc3ZmYxN2U0ZjU2MTAwNTQ3OWQzOTQ3MmIyNjU3ZTA4ODQyZSJ9fX0=", new ItemStats(0, 5, 5, 0, 0, 0, 70, 40, 0, 10), "", ItemFullSet.PIGMAN));
-        items.put("PIGMAN_CHESTPLATE", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.PIGMAN, "Pigman Chestplate", ItemType.CHESTPLATE, Rarity.UNCOMMON, "", "", new ItemStats(0, 5, 5, 0, 0, 0, 70, 40, 0, 10), "", ItemFullSet.PIGMAN));
-        items.put("PIGMAN_LEGGINGS", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.PIGMAN, "Pigman Leggings", ItemType.LEGGINGS, Rarity.UNCOMMON, "", "", new ItemStats(0, 5, 5, 0, 0, 0, 70, 40, 0, 10), "", ItemFullSet.PIGMAN));
-        items.put("PIGMAN_BOOTS", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.PIGMAN, "Pigman Boots", ItemType.BOOTS, Rarity.UNCOMMON, "", "", new ItemStats(0, 5, 5, 0, 0, 0, 70, 40, 0, 10), "", ItemFullSet.PIGMAN));
+        items.put("PIGMAN_CHESTPLATE", new ArmorMaterial(Material.GOLD_CHESTPLATE, ItemFamily.PIGMAN, "Pigman Chestplate", ItemType.CHESTPLATE, Rarity.UNCOMMON, "", "", new ItemStats(0, 5, 5, 0, 0, 0, 70, 40, 0, 10), "", ItemFullSet.PIGMAN));
+        items.put("PIGMAN_LEGGINGS", new ArmorMaterial(Material.CHAINMAIL_LEGGINGS, ItemFamily.PIGMAN, "Pigman Leggings", ItemType.LEGGINGS, Rarity.UNCOMMON, "", "", new ItemStats(0, 5, 5, 0, 0, 0, 70, 40, 0, 10), "", ItemFullSet.PIGMAN));
+        items.put("PIGMAN_BOOTS", new ArmorMaterial(Material.GOLD_BOOTS, ItemFamily.PIGMAN, "Pigman Boots", ItemType.BOOTS, Rarity.UNCOMMON, "", "", new ItemStats(0, 5, 5, 0, 0, 0, 70, 40, 0, 10), "", ItemFullSet.PIGMAN));
         // Necron
         items.put("NECRON_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.NECRON_ARMOR, "Necron's Helmet", ItemType.HELMET, Rarity.LEGENDARY, "16b91b55-02b7-3315-bd9a-7da8467e4a96", "ewogICJ0aW1lc3RhbXAiIDogMTYwNTYyMzI0OTc5MywKICAicHJvZmlsZUlkIiA6ICIwNjEzY2I1Y2QxYjg0M2JjYjI4OTk1NWU4N2QzMGEyYyIsCiAgInByb2ZpbGVOYW1lIiA6ICJicmVhZGxvYWZzcyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8yYmJiMmZhN2E2Y2EwODcyODBlYTBjYjU2NGI0MWVmMWFlNDA0YTE5ZjdhODEyOGQzZDI4YzUxOWE4NWUwNjNmIgogICAgfQogIH0KfQ", new ItemStats(0, 40, 30, 0, 0, 0, 180, 100, 0, 30), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHER_ARMOR));
         items.put("NECRON_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.NECRON_ARMOR, "Necron's Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new ItemStats(0, 40, 30, 0, 0, 0, 260, 140, 0, 10), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHER_ARMOR, Color.fromRGB(231,65,60)));
@@ -64,8 +99,32 @@ public class Items {
         items.put("SUPERIOR_DRAGON_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.SUPERIOR_DRAGON_ARMOR, "Superior Dragon Helmet", ItemType.BOOTS, Rarity.LEGENDARY, new ItemStats(0, 10, 10, 2, 0, 0, 80, 110, 3, 25), "", ItemFullSet.SUPERIOR_DRAGON, Color.fromRGB(242,93,24)));
 
         // Tools
-        items.put("TREE_CAPITATOR", new ToolMaterial(Material.GOLD_AXE, ItemFamily.JUNGLE_AXE, "Tree Capitator", ItemType.AXE, Rarity.EPIC, "A forceful Gold Axe which can break a large amount of logs in a single hit!", new ItemAbility(AbilityAction.NULL, "", "", 0, 0)));
-        items.put("WORLD_EATER", new ToolMaterial(Material.DIAMOND_PICKAXE, ItemFamily.JUNGLE_AXE, "World Eater", ItemType.PICKAXE, Rarity.DIVINE, ChatColor.ITALIC + "I became a world ERROR.", new ItemAbility(AbilityAction.NULL, "", "", 0, 0)));
+        items.put("WOOD_PICKAXE", new MiningMaterial(Material.WOOD_PICKAXE, ItemFamily.WOOD, "Wood Pickaxe", ItemType.PICKAXE, Rarity.COMMON, new ItemStats(50, 0), 1, ""));
+        items.put("STONE_PICKAXE", new MiningMaterial(Material.STONE_PICKAXE, ItemFamily.STONE, "Stone Pickaxe", ItemType.PICKAXE, Rarity.COMMON, new ItemStats(80, 0), 2, ""));
+        items.put("IRON_PICKAXE", new MiningMaterial(Material.IRON_PICKAXE, ItemFamily.IRON, "Iron Pickaxe", ItemType.PICKAXE, Rarity.COMMON, new ItemStats(120, 0), 3, ""));
+        items.put("GOLD_PICKAXE", new MiningMaterial(Material.GOLD_PICKAXE, ItemFamily.GOLD, "Gold Pickaxe", ItemType.PICKAXE, Rarity.COMMON, new ItemStats(170, 0), 1, ""));
+        items.put("DIAMOND_PICKAXE", new MiningMaterial(Material.DIAMOND_PICKAXE, ItemFamily.DIAMOND, "Diamond Pickaxe", ItemType.PICKAXE, Rarity.UNCOMMON, new ItemStats(230, 0), 4, ""));
+
+        items.put("WOOD_AXE", new MiningMaterial(Material.WOOD_AXE, ItemFamily.WOOD, "Wood Axe", ItemType.AXE, Rarity.COMMON, new ItemStats(50, 0), 1, ""));
+        items.put("STONE_AXE", new MiningMaterial(Material.STONE_AXE, ItemFamily.STONE, "Stone Axe", ItemType.AXE, Rarity.COMMON, new ItemStats(80, 5), 1, ""));
+        items.put("IRON_AXE", new MiningMaterial(Material.IRON_AXE, ItemFamily.IRON, "Iron Axe", ItemType.AXE, Rarity.COMMON, new ItemStats(120, 0), 1, ""));
+        items.put("GOLD_AXE", new MiningMaterial(Material.GOLD_AXE, ItemFamily.GOLD, "Gold Axe", ItemType.AXE, Rarity.COMMON, new ItemStats(170, 0), 1, ""));
+        items.put("DIAMOND_AXE", new MiningMaterial(Material.DIAMOND_AXE, ItemFamily.DIAMOND, "Diamond Axe", ItemType.AXE, Rarity.UNCOMMON, new ItemStats(230, 0), 1, ""));
+
+        items.put("WOOD_SHOVEL", new MiningMaterial(Material.WOOD_SPADE, ItemFamily.WOOD, "Wood Shovel", ItemType.SHOVEL, Rarity.COMMON, new ItemStats(50, 0), 1, ""));
+        items.put("STONE_SHOVEL", new MiningMaterial(Material.STONE_SPADE, ItemFamily.STONE, "Stone Shovel", ItemType.SHOVEL, Rarity.COMMON, new ItemStats(80, 0), 1, ""));
+        items.put("IRON_SHOVEL", new MiningMaterial(Material.IRON_SPADE, ItemFamily.IRON, "Iron Shovel", ItemType.SHOVEL, Rarity.COMMON, new ItemStats(120, 0), 1, ""));
+        items.put("GOLD_SHOVEL", new MiningMaterial(Material.GOLD_SPADE, ItemFamily.GOLD, "Gold Shovel", ItemType.SHOVEL, Rarity.COMMON, new ItemStats(170, 0), 1, ""));
+        items.put("DIAMOND_SHOVEL", new MiningMaterial(Material.DIAMOND_SPADE, ItemFamily.DIAMOND, "Diamond Shovel", ItemType.SHOVEL, Rarity.UNCOMMON, new ItemStats(230, 0), 1, ""));
+
+        items.put("WOOD_HOE", new MiningMaterial(Material.WOOD_HOE, ItemFamily.WOOD, "Wood Hoe", ItemType.HOE, Rarity.COMMON, new ItemStats(50, 0), 1, ""));
+        items.put("STONE_HOE", new MiningMaterial(Material.STONE_HOE, ItemFamily.STONE, "Stone Hoe", ItemType.HOE, Rarity.COMMON, new ItemStats(80, 0), 1, ""));
+        items.put("IRON_HOE", new MiningMaterial(Material.IRON_HOE, ItemFamily.IRON, "Iron Hoe", ItemType.HOE, Rarity.COMMON, new ItemStats(120, 0), 1, ""));
+        items.put("GOLD_HOE", new MiningMaterial(Material.GOLD_HOE, ItemFamily.GOLD, "Gold Hoe", ItemType.HOE, Rarity.COMMON, new ItemStats(170, 0), 1, ""));
+        items.put("DIAMOND_HOE", new MiningMaterial(Material.DIAMOND_HOE, ItemFamily.DIAMOND, "Diamond Hoe", ItemType.HOE, Rarity.UNCOMMON, new ItemStats(230, 0), 1, ""));
+
+        items.put("TREE_CAPITATOR", new MiningMaterial(Material.GOLD_AXE, ItemFamily.JUNGLE_AXE, "Tree Capitator", ItemType.AXE, Rarity.EPIC, 1, "A forceful Gold Axe which can break a large amount of logs in a single hit!", new ItemAbility(AbilityAction.NULL, "", "", 0, 0)));
+        items.put("WORLD_EATER", new MiningMaterial(Material.DIAMOND_PICKAXE, ItemFamily.JUNGLE_AXE, "World Eater", ItemType.PICKAXE, Rarity.DIVINE, 10, ChatColor.ITALIC + "I became a world ERROR.", new ItemAbility(AbilityAction.NULL, "", "", 0, 0)));
 
         // Reforges
         items.put("PRECURSOR_GEAR", new ReforgeMaterial(Material.SKULL_ITEM, ItemFamily.REFORGE_STONE, "Precursor Gear", Rarity.EPIC, "62ffd058-94c8-3b63-b027-5e9f4d52b78e", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWRmODkwOTQ5OGMyNWY2ZTc1ZWYxOWUzNzZhN2Y4NGY2MWFmMjM0NTI1ZDYzOWJhNDYzZjk5MWY0YzgyZDAifX19", "Ancient"));
@@ -128,7 +187,7 @@ public class Items {
         itemMaterials = (HashMap<String, ItemMaterial>) items.clone();
 
         for (Material material : Material.values()) {
-            if (!items.containsKey(material.name())) {
+            if (!items.containsKey(material.name()) && !material.toString().contains("SPADE")) {
                 Rarity rarity = Rarity.COMMON;
                 if (Functions.isColorable(material)) {
                     if (material == Material.INK_SACK)
@@ -174,7 +233,7 @@ public class Items {
         ArrayList<String> keys = new ArrayList<>();
         for (String material : Items.items.keySet()) {
             ItemMaterial item = Items.items.get(material);
-            if (item.getType() == ItemType.ITEM && !material.contains("ENCHANTED_")) {
+            if (item.getType() == ItemType.ITEM && !(item instanceof NormalMaterial) && !material.contains("ENCHANTED_") && !material.contains("BOOK") && !material.contains("BARDING")) {
                 keys.add(material);
             }
         }

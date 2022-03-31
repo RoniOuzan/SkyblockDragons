@@ -12,7 +12,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.getItemMaterial;
 
@@ -40,11 +42,8 @@ public class ViewRecipe implements CommandExecutor, Listener, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        List<String> tabs = new ArrayList<>();
-        for (Recipe recipe : Recipe.values()) {
-            tabs.add(recipe.name());
-        }
-        return tabs;
+        return Arrays.stream(Recipe.values()).map(Enum::name).filter(s -> s.startsWith(args[0])).collect(Collectors.toList());
+
     }
 
     @EventHandler(ignoreCancelled = true)

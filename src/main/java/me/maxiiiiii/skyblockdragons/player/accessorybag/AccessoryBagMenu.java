@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.player.accessorybag;
 
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
@@ -29,8 +30,11 @@ public class AccessoryBagMenu {
         ItemStack close = Functions.createItem(Material.BARRIER, ChatColor.RED + "Close", new ArrayList<>(Arrays.asList("", ChatColor.YELLOW + "Click to close!")));
         inv.setItem(49, close);
 
+        PlayerSD playerSD = SkyblockDragons.getPlayer(player);
+        ArrayList<ItemStack> accessories = playerSD.accessoryBag;
         for (int i = 0; i < 45; i++) {
-            inv.setItem(i, Variables.get(arg.getUniqueId(), "AccessoryBag", i, new ItemStack(Material.AIR)));
+            if (i < accessories.size())
+                inv.setItem(i, accessories.get(i));
         }
 
         player.openInventory(inv);

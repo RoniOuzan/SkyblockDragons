@@ -519,13 +519,13 @@ public class Functions {
     }
 
     public static Block getBlockBelow(Location location) {
-        for (int i = 0; i < 200; i++) {
-            Block block = location.getWorld().getBlockAt(location.getBlockX(), location.getBlockY() - i - 1, location.getBlockZ());
-            if (block.getLocation().clone().add(0, 1, 0).getBlock().getType() == Material.AIR && block.getType().isSolid()) {
+        for (int i = 0; i < location.getY(); i++) {
+            Block block = location.getWorld().getBlockAt(location.getBlockX(), location.getBlockY() - i, location.getBlockZ());
+            if (block.getType().isSolid()) {
                 return block;
             }
         }
-        return location.getWorld().getBlockAt(location);
+        return location.getBlock();
     }
 
     public static Hologram createHologram(Location location, String text) {
@@ -853,7 +853,7 @@ public class Functions {
         double x = Math.floor(location.getX() * 100) / 100;
         double y = Math.floor(location.getY() * 100) / 100;
         double z = Math.floor(location.getZ() * 100) / 100;
-        return x + ", " + y + ", " + z + " " + location.getWorld();
+        return x + ", " + y + ", " + z;
     }
 
     public static boolean chanceOf(double percent) {
@@ -1045,7 +1045,7 @@ public class Functions {
             Location loc = location.clone().add(location.clone().getDirection().multiply(i));
 
 
-            for (Entity entity : loopEntities(loc, 1.5)) {
+            for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1.5, 1.5, 1.5)) {
                 if (entity instanceof Creature) {
                     return entity;
                 }
@@ -1681,5 +1681,10 @@ public class Functions {
             tabs = collection[i].stream().filter(s -> s.startsWith(args[finalI])).collect(Collectors.toList());
         }
         return tabs;
+    }
+
+    public static <T> T getRandom(T... ts) {
+        int random = randomInt(0, ts.length - 1);
+        return ts[random];
     }
 }

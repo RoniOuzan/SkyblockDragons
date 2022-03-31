@@ -63,6 +63,7 @@ public class Item extends ItemStack {
 
     public Item(ItemMaterial material, ItemStack fromItem) {
         this(material, (isStackable(fromItem) ? fromItem.getAmount() : 1), getHotPotato(fromItem), getReforge(fromItem), isRecombed(fromItem), getSkin(fromItem), getEnchants(fromItem), getNecronScrolls(fromItem));
+        Functions.copyNBTStack(this, fromItem);
     }
 
     public void setAmount(int amount) {
@@ -142,6 +143,17 @@ public class Item extends ItemStack {
             lores.add("");
             lores.add(ChatColor.GRAY + "Use this item on an item in an Anvil");
             lores.add(ChatColor.GRAY + "to apply it!");
+        } else if (this.material instanceof MiningMaterial) {
+            lores.add(ChatColor.DARK_GRAY + "Breaking Power " + ((MiningMaterial) material).getBreakingPower());
+            lores.add("");
+
+            stats = applyStats(lores, hotPotato, reforge, rarity, enchants);
+
+            applyEnchants(lores, enchants, enchantList);
+
+            applyDescription(lores);
+
+            applyAbilities(lores, enchants);
         } else if (this.material instanceof ToolMaterial) {
             applyEnchants(lores, enchants, enchantList);
 
@@ -283,6 +295,7 @@ public class Item extends ItemStack {
             lores.add(rarity + " " + this.material.getType().toString());
         }
         lores.replaceAll(s -> s.replace(".0", ""));
+        if (lores.get(0).isEmpty() && lores.size() != 2) lores.remove(0);
         meta.setLore(lores);
 
         if (this.material instanceof NormalMaterial) {
@@ -335,6 +348,7 @@ public class Item extends ItemStack {
     private void applyAbilities(ArrayList<String> lores, Map<EnchantType, Short> enchants) {
         if (this.material instanceof ToolMaterial) {
             ToolMaterial material = (ToolMaterial) this.material;
+            if (material.getAbilities().size() == 0) return;
             if (material.getAbilities().get(0).getAction() != AbilityAction.NULL) {
                 for (ItemAbility ability : material.getAbilities()) {
                     if (isNotLastEmpty(lores)) lores.add("");
@@ -400,7 +414,6 @@ public class Item extends ItemStack {
             String statSymbol = "+";
 
             ChatColor statColor = ChatColor.GREEN;
-            if (getStat(i).isDamageStat()) statColor = ChatColor.RED;
 
             String percent = "";
             if (i == 2 || i == 3 || i == 4 || i == 6) percent = "%";
@@ -473,8 +486,23 @@ public class Item extends ItemStack {
                     statReforge = statReforge.replaceAll("SYMBOL", statSymbol);
                     lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Math.abs(stat) + percent + " " + statPotato + statReforge);
                 }
+            } else if (this.material instanceof MiningMaterial) {
+                MiningMaterial material = (MiningMaterial) this.material;
+
+                if (oneForAll && i == 0)
+                    statAdder += (material.getStats().get(i) + statAdder * 6);
+
+                double stat = material.getStats().get(i) + statAdder;
+                stats[i] = stat;
+                if (material.getStats().get(i) + statAdder != 0) {
+                    if (material.getStats().get(i) + statAdder < 0) statSymbol = "-";
+                    statReforge = statReforge.replaceAll("SYMBOL", statSymbol);
+                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Math.abs(stat) + percent + " " + statPotato + statReforge);
+                }
             }
         }
+
+        if (lores.size() == 0) return stats;
 
         if (!enchants.containsKey(EnchantType.NULL) && !lores.get(lores.size() - 1).equals("")) lores.add("");
 

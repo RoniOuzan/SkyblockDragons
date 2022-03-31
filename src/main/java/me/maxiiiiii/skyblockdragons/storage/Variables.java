@@ -65,15 +65,6 @@ public class Variables {
         return defaultValue;
     }
 
-    public static <T> Variable<T> getVariable(UUID uuid, String id, int data, Class<T> tClass) {
-        for (Variable<?> variable : variables) {
-            if (Objects.equals(variable.uuid, uuid) && variable.id.equals(id) && variable.data== data) {
-                return (Variable<T>) variable;
-            }
-        }
-        return (Variable<T>) NULL;
-    }
-
     public static <T> T get(UUID uuid, String id, T defaultValue) {
         return get(uuid, id, -1, defaultValue);
     }
@@ -197,7 +188,9 @@ public class Variables {
                 String id = variable.getAsJsonObject().get("id").getAsString();
                 int data = variable.getAsJsonObject().get("data").getAsInt();
                 String value = variable.getAsJsonObject().get("value").getAsString();
-                if (Functions.isLong(value)) {
+                if (Functions.isInt(value)) {
+                    variables.add(new Variable<>(uuid, id, data, Integer.parseInt(value)));
+                } else if (Functions.isLong(value)) {
                     variables.add(new Variable<>(uuid, id, data, Long.parseLong(value)));
                 } else if (Functions.isDouble(value)) {
                     variables.add(new Variable<>(uuid, id, data, Double.parseDouble(value)));

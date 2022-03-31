@@ -45,7 +45,7 @@ public class Damage implements Listener {
         entity.entity.setNoDamageTicks(0);
         entity.entity.setMaximumNoDamageTicks(0);
 
-        if (cooldown(player, player.damageCooldown,  500 - (long) (player.attackSpeed * 2.5), false)) return -3;
+        if (cooldown(player, player.getDamageCooldown(damageType),  500 - (long) (player.attackSpeed * 2.5), false)) return -3;
 
         DamageCalculator damageCalculator = this.getDamage(player, entity, damageType);
         double damage = damageCalculator.damage;

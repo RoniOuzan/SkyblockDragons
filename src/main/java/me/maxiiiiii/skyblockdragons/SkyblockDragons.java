@@ -8,7 +8,7 @@ import me.maxiiiiii.skyblockdragons.material.Items;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
 import me.maxiiiiii.skyblockdragons.item.anvil.AnvilCommand;
 import me.maxiiiiii.skyblockdragons.player.bank.BankCommand;
-import me.maxiiiiii.skyblockdragons.player.bits.BitsCommand;
+import me.maxiiiiii.skyblockdragons.commands.BitsCommand;
 import me.maxiiiiii.skyblockdragons.commands.*;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.commands.CraftingTable;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.commands.ViewRecipe;
@@ -26,9 +26,8 @@ import me.maxiiiiii.skyblockdragons.player.skill.SkillAdminCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillListener;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillMenuCommand;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.events.OnSlotChange;
+import me.maxiiiiii.skyblockdragons.events.UpdateStatsListeners;
 import me.maxiiiiii.skyblockdragons.player.StatCommand;
-import me.maxiiiiii.skyblockdragons.storage.Variable;
 import me.maxiiiiii.skyblockdragons.storage.VariableCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.*;
@@ -38,7 +37,8 @@ import me.maxiiiiii.skyblockdragons.util.objects.FlyTo;
 import me.maxiiiiii.skyblockdragons.util.objects.ParticlePacketUtil;
 import me.maxiiiiii.skyblockdragons.util.objects.Serializer;
 import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
-import me.maxiiiiii.skyblockdragons.worlds.deepmines.DeepMines;
+import me.maxiiiiii.skyblockdragons.worlds.mining.Mining;
+import me.maxiiiiii.skyblockdragons.worlds.mining.deepmines.DeepMines;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
@@ -51,7 +51,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -60,8 +59,6 @@ import java.util.stream.Collectors;
 
 public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static final HashMap<UUID, PlayerSD> players = new HashMap<>();
-    public static final HashMap<UUID, Long> bits = new HashMap<>();
-    public static final HashMap<UUID, Long> playTime = new HashMap<>();
     public static final HashMap<UUID, ArrayList<Inventory>> playerGoBack = new HashMap<>();
     public static final ArrayList<Entity> entitiesToKill = new ArrayList<>();
     public static boolean disablePlayTime = false;
@@ -77,10 +74,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
     public static SkyblockDragons getInstance() {
         return plugin;
-    }
-
-    public static Serializer getSerializer() {
-        return serializer;
     }
 
     @Override
@@ -110,7 +103,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new JoinQuitListener(), this);
         getServer().getPluginManager().registerEvents(new ClickCanceller(), this);
         getServer().getPluginManager().registerEvents(new Damage(), this);
-        getServer().getPluginManager().registerEvents(new OnSlotChange(), this);
+        getServer().getPluginManager().registerEvents(new UpdateStatsListeners(), this);
         getServer().getPluginManager().registerEvents(new GoBack(), this);
         getServer().getPluginManager().registerEvents(new PetListener(), this);
         getServer().getPluginManager().registerEvents(new ClickListener(), this);
@@ -120,6 +113,9 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerClickOnPlayerListener(), this);
         getServer().getPluginManager().registerEvents(new ArmorStandManipulateListener(), this);
         getServer().getPluginManager().registerEvents(new PlaceHeadListener(), this);
+        getServer().getPluginManager().registerEvents(new PickUpListeners(), this);
+
+        new Mining(this);
 
         // Abilities
         getServer().getPluginManager().registerEvents(new Aspect_of_The_End(), this);
@@ -150,8 +146,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Axe_of_The_Shredded(), this);
         getServer().getPluginManager().registerEvents(new Midas_Staff(), this);
         getServer().getPluginManager().registerEvents(new ERRORMerang_Wand(), this);
-
-        getServer().getPluginManager().registerEvents(new DeepMines(this), this);
 
         // Command Listeners
         getServer().getPluginManager().registerEvents(new ItemCommand(), this);
@@ -211,16 +205,14 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (PlayerSD player : players.values()) {
-//                player.updatePlayerInventory();
+                // playtime
+                player.addPlayTime(20);
+
                 player.setScoreboardScores();
 
                 player.setFoodLevel(20);
 
                 player.applyStats(true);
-
-                // playtime
-                playTime.put(player.getUniqueId(), playTime.getOrDefault(player.getUniqueId(), 0L) + 5L);
-                Variables.set(player.getUniqueId(), "PlayTime", playTime.get(player.getUniqueId()));
 
                 // pet sound
                 if (player.activePet >= 0)
@@ -327,11 +319,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             holo.delete();
         }
 
-        for (EntitySD entity : EntitySD.entities.values()) {
-            if (entity instanceof PlayerSD)
-                continue;
-            entity.kill();
-        }
+        EntitySD.entities.values().stream().filter(e -> !(e instanceof PlayerSD)).forEach(e -> e.entity.remove());
 
         for (Entity entity : entitiesToKill) {
             if (!entity.isDead())

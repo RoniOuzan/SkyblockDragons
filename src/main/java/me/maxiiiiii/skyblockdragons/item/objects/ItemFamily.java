@@ -44,6 +44,13 @@ public enum ItemFamily {
     VANILLA,
     SLIME,
     PIGMAN,
+    WOOD,
+    LEATHER,
+    STONE,
+    CHAIN,
+    IRON,
+    GOLD,
+    DIAMOND,
     NULL
 }
 

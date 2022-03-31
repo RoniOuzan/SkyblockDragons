@@ -1,5 +1,6 @@
-package me.maxiiiiii.skyblockdragons.worlds.deepmines;
+package me.maxiiiiii.skyblockdragons.worlds.mining.deepmines;
 
+import de.tr7zw.changeme.nbtapi.NBTEntity;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
@@ -44,17 +45,32 @@ public class BreakBlockEvent implements Listener {
 
         if (!block.getType().toString().contains("_ORE") && e.getBlock().getType() != Material.STONE) return;
 
-        e.setCancelled(true);
-        Material blockType = block.getType();
+        e.setDropItems(false);
+        e.setExpToDrop((int) Math.ceil(Math.sqrt(blocksXp.get(e.getBlock().getType()))));
         int amount = 1 + Functions.randomInt(0, Functions.getEnchantLevel(item, EnchantType.FORTUNE));
         ItemStack drop = new Item(ItemMaterial.get(((String) Arrays.stream(block.getType().name().split("_ORE")).map(s -> s.contains("IRON") || s.contains("GOLD") ? s + "_INGOT" : s).toArray()[0]).replace("GLOWING_", "")), amount);
         if (Functions.getEnchantLevel(item, EnchantType.TELEKINESIS) > 0) {
             player.give(drop);
         } else {
-            block.getWorld().dropItemNaturally(block.getLocation(), drop);
+            org.bukkit.entity.Item dropped = block.getWorld().dropItemNaturally(block.getLocation().add(0, 1, 0), drop);
+            dropped.addScoreboardTag(player.getName());
         }
-        player.getSkill().give(SkillType.MINING, blocksXp.get(blockType));
-        e.getBlock().setType(Material.BEDROCK);
-        Functions.Wait(60L, () -> e.getBlock().setType(blockType));
+        player.getSkill().give(SkillType.MINING, blocksXp.get(getOre(e.getBlock())));
+        Functions.Wait(1L, () -> e.getBlock().setType(Material.BEDROCK));
+        Functions.Wait(60L, () -> e.getBlock().setType(getOre(e.getBlock())));
+    }
+
+    public static Material getOre(Block block) {
+        if (Functions.randomInt(1, 2) == 1) {
+            return Material.STONE;
+        }
+        if (block.getLocation().getY() > 168) {
+            return Functions.getRandom(Material.COAL_ORE, Material.GOLD_ORE, Material.IRON_ORE);
+        } else if (block.getLocation().getY() > 122) {
+            return Functions.getRandom(Material.REDSTONE_ORE, Material.LAPIS_ORE, Material.EMERALD_ORE);
+        } else if (block.getLocation().getY() > 71) {
+            return Functions.getRandom(Material.DIAMOND_ORE, Material.DIAMOND_BLOCK, Material.OBSIDIAN);
+        }
+        return Material.STONE;
     }
 }

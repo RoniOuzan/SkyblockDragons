@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.commands;
 
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import org.bukkit.Bukkit;
@@ -13,10 +14,10 @@ public class PlayTime implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            Player player = (Player) sender;
+            PlayerSD player = SkyblockDragons.getPlayer((Player) sender);
             if (args.length > 0) {
                 if (Functions.isPlayerName(args[0])) {
-                    player = Bukkit.getPlayer(args[0]);
+                    player = SkyblockDragons.getPlayer(args[0]);
                 } else if (args[0].equalsIgnoreCase("disable")) {
                     SkyblockDragons.disablePlayTime = true;
                     sender.sendMessage(ChatColor.RED + "You have been disabled playtime until the next reload!");
@@ -36,7 +37,7 @@ public class PlayTime implements CommandExecutor {
                 }
             }
 
-            long timePlayed = SkyblockDragons.playTime.get(player.getUniqueId()) / 1200;
+            long timePlayed = player.playTime / 1200;
 
             long hours = timePlayed / 60;
             long minutes = timePlayed - (hours * 60);

@@ -8,8 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,12 +25,18 @@ public enum Recipe {
     private final Item[] items;
     private final int slotToUpgrade;
     private final boolean viewable;
+    private final boolean shapeless;
 
-    Recipe(Item item, Item[] items, int slotToUpgrade, boolean viewable) {
+    Recipe(Item item, Item[] items, int slotToUpgrade, boolean viewable, boolean shapeless) {
         this.item = item;
         this.items = items;
         this.slotToUpgrade = slotToUpgrade;
         this.viewable = viewable;
+        this.shapeless = shapeless;
+    }
+
+    Recipe(Item item, Item[] items, int slotToUpgrade, boolean viewable) {
+        this(item, items, slotToUpgrade, viewable, false);
     }
 
     Recipe(Item item, Item[] items, int slotToUpgrade) {
