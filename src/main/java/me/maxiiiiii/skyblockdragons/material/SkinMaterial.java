@@ -13,6 +13,6 @@ public class SkinMaterial extends ItemMaterial {
     public static final SkinMaterial NULL = new SkinMaterial(Material.BARRIER, ItemFamily.NULL,"Null", Rarity.SPECIAL, "", "");
 
     public SkinMaterial(Material material, ItemFamily family, String name, Rarity rarity, String id, String nbt) {
-        super(material, family, name, ItemType.SKIN, rarity, id, nbt);
+        super(material, family, name, ItemType.SKIN, rarity, id, nbt, 0);
     }
 }

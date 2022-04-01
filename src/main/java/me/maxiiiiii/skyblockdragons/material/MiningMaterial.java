@@ -14,7 +14,7 @@ public class MiningMaterial extends ToolMaterial {
     private final int breakingPower;
 
     public MiningMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, ItemStats stats, int breakingPower, String description, List<ItemAbility> abilities) {
-        super(material, family, name, type, rarity, id, nbt, description, abilities);
+        super(material, family, name, type, rarity, id, nbt, 0, description, abilities);
         this.stats = stats;
         this.breakingPower = breakingPower;
     }

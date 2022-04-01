@@ -2,14 +2,21 @@ package me.maxiiiiii.skyblockdragons.entity;
 
 import com.google.common.reflect.TypeToken;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.damage.Damage;
+import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
+import me.maxiiiiii.skyblockdragons.material.ArmorMaterial;
+import me.maxiiiiii.skyblockdragons.material.ToolMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
+import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Type;
@@ -21,8 +28,13 @@ public class EntitySD {
 
     public LivingEntity entity;
     public EntityMaterial type;
-    public PlayerSD attacker;
+    public EntitySD attacker;
     public Location location;
+
+    public final Cooldown actionBarCooldown = new Cooldown();
+    public final Cooldown damageCooldownMelee = new Cooldown();
+    public final Cooldown damageCooldownMagic = new Cooldown();
+    public final Cooldown damageCooldownProjectile = new Cooldown();
 
     public EntitySD(Location location, EntityMaterial type) {
         this.type = type;
@@ -106,11 +118,11 @@ public class EntitySD {
         entities.remove(this.entity.getUniqueId());
     }
 
-    public void setAttacker(PlayerSD attacker) {
+    public void setAttacker(EntitySD attacker) {
         this.attacker = attacker;
     }
 
-    public PlayerSD getKiller() {
+    public EntitySD getAttacker() {
         return this.attacker;
     }
 
@@ -148,6 +160,91 @@ public class EntitySD {
 
     public Location getLocation() {
         return this.entity.getLocation();
+    }
+
+    public short getEnchantLevel(EnchantType enchant) {
+        return Functions.getEnchantLevel(entity.getEquipment().getItemInMainHand(), enchant);
+    }
+
+    public short getEnchantLevel(EnchantType enchant, Condition condition) {
+        if (!condition.check())
+            return 0;
+        return Functions.getEnchantLevel(entity.getEquipment().getItemInMainHand(), enchant);
+    }
+
+    public EntityEquipment getEquipment() {
+        return this.entity.getEquipment();
+    }
+
+    public class Equipment {
+        public ItemStack tool;
+        public ItemStack helmet;
+        public ItemStack chestplate;
+        public ItemStack leggings;
+        public ItemStack boots;
+        public ToolMaterial toolMaterial;
+        public ArmorMaterial helmetMaterial;
+        public ArmorMaterial chestplateMaterial;
+        public ArmorMaterial leggingsMaterial;
+        public ArmorMaterial bootsMaterial;
+        public String fullSet;
+
+        public Equipment() {
+            tool = entity.getEquipment().getItemInMainHand();
+            toolMaterial = ToolMaterial.NULL;
+            if (Functions.getItemMaterial(tool) instanceof ToolMaterial) {
+                toolMaterial = (ToolMaterial) Functions.getItemMaterial(tool);
+            }
+
+            helmet = entity.getEquipment().getHelmet();
+            helmetMaterial = ArmorMaterial.NULL;
+            if (Functions.getItemMaterial(helmet) instanceof ArmorMaterial) {
+                helmetMaterial = (ArmorMaterial) Functions.getItemMaterial(helmet);
+            }
+
+            chestplate = entity.getEquipment().getChestplate();
+            chestplateMaterial = ArmorMaterial.NULL;
+            if (Functions.getItemMaterial(chestplate) instanceof ArmorMaterial) {
+                chestplateMaterial = (ArmorMaterial) Functions.getItemMaterial(chestplate);
+            }
+
+            leggings = entity.getEquipment().getLeggings();
+            leggingsMaterial = ArmorMaterial.NULL;
+            if (Functions.getItemMaterial(leggings) instanceof ArmorMaterial) {
+                leggingsMaterial = (ArmorMaterial) Functions.getItemMaterial(leggings);
+            }
+
+            boots = entity.getEquipment().getBoots();
+            bootsMaterial = ArmorMaterial.NULL;
+            if (Functions.getItemMaterial(boots) instanceof ArmorMaterial) {
+                bootsMaterial = (ArmorMaterial) Functions.getItemMaterial(boots);
+            }
+
+            fullSet = "";
+            if (helmetMaterial.getFullSet().getName().equals(chestplateMaterial.getFullSet().getName()) && chestplateMaterial.getFullSet().getName().equals(leggingsMaterial.getFullSet().getName()) && leggingsMaterial.getFullSet().getName().equals(bootsMaterial.getFullSet().getName())) {
+                fullSet = helmetMaterial.getFullSet().getName();
+            }
+        }
+    }
+
+    public Equipment getItems() {
+        return new Equipment();
+    }
+
+    public Cooldown getDamageCooldown(Damage.DamageType type) {
+        switch (type) {
+            case NORMAL:
+            case FALL:
+                return this.damageCooldownMelee;
+
+            case PROJECTILE:
+                return this.damageCooldownProjectile;
+
+            case MAGIC:
+            case CRITICAL_MAGIC:
+                return this.damageCooldownMagic;
+        }
+        return this.damageCooldownMelee;
     }
 
     public static class EntityAssociateException extends RuntimeException {

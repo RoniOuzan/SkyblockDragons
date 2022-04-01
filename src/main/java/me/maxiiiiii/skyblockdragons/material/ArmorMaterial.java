@@ -18,7 +18,7 @@ public class ArmorMaterial extends ItemMaterial {
     private Color color;
 
     public ArmorMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, ItemStats stats, String description, ItemFullSet fullSet, Color color) {
-        super(material, family, name, type, rarity, id, nbt);
+        super(material, family, name, type, rarity, id, nbt, 0);
         this.stats = stats;
         this.description = description;
         this.fullSet = fullSet == null ? ItemFullSet.NULL : fullSet;

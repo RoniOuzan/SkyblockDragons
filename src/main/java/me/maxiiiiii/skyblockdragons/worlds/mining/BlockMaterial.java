@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.worlds.mining;
 import org.bukkit.Material;
 
 public enum BlockMaterial {
-    STONE(Material.STONE, 15, 1),
+    STONE(15, 1),
     COAL_ORE(25, 1),
     IRON_ORE(25, 2),
     GOLD_ORE(25, 2),
@@ -28,5 +28,11 @@ public enum BlockMaterial {
     BlockMaterial(int blockStrength, int breakingPower) {
         this(null, blockStrength, breakingPower);
         this.material = Material.getMaterial(this.name());
+    }
+
+    public static BlockMaterial get(String name) {
+        if (name.contains("GLOWING_REDSTONE"))
+            name = name.replace("GLOWING_", "");
+        return BlockMaterial.valueOf(name);
     }
 }

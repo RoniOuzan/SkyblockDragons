@@ -42,7 +42,7 @@ public class Mining implements Listener {
 
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
         Block block = e.getBlock();
-        BlockMaterial blockMaterial = BlockMaterial.valueOf(block.getType().toString());
+        BlockMaterial blockMaterial = BlockMaterial.get(block.getType().toString());
 
         double miningTime = (blockMaterial.blockStrength * 50) / Math.max(player.miningSpeed, 1);
 

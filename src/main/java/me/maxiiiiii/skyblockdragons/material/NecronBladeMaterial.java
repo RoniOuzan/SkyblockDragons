@@ -38,7 +38,7 @@ public class NecronBladeMaterial extends SwordMaterial {
 
     public static class NecronBladeScroll extends ToolMaterial {
         public NecronBladeScroll(Material material, String name, Rarity rarity, String description, ArrayList<ItemAbility> abilities) {
-            super(material, ItemFamily.SCROLL, name, ItemType.ITEM, rarity, "", "", description, abilities);
+            super(material, ItemFamily.SCROLL, name, ItemType.ITEM, rarity, "", "", 0, description, abilities);
         }
 
         public NecronBladeScroll(Material material, String name, Rarity rarity, String description, ItemAbility ability) {

@@ -50,6 +50,9 @@ public enum ItemFamily {
     CHAIN,
     IRON,
     GOLD,
+    LAPIS,
+    REDSTONE,
+    EMERALD,
     DIAMOND,
     NULL
 }

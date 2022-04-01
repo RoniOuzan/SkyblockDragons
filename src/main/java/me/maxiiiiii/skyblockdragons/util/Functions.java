@@ -12,6 +12,7 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
@@ -142,7 +143,7 @@ public class Functions {
     }
 
     public static void setLore(ItemStack item, String... lore) {
-        ArrayList<String> lores = (ArrayList<String>) Arrays.asList(lore);
+        ArrayList<String> lores = new ArrayList<>(Arrays.asList(lore));
         setLore(item, lores);
     }
 
@@ -1066,6 +1067,15 @@ public class Functions {
             return true;
         }
         cooldown.setCooldown(player,System.currentTimeMillis());
+        return false;
+    }
+
+    public static boolean cooldown(EntitySD player, Cooldown cooldown, long milliseconds) {
+        long timeLeft = System.currentTimeMillis() - cooldown.getCooldown(player.entity);
+        if (timeLeft < milliseconds) {
+            return true;
+        }
+        cooldown.setCooldown(player.entity, System.currentTimeMillis());
         return false;
     }
 

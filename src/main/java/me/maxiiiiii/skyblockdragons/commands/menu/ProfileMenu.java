@@ -26,7 +26,7 @@ public class ProfileMenu {
             skullMeta.setOwner(player.getName());
         }
         head.setItemMeta(skullMeta);
-        Functions.setLore(head, new ArrayList<>(Arrays.asList(
+        Functions.setLore(head,
                 Stat.DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getDamage()),
                 Stat.STRENGTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getStrength()),
                 Stat.CRIT_DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getCritDamage() + "%"),
@@ -36,9 +36,15 @@ public class ProfileMenu {
                 Stat.ABILITY_DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getAbilityDamage()),
                 Stat.HEALTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getHealth()),
                 Stat.DEFENSE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getDefense()),
+                Stat.TRUE_DEFENSE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getTrueDefense()),
                 Stat.SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getSpeed() + "%"),
-                Stat.INTELLIGENCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getIntelligence())
-        )));
+                Stat.INTELLIGENCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getIntelligence()),
+                Stat.MINING_SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getMiningSpeed()),
+                Stat.MINING_FORTUNE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getMiningFortune()),
+                Stat.MAGIC_FIND.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getMagicFind()),
+                Stat.PET_LUCK.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getPetLuck()),
+                Stat.SEA_CREATURE_CHANCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getSeaCreatureChance())
+        );
         inventory.setItem(22, head);
 
         ItemStack tool = target.getEquipment().getItemInMainHand();

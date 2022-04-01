@@ -38,9 +38,11 @@ import me.maxiiiiii.skyblockdragons.util.objects.ParticlePacketUtil;
 import me.maxiiiiii.skyblockdragons.util.objects.Serializer;
 import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
 import me.maxiiiiii.skyblockdragons.worlds.mining.Mining;
-import me.maxiiiiii.skyblockdragons.worlds.mining.deepmines.DeepMines;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
@@ -159,6 +161,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new WardrobeListener(), this);
         getServer().getPluginManager().registerEvents(new PetMenuCommand(), this);
         getServer().getPluginManager().registerEvents(new BankCommand(), this);
+        getServer().getPluginManager().registerEvents(new SellCommand(), this);
 
         // Commands
         getCommand("Stat").setExecutor(new StatCommand());
@@ -193,6 +196,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("Coop").setExecutor(new CoopCommand());
         getCommand("Coop").setTabCompleter(new CoopCommand());
         getCommand("Variables").setExecutor(new VariableCommand());
+        getCommand("Sell").setExecutor(new SellCommand());
 
 //        Coop.load();
         EntitySD.loadLocations();

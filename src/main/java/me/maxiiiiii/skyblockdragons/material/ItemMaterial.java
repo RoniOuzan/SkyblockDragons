@@ -16,8 +16,9 @@ public class ItemMaterial {
     protected Rarity rarity;
     protected String id;
     protected String nbt;
+    protected double sellPrice;
 
-    public ItemMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt) {
+    public ItemMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, double sellPrice) {
         this.material = material;
         this.family = family;
         this.name = name;
@@ -25,6 +26,7 @@ public class ItemMaterial {
         this.rarity = rarity;
         this.id = id;
         this.nbt = nbt;
+        this.sellPrice = sellPrice;
     }
 
     public String getName() {

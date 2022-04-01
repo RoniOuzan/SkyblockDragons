@@ -121,3 +121,6 @@ commands:
     usage: /<command> <text>
     aliases:
       - var
+  Sell:
+    permission: skyblockdragons.sell
+    usage: /<command>

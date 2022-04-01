@@ -14,7 +14,7 @@ public class PowerOrbMaterial extends ItemMaterial {
     private final String powerOrbDescription;
 
     public PowerOrbMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, ItemAbility ability, String powerOrbDescription) {
-        super(material, family, name, type, rarity, id, nbt);
+        super(material, family, name, type, rarity, id, nbt, 0);
         this.ability = ability;
         this.powerOrbName = name.split(" Power ")[0];
         this.powerOrbDescription = powerOrbDescription;

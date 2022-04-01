@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
+import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.ChatColor;
@@ -11,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public class EntityMaterial implements ConfigurationSerializable {
     public static HashMap<String, EntityMaterial> Entities = new HashMap<>();
 
@@ -21,6 +23,8 @@ public class EntityMaterial implements ConfigurationSerializable {
     public int level;
     public double health;
     public double defense;
+    public double damage;
+    public double trueDamage;
     public Equipment equipment;
     public double speed;
     public double knockbackResistance;
@@ -29,12 +33,14 @@ public class EntityMaterial implements ConfigurationSerializable {
 
     public ItemDrop[] drops;
 
-    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, Equipment equipment, double speed, double knockbackResistance, boolean ai, double combatXp, ItemDrop... drops) {
+    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance, boolean ai, double combatXp, ItemDrop... drops) {
         this.entityType = entityType;
         this.name = name;
         this.level = level;
         this.health = health;
         this.defense = defense;
+        this.damage = damage;
+        this.trueDamage = trueDamage;
         this.equipment = equipment;
         this.speed = speed / 500;
         this.knockbackResistance = knockbackResistance;
@@ -43,8 +49,8 @@ public class EntityMaterial implements ConfigurationSerializable {
         this.drops = drops;
     }
 
-    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, Equipment equipment, double speed, double knockbackResistance, double combatXp, ItemDrop... drops) {
-        this(entityType, name, level, health, defense, equipment, speed, knockbackResistance, true, combatXp, drops);
+    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance, double combatXp, ItemDrop... drops) {
+        this(entityType, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, true, combatXp, drops);
     }
 
     public static void registerItems() {
@@ -63,6 +69,8 @@ public class EntityMaterial implements ConfigurationSerializable {
                 1,
                 50,
                 0,
+                40,
+                0,
                 new Equipment(Material.GOLD_HELMET, null, null, null, Material.BOW, null),
                 100,
                 0,
@@ -77,6 +85,8 @@ public class EntityMaterial implements ConfigurationSerializable {
                 EntityType.ZOMBIE,
                 ChatColor.BLUE + "Lapis Zombie",
                 2,
+                80,
+                0,
                 100,
                 0,
                 new Equipment(Material.LAPIS_BLOCK, null, null, null, Material.STONE_SWORD, null),
@@ -91,8 +101,10 @@ public class EntityMaterial implements ConfigurationSerializable {
                 EntityType.PIG_ZOMBIE,
                 ChatColor.RED + "Redstone Pigman",
                 3,
-                300,
+                150,
                 5,
+                150,
+                0,
                 new Equipment(null, null, null, null, Material.GOLD_SWORD, null),
                 110,
                 0,
@@ -111,8 +123,10 @@ public class EntityMaterial implements ConfigurationSerializable {
                 EntityType.SLIME,
                 ChatColor.GREEN + "Slime",
                 5,
-                350,
+                200,
                 10,
+                150,
+                0,
                 new Equipment(),
                 120,
                 0,
@@ -122,11 +136,11 @@ public class EntityMaterial implements ConfigurationSerializable {
                 new RareDrop(ItemMaterial.get("SLIME_TALISMAN"), 1, 1d, RareDrop.Rarity.RARE)
         ));
 
-        Entities.put("DUMMY", new EntityMaterial(EntityType.ZOMBIE, "Dummy", Integer.MAX_VALUE, 500000, 0, new Equipment(), 0, 1, false, 0));
+        Entities.put("DUMMY", new EntityMaterial(EntityType.ZOMBIE, "Dummy", Integer.MAX_VALUE, 500000, 0, 0, 0, new Equipment(), 0, 1, false, 0));
 
-        Entities.put("PLAYER", new EntityMaterial(EntityType.PLAYER, "", -1, -1, -1, new Equipment(), -1, -1, -1));
+        Entities.put("PLAYER", new EntityMaterial(EntityType.PLAYER, "", -1, -1, -1, -1, -1, new Equipment(), -1, -1, -1));
 
-        NULL = new EntityMaterial(EntityType.SKELETON, "Null", 0, 1, 0, new Equipment(), 0, 1, 0);
+        NULL = new EntityMaterial(EntityType.SKELETON, "Null", 0, 1, 0, 0, 0, new Equipment(), 0, 1, 0);
     }
 
     public static EntityMaterial get(String name) {

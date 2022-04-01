@@ -14,7 +14,7 @@ public class NormalMaterial extends ItemMaterial {
     private final boolean stackAble;
 
     public NormalMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, String description, boolean isEnchanted, boolean showRecipe, boolean stackAble) {
-        super(material, family, name, type, rarity, id, nbt);
+        super(material, family, name, type, rarity, id, nbt, 0);
         this.description = description;
         this.isEnchanted = isEnchanted;
         this.showRecipe = showRecipe;

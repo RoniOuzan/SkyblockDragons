@@ -4,7 +4,6 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import lombok.Setter;
-import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.ItemDrop;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
@@ -113,11 +112,6 @@ public class PlayerSD extends EntitySD implements Player {
 
     public ArrayList<ItemStack> accessoryBag;
 
-    public final Cooldown actionBarCooldown = new Cooldown();
-    public final Cooldown damageCooldownMelee = new Cooldown();
-    public final Cooldown damageCooldownMagic = new Cooldown();
-    public final Cooldown damageCooldownProjectile = new Cooldown();
-
     public final Cooldown updateStatsCooldown = new Cooldown();
 
     public static final double HEALTH_REGEN = 1.02;
@@ -220,22 +214,6 @@ public class PlayerSD extends EntitySD implements Player {
         Variables.set(player.getUniqueId(), "Bits", this.bits);
     }
 
-    public Cooldown getDamageCooldown(Damage.DamageType type) {
-        switch (type) {
-            case NORMAL:
-            case FALL:
-                return this.damageCooldownMelee;
-
-            case PROJECTILE:
-                return this.damageCooldownProjectile;
-
-            case MAGIC:
-            case CRITICAL_MAGIC:
-                return this.damageCooldownMagic;
-        }
-        return this.damageCooldownMelee;
-    }
-
     public void setActivePet(int activePet) {
         this.activePet = activePet;
         Variables.set(player.getUniqueId(), "ActivePet", activePet);
@@ -267,6 +245,14 @@ public class PlayerSD extends EntitySD implements Player {
 
     public double getPurse() {
         return SkyblockDragons.economy.getBalance(this);
+    }
+
+    public void addBalance(double amount) {
+        SkyblockDragons.economy.depositPlayer(this, amount);
+    }
+
+    public void removeBalance(double amount) {
+        SkyblockDragons.economy.withdrawPlayer(this, amount);
     }
 
     public double getPersonalBank() {
@@ -399,40 +385,21 @@ public class PlayerSD extends EntitySD implements Player {
     }
 
     public void applyStats(boolean manaRegan) {
-        ItemStack tool = this.getPlayer().getEquipment().getItemInMainHand();
-        ToolMaterial toolMaterial = ToolMaterial.NULL;
-        if (Functions.getItemMaterial(tool) instanceof ToolMaterial) {
-            toolMaterial = (ToolMaterial) Functions.getItemMaterial(tool);
-        }
+        Equipment equipment = this.getItems();
 
-        ItemStack helmet = this.getPlayer().getEquipment().getHelmet();
-        ArmorMaterial helmetMaterial = ArmorMaterial.NULL;
-        if (Functions.getItemMaterial(helmet) instanceof ArmorMaterial) {
-            helmetMaterial = (ArmorMaterial) Functions.getItemMaterial(helmet);
-        }
+        ItemStack tool = equipment.tool;
+        ItemStack helmet = equipment.helmet;
+        ItemStack chestplate = equipment.chestplate;
+        ItemStack leggings = equipment.leggings;
+        ItemStack boots = equipment.boots;
 
-        ItemStack chestplate = this.getPlayer().getEquipment().getChestplate();
-        ArmorMaterial chestplateMaterial = ArmorMaterial.NULL;
-        if (Functions.getItemMaterial(chestplate) instanceof ArmorMaterial) {
-            chestplateMaterial = (ArmorMaterial) Functions.getItemMaterial(chestplate);
-        }
+        ToolMaterial toolMaterial = equipment.toolMaterial;
+        ArmorMaterial helmetMaterial = equipment.helmetMaterial;
+        ArmorMaterial chestplateMaterial = equipment.chestplateMaterial;
+        ArmorMaterial leggingsMaterial = equipment.leggingsMaterial;
+        ArmorMaterial bootsMaterial = equipment.bootsMaterial;
 
-        ItemStack leggings = this.getPlayer().getEquipment().getLeggings();
-        ArmorMaterial leggingsMaterial = ArmorMaterial.NULL;
-        if (Functions.getItemMaterial(leggings) instanceof ArmorMaterial) {
-            leggingsMaterial = (ArmorMaterial) Functions.getItemMaterial(leggings);
-        }
-
-        ItemStack boots = this.getPlayer().getEquipment().getBoots();
-        ArmorMaterial bootsMaterial = ArmorMaterial.NULL;
-        if (Functions.getItemMaterial(boots) instanceof ArmorMaterial) {
-            bootsMaterial = (ArmorMaterial) Functions.getItemMaterial(boots);
-        }
-
-        String fullSet = "";
-        if (helmetMaterial.getFullSet().getName().equals(chestplateMaterial.getFullSet().getName()) && chestplateMaterial.getFullSet().getName().equals(leggingsMaterial.getFullSet().getName()) && leggingsMaterial.getFullSet().getName().equals(bootsMaterial.getFullSet().getName())) {
-            fullSet = helmetMaterial.getFullSet().getName();
-        }
+        String fullSet = equipment.fullSet;
 
         damage = 0;
         strength = 0;
@@ -454,6 +421,8 @@ public class PlayerSD extends EntitySD implements Player {
 
         if (Mining.miningWorlds.contains(player.getWorld().getName())) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, -1, false, false));
+        } else {
+            player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
         }
 
         for (ItemStack accessory : accessoryBag) {
@@ -1949,6 +1918,11 @@ public class PlayerSD extends EntitySD implements Player {
     @Override
     public void setNoDamageTicks(int ticks) {
         this.player.setNoDamageTicks(ticks);
+    }
+
+    @Override
+    public Player getKiller() {
+        return this.player.getKiller();
     }
 
     @Override

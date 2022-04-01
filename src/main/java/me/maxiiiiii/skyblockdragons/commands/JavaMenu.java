@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.commands;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.commands.menu.SkyblockMenu;
 import me.maxiiiiii.skyblockdragons.player.bank.BankMenu;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.CraftingTableMenu;
 import me.maxiiiiii.skyblockdragons.player.pet.PetMenu;
@@ -22,7 +23,7 @@ public class JavaMenu implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            Player player = (Player) sender;
+            PlayerSD player = SkyblockDragons.getPlayer((Player) sender);
             if (args.length > 0) {
                 if (args[0].equals("profile")) {
                     openSkyblockProfileMenu(player);
@@ -43,7 +44,7 @@ public class JavaMenu implements CommandExecutor, Listener {
             if (e.getClickedInventory().getTitle().contains("Skyblock Menu") || e.getClickedInventory().getTitle().contains("Your Skyblock Profile")) {
                 e.setCancelled(true);
                 if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Your Skyblock Profile")) {
-                    openSkyblockProfileMenu((Player) e.getWhoClicked());
+                    openSkyblockProfileMenu(SkyblockDragons.getPlayer((Player) e.getWhoClicked()));
                 }
             }
 

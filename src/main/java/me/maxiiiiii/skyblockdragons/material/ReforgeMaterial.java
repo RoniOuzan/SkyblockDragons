@@ -15,7 +15,7 @@ public class ReforgeMaterial extends ItemMaterial {
     private String reforgeName;
 
     public ReforgeMaterial(Material material, ItemFamily family, String name, Rarity rarity, String id, String nbt, String reforgeName) {
-        super(material, family, name, ItemType.REFORGE_STONE, rarity, id, nbt);
+        super(material, family, name, ItemType.REFORGE_STONE, rarity, id, nbt, 0);
         this.reforgeName = reforgeName;
     }
 }

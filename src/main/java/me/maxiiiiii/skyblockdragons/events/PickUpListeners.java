@@ -18,6 +18,6 @@ public class PickUpListeners implements Listener {
     public void onPickup(PlayerPickupItemEvent e) {
         if (e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
 
-        if (!e.getItem().getScoreboardTags().contains(e.getPlayer().getName())) e.setCancelled(true);
+        if (!e.getItem().getScoreboardTags().contains(e.getPlayer().getName()) && e.getItem().getScoreboardTags().size() > 0) e.setCancelled(true);
     }
 }

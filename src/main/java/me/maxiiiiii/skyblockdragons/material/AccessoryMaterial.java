@@ -16,7 +16,7 @@ public class AccessoryMaterial extends ItemMaterial {
     private final String description;
 
     public AccessoryMaterial(Material material, ItemFamily family, String name, Rarity rarity, String id, String nbt, ItemStats stats, String description) {
-        super(material, family, name, ItemType.ACCESSORY, rarity, id, nbt);
+        super(material, family, name, ItemType.ACCESSORY, rarity, id, nbt, 0);
         this.stats = stats;
         this.description = description;
     }
