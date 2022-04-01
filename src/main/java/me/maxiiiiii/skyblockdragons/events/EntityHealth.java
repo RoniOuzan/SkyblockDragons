@@ -43,7 +43,7 @@ public class EntityHealth implements Listener {
                 public void run() {
                     addHealth((LivingEntity) e.getEntity());
                 }
-            }.runTaskLater(SkyblockDragons.getInstance(), 1L);
+            }.runTaskLater(SkyblockDragons.plugin, 1L);
         }
     }
 

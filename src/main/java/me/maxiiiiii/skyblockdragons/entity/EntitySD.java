@@ -40,6 +40,9 @@ public class EntitySD {
         this.type = type;
         this.entity = (LivingEntity) location.getWorld().spawnEntity(location, type.entityType);
 
+        if (this.entity instanceof Zombie)
+            ((Zombie) this.entity).setBaby(false);
+
         if (this.type.equipment.helmet != null)
             this.entity.getEquipment().setHelmet(this.type.equipment.helmet);
         this.entity.getEquipment().setHelmetDropChance(0);

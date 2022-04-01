@@ -107,7 +107,7 @@ public class ReforgeCommand implements CommandExecutor, Listener {
                     public void run() {
                         updateLines(e.getInventory(), !Functions.getItemMaterial(e.getInventory().getItem(13)).getType().isReforgeable());
                     }
-                }.runTaskLater(SkyblockDragons.getInstance(), 1);
+                }.runTaskLater(SkyblockDragons.plugin, 1);
             }
         } catch (NullPointerException ignored) {}
     }

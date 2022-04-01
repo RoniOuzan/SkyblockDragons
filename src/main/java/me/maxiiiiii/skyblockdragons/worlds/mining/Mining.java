@@ -60,7 +60,7 @@ public class Mining implements Listener {
             Functions.Loop(Math.min((int) miningTime, 9), (long) (miningTime / 9), i -> {
                 if (miningTime < 9)
                     i = (int) ((i / miningTime) * 9);
-                if (!player.getTargetBlock(null, 4).getLocation().equals(block.getLocation())) {
+                if (!player.getTargetBlock(null, 5).getLocation().equals(block.getLocation())) {
                     isStopped.set(true);
                     stopMining(player, block);
                 }

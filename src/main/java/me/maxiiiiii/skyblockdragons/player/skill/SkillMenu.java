@@ -62,7 +62,7 @@ public class SkillMenu {
         ItemStack taming = createItem(Material.MONSTER_EGG, ChatColor.GREEN + "Taming " + PlayerSD.getSkill().getTamingSkill().getLevel(), getItemLores(PlayerSD.getSkill().getTamingSkill()));
         inventory.setItem(30, taming);
 
-        ItemStack dungeoneering = getSkull(createItem(Material.SKULL_ITEM, ChatColor.GREEN + "Dungeoneering " + PlayerSD.getSkill().getDungeoneeringSkill().getLevel(), getItemLores(PlayerSD.getSkill().getDungeoneeringSkill())), "3549f087-6655-4e1b-9b71-ecc1c59e59b7", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTI3MzcyODA5YjU2OTQ2NDZmNDRkN2E4MzdkNGZlNjZlNWVmNjJhZTcyNzAxMTcxNjUxYjNhNzgwY2IxZjljIn19fQ==");
+        ItemStack dungeoneering = applySkull(createItem(Material.SKULL_ITEM, ChatColor.GREEN + "Dungeoneering " + PlayerSD.getSkill().getDungeoneeringSkill().getLevel(), getItemLores(PlayerSD.getSkill().getDungeoneeringSkill())), "3549f087-6655-4e1b-9b71-ecc1c59e59b7", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTI3MzcyODA5YjU2OTQ2NDZmNDRkN2E4MzdkNGZlNjZlNWVmNjJhZTcyNzAxMTcxNjUxYjNhNzgwY2IxZjljIn19fQ==");
         inventory.setItem(32, dungeoneering);
 
         ItemStack goBack = createItem(Material.ARROW, ChatColor.GREEN + "Go Back");

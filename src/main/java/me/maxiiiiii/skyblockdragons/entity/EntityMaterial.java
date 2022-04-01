@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -134,6 +135,38 @@ public class EntityMaterial implements ConfigurationSerializable {
                 new ItemDrop(ItemMaterial.get("SLIME_BALL"), 1, 10),
                 new ItemDrop(ItemMaterial.get("EMERALD"), 1, 6),
                 new RareDrop(ItemMaterial.get("SLIME_TALISMAN"), 1, 1d, RareDrop.Rarity.RARE)
+        ));
+
+        Entities.put("DIAMOND_ZOMBIE", new EntityMaterial(
+                EntityType.ZOMBIE,
+                ChatColor.AQUA + "Diamond Zombie",
+                8,
+                300,
+                10,
+                250,
+                0,
+                new Equipment(Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE, Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS, Material.DIAMOND_SWORD, null),
+                110,
+                0.1,
+                20,
+                new ItemDrop(ItemMaterial.get("DIAMOND"), 1, 7),
+                new RareDrop(ItemMaterial.get("ENCHANTED_DIAMOND"), 1, 1d, RareDrop.Rarity.RARE)
+        ));
+
+        Entities.put("OBSIDIAN_ZOMBIE", new EntityMaterial(
+                EntityType.ZOMBIE,
+                ChatColor.DARK_GRAY + "Obsidian Zombie",
+                11,
+                500,
+                20,
+                400,
+                0,
+                new Equipment(Material.OBSIDIAN, null, null, null, Material.STONE_SWORD, null),
+                80,
+                0.2,
+                35,
+                new ItemDrop(ItemMaterial.get("OBSIDIAN"), 1, 4),
+                new RareDrop(ItemMaterial.get("ENCHANTED_OBSIDIAN"), 1, 1d, RareDrop.Rarity.RARE)
         ));
 
         Entities.put("DUMMY", new EntityMaterial(EntityType.ZOMBIE, "Dummy", Integer.MAX_VALUE, 500000, 0, 0, 0, new Equipment(), 0, 1, false, 0));

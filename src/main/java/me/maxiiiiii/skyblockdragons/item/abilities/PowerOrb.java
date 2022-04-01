@@ -56,7 +56,7 @@ public class PowerOrb extends BukkitRunnable {
         armorStand.addScoreboardTag("PowerOrb");
         SkyblockDragons.entitiesToKill.add(armorStand);
 
-        hologram = HologramsAPI.createHologram(SkyblockDragons.getInstance(), location);
+        hologram = HologramsAPI.createHologram(SkyblockDragons.plugin, location);
         line = hologram.appendTextLine(this.type.toString() + " " + ChatColor.YELLOW + (this.type.standsFor / 20) + "s");
 
         this.i = 0;

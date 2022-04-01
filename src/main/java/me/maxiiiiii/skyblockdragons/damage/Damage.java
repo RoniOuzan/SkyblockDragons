@@ -23,7 +23,6 @@ import org.bukkit.event.entity.SlimeSplitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import static me.maxiiiiii.skyblockdragons.SkyblockDragons.*;
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class Damage implements Listener {
@@ -56,7 +55,7 @@ public class Damage implements Listener {
         // hologram
         String damageDisplay = ChatColor.GRAY + "" + damage;
         if (critHit) {
-            damageDisplay = rainbow(damage + "");
+            damageDisplay = rainbowText(damage + "");
             damageDisplay = Functions.getNumberFormat(damageDisplay);
             damageDisplay = ChatColor.WHITE + "✧" + damageDisplay + ChatColor.WHITE + "✧";
         }
@@ -94,7 +93,7 @@ public class Damage implements Listener {
 
                             particleLine(start, end, Particle.REDSTONE, 155, 0, 0);
                         }
-                    }.runTaskLater(SkyblockDragons.getInstance(), 5L);
+                    }.runTaskLater(SkyblockDragons.plugin, 5L);
                 }
             }
         }

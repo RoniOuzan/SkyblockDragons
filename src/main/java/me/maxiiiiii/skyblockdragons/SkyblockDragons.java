@@ -45,7 +45,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
@@ -71,35 +70,28 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static Serializer serializer = new Serializer();
     public static EntityHider entityHider = null;
 
-    public static PlayerSD maxi = null;
-    public static PlayerSD lidan = null;
-
-    public static SkyblockDragons getInstance() {
-        return plugin;
-    }
-
     @Override
     public void onEnable() {
         plugin = this;
         logger = this.getLogger();
         entityHider = new EntityHider(this, EntityHider.Policy.BLACKLIST);
 
-        Items.registerItems();
-        EnchantType.registerEnchants();
-        PetMaterial.registerItems();
-        EntityMaterial.registerItems();
-
-        for (Hologram holo: HologramsAPI.getHolograms(this)) {
-            holo.delete();
-        }
-
-        Variables.load();
-
         if (!setupEconomy() ) {
             logger.severe("Disabled due to no Vault dependency found!");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+
+        for (Hologram holo: HologramsAPI.getHolograms(this)) {
+            holo.delete();
+        }
+
+        Items.registerItems();
+        EnchantType.registerEnchants();
+        PetMaterial.registerItems();
+        EntityMaterial.registerItems();
+
+        Variables.load();
 
         // Listeners
         getServer().getPluginManager().registerEvents(new JoinQuitListener(), this);
@@ -117,6 +109,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlaceHeadListener(), this);
         getServer().getPluginManager().registerEvents(new PickUpListeners(), this);
 
+        // World Listeners
         new Mining(this);
 
         // Abilities
@@ -148,6 +141,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Axe_of_The_Shredded(), this);
         getServer().getPluginManager().registerEvents(new Midas_Staff(), this);
         getServer().getPluginManager().registerEvents(new ERRORMerang_Wand(), this);
+        getServer().getPluginManager().registerEvents(new Pigman_Dagger(), this);
 
         // Command Listeners
         getServer().getPluginManager().registerEvents(new ItemCommand(), this);
@@ -205,13 +199,12 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             PlayerSD.loadPlayerData(player);
         }
 
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, Variables::save, 0L, 6000L);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, Variables::save, 0L, 6000L); // 5 minutes
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (PlayerSD player : players.values()) {
                 // playtime
                 player.addPlayTime(20);
-
                 player.setScoreboardScores();
 
                 player.setFoodLevel(20);
@@ -221,10 +214,9 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 // pet sound
                 if (player.activePet >= 0)
                     for (SoundUtil sound : player.getPetActive().petMaterial.getSounds()) {
-    //                    sound.play(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0));
-                        for (Player value : Functions.getPlayerShowedPets()) {
-                            if (value.getWorld() == player.petArmorStand.armorStand.getWorld())
-                                value.playSound(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0), sound.sound, (2f - (float) value.getEyeLocation().distance(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0))) / 4, sound.pitch);
+                        for (Player showed : Functions.getPlayerShowedPets()) {
+                            if (showed.getWorld() == player.petArmorStand.armorStand.getWorld())
+                                showed.playSound(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0), sound.sound, (2f - (float) showed.getEyeLocation().distance(player.petArmorStand.armorStand.getLocation().add(0, 0.5, 0))) / 4, sound.pitch);
                         }
                     }
             }
@@ -293,18 +285,13 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             }
         }, 0L, 200L);
 
-        String names = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.joining());
-        if (names.contains("MAXIIIIII"))
-            maxi = getPlayer(Bukkit.getPlayer("MAXIIIIII"));
-        if (names.contains("LidanTheGamer"))
-            lidan = getPlayer(Bukkit.getPlayer("LidanTheGamer"));
-
         System.out.println("Skyblock Dragons plugin has been loaded!");
     }
 
     @Override
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(this);
+
         for (World world : Bukkit.getWorlds()) {
             for (Entity entity : world.getEntities()) {
                 if (entity.getType() == EntityType.ARMOR_STAND && entity.getScoreboardTags().contains("Pet")) {

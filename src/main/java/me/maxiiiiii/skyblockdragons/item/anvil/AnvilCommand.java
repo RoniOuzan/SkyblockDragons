@@ -153,7 +153,7 @@ public class AnvilCommand implements CommandExecutor, Listener {
                             updateLine(e.getInventory(), true);
                         }
                     }
-                }.runTaskLater(SkyblockDragons.getInstance(), 1L);
+                }.runTaskLater(SkyblockDragons.plugin, 1L);
             }
         } catch (NullPointerException ignored) {}
     }

@@ -28,10 +28,7 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.interfaces.LoopTask;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Task;
 import me.maxiiiiii.skyblockdragons.util.interfaces.While;
-import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
-import me.maxiiiiii.skyblockdragons.util.objects.ParticlePacketUtil;
-import me.maxiiiiii.skyblockdragons.util.objects.SignMenu;
-import me.maxiiiiii.skyblockdragons.util.objects.SlotCooldown;
+import me.maxiiiiii.skyblockdragons.util.objects.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -56,7 +53,7 @@ import static me.maxiiiiii.skyblockdragons.material.Items.vanillaMaterials;
 import static me.maxiiiiii.skyblockdragons.commands.menu.ItemList.openItemList;
 
 public class Functions {
-    public static ItemStack getSkull(ItemStack item, String id, String value) {
+    public static ItemStack applySkull(ItemStack item, String id, String value) {
         if (value.isEmpty()) return item;
 
         NBTItem nbt = new NBTItem(item);
@@ -121,11 +118,22 @@ public class Functions {
         return output;
     }
 
-    public static String getNumberFormat(Object num) {
-        if (isInt(num + "") || isDouble(num + "") || isByte(num + "") || isFloat(num + "") || isLong(num + "") || isShort(num + "")) {
-            String output = getInt(num + "");
-            output = output.replaceAll("(?<=\\d)(?=(\\d\\d\\d)+(?!\\d))", ",");
-            return output;
+    public static <T> String getNumberFormat(T num) {
+//        if (isInt(num + "") || isDouble(num + "") || isByte(num + "") || isFloat(num + "") || isLong(num + "") || isShort(num + "")) {
+//            String output = getInt(num + "");
+//            output = output.replaceAll("(?<=\\d)(?=(\\d\\d\\d)+(?!\\d))", ",");
+//            return output;
+//        }
+//        return num + "";
+        if (num instanceof Number) {
+            String[] nums = (num + "").split("\\.");
+            nums[0] = nums[0].replaceAll("(?<=\\d)(?=(\\d\\d\\d)+(?!\\d))", ",");
+            StringBuilder sb = new StringBuilder();
+            sb.append(nums[0]);
+            for (int i = 1; i < nums.length; i++) {
+                sb.append(".").append(nums[i]);
+            }
+            return sb.toString();
         }
         return num + "";
     }
@@ -145,18 +153,6 @@ public class Functions {
     public static void setLore(ItemStack item, String... lore) {
         ArrayList<String> lores = new ArrayList<>(Arrays.asList(lore));
         setLore(item, lores);
-    }
-
-    public static void setSkull(String nbt, String name, String id) {
-        ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-        NBTItem nbti = new NBTItem(head);
-        NBTCompound skull = nbti.addCompound("SkullOwner");
-        skull.setString("Name", name);
-        skull.setString("Id", id);
-        NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
-        texture.setString("Signature", nbt);
-        texture.setString("Value", nbt);
-        nbti.applyNBT(head);
     }
 
     public static ArrayList<Entity> loopEntities(Location center, double size) {
@@ -184,7 +180,7 @@ public class Functions {
     }
 
     public static ArrayList<Block> loopBlocksScopeHor(Location center, int size) {
-        ArrayList<Block> blocks = new ArrayList<Block>();
+        ArrayList<Block> blocks = new ArrayList<>();
         int X = center.getBlockX();
         int Y = center.getBlockY();
         int Z = center.getBlockZ();
@@ -222,7 +218,7 @@ public class Functions {
     }
 
     public static ArrayList<Block> loopBlocksScopeHor(Location center, int size, int size2, int size3) {
-        ArrayList<Block> blocks = new ArrayList<Block>();
+        ArrayList<Block> blocks = new ArrayList<>();
         int X = center.getBlockX();
         int Y = center.getBlockY();
         int Z = center.getBlockZ();
@@ -245,11 +241,10 @@ public class Functions {
         int X = center.getBlockX();
         int Y = center.getBlockY();
         int Z = center.getBlockZ();
-        double doubleSize = size;
         for (int x = X - size; x <= X + size; x++) {
             for (int y = Y - size; y <= Y + size; y++) {
                 for (int z = Z - size; z <= Z + size; z++) {
-                    if (center.distance(center.getWorld().getBlockAt(x, y, z).getLocation()) <= doubleSize) {
+                    if (center.distance(center.getWorld().getBlockAt(x, y, z).getLocation()) <= (double) size) {
                         blocks.add(center.getWorld().getBlockAt(x, y, z));
                     }
                 }
@@ -263,11 +258,10 @@ public class Functions {
         int X = center.getBlockX();
         int Y = center.getBlockY();
         int Z = center.getBlockZ();
-        double doubleSize = size;
         for (int x = X - size; x <= X + size; x++) {
             for (int y = Y - size; y <= Y + size; y++) {
                 for (int z = Z - size; z <= Z + size; z++) {
-                    if (center.distance(center.getWorld().getBlockAt(x, y, z).getLocation()) <= doubleSize) {
+                    if (center.distance(center.getWorld().getBlockAt(x, y, z).getLocation()) <= (double) size) {
                         if (Math.floor(center.getY()) == Math.floor(y)) {
                             blocks.add(center.getWorld().getBlockAt(x, y, z));
                         }
@@ -286,7 +280,7 @@ public class Functions {
     }
 
     public static ArrayList<Block> loopBlocksCube(Location center, int size) {
-        ArrayList<Block> blocks = new ArrayList<Block>();
+        ArrayList<Block> blocks = new ArrayList<>();
         int X = center.getBlockX();
         int Y = center.getBlockY();
         int Z = center.getBlockZ();
@@ -331,7 +325,6 @@ public class Functions {
         for (String str : lores) {
             if (str.equals("RESET_LENGTH")) {
                 l = 0;
-                continue;
             } else if (str.equals("NEW_LINE")) {
                 list.add(color + "");
                 l = 0;
@@ -426,19 +419,6 @@ public class Functions {
         return isLong(num) || isInt(num) || isShort(num) || isByte(num) || isDouble(num) || isFloat(num);
     }
 
-    public static void hideEntity(Entity entity, Player player) {
-        try {
-            ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-            PacketContainer packet = manager.createPacket(PacketType.Play.Server.ENTITY_DESTROY);
-            packet.getIntegers().write(0, 1);
-            int[] id = {entity.getEntityId()};
-            packet.getIntegerArrays().write(0, id);
-            manager.sendServerPacket(player, packet);
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void sendPacketItem(int slot, Player player, ItemStack item) {
         try {
             ProtocolManager manager = ProtocolLibrary.getProtocolManager();
@@ -473,7 +453,7 @@ public class Functions {
                 sendPacketItem(slot, player, item);
                 loop++;
             }
-        }.runTaskTimer(SkyblockDragons.getInstance(), slot, 1L);
+        }.runTaskTimer(SkyblockDragons.plugin, slot, 1L);
     }
 
     public static void sendPacketItem(int slot, Player player, ItemStack itemStack, Material material, int ticks) {
@@ -492,7 +472,7 @@ public class Functions {
                 sendPacketItem(slot, player, item);
                 loop++;
             }
-        }.runTaskTimer(SkyblockDragons.getInstance(), slot, 1L);
+        }.runTaskTimer(SkyblockDragons.plugin, slot, 1L);
     }
 
     public static void setItem(ItemStack item1, Material material, Long wait) {
@@ -503,7 +483,7 @@ public class Functions {
             public void run() {
                 item1.setType(material1);
             }
-        }.runTaskLater(SkyblockDragons.getInstance(), wait);
+        }.runTaskLater(SkyblockDragons.plugin, wait);
     }
 
     public static int randomInt(int min, int max) {
@@ -519,7 +499,7 @@ public class Functions {
         return (Math.random() * (max - min) + min) / 1000;
     }
 
-    public static Block getBlockBelow(Location location) {
+    public static Block getLowestBlock(Location location) {
         for (int i = 0; i < location.getY(); i++) {
             Block block = location.getWorld().getBlockAt(location.getBlockX(), location.getBlockY() - i, location.getBlockZ());
             if (block.getType().isSolid()) {
@@ -530,25 +510,25 @@ public class Functions {
     }
 
     public static Hologram createHologram(Location location, String text) {
-        Hologram hologram = HologramsAPI.createHologram(SkyblockDragons.getInstance(), location);
-        TextLine textLine = hologram.appendTextLine(text);
+        Hologram hologram = HologramsAPI.createHologram(SkyblockDragons.plugin, location);
+        hologram.appendTextLine(text);
         return hologram;
     }
 
     public static Hologram createHologram(Location location, String text, int ticks) {
-        Hologram hologram = HologramsAPI.createHologram(SkyblockDragons.getInstance(), location.clone());
+        Hologram hologram = HologramsAPI.createHologram(SkyblockDragons.plugin, location.clone());
         hologram.appendTextLine(text);
         new BukkitRunnable() {
             @Override
             public void run() {
                 hologram.delete();
             }
-        }.runTaskLater(SkyblockDragons.getInstance(), ticks);
+        }.runTaskLater(SkyblockDragons.plugin, ticks);
         return hologram;
     }
 
     public static Hologram createHologram(Location location, ArrayList<String> text, int ticks) {
-        Hologram hologram = HologramsAPI.createHologram(SkyblockDragons.getInstance(), location);
+        Hologram hologram = HologramsAPI.createHologram(SkyblockDragons.plugin, location);
         for (String text1 : text) {
             hologram.appendTextLine(text1);
         }
@@ -557,11 +537,11 @@ public class Functions {
             public void run() {
                 hologram.delete();
             }
-        }.runTaskLater(SkyblockDragons.getInstance(), ticks);
+        }.runTaskLater(SkyblockDragons.plugin, ticks);
         return hologram;
     }
 
-    public static String rainbow(String text){
+    public static String rainbowText(String text){
         StringBuilder b = new StringBuilder();
         ChatColor[] ch = {ChatColor.WHITE, ChatColor.YELLOW, ChatColor.GOLD, ChatColor.RED, ChatColor.RED, ChatColor.WHITE};
         int i = 0;
@@ -666,7 +646,7 @@ public class Functions {
                     public void run() {
                         recursiveBreakBlocks(block.getLocation(), amount1, material, ticks);
                     }
-                }.runTaskLater(SkyblockDragons.getInstance(), ticks);
+                }.runTaskLater(SkyblockDragons.plugin, ticks);
             }
         }
     }
@@ -707,16 +687,13 @@ public class Functions {
     }
 
     public static void openSign(Player player, ArrayList<String> strings) {
-        new SignMenu(SkyblockDragons.getInstance()).
-                open(player.getUniqueId(), new String[]{"&a&lThis", "&e&lis", "&d&lan", "&b&lexample!"},
+        new SignMenu(SkyblockDragons.plugin).
+                open(player.getUniqueId(), new String[]{"", "", "", ""},
                         (player1, text) ->
-                                Arrays.stream(text).forEach(new Consumer<String>() {
-                                    @Override
-                                    public void accept(String t) {
-                                        if (!t.equals("")) {
-                                            strings.set(0, t);
-                                            System.out.println(strings.get(0));
-                                        }
+                                Arrays.stream(text).forEach(t -> {
+                                    if (!t.equals("")) {
+                                        strings.set(0, t);
+                                        System.out.println(strings.get(0));
                                     }
                                 }));
     }
@@ -737,7 +714,7 @@ public class Functions {
                     cancel();
                 }
             }
-        }.runTaskTimer(SkyblockDragons.getInstance(), 0L, 10L);
+        }.runTaskTimer(SkyblockDragons.plugin, 0L, 10L);
     }
 
 //    public static EnchantType getEnchant(String name) {
@@ -758,30 +735,15 @@ public class Functions {
 //    }
 
     public static boolean isItemMaterial(String name) {
-        for (ItemMaterial itemMaterial : items.values()) {
-            if (itemMaterial.name().equals(name.toUpperCase())) {
-                return true;
-            }
-        }
-        return false;
+        return items.values().stream().anyMatch(i -> i.name().equals(name.toUpperCase()));
     }
 
     public static boolean isEnchant(String name) {
-        for (EnchantType enchantType : EnchantType.enchants.values()) {
-            if (enchantType.name().equals(name.toUpperCase())) {
-                return true;
-            }
-        }
-        return false;
+        return EnchantType.enchants.values().stream().anyMatch(i -> i.name().equals(name.toUpperCase()));
     }
 
     public static boolean isPlayerName(String name) {
-        for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
-            if (player.getName().equalsIgnoreCase(name)) {
-                return true;
-            }
-        }
-        return false;
+        return Arrays.stream(Bukkit.getOfflinePlayers()).anyMatch(p -> p.getName().equalsIgnoreCase(name));
     }
 
     public static ReforgeType getReforge(String name) {
@@ -800,16 +762,6 @@ public class Functions {
             }
         }
         return items.get("NULL");
-    }
-
-    public static ItemMaterial setSkin(ItemStack item) {
-        ItemMaterial skin = Items.NULL;
-        NBTItem nbtItem = new NBTItem(item);
-        NBTCompound nbt = nbtItem.getCompound("Item");
-        if (!nbt.getString("Skin").equals("")) {
-            skin = getSkin(nbt.getString("Skin"));
-        }
-        return skin;
     }
 
     public static Rarity getRarity(int level) {
@@ -944,9 +896,10 @@ public class Functions {
             NBTCompound compound1 = nbt.getCompound("Enchants");
             NBTCompound compound2 = nbt.getCompound("UltimateEnchant");
             for (EnchantType enchant : EnchantType.enchants.values()) {
-                if (compound1.hasKey(enchant.name())) {
+                if (compound1.hasKey(enchant.name()))
                     enchants.put(enchant, Short.parseShort(compound1.getInteger(enchant.name()) + ""));
-                }
+                else if (compound2.hasKey(enchant.name()))
+                    enchants.put(enchant, Short.parseShort(compound1.getInteger(enchant.name()) + ""));
             }
             return enchants;
         } catch (NullPointerException ignored) {}
@@ -1063,7 +1016,7 @@ public class Functions {
     public static boolean cooldown(Player player, Cooldown cooldown, long milliseconds, boolean message) {
         long timeLeft = System.currentTimeMillis() - cooldown.getCooldown(player);
         if (timeLeft < milliseconds) {
-            if (message) player.sendMessage(ChatColor.RED + "This ability in on cooldown for " + Math.floor((double) (milliseconds - timeLeft) / 1000.0) + "s.");
+            if (message) player.sendMessage(ChatColor.RED + "This ability in on cooldown for " + Math.ceil((double) (milliseconds - timeLeft) / 1000.0) + "s.");
             return true;
         }
         cooldown.setCooldown(player,System.currentTimeMillis());
@@ -1082,7 +1035,7 @@ public class Functions {
     public static boolean slotCooldown(Player player, int slot, SlotCooldown cooldown, long milliseconds, boolean message) {
         long timeLeft = System.currentTimeMillis() - cooldown.getCooldown(player + ":" + slot, slot);
         if (timeLeft < milliseconds) {
-            if (message) player.sendMessage(ChatColor.RED + "This ability in on cooldown for " + Math.floor((double) (milliseconds - timeLeft) / 1000.0) + "s.");
+            if (message) player.sendMessage(ChatColor.RED + "This ability in on cooldown for " + Math.ceil((double) (milliseconds - timeLeft) / 1000.0) + "s.");
             return true;
         }
         cooldown.setCooldown(player + ":" + slot, System.currentTimeMillis());
@@ -1696,5 +1649,17 @@ public class Functions {
     public static <T> T getRandom(T... ts) {
         int random = randomInt(0, ts.length - 1);
         return ts[random];
+    }
+
+    public static void playCircle(Location location, double radius, double amount, ParticleUtil particleUtil) {
+        for (double i = 0; i < 360; i += (360 / amount)) {
+            Location newLocation = location.clone().add(
+                    Math.cos(i) * -location.getDirection().getZ() * radius,
+                    Math.sin(i) * radius,
+                    Math.cos(i) * location.getDirection().getX() * radius
+            );
+
+            particleUtil.spawn(newLocation);
+        }
     }
 }

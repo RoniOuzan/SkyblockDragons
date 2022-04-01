@@ -4,8 +4,6 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.TextMessage;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -16,11 +14,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class EntityCommand implements CommandExecutor, TabCompleter {
@@ -37,7 +33,7 @@ public class EntityCommand implements CommandExecutor, TabCompleter {
                         player.sendMessage(ChatColor.RED + "Can't understand this entity!");
                         return true;
                     }
-                    Location location = Functions.getBlockBelow(Functions.getCenter(player.getLocation())).getLocation();
+                    Location location = Functions.getLowestBlock(Functions.getCenter(player.getLocation())).getLocation();
                     EntitySD.entitiesLocations.put(location, EntityMaterial.get(args[1]));
                     EntitySD.saveLocations();
                     player.sendMessage(ChatColor.GREEN + "You have set new spawn to " + Functions.setTitleCase(args[1]) + " in " + Functions.getLocation(location) + ".");
