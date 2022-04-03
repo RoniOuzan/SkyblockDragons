@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.commands;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.commands.menu.SkyblockMenu;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.RecipesMenu;
 import me.maxiiiiii.skyblockdragons.player.bank.BankMenu;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.CraftingTableMenu;
 import me.maxiiiiii.skyblockdragons.player.pet.PetMenu;
@@ -37,37 +37,39 @@ public class JavaMenu implements CommandExecutor, Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        try {
-            if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Close") && e.getCurrentItem().getType() == Material.BARRIER) {
-                e.getWhoClicked().closeInventory();
-            }
-            if (e.getClickedInventory().getTitle().contains("Skyblock Menu") || e.getClickedInventory().getTitle().contains("Your Skyblock Profile")) {
-                e.setCancelled(true);
-                if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Your Skyblock Profile")) {
-                    openSkyblockProfileMenu(SkyblockDragons.getPlayer((Player) e.getWhoClicked()));
-                }
-            }
+        if (e.getCurrentItem() == null) return;
 
-            if (e.getClickedInventory().getTitle().contains("Skyblock Menu")) {
-                PlayerSD player = SkyblockDragons.getPlayer((Player) e.getWhoClicked());
-                if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Your Skills")) {
-                    player.closeInventory();
-                    SkillMenu.openSkillsMenu(player);
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Pets")) {
-                    player.closeInventory();
-                    PetMenu.openPetMenu(player, 1);
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Crafting Table")) {
-                    player.closeInventory();
-                    CraftingTableMenu.openCraftingTable(player);
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Wardrobe")) {
-                    player.closeInventory();
-                    WardrobeMenu.openWardrobe(player, 1);
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Bank")) {
-                    player.closeInventory();
-                    BankMenu.openBank(player);
-                }
+        if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Close") && e.getCurrentItem().getType() == Material.BARRIER) {
+            e.getWhoClicked().closeInventory();
+        }
+        if (e.getClickedInventory().getTitle().contains("Skyblock Menu") || e.getClickedInventory().getTitle().contains("Your Skyblock Profile")) {
+            e.setCancelled(true);
+            if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Your Skyblock Profile")) {
+                openSkyblockProfileMenu(SkyblockDragons.getPlayer((Player) e.getWhoClicked()));
             }
-        } catch (NullPointerException ignored) {
+        }
+
+        if (e.getClickedInventory().getTitle().contains("Skyblock Menu")) {
+            PlayerSD player = SkyblockDragons.getPlayer((Player) e.getWhoClicked());
+            if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Your Skills")) {
+                player.closeInventory();
+                SkillMenu.openSkillsMenu(player);
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Pets")) {
+                player.closeInventory();
+                PetMenu.openPetMenu(player, 1);
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Crafting Table")) {
+                player.closeInventory();
+                CraftingTableMenu.openCraftingTable(player);
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Wardrobe")) {
+                player.closeInventory();
+                WardrobeMenu.openWardrobe(player, 1);
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Bank")) {
+                player.closeInventory();
+                BankMenu.openBank(player);
+            } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Recipe Book")) {
+                player.closeInventory();
+                RecipesMenu.openRecipes(player);
+            }
         }
     }
 }

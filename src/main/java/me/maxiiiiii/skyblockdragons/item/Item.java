@@ -348,7 +348,7 @@ public class Item extends ItemStack {
     private void applyAbilities(ArrayList<String> lores, Map<EnchantType, Short> enchants) {
         if (this.material instanceof ToolMaterial) {
             ToolMaterial material = (ToolMaterial) this.material;
-            if (material.getAbilities().size() == 0) return;
+            if (material.getAbilities().size() == 0 || material.getAbilities().get(0) == null) return;
             if (material.getAbilities().get(0).getAction() != AbilityAction.NULL) {
                 for (ItemAbility ability : material.getAbilities()) {
                     if (isNotLastEmpty(lores)) lores.add("");

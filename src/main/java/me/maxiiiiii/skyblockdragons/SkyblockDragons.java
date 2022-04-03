@@ -2,8 +2,11 @@ package me.maxiiiiii.skyblockdragons;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import me.maxiiiiii.skyblockdragons.damage.KnockbackListener;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.abilities.*;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.commands.RecipesCommand;
 import me.maxiiiiii.skyblockdragons.material.Items;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
 import me.maxiiiiii.skyblockdragons.item.anvil.AnvilCommand;
@@ -90,6 +93,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         EnchantType.registerEnchants();
         PetMaterial.registerItems();
         EntityMaterial.registerItems();
+        Bukkit.getScheduler().runTaskAsynchronously(this, Recipe::registerRecipes);
 
         Variables.load();
 
@@ -108,6 +112,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new ArmorStandManipulateListener(), this);
         getServer().getPluginManager().registerEvents(new PlaceHeadListener(), this);
         getServer().getPluginManager().registerEvents(new PickUpListeners(), this);
+        getServer().getPluginManager().registerEvents(new KnockbackListener(), this);
+        getServer().getPluginManager().registerEvents(new PortalListener(), this);
 
         // World Listeners
         new Mining(this);
@@ -156,6 +162,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PetMenuCommand(), this);
         getServer().getPluginManager().registerEvents(new BankCommand(), this);
         getServer().getPluginManager().registerEvents(new SellCommand(), this);
+        getServer().getPluginManager().registerEvents(new RecipesCommand(), this);
 
         // Commands
         getCommand("Stat").setExecutor(new StatCommand());
@@ -191,6 +198,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("Coop").setTabCompleter(new CoopCommand());
         getCommand("Variables").setExecutor(new VariableCommand());
         getCommand("Sell").setExecutor(new SellCommand());
+        getCommand("Recipes").setExecutor(new RecipesCommand());
 
 //        Coop.load();
         EntitySD.loadLocations();

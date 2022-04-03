@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.craftingtable.menus;
 
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -13,6 +14,8 @@ import java.util.Arrays;
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class CraftingTableMenu {
+    public static ItemStack recipe = createItem(Material.BARRIER, ChatColor.RED + "Recipe Required", new ArrayList<>(Arrays.asList(ChatColor.GRAY + "Add the items for valid recipe", ChatColor.GRAY + "in the crafting grid to the", ChatColor.GRAY + "left!")));
+
     public static void openCraftingTable(Player player) {
         Inventory inventory = Bukkit.createInventory(player, 54, ChatColor.DARK_GRAY + "Craft Item");
 
@@ -33,7 +36,6 @@ public class CraftingTableMenu {
             inventory.setItem(numToSlot(i), new ItemStack(Material.AIR));
         }
 
-        ItemStack recipe = createItem(Material.BARRIER, ChatColor.RED + "Recipe Required", new ArrayList<>(Arrays.asList(ChatColor.GRAY + "Add the items for valid recipe", ChatColor.GRAY + "in the crafting grid to the", ChatColor.GRAY + "left!")));
         inventory.setItem(23, recipe);
 
         ItemStack quickCraft = createItem(Material.STAINED_GLASS_PANE, 1, 7, ChatColor.RED + "Quick Crafting Slot", new ArrayList<>(Arrays.asList(ChatColor.GRAY + "Quick crafting allows you to", ChatColor.GRAY + "craft items without assembling", ChatColor.GRAY + "the recipe.")));
@@ -42,5 +44,16 @@ public class CraftingTableMenu {
         inventory.setItem(34, quickCraft);
 
         player.openInventory(inventory);
+    }
+
+    public static void updateLines(Inventory inventory, boolean red) {
+        for (int i = 45; i < 54; i++) {
+            if (i == 49) continue;
+
+            if (red)
+                inventory.setItem(i, Functions.createItem(Material.STAINED_GLASS_PANE, 14, ChatColor.RESET + ""));
+            else
+                inventory.setItem(i, Functions.createItem(Material.STAINED_GLASS_PANE, 5, ChatColor.RESET + ""));
+        }
     }
 }

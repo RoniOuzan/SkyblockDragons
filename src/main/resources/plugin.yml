@@ -124,3 +124,6 @@ commands:
   Sell:
     permission: skyblockdragons.sell
     usage: /<command>
+  Recipes:
+    permission: skyblockdragons.recipes
+    usage: /<command>

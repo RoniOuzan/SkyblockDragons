@@ -3,12 +3,12 @@ package me.maxiiiiii.skyblockdragons.worlds.mining;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.worlds.WorldType;
+import me.maxiiiiii.skyblockdragons.worlds.Worlds;
 import me.maxiiiiii.skyblockdragons.worlds.mining.deepmines.DeepMines;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -16,18 +16,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Locale;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 public class Mining implements Listener {
-    public static final ArrayList<String> miningWorlds = new ArrayList<>(Arrays.asList("DeepMines"));
+    public static final List<String> miningWorlds = Arrays.stream(Worlds.values()).filter(w -> w.getWorldType().contains(WorldType.MINING)).map(Enum::name).collect(Collectors.toList());
 
     public static final HashMap<Player, Integer> amount = new HashMap<>();
 

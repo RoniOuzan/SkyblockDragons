@@ -41,6 +41,8 @@ public class Items {
 
         items.put("VALKYRIE", new NecronBladeMaterial(Material.IRON_SWORD, ItemFamily.NECRON_BLADE, "Valkyrie", Rarity.LEGENDARY, new ItemStats(270, 145, 0, 0, 0, 60, 0, 0, 0, 60), NecronBladeMaterial.NecronBladeType.VALKYRIE));
 
+
+
         // Bows
         items.put("BOW", new BowMaterial(Material.BOW, ItemFamily.WOOD, "Bow", Rarity.COMMON, new ItemStats(5, 5, 0, 0, 0, 0, 0, 0, 0, 0), ""));
 
@@ -48,6 +50,8 @@ public class Items {
 
         items.put("TERMINATOR", new BowMaterial(Material.BOW, ItemFamily.JUJU,"Terminator", Rarity.LEGENDARY, new ItemStats(335, 50, 250, 0, 40, 0, 0, 0, 0, 0), ChatColor.GOLD + "Shortbow: Instantly Shoots! NEW_LINE " + ChatColor.GRAY + "Shoots " + ChatColor.AQUA + "3 " + ChatColor.GRAY + "arrows at once. " + ChatColor.GRAY + "Can damage endermen. NEW_LINE NEW_LINE " + ChatColor.RED + "Divides your RESET_LENGTH " + Stat.CRIT_CHANCE.getIconAndText() + ChatColor.RED + " by 4!", new ItemAbility(AbilityAction.RIGHT_CLICK, "Salvation", ChatColor.GRAY + "Can be casted after landing RESET_LENGTH " + ChatColor.GOLD + "3 " + ChatColor.GRAY + "hits. NEW_LINE Shoot a beam, penetrating up NEW_LINE to " + ChatColor.YELLOW + "5 " + ChatColor.GRAY + "foes and dealing " + ChatColor.RED + "2x " + ChatColor.GRAY + "the damage an arrow would. NEW_LINE The beam always crits.", 0, 2)));
         items.put("BONEMERANG", new BowMaterial(Material.BONE, ItemFamily.BONEMERANG, "Bonemerang", Rarity.LEGENDARY, new ItemStats(270, 130, 0, 0, 0, 0, 0, 0, 0, 0), "Deals " + ChatColor.RED + "double damage " + ChatColor.GRAY + "when coming back. Pierces up to " + ChatColor.YELLOW + "10 " + ChatColor.GRAY + "foes.", new ItemAbility(AbilityAction.RIGHT_CLICK, "Swing", "Throw the bone a short distance, dealing the damage an arrow would.", 0, 0)));
+
+
 
         // Armors
         // Leather
@@ -90,6 +94,11 @@ public class Items {
         items.put("DIAMOND_CHESTPLATE", new ArmorMaterial(Material.DIAMOND_CHESTPLATE, ItemFamily.DIAMOND, "Diamond Chestplate", ItemType.CHESTPLATE, Rarity.UNCOMMON, new ItemStats(0, 2, 3, 0, 0, 0, 45, 25, 0, 0), "", ItemFullSet.NULL));
         items.put("DIAMOND_LEGGINGS", new ArmorMaterial(Material.DIAMOND_LEGGINGS, ItemFamily.DIAMOND, "Diamond Leggings", ItemType.LEGGINGS, Rarity.UNCOMMON, new ItemStats(0, 2, 3, 0, 0, 0, 45, 25, 0, 0), "", ItemFullSet.NULL));
         items.put("DIAMOND_BOOTS", new ArmorMaterial(Material.DIAMOND_BOOTS, ItemFamily.DIAMOND, "Diamond Boots", ItemType.BOOTS, Rarity.UNCOMMON, new ItemStats(0, 2, 3, 0, 0, 0, 45, 25, 0, 0), "", ItemFullSet.NULL));
+        // Obsidian
+        items.put("OBSIDIAN_HELMET", new ArmorMaterial(Material.OBSIDIAN, ItemFamily.OBSIDIAN, "Obsidian Helmet", ItemType.HELMET, Rarity.RARE, new ItemStats(0, 8, 12, 0, 0, 0, 95, 45, -5, 5), "", ItemFullSet.NULL));
+        items.put("OBSIDIAN_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.OBSIDIAN, "Obsidian Chestplate", ItemType.CHESTPLATE, Rarity.RARE, new ItemStats(0, 8, 12, 0, 0, 0, 95, 45, -5, 5), "", ItemFullSet.NULL));
+        items.put("OBSIDIAN_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.OBSIDIAN, "Obsidian Leggings", ItemType.LEGGINGS, Rarity.RARE, new ItemStats(0, 8, 12, 0, 0, 0, 95, 45, -5, 5), "", ItemFullSet.NULL));
+        items.put("OBSIDIAN_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.OBSIDIAN, "Obsidian Boots", ItemType.BOOTS, Rarity.RARE, new ItemStats(0, 8, 12, 0, 0, 0, 95, 45, -5, 5), "", ItemFullSet.NULL));
         // Golden Skeleton
         items.put("GOLDEN_SKELETON_HELMET", new ArmorMaterial(Material.GOLD_HELMET, ItemFamily.NULL, "Golden Skeleton Helmet", ItemType.HELMET, Rarity.COMMON, new ItemStats(0, 0, 0, 0, 0, 0, 25, 25, 0, 5), "Deals " + ChatColor.GREEN + "+20% " + ChatColor.GRAY + "damage with " + ChatColor.WHITE + "Golden Skeleton Bow" + ChatColor.GRAY + ".", null));
         // Pigman
@@ -112,6 +121,8 @@ public class Items {
         items.put("SUPERIOR_DRAGON_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.SUPERIOR_DRAGON_ARMOR, "Superior Dragon Helmet", ItemType.CHESTPLATE, Rarity.LEGENDARY, new ItemStats(0, 10, 10, 2, 0, 0, 150, 190, 3, 25), "", ItemFullSet.SUPERIOR_DRAGON, Color.fromRGB(242,223,17)));
         items.put("SUPERIOR_DRAGON_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.SUPERIOR_DRAGON_ARMOR, "Superior Dragon Helmet", ItemType.LEGGINGS, Rarity.LEGENDARY, new ItemStats(0, 10, 10, 2, 0, 0, 130, 170, 3, 25), "", ItemFullSet.SUPERIOR_DRAGON, Color.fromRGB(242,223,17)));
         items.put("SUPERIOR_DRAGON_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.SUPERIOR_DRAGON_ARMOR, "Superior Dragon Helmet", ItemType.BOOTS, Rarity.LEGENDARY, new ItemStats(0, 10, 10, 2, 0, 0, 80, 110, 3, 25), "", ItemFullSet.SUPERIOR_DRAGON, Color.fromRGB(242,93,24)));
+
+
 
         // Tools
         items.put("WOOD_PICKAXE", new MiningMaterial(Material.WOOD_PICKAXE, ItemFamily.WOOD, "Wood Pickaxe", ItemType.PICKAXE, Rarity.COMMON, new ItemStats(50, 0), 1, ""));
@@ -141,19 +152,27 @@ public class Items {
         items.put("TREE_CAPITATOR", new MiningMaterial(Material.GOLD_AXE, ItemFamily.JUNGLE_AXE, "Tree Capitator", ItemType.AXE, Rarity.EPIC, 1, "A forceful Gold Axe which can break a large amount of logs in a single hit!", new ItemAbility(AbilityAction.NULL, "", "", 0, 0)));
         items.put("WORLD_EATER", new MiningMaterial(Material.DIAMOND_PICKAXE, ItemFamily.JUNGLE_AXE, "World Eater", ItemType.PICKAXE, Rarity.DIVINE, 10, ChatColor.ITALIC + "I became a world ERROR.", new ItemAbility(AbilityAction.NULL, "", "", 0, 0)));
 
+
+
         // Reforges
         items.put("PRECURSOR_GEAR", new ReforgeMaterial(Material.SKULL_ITEM, ItemFamily.REFORGE_STONE, "Precursor Gear", Rarity.EPIC, "62ffd058-94c8-3b63-b027-5e9f4d52b78e", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWRmODkwOTQ5OGMyNWY2ZTc1ZWYxOWUzNzZhN2Y4NGY2MWFmMjM0NTI1ZDYzOWJhNDYzZjk5MWY0YzgyZDAifX19", "Ancient"));
         items.put("WITHER_BLOOD", new ReforgeMaterial(Material.SKULL_ITEM, ItemFamily.REFORGE_STONE, "Wither's Blood", Rarity.EPIC, "d3323a7b-65e3-394a-95da-018d2f52f917", "ewogICJ0aW1lc3RhbXAiIDogMTYwNTU0MzQ1NTU3OCwKICAicHJvZmlsZUlkIiA6ICI0ZWQ4MjMzNzFhMmU0YmI3YTVlYWJmY2ZmZGE4NDk1NyIsCiAgInByb2ZpbGVOYW1lIiA6ICJGaXJlYnlyZDg4IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2JmNWQyMGUwNjAwMTc0ZGNiYWI3NzQ1ZDk0NDgzMmZiMjA2M2MyYmQxNDkwYzY1MDU5MDFiMjhiZmFhY2Q4ZTUiCiAgICB9CiAgfQp9", "Withered"));
         items.put("NECROMANCER_BROOCH", new ReforgeMaterial(Material.SKULL_ITEM, ItemFamily.REFORGE_STONE, "Necromancer's Brooch", Rarity.RARE, "ea3ee289-11c8-32b4-8913-c98703b1ab1c", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjViNmJlYWM1NzM2NWNhZjQ2ZjAzN2YzZDJhM2E0NTdmNmNhZmU2NDc1N2JhZjE0ZTg5OTNjZDJkYTE4Y2ZmNyJ9fX0K", "Necrotic"));
+
+
 
         // Skins
         items.put("NECRON_HELMET_SKIN", new SkinMaterial(Material.SKULL_ITEM, ItemFamily.SKIN, "Psydra Necron Skin", Rarity.EPIC, "95b93eb6-4ed9-4841-81ee-729f6d1516e4", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmYzZWEzZmE1NGE4ZDcwMTQ5NjkyMjY2NmNiMjQyNTg5MGNjZGRhYzY1OTkzYjVkNzViMjY0MmJmN2U2YWY4ZCJ9fX0="));
         items.put("STORM_HELMET_SKIN", new SkinMaterial(Material.SKULL_ITEM, ItemFamily.SKIN, "Psydra Storm Skin", Rarity.EPIC, "4e279894-281e-4ab1-806e-3b3728f899d0", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzE5OTM5ZWE1ZTc2NTVlNjE2YmU4NmEzYTQwMDEzMWMyYzljNzQ1ZTdlMzhlZDBkMWVlMjk4N2JiZTc1YTQ0YSJ9fX0="));
         items.put("SUPERIOR_DRAGON_HELMET_SKIN", new SkinMaterial(Material.SKULL_ITEM, ItemFamily.SKIN, "Baby Superior Skin", Rarity.EPIC, "8bac9ff5-6006-3a10-99e4-55799153a1f8", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTJhNzcwNDU5ZmE2ZDY1ZTIyYWE5NTY3OWQ5M2EyODcwYWFmZWE3MGY5ZjFjNmEwZjc4ZWI2NDFlOTI4OTAifX19Cg"));
 
+
+
         // Accessories
         items.put("NETHER_ARTIFACT", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.NETHER_ARTIFACT, "Nether Artifact", Rarity.EPIC, "0ef495a4-e5df-41c2-b9a2-b2e647cbb491", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDgzNTcxZmY1ODlmMWE1OWJiMDJiODA4MDBmYzczNjExNmUyN2MzZGNmOWVmZWJlZGU4Y2YxZmRkZSJ9fX0=", new ItemStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Reduces the damage taken from Zombie Pigmen, Magma Cubes, Ghasts and Blazes by " + ChatColor.GREEN + "5%" + ChatColor.GRAY + ". NEW_LINE NEW_LINE While in the " + ChatColor.GOLD + "Blazing Fortress " + ChatColor.GRAY + "you will receive the damage reduction from all mobs."));
         items.put("SLIME_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.SLIME, "Slime Talisman", Rarity.UNCOMMON, "7f0b0873-df6a-4a19-9bcd-f6c90ef804c7", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODk1YWVlYzZiODQyYWRhODY2OWY4NDZkNjViYzQ5NzYyNTk3ODI0YWI5NDRmMjJmNDViZjNiYmI5NDFhYmU2YyJ9fX0=", new ItemStats(0, 2, 2, 0, 0, 0, 0, 0, 0, 0), ""));
+
+
 
         // Wands
         items.put("GYROKINETIC_WAND", new ToolMaterial(Material.BLAZE_ROD, ItemFamily.GYROKINETIC_WAND, "Gyrokinetic Wand", ItemType.WAND, Rarity.EPIC, "", new ItemAbility(AbilityAction.LEFT_CLICK, "Gravity Storm", "Create a large " + ChatColor.DARK_PURPLE + "rift " + ChatColor.GRAY + "at aimed location, pulling all mobs toegether.", 1200, 5), new ItemAbility(AbilityAction.RIGHT_CLICK, "Cells Alignment", "Apply " + ChatColor.GREEN + "Aligned " + ChatColor.GRAY + "to 4 nearby players and yourself for " + ChatColor.GREEN + "6 seconds" + ChatColor.GRAY + ".", 220, 10)));
@@ -165,11 +184,15 @@ public class Items {
         items.put("ICE_SPRAY_WAND", new ToolMaterial(Material.STICK, ItemFamily.ICE_SPRAY_WAND, "Ice Spray Wand", ItemType.WAND, Rarity.EPIC, "", new ItemAbility(AbilityAction.RIGHT_CLICK, "Ice Spray", "Produces a cone of ice in front of the caster that deals " + ChatColor.RED + "17,000 " + ChatColor.GRAY + "damage to mobs and freezes them in place for " + ChatColor.YELLOW + "5 " + ChatColor.GRAY + "seconds! Frozen mobs take " + ChatColor.RED + "10% " + ChatColor.GRAY + "increased damage!", 50, 5)));
         items.put("ERRORMERANG_WAND", new ToolMaterial(Material.STICK, ItemFamily.ERRORMERANG_WAND, "ERRORMerang Wand", ItemType.WAND, Rarity.SPECIAL, "", new ItemAbility(AbilityAction.RIGHT_CLICK, "ERRORMerang", "Error item of eyalc i don't know why", 50, 5)));
 
+
+
         // Scrolls
         items.put("IMPLOSION", new NecronBladeMaterial.NecronBladeScroll(Material.BOOK_AND_QUILL, "Implosion", Rarity.EPIC, "", NecronBladeMaterial.NecronBladeAbility.IMPLOSION.getAbility()));
         items.put("WITHER_SHIELD", new NecronBladeMaterial.NecronBladeScroll(Material.BOOK_AND_QUILL, "Wither Shield", Rarity.EPIC, "", NecronBladeMaterial.NecronBladeAbility.WITHER_SHIELD.getAbility()));
         items.put("SHADOW_WARP", new NecronBladeMaterial.NecronBladeScroll(Material.BOOK_AND_QUILL, "Shadow Warp", Rarity.EPIC, "", NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP.getAbility()));
         items.put("WITHER_IMPACT", new NecronBladeMaterial.NecronBladeScroll(Material.BOOK_AND_QUILL, "Wither Impact", Rarity.EPIC, "", new ArrayList<>(Arrays.asList(NecronBladeMaterial.NecronBladeAbility.IMPLOSION.getAbility(), NecronBladeMaterial.NecronBladeAbility.WITHER_SHIELD.getAbility(), NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP.getAbility()))));
+
+
 
         // Power Orbs
         items.put("RADIANT_POWER_ORB", new PowerOrbMaterial(Material.SKULL_ITEM, ItemFamily.RADIANT_POWER_ORB, "Radiant Power Orb", ItemType.POWER_ORB, Rarity.UNCOMMON, "10a23a36-4f37-47f7-a28f-fc330de3ff5a", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2FiNGM0ZDZlZTY5YmMyNGJiYTJiOGZhZjY3YjlmNzA0YTA2YjAxYWE5M2YzZWZhNmFlZjdhOTY5NmM0ZmVlZiJ9fX0=", new ItemAbility(AbilityAction.NULL, "Deploy", "Place an orb for " + ChatColor.GREEN + "30s " + ChatColor.GRAY + "buffing up to " + ChatColor.AQUA + "5 " + ChatColor.GRAY + "players within " + ChatColor.GREEN + "18 " + ChatColor.GRAY + "blocks. Only one orb applies per player.", 500000, 30), "Heals " + ChatColor.RED + "1% " + ChatColor.GRAY + "of max " + Stat.HEALTH.getIcon() + " " + ChatColor.GRAY + "per second."));
@@ -177,14 +200,17 @@ public class Items {
         items.put("OVERFLUX_POWER_ORB", new PowerOrbMaterial(Material.SKULL_ITEM, ItemFamily.RADIANT_POWER_ORB, "Overflux Power Orb", ItemType.POWER_ORB, Rarity.EPIC, "05624a23-a2f1-46b9-9e26-e463855f05c1", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODQ4NTlkMGFkZmM5M2JlMTliYjQ0MWU2ZWRmZDQzZjZiZmU2OTEyNzIzMDMzZjk2M2QwMDlhMTFjNDgyNDUxMCJ9fX0=", new ItemAbility(AbilityAction.NULL, "Deploy", "Place an orb for " + ChatColor.GREEN + "60s " + ChatColor.GRAY + "buffing up to " + ChatColor.AQUA + "5 " + ChatColor.GRAY + "players within " + ChatColor.GREEN + "18 " + ChatColor.GRAY + "blocks. Only one orb applies per player.", 500000, 30), "Grants " + ChatColor.AQUA + "+100% " + ChatColor.GRAY + "base mana regen." + " NEW_LINE " + "Heals " + ChatColor.RED + "2.5% " + ChatColor.GRAY + "of max " + Stat.HEALTH.getIcon() + " " + ChatColor.GRAY + "per second." + " NEW_LINE " + "Increases all heals by " + ChatColor.GREEN + "+5%"  + ChatColor.GRAY + "." + " NEW_LINE " + ChatColor.GRAY + "Grants " + ChatColor.RED + "+25 Strength" + ChatColor.GRAY + "."));
         items.put("PLASMA_POWER_ORB", new PowerOrbMaterial(Material.SKULL_ITEM, ItemFamily.RADIANT_POWER_ORB, "Plasma Power Orb", ItemType.POWER_ORB, Rarity.LEGENDARY, "6de57aa8-ffd6-414d-ad9b-85563a6dc417", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODNlZDRjZTIzOTMzZTY2ZTA0ZGYxNjA3MDY0NGY3NTk5ZWViNTUzMDdmN2VhZmU4ZDkyZjQwZmIzNTIwODYzYyJ9fX0=", new ItemAbility(AbilityAction.NULL, "Deploy", "Place an orb for " + ChatColor.GREEN + "60s " + ChatColor.GRAY + "buffing up to " + ChatColor.AQUA + "5 " + ChatColor.GRAY + "players within " + ChatColor.GREEN + "20 " + ChatColor.GRAY + "blocks. Only one orb applies per player.", 500000, 30), "Grants " + ChatColor.AQUA + "+125% " + ChatColor.GRAY + "base mana regen." + " NEW_LINE " + "Heals " + ChatColor.RED + "3% " + ChatColor.GRAY + "of max " + Stat.HEALTH.getIcon() + " " + ChatColor.GRAY + "per second." + " NEW_LINE " + "Increases all heals by " + ChatColor.GREEN + "+7.5%" + ChatColor.GRAY + "." + " NEW_LINE " + ChatColor.GRAY + "Grants " + ChatColor.RED + "+35 Strength" + ChatColor.GRAY + "."));
 
+
+
         // Items
         items.put("TROLL_EYE", new ToolMaterial(Material.EYE_OF_ENDER, ItemFamily.TROLL, "Troll Eye", ItemType.ITEM, Rarity.EPIC, ChatColor.ITALIC + "Eye of the ender lost ERROR", new ItemAbility(AbilityAction.RIGHT_CLICK, "Get Out From My Face", "Make your target entity shoot ender pearls to every direction", 100, 15)));
         items.put("GRAPPLING_HOOK", new ToolMaterial(Material.FISHING_ROD, ItemFamily.GRAPPLING_HOOK, "Grappling Hook", ItemType.ITEM , Rarity.UNCOMMON, ChatColor.GRAY + "Travel around in style using this " + ChatColor.GREEN + "Grappling Hook" + ChatColor.GRAY + "."));
         items.put("RECOMBABULATOR", new ToolMaterial(Material.SKULL_ITEM, ItemFamily.ITEM, "Recombobulator 3000", ItemType.ITEM, Rarity.LEGENDARY, "96538e7f-6b56-3557-9b7d-458afe4239e9", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTdjY2QzNmRjOGY3MmFkY2IxZjhjOGU2MWVlODJjZDk2ZWFkMTQwY2YyYTE2YTEzNjZiZTliNWE4ZTNjYzNmYyJ9fX0K", "Use in a " + ChatColor.GREEN + "Reforge Anvil "+ ChatColor.GRAY + "or at the Dungeon Blacksmith to permanently increase the rarity of a piece of armor, weapon, tool or talisman. An item's rarity can only be upgraded once!"));
         items.put("ELECTRO_MAGNET", new ToolMaterial(Material.TORCH, ItemFamily.ELECTRO_MAGNET, "Electro Magnet", ItemType.ITEM, Rarity.EPIC, "", new ItemAbility(AbilityAction.NONE, "Force Field", "Repel hostile creatures and projectiles in radius of " + ChatColor.GREEN + "10 blocks" + ChatColor.GRAY + ".", 0, 0)));
 
+
+
         // Normal Items
-//        items.put("ENCHANTED_EYE_OF_ENDER", new NormalMaterial(Material.EYE_OF_ENDER, ItemFamily.ENCHANTED_ITEM, "Enchanted Eye of Ender", ItemType.ITEM, Rarity.UNCOMMON, "", "", true, true));
         items.put("HOT_POTATO_BOOK", new NormalMaterial(Material.BOOK, ItemFamily.HOT_POTATO, "Hot Potato Book", ItemType.ITEM, Rarity.EPIC, "", "", "Combine this Book in an Anvil with a weapon or armor piece to gain a small but permanent stat boost!", true, false, false));
         items.put("FUMING_POTATO_BOOK", new NormalMaterial(Material.BOOK, ItemFamily.HOT_POTATO, "Fuming Potato Book", ItemType.ITEM, Rarity.EPIC, "", "", "Use in an anvil to combine this book with a weapon or armor pieace to gain a small but permanent stat boost!" + " NEW_LINE NEW_LINE " + "This book bypasses the Hot Potato Book limit of 10, allowing you to upgrade an item up to " + ChatColor.GREEN + "15 " + ChatColor.GRAY + "times!", true, false, false));
         items.put("SKYBLOCK_MENU", new NormalMaterial(Material.NETHER_STAR, ItemFamily.NULL, "Skyblock Menu", ItemType.ITEM, Rarity.UNCOMMON, "", "", ChatColor.GRAY + "View all of your Skyblock progress, including your Skills, Recipes and more!", true, false, false));
@@ -193,6 +219,8 @@ public class Items {
         items.put("LARGE_BACKPACK", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.BACKPACK, "Large Backpack", ItemType.ITEM, Rarity.EPIC, "f1e3c520-3f66-38f0-a110-70e3c183df38", "eyJ0aW1lc3RhbXAiOjE1NjgyMTMwNTE0MjYsInByb2ZpbGVJZCI6IjgyYzYwNmM1YzY1MjRiNzk4YjkxYTEyZDNhNjE2OTc3IiwicHJvZmlsZU5hbWUiOiJOb3ROb3RvcmlvdXNOZW1vIiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS82MmYzYjNhMDU0ODFjZGU3NzI0MDAwNWMwZGRjZWUxYzA2OWU1NTA0YTYyY2UwOTc3ODc5ZjU1YTM5Mzk2MTQ2In19fQ", ChatColor.GRAY + "A bag with 27 slots which can be placed in your Storage Menu to store additional items.", false, false, false));
         items.put("GREATER_BACKPACK", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.BACKPACK, "Greater Backpack", ItemType.ITEM, Rarity.EPIC, "f1e3c520-3f66-38f0-a110-70e3c183df38", "eyJ0aW1lc3RhbXAiOjE1NjgyMTMwNTE0MjYsInByb2ZpbGVJZCI6IjgyYzYwNmM1YzY1MjRiNzk4YjkxYTEyZDNhNjE2OTc3IiwicHJvZmlsZU5hbWUiOiJOb3ROb3RvcmlvdXNOZW1vIiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS82MmYzYjNhMDU0ODFjZGU3NzI0MDAwNWMwZGRjZWUxYzA2OWU1NTA0YTYyY2UwOTc3ODc5ZjU1YTM5Mzk2MTQ2In19fQ", ChatColor.GRAY + "A bag with 36 slots which can be placed in your Storage Menu to store additional items.", false, false, false));
         items.put("JUMBO_BACKPACK", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.BACKPACK, "Jumbo Backpack", ItemType.ITEM, Rarity.LEGENDARY, "49a240cd-8e28-3f5e-8bd3-b690ff1cabfc", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWY4NDA1MTE2YzFkYWE3Y2UyZjAxMjU5MTQ1OGQ1MDI0NmQwYTQ2N2JjYjk1YTVhMmMwMzNhZWZkNjAwOGI2MyJ9fX0K", ChatColor.GRAY + "A bag with 45 slots which can be placed in your Storage Menu to store additional items.", false, false, false));
+
+
 
         // Other Items
         items.put("NULL_OVOID", new NormalMaterial(Material.MONSTER_EGG, ItemFamily.NULL, "Null Ovoid", ItemType.ITEM, Rarity.RARE, "58", "", true, true));
@@ -213,31 +241,32 @@ public class Items {
                         for (short i = 0; i < 16; i++) {
                             vanillaMaterials.put(Functions.getColorName(i).toUpperCase() + "_" + material.name(), new ToolMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(i) + " " +  material.name()), ItemType.ITEM, rarity, i + "", "", ""));
                         }
-                } else {
-                    if (material == Material.NETHER_STAR || material == Material.BEDROCK) rarity = Rarity.LEGENDARY;
-                    if (material.toString().contains("PICKAXE"))
-                        vanillaMaterials.put(material.name(), new ToolMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.PICKAXE, rarity, ""));
-                    else if (material.toString().contains("AXE"))
-                        vanillaMaterials.put(material.name(), new ToolMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.AXE, rarity, ""));
-                    else if (material.toString().contains("HOE"))
-                        vanillaMaterials.put(material.name(), new ToolMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.HOE, rarity, ""));
-                    else if (material.toString().contains("HELMET"))
-                        vanillaMaterials.put(material.name(), new ArmorMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.HELMET, rarity, new ItemStats(), "", null));
-                    else if (material.toString().contains("CHESTPLATE"))
-                        vanillaMaterials.put(material.name(), new ArmorMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.CHESTPLATE, rarity, new ItemStats(), "", null));
-                    else if (material.toString().contains("LEGGINGS"))
-                        vanillaMaterials.put(material.name(), new ArmorMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.LEGGINGS, rarity, new ItemStats(), "", null));
-                    else if (material.toString().contains("BOOTS"))
-                        vanillaMaterials.put(material.name(), new ArmorMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.BOOTS, rarity, new ItemStats(), "", null));
-                    else if (material.toString().contains("SWORD"))
-                        vanillaMaterials.put(material.name(), new SwordMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), rarity, new ItemStats(), ""));
-                    else if (material.toString().contains("BOW"))
-                        vanillaMaterials.put(material.name(), new BowMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), rarity, new ItemStats(), "", (ItemAbility) null));
-                    else if (material.toString().contains("ROD"))
-                        vanillaMaterials.put(material.name(), new ToolMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.ROD, rarity, ""));
-                    else
-                        vanillaMaterials.put(material.name(), new ToolMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.ITEM, rarity, "", "", ""));
                 }
+
+                if (material == Material.NETHER_STAR || material == Material.BEDROCK)
+                    rarity = Rarity.LEGENDARY;
+                if (material.toString().contains("PICKAXE"))
+                    vanillaMaterials.put(material.name(), new ToolMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.PICKAXE, rarity, ""));
+                else if (material.toString().contains("AXE"))
+                    vanillaMaterials.put(material.name(), new ToolMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.AXE, rarity, ""));
+                else if (material.toString().contains("HOE"))
+                    vanillaMaterials.put(material.name(), new ToolMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.HOE, rarity, ""));
+                else if (material.toString().contains("HELMET"))
+                    vanillaMaterials.put(material.name(), new ArmorMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.HELMET, rarity, new ItemStats(), "", null));
+                else if (material.toString().contains("CHESTPLATE"))
+                    vanillaMaterials.put(material.name(), new ArmorMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.CHESTPLATE, rarity, new ItemStats(), "", null));
+                else if (material.toString().contains("LEGGINGS"))
+                    vanillaMaterials.put(material.name(), new ArmorMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.LEGGINGS, rarity, new ItemStats(), "", null));
+                else if (material.toString().contains("BOOTS"))
+                    vanillaMaterials.put(material.name(), new ArmorMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.BOOTS, rarity, new ItemStats(), "", null));
+                else if (material.toString().contains("SWORD"))
+                    vanillaMaterials.put(material.name(), new SwordMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), rarity, new ItemStats(), ""));
+                else if (material == Material.BOW)
+                    vanillaMaterials.put(material.name(), new BowMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), rarity, new ItemStats(), "", (ItemAbility) null));
+                else if (material == Material.FISHING_ROD)
+                    vanillaMaterials.put(material.name(), new ToolMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.ROD, rarity, ""));
+                else
+                    vanillaMaterials.put(material.name(), new ToolMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(material.name()), ItemType.ITEM, rarity, "", "", ""));
             }
         }
         vanillaMaterials.put("LAPIS", new ToolMaterial(Material.INK_SACK, ItemFamily.VANILLA, "Lapis Lazuli", ItemType.ITEM, Rarity.COMMON, "4", "", ""));

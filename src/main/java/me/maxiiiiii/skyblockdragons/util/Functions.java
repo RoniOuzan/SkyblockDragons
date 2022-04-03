@@ -809,11 +809,6 @@ public class Functions {
         return x + ", " + y + ", " + z;
     }
 
-    public static boolean chanceOf(double percent) {
-        double chance = randomDouble(0, 100);
-        return chance <= percent;
-    }
-
     public static String getItemName(ItemStack item) {
         try {
             ItemMeta meta = item.getItemMeta();
@@ -1179,9 +1174,9 @@ public class Functions {
         try {
             NBTItem nbtItem = new NBTItem(item);
             NBTCompound nbt = nbtItem.getCompound("Item");
-            return nbt.hasKey("Stack");
+            return !nbt.hasKey("Stack");
         } catch (NullPointerException ignored) {}
-        return false;
+        return true;
     }
 
     public static ReforgeType getReforge(ItemStack item) {
@@ -1622,18 +1617,6 @@ public class Functions {
         return 0;
     }
 
-    public static boolean isEntityUndead(Entity entity) {
-        return entity instanceof Skeleton || entity instanceof Zombie;
-    }
-
-    public static boolean isEntityBaneOfArthropods(Entity entity) {
-        return entity instanceof Spider || entity instanceof Silverfish;
-    }
-
-    public static boolean isEntityBaneOfArthropods() {
-        return false;
-    }
-
     @SafeVarargs
     public static List<String> getTabs(String[] args, Collection<String>... collection) {
         List<String> tabs = new ArrayList<>();
@@ -1661,5 +1644,10 @@ public class Functions {
 
             particleUtil.spawn(newLocation);
         }
+    }
+
+    public static boolean chanceOf(double percent) {
+        double chance = Math.random() * 100;
+        return chance <= percent;
     }
 }

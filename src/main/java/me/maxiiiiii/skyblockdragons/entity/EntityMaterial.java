@@ -73,7 +73,7 @@ public class EntityMaterial implements ConfigurationSerializable {
                 40,
                 0,
                 new Equipment(Material.GOLD_HELMET, null, null, null, Material.BOW, null),
-                100,
+                105,
                 0,
                 2,
                 new ItemDrop(ItemMaterial.get("GOLDEN_SKELETON_BOW"), 1, 1d),
@@ -91,7 +91,7 @@ public class EntityMaterial implements ConfigurationSerializable {
                 100,
                 0,
                 new Equipment(Material.LAPIS_BLOCK, null, null, null, Material.STONE_SWORD, null),
-                100,
+                110,
                 0,
                 5,
                 new ItemDrop(ItemMaterial.get("LAPIS"), 1, 6),
@@ -107,7 +107,7 @@ public class EntityMaterial implements ConfigurationSerializable {
                 150,
                 0,
                 new Equipment(null, null, null, null, Material.GOLD_SWORD, null),
-                110,
+                125,
                 0,
                 8,
                 new ItemDrop(ItemMaterial.get("ROTTEN_FLESH"), 1, 6),
@@ -129,7 +129,7 @@ public class EntityMaterial implements ConfigurationSerializable {
                 150,
                 0,
                 new Equipment(),
-                120,
+                140,
                 0,
                 10,
                 new ItemDrop(ItemMaterial.get("SLIME_BALL"), 1, 10),
@@ -146,7 +146,7 @@ public class EntityMaterial implements ConfigurationSerializable {
                 250,
                 0,
                 new Equipment(Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE, Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS, Material.DIAMOND_SWORD, null),
-                110,
+                120,
                 0.1,
                 20,
                 new ItemDrop(ItemMaterial.get("DIAMOND"), 1, 7),
@@ -162,16 +162,20 @@ public class EntityMaterial implements ConfigurationSerializable {
                 400,
                 0,
                 new Equipment(Material.OBSIDIAN, null, null, null, Material.STONE_SWORD, null),
-                80,
+                100,
                 0.2,
                 35,
                 new ItemDrop(ItemMaterial.get("OBSIDIAN"), 1, 4),
-                new RareDrop(ItemMaterial.get("ENCHANTED_OBSIDIAN"), 1, 1d, RareDrop.Rarity.RARE)
+                new RareDrop(ItemMaterial.get("ENCHANTED_OBSIDIAN"), 1, 2d, RareDrop.Rarity.RARE),
+                new RareDrop(ItemMaterial.get("OBSIDIAN_HELMET"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(ItemMaterial.get("OBSIDIAN_LEGGINGS"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(ItemMaterial.get("OBSIDIAN_LEGGINGS"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(ItemMaterial.get("OBSIDIAN_BOOTS"), 1, 1d, RareDrop.Rarity.RARE)
         ));
 
         Entities.put("DUMMY", new EntityMaterial(EntityType.ZOMBIE, "Dummy", Integer.MAX_VALUE, 500000, 0, 0, 0, new Equipment(), 0, 1, false, 0));
 
-        Entities.put("PLAYER", new EntityMaterial(EntityType.PLAYER, "", -1, -1, -1, -1, -1, new Equipment(), -1, -1, -1));
+        Entities.put("PLAYER", new EntityMaterial(EntityType.PLAYER, "", -1, -1, -1, -1, -1, new Equipment(), -1, 0, -1));
 
         NULL = new EntityMaterial(EntityType.SKELETON, "Null", 0, 1, 0, 0, 0, new Equipment(), 0, 1, 0);
     }
@@ -197,11 +201,14 @@ public class EntityMaterial implements ConfigurationSerializable {
         map.put("level", level);
         map.put("health", health);
         map.put("defense", defense);
+        map.put("damage", damage);
+        map.put("trueDamage", trueDamage);
         map.put("equipment", equipment);
         map.put("speed", speed);
         map.put("knockbackResistance", knockbackResistance);
         map.put("ai", ai);
         map.put("combatXp", combatXp);
+        map.put("drops", drops);
         return map;
     }
 }

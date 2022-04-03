@@ -19,9 +19,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.SlimeSplitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
@@ -68,8 +70,7 @@ public class Damage implements Listener {
         if (player instanceof PlayerSD) {
             PlayerSD playerSD = (PlayerSD) player;
             if (damageType.isNormal() && activeFerocity > 0 && !entity.entity.isDead()) {
-                double chance = randomDouble(0, 100);
-                if (chance <= activeFerocity) {
+                if (Functions.chanceOf(activeFerocity)) {
                     playerSD.playSound(player.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1f, 1f);
                     new BukkitRunnable() {
                         @Override
@@ -152,7 +153,7 @@ public class Damage implements Listener {
         // crit
         if (player instanceof PlayerSD) {
             PlayerSD playerSD = (PlayerSD) player;
-            if (randomDouble(1, 100) <= playerSD.getCritChance() && damageType != DamageType.MAGIC) {
+            if (Functions.chanceOf(playerSD.getCritChance()) && damageType != DamageType.MAGIC) {
                 damage *= (1 + (playerSD.getCritDamage() / 100));
                 critHit = true;
             }
@@ -217,8 +218,11 @@ public class Damage implements Listener {
             return;
         }
         victim.setAttacker(attacker);
-        e.setDamage(damage);
-        e.getVictim().entity.damage(damage);
+        double health = victim.entity.getHealth();
+        victim.entity.damage(0);
+        victim.entity.setHealth(Math.max(health - damage, 0));
+        EntityKnockbackEvent knockbackEvent = new EntityKnockbackEvent(e.getVictim(), e.getAttacker());
+        Bukkit.getServer().getPluginManager().callEvent(knockbackEvent);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -243,11 +247,7 @@ public class Damage implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
-        if (e.getEntity() instanceof Creature) {
-            if (e.getEntity() instanceof Player) {
-                Player player = (Player) e.getEntity();
-                Functions.Wait(1L, () -> player.spigot().respawn());
-            }
+        if (e.getEntity() instanceof Creature && !(e.getEntity() instanceof Player)) {
             EntitySD entity = EntitySD.get(e.getEntity().getUniqueId());
             e.getDrops().clear();
             e.setDroppedExp(0);
@@ -270,5 +270,20 @@ public class Damage implements Listener {
                     }
                 }
         }
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent e) {
+        PlayerSD player = SkyblockDragons.getPlayer(e.getEntity());
+
+        if (player.getAttacker() == null)
+            e.setDeathMessage(ChatColor.GRAY + player.getDisplayName() + ChatColor.GRAY + " died!");
+        else
+            if (player.getAttacker() instanceof Player)
+                e.setDeathMessage(ChatColor.GRAY + player.getDisplayName() + ChatColor.GRAY + " died by " + ((Player) player.getAttacker().entity).getDisplayName() + ChatColor.GRAY + "!");
+            else
+                e.setDeathMessage(ChatColor.GRAY + player.getDisplayName() + ChatColor.GRAY + " died by " + player.getAttacker().type.getName() + ChatColor.GRAY + "!");
+
+        Functions.Wait(1L, () -> player.spigot().respawn());
     }
 }
