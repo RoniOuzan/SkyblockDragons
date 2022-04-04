@@ -42,17 +42,17 @@ public class Serializer {
         return encodedObject;
     }
 
-    public Object deserialize(String str){
+    public <T> T deserialize(String str){
         byte[] serializeedObject = Base64.getDecoder().decode(str);
-        Object FixedObject = "ERROR?";
+        T FixedObject;
         try {
             ByteArrayInputStream in = new ByteArrayInputStream(serializeedObject);
             BukkitObjectInputStream is = new BukkitObjectInputStream(in);
 
-            FixedObject = is.readObject();
+            FixedObject = (T) is.readObject();
         }
         catch(ClassNotFoundException | IOException e){
-            FixedObject = "ERROR! " + e;
+            throw new IllegalArgumentException("Can not deserialize " + e);
         }
         lastObject = FixedObject;
         return FixedObject;

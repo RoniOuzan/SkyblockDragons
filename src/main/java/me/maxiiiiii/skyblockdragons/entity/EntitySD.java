@@ -88,6 +88,7 @@ public class EntitySD {
     }
 
     public static void saveLocations() {
+        Variables.delete("EntitiesSpawnsLocations");
         int i = 0;
         for (Location location : entitiesLocations.keySet()) {
             Variables.set("EntitiesSpawnsLocations", i, location);
@@ -97,7 +98,6 @@ public class EntitySD {
     }
 
     public static void loadLocations() {
-//        entitiesLocations = Variables.get("EntitiesLocations", new HashMap<>());
         for (int i = 0; i < Variables.getSize("EntitiesSpawnsLocations"); i++) {
             entitiesLocations.put(Variables.get("EntitiesSpawnsLocations", i, null), Variables.get("EntitiesSpawnsEntity", i, EntityMaterial.NULL));
         }

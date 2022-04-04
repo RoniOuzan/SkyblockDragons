@@ -5,6 +5,7 @@ import de.tr7zw.changeme.nbtapi.NBTEntity;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
@@ -107,6 +108,7 @@ public class JavaPluginCommand implements CommandExecutor, TabCompleter {
                     }
                 } else if (args[0].equalsIgnoreCase("test")) {
                     PlayerSD player = SkyblockDragons.getPlayer((Player) sender);
+                    player.sendMessage(SkyblockDragons.serializer.serialize(1));
                 }
             } else {
                 sender.sendMessage(ChatColor.RED + "Invalid arguments!");

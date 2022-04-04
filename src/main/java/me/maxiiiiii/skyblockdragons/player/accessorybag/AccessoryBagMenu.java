@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.player.accessorybag;
 
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class AccessoryBagMenu {
     public static void openAccessoryBag(Player player, Player arg) {
@@ -31,7 +33,7 @@ public class AccessoryBagMenu {
         inv.setItem(49, close);
 
         PlayerSD playerSD = SkyblockDragons.getPlayer(player);
-        ArrayList<ItemStack> accessories = playerSD.accessoryBag;
+        List<ItemStack> accessories = playerSD.accessoryBag;
         for (int i = 0; i < 45; i++) {
             if (i < accessories.size())
                 inv.setItem(i, accessories.get(i));

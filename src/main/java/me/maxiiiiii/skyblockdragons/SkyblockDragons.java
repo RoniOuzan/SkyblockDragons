@@ -7,6 +7,7 @@ import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.abilities.*;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.commands.RecipesCommand;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemAbility;
 import me.maxiiiiii.skyblockdragons.material.Items;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
 import me.maxiiiiii.skyblockdragons.item.anvil.AnvilCommand;
@@ -46,6 +47,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -311,6 +313,9 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         for (PlayerSD player : players.values()) {
             for (int i = 0; i < player.pets.size(); i++) {
                 Variables.set(player.getUniqueId(), "Pets", i, player.pets.get(i).getAsItem());
+            }
+            for (int i = 0; i < player.accessoryBag.size(); i++) {
+                Variables.set(player.getUniqueId(), "AccessoryBag", i, player.accessoryBag.get(i));
             }
         }
 

@@ -3,13 +3,15 @@ package me.maxiiiiii.skyblockdragons.material;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import org.bukkit.Material;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Getter
-public class MiningMaterial extends ToolMaterial {
+public class MiningMaterial extends ToolMaterial implements ConfigurationSerializable {
     private final ItemStats stats;
     private final int breakingPower;
 
@@ -26,4 +28,11 @@ public class MiningMaterial extends ToolMaterial {
     public MiningMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, int breakingPower, String description, ItemAbility... abilities) {
         this(material, family, name, type, rarity, "", "", new ItemStats(), breakingPower, description, new ArrayList<>(Arrays.asList(abilities)));
     }
+
+//    public Map<String, Object> serialize() {
+//        Map<String, Object> map = super.serialize();
+//        map.put("stats", stats);
+//        map.put("breakingPower", breakingPower);
+//        return map;
+//    }
 }

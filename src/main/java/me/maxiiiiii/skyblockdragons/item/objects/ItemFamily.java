@@ -55,6 +55,7 @@ public enum ItemFamily {
     EMERALD,
     DIAMOND,
     OBSIDIAN,
+    COAL,
     NULL
 }
 

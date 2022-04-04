@@ -170,7 +170,26 @@ public class Items {
 
         // Accessories
         items.put("NETHER_ARTIFACT", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.NETHER_ARTIFACT, "Nether Artifact", Rarity.EPIC, "0ef495a4-e5df-41c2-b9a2-b2e647cbb491", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDgzNTcxZmY1ODlmMWE1OWJiMDJiODA4MDBmYzczNjExNmUyN2MzZGNmOWVmZWJlZGU4Y2YxZmRkZSJ9fX0=", new ItemStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Reduces the damage taken from Zombie Pigmen, Magma Cubes, Ghasts and Blazes by " + ChatColor.GREEN + "5%" + ChatColor.GRAY + ". NEW_LINE NEW_LINE While in the " + ChatColor.GOLD + "Blazing Fortress " + ChatColor.GRAY + "you will receive the damage reduction from all mobs."));
+
         items.put("SLIME_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.SLIME, "Slime Talisman", Rarity.UNCOMMON, "7f0b0873-df6a-4a19-9bcd-f6c90ef804c7", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODk1YWVlYzZiODQyYWRhODY2OWY4NDZkNjViYzQ5NzYyNTk3ODI0YWI5NDRmMjJmNDViZjNiYmI5NDFhYmU2YyJ9fX0=", new ItemStats(0, 2, 2, 0, 0, 0, 0, 0, 0, 0), ""));
+
+        items.put("COAL_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.COAL, "Coal Talisman", Rarity.UNCOMMON, "", "", new ItemStats(0, 2, 2, 0, 0, 0), ""));
+        items.put("COAL_BLOCK_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.COAL, "Coal Block Talisman", Rarity.UNCOMMON, "", "", new ItemStats(0, 4, 4, 0, 0, 0), ""));
+        items.put("IRON_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.IRON, "Iron Talisman", Rarity.UNCOMMON, "", "", new ItemStats(0, 2, 2, 0, 0, 0), ""));
+        items.put("IRON_BLOCK_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.IRON, "Iron Block Talisman", Rarity.UNCOMMON, "", "", new ItemStats(0, 4, 4, 0, 0, 0), ""));
+        items.put("GOLD_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.GOLD, "Gold Talisman", Rarity.UNCOMMON, "", "", new ItemStats(0, 2, 2, 0, 0, 0), ""));
+        items.put("GOLD_BLOCK_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.GOLD, "Gold Block Talisman", Rarity.UNCOMMON, "", "", new ItemStats(0, 4, 4, 0, 0, 0), ""));
+
+        items.put("LAPIS_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.LAPIS, "Lapis Talisman", Rarity.UNCOMMON, "", "", new ItemStats(0, 2, 2, 0, 0, 0), ""));
+        items.put("LAPIS_BLOCK_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.LAPIS, "Lapis Block Talisman", Rarity.UNCOMMON, "", "", new ItemStats(0, 4, 4, 0, 0, 0), ""));
+        items.put("REDSTONE_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.REDSTONE, "Redstone Talisman", Rarity.UNCOMMON, "", "", new ItemStats(0, 2, 2, 0, 0, 0), ""));
+        items.put("REDSTONE_BLOCK_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.REDSTONE, "Redstone Block Talisman", Rarity.UNCOMMON, "", "", new ItemStats(0, 4, 4, 0, 0, 0), ""));
+        items.put("EMERALD_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.EMERALD, "Emerald Talisman", Rarity.UNCOMMON, "", "", new ItemStats(0, 2, 2, 0, 0, 0), ""));
+        items.put("EMERALD_BLOCK_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.EMERALD, "Emerald Block Talisman", Rarity.UNCOMMON, "", "", new ItemStats(0, 4, 4, 0, 0, 0), ""));
+
+        items.put("DIAMOND_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.DIAMOND, "Diamond Talisman", Rarity.UNCOMMON, "", "", new ItemStats(0, 4, 2, 0, 0, 0), ""));
+        items.put("DIAMOND_BLOCK_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.DIAMOND, "Diamond Block Talisman", Rarity.UNCOMMON, "", "", new ItemStats(0, 8, 4, 0, 0, 0), ""));
+        items.put("OBSIDIAN_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.OBSIDIAN, "Obsidian Talisman", Rarity.UNCOMMON, "", "", new ItemStats(0, 8, 4, 0, 0, 0), ""));
 
 
 

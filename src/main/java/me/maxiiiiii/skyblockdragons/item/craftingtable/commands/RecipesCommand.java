@@ -45,7 +45,7 @@ public class RecipesCommand implements CommandExecutor, Listener {
             RecipesMenu.openRecipesType(player, RecipesMenu.Type.valueOf(type.toUpperCase()), page);
         } else {
             String name = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName().replace(" Recipes", ""));
-            RecipesMenu.openRecipesType(player, RecipesMenu.Type.valueOf(name.toUpperCase()), 1);
+            RecipesMenu.openRecipesType(player, RecipesMenu.Type.valueOf(name.toUpperCase().replace(" ", "_")), 1);
         }
     }
 }

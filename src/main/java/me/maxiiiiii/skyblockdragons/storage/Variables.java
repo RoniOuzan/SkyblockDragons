@@ -5,6 +5,7 @@ import com.google.gson.*;
 import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.stream.JsonReader;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Location;
@@ -124,32 +125,52 @@ public class Variables {
     }
 
     public static void delete(String id) {
-        delete(null, id, -1);
+        variables.removeIf(v -> v.id.equals(id));
     }
 
-    public static int getSize(UUID uuid, String id, int data) {
+    public static int getSize(UUID uuid, String id) {
         int amount = 0;
         for (Variable<?> variable : variables) {
-            if (Objects.equals(variable.uuid, uuid) && variable.id.equals(id) && variable.data == data) {
+            if (Objects.equals(variable.uuid, uuid) && variable.id.equals(id)) {
                 amount++;
             }
         }
         return amount;
     }
 
-    public static int getSize(UUID uuid, String id) {
-        return getSize(uuid, id, -1);
-    }
-
     public static int getSize(String id, int data) {
-        return getSize(null, id, data);
+        int amount = 0;
+        for (Variable<?> variable : variables) {
+            if (variable.id.equals(id) && variable.data == data) {
+                amount++;
+            }
+        }
+        return amount;
     }
 
     public static int getSize(String id) {
-        return getSize(null, id, -1);
+        int amount = 0;
+        for (Variable<?> variable : variables) {
+            if (variable.id.equals(id)) {
+                amount++;
+            }
+        }
+        return amount;
+    }
+
+    public static int getSize(UUID uuid) {
+        int amount = 0;
+        for (Variable<?> variable : variables) {
+            if (Objects.equals(variable.uuid, uuid)) {
+                amount++;
+            }
+        }
+        return amount;
     }
 
     public static void save() {
+        EntitySD.saveLocations();
+
         Gson gson = new Gson();
         ArrayList<Variable<?>> variablesToAdd = new ArrayList<>();
         ArrayList<Variable<?>> variablesToRemove = new ArrayList<>();

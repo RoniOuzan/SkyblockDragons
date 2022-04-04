@@ -29,11 +29,11 @@ public class EntityCommand implements CommandExecutor, TabCompleter {
                     new EntitySD(player.getLocation(), EntityMaterial.get(args[1]));
                     player.sendMessage(ChatColor.GREEN + "Summoned new " + Functions.setTitleCase(args[1]) + ".");
                 } else if (args[0].toLowerCase().startsWith("a")) {
-                    if (!EntityMaterial.Entities.containsKey(args[1].toUpperCase())) {
+                    if (!EntityMaterial.entities.containsKey(args[1].toUpperCase())) {
                         player.sendMessage(ChatColor.RED + "Can't understand this entity!");
                         return true;
                     }
-                    Location location = Functions.getLowestBlock(Functions.getCenter(player.getLocation())).getLocation();
+                    Location location = Functions.getLowestBlock(player.getLocation()).getLocation().add(0.5, 1, 0.5);
                     EntitySD.entitiesLocations.put(location, EntityMaterial.get(args[1]));
                     EntitySD.saveLocations();
                     player.sendMessage(ChatColor.GREEN + "You have set new spawn to " + Functions.setTitleCase(args[1]) + " in " + Functions.getLocation(location) + ".");
@@ -43,7 +43,7 @@ public class EntityCommand implements CommandExecutor, TabCompleter {
                         player.sendMessage(ChatColor.RED + "This location does not saved!");
                         new TextMessage().append(ChatColor.RED + "If you want to delete the nearest saved location ").save().append(ChatColor.YELLOW + "" + ChatColor.BOLD + "CLICK HERE!").setClickAsExecuteCmd("/esd delete").save().send(player);
                     }
-                    if (!EntityMaterial.Entities.containsKey(args[1].toUpperCase())) {
+                    if (!EntityMaterial.entities.containsKey(args[1].toUpperCase())) {
                         player.sendMessage(ChatColor.RED + "Can't understand this entity!");
                         return true;
                     }
@@ -51,7 +51,7 @@ public class EntityCommand implements CommandExecutor, TabCompleter {
                     EntitySD.saveLocations();
                     player.sendMessage(ChatColor.GREEN + "You have removed the spawn of " + Functions.setTitleCase(args[1]) + ".");
                 } else if (args[0].toLowerCase().startsWith("d")) {
-                    if (!EntityMaterial.Entities.containsKey(args[1].toUpperCase())) {
+                    if (!EntityMaterial.entities.containsKey(args[1].toUpperCase())) {
                         player.sendMessage(ChatColor.RED + "Can't understand this entity!");
                         return true;
                     }
@@ -63,6 +63,10 @@ public class EntityCommand implements CommandExecutor, TabCompleter {
                     }
                     EntitySD.entitiesLocations.remove(location);
                     EntitySD.saveLocations();
+                } else if (args[0].equalsIgnoreCase("send")) {
+                    for (Location location : EntitySD.entitiesLocations.keySet()) {
+                        player.sendMessage(EntitySD.entitiesLocations.get(location).name() + ": " + Functions.getLocation(location));
+                    }
                 }
             } else if (args.length > 0) {
                 if (args[0].toLowerCase().startsWith("k")) {
@@ -80,7 +84,7 @@ public class EntityCommand implements CommandExecutor, TabCompleter {
         if (args.length == 1)
             return new ArrayList<>(Arrays.asList("spawn", "kill", "add", "delete", "remove")).stream().sorted().collect(Collectors.toList()).stream().filter(s -> s.startsWith(args[0].toLowerCase().toLowerCase())).collect(Collectors.toList());
         else if (args[0].toLowerCase().startsWith("s") || args[0].toLowerCase().startsWith("a") || args[0].toLowerCase().startsWith("d") || args[0].toLowerCase().startsWith("r"))
-            return EntityMaterial.Entities.values().stream().map(EntityMaterial::name).filter(s -> s.startsWith(args[1].toUpperCase())).collect(Collectors.toList());
+            return EntityMaterial.entities.values().stream().map(EntityMaterial::name).filter(s -> s.startsWith(args[1].toUpperCase())).collect(Collectors.toList());
         return null;
     }
 }

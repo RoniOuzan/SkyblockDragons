@@ -13,6 +13,7 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.material.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -25,7 +26,7 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 import static me.maxiiiiii.skyblockdragons.util.Functions.manaCostCalculator;
 
 @Getter
-public class Item extends ItemStack {
+public class Item extends ItemStack implements ConfigurationSerializable {
     private final ItemMaterial material;
     private final int amount;
 
@@ -67,7 +68,6 @@ public class Item extends ItemStack {
     }
 
     public void setAmount(int amount) {
-        System.out.println(amount);
         super.setAmount(amount);
     }
 
@@ -620,25 +620,10 @@ public class Item extends ItemStack {
         return true;
     }
 
-//    @Override
-//    public boolean isSimilar(ItemStack item) {
-//        if (item == null)
-//            return false;
-//
-//        if (item == this)
-//            return true;
-//
-//        NBTItem nbtItem1 = new NBTItem(this.clone());
-//        NBTItem nbtItem2 = new NBTItem(item.clone());
-//
-//        NBTCompound nbt1 = nbtItem1.getCompound("Item");
-//        NBTCompound nbt2 = nbtItem2.getCompound("Item");
-//
-//        nbt1.removeKey("Stack");
-//        nbt2.removeKey("Stack");
-//        nbt1.removeKey("Date");
-//        nbt2.removeKey("Date");
-//
-//        return getType() == item.getType() && getAmount() == item.getAmount() && nbtItem1.equals(nbtItem2);
-//    }
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = super.serialize();
+        map.put("material", this.material);
+        map.put("amount", this.amount);
+        return map;
+    }
 }

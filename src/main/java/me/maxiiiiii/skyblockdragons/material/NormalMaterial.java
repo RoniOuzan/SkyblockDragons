@@ -5,9 +5,12 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import org.bukkit.Material;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+
+import java.util.Map;
 
 @Getter
-public class NormalMaterial extends ItemMaterial {
+public class NormalMaterial extends ItemMaterial implements ConfigurationSerializable {
     private final String description;
     private final boolean isEnchanted;
     private final boolean showRecipe;
@@ -28,4 +31,13 @@ public class NormalMaterial extends ItemMaterial {
     public NormalMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, boolean isEnchanted, boolean showRecipe, boolean stackAble) {
         this(material, family, name, type, rarity, id, nbt, "", isEnchanted, showRecipe, stackAble);
     }
+
+//    public Map<String, Object> serialize() {
+//        Map<String, Object> map = super.serialize();
+//        map.put("description", description);
+//        map.put("isEnchanted", isEnchanted);
+//        map.put("showRecipe", showRecipe);
+//        map.put("stackAble", stackAble);
+//        return map;
+//    }
 }

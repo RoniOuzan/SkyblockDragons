@@ -5,10 +5,14 @@ import lombok.ToString;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Material;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 @ToString
-public class ItemMaterial {
+public class ItemMaterial implements ConfigurationSerializable {
     protected Material material;
     protected ItemFamily family;
     protected String name;
@@ -44,5 +48,16 @@ public class ItemMaterial {
             }
         }
         return "";
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", this.name());
+        return map;
+    }
+
+    public static ItemMaterial deserialize(Map<String, Object> args) {
+        return Items.get((String) args.get("id"));
     }
 }

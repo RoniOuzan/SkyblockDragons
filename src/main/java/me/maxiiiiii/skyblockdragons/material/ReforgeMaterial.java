@@ -6,10 +6,13 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import org.bukkit.Material;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+
+import java.util.Map;
 
 @Getter
 @Setter
-public class ReforgeMaterial extends ItemMaterial {
+public class ReforgeMaterial extends ItemMaterial implements ConfigurationSerializable {
     public static final ReforgeMaterial NULL = new ReforgeMaterial(Material.BARRIER, ItemFamily.NULL,"Null", Rarity.SPECIAL, "", "", "");
 
     private String reforgeName;
@@ -18,4 +21,10 @@ public class ReforgeMaterial extends ItemMaterial {
         super(material, family, name, ItemType.REFORGE_STONE, rarity, id, nbt, 0);
         this.reforgeName = reforgeName;
     }
+
+//    public Map<String, Object> serialize() {
+//        Map<String, Object> map = super.serialize();
+//        map.put("reforgeName", reforgeName);
+//        return map;
+//    }
 }

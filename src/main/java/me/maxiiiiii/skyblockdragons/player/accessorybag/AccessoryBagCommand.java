@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.player.accessorybag;
 
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
@@ -16,15 +17,16 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AccessoryBagCommand implements CommandExecutor, Listener {
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-       if (event.getInventory().getTitle().contains("Accessory Bag")) {
-           String[] title = event.getInventory().getTitle().split(" ");
-           if (title.length > 2) event.setCancelled(true);
-           else if (event.getSlot() >= 45) {
-               event.setCancelled(true);
+    public void onInventoryClick(InventoryClickEvent e) {
+       if (e.getInventory().getTitle().contains("Accessory Bag")) {
+           String[] title = e.getInventory().getTitle().split(" ");
+           if (title.length > 2) e.setCancelled(true);
+           else if (e.getSlot() >= 45) {
+               e.setCancelled(true);
            }
        }
     }
@@ -34,12 +36,13 @@ public class AccessoryBagCommand implements CommandExecutor, Listener {
         if (e.getInventory().getTitle().contains("Accessory Bag")) {
             String[] title = e.getInventory().getTitle().split(" ");
             if (title.length > 2) return;
-            ArrayList<ItemStack> accessories = new ArrayList<>();
+            List<ItemStack> accessories = new ArrayList<>();
             Variables.delete(e.getPlayer().getUniqueId(), "AccessoryBag", 0, 44);
             int i2 = 0;
             for (int i = 0; i < 45; i++) {
                 if (Functions.isNotAir(e.getInventory().getItem(i))) {
                     Variables.set(e.getPlayer().getUniqueId(), "AccessoryBag", i2, e.getInventory().getItem(i));
+//                    Item item = new Item(e.getInventory().getItem(i));
                     accessories.add(e.getInventory().getItem(i));
                     i2++;
                 }

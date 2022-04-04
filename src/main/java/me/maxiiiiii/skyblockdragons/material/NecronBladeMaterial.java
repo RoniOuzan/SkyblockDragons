@@ -5,13 +5,15 @@ import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 @Getter
 @Setter
-public class NecronBladeMaterial extends SwordMaterial {
+public class NecronBladeMaterial extends SwordMaterial implements ConfigurationSerializable {
     private NecronBladeType bladeType;
 
     public NecronBladeMaterial(Material material, ItemFamily family, String name, Rarity rarity, ItemStats stats, NecronBladeType bladeType) {
@@ -45,4 +47,10 @@ public class NecronBladeMaterial extends SwordMaterial {
             this(material, name, rarity, description, new ArrayList<>(Arrays.asList(ability)));
         }
     }
+
+//    public Map<String, Object> serialize() {
+//        Map<String, Object> map = super.serialize();
+//        map.put("bladeType", bladeType);
+//        return map;
+//    }
 }

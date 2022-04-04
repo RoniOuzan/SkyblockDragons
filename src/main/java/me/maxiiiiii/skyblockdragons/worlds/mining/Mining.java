@@ -70,7 +70,7 @@ public class Mining implements Listener {
 
                 stopMining(player, block);
 
-                BlockBreakEvent event = new BlockBreakEvent(e.getBlock(), player);
+                PlayerBreakBlockEvent event = new PlayerBreakBlockEvent(player, e.getBlock(), blockMaterial);
                 Bukkit.getServer().getPluginManager().callEvent(event);
             });
         } else {
