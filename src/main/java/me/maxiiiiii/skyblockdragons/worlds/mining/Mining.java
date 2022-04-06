@@ -9,6 +9,7 @@ import me.maxiiiiii.skyblockdragons.worlds.mining.deepmines.DeepMines;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -23,18 +24,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 public class Mining implements Listener {
-    public static final List<String> miningWorlds = Arrays.stream(Worlds.values()).filter(w -> w.getWorldType().contains(WorldType.MINING)).map(Enum::name).collect(Collectors.toList());
+    public static final List<World> miningWorlds = Arrays.stream(Worlds.values()).filter(w -> w.getWorldType().contains(WorldType.MINING)).map(w -> w.getWorld()).collect(Collectors.toList());
 
     public static final HashMap<Player, Integer> amount = new HashMap<>();
 
     public Mining(Plugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        plugin.getServer().getPluginManager().registerEvents(new PlayerBreakBlockListener(), plugin);
         new DeepMines(plugin);
     }
 
     @EventHandler
     public void onBlockDamage(BlockDamageEvent e) {
-        if (!miningWorlds.contains(e.getBlock().getWorld().getName())) return;
+        if (!miningWorlds.contains(e.getBlock().getWorld())) return;
 
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
         Block block = e.getBlock();

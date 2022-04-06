@@ -1,5 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.craftingtable.commands;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.CraftingTableMenu;
@@ -31,7 +33,7 @@ public class CraftingTable implements CommandExecutor, Listener {
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent e) {
         if (e.getInventory().getTitle().contains("Craft Item")) {
-            Functions.Wait(1L, () -> updateInventory(e.getInventory()));
+            Functions.Wait(1L, () -> updateInventory((Player) e.getWhoClicked()));
         }
     }
 
@@ -39,11 +41,11 @@ public class CraftingTable implements CommandExecutor, Listener {
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getCurrentItem() == null) return;
 
-        if (e.getInventory().getTitle().contains("Craft Item")) Functions.Wait(1L, () -> updateInventory(e.getInventory()));
+        if (e.getInventory().getTitle().contains("Craft Item")) Functions.Wait(1L, () -> updateInventory((Player) e.getWhoClicked()));
 
         if (!e.getClickedInventory().getTitle().contains("Craft Item")) return;
 
-        Player player = (Player) e.getWhoClicked();
+        PlayerSD player = SkyblockDragons.getPlayer((Player) e.getWhoClicked());
         if ((e.getSlot() % 9 < 1 || e.getSlot() % 9 > 3) || (e.getSlot() / 9 == 0 || e.getSlot() / 9 > 3)) {
             e.setCancelled(true);
         }
@@ -55,30 +57,56 @@ public class CraftingTable implements CommandExecutor, Listener {
                 Recipe recipe = getRecipe(e.getInventory());
                 if (e.getClick().isShiftClick()) {
                     e.getInventory().setItem(23, CraftingTableMenu.recipe);
-                    player.getInventory().addItem(recipe.getItem());
+                    player.getInventory().addItem(e.getCurrentItem());
 
                     removeItems(e.getInventory(), recipe);
 
-                    updateInventory(e.getInventory());
+                    updateInventory(player);
 
                     InventoryClickEvent event = new InventoryClickEvent(player.getOpenInventory(), InventoryType.SlotType.CONTAINER, 23, ClickType.SHIFT_LEFT, InventoryAction.NOTHING);
                     Bukkit.getServer().getPluginManager().callEvent(event);
                 } else {
                     if (Functions.isNotAir(e.getCursor())) {
-                        if (recipe.getItem().isSimilar(e.getCursor()) && e.getCursor().getAmount() + recipe.getItem().getAmount() <= recipe.getItem().getType().getMaxStackSize()) {
-                            e.getCursor().setAmount(e.getCursor().getAmount() + recipe.getItem().getAmount());
+                        if (e.getCurrentItem().isSimilar(e.getCursor()) && e.getCursor().getAmount() + e.getCurrentItem().getAmount() <= e.getCurrentItem().getType().getMaxStackSize()) {
+                            e.getCursor().setAmount(e.getCursor().getAmount() + e.getCurrentItem().getAmount());
                             player.setItemOnCursor(e.getCursor());
                             removeItems(e.getInventory(), recipe);
                         }
                     } else {
-                        player.setItemOnCursor(recipe.getItem());
+                        player.setItemOnCursor(e.getCurrentItem());
                         removeItems(e.getInventory(), recipe);
                     }
                 }
             }
         }
+        if (e.getSlot() == 16 || e.getSlot() == 25 || e.getSlot() == 34) {
+            if (!e.getCurrentItem().isSimilar(CraftingTableMenu.quickCraft)) {
+                int row = e.getSlot() / 9;
 
-        Functions.Wait(1L, () -> updateInventory(e.getClickedInventory()));
+                Recipe recipe = Recipe.getRecipesCanCraft(player, 3).get(row - 1);
+
+                if (e.getClick().isShiftClick()) {
+                    player.getInventory().addItem(e.getCurrentItem());
+
+                    player.removeItems(recipe.getAllItems());
+                } else {
+                    if (Functions.isNotAir(e.getCursor())) {
+                        if (e.getCurrentItem().isSimilar(e.getCursor()) && e.getCursor().getAmount() + e.getCurrentItem().getAmount() <= e.getCurrentItem().getType().getMaxStackSize()) {
+                            e.getCursor().setAmount(e.getCursor().getAmount() + e.getCurrentItem().getAmount());
+                            player.setItemOnCursor(e.getCursor());
+
+                            player.removeItems(recipe.getAllItems());
+                        }
+                    } else {
+                        player.setItemOnCursor(e.getCurrentItem());
+
+                        player.removeItems(recipe.getAllItems());
+                    }
+                }
+            }
+        }
+
+        Functions.Wait(1L, () -> updateInventory(player));
     }
 
     public void removeItems(Inventory inventory, Recipe recipe) {
@@ -93,16 +121,34 @@ public class CraftingTable implements CommandExecutor, Listener {
         }
     }
 
-    public void updateInventory(Inventory inventory) {
+    public void updateInventory(Player player) {
+        Inventory inventory = player.getOpenInventory().getTopInventory();
         Recipe recipe = getRecipe(inventory);
 
         if (recipe == null) {
             CraftingTableMenu.updateLines(inventory, true);
             inventory.setItem(23, CraftingTableMenu.recipe);
         } else {
-            inventory.setItem(23, recipe.getItem());
+            if (recipe.getItem() instanceof Item)
+                if (recipe.getSlotToUpgrade() >= 0)
+                    inventory.setItem(23, new Item(((Item) recipe.getItem()).getMaterial(), inventory.getItem(Functions.numToSlot(recipe.getSlotToUpgrade()))));
+                else
+                    inventory.setItem(23, recipe.getItem());
             CraftingTableMenu.updateLines(inventory, false);
         }
+        List<Recipe> recipes = Recipe.getRecipesCanCraft(SkyblockDragons.getPlayer(player), 3);
+        if (recipes.size() > 0)
+            inventory.setItem(16, Functions.setUnstackable(recipes.get(0).getItem()));
+        else
+            inventory.setItem(16, CraftingTableMenu.quickCraft);
+        if (recipes.size() > 1)
+            inventory.setItem(25, Functions.setUnstackable(recipes.get(1).getItem()));
+        else
+            inventory.setItem(16, CraftingTableMenu.quickCraft);
+        if (recipes.size() > 2)
+            inventory.setItem(34, Functions.setUnstackable(recipes.get(2).getItem()));
+        else
+            inventory.setItem(16, CraftingTableMenu.quickCraft);
     }
 
     public Recipe getRecipe(Inventory inventory) {
@@ -156,233 +202,4 @@ public class CraftingTable implements CommandExecutor, Listener {
         }
         return amount == 9;
     }
-//            if (e.getSlot() != 10 && e.getSlot() != 11 && e.getSlot() != 12 && e.getSlot() != 19 && e.getSlot() != 20 && e.getSlot() != 21 && e.getSlot() != 28 && e.getSlot() != 29 && e.getSlot() != 30 && e.getClickedInventory().getTitle().contains("Craft Item")) {
-//                e.setCancelled(true);
-//            }
-//
-//            if (e.getSlot() == 23 && e.getCurrentItem().getType() != Material.BARRIER && !e.getCurrentItem().getItemMeta().getDisplayName().contains("Recipe Required")) {
-//                if (isEnoughItems(player)) {
-//                    Recipe recipe = Recipe.get(Functions.getItemMaterial(e.getCurrentItem()).name());
-//
-//                    ItemStack itemToUpgrade = e.getInventory().getItem(Functions.numToSlot(recipe.getSlotToUpgrade()));
-//
-//                    int hotPotato;
-//                    ReforgeType reforge;
-//                    boolean recombabulated;
-//                    SkinMaterial skin;
-//                    Map<EnchantType, Short> enchants;
-//
-//                    try {
-//                        hotPotato = getHotPotato(itemToUpgrade);
-//                        reforge = Functions.getReforge(itemToUpgrade);
-//                        recombabulated = Functions.isRecombed(itemToUpgrade);
-//                        skin = Functions.getSkin(itemToUpgrade);
-//                        enchants = Functions.getEnchants(itemToUpgrade);
-//                    } catch (NullPointerException ex) {
-//                        hotPotato = 0;
-//                        reforge = ReforgeType.NULL;
-//                        recombabulated = false;
-//                        skin = SkinMaterial.NULL;
-//                        enchants = new HashMap<>();
-//                    }
-//                    if (e.getClick().isShiftClick()) {
-//                        takeItem(player, recipe);
-//
-//                        player.getInventory().addItem(new Item(recipe.getItem().getMaterial(), recipe.getItem().getAmount(), hotPotato, reforge, recombabulated, skin, enchants));
-//                        InventoryClickEvent event = new InventoryClickEvent(player.getOpenInventory(), InventoryType.SlotType.CONTAINER, 23, ClickType.SHIFT_LEFT, InventoryAction.NOTHING);
-//                        Bukkit.getServer().getPluginManager().callEvent(event);
-//                    } else if (e.getClick().isLeftClick()) {
-//                        takeItem(player, recipe);
-//
-//                        player.setItemOnCursor(new Item(recipe.getItem().getMaterial(), recipe.getItem().getAmount(), hotPotato, reforge, recombabulated, skin, enchants));
-//                    }
-//                }
-//            }
-//
-//            new BukkitRunnable() {
-//                @Override
-//                public void run() {
-//                    if (player.getOpenInventory().getTitle().contains("Craft Item"))
-//                        checkRecipe(player);
-//                }
-//            }.runTaskLater(SkyblockDragons.plugin, 1L);
-//
-//    private static void checkRecipe(Player player) {
-//        boolean putBack = true;
-//        Item[] items = new Item[9];
-//        for (int i = 0; i < 9; i++) {
-//            if (!Functions.isNotAir(player.getOpenInventory().getItem(Functions.numToSlot(i)))) {
-//                items[i] = new Item(Items.NULL, 64);
-//                continue;
-//            }
-//            try {
-//                items[i] = new Item(Functions.getItemMaterial(player.getOpenInventory().getItem(Functions.numToSlot(i))), player.getOpenInventory().getItem(Functions.numToSlot(i)).getAmount());
-//            } catch (NullPointerException ex) {
-//                items[i] = new Item(Items.NULL, 64);
-//            }
-//        }
-//        for (Recipe recipe : Recipe.recipes.values()) {
-//            int amount = 0;
-//            if (recipe.isShapeless()) {
-//                Item[] itemsShapeLess = items.clone();
-//                Item[] required = recipe.getItems().clone();
-//                for (int i = 0; i < 9; i++) {
-//                    if (itemsShapeLess[i].getMaterial() == Items.NULL) {
-//                        amount++;
-//                        continue;
-//                    }
-//                    for (int j = 0; j < 9; j++) {
-//                        if (required[j] == null || required[j].getMaterial() == Items.NULL) {
-//                            amount++;
-//                            break;
-//                        }
-//                        if (itemsShapeLess[i].getMaterial().name().equals(required[j].getMaterial().name()) && itemsShapeLess[i].getAmount() == required[j].getAmount()) {
-//                            itemsShapeLess[i] = new Item(Items.NULL, 64);
-//                            required[j] = new Item(Items.NULL, 64);
-//                            amount++;
-//                            break;
-//                        }
-//                    }
-//                }
-//            } else {
-//                for (int i = 0; i < 9; i++) {
-//                    Item item1 = items[i];
-//                    Item item2;
-//
-//                    try {
-//                        item2 = recipe.getItems()[i];
-//                    } catch (NullPointerException ex) {
-//                        item2 = new Item(Items.NULL, 64);
-//                    }
-//
-//                    try {
-//                        if (item1.getMaterial().name().equals(item2.getMaterial().name()) && item1.getAmount() >= item2.getAmount())
-//                            amount++;
-//                    } catch (NullPointerException ex) {
-//                        amount++;
-//                    }
-//                }
-//            }
-//            player.sendMessage(amount + "");
-//            if (amount == 9) {
-//                ItemStack itemToUpgrade = player.getOpenInventory().getItem(Functions.numToSlot(recipe.getSlotToUpgrade()));
-//
-//                int hotPotato;
-//                ReforgeType reforge;
-//                boolean recombabulated;
-//                SkinMaterial skin;
-//                Map<EnchantType, Short> enchants;
-//
-//                try {
-//                    hotPotato = Functions.getHotPotato(itemToUpgrade);
-//                    reforge = Functions.getReforge(itemToUpgrade);
-//                    recombabulated = Functions.isRecombed(itemToUpgrade);
-//                    skin = Functions.getSkin(itemToUpgrade);
-//                    enchants = Functions.getEnchants(itemToUpgrade);
-//                } catch (NullPointerException ex) {
-//                    hotPotato = 0;
-//                    reforge = ReforgeType.NULL;
-//                    recombabulated = false;
-//                    skin = SkinMaterial.NULL;
-//                    enchants = new HashMap<>();
-//                }
-//
-//                player.getOpenInventory().setItem(23, new Item(recipe.getItem().getMaterial(), recipe.getItem().getAmount(), hotPotato, reforge, recombabulated, skin, enchants));
-//
-//                putBack = false;
-//                updateLine(player, false);
-//            }
-//        }
-//        if (putBack) {
-//            ItemStack item = Functions.createItem(Material.BARRIER, ChatColor.RED + "Recipe Required", new ArrayList<>(Arrays.asList(ChatColor.GRAY + "Add the items for valid recipe", ChatColor.GRAY + "in the crafting grid to the", ChatColor.GRAY + "left!")));
-//            player.getOpenInventory().setItem(23, item);
-//            updateLine(player, true);
-//        }
-//    }
-//
-//    private static void takeItem(Player player, Recipe recipe) {
-//        for (int i = 0; i < 9; i++) {
-//            try {
-//                player.getOpenInventory().setItem(Functions.numToSlot(i), removeAmount(player.getOpenInventory().getItem(Functions.numToSlot(i)), recipe.getItems()[i].getAmount()));
-//            } catch (NullPointerException ignored) {}
-//        }
-//    }
-//
-//    private static void updateLine(Player player, boolean red) {
-//        for (int i = 45; i < 54; i++) {
-//            if (i == 49) continue;
-//            ItemStack glass = Functions.createItem(Material.STAINED_GLASS_PANE, 5,ChatColor.RESET + "");
-//            if (red) {
-//                glass = Functions.createItem(Material.STAINED_GLASS_PANE, 14,ChatColor.RESET + "");
-//            }
-//            player.getOpenInventory().setItem(i, glass);
-//        }
-//    }
-//
-//    private static ItemStack removeAmount(ItemStack itemStack, int amount) {
-//        ItemStack item = itemStack.clone();
-//        if (itemStack.getAmount() > amount) {
-//            item.setAmount(itemStack.getAmount() - amount);
-//        } else {
-//            item = new ItemStack(Material.AIR);
-//        }
-//        return item;
-//    }
-//
-//    private static boolean isEnoughItems(Player player) {
-//        Item[] items = new Item[9];
-//        for (int i = 0; i < 9; i++) {
-//            if (!Functions.isNotAir(player.getOpenInventory().getItem(Functions.numToSlot(i)))) {
-//                items[i] = new Item(Items.NULL, 64);
-//                continue;
-//            }
-//            try {
-//                items[i] = new Item(Functions.getItemMaterial(player.getOpenInventory().getItem(Functions.numToSlot(i))), player.getOpenInventory().getItem(Functions.numToSlot(i)).getAmount());
-//            } catch (NullPointerException ex) {
-//                items[i] = new Item(Items.NULL, 64);
-//            }
-//        }
-//        for (Recipe recipe : Recipe.recipes.values()) {
-//            int amount = 0;
-//            if (recipe.isShapeless()) {
-//                Item[] itemsShapeLess = items.clone();
-//                Item[] required = recipe.getItems().clone();
-//                for (int i = 0; i < 9; i++) {
-//                    if (itemsShapeLess[i].getMaterial() == Items.NULL) continue;
-//                    for (int j = 0; j < 9; j++) {
-//                        if (required[j].getMaterial() == Items.NULL) continue;
-//                        if (itemsShapeLess[i].getMaterial().name().equals(required[j].getMaterial().name()) && itemsShapeLess[i].getAmount() == required[j].getAmount()) {
-//                            itemsShapeLess[i] = new Item(Items.NULL, 64);
-//                            required[j] = new Item(Items.NULL, 64);
-//                            amount++;
-//                            break;
-//                        }
-//                    }
-//                }
-//            } else {
-//                for (int i = 0; i < 9; i++) {
-//                    Item item1 = items[i];
-//                    Item item2;
-//
-//                    try {
-//                        item2 = recipe.getItems()[i];
-//                    } catch (NullPointerException ex) {
-//                        item2 = new Item(Items.NULL, 64);
-//                    }
-//
-//                    try {
-//                        if (item1.getMaterial().name().equals(item2.getMaterial().name()) && item1.getAmount() >= item2.getAmount())
-//                            amount++;
-//                    } catch (NullPointerException ex) {
-//                        amount++;
-//                    }
-//                }
-//            }
-//            player.sendMessage(amount + "");
-//            if (amount == 9) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 }

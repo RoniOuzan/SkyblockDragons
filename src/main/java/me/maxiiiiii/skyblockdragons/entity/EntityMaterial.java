@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.*;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.entity.EntityType;
 
 import java.util.Arrays;
@@ -59,7 +60,7 @@ public class EntityMaterial implements ConfigurationSerializable {
                 1,
                 50,
                 0,
-                40,
+                20,
                 0,
                 new Equipment(Material.GOLD_HELMET, null, null, null, Material.BOW, null),
                 105,

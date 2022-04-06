@@ -1,5 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.craftingtable.menus;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,11 +12,13 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class CraftingTableMenu {
     public static ItemStack recipe = createItem(Material.BARRIER, ChatColor.RED + "Recipe Required", new ArrayList<>(Arrays.asList(ChatColor.GRAY + "Add the items for valid recipe", ChatColor.GRAY + "in the crafting grid to the", ChatColor.GRAY + "left!")));
+    public static ItemStack quickCraft = createItem(Material.STAINED_GLASS_PANE, 1, 7, ChatColor.RED + "Quick Crafting Slot", new ArrayList<>(Arrays.asList(ChatColor.GRAY + "Quick crafting allows you to", ChatColor.GRAY + "craft items without assembling", ChatColor.GRAY + "the recipe.")));
 
     public static void openCraftingTable(Player player) {
         Inventory inventory = Bukkit.createInventory(player, 54, ChatColor.DARK_GRAY + "Craft Item");
@@ -38,10 +42,17 @@ public class CraftingTableMenu {
 
         inventory.setItem(23, recipe);
 
-        ItemStack quickCraft = createItem(Material.STAINED_GLASS_PANE, 1, 7, ChatColor.RED + "Quick Crafting Slot", new ArrayList<>(Arrays.asList(ChatColor.GRAY + "Quick crafting allows you to", ChatColor.GRAY + "craft items without assembling", ChatColor.GRAY + "the recipe.")));
         inventory.setItem(16, quickCraft);
         inventory.setItem(25, quickCraft);
         inventory.setItem(34, quickCraft);
+
+        List<Recipe> recipes = Recipe.getRecipesCanCraft(SkyblockDragons.getPlayer(player), 3);
+        if (recipes.size() > 0)
+            inventory.setItem(16, Functions.setUnstackable(recipes.get(0).getItem()));
+        if (recipes.size() > 1)
+            inventory.setItem(25, Functions.setUnstackable(recipes.get(1).getItem()));
+        if (recipes.size() > 2)
+            inventory.setItem(34, Functions.setUnstackable(recipes.get(2).getItem()));
 
         player.openInventory(inventory);
     }

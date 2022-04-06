@@ -77,7 +77,7 @@ public class SkillMenu {
     private static ArrayList<String> getItemLores(AbstractSkill skill) {
         ArrayList<String> lores = new ArrayList<>(loreBuilder(skill.getDescription()));
         lores.add("");
-        double percent = (skill.getCurrentXp() / skill.getCurrentNeedXp() * 100);
+        double percent = Math.floor(skill.getCurrentXp() / skill.getCurrentNeedXp() * 1000) / 10d;
         lores.add(ChatColor.GRAY + "Progress to Level " + (skill.getLevel() + 1) + ": " + ChatColor.YELLOW + percent + "%");
         String progressBar = progressBar(skill.getCurrentXp(), skill.getCurrentNeedXp(), 20);
         lores.add(progressBar + " " + ChatColor.YELLOW + getNumberFormat(skill.getCurrentXp()) + ChatColor.GOLD + "/" + ChatColor.YELLOW + getShortNumber(skill.getCurrentNeedXp()));

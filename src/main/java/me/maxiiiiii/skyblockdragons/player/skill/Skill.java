@@ -34,8 +34,8 @@ public class Skill {
     }
 
     public void give(SkillType skillType, double amount) {
-        this.get(skillType.name()).setXp(this.get(skillType.name()).getCurrentXp() + amount, player);
-        player.sendActionBar(ChatColor.DARK_AQUA + "+" + Functions.getInt(amount + "") + " " + skillType + " (" + (player.getSkill().get(skillType).getCurrentXp() / player.getSkill().get(skillType).getCurrentNeedXp()) * 100d + "%)", true);
+        this.get(skillType.name()).giveXp(amount, player);
+        player.sendActionBar(ChatColor.DARK_AQUA + "+" + Functions.getInt(amount + "") + " " + skillType + " (" + Math.floor(player.getSkill().get(skillType).getCurrentXp() / player.getSkill().get(skillType).getCurrentNeedXp() * 1000d) / 10d + "%)", true);
     }
 
     public AbstractSkill get(String name) {

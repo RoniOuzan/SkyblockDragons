@@ -1,9 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item;
 
-import de.tr7zw.changeme.nbtapi.NBTCompound;
-import de.tr7zw.changeme.nbtapi.NBTItem;
-import de.tr7zw.changeme.nbtapi.NBTList;
-import de.tr7zw.changeme.nbtapi.NBTListCompound;
+import de.tr7zw.changeme.nbtapi.*;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
@@ -204,79 +201,80 @@ public class Item extends ItemStack implements ConfigurationSerializable {
         }
 
         NBTItem nbtItem = new NBTItem(this, true);
-        NBTCompound nbt = nbtItem.addCompound("Item");
-        NBTCompound extra = nbtItem.addCompound("ExtraAttributes");
-        if (this.material instanceof BookMaterial) {
-            nbt.setString("id", "ENCHANTED_BOOK");
-            extra.setString("id", "ENCHANTED_BOOK");
-        } else {
-            nbt.setString("id", this.material.name());
-            extra.setString("id", this.material.name());
-        }
-        NBTList<Double> statList = nbt.getDoubleList("Stats");
-        for (double num : stats) {
-            statList.add(Double.parseDouble(num + ""));
-        }
-        if (material.getType() != ItemType.ITEM || rarity.getLevel() >= 5 || ((material instanceof NormalMaterial) && !((NormalMaterial) material).isStackAble())) {
-            int random = Functions.randomInt(1, 10000);
-            nbt.setInteger("Stack", random);
-            Date now = new Date();
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-            nbt.setString("Date", format.format(now));
-        }
-        nbt.setInteger("Rarity", rarity.getLevel());
-        nbt.setString("Reforge", reforge.name());
-        nbt.setInteger("HotPotato", hotPotato);
-        nbt.setBoolean("RarityUpgraded", recombabulated);
-
-        NBTCompound nbtEnchants = nbt.addCompound("Enchants");
-        NBTCompound nbtUltimateEnchant = nbt.addCompound("UltimateEnchant");
-        if (enchantList.toString().contains("One For All")) {
-            if (enchantList.toString().contains("Telekinesis")) {
-                nbtEnchants.setShort("TELEKINESIS", (short) 1);
+        try {
+            NBTCompound nbt = nbtItem.addCompound("Item");
+            NBTCompound extra = nbtItem.addCompound("ExtraAttributes");
+            if (this.material instanceof BookMaterial) {
+                nbt.setString("id", "ENCHANTED_BOOK");
+                extra.setString("id", "ENCHANTED_BOOK");
+            } else {
+                nbt.setString("id", this.material.name());
+                extra.setString("id", this.material.name());
             }
-            nbtEnchants.setShort("ONE_FOR_ALL", (short) 1);
-        } else {
-            for (EnchantType enchantType : EnchantType.enchants.values()) {
-                if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
-                    if (enchantType instanceof UltimateEnchantType) {
-                        nbtUltimateEnchant.setShort(enchantType.name(), enchants.get(enchantType));
+            NBTList<Double> statList = nbt.getDoubleList("Stats");
+            for (double num : stats) {
+                statList.add(Double.parseDouble(num + ""));
+            }
+            if (material.getType() != ItemType.ITEM || rarity.getLevel() >= 5 || ((material instanceof NormalMaterial) && !((NormalMaterial) material).isStackAble())) {
+                int random = Functions.randomInt(1, 10000);
+                nbt.setInteger("Stack", random);
+                Date now = new Date();
+                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                nbt.setString("Date", format.format(now));
+            }
+            nbt.setInteger("Rarity", rarity.getLevel());
+            nbt.setString("Reforge", reforge.name());
+            nbt.setInteger("HotPotato", hotPotato);
+            nbt.setBoolean("RarityUpgraded", recombabulated);
+
+            NBTCompound nbtEnchants = nbt.addCompound("Enchants");
+            NBTCompound nbtUltimateEnchant = nbt.addCompound("UltimateEnchant");
+            if (enchantList.toString().contains("One For All")) {
+                if (enchantList.toString().contains("Telekinesis")) {
+                    nbtEnchants.setShort("TELEKINESIS", (short) 1);
+                }
+                nbtEnchants.setShort("ONE_FOR_ALL", (short) 1);
+            } else {
+                for (EnchantType enchantType : EnchantType.enchants.values()) {
+                    if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
+                        if (enchantType instanceof UltimateEnchantType) {
+                            nbtUltimateEnchant.setShort(enchantType.name(), enchants.get(enchantType));
+                        }
+                        nbtEnchants.setShort(enchantType.name(), enchants.get(enchantType));
                     }
-                    nbtEnchants.setShort(enchantType.name(), enchants.get(enchantType));
                 }
             }
-        }
 
-        if (this.material instanceof BookMaterial) {
-            nbt.setInteger("BookCost", getBookCost(enchants));
-        }
+            if (this.material instanceof BookMaterial) {
+                nbt.setInteger("BookCost", getBookCost(enchants));
+            }
 
-        if (this.material instanceof NecronBladeMaterial) {
-            NBTCompound necronScrolls = nbt.addCompound("NecronScrolls");
-            necronScrolls.setBoolean("IMPLOSION", necronBladeAbilities.contains(NecronBladeMaterial.NecronBladeAbility.IMPLOSION));
-            necronScrolls.setBoolean("WITHER_SHIELD", necronBladeAbilities.contains(NecronBladeMaterial.NecronBladeAbility.WITHER_SHIELD));
-            necronScrolls.setBoolean("SHADOW_WARP", necronBladeAbilities.contains(NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP));
-        }
+            if (this.material instanceof NecronBladeMaterial) {
+                NBTCompound necronScrolls = nbt.addCompound("NecronScrolls");
+                necronScrolls.setBoolean("IMPLOSION", necronBladeAbilities.contains(NecronBladeMaterial.NecronBladeAbility.IMPLOSION));
+                necronScrolls.setBoolean("WITHER_SHIELD", necronBladeAbilities.contains(NecronBladeMaterial.NecronBladeAbility.WITHER_SHIELD));
+                necronScrolls.setBoolean("SHADOW_WARP", necronBladeAbilities.contains(NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP));
+            }
 
+            if (!material.getNbt().equals("")) {
+                NBTCompound skull = nbtItem.addCompound("SkullOwner");
+                if (skin != null && skin != SkinMaterial.NULL) {
+                    skull.setString("Id", skin.getId());
+                    NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
+                    texture.setString("Value", skin.getNbt());
 
-        if (!material.getNbt().equals("")) {
-            NBTCompound skull = nbtItem.addCompound("SkullOwner");
-            if (skin != null && skin != SkinMaterial.NULL) {
-                skull.setString("Id", skin.getId());
-                NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
-                texture.setString("Value", skin.getNbt());
+                    nbt.setString("Skin", skin.name());
+                } else {
+                    skull.setString("Id", material.getId());
+                    NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
+                    texture.setString("Value", material.getNbt());
 
-                nbt.setString("Skin", skin.name());
+                    nbt.setString("Skin", "");
+                }
             } else {
-                skull.setString("Id", material.getId());
-                NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
-                texture.setString("Value", material.getNbt());
-
                 nbt.setString("Skin", "");
             }
-        } else {
-            nbt.setString("Skin", "");
-        }
+        } catch (NbtApiException ignored) {}
 
         ItemMeta meta = this.getItemMeta();
         String reforgeText = "";
@@ -306,7 +304,7 @@ public class Item extends ItemStack implements ConfigurationSerializable {
 
         this.setItemMeta(meta);
 
-        if (this.material instanceof ArmorMaterial)
+        if (this.material instanceof ArmorMaterial && ((ArmorMaterial) this.material).getColor() != null)
             Functions.setArmorColor(this, ((ArmorMaterial) this.material).getColor());
     }
 
@@ -348,14 +346,17 @@ public class Item extends ItemStack implements ConfigurationSerializable {
     private void applyAbilities(ArrayList<String> lores, Map<EnchantType, Short> enchants) {
         if (this.material instanceof ToolMaterial) {
             ToolMaterial material = (ToolMaterial) this.material;
-            if (material.getAbilities().size() == 0 || material.getAbilities().get(0) == null) return;
+
+            if (material.getAbilities().size() == 0 || material.getAbilities().get(0) == null)
+                return;
+
             if (material.getAbilities().get(0).getAction() != AbilityAction.NULL) {
                 for (ItemAbility ability : material.getAbilities()) {
                     if (isNotLastEmpty(lores)) lores.add("");
 
                     lores.add(ChatColor.GOLD + "Item Ability: " + ability.getName() + " " + ChatColor.YELLOW + "" + ChatColor.BOLD + ability.getAction().toString());
 
-                    lores.addAll(loreBuilder(ability.getDescription()));
+                    lores.addAll(loreBuilder(ability.getDescription().replace("ABILITY_DAMAGE", Functions.getNumberFormat(ability.getAbilityDamage()))));
 
                     if (ability.getManaCost() != 0) {
                         if (ability.getManaCost() >= 10000) {

@@ -1,6 +1,8 @@
 package me.maxiiiiii.skyblockdragons.item.craftingtable.commands;
 
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.RecipesMenu;
+import me.maxiiiiii.skyblockdragons.material.Items;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,6 +11,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class RecipesCommand implements CommandExecutor, Listener {
     @Override
@@ -42,7 +47,10 @@ public class RecipesCommand implements CommandExecutor, Listener {
                 page--;
             }
 
-            RecipesMenu.openRecipesType(player, RecipesMenu.Type.valueOf(type.toUpperCase()), page);
+            if (Arrays.stream(RecipesMenu.Type.values()).map(Enum::name).collect(Collectors.toList()).contains(type.toUpperCase()))
+                RecipesMenu.openRecipesType(player, RecipesMenu.Type.valueOf(type.toUpperCase()), page);
+            else
+                RecipesMenu.openRecipesTypeFor(player, new Item(Items.get(type.toUpperCase().replace(" ", "_"))), page);
         } else {
             String name = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName().replace(" Recipes", ""));
             RecipesMenu.openRecipesType(player, RecipesMenu.Type.valueOf(name.toUpperCase().replace(" ", "_")), 1);

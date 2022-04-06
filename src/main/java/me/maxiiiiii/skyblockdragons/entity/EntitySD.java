@@ -40,9 +40,6 @@ public class EntitySD {
         this.type = type;
         this.entity = (LivingEntity) location.getWorld().spawnEntity(location, type.entityType);
 
-        if (this.entity instanceof Zombie)
-            ((Zombie) this.entity).setBaby(false);
-
         if (this.type.equipment.helmet != null)
             this.entity.getEquipment().setHelmet(this.type.equipment.helmet);
         this.entity.getEquipment().setHelmetDropChance(0);
@@ -70,6 +67,13 @@ public class EntitySD {
         this.entity.setCustomNameVisible(true);
         this.entity.setAI(this.type.ai);
         this.entity.setCanPickupItems(false);
+
+        if (this.entity instanceof Zombie)
+            ((Zombie) this.entity).setBaby(false);
+
+        this.entity.setRemoveWhenFarAway(false);
+        if (this.entity.getVehicle() != null)
+            this.entity.getVehicle().remove();
 
         this.location = location;
 

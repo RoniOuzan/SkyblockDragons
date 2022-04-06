@@ -1,11 +1,9 @@
 package me.maxiiiiii.skyblockdragons.item.craftingtable.menus;
 
 import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.item.abilities.PowerOrb;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.material.*;
-import me.maxiiiiii.skyblockdragons.player.pet.Pet;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -117,6 +115,11 @@ public class RecipesMenu {
         for (String key : Recipe.recipes.keySet()) {
             if (Recipe.recipes.get(key).getItem() instanceof Item) {
                 Item item = (Item) Recipe.recipes.get(key).getItem();
+                if (type == Type.VANILLA && !(Items.vanillaMaterials.containsKey(item.getMaterial().name())))
+                    continue;
+                else if (type != Type.VANILLA && Items.vanillaMaterials.containsKey(item.getMaterial().name()))
+                    continue;
+
                 if (type == Type.WEAPONS && !(item.getMaterial() instanceof WeaponMaterial))
                     continue;
                 else if (type == Type.MINING && item.getMaterial().getType() != ItemType.PICKAXE)
@@ -137,12 +140,116 @@ public class RecipesMenu {
                     continue;
                 else if (type == Type.WANDS && item.getMaterial().getType() != ItemType.WAND)
                     continue;
-                else if (type == Type.VANILLA && !(Items.vanillaMaterials.containsKey(item.getMaterial().name())))
-                    continue;
                 else if (type == Type.PETS)
                     continue;
             }
             keys.add(key);
+            a++;
+        }
+
+        String[] strings = keys.toArray(new String[0]);
+        Arrays.sort(strings);
+
+        Recipe[] recipes = new Recipe[a];
+        a = 0;
+        for (String string : strings) {
+            recipes[a] = Recipe.recipes.get(string);
+            a++;
+        }
+
+        int length = 28 * (page - 1);
+        for (int i = 0; i < 28; i++) {
+            int slot = Functions.intToSlot(i);
+            if (i + length < recipes.length) {
+                inventory.setItem(slot, recipes[i + length].getItem());
+            } else {
+                inventory.setItem(slot, new ItemStack(Material.AIR));
+            }
+        }
+
+        ItemStack nextPage = new ItemStack(Material.ARROW);
+        Functions.setName(nextPage, ChatColor.GREEN + "Next Page");
+        Functions.setLore(nextPage, new ArrayList<>(Arrays.asList("", ChatColor.YELLOW + "Click to go next page!")));
+        inventory.setItem(53, nextPage);
+
+        ItemStack previousPage = new ItemStack(Material.ARROW);
+        Functions.setName(previousPage, ChatColor.GREEN + "Previous Page");
+        Functions.setLore(previousPage, new ArrayList<>(Arrays.asList("", ChatColor.YELLOW + "Click to go previous page!")));
+        inventory.setItem(45, previousPage);
+
+        ItemStack goBack = Functions.createItem(Material.ARROW, ChatColor.GREEN + "Go Back");
+        inventory.setItem(48, goBack);
+
+        ItemStack close = Functions.createItem(Material.BARRIER, ChatColor.RED + "Close", ChatColor.YELLOW + "Click to close!");
+        inventory.setItem(49, close);
+
+        player.openInventory(inventory);
+    }
+
+    public static void openRecipesTypeFor(Player player, ItemStack item, int page) {
+        page = Math.max(page, 0);
+        Inventory inventory = Bukkit.createInventory(player, 54, Functions.setTitleCase(Functions.getId(item).replace("_", " ")) + " Recipe Book - Page " + page);
+
+        Functions.putGlasses(inventory);
+
+        ArrayList<String> keys = new ArrayList<>();
+
+        int a = 0;
+        for (Recipe recipe : Recipe.getRecipesFor(item)) {
+            keys.add(recipe.name());
+            a++;
+        }
+
+        String[] strings = keys.toArray(new String[0]);
+        Arrays.sort(strings);
+
+        Recipe[] recipes = new Recipe[a];
+        a = 0;
+        for (String string : strings) {
+            recipes[a] = Recipe.recipes.get(string);
+            a++;
+        }
+
+        int length = 28 * (page - 1);
+        for (int i = 0; i < 28; i++) {
+            int slot = Functions.intToSlot(i);
+            if (i + length < recipes.length) {
+                inventory.setItem(slot, recipes[i + length].getItem());
+            } else {
+                inventory.setItem(slot, new ItemStack(Material.AIR));
+            }
+        }
+
+        ItemStack nextPage = new ItemStack(Material.ARROW);
+        Functions.setName(nextPage, ChatColor.GREEN + "Next Page");
+        Functions.setLore(nextPage, new ArrayList<>(Arrays.asList("", ChatColor.YELLOW + "Click to go next page!")));
+        inventory.setItem(53, nextPage);
+
+        ItemStack previousPage = new ItemStack(Material.ARROW);
+        Functions.setName(previousPage, ChatColor.GREEN + "Previous Page");
+        Functions.setLore(previousPage, new ArrayList<>(Arrays.asList("", ChatColor.YELLOW + "Click to go previous page!")));
+        inventory.setItem(45, previousPage);
+
+        ItemStack goBack = Functions.createItem(Material.ARROW, ChatColor.GREEN + "Go Back");
+        inventory.setItem(48, goBack);
+
+        ItemStack close = Functions.createItem(Material.BARRIER, ChatColor.RED + "Close", ChatColor.YELLOW + "Click to close!");
+        inventory.setItem(49, close);
+
+        player.openInventory(inventory);
+    }
+
+    public static void openRecipesTypeWith(Player player, ItemStack item, int page) {
+        page = Math.max(page, 0);
+        Inventory inventory = Bukkit.createInventory(player, 54, Functions.setTitleCase(Functions.getNormalName(item)) + " Recipe Book - Page " + page);
+
+        Functions.putGlasses(inventory);
+
+        ArrayList<String> keys = new ArrayList<>();
+
+        int a = 0;
+        for (Recipe recipe : Recipe.getRecipesWith(item)) {
+            keys.add(recipe.name());
             a++;
         }
 

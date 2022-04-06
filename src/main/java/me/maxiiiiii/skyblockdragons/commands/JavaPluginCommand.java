@@ -6,6 +6,7 @@ import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
@@ -29,6 +30,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -108,7 +110,11 @@ public class JavaPluginCommand implements CommandExecutor, TabCompleter {
                     }
                 } else if (args[0].equalsIgnoreCase("test")) {
                     PlayerSD player = SkyblockDragons.getPlayer((Player) sender);
-                    player.sendMessage(SkyblockDragons.serializer.serialize(1));
+                    if (args[1].equalsIgnoreCase("1")) {
+                        player.sendMessage(player.hasItem(Items.get("IRON_INGOT"), 32));
+                    } else {
+                        player.removeItems(Items.get("IRON_INGOT"), 32);
+                    }
                 }
             } else {
                 sender.sendMessage(ChatColor.RED + "Invalid arguments!");

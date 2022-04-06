@@ -23,7 +23,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.SlimeSplitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
@@ -40,7 +39,7 @@ public class Damage implements Listener {
         }
     }
 
-    public double damage(EntitySD player, EntitySD entity, double activeFerocity, DamageType damageType) {
+    public double damage(EntitySD player, EntitySD entity, double activeFerocity, DamageType damageType, double baseAbilityDamage, double abilityScaling) {
         entity.entity.setNoDamageTicks(0);
         entity.entity.setMaximumNoDamageTicks(0);
 
@@ -50,20 +49,22 @@ public class Damage implements Listener {
         }
         if (cooldown(player, player.getDamageCooldown(damageType),  millisecondsCD)) return -3;
 
-        DamageCalculator damageCalculator = this.getDamage(player, entity, damageType);
+        DamageCalculator damageCalculator = this.getDamage(player, entity, damageType, baseAbilityDamage, abilityScaling);
         double damage = damageCalculator.damage;
         boolean critHit = damageCalculator.critHit;
 
         // hologram
-        String damageDisplay = ChatColor.GRAY + "" + damage;
+        String damageDisplay = ChatColor.GRAY + "" + Functions.getNumberFormat(damage);
         if (critHit) {
             damageDisplay = rainbowText(damage + "");
             damageDisplay = Functions.getNumberFormat(damageDisplay);
             damageDisplay = ChatColor.WHITE + "✧" + damageDisplay + ChatColor.WHITE + "✧";
-        }
-        Location hologram = entity.getLocation().clone();
+        } else if (damageType.isMagic())
+            damageDisplay = ChatColor.DARK_AQUA + "" + Functions.getNumberFormat(damage);
+
+        Location hologram = entity.getLocation();
         double random = randomDouble(1, 1.5);
-        hologram.add(entity.getLocation().clone().getDirection().multiply(random));
+        hologram.add(entity.getLocation().getDirection().multiply(random));
         hologram.setY(entity.getLocation().getY() + random);
         createHologram(hologram, damageDisplay, 20);
 
@@ -75,7 +76,7 @@ public class Damage implements Listener {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            damage(player, entity, activeFerocity - 100, damageType);
+                            damage(player, entity, activeFerocity - 100, damageType, baseAbilityDamage, abilityScaling);
                             playerSD.playSound(player.getLocation(), Sound.ENTITY_IRONGOLEM_ATTACK, 1f, 10f);
                             playerSD.playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_DOOR_WOOD, 0.25f, 0.25f);
                             Location start = entity.getLocation().clone();
@@ -89,7 +90,7 @@ public class Damage implements Listener {
                                 end.add(1.5, -1.5, 0);
                             }
 
-                            EntityDamageEntity playerDamageEntity = new EntityDamageEntity(player.entity, entity.entity, DamageType.NORMAL, damage, true);
+                            EntityDamageEntityEvent playerDamageEntity = new EntityDamageEntityEvent(player.entity, entity.entity, DamageType.NORMAL, damage, true);
                             Bukkit.getServer().getPluginManager().callEvent(playerDamageEntity);
 
                             particleLine(start, end, Particle.REDSTONE, 155, 0, 0);
@@ -102,8 +103,8 @@ public class Damage implements Listener {
     }
 
     private static class DamageCalculator {
-        private double damage;
-        private boolean critHit;
+        private final double damage;
+        private final boolean critHit;
 
         private DamageCalculator(double damage, boolean critHit) {
             this.damage = damage;
@@ -111,9 +112,11 @@ public class Damage implements Listener {
         }
     }
 
-    public DamageCalculator getDamage(EntitySD player, EntitySD entity, DamageType damageType) {
-        Item item = new Item(player.getEquipment().getItemInMainHand());
-        double damage;
+    public DamageCalculator getDamage(EntitySD player, EntitySD entity, DamageType damageType, double baseAbilityDamage, double abilityScaling) {
+        Item item = null;
+        if (player.getEquipment().getItemInMainHand() != null)
+            item = new Item(player.getEquipment().getItemInMainHand());
+        double damage = 1;
         boolean critHit = false;
 
         double baseMultiplayer = 1;
@@ -135,19 +138,17 @@ public class Damage implements Listener {
 
         String fullSet = equipment.fullSet;
 
-        if (player instanceof PlayerSD) {
-            PlayerSD playerSD = (PlayerSD) player;
-            if (damageType.isMagic()) {
-                damage = playerSD.getBaseAbilityDamage() * (1 + ((playerSD.getIntelligence() * playerSD.getAbilityScaling()) / 100)); // damage formula / calculation
+        if (item != null) {
+            if (player instanceof PlayerSD) {
+                PlayerSD playerSD = (PlayerSD) player;
+                if (damageType.isMagic()) {
+                    damage = (playerSD.getBaseAbilityDamage() + baseAbilityDamage) * ((1 + (playerSD.getIntelligence() / 100) * (playerSD.getAbilityScaling() * abilityScaling))); // damage formula / calculation
+                } else if (item.getMaterial().getType() != ItemType.BOW || damageType == DamageType.PROJECTILE) {
+                    damage = (5 + playerSD.getDamage()) * (1 + (playerSD.getStrength() / 100)); // damage formula / calculation
+                }
+            } else {
+                damage = player.type.getDamage();
             }
-            else if (item.getMaterial().getType() != ItemType.BOW || damageType == DamageType.PROJECTILE) {
-                damage = (5 + playerSD.getDamage()) * (1 + (playerSD.getStrength() / 100)); // damage formula / calculation
-            }
-            else {
-                damage = 1;
-            }
-        } else {
-            damage = player.type.getDamage();
         }
 
         // crit
@@ -184,7 +185,10 @@ public class Damage implements Listener {
             baseMultiplayer += player.getEnchantLevel(EnchantType.IMPALING, entity::isImpaled) * 0.1;
         }
 
-        if (helmetMaterial == Items.get("GOLDEN_SKELETON_HELMET") && toolMaterial == Items.get("GOLDEN_SKELETON_BOW")) {
+        if (damageType == DamageType.PROJECTILE && helmetMaterial == Items.get("GOLDEN_SKELETON_HELMET") && toolMaterial == Items.get("GOLDEN_SKELETON_BOW")) {
+            baseMultiplayer += 0.2;
+        }
+        if (damageType == DamageType.MAGIC && fullSet.equals("Burning") && toolMaterial == Items.get("PIGMAN_DAGGER")) {
             baseMultiplayer += 0.2;
         }
 
@@ -198,7 +202,7 @@ public class Damage implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onDamageEntity(EntityDamageEntity e) {
+    public void onDamageEntity(EntityDamageEntityEvent e) {
         EntitySD attacker = e.getAttacker();
         EntitySD victim = e.getVictim();
         if (attacker instanceof PlayerSD)
@@ -209,9 +213,9 @@ public class Damage implements Listener {
             damage = e.getDamage();
         } else {
             if (e.getDamager() instanceof Player || (e.getDamager() instanceof Arrow && ((Arrow) e.getDamager()).getShooter() instanceof Player))
-                damage = damage(attacker, victim, SkyblockDragons.getPlayer(e.getDamager().getUniqueId()).getFerocity(), e.getDamageType());
+                damage = damage(attacker, victim, SkyblockDragons.getPlayer(e.getDamager().getUniqueId()).getFerocity(), e.getDamageType(), e.getBaseAbilityDamage(), e.getAbilityScaling());
             else
-                damage = damage(attacker, victim, 0, e.getDamageType());
+                damage = damage(attacker, victim, 0, e.getDamageType(), e.getBaseAbilityDamage(), e.getAbilityScaling());
         }
         if (damage == -3) {
             e.setCancelled(true);
@@ -229,12 +233,12 @@ public class Damage implements Listener {
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getDamager() == null) return;
 
-        if (e.getEntity() instanceof LivingEntity && !(e.getEntity() instanceof ArmorStand) && !(e instanceof EntityDamageEntity)) {
-            EntityDamageEntity playerDamageEntity;
+        if (e.getEntity() instanceof LivingEntity && !(e.getEntity() instanceof ArmorStand) && !(e instanceof EntityDamageEntityEvent)) {
+            EntityDamageEntityEvent playerDamageEntity;
             if (e.getDamager() instanceof Arrow)
-                playerDamageEntity = new EntityDamageEntity((Entity) ((Arrow) e.getDamager()).getShooter(), e.getEntity(), DamageType.PROJECTILE, 1, false);
+                playerDamageEntity = new EntityDamageEntityEvent((Entity) ((Arrow) e.getDamager()).getShooter(), e.getEntity(), DamageType.PROJECTILE, 1, false);
             else
-                playerDamageEntity = new EntityDamageEntity(e.getDamager(), e.getEntity(), DamageType.NORMAL, 1, false);
+                playerDamageEntity = new EntityDamageEntityEvent(e.getDamager(), e.getEntity(), DamageType.NORMAL, 1, false);
             Bukkit.getServer().getPluginManager().callEvent(playerDamageEntity);
             e.setCancelled(true);
         }

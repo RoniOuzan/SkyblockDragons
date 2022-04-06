@@ -4,7 +4,8 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import lombok.Setter;
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
+import me.maxiiiiii.skyblockdragons.damage.Damage;
+import me.maxiiiiii.skyblockdragons.damage.EntityDamageEntityEvent;
 import me.maxiiiiii.skyblockdragons.entity.ItemDrop;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
@@ -32,42 +33,18 @@ import net.minecraft.server.v1_12_R1.EntityPlayer;
 import net.minecraft.server.v1_12_R1.Packet;
 import org.bukkit.*;
 import org.bukkit.Material;
-import org.bukkit.SoundCategory;
-import org.bukkit.Statistic;
-import org.bukkit.World;
-import org.bukkit.advancement.Advancement;
-import org.bukkit.advancement.AdvancementProgress;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.block.Block;
-import org.bukkit.block.PistonMoveReaction;
-import org.bukkit.conversations.Conversation;
-import org.bukkit.conversations.ConversationAbandonedEvent;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.*;
 import org.bukkit.entity.Entity;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.inventory.*;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.map.MapView;
-import org.bukkit.metadata.MetadataValue;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionAttachment;
-import org.bukkit.permissions.PermissionAttachmentInfo;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.*;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.util.Vector;
 
-import java.net.InetSocketAddress;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
@@ -140,7 +117,7 @@ public class PlayerSD extends PlayerClass {
         this.magicFind = 0;
         this.petLuck = 0;
         this.miningSpeed = 0;
-        this.miningFortune= 0;
+        this.miningFortune = 0;
         this.seaCreatureChance = 0;
         this.absorption = 0;
 
@@ -151,10 +128,10 @@ public class PlayerSD extends PlayerClass {
         for (int i = 0; i < 18; i++) {
             wardrobeSlots.add(new WardrobeSlot(
                     i,
-                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0), (ItemStack) null),
-                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1), (ItemStack) null),
-                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2), (ItemStack) null),
-                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3), (ItemStack) null)
+                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0), null),
+                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1), null),
+                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2), null),
+                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3), null)
             ));
         }
         this.wardrobe = new Wardrobe(wardrobeSlots);
@@ -169,7 +146,7 @@ public class PlayerSD extends PlayerClass {
                 new AlchemySkill(Variables.get(player.getUniqueId(), "Alchemy", 1, 0), Variables.get(player.getUniqueId(), "Alchemy", 2, 0d)),
                 new TamingSkill(Variables.get(player.getUniqueId(), "Taming", 1, 0), Variables.get(player.getUniqueId(), "Taming", 2, 0d)),
                 new DungeoneeringSkill(Variables.get(player.getUniqueId(), "Dungeoneering", 1, 0), Variables.get(player.getUniqueId(), "Dungeoneering", 2, 0d)
-        ));
+                ));
 
         this.bank = new BankAccount(this, Variables.get(player.getUniqueId(), "BankPersonal", 0d), Variables.get(player.getUniqueId(), "BankCoop", 0d));
 
@@ -359,7 +336,8 @@ public class PlayerSD extends PlayerClass {
             NBTCompound nbt = nbtItem.getCompound("Item");
             List<Double> stats = nbt.getDoubleList("Stats");
             addPlayerStat(stats);
-        } catch (NullPointerException ignored) {}
+        } catch (NullPointerException ignored) {
+        }
     }
 
     public ArrayList<Double> getStats() {
@@ -429,10 +407,10 @@ public class PlayerSD extends PlayerClass {
 
         ArrayList<ItemFamily> accessoryFamilies = new ArrayList<>();
         for (ItemStack accessory : this.accessoryBag) {
-//            if (Functions.getItemMaterial(accessory).getType() == ItemType.ACCESSORY && !accessoryFamilies.contains(accessory.getMaterial().getFamily())) {
-//                accessoryFamilies.add(accessory.getMaterial().getFamily());
-//                this.addItemStat(accessory);
-//            }
+            if (Functions.getItemMaterial(accessory).getType() == ItemType.ACCESSORY && !accessoryFamilies.contains(Items.get(accessory).getFamily())) {
+                accessoryFamilies.add(Items.get(accessory).getFamily());
+                this.addItemStat(accessory);
+            }
         }
 
         // tool
@@ -677,5 +655,57 @@ public class PlayerSD extends PlayerClass {
             if (loc.getBlock().getType() != Material.AIR) break;
         }
         return null;
+    }
+
+    public Map<ItemMaterial, Integer> getAllItems() {
+        Map<ItemMaterial, Integer> items = new HashMap<>();
+        for (ItemStack item : this.getInventory().getContents()) {
+            if (item == null) continue;
+            items.put(Items.get(item), items.getOrDefault(Items.get(item), 0) + item.getAmount());
+        }
+        return items;
+    }
+
+    public boolean hasItem(ItemMaterial material, int amount) {
+        Map<ItemMaterial, Integer> inventory = this.getAllItems();
+        return inventory.getOrDefault(material, 0) >= amount;
+    }
+
+    public void removeItems(ItemMaterial material, int amount) {
+        for (int i = 0; i < 36; i++) {
+            ItemStack item = this.getInventory().getItem(i);
+
+            if (item == null) continue;
+
+            if (Functions.getId(item).equals(material.name())) {
+                if (item.getAmount() > amount) {
+                    item.setAmount(item.getAmount() - amount);
+                    this.getInventory().setItem(i, item);
+                    break;
+                } else {
+                    amount -= item.getAmount();
+                    this.getInventory().setItem(i, new ItemStack(Material.AIR));
+                }
+            }
+        }
+    }
+
+    public void removeItems(Map<ItemMaterial, Integer> items) {
+        for (ItemMaterial material : items.keySet()) {
+            this.removeItems(material, items.get(material));
+        }
+    }
+
+    public boolean chanceOf(double percent) {
+        return Functions.chanceOf(percent);
+    }
+
+    public void makeDamage(Entity entity, Damage.DamageType damageType, double damage, double baseAbilityDamage, double abilityScaling) {
+        EntityDamageEntityEvent event = new EntityDamageEntityEvent(this, entity, damageType, damage, false, baseAbilityDamage, abilityScaling);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+    }
+
+    public void makeDamage(Entity entity, Damage.DamageType damageType, double damage) {
+        makeDamage(entity, damageType, damage, 0, 0);
     }
 }

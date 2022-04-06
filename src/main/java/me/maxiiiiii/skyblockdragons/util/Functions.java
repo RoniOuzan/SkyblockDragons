@@ -13,6 +13,7 @@ import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
@@ -44,6 +45,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -809,13 +811,11 @@ public class Functions {
         return x + ", " + y + ", " + z;
     }
 
-    public static String getItemName(ItemStack item) {
-        try {
-            ItemMeta meta = item.getItemMeta();
-            return meta.getDisplayName();
-        } catch (NullPointerException e) {
-            return item.getType().toString();
-        }
+    public static String getNormalName(ItemStack item) {
+        ItemMaterial material = Items.get(item);
+        if (material == Items.NULL)
+            return "";
+        return material.getName();
     }
 
     public static ChatColor getEnchantColor(int level) {
@@ -1649,5 +1649,20 @@ public class Functions {
     public static boolean chanceOf(double percent) {
         double chance = Math.random() * 100;
         return chance <= percent;
+    }
+
+    public static ItemStack setUnstackable(ItemStack item) {
+        if (!Functions.isNotAir(item)) return item;
+
+        NBTItem nbtItem = new NBTItem(item, true);
+        NBTCompound nbt = nbtItem.getOrCreateCompound("Item");
+
+        int random = Functions.randomInt(1, 10000);
+        nbt.setInteger("Stack", random);
+        Date now = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        nbt.setString("Date", format.format(now));
+
+        return item;
     }
 }

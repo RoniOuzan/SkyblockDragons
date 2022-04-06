@@ -18,13 +18,20 @@ public class ItemAbility {
     private String description;
     private int manaCost;
     private int cooldown;
+    private double abilityDamage;
+    private double abilityScaling;
 
-    public ItemAbility(AbilityAction action, String name, String description, int manaCost, int cooldown) {
+    public ItemAbility(AbilityAction action, String name, String description, int manaCost, int cooldown, double abilityDamage, double abilityScaling) {
         this.action = action;
         this.name = name;
         this.description = description;
         this.manaCost = manaCost;
         this.cooldown = cooldown;
+        this.abilityDamage = abilityDamage;
+    }
+
+    public ItemAbility(AbilityAction action, String name, String description, int manaCost, int cooldown) {
+        this(action, name, description, manaCost, cooldown, 0, 0);
     }
 
 //    @Override

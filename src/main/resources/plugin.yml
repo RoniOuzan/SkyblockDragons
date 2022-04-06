@@ -127,3 +127,9 @@ commands:
   Recipes:
     permission: skyblockdragons.recipes
     usage: /<command>
+  RecipesFor:
+    permission: skyblockdragons.recipesfor
+    usage: /<command>
+  RecipesWith:
+    permission: skyblockdragons.recipeswith
+    usage: /<command>

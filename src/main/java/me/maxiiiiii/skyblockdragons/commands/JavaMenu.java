@@ -8,6 +8,7 @@ import me.maxiiiiii.skyblockdragons.player.pet.PetMenu;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillMenu;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeMenu;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -37,7 +38,7 @@ public class JavaMenu implements CommandExecutor, Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (e.getCurrentItem() == null) return;
+        if (!Functions.isNotAir(e.getCurrentItem())) return;
 
         if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Close") && e.getCurrentItem().getType() == Material.BARRIER) {
             e.getWhoClicked().closeInventory();

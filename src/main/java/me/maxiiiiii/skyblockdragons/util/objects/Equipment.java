@@ -54,4 +54,8 @@ public class Equipment implements ConfigurationSerializable {
             map.put("offHand", offHand);
         return map;
     }
+
+    public static Equipment deserialize(Map<String, Object> args) {
+        return new Equipment((Material) args.get("helmet"), (Material) args.get("chestplate"), (Material) args.get("leggings"), (Material) args.get("boots"), (Material) args.get("hand"), (Material) args.get("offHand"));
+    }
 }

@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.worlds.mining;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.entity.ItemDrop;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
@@ -14,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.Arrays;
 
@@ -32,13 +34,23 @@ public class PlayerBreakBlockListener implements Listener {
         e.setDropItems(false);
         e.setExpToDrop((int) Math.ceil(Math.sqrt(e.getMaterial().miningXp)));
         int amount = 1 + Functions.randomInt(0, Functions.getEnchantLevel(item, EnchantType.FORTUNE));
-        ItemStack drop = new Item(ItemMaterial.get(((String) Arrays.stream(block.getType().name().split("_ORE")).map(s -> s.contains("IRON") || s.contains("GOLD") ? s + "_INGOT" : s).toArray()[0]).replace("GLOWING_", "")), amount);
-        if (Functions.getEnchantLevel(item, EnchantType.TELEKINESIS) > 0) {
-            player.give(drop);
-        } else {
-            org.bukkit.entity.Item dropped = block.getWorld().dropItemNaturally(block.getLocation().add(0, 1, 0), drop);
-            dropped.addScoreboardTag(player.getName());
-        }
+//        ItemStack drop = new Item(ItemMaterial.get((block.getType().name().split("_ORE")[0]).replace("GLOWING_", "")), amount);
+        if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0)
+            for (ItemDrop drop : e.getMaterial().drops) {
+                player.give(drop);
+            }
+        else
+            for (ItemDrop drop : e.getMaterial().drops) {
+                ItemStack itemToDrop = drop.generate();
+                if (itemToDrop != null) {
+                    org.bukkit.entity.Item dropped = block.getWorld().dropItem(block.getLocation().add(new Vector(
+                            player.getLocation().getX() - block.getLocation().getX(),
+                            player.getLocation().getY() - block.getLocation().getY(),
+                            player.getLocation().getZ() - block.getLocation().getZ()
+                    ).normalize()), itemToDrop);
+                    dropped.addScoreboardTag(player.getName());
+                }
+            }
         player.getSkill().give(SkillType.MINING, e.getMaterial().miningXp);
         Functions.Wait(1L, () -> e.getBlock().setType(Material.BEDROCK));
         Functions.Wait(60L, () -> e.getBlock().setType(getOre(e.getBlock())));

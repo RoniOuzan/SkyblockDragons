@@ -107,7 +107,7 @@ public class Variables {
     }
 
     public static void delete(UUID uuid, String id, int data) {
-        variables.removeIf(v -> v.uuid.equals(uuid) && v.id.equals(id) && v.data == data);
+        variables.removeIf(v -> Objects.equals(v.uuid, uuid) && v.id.equals(id) && v.data == data);
     }
 
     public static void delete(UUID uuid, String id, int minData, int maxData) {

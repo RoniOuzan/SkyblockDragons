@@ -48,9 +48,13 @@ public abstract class AbstractSkill {
     public void giveXp(double amount, Player player) {
         this.totalXp += amount;
         this.currentXp += amount;
+        boolean levelledUp = false;
         while (this.currentXp >= needXps[level] && this.level < this.maxLevel) {
             this.currentXp -= needXps[level];
             this.level++;
+            levelledUp = true;
+        }
+        if (levelledUp) {
             player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "--------------------------------------------------");
             player.sendMessage("    " + ChatColor.AQUA + "" + ChatColor.BOLD + "SKILL LEVEL UP " + ChatColor.RESET + "" + ChatColor.DARK_AQUA + this.name + " " + ChatColor.DARK_GRAY + integerToRoman(this.level - 1) + ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "➡" + ChatColor.DARK_AQUA + integerToRoman(this.level));
             player.sendMessage("");
@@ -61,8 +65,9 @@ public abstract class AbstractSkill {
             player.sendMessage("       " + ChatColor.DARK_GRAY + "+" + ChatColor.GOLD + getNumberFormat(this.rewards.getCoinsAmount()) + " " + ChatColor.GRAY + "Coins");
             player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "--------------------------------------------------");
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
+
+            Variables.set(player.getUniqueId(), this.name, 1, this.level);
         }
-        Variables.set(player.getUniqueId(), this.name, 1, this.level);
         Variables.set(player.getUniqueId(), this.name, 2, this.totalXp);
     }
 

@@ -5,6 +5,5 @@ import org.bukkit.plugin.Plugin;
 
 public class DeepMines implements Listener {
     public DeepMines(Plugin plugin) {
-        plugin.getServer().getPluginManager().registerEvents(new BreakBlockEvent(), plugin);
     }
 }

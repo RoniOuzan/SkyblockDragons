@@ -31,7 +31,7 @@ public class AnvilCommand implements CommandExecutor, Listener {
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent e) {
         if (e.getInventory().getTitle().contains("Anvil")) {
-            if (e.getInventory().getItem(13).getType() != Material.BARRIER && !getItemName(e.getInventory().getItem(13)).contains("Anvil")) {
+            if (e.getInventory().getItem(13).getType() != Material.BARRIER && !e.getInventory().getItem(13).getItemMeta().getDisplayName().contains("Anvil")) {
                 try {
                     Material material1 = e.getInventory().getItem(29).getType();
                 } catch (NullPointerException ex1) {
@@ -149,7 +149,7 @@ public class AnvilCommand implements CommandExecutor, Listener {
                             }
                         } catch (NullPointerException ignored) {
                         }
-                        if (e.getInventory().getItem(13).getType() == Material.BARRIER && getItemName(e.getInventory().getItem(13)).contains("Anvil")) {
+                        if (e.getInventory().getItem(13).getType() == Material.BARRIER && e.getInventory().getItem(13).getItemMeta().getDisplayName().contains("Anvil")) {
                             updateLine(e.getInventory(), true);
                         }
                     }
