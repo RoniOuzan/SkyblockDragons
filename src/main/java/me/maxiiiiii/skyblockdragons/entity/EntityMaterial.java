@@ -42,7 +42,7 @@ public class EntityMaterial implements ConfigurationSerializable {
         this.damage = damage;
         this.trueDamage = trueDamage;
         this.equipment = equipment;
-        this.speed = speed / 500;
+        this.speed = speed;
         this.knockbackResistance = knockbackResistance;
         this.ai = ai;
         this.combatXp = combatXp;

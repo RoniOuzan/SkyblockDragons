@@ -59,7 +59,7 @@ public class EntitySD {
             this.entity.getEquipment().setItemInOffHand(this.type.equipment.offHand);
         this.entity.getEquipment().setBootsDropChance(0);
 
-        this.entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(this.type.speed);
+        this.entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(this.type.speed / 500);
         this.entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(this.type.health);
         this.entity.setHealth(this.type.health);
         this.entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(this.type.knockbackResistance);
