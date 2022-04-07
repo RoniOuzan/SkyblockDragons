@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class Aspect_of_The_End implements Listener{
-    private final Cooldown cooldown = new Cooldown();
+    private final Cooldown<Player> cooldown = new Cooldown<>();
 
     @EventHandler
     public void onClick(PlayerInteractEvent e) {

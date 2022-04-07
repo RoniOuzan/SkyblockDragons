@@ -22,7 +22,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class Gyrokinetic_Wand implements Listener {
-    private final Cooldown cooldown = new Cooldown();
+    private final Cooldown<Player> cooldown = new Cooldown<>();
 
     @EventHandler
     public void onClick(PlayerInteractEvent e) {

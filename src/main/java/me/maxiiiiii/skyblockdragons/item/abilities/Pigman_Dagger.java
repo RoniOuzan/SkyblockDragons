@@ -16,6 +16,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -23,7 +24,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class Pigman_Dagger implements Listener {
-    private static final Cooldown cooldown = new Cooldown();
+    private static final Cooldown<Player> cooldown = new Cooldown<>();
 
     @EventHandler
     public void onClick(PlayerInteractEvent e) {

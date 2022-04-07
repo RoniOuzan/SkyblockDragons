@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.events;
 
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
@@ -33,6 +34,18 @@ public class EntityHealth implements Listener {
             entity.setCustomName(name + SPLITTER + ChatColor.GREEN + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatType.HEALTH.getIcon());
         }
         entity.setCustomNameVisible(true);
+    }
+
+    public static String getName(EntitySD entity) {
+        String name = Functions.setTitleCase(entity.type.getName());
+        try {
+            if (!entity.type.getName().equals("")) {
+                String [] customName = entity.type.getName().split(SPLITTER);
+                name = customName[0];
+            }
+        } catch (NullPointerException ignored) {
+        }
+        return name + SPLITTER + ChatColor.GREEN + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatType.HEALTH.getIcon();
     }
 
     @EventHandler

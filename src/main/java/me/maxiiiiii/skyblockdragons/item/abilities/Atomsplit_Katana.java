@@ -17,7 +17,7 @@ import java.util.HashMap;
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class Atomsplit_Katana implements Listener {
-    private final Cooldown cooldown = new Cooldown();
+    private final Cooldown<Player> cooldown = new Cooldown<>();
     public static HashMap<Player, Long> atomsplitAbility = new HashMap<>();
 
     @EventHandler

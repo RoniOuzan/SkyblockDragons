@@ -69,9 +69,9 @@ public class ItemList {
         for (int i = 0; i < 28; i++) {
             if (i + length < materials.length) {
                 inv.setItem(Functions.intToSlot(i), new Item(materials[i+ length]));
-                player.sendMessage(materials[i + length].name());
-            } else {
-                inv.setItem(Functions.intToSlot(i), null);
+//                player.sendMessage(materials[i + length].name());
+//            } else {
+//                inv.setItem(Functions.intToSlot(i), null);
             }
         }
 

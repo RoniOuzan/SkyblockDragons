@@ -16,7 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.List;
 
 public class Spirit_Sceptre implements Listener {
-    private final Cooldown cooldown = new Cooldown();
+    private final Cooldown<Player> cooldown = new Cooldown<>();
 
     @EventHandler
     public void onClick(PlayerInteractEvent e) {

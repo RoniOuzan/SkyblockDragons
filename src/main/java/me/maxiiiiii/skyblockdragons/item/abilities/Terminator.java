@@ -25,7 +25,7 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class Terminator implements Listener {
     private final Map<Projectile, BukkitTask> tasks = new HashMap<>();
-    private final Cooldown cooldown = new Cooldown();
+    private final Cooldown<Player> cooldown = new Cooldown<>();
 
     @EventHandler
     public void onClick(PlayerInteractEvent e) {

@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Soul_Whip implements Listener {
-    private final Cooldown soulWhipCD = new Cooldown();
+    private final Cooldown<Player> cooldown = new Cooldown<>();
     private final int AMOUNT = 15;
 
     @EventHandler
@@ -40,7 +40,7 @@ public class Soul_Whip implements Listener {
         Player player = e.getPlayer();
         Location location = player.getEyeLocation().add(0, -0.5, 0);
 
-        if (Functions.cooldown(player, soulWhipCD, 500, false)) return;
+        if (Functions.cooldown(player, cooldown, 500, false)) return;
 
         new BukkitRunnable() {
             double i = 0;

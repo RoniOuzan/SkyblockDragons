@@ -46,12 +46,12 @@ public class PetMenu {
         ItemStack goBack = createItem(Material.ARROW, ChatColor.GREEN + "Go Back");
         inventory.setItem(48, goBack);
 
-        if (isConvertToItem) {
-            inventory.setItem(50, convertPetEnabled);
-        }
-        else {
+//        if (isConvertToItem) {
+//            inventory.setItem(50, convertPetEnabled);
+//        }
+//        else {
             inventory.setItem(50, convertPetDisabled);
-        }
+//        }
 
         ItemStack hidePets = createItem(Material.STONE_BUTTON, (playerSD.getPlayerPet().hidePets ? ChatColor.RED : ChatColor.GREEN) + "Hide Pets", ChatColor.GRAY + "Hide all pets which are little", ChatColor.GRAY + "heads from being visible in the", ChatColor.GRAY + "world.", "", ChatColor.GRAY + "Pet effects remain active.", "", ChatColor.GRAY + "Currently " + (playerSD.getPlayerPet().hidePets ? ChatColor.RED + "Pets hidden!" : ChatColor.GREEN + "Pets shown!"), ChatColor.GRAY + "Selected Pet: " + (playerSD.getPlayerPet().activePet < 0 ? ChatColor.RED + "None" : playerSD.getPetActive().getName()), "", ChatColor.YELLOW + "Click to " + (playerSD.getPlayerPet().hidePets ? "show!" : "hide!"));
         inventory.setItem(51, hidePets);

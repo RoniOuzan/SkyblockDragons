@@ -26,7 +26,7 @@ import static me.maxiiiiii.skyblockdragons.SkyblockDragons.plugin;
 
 public class Leaping_Sword implements Listener {
     private final HashMap<UUID, Boolean> isEnabled = new HashMap<>();
-    private final Cooldown cooldown = new Cooldown();
+    private final Cooldown<Player> cooldown = new Cooldown<>();
 
     @EventHandler
     public void onClick(PlayerInteractEvent e) {

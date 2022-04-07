@@ -1,16 +1,13 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
-import com.google.common.reflect.TypeToken;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.material.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.material.ToolMaterial;
-import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -18,8 +15,8 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 
-import java.lang.reflect.Type;
-import java.util.*;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class EntitySD {
     public static final HashMap<UUID, EntitySD> entities = new HashMap<>();
@@ -30,10 +27,10 @@ public class EntitySD {
     public EntitySD attacker;
     public Location location;
 
-    public final Cooldown actionBarCooldown = new Cooldown();
-    public final Cooldown damageCooldownMelee = new Cooldown();
-    public final Cooldown damageCooldownMagic = new Cooldown();
-    public final Cooldown damageCooldownProjectile = new Cooldown();
+    public final Cooldown<Player> actionBarCooldown = new Cooldown<>();
+    public final Cooldown<EntitySD> damageCooldownMelee = new Cooldown<>();
+    public final Cooldown<EntitySD> damageCooldownMagic = new Cooldown<>();
+    public final Cooldown<EntitySD> damageCooldownProjectile = new Cooldown<>();
 
     public EntitySD(Location location, EntityMaterial type) {
         this.type = type;
@@ -91,9 +88,18 @@ public class EntitySD {
     }
 
     public static void saveLocations() {
+        int i = 0;
+        for (Location location : entitiesLocations.keySet()) {
+            Variables.set("EntitiesSpawnsLocations", i, location);
+            Variables.set("EntitiesSpawnsEntity", i, entitiesLocations.get(location));
+            i++;
+        }
     }
 
     public static void loadLocations() {
+        for (int i = 0; i < Variables.getSize("EntitiesSpawnsLocations"); i++) {
+            entitiesLocations.put(Variables.get("EntitiesSpawnsLocations", i), Variables.get("EntitiesSpawnsEntity", i));
+        }
     }
 
     public static EntitySD get(UUID uuid) {
@@ -227,7 +233,7 @@ public class EntitySD {
         return new Equipment();
     }
 
-    public Cooldown getDamageCooldown(Damage.DamageType type) {
+    public Cooldown<EntitySD> getDamageCooldown(Damage.DamageType type) {
         switch (type) {
             case NORMAL:
             case FALL:

@@ -45,8 +45,9 @@ public class RareDrop extends ItemDrop {
         this.rarity = rarity;
     }
 
+    @Override
     public ItemStack generate(PlayerSD player) {
-        ItemStack item = super.generate();
+        ItemStack item = super.generate(player);
         if (item != null) {
             player.sendMessage(rarity.getColor() + rarity.toString() + " DROP! " + ChatColor.GRAY + "(" + ChatColor.RESET + item.getItemMeta().getDisplayName() + ChatColor.GRAY + ")");
         }

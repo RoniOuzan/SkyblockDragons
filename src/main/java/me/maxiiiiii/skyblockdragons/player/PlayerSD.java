@@ -4,29 +4,27 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import lombok.Setter;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamageEntityEvent;
 import me.maxiiiiii.skyblockdragons.entity.ItemDrop;
-import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
-import me.maxiiiiii.skyblockdragons.material.*;
-import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
-import me.maxiiiiii.skyblockdragons.player.pet.PlayerPet;
-import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
-import me.maxiiiiii.skyblockdragons.storage.Variables;
-import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
-import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.abilities.Atomsplit_Katana;
 import me.maxiiiiii.skyblockdragons.item.abilities.Rogue_Sword;
-import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
-import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.material.*;
+import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
+import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.player.pet.Pet;
+import me.maxiiiiii.skyblockdragons.player.pet.PlayerPet;
 import me.maxiiiiii.skyblockdragons.player.skill.Skill;
-import me.maxiiiiii.skyblockdragons.player.skill.Skills.*;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.Wardrobe;
-import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeSlot;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
+import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import me.maxiiiiii.skyblockdragons.worlds.mining.Mining;
 import net.md_5.bungee.api.ChatMessageType;
@@ -34,17 +32,15 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_12_R1.EntityPlayer;
 import net.minecraft.server.v1_12_R1.Packet;
 import org.bukkit.*;
-import org.bukkit.Material;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.*;
-import org.bukkit.scoreboard.Scoreboard;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -71,7 +67,7 @@ public class PlayerSD extends PlayerClass {
 
     public AccessoryBag accessoryBag;
 
-    public final Cooldown updateStatsCooldown = new Cooldown();
+    public final Cooldown<PlayerSD> updateStatsCooldown = new Cooldown<>();
 
     public static final double HEALTH_REGEN = 1.02;
 
@@ -207,7 +203,7 @@ public class PlayerSD extends PlayerClass {
 
     public void give(ItemStack item) {
         if (item instanceof ItemDrop) {
-            ItemStack itemStack = ((ItemDrop) item).generate();
+            ItemStack itemStack = ((ItemDrop) item).generate(this);
             if (itemStack != null)
                 this.player.getInventory().addItem(itemStack);
         } else {

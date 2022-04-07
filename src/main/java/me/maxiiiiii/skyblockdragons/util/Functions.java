@@ -1005,22 +1005,13 @@ public class Functions {
         return getTargetEntity(player, max, true);
     }
 
-    public static boolean cooldown(Player player, Cooldown cooldown, long milliseconds, boolean message) {
-        long timeLeft = System.currentTimeMillis() - cooldown.getCooldown(player);
+    public static <T> boolean cooldown(T key, Cooldown<T> cooldown, long milliseconds, boolean message) {
+        long timeLeft = System.currentTimeMillis() - cooldown.getCooldown(key);
         if (timeLeft < milliseconds) {
-            if (message) player.sendMessage(ChatColor.RED + "This ability in on cooldown for " + Math.ceil((double) (milliseconds - timeLeft) / 1000.0) + "s.");
+            if (message && key instanceof Player) ((Player) key).sendMessage(ChatColor.RED + "This ability in on cooldown for " + Math.ceil((double) (milliseconds - timeLeft) / 1000.0) + "s.");
             return true;
         }
-        cooldown.setCooldown(player,System.currentTimeMillis());
-        return false;
-    }
-
-    public static boolean cooldown(EntitySD player, Cooldown cooldown, long milliseconds) {
-        long timeLeft = System.currentTimeMillis() - cooldown.getCooldown(player.entity);
-        if (timeLeft < milliseconds) {
-            return true;
-        }
-        cooldown.setCooldown(player.entity, System.currentTimeMillis());
+        cooldown.setCooldown(key,System.currentTimeMillis());
         return false;
     }
 

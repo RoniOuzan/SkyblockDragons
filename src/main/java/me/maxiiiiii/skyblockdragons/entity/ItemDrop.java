@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.entity;
 
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.inventory.ItemStack;
 
@@ -33,7 +34,7 @@ public class ItemDrop extends Item {
     }
 
     @Nullable
-    public ItemStack generate() {
+    public ItemStack generate(PlayerSD player) {
         if (Functions.randomDouble(0, 100) > this.chance)
             return null;
         int amount = Functions.randomInt(this.minAmount, this.maxAmount);

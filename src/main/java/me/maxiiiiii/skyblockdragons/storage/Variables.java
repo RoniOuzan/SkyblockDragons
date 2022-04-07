@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.serialization.Serializer;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -83,7 +84,16 @@ public class Variables {
         variables.removeIf(v -> v.name.equals(name) && v.data == data);
     }
 
+    public static long getSize(UUID uuid, String name) {
+        return playerVariables.getOrDefault(uuid, new ArrayList<>()).stream().filter(v -> v.name.equals(name)).count();
+    }
+
+    public static long getSize(String name) {
+        return variables.stream().filter(v -> v.name.equals(name)).count();
+    }
+
     public static void save() {
+        EntitySD.saveLocations();
         for (PlayerSD player : SkyblockDragons.players.values()) {
             player.save();
         }

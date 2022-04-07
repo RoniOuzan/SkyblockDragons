@@ -13,7 +13,7 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
 
 public class Grappling_Hook implements Listener {
-    private final Cooldown cooldown = new Cooldown();
+    private final Cooldown<Player> cooldown = new Cooldown<>();
 
     @EventHandler
     public void onFish(PlayerFishEvent e) {

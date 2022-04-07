@@ -22,7 +22,7 @@ import static me.maxiiiiii.skyblockdragons.SkyblockDragons.players;
 public class Axe_of_The_Shredded implements Listener {
     private final HashMap<Player, Integer> manaCost = new HashMap<>();
     private final HashMap<Player, Long> timeUsed = new HashMap<>();
-    private final Cooldown cooldown = new Cooldown();
+    private final Cooldown<Player> cooldown = new Cooldown<>();
 
     @EventHandler
     public void onClick(PlayerInteractEvent e) {

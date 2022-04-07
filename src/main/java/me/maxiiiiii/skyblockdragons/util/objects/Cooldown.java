@@ -6,10 +6,10 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Cooldown {
-    private final Map<Entity, Long> cooldowns = new HashMap<>();
+public class Cooldown<T> {
+    private final Map<T, Long> cooldowns = new HashMap<>();
 
-    public void setCooldown(Entity player, Long time) {
+    public void setCooldown(T player, Long time) {
         if (time < 1) {
             cooldowns.remove(player);
         } else {
@@ -17,11 +17,11 @@ public class Cooldown {
         }
     }
 
-    public Long getCooldown(Entity player) {
+    public Long getCooldown(T player) {
         return cooldowns.getOrDefault(player, 0L);
     }
 
-    public Long getCurrentCooldown(Entity player) {
+    public Long getCurrentCooldown(T player) {
         return System.currentTimeMillis() - this.getCooldown(player);
     }
 }

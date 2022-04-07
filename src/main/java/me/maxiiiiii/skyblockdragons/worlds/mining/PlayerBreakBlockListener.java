@@ -41,8 +41,9 @@ public class PlayerBreakBlockListener implements Listener {
             }
         else
             for (ItemDrop drop : e.getMaterial().drops) {
-                ItemStack itemToDrop = drop.generate();
+                ItemStack itemToDrop = drop.generate(player);
                 if (itemToDrop != null) {
+                    itemToDrop.setAmount(amount);
                     org.bukkit.entity.Item dropped = block.getWorld().dropItem(block.getLocation().add(new Vector(
                             player.getLocation().getX() - block.getLocation().getX(),
                             player.getLocation().getY() - block.getLocation().getY(),

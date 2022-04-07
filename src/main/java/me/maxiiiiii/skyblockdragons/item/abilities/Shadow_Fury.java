@@ -20,7 +20,7 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.*;
 
 public class Shadow_Fury implements Listener {
-    private final Cooldown cooldown = new Cooldown();
+    private final Cooldown<Player> cooldown = new Cooldown<>();
 
     @EventHandler
     public void onClick(PlayerInteractEvent e) {

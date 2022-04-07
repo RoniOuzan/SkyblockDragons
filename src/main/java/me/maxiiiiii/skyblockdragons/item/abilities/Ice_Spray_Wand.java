@@ -1,10 +1,11 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 public class Ice_Spray_Wand implements Listener {
-    private final Cooldown cooldown = new Cooldown();
+    private final Cooldown<Player> cooldown = new Cooldown<>();
 
 //    @EventHandler
 //    public void onClick(PlayerInteractEvent e) {

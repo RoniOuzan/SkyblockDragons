@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.damage;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.ItemDrop;
+import me.maxiiiiii.skyblockdragons.entity.RareDrop;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
@@ -47,7 +48,7 @@ public class Damage implements Listener {
         if (player instanceof PlayerSD) {
             millisecondsCD -= ((PlayerSD) player).getStats().getAttackSpeed().amount * 2.5;
         }
-        if (cooldown(player, player.getDamageCooldown(damageType),  millisecondsCD)) return -3;
+        if (cooldown(player, player.getDamageCooldown(damageType), millisecondsCD, false)) return -3;
 
         DamageCalculator damageCalculator = this.getDamage(player, entity, damageType, baseAbilityDamage, abilityScaling);
         double damage = damageCalculator.damage;
@@ -267,7 +268,7 @@ public class Damage implements Listener {
                 }
             else
                 for (ItemDrop drop : entity.type.drops) {
-                    ItemStack item = drop.generate();
+                    ItemStack item = drop.generate(player);
                     if (item != null) {
                         org.bukkit.entity.Item dropped = entity.entity.getWorld().dropItem(entity.entity.getLocation(), item);
                         dropped.addScoreboardTag(player.getName());

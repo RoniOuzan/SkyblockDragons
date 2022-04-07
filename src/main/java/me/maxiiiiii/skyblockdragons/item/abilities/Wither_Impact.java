@@ -27,7 +27,7 @@ import static me.maxiiiiii.skyblockdragons.SkyblockDragons.players;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.plugin;
 
 public class Wither_Impact implements Listener {
-    private final Cooldown cooldown = new Cooldown();
+    private final Cooldown<Player> cooldown = new Cooldown<>();
     public static long witherShield = 0;
     public static HashMap<UUID, Integer> witherShieldHealth = new HashMap<>();
 
