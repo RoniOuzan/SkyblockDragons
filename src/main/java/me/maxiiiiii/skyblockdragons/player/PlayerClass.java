@@ -853,12 +853,12 @@ public class PlayerClass extends EntitySD implements Player {
     }
 
     public void sendMessage(Object... messages) {
-        String message = ",";
+        StringBuilder message = new StringBuilder(",");
         for (Object value : messages) {
-            message += ", " + value;
+            message.append(", ").append(value);
         }
-        message = message.replace(",, ", "");
-        this.player.sendMessage(message);
+        message = new StringBuilder(message.toString().replace(",, ", ""));
+        this.player.sendMessage(message.toString());
     }
 
     @Override

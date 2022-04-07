@@ -26,12 +26,12 @@ public class PetListener implements Listener {
             return;
         }
 
-        if (player.getPets().size() >= 112) {
+        if (player.getPlayerPet().getPets().size() >= 112) {
             player.sendMessage(ChatColor.RED + "You have reached the maximum amount of pets in your menu!");
             return;
         }
 
-        player.getPets().add(Pet.getPet(item, false));
+        player.getPlayerPet().getPets().add(Pet.getPet(item, false));
         player.getEquipment().setItemInMainHand(null);
         player.sendMessage(ChatColor.GREEN + "You have added your " + item.getItemMeta().getDisplayName() + ChatColor.GREEN + " to your pet menu.");
     }

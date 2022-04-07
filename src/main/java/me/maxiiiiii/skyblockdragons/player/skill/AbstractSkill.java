@@ -1,10 +1,15 @@
 package me.maxiiiiii.skyblockdragons.player.skill;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
@@ -22,7 +27,7 @@ public abstract class AbstractSkill {
     private double totalXp;
     private final double[] needXp;
 
-    public AbstractSkill(String name, String description, SkillRewards rewards, int level, int maxLevel, double totalXp, double[] needXps) {
+    public AbstractSkill(String name, String description, SkillRewards rewards, int level, int maxLevel, double totalXp) {
         this.name = name;
         this.description = description;
         this.rewards = rewards;
@@ -35,10 +40,6 @@ public abstract class AbstractSkill {
         this.currentXp = currentXp;
         this.totalXp = totalXp;
         this.needXp = needXps;
-    }
-
-    public AbstractSkill(String name, String description, SkillRewards rewards, int level, int maxLevel, double totalXp) {
-        this(name, description, rewards, level, maxLevel, totalXp, needXps);
     }
 
     public double getCurrentNeedXp() {
@@ -65,10 +66,7 @@ public abstract class AbstractSkill {
             player.sendMessage("       " + ChatColor.DARK_GRAY + "+" + ChatColor.GOLD + getNumberFormat(this.rewards.getCoinsAmount()) + " " + ChatColor.GRAY + "Coins");
             player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "--------------------------------------------------");
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
-
-            Variables.set(player.getUniqueId(), this.name, 1, this.level);
         }
-        Variables.set(player.getUniqueId(), this.name, 2, this.totalXp);
     }
 
     public void setXp(double amount, Player player) {
@@ -89,5 +87,10 @@ public abstract class AbstractSkill {
             sum += needXps[i];
         }
         return sum;
+    }
+
+    public void save(PlayerSD player) {
+        Variables.set(player.getUniqueId(), "Skill" + name, 0, this.level);
+        Variables.set(player.getUniqueId(), "Skill" + name, 1, this.totalXp);
     }
 }

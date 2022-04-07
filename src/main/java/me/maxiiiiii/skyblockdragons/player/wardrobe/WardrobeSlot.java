@@ -4,13 +4,19 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.createItem;
 
 @Getter
 @Setter
-public class WardrobeSlot {
+@SerializableAs("WardrobeSlot")
+public class WardrobeSlot implements ConfigurationSerializable {
     private int slot;
     private ItemStack helmet;
     private ItemStack chestplate;
@@ -58,5 +64,24 @@ public class WardrobeSlot {
         if (slot == 7) return 10;
         if (slot == 8) return 6;
         return 15;
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> args = new HashMap<>();
+        args.put("slot", slot);
+        if (helmet != null)
+            args.put("helmet", helmet);
+        if (chestplate != null)
+            args.put("chestplate", chestplate);
+        if (leggings != null)
+            args.put("leggings", leggings);
+        if (boots != null)
+            args.put("boots", boots);
+        return args;
+    }
+
+    public static WardrobeSlot deserialize(Map<String, Object> args) {
+        return new WardrobeSlot((int) args.get("slot"), (ItemStack) args.get("helmet"), (ItemStack) args.get("chestplate"), (ItemStack) args.get("leggings"), (ItemStack) args.get("boots"));
     }
 }

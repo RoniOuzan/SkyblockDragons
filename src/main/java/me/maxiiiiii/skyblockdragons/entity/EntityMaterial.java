@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.entity;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.material.Items;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.*;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -66,10 +67,10 @@ public class EntityMaterial implements ConfigurationSerializable {
                 105,
                 0,
                 2,
-                new ItemDrop(ItemMaterial.get("GOLDEN_SKELETON_BOW"), 1, 1d),
-                new ItemDrop(ItemMaterial.get("GOLDEN_SKELETON_HELMET"), 1, 1d),
-                new ItemDrop(ItemMaterial.get("BONE"), 1, 4),
-                new ItemDrop(ItemMaterial.get("ARROW"), 2, 10)
+                new ItemDrop(Items.get("GOLDEN_SKELETON_BOW"), 1, 1d),
+                new ItemDrop(Items.get("GOLDEN_SKELETON_HELMET"), 1, 1d),
+                new ItemDrop(Items.get("BONE"), 1, 4),
+                new ItemDrop(Items.get("ARROW"), 2, 10)
         ));
 
         entities.put("LAPIS_ZOMBIE", new EntityMaterial(
@@ -84,9 +85,9 @@ public class EntityMaterial implements ConfigurationSerializable {
                 110,
                 0,
                 5,
-                new ItemDrop(ItemMaterial.get("LAPIS"), 1, 6),
-                new RareDrop(ItemMaterial.get("ENCHANTED_LAPIS"), 1, 2, 2d, RareDrop.Rarity.RARE),
-                new RareDrop(ItemMaterial.get("LAPIS_TALISMAN"), 1, 0.5d, RareDrop.Rarity.RARE)
+                new ItemDrop(Items.get("LAPIS"), 1, 6),
+                new RareDrop(Items.get("ENCHANTED_LAPIS"), 1, 2, 2d, RareDrop.Rarity.RARE),
+                new RareDrop(Items.get("LAPIS_TALISMAN"), 1, 0.5d, RareDrop.Rarity.RARE)
         ));
 
         entities.put("REDSTONE_PIGMAN", new EntityMaterial(
@@ -101,15 +102,15 @@ public class EntityMaterial implements ConfigurationSerializable {
                 125,
                 0,
                 8,
-                new ItemDrop(ItemMaterial.get("ROTTEN_FLESH"), 1, 6),
-                new ItemDrop(ItemMaterial.get("REDSTONE"), 1, 5),
-                new RareDrop(ItemMaterial.get("ENCHANTED_REDSTONE"), 1, 2, 2d, RareDrop.Rarity.RARE),
-                new RareDrop(ItemMaterial.get("PIGMAN_HELMET"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(ItemMaterial.get("PIGMAN_CHESTPLATE"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(ItemMaterial.get("PIGMAN_LEGGINGS"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(ItemMaterial.get("PIGMAN_BOOTS"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(ItemMaterial.get("PIGMAN_DAGGER"), 1, 2d, RareDrop.Rarity.RARE),
-                new RareDrop(ItemMaterial.get("REDSTONE_TALISMAN"), 1, 0.5d, RareDrop.Rarity.RARE)
+                new ItemDrop(Items.get("ROTTEN_FLESH"), 1, 6),
+                new ItemDrop(Items.get("REDSTONE"), 1, 5),
+                new RareDrop(Items.get("ENCHANTED_REDSTONE"), 1, 2, 2d, RareDrop.Rarity.RARE),
+                new RareDrop(Items.get("PIGMAN_HELMET"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(Items.get("PIGMAN_CHESTPLATE"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(Items.get("PIGMAN_LEGGINGS"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(Items.get("PIGMAN_BOOTS"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(Items.get("PIGMAN_DAGGER"), 1, 2d, RareDrop.Rarity.RARE),
+                new RareDrop(Items.get("REDSTONE_TALISMAN"), 1, 0.5d, RareDrop.Rarity.RARE)
         ));
 
         entities.put("SLIME", new EntityMaterial(
@@ -124,10 +125,10 @@ public class EntityMaterial implements ConfigurationSerializable {
                 140,
                 0,
                 10,
-                new ItemDrop(ItemMaterial.get("SLIME_BALL"), 1, 10),
-                new ItemDrop(ItemMaterial.get("EMERALD"), 1, 6),
-                new RareDrop(ItemMaterial.get("SLIME_TALISMAN"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(ItemMaterial.get("EMERALD_TALISMAN"), 1, 0.5d, RareDrop.Rarity.RARE)
+                new ItemDrop(Items.get("SLIME_BALL"), 1, 10),
+                new ItemDrop(Items.get("EMERALD"), 1, 6),
+                new RareDrop(Items.get("SLIME_TALISMAN"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(Items.get("EMERALD_TALISMAN"), 1, 0.5d, RareDrop.Rarity.RARE)
         ));
 
         entities.put("DIAMOND_ZOMBIE", new EntityMaterial(
@@ -142,10 +143,10 @@ public class EntityMaterial implements ConfigurationSerializable {
                 120,
                 0.1,
                 20,
-                new ItemDrop(ItemMaterial.get("DIAMOND"), 1, 7),
-                new RareDrop(ItemMaterial.get("ENCHANTED_DIAMOND"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(ItemMaterial.get("DIAMOND_TALISMAN"), 1, 0.5d, RareDrop.Rarity.RARE),
-                new RareDrop(ItemMaterial.get("DIAMOND_BLOCK_TALISMAN"), 1, 0.1d, RareDrop.Rarity.RARE)
+                new ItemDrop(Items.get("DIAMOND"), 1, 7),
+                new RareDrop(Items.get("ENCHANTED_DIAMOND"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(Items.get("DIAMOND_TALISMAN"), 1, 0.5d, RareDrop.Rarity.RARE),
+                new RareDrop(Items.get("DIAMOND_BLOCK_TALISMAN"), 1, 0.1d, RareDrop.Rarity.RARE)
         ));
 
         entities.put("OBSIDIAN_ZOMBIE", new EntityMaterial(
@@ -160,13 +161,13 @@ public class EntityMaterial implements ConfigurationSerializable {
                 100,
                 0.2,
                 35,
-                new ItemDrop(ItemMaterial.get("OBSIDIAN"), 1, 4),
-                new RareDrop(ItemMaterial.get("ENCHANTED_OBSIDIAN"), 1, 2d, RareDrop.Rarity.RARE),
-                new RareDrop(ItemMaterial.get("OBSIDIAN_HELMET"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(ItemMaterial.get("OBSIDIAN_LEGGINGS"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(ItemMaterial.get("OBSIDIAN_LEGGINGS"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(ItemMaterial.get("OBSIDIAN_BOOTS"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(ItemMaterial.get("OBSIDIAN_TALISMAN"), 1, 0.5d, RareDrop.Rarity.RARE)
+                new ItemDrop(Items.get("OBSIDIAN"), 1, 4),
+                new RareDrop(Items.get("ENCHANTED_OBSIDIAN"), 1, 2d, RareDrop.Rarity.RARE),
+                new RareDrop(Items.get("OBSIDIAN_HELMET"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(Items.get("OBSIDIAN_LEGGINGS"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(Items.get("OBSIDIAN_LEGGINGS"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(Items.get("OBSIDIAN_BOOTS"), 1, 1d, RareDrop.Rarity.RARE),
+                new RareDrop(Items.get("OBSIDIAN_TALISMAN"), 1, 0.5d, RareDrop.Rarity.RARE)
         ));
 
         entities.put("DUMMY", new EntityMaterial(EntityType.ZOMBIE, "Dummy", Integer.MAX_VALUE, 500000, 0, 0, 0, new Equipment(), 0, 1, false, 0));

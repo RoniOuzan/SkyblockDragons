@@ -1,247 +1,149 @@
 package me.maxiiiiii.skyblockdragons.storage;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.player.coop.Coop;
-import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.util.serialization.Serializer;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Variables {
-    public static ArrayList<Variable<?>> variables = new ArrayList<>();
+    public static final List<Variable> variables = new ArrayList<>();
+    public static final Map<UUID, List<Variable>> playerVariables = new HashMap<>();
 
-    public static final Variable<?> NULL = new Variable<>(null, "null", -1, -1);
+    public static <T> T get(UUID uuid, String name, int data) {
+        if (!playerVariables.containsKey(uuid)) return null;
 
-    public static <T> T create(UUID uuid, String id, int data, T value) {
-        Variable<T> variable = new Variable<>(uuid, id, data, value);
-        variables.add(variable);
-        return value;
-    }
-
-    public static <T> T create(UUID uuid, String id, T value) {
-        return create(uuid, id, -1, value);
-    }
-
-    public static <T> T create(String id, int data, T value) {
-        return create(null, id, data, value);
-    }
-
-    public static <T> T create(String id, T value) {
-        return create(null, id, -1, value);
-    }
-
-    public static <T> T get(UUID uuid, String id, int data, T defaultValue) {
-        for (Variable<?> variable : variables) {
-            if (Objects.equals(variable.uuid, uuid) && variable.id.equals(id) && variable.data== data) {
-                return (T) variable.value;
+        for (Variable variable : playerVariables.get(uuid)) {
+            if (variable.name.equals(name) && variable.data == data) {
+                return variable.getValue();
             }
         }
-        return defaultValue;
+        return null;
     }
 
-    public static <T> T get(UUID uuid, String id, T defaultValue) {
-        return get(uuid, id, -1, defaultValue);
+    public static <T> T get(UUID uuid, String name, int data, T defaultValue) {
+        T output = get(uuid, name, data);
+        return output == null ? defaultValue : output;
     }
 
-    public static <T> T get(String id, int data, T defaultValue) {
-        return get(null, id, data, defaultValue);
+    public static <T> T get(String name, int data) {
+        List<Variable> output = variables.stream().filter(
+                v -> v.name.equals(name) && v.data == data
+        ).collect(Collectors.toList());
+        if (output.size() > 0)
+            return output.get(0).getValue();
+        return null;
     }
 
-    public static <T> T get(String id, T defaultValue) {
-        return get(null, id, -1, defaultValue);
-    }
-
-    public static <T> T set(UUID uuid, String id, int data, T value) {
-        T variableValue = get(uuid, id, data, null);
-        if (variableValue == null) {
-            return create(uuid, id, data, value);
-        } else {
-            for (int i = 0; i < variables.size(); i++) {
-                Variable<T> variable = (Variable<T>) variables.get(i);
-                if (Objects.equals(variable.uuid, uuid) && variable.id.equals(id) && variable.data== data) {
-                    variable.value = value;
-                    variables.set(i, variable);
-                }
-            }
-            return value;
-        }
-    }
-
-    public static <T> T set(UUID uuid, String id, T value) {
-        return set(uuid, id, -1, value);
-    }
-
-    public static <T> T set(String id, int data, T value) {
-        return set(null, id, data, value);
-    }
-
-    public static <T> T set(String id, T value) {
-        return set(null, id, -1, value);
-    }
-
-    public static void delete(UUID uuid, String id, int data) {
-        variables.removeIf(v -> Objects.equals(v.uuid, uuid) && v.id.equals(id) && v.data == data);
-    }
-
-    public static void delete(UUID uuid, String id, int minData, int maxData) {
-        for (int i = minData; i <= maxData; i++) {
-            delete(uuid, id, i);
-        }
-    }
-
-    public static void delete(UUID uuid, String id) {
-        delete(uuid, id, -1);
-    }
-
-    public static void delete(String id, int data) {
-        delete(null, id, data);
-    }
-
-    public static void delete(String id) {
-        variables.removeIf(v -> v.id.equals(id));
-    }
-
-    public static int getSize(UUID uuid, String id) {
-        int amount = 0;
-        for (Variable<?> variable : variables) {
-            if (Objects.equals(variable.uuid, uuid) && variable.id.equals(id)) {
-                amount++;
+    public static <T> void set(UUID uuid, String name, int data, T value) {
+        List<Variable> variables = playerVariables.getOrDefault(uuid, new ArrayList<>());
+        boolean did = false;
+        for (int i = 0; i < variables.size(); i++) {
+            if (variables.get(i).name.equals(name) && variables.get(i).data == data) {
+                did = true;
+                variables.set(i, variables.get(i).setValue(value));
             }
         }
-        return amount;
+        if (!did) {
+            variables.add(new Variable(name, data, Serializer.serialize(value)));
+            playerVariables.put(uuid, variables);
+        }
     }
 
-    public static int getSize(String id, int data) {
-        int amount = 0;
-        for (Variable<?> variable : variables) {
-            if (variable.id.equals(id) && variable.data == data) {
-                amount++;
+    public static <T> void set(String name, int data, T value) {
+        boolean did = false;
+        for (int i = 0; i < variables.size(); i++) {
+            if (variables.get(i).name.equals(name) && variables.get(i).data == data) {
+                did = true;
+                variables.set(i, variables.get(i).setValue(value));
             }
         }
-        return amount;
+        if (!did) {
+            variables.add(new Variable(name, data, Serializer.serialize(value)));
+        }
     }
 
-    public static int getSize(String id) {
-        int amount = 0;
-        for (Variable<?> variable : variables) {
-            if (variable.id.equals(id)) {
-                amount++;
-            }
-        }
-        return amount;
+    public static void delete(UUID uuid, String name, int data) {
+        playerVariables.getOrDefault(uuid, new ArrayList<>()).removeIf(v -> v.name.equals(name) && v.data == data);
     }
 
-    public static int getSize(UUID uuid) {
-        int amount = 0;
-        for (Variable<?> variable : variables) {
-            if (Objects.equals(variable.uuid, uuid)) {
-                amount++;
-            }
-        }
-        return amount;
+    public static void delete(UUID uuid, String name) {
+        playerVariables.getOrDefault(uuid, new ArrayList<>()).removeIf(v -> v.name.equals(name));
+    }
+
+    public static void delete(String name, int data) {
+        variables.removeIf(v -> v.name.equals(name) && v.data == data);
     }
 
     public static void save() {
-        EntitySD.saveLocations();
+        for (PlayerSD player : SkyblockDragons.players.values()) {
+            player.save();
+        }
 
-        Gson gson = new Gson();
-        ArrayList<Variable<?>> variablesToAdd = new ArrayList<>();
-        ArrayList<Variable<?>> variablesToRemove = new ArrayList<>();
-        for (Variable<?> variable : variables) {
-            if (!Functions.isNumber(variable.value + "")) {
-                variablesToAdd.add(new Variable<>(variable.uuid, variable.id, variable.data, SkyblockDragons.serializer.serialize(variable.value)));
-                variablesToRemove.add(variable);
-            }
-        }
-        variables.addAll(variablesToAdd);
-        variables.removeAll(variablesToRemove);
-        String json = gson.toJson(variables);
-        HashMap<UUID, ArrayList<Variable<?>>> players = new HashMap<>();
-        for (Variable<?> variable : variables) {
-            ArrayList<Variable<?>> playerVariables = players.getOrDefault(variable.uuid, new ArrayList<>());
-            playerVariables.add(variable);
-            players.put(variable.uuid, playerVariables);
-        }
         try {
-            for (UUID uuid : players.keySet()) {
-                if (uuid != null) {
-                    FileWriter file = new FileWriter(SkyblockDragons.plugin.getDataFolder().getAbsolutePath() + "/Players/" + uuid + ".json");
-                    file.write(json);
-                    file.close();
-                } else {
-                    FileWriter file = new FileWriter(SkyblockDragons.plugin.getDataFolder().getAbsolutePath() + "/Variables.json");
-                    file.write(json);
-                    file.close();
-                }
+            Gson gson = new Gson();
+            for (UUID uuid : playerVariables.keySet()) {
+                FileWriter fileWriter = new FileWriter(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/Players/" + uuid + ".json");
+                String json = gson.toJson(playerVariables.get(uuid));
+                fileWriter.write(json);
+                fileWriter.close();
             }
+            FileWriter fileWriter = new FileWriter(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/Variables.json");
+            String json = gson.toJson(variables);
+            fileWriter.write(json);
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static void load() {
+        variables.clear();
         try {
-            BufferedReader file = new BufferedReader(new FileReader(SkyblockDragons.plugin.getDataFolder().getAbsolutePath() + "/Variables.json"));
-            String json = file.readLine();
-            JsonReader reader = new JsonReader(new StringReader(json));
-            JsonParser parser = new JsonParser();
-            JsonArray array = parser.parse(reader).getAsJsonArray();
+            File file = new File(SkyblockDragons.plugin.getDataFolder().getAbsolutePath() + "/Players");
+            if (file.list() != null) {
+                for (String path : file.list()) {
+                    BufferedReader reader = new BufferedReader(new FileReader(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/Players/" + path));
+                    String json = reader.readLine();
+                    JsonReader jsonReader = new JsonReader(new StringReader(json));
+                    JsonParser jsonParser = new JsonParser();
+                    JsonArray array = jsonParser.parse(jsonReader).getAsJsonArray();
+
+                    String[] names = path.split("/");
+                    UUID uuid = UUID.fromString(names[names.length - 1].replace(".json", ""));
+
+                    List<Variable> variables = new ArrayList<>();
+                    for (JsonElement variable : array) {
+                        String name = variable.getAsJsonObject().get("name").getAsString();
+                        int data = variable.getAsJsonObject().get("data").getAsInt();
+                        String value = variable.getAsJsonObject().get("value").getAsString();
+                        variables.add(new Variable(name, data, value));
+                    }
+                    playerVariables.put(uuid, variables);
+                }
+            }
+            BufferedReader reader = new BufferedReader(new FileReader(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/Variables.json"));
+            String json = reader.readLine();
+            JsonReader jsonReader = new JsonReader(new StringReader(json));
+            JsonParser jsonParser = new JsonParser();
+            JsonArray array = jsonParser.parse(jsonReader).getAsJsonArray();
+
             for (JsonElement variable : array) {
-//                JsonElement uuidElement = variable.getAsJsonObject().get("uuid");
-//                UUID uuid;
-//                if (uuidElement == null)
-//                    uuid = null;
-//                else
-//                    uuid = UUID.fromString(uuidElement.getAsString());
-                String id = variable.getAsJsonObject().get("id").getAsString();
+                String name = variable.getAsJsonObject().get("name").getAsString();
                 int data = variable.getAsJsonObject().get("data").getAsInt();
                 String value = variable.getAsJsonObject().get("value").getAsString();
-                if (Functions.isInt(value)) {
-                    variables.add(new Variable<>(null, id, data, Integer.parseInt(value)));
-                } else if (Functions.isLong(value)) {
-                    variables.add(new Variable<>(null, id, data, Long.parseLong(value)));
-                } else if (Functions.isDouble(value)) {
-                    variables.add(new Variable<>(null, id, data, Double.parseDouble(value)));
-                } else {
-                    variables.add(new Variable<>(null, id, data, SkyblockDragons.serializer.deserialize(value)));
-                }
+                variables.add(new Variable(name, data, value));
             }
-            File mainFile = new File(SkyblockDragons.plugin.getDataFolder().getAbsolutePath() + "/Players");
-            for (String fileName : mainFile.list()) {
-                BufferedReader playerFile = new BufferedReader(new FileReader(fileName));
-                String playerJson = playerFile.readLine();
-                JsonReader playerReader = new JsonReader(new StringReader(playerJson));
-                JsonParser playerParser = new JsonParser();
-                JsonArray playerArray = playerParser.parse(playerReader).getAsJsonArray();
-                for (JsonElement variable : playerArray) {
-                    JsonElement uuidElement = variable.getAsJsonObject().get("uuid");
-                    UUID uuid;
-                    if (uuidElement == null) {
-                        uuid = null;
-                    }
-                    else
-                        uuid = UUID.fromString(uuidElement.getAsString());
-                    String id = variable.getAsJsonObject().get("id").getAsString();
-                    int data = variable.getAsJsonObject().get("data").getAsInt();
-                    String value = variable.getAsJsonObject().get("value").getAsString();
-                    if (Functions.isInt(value)) {
-                        variables.add(new Variable<>(uuid, id, data, Integer.parseInt(value)));
-                    } else if (Functions.isLong(value)) {
-                        variables.add(new Variable<>(uuid, id, data, Long.parseLong(value)));
-                    } else if (Functions.isDouble(value)) {
-                        variables.add(new Variable<>(uuid, id, data, Double.parseDouble(value)));
-                    } else {
-                        variables.add(new Variable<>(uuid, id, data, SkyblockDragons.serializer.deserialize(value)));
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
-        if (variables == null)
-            variables = new ArrayList<>();
     }
 }

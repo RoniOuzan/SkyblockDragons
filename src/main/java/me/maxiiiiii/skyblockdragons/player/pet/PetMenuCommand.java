@@ -1,9 +1,8 @@
 package me.maxiiiiii.skyblockdragons.player.pet;
 
-import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.storage.Variables;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -17,7 +16,6 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.function.Predicate;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.getId;
 
@@ -38,12 +36,9 @@ public class PetMenuCommand implements CommandExecutor, Listener {
             String[] title = e.getInventory().getTitle().split(" ");
             int page = Integer.parseInt(title[2]);
 
-            Variables.delete(player.getUniqueId(), "Pets", (28 * (page - 1)), (28 * page) - 1);
-
-            ArrayList<Pet> pets = player.getPets();
+            ArrayList<Pet> pets = player.getPlayerPet().getPets();
             for (int i = 0; i < 28; i++) {
                 if (Functions.isNotAir(e.getInventory().getItem(Functions.intToSlot(i)))) {
-                    Variables.set(e.getPlayer().getUniqueId(), "Pets", i + (28 * (page - 1)), e.getInventory().getItem(Functions.intToSlot(i)));
 
                     if (i + (28 * (page - 1)) < pets.size()) {
                         Pet pet = Pet.getPet(e.getInventory().getItem(Functions.intToSlot(i)), false);
@@ -53,7 +48,7 @@ public class PetMenuCommand implements CommandExecutor, Listener {
                     pets.remove(i + (28 * (page - 1)));
                 }
             }
-            player.setPets(pets);
+            player.getPlayerPet().setPets(pets);
         }
     }
 
@@ -79,16 +74,15 @@ public class PetMenuCommand implements CommandExecutor, Listener {
                 } else if (item.getItemMeta().getDisplayName().contains("Convert Pet to an Item")) {
                     e.getClickedInventory().setItem(e.getSlot(), item.getDurability() == 8 ? PetMenu.convertPetEnabled : PetMenu.convertPetDisabled);
                 } else if (item.getItemMeta().getDisplayName().contains("Hide Pets")) {
-                    player.hidePets = !player.hidePets;
-                    player.sendMessage((player.hidePets ? ChatColor.GREEN : ChatColor.RED) + "Hide Pets is now " + (player.hidePets ? "Enabled!" : "Disabled!"));
-                    Variables.set(player.getUniqueId(), "HidePets", player.hidePets ? 1 : 0);
+                    player.getPlayerPet().hidePets = !player.getPlayerPet().hidePets;
+                    player.sendMessage((player.getPlayerPet().hidePets ? ChatColor.GREEN : ChatColor.RED) + "Hide Pets is now " + (player.getPlayerPet().hidePets ? "Enabled!" : "Disabled!"));
                     player.closeInventory();
                 }
 
                 if (!getId(item).contains("_PET")) return;
 
                 if (e.getInventory().getItem(50).getDurability() == 10) {
-                    if (player.activePet >= 0) {
+                    if (player.getPlayerPet().activePet >= 0) {
                         player.sendMessage(ChatColor.RED + "You have to despawn your pet!");
                         return;
                     }
@@ -97,16 +91,16 @@ public class PetMenuCommand implements CommandExecutor, Listener {
                     player.closeInventory();
                     PetMenu.openPetMenu(player, page, true);
                 } else {
-                    if (player.getActivePet() >= 0 && player.getActivePet() == Functions.slotToInt(e.getSlot(), page)) {
+                    if (player.getPlayerPet().getActivePet() >= 0 && player.getPlayerPet().getActivePet() == Functions.slotToInt(e.getSlot(), page)) {
                         player.setActivePet(-1);
                         player.sendMessage(ChatColor.GREEN + "You despawned your " + item.getItemMeta().getDisplayName() + ChatColor.GREEN + "!");
                     } else {
                         player.setActivePet(Functions.slotToInt(e.getSlot(), page));
                         player.sendMessage(ChatColor.GREEN + "You summoned your " + item.getItemMeta().getDisplayName() + ChatColor.GREEN + "!");
                     }
-                    player.petArmorStand.armorStand.remove();
-                    player.petArmorStand.hologram.delete();
-                    player.petArmorStand.slot = -1;
+                    player.getPlayerPet().petArmorStand.armorStand.remove();
+                    player.getPlayerPet().petArmorStand.hologram.delete();
+                    player.getPlayerPet().petArmorStand.slot = -1;
                     player.closeInventory();
                 }
             }

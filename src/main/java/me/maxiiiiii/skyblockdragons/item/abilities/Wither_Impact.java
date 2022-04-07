@@ -51,7 +51,7 @@ public class Wither_Impact implements Listener {
             player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1f, 0f);
             player.playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1f, 0f);
 
-            double heal = players.get(player.getUniqueId()).getCritDamage() * 1.5;
+            double heal = players.get(player.getUniqueId()).getStats().getCritDamage().amount * 1.5;
             witherShieldHealth.put(player.getUniqueId(), (int) heal);
             witherShield = System.currentTimeMillis();
 
@@ -93,7 +93,7 @@ public class Wither_Impact implements Listener {
                 return;
             }
 
-            if (players.get(player.getUniqueId()).getMana() >= 300) {
+            if (players.get(player.getUniqueId()).getStats().getMana().amount >= 300) {
                 player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1f, 0f);
             }
 

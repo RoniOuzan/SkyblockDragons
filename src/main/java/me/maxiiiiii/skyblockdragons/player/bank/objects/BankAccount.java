@@ -1,11 +1,15 @@
 package me.maxiiiiii.skyblockdragons.player.bank.objects;
 
+import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.storage.Variables;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BankAccount {
     public enum Type {
@@ -17,17 +21,17 @@ public class BankAccount {
         }
     }
 
-    public final PlayerSD player;
+    public PlayerSD player;
     public double personal;
     public double coop;
     public double limit;
 
-    public BankAccount(PlayerSD player, double personal, double coop) {
+    public BankAccount(PlayerSD player, double limit) {
         this.player = player;
-        this.personal = personal;
-        this.coop = coop;
+        this.personal = Variables.get(player.getUniqueId(), "BankPersonal", 0, 0d);
+        this.coop = Variables.get(player.getUniqueId(), "BankCoop", 0, 0d);
 
-        this.limit = 50_000_000;
+        this.limit = limit;
     }
 
     public double getCoopLimit() {
@@ -125,8 +129,11 @@ public class BankAccount {
     }
 
     public void update() {
-        Variables.set(player.getUniqueId(), "BankPersonal", this.personal);
-        Variables.set(player.getUniqueId(), "BankCoop", this.coop);
         SkyblockDragons.logger.info(player.getName() + "'s Bank Saved!");
+    }
+
+    public void save() {
+        Variables.set(player.getUniqueId(), "BankPersonal", 0, this.personal);
+        Variables.set(player.getUniqueId(), "BankCoop", 0, this.coop);
     }
 }

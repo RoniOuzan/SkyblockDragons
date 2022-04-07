@@ -45,7 +45,7 @@ public class Damage implements Listener {
 
         long millisecondsCD = 500;
         if (player instanceof PlayerSD) {
-            millisecondsCD -= ((PlayerSD) player).attackSpeed * 2.5;
+            millisecondsCD -= ((PlayerSD) player).getStats().getAttackSpeed().amount * 2.5;
         }
         if (cooldown(player, player.getDamageCooldown(damageType),  millisecondsCD)) return -3;
 
@@ -142,9 +142,9 @@ public class Damage implements Listener {
             if (player instanceof PlayerSD) {
                 PlayerSD playerSD = (PlayerSD) player;
                 if (damageType.isMagic()) {
-                    damage = (playerSD.getBaseAbilityDamage() + baseAbilityDamage) * ((1 + (playerSD.getIntelligence() / 100) * (playerSD.getAbilityScaling() * abilityScaling))); // damage formula / calculation
+                    damage = baseAbilityDamage * ((1 + (playerSD.getStats().getIntelligence().amount / 100) * (playerSD.getStats().getAbilityScaling().amount * abilityScaling))); // damage formula / calculation
                 } else if (item.getMaterial().getType() != ItemType.BOW || damageType == DamageType.PROJECTILE) {
-                    damage = (5 + playerSD.getDamage()) * (1 + (playerSD.getStrength() / 100)); // damage formula / calculation
+                    damage = (5 + playerSD.getStats().getDamage().amount) * (1 + (playerSD.getStats().getStrength().amount / 100)); // damage formula / calculation
                 }
             } else {
                 damage = player.type.getDamage();
@@ -154,14 +154,14 @@ public class Damage implements Listener {
         // crit
         if (player instanceof PlayerSD) {
             PlayerSD playerSD = (PlayerSD) player;
-            if (Functions.chanceOf(playerSD.getCritChance()) && damageType != DamageType.MAGIC) {
-                damage *= (1 + (playerSD.getCritDamage() / 100));
+            if (Functions.chanceOf(playerSD.getStats().getCritChance().amount) && damageType != DamageType.MAGIC) {
+                damage *= (1 + (playerSD.getStats().getCritDamage().amount / 100));
                 critHit = true;
             }
             baseMultiplayer += playerSD.getSkill().getCombatSkill().getLevel() * 0.04;
 
             if (damageType.isMagic()) {
-                postMultiplayer += 0.5 * playerSD.getAbilityDamage();
+                postMultiplayer += 0.5 * playerSD.getStats().getAbilityDamage().amount;
             }
         }
 
@@ -213,7 +213,7 @@ public class Damage implements Listener {
             damage = e.getDamage();
         } else {
             if (e.getDamager() instanceof Player || (e.getDamager() instanceof Arrow && ((Arrow) e.getDamager()).getShooter() instanceof Player))
-                damage = damage(attacker, victim, SkyblockDragons.getPlayer(e.getDamager().getUniqueId()).getFerocity(), e.getDamageType(), e.getBaseAbilityDamage(), e.getAbilityScaling());
+                damage = damage(attacker, victim, SkyblockDragons.getPlayer(e.getDamager().getUniqueId()).getStats().getFerocity().amount, e.getDamageType(), e.getBaseAbilityDamage(), e.getAbilityScaling());
             else
                 damage = damage(attacker, victim, 0, e.getDamageType(), e.getBaseAbilityDamage(), e.getAbilityScaling());
         }
@@ -260,7 +260,7 @@ public class Damage implements Listener {
             if (entity.getAttacker() == null) return;
 
             PlayerSD player = SkyblockDragons.getPlayer((PlayerSD) entity.getAttacker());
-            player.getSkill().give(SkillType.COMBAT, entity.type.combatXp);
+            player.giveSkill(SkillType.COMBAT, entity.type.combatXp);
             if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0)
                 for (ItemDrop drop : entity.type.drops) {
                     player.give(drop);

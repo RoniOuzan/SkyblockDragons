@@ -9,15 +9,14 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 
 @Getter
 @Setter
-public class NecronBladeMaterial extends SwordMaterial implements ConfigurationSerializable {
+public class NecronBladeMaterial extends SwordMaterial {
     private NecronBladeType bladeType;
 
-    public NecronBladeMaterial(Material material, ItemFamily family, String name, Rarity rarity, ItemStats stats, NecronBladeType bladeType) {
-        super(material, family, name, rarity, stats, "Deals +" + ChatColor.GREEN + "50% " + ChatColor.GRAY + "damage to Withers. Grants " + ChatColor.RED + "+1" + Stat.DAMAGE.getIconAndText() + " " + ChatColor.GRAY + "and " + ChatColor.RED + "+1" + Stat.STRENGTH.getIconAndText() + " " + ChatColor.GRAY + "per " + ChatColor.RED + "Catacombs " + ChatColor.GRAY + "level." + " NEW_LINE " + ChatColor.GRAY + "Your Catacombs Level: " + ChatColor.RED + "0", new ItemAbility(AbilityAction.NULL, "", "", 0, 0));
+    public NecronBladeMaterial(Material material, ItemFamily family, String name, Rarity rarity, Stats stats, NecronBladeType bladeType) {
+        super(material, family, name, rarity, stats, "Deals +" + ChatColor.GREEN + "50% " + ChatColor.GRAY + "damage to Withers. Grants " + ChatColor.RED + "+1" + StatType.DAMAGE.getIconAndText() + " " + ChatColor.GRAY + "and " + ChatColor.RED + "+1" + StatType.STRENGTH.getIconAndText() + " " + ChatColor.GRAY + "per " + ChatColor.RED + "Catacombs " + ChatColor.GRAY + "level." + " NEW_LINE " + ChatColor.GRAY + "Your Catacombs Level: " + ChatColor.RED + "0", new ItemAbility(AbilityAction.NULL, "", "", 0, 0));
         this.bladeType = bladeType;
     }
 
@@ -47,10 +46,4 @@ public class NecronBladeMaterial extends SwordMaterial implements ConfigurationS
             this(material, name, rarity, description, new ArrayList<>(Arrays.asList(ability)));
         }
     }
-
-//    public Map<String, Object> serialize() {
-//        Map<String, Object> map = super.serialize();
-//        map.put("bladeType", bladeType);
-//        return map;
-//    }
 }

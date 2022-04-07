@@ -18,6 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 import static me.maxiiiiii.skyblockdragons.util.Functions.manaCostCalculator;
@@ -93,7 +94,7 @@ public class Item extends ItemStack implements ConfigurationSerializable {
 
         ArrayList<String> lores = new ArrayList<>();
 
-        double[] stats = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        Stats stats = new Stats();
 
         if (this.material instanceof WeaponMaterial) {
             stats = applyStats(lores, hotPotato, reforge, rarity, enchants);
@@ -212,8 +213,8 @@ public class Item extends ItemStack implements ConfigurationSerializable {
                 extra.setString("id", this.material.name());
             }
             NBTList<Double> statList = nbt.getDoubleList("Stats");
-            for (double num : stats) {
-                statList.add(Double.parseDouble(num + ""));
+            for (Stat stat : stats) {
+                statList.add(Double.parseDouble(stat.amount + ""));
             }
             if (material.getType() != ItemType.ITEM || rarity.getLevel() >= 5 || ((material instanceof NormalMaterial) && !((NormalMaterial) material).isStackAble())) {
                 int random = Functions.randomInt(1, 10000);
@@ -396,19 +397,19 @@ public class Item extends ItemStack implements ConfigurationSerializable {
         }
     }
 
-    private double[] applyStats(ArrayList<String> lores, int hotPotato, ReforgeType reforge, Rarity rarity) {
+    private Stats applyStats(ArrayList<String> lores, int hotPotato, ReforgeType reforge, Rarity rarity) {
         Map<EnchantType, Short> enchants = new HashMap<>();
         enchants.put(EnchantType.NULL, (short) 0);
         return applyStats(lores, hotPotato, reforge, rarity, enchants, false);
     }
 
-    private double[] applyStats(ArrayList<String> lores, int hotPotato, ReforgeType reforge, Rarity rarity, Map<EnchantType, Short> enchants) {
+    private Stats applyStats(ArrayList<String> lores, int hotPotato, ReforgeType reforge, Rarity rarity, Map<EnchantType, Short> enchants) {
         return applyStats(lores, hotPotato, reforge, rarity, enchants, true);
     }
 
-    private double[] applyStats(ArrayList<String> lores, int hotPotato, ReforgeType reforge, Rarity rarity, Map<EnchantType, Short> enchants, boolean enchant) {
-        double[] stats = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        for (int i = 0; i < stats.length; i++) {
+    private Stats applyStats(ArrayList<String> lores, int hotPotato, ReforgeType reforge, Rarity rarity, Map<EnchantType, Short> enchants, boolean enchant) {
+        Stats stats = new Stats();
+        for (Stat stat : stats.toList()) {
             String statReforge = "";
             String statPotato = "";
 
@@ -417,19 +418,19 @@ public class Item extends ItemStack implements ConfigurationSerializable {
             ChatColor statColor = ChatColor.GREEN;
 
             String percent = "";
-            if (i == 2 || i == 3 || i == 4 || i == 6) percent = "%";
+            if (stat.type.isPercentage()) percent = "%";
 
             double statAdder = 0;
             if (hotPotato > 0) {
-                if (i == 0 || i == 1) {
+                if (stat.type == StatType.STRENGTH || stat.type == StatType.DAMAGE) {
                     statAdder += hotPotato * 2;
                     statPotato = ChatColor.YELLOW + "(+" + hotPotato * 2 + ") ";
                 }
             }
             if (reforge != ReforgeType.NULL && reforge != null) {
-                if (reforge.getStats().get(rarity.getLevel() - 1).get(i) != 0) {
-                    statAdder += reforge.getStats().get(rarity.getLevel() - 1).get(i);
-                    statReforge = ChatColor.BLUE + "(" + reforge + " SYMBOL" + Math.abs(reforge.getStats().get(rarity.getLevel() - 1).get(i)) + percent + ")";
+                if (reforge.getStats().get(rarity.getLevel() - 1).get(stat).amount != 0) {
+                    statAdder += reforge.getStats().get(rarity.getLevel() - 1).get(stat).amount;
+                    statReforge = ChatColor.BLUE + "(" + reforge + " SYMBOL" + Math.abs(reforge.getStats().get(rarity.getLevel() - 1).get(stat).amount) + percent + ")";
                 }
             }
             boolean oneForAll = false;
@@ -437,8 +438,8 @@ public class Item extends ItemStack implements ConfigurationSerializable {
                 if (!enchants.containsKey(EnchantType.NULL)) {
                     for (EnchantType enchantType : EnchantType.enchants.values()) {
                         if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
-                            if (enchantType.getStats().get(i) != 0) {
-                                statAdder += enchantType.getStats().get(i) * enchants.get(enchantType);
+                            if (enchantType.getStats().get(stat).amount != 0) {
+                                statAdder += enchantType.getStats().get(stat).amount * enchants.get(enchantType);
                             }
                             if (enchantType.name().equals("ONE_FOR_ALL")) {
                                 oneForAll = true;
@@ -451,54 +452,54 @@ public class Item extends ItemStack implements ConfigurationSerializable {
             if (this.material instanceof WeaponMaterial) {
                 WeaponMaterial material = (WeaponMaterial) this.material;
 
-                if (oneForAll && i == 0)
-                    statAdder += (material.getStats().get(i) + statAdder * 6);
+                if (oneForAll && stat.type == StatType.DAMAGE)
+                    statAdder += (material.getStats().get(stat).amount + statAdder * 6);
 
-                double stat = material.getStats().get(i) + statAdder;
-                stats[i] = stat;
-                if (material.getStats().get(i) + statAdder != 0) {
-                    if (material.getStats().get(i) + statAdder < 0) statSymbol = "-";
-                    statReforge = statReforge.replaceAll("SYMBOL", statSymbol);
-                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Math.abs(stat) + percent + " " + statPotato + statReforge);
+                double statDisplay = material.getStats().get(stat).amount + statAdder;
+                stats.get(stat).amount = statDisplay;
+                if (material.getStats().get(stat).amount + statAdder != 0) {
+                    if (material.getStats().get(stat).amount + statAdder < 0) statSymbol = "-";
+                    statReforge = statReforge.replace("SYMBOL", statSymbol);
+                    lores.add(ChatColor.GRAY + stat.type.toString() + ": " + statColor + statSymbol + Math.abs(statDisplay) + percent + " " + statPotato + statReforge);
                 }
             } else if (this.material instanceof ArmorMaterial) {
                 ArmorMaterial material = (ArmorMaterial) this.material;
 
-                if (oneForAll && i == 0)
-                    statAdder += (material.getStats().get(i) + statAdder * 6);
+                if (oneForAll && stat.type == StatType.DAMAGE)
+                    statAdder += (material.getStats().get(stat).amount + statAdder * 6);
 
-                double stat = material.getStats().get(i) + statAdder;
-                stats[i] = stat;
-                if (material.getStats().get(i) + statAdder != 0) {
-                    if (material.getStats().get(i) + statAdder < 0) statSymbol = "-";
-                    statReforge = statReforge.replaceAll("SYMBOL", statSymbol);
-                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Math.abs(stat) + percent + " " + statPotato + statReforge);
+                double statDisplay = material.getStats().get(stat).amount + statAdder;
+                stats.get(stat).amount = statDisplay;
+                if (material.getStats().get(stat).amount + statAdder != 0) {
+                    if (material.getStats().get(stat).amount + statAdder < 0) statSymbol = "-";
+                    statReforge = statReforge.replace("SYMBOL", statSymbol);
+                    lores.add(ChatColor.GRAY + stat.type.toString() + ": " + statColor + statSymbol + Math.abs(statDisplay) + percent + " " + statPotato + statReforge);
                 }
             } else if (this.material instanceof AccessoryMaterial) {
                 AccessoryMaterial material = (AccessoryMaterial) this.material;
 
-                if (oneForAll && i == 0)
-                    statAdder += (material.getStats().get(i) + statAdder * 6);
+                if (oneForAll && stat.type == StatType.DAMAGE)
+                statAdder += (material.getStats().get(stat).amount + statAdder * 6);
 
-                double stat = material.getStats().get(i) + statAdder;
-                stats[i] = stat;
-                if (material.getStats().get(i) + statAdder != 0) {
-                    if (material.getStats().get(i) + statAdder < 0) statSymbol = "-";
-                    statReforge = statReforge.replaceAll("SYMBOL", statSymbol);
-                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Math.abs(stat) + percent + " " + statPotato + statReforge);
+                double statDisplay = material.getStats().get(stat).amount + statAdder;
+                stats.get(stat).amount = statDisplay;
+                if (material.getStats().get(stat).amount + statAdder != 0) {
+                    if (material.getStats().get(stat).amount + statAdder < 0) statSymbol = "-";
+                    statReforge = statReforge.replace("SYMBOL", statSymbol);
+                    lores.add(ChatColor.GRAY + stat.type.toString() + ": " + statColor + statSymbol + Math.abs(statDisplay) + percent + " " + statPotato + statReforge);
                 }
             } else if (this.material instanceof MiningMaterial) {
                 MiningMaterial material = (MiningMaterial) this.material;
 
-                if (oneForAll && i == 0)
-                    statAdder += (material.getStats().get(i) + statAdder * 6);
+                if (oneForAll && stat.type == StatType.DAMAGE)
+                    statAdder += (material.getStats().get(stat).amount + statAdder * 6);
 
-                double stat = material.getStats().get(i) + statAdder;
-                stats[i] = stat;
-                if (material.getStats().get(i) + statAdder != 0) {
-                    if (material.getStats().get(i) + statAdder < 0) statSymbol = "-";
-                    statReforge = statReforge.replaceAll("SYMBOL", statSymbol);
-                    lores.add(ChatColor.GRAY + getStat(i).toString() + ": " + statColor + statSymbol + Math.abs(stat) + percent + " " + statPotato + statReforge);
+                double statDisplay = material.getStats().get(stat).amount + statAdder;
+                stats.get(stat).amount = statDisplay;
+                if (material.getStats().get(stat).amount + statAdder != 0) {
+                    if (material.getStats().get(stat).amount + statAdder < 0) statSymbol = "-";
+                    statReforge = statReforge.replace("SYMBOL", statSymbol);
+                    lores.add(ChatColor.GRAY + stat.type.toString() + ": " + statColor + statSymbol + Math.abs(statDisplay) + percent + " " + statPotato + statReforge);
                 }
             }
         }
@@ -566,48 +567,48 @@ public class Item extends ItemStack implements ConfigurationSerializable {
         }
     }
 
-    public static Stat getStat(int num) {
+    public static StatType getStat(int num) {
         switch (num) {
             case 0:
-                return Stat.DAMAGE;
+                return StatType.DAMAGE;
             case 1:
-                return Stat.STRENGTH;
+                return StatType.STRENGTH;
             case 2:
-                return Stat.CRIT_DAMAGE;
+                return StatType.CRIT_DAMAGE;
             case 3:
-                return Stat.CRIT_CHANCE;
+                return StatType.CRIT_CHANCE;
             case 4:
-                return Stat.ABILITY_DAMAGE;
+                return StatType.ABILITY_DAMAGE;
             case 5:
-                return Stat.ABILITY_SCALING;
+                return StatType.ABILITY_SCALING;
             case 6:
-                return Stat.ATTACK_SPEED;
+                return StatType.ATTACK_SPEED;
             case 7:
-                return Stat.FEROCITY;
+                return StatType.FEROCITY;
             case 8:
-                return Stat.HEALTH;
+                return StatType.HEALTH;
             case 9:
-                return Stat.DEFENSE;
+                return StatType.DEFENSE;
             case 10:
-                return Stat.TRUE_DEFENSE;
+                return StatType.TRUE_DEFENSE;
             case 11:
-                return Stat.SPEED;
+                return StatType.SPEED;
             case 12:
-                return Stat.INTELLIGENCE;
+                return StatType.INTELLIGENCE;
             case 13:
-                return Stat.MAGIC_FIND;
+                return StatType.MAGIC_FIND;
             case 14:
-                return Stat.PET_LUCK;
+                return StatType.PET_LUCK;
             case 15:
-                return Stat.MINING_SPEED;
+                return StatType.MINING_SPEED;
             case 16:
-                return Stat.MINING_FORTUNE;
+                return StatType.MINING_FORTUNE;
             case 17:
-                return Stat.SEA_CREATURE_CHANCE;
+                return StatType.SEA_CREATURE_CHANCE;
             case 18:
-                return Stat.ABSORPTION;
+                return StatType.ABSORPTION;
         }
-        return Stat.DAMAGE;
+        return StatType.DAMAGE;
     }
 
     private static boolean isNotLastEmpty(ArrayList<String> lores) {

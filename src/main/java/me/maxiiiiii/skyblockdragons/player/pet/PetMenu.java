@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
@@ -52,7 +53,7 @@ public class PetMenu {
             inventory.setItem(50, convertPetDisabled);
         }
 
-        ItemStack hidePets = createItem(Material.STONE_BUTTON, (playerSD.hidePets ? ChatColor.RED : ChatColor.GREEN) + "Hide Pets", ChatColor.GRAY + "Hide all pets which are little", ChatColor.GRAY + "heads from being visible in the", ChatColor.GRAY + "world.", "", ChatColor.GRAY + "Pet effects remain active.", "", ChatColor.GRAY + "Currently " + (playerSD.hidePets ? ChatColor.RED + "Pets hidden!" : ChatColor.GREEN + "Pets shown!"), ChatColor.GRAY + "Selected Pet: " + (playerSD.activePet < 0 ? ChatColor.RED + "None" : playerSD.getPetActive().getName()), "", ChatColor.YELLOW + "Click to " + (playerSD.hidePets ? "show!" : "hide!"));
+        ItemStack hidePets = createItem(Material.STONE_BUTTON, (playerSD.getPlayerPet().hidePets ? ChatColor.RED : ChatColor.GREEN) + "Hide Pets", ChatColor.GRAY + "Hide all pets which are little", ChatColor.GRAY + "heads from being visible in the", ChatColor.GRAY + "world.", "", ChatColor.GRAY + "Pet effects remain active.", "", ChatColor.GRAY + "Currently " + (playerSD.getPlayerPet().hidePets ? ChatColor.RED + "Pets hidden!" : ChatColor.GREEN + "Pets shown!"), ChatColor.GRAY + "Selected Pet: " + (playerSD.getPlayerPet().activePet < 0 ? ChatColor.RED + "None" : playerSD.getPetActive().getName()), "", ChatColor.YELLOW + "Click to " + (playerSD.getPlayerPet().hidePets ? "show!" : "hide!"));
         inventory.setItem(51, hidePets);
 
         ItemStack nextPage = new ItemStack(Material.ARROW);
@@ -65,14 +66,15 @@ public class PetMenu {
         Functions.setLore(previousPage, new ArrayList<>(Arrays.asList("", ChatColor.YELLOW + "Click to go previous page!")));
         inventory.setItem(45, previousPage);
 
-        Pet[] pets = playerSD.getPets().toArray(new Pet[0]);
+        Collections.sort(playerSD.getPlayerPet().getPets());
+        Pet[] pets = playerSD.getPlayerPet().getPets().toArray(new Pet[0]);
         for (int i = 0; i < pets.length; i++) {
             ArrayList<String> lores = (ArrayList<String>) pets[i].getItemMeta().getLore();
 
             if (lores.get(lores.size() - 1).contains("Click to ")) continue;
 
             lores.add("");
-            if (playerSD.getActivePet() == i)
+            if (playerSD.getPlayerPet().getActivePet() == i)
                 lores.add(ChatColor.RED + "Click to despawn!");
             else
                 lores.add(ChatColor.YELLOW + "Click to summon!");

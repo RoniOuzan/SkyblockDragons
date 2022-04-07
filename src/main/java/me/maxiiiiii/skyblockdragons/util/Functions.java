@@ -7,13 +7,11 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
@@ -22,7 +20,7 @@ import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
-import me.maxiiiiii.skyblockdragons.item.objects.Stat;
+import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.material.*;
 import me.maxiiiiii.skyblockdragons.player.pet.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -47,7 +45,6 @@ import javax.script.ScriptException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.material.Items.items;
@@ -85,12 +82,12 @@ public class Functions {
         if (Wither_Impact.witherShieldHealth.containsKey(player.getUniqueId()) && System.currentTimeMillis() - Wither_Impact.witherShield <= 5000) {
             healthAdder += Wither_Impact.witherShieldHealth.get(player.getUniqueId());
         }
-        message = "" + ChatColor.RED + (int) (player.getHealth() + healthAdder) + "/" + (int) player.getMaxHealth() + Stat.HEALTH.getIcon() + " " + ChatColor.GOLD + message + " " + ChatColor.AQUA + (int) SkyblockDragons.players.get(player.getUniqueId()).getMana() + "/" + (int) SkyblockDragons.players.get(player.getUniqueId()).getIntelligence() + Stat.INTELLIGENCE.getIcon();
+        message = "" + ChatColor.RED + (int) (player.getHealth() + healthAdder) + "/" + (int) player.getMaxHealth() + StatType.HEALTH.getIcon() + " " + ChatColor.GOLD + message + " " + ChatColor.AQUA + (int) SkyblockDragons.players.get(player.getUniqueId()).getStats().getMana().amount + "/" + (int) SkyblockDragons.players.get(player.getUniqueId()).getStats().getIntelligence().amount + StatType.INTELLIGENCE.getIcon();
         player.sendActionBar(message);
     }
 
     public static void sendActionBar(PlayerSD player) {
-        sendActionBar(player, "" + ChatColor.GREEN + (int) SkyblockDragons.players.get(player.getUniqueId()).getDefense() + Stat.DEFENSE.getIcon());
+        sendActionBar(player, "" + ChatColor.GREEN + (int) SkyblockDragons.players.get(player.getUniqueId()).getStats().getDefense().amount + StatType.DEFENSE.getIcon());
     }
 
     public static void setArmorColor(ItemStack item, Color color) {
@@ -1323,7 +1320,7 @@ public class Functions {
     }
 
     public static int numberToItemSlot(int slot, int peace) {
-        return (peace * 9) + (slot % 9);
+        return (slot % 9) + (peace * 9);
     }
 
     public static Vector getVector(Player player, double yawDegrees, double pitchDegrees, double multiplayer) {
@@ -1550,7 +1547,7 @@ public class Functions {
     public static ArrayList<Player> getPlayerShowedPets() {
         ArrayList<Player> players = new ArrayList<>();
         for (PlayerSD player : SkyblockDragons.players.values()) {
-            if (!player.hidePets)
+            if (!player.getPlayerPet().hidePets)
                 players.add(player);
         }
         return players;
@@ -1559,7 +1556,7 @@ public class Functions {
     public static ArrayList<Player> getPlayerShowedPets(Location location, double distance) {
         ArrayList<Player> players = new ArrayList<>();
         for (PlayerSD player : SkyblockDragons.players.values()) {
-            if (!player.hidePets && player.getLocation().distance(location) < distance)
+            if (!player.getPlayerPet().hidePets && player.getLocation().distance(location) < distance)
                 players.add(player);
         }
         return players;

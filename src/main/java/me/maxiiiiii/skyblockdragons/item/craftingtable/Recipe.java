@@ -95,31 +95,31 @@ public class Recipe implements Comparable<Recipe> {
     }
 
     public static void registerRecipes() {
-        recipes.put("ASPECT_OF_THE_END", new Recipe(new Item(ItemMaterial.get("ASPECT_OF_THE_END")), getItems(
+        recipes.put("ASPECT_OF_THE_END", new Recipe(new Item(Items.get("ASPECT_OF_THE_END")), getItems(
                 null,
-                new Item(ItemMaterial.get("ENCHANTED_EYE_OF_ENDER"), 16),
-                null,
-                null,
-                new Item(ItemMaterial.get("ENCHANTED_EYE_OF_ENDER"), 16),
+                new Item(Items.get("ENCHANTED_EYE_OF_ENDER"), 16),
                 null,
                 null,
-                new Item(ItemMaterial.get("ENCHANTED_DIAMOND")),
+                new Item(Items.get("ENCHANTED_EYE_OF_ENDER"), 16),
+                null,
+                null,
+                new Item(Items.get("ENCHANTED_DIAMOND")),
                 null
         ), -1));
 
-        recipes.put("ASPECT_OF_THE_VOID", new Recipe(new Item(ItemMaterial.get("ASPECT_OF_THE_VOID")), getItems(
+        recipes.put("ASPECT_OF_THE_VOID", new Recipe(new Item(Items.get("ASPECT_OF_THE_VOID")), getItems(
                 null,
-                new Item(ItemMaterial.get("NULL_OVOID"), 8),
+                new Item(Items.get("NULL_OVOID"), 8),
                 null,
-                new Item(ItemMaterial.get("NULL_OVOID"), 8),
-                new Item(ItemMaterial.get("ASPECT_OF_THE_END")),
-                new Item(ItemMaterial.get("NULL_OVOID"), 8),
+                new Item(Items.get("NULL_OVOID"), 8),
+                new Item(Items.get("ASPECT_OF_THE_END")),
+                new Item(Items.get("NULL_OVOID"), 8),
                 null,
-                new Item(ItemMaterial.get("NULL_OVOID"), 8),
+                new Item(Items.get("NULL_OVOID"), 8),
                 null
         ), 4));
 
-        recipes.put("ENCHANTED_COAL", new Recipe(new Item(ItemMaterial.get("ENCHANTED_COAL")), getItems(
+        recipes.put("ENCHANTED_COAL", new Recipe(new Item(Items.get("ENCHANTED_COAL")), getItems(
                 new Item(Items.items.get("COAL"), 32),
                 new Item(Items.items.get("COAL"), 32),
                 new Item(Items.items.get("COAL"), 32),
@@ -131,7 +131,7 @@ public class Recipe implements Comparable<Recipe> {
                 null
         ), -1));
 
-        recipes.put("ENCHANTED_IRON_INGOT", new Recipe(new Item(ItemMaterial.get("ENCHANTED_IRON_INGOT")), getItems(
+        recipes.put("ENCHANTED_IRON_INGOT", new Recipe(new Item(Items.get("ENCHANTED_IRON_INGOT")), getItems(
                 new Item(Items.items.get("IRON_INGOT"), 32),
                 new Item(Items.items.get("IRON_INGOT"), 32),
                 new Item(Items.items.get("IRON_INGOT"), 32),
@@ -143,7 +143,7 @@ public class Recipe implements Comparable<Recipe> {
                 null
         ), -1));
 
-        recipes.put("ENCHANTED_IRON_BLOCK", new Recipe(new Item(ItemMaterial.get("ENCHANTED_IRON_BLOCK")), getItems(
+        recipes.put("ENCHANTED_IRON_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_IRON_BLOCK")), getItems(
                 new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 32),
                 new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 32),
                 new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 32),
@@ -155,7 +155,7 @@ public class Recipe implements Comparable<Recipe> {
                 null
         ), -1));
 
-        recipes.put("ENCHANTED_GOLD_INGOT", new Recipe(new Item(ItemMaterial.get("ENCHANTED_GOLD_INGOT")), getItems(
+        recipes.put("ENCHANTED_GOLD_INGOT", new Recipe(new Item(Items.get("ENCHANTED_GOLD_INGOT")), getItems(
                 new Item(Items.items.get("GOLD_INGOT"), 32),
                 new Item(Items.items.get("GOLD_INGOT"), 32),
                 new Item(Items.items.get("GOLD_INGOT"), 32),
@@ -167,7 +167,7 @@ public class Recipe implements Comparable<Recipe> {
                 null
         ), -1));
 
-        recipes.put("ENCHANTED_GOLD_BLOCK", new Recipe(new Item(ItemMaterial.get("ENCHANTED_GOLD_BLOCK")), getItems(
+        recipes.put("ENCHANTED_GOLD_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_GOLD_BLOCK")), getItems(
                 new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 32),
                 new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 32),
                 new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 32),
@@ -179,7 +179,7 @@ public class Recipe implements Comparable<Recipe> {
                 null
         ), -1));
 
-        recipes.put("ENCHANTED_LAPIS", new Recipe(new Item(ItemMaterial.get("ENCHANTED_LAPIS")), getItems(
+        recipes.put("ENCHANTED_LAPIS", new Recipe(new Item(Items.get("ENCHANTED_LAPIS")), getItems(
                 new Item(Items.items.get("LAPIS"), 32),
                 new Item(Items.items.get("LAPIS"), 32),
                 new Item(Items.items.get("LAPIS"), 32),
@@ -191,7 +191,7 @@ public class Recipe implements Comparable<Recipe> {
                 null
         ), -1));
 
-        recipes.put("ENCHANTED_LAPIS_BLOCK", new Recipe(new Item(ItemMaterial.get("ENCHANTED_LAPIS_BLOCK")), getItems(
+        recipes.put("ENCHANTED_LAPIS_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_LAPIS_BLOCK")), getItems(
                 new Item(Items.items.get("ENCHANTED_LAPIS"), 32),
                 new Item(Items.items.get("ENCHANTED_LAPIS"), 32),
                 new Item(Items.items.get("ENCHANTED_LAPIS"), 32),
@@ -203,7 +203,7 @@ public class Recipe implements Comparable<Recipe> {
                 null
         ), -1));
 
-        recipes.put("ENCHANTED_REDSTONE", new Recipe(new Item(ItemMaterial.get("ENCHANTED_REDSTONE")), getItems(
+        recipes.put("ENCHANTED_REDSTONE", new Recipe(new Item(Items.get("ENCHANTED_REDSTONE")), getItems(
                 new Item(Items.items.get("REDSTONE"), 32),
                 new Item(Items.items.get("REDSTONE"), 32),
                 new Item(Items.items.get("REDSTONE"), 32),
@@ -215,7 +215,7 @@ public class Recipe implements Comparable<Recipe> {
                 null
         ), -1));
 
-        recipes.put("ENCHANTED_REDSTONE_BLOCK", new Recipe(new Item(ItemMaterial.get("ENCHANTED_REDSTONE_BLOCK")), getItems(
+        recipes.put("ENCHANTED_REDSTONE_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_REDSTONE_BLOCK")), getItems(
                 new Item(Items.items.get("ENCHANTED_REDSTONE"), 32),
                 new Item(Items.items.get("ENCHANTED_REDSTONE"), 32),
                 new Item(Items.items.get("ENCHANTED_REDSTONE"), 32),
@@ -227,7 +227,7 @@ public class Recipe implements Comparable<Recipe> {
                 null
         ), -1));
 
-        recipes.put("ENCHANTED_EMERALD", new Recipe(new Item(ItemMaterial.get("ENCHANTED_EMERALD")), getItems(
+        recipes.put("ENCHANTED_EMERALD", new Recipe(new Item(Items.get("ENCHANTED_EMERALD")), getItems(
                 new Item(Items.items.get("EMERALD"), 32),
                 new Item(Items.items.get("EMERALD"), 32),
                 new Item(Items.items.get("EMERALD"), 32),
@@ -239,7 +239,7 @@ public class Recipe implements Comparable<Recipe> {
                 null
         ), -1));
 
-        recipes.put("ENCHANTED_EMERALD_BLOCK", new Recipe(new Item(ItemMaterial.get("ENCHANTED_EMERALD_BLOCK")), getItems(
+        recipes.put("ENCHANTED_EMERALD_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_EMERALD_BLOCK")), getItems(
                 new Item(Items.items.get("ENCHANTED_EMERALD"), 32),
                 new Item(Items.items.get("ENCHANTED_EMERALD"), 32),
                 new Item(Items.items.get("ENCHANTED_EMERALD"), 32),
@@ -251,7 +251,7 @@ public class Recipe implements Comparable<Recipe> {
                 null
         ), -1));
 
-        recipes.put("ENCHANTED_DIAMOND", new Recipe(new Item(ItemMaterial.get("ENCHANTED_DIAMOND")), getItems(
+        recipes.put("ENCHANTED_DIAMOND", new Recipe(new Item(Items.get("ENCHANTED_DIAMOND")), getItems(
                 new Item(Items.items.get("DIAMOND"), 32),
                 new Item(Items.items.get("DIAMOND"), 32),
                 new Item(Items.items.get("DIAMOND"), 32),
@@ -263,7 +263,7 @@ public class Recipe implements Comparable<Recipe> {
                 null
         ), -1, true));
 
-        recipes.put("ENCHANTED_DIAMOND_BLOCK", new Recipe(new Item(ItemMaterial.get("ENCHANTED_DIAMOND_BLOCK")), getItems(
+        recipes.put("ENCHANTED_DIAMOND_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_DIAMOND_BLOCK")), getItems(
                 new Item(Items.items.get("ENCHANTED_DIAMOND"), 32),
                 new Item(Items.items.get("ENCHANTED_DIAMOND"), 32),
                 new Item(Items.items.get("ENCHANTED_DIAMOND"), 32),
@@ -275,7 +275,7 @@ public class Recipe implements Comparable<Recipe> {
                 null
         ), -1, true));
 
-        recipes.put("ENCHANTED_OBSIDIAN", new Recipe(new Item(ItemMaterial.get("ENCHANTED_OBSIDIAN")), getItems(
+        recipes.put("ENCHANTED_OBSIDIAN", new Recipe(new Item(Items.get("ENCHANTED_OBSIDIAN")), getItems(
                 new Item(Items.items.get("OBSIDIAN"), 32),
                 new Item(Items.items.get("OBSIDIAN"), 32),
                 new Item(Items.items.get("OBSIDIAN"), 32),
@@ -287,7 +287,7 @@ public class Recipe implements Comparable<Recipe> {
                 null
         ), -1));
 
-        recipes.put("COAL_TALISMAN", new Recipe(new Item(ItemMaterial.get("COAL_TALISMAN")), getItems(
+        recipes.put("COAL_TALISMAN", new Recipe(new Item(Items.get("COAL_TALISMAN")), getItems(
                 new Item(Items.items.get("ENCHANTED_COAL"), 8),
                 new Item(Items.items.get("ENCHANTED_COAL"), 8),
                 new Item(Items.items.get("ENCHANTED_COAL"), 8),
@@ -299,7 +299,7 @@ public class Recipe implements Comparable<Recipe> {
                 new Item(Items.items.get("ENCHANTED_COAL"), 8)
         ), -1));
 
-        recipes.put("COAL_BLOCK_TALISMAN", new Recipe(new Item(ItemMaterial.get("COAL_BLOCK_TALISMAN")), getItems(
+        recipes.put("COAL_BLOCK_TALISMAN", new Recipe(new Item(Items.get("COAL_BLOCK_TALISMAN")), getItems(
                 new Item(Items.items.get("ENCHANTED_COAL_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_COAL_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_COAL_BLOCK"), 1),
@@ -311,7 +311,7 @@ public class Recipe implements Comparable<Recipe> {
                 new Item(Items.items.get("ENCHANTED_COAL_BLOCK"), 1)
         ), 4));
 
-        recipes.put("IRON_TALISMAN", new Recipe(new Item(ItemMaterial.get("IRON_TALISMAN")), getItems(
+        recipes.put("IRON_TALISMAN", new Recipe(new Item(Items.get("IRON_TALISMAN")), getItems(
                 new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 8),
                 new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 8),
                 new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 8),
@@ -323,7 +323,7 @@ public class Recipe implements Comparable<Recipe> {
                 new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 8)
         ), -1));
 
-        recipes.put("IRON_BLOCK_TALISMAN", new Recipe(new Item(ItemMaterial.get("IRON_BLOCK_TALISMAN")), getItems(
+        recipes.put("IRON_BLOCK_TALISMAN", new Recipe(new Item(Items.get("IRON_BLOCK_TALISMAN")), getItems(
                 new Item(Items.items.get("ENCHANTED_IRON_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_IRON_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_IRON_BLOCK"), 1),
@@ -335,7 +335,7 @@ public class Recipe implements Comparable<Recipe> {
                 new Item(Items.items.get("ENCHANTED_IRON_BLOCK"), 1)
         ), 4));
 
-        recipes.put("GOLD_TALISMAN", new Recipe(new Item(ItemMaterial.get("GOLD_TALISMAN")), getItems(
+        recipes.put("GOLD_TALISMAN", new Recipe(new Item(Items.get("GOLD_TALISMAN")), getItems(
                 new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 8),
                 new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 8),
                 new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 8),
@@ -347,7 +347,7 @@ public class Recipe implements Comparable<Recipe> {
                 new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 8)
         ), -1));
 
-        recipes.put("GOLD_BLOCK_TALISMAN", new Recipe(new Item(ItemMaterial.get("GOLD_BLOCK_TALISMAN")), getItems(
+        recipes.put("GOLD_BLOCK_TALISMAN", new Recipe(new Item(Items.get("GOLD_BLOCK_TALISMAN")), getItems(
                 new Item(Items.items.get("ENCHANTED_GOLD_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_GOLD_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_GOLD_BLOCK"), 1),
@@ -359,7 +359,7 @@ public class Recipe implements Comparable<Recipe> {
                 new Item(Items.items.get("ENCHANTED_GOLD_BLOCK"), 1)
         ), 4));
 
-        recipes.put("LAPIS_TALISMAN", new Recipe(new Item(ItemMaterial.get("LAPIS_TALISMAN")), getItems(
+        recipes.put("LAPIS_TALISMAN", new Recipe(new Item(Items.get("LAPIS_TALISMAN")), getItems(
                 new Item(Items.items.get("ENCHANTED_LAPIS"), 8),
                 new Item(Items.items.get("ENCHANTED_LAPIS"), 8),
                 new Item(Items.items.get("ENCHANTED_LAPIS"), 8),
@@ -371,7 +371,7 @@ public class Recipe implements Comparable<Recipe> {
                 new Item(Items.items.get("ENCHANTED_LAPIS"), 8)
         ), -1));
 
-        recipes.put("LAPIS_BLOCK_TALISMAN", new Recipe(new Item(ItemMaterial.get("LAPIS_BLOCK_TALISMAN")), getItems(
+        recipes.put("LAPIS_BLOCK_TALISMAN", new Recipe(new Item(Items.get("LAPIS_BLOCK_TALISMAN")), getItems(
                 new Item(Items.items.get("ENCHANTED_LAPIS_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_LAPIS_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_LAPIS_BLOCK"), 1),
@@ -383,7 +383,7 @@ public class Recipe implements Comparable<Recipe> {
                 new Item(Items.items.get("ENCHANTED_LAPIS_BLOCK"), 1)
         ), 4));
 
-        recipes.put("REDSTONE_TALISMAN", new Recipe(new Item(ItemMaterial.get("REDSTONE_TALISMAN")), getItems(
+        recipes.put("REDSTONE_TALISMAN", new Recipe(new Item(Items.get("REDSTONE_TALISMAN")), getItems(
                 new Item(Items.items.get("ENCHANTED_REDSTONE"), 8),
                 new Item(Items.items.get("ENCHANTED_REDSTONE"), 8),
                 new Item(Items.items.get("ENCHANTED_REDSTONE"), 8),
@@ -395,7 +395,7 @@ public class Recipe implements Comparable<Recipe> {
                 new Item(Items.items.get("ENCHANTED_REDSTONE"), 8)
         ), -1));
 
-        recipes.put("REDSTONE_BLOCK_TALISMAN", new Recipe(new Item(ItemMaterial.get("REDSTONE_BLOCK_TALISMAN")), getItems(
+        recipes.put("REDSTONE_BLOCK_TALISMAN", new Recipe(new Item(Items.get("REDSTONE_BLOCK_TALISMAN")), getItems(
                 new Item(Items.items.get("ENCHANTED_REDSTONE_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_REDSTONE_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_REDSTONE_BLOCK"), 1),
@@ -407,7 +407,7 @@ public class Recipe implements Comparable<Recipe> {
                 new Item(Items.items.get("ENCHANTED_REDSTONE_BLOCK"), 1)
         ), 4));
 
-        recipes.put("EMERALD_TALISMAN", new Recipe(new Item(ItemMaterial.get("EMERALD_TALISMAN")), getItems(
+        recipes.put("EMERALD_TALISMAN", new Recipe(new Item(Items.get("EMERALD_TALISMAN")), getItems(
                 new Item(Items.items.get("ENCHANTED_EMERALD"), 8),
                 new Item(Items.items.get("ENCHANTED_EMERALD"), 8),
                 new Item(Items.items.get("ENCHANTED_EMERALD"), 8),
@@ -419,7 +419,7 @@ public class Recipe implements Comparable<Recipe> {
                 new Item(Items.items.get("ENCHANTED_EMERALD"), 8)
         ), -1));
 
-        recipes.put("EMERALD_BLOCK_TALISMAN", new Recipe(new Item(ItemMaterial.get("EMERALD_BLOCK_TALISMAN")), getItems(
+        recipes.put("EMERALD_BLOCK_TALISMAN", new Recipe(new Item(Items.get("EMERALD_BLOCK_TALISMAN")), getItems(
                 new Item(Items.items.get("ENCHANTED_EMERALD_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_EMERALD_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_EMERALD_BLOCK"), 1),
@@ -431,7 +431,7 @@ public class Recipe implements Comparable<Recipe> {
                 new Item(Items.items.get("ENCHANTED_EMERALD_BLOCK"), 1)
         ), 4));
 
-        recipes.put("DIAMOND_TALISMAN", new Recipe(new Item(ItemMaterial.get("DIAMOND_TALISMAN")), getItems(
+        recipes.put("DIAMOND_TALISMAN", new Recipe(new Item(Items.get("DIAMOND_TALISMAN")), getItems(
                 new Item(Items.items.get("ENCHANTED_DIAMOND"), 8),
                 new Item(Items.items.get("ENCHANTED_DIAMOND"), 8),
                 new Item(Items.items.get("ENCHANTED_DIAMOND"), 8),
@@ -443,7 +443,7 @@ public class Recipe implements Comparable<Recipe> {
                 new Item(Items.items.get("ENCHANTED_DIAMOND"), 8)
         ), -1));
 
-        recipes.put("DIAMOND_BLOCK_TALISMAN", new Recipe(new Item(ItemMaterial.get("DIAMOND_BLOCK_TALISMAN")), getItems(
+        recipes.put("DIAMOND_BLOCK_TALISMAN", new Recipe(new Item(Items.get("DIAMOND_BLOCK_TALISMAN")), getItems(
                 new Item(Items.items.get("ENCHANTED_DIAMOND_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_DIAMOND_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_DIAMOND_BLOCK"), 1),
@@ -455,7 +455,7 @@ public class Recipe implements Comparable<Recipe> {
                 new Item(Items.items.get("ENCHANTED_DIAMOND_BLOCK"), 1)
         ), 4));
 
-        recipes.put("OBSIDIAN_TALISMAN", new Recipe(new Item(ItemMaterial.get("OBSIDIAN_TALISMAN")), getItems(
+        recipes.put("OBSIDIAN_TALISMAN", new Recipe(new Item(Items.get("OBSIDIAN_TALISMAN")), getItems(
                 new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 16),
                 new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 16),
                 new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 16),

@@ -1,0 +1,29 @@
+package me.maxiiiiii.skyblockdragons.player;
+
+import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.item.objects.Stat;
+import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.objects.Stats;
+
+@Getter
+public class PlayerStats extends Stats {
+    public Stat mana;
+
+    public PlayerStats(double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double seaCreatureChance, double absorption) {
+        super(damage, strength, critDamage, critChance, abilityDamage, abilityScaling, attackSpeed, ferocity, health, defense, trueDefense, speed, intelligence, magicFind, petLuck, miningSpeed, miningFortune, seaCreatureChance, absorption);
+        this.mana = new Stat(this.intelligence.amount, StatType.MANA);
+    }
+
+    @Override
+    public Stat getStat(StatType stat) {
+        Stat output = super.getStat(stat);
+        if (stat == StatType.MANA) output = this.mana;
+        return output;
+    }
+
+    @Override
+    public void normalize() {
+        super.normalize();
+        this.mana.normalize();
+    }
+}

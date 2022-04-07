@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.events;
 
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.item.objects.Stat;
+import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
@@ -26,11 +26,11 @@ public class EntityHealth implements Listener {
         } catch (NullPointerException ignored) {
         }
         if (entity.getHealth() <= entity.getMaxHealth() / 4) {
-            entity.setCustomName(name + SPLITTER + ChatColor.RED + Functions.getShortNumber(Math.ceil(entity.getHealth())) + Stat.HEALTH.getIcon());
+            entity.setCustomName(name + SPLITTER + ChatColor.RED + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatType.HEALTH.getIcon());
         } else if (entity.getHealth() <= entity.getMaxHealth() / 2) {
-            entity.setCustomName(name + SPLITTER + ChatColor.YELLOW + Functions.getShortNumber(Math.ceil(entity.getHealth())) + Stat.HEALTH.getIcon());
+            entity.setCustomName(name + SPLITTER + ChatColor.YELLOW + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatType.HEALTH.getIcon());
         } else {
-            entity.setCustomName(name + SPLITTER + ChatColor.GREEN + Functions.getShortNumber(Math.ceil(entity.getHealth())) + Stat.HEALTH.getIcon());
+            entity.setCustomName(name + SPLITTER + ChatColor.GREEN + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatType.HEALTH.getIcon());
         }
         entity.setCustomNameVisible(true);
     }

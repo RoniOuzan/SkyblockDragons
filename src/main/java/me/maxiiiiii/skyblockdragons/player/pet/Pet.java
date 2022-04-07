@@ -10,6 +10,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -19,12 +20,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 @Getter
 @Setter
-public class Pet extends ItemStack {
+public class Pet extends ItemStack implements Comparable<Pet> {
     public PetMaterial petMaterial;
     public Rarity rarity;
     public int level;
@@ -311,15 +314,24 @@ public class Pet extends ItemStack {
             this.level++;
             this.update();
 
-            player.petArmorStand.hologram.removeLine(0);
-            player.petArmorStand.hologram.appendTextLine(ArmorStand.getArmorStandName(player, player.getPetActive()));
+            player.getPlayerPet().petArmorStand.hologram.removeLine(0);
+            player.getPlayerPet().petArmorStand.hologram.appendTextLine(ArmorStand.getArmorStandName(player, player.getPetActive()));
 
             player.sendMessage(ChatColor.GREEN + "Your " + this.rarity.getColor() + this.petMaterial.getName() + ChatColor.GREEN + " levelled up to level " + ChatColor.BLUE + this.level + ChatColor.GREEN + "!");
         }
         return levelledUp;
     }
 
-    public static class ArmorStand {
+    public int getLength() {
+        return (this.level * 1_000_000) + (this.rarity.getLevel() * 100_000_000) + (int) this.currentXp;
+    }
+
+    @Override
+    public int compareTo(Pet pet) {
+        return pet.getLength() - this.getLength();
+    }
+
+    public static class ArmorStand implements ConfigurationSerializable {
         public org.bukkit.entity.ArmorStand armorStand;
         public int slot;
         public Hologram hologram;
@@ -333,6 +345,15 @@ public class Pet extends ItemStack {
 
         public static String getArmorStandName(Player player, Pet pet) {
             return ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv" + pet.level + ChatColor.DARK_GRAY + "] " + pet.rarity.getColor() + player.getName() + "'s " + pet.getPetMaterial().getName();
+        }
+
+        @Override
+        public Map<String, Object> serialize() {
+            Map<String, Object> args = new HashMap<>();
+            args.put("armorStand", armorStand);
+            args.put("slot", slot);
+            args.put("hologram", hologram);
+            return args;
         }
     }
 }

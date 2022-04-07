@@ -34,7 +34,7 @@ public class PlayerBreakBlockListener implements Listener {
         e.setDropItems(false);
         e.setExpToDrop((int) Math.ceil(Math.sqrt(e.getMaterial().miningXp)));
         int amount = 1 + Functions.randomInt(0, Functions.getEnchantLevel(item, EnchantType.FORTUNE));
-//        ItemStack drop = new Item(ItemMaterial.get((block.getType().name().split("_ORE")[0]).replace("GLOWING_", "")), amount);
+//        ItemStack drop = new Item(Items.get((block.getType().name().split("_ORE")[0]).replace("GLOWING_", "")), amount);
         if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0)
             for (ItemDrop drop : e.getMaterial().drops) {
                 player.give(drop);
@@ -51,7 +51,7 @@ public class PlayerBreakBlockListener implements Listener {
                     dropped.addScoreboardTag(player.getName());
                 }
             }
-        player.getSkill().give(SkillType.MINING, e.getMaterial().miningXp);
+        player.giveSkill(SkillType.MINING, e.getMaterial().miningXp);
         Functions.Wait(1L, () -> e.getBlock().setType(Material.BEDROCK));
         Functions.Wait(60L, () -> e.getBlock().setType(getOre(e.getBlock())));
     }

@@ -3,12 +3,18 @@ package me.maxiiiiii.skyblockdragons.player.skill;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.Skills.*;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 public class Skill {
+    private final PlayerSD player;
     private final FarmingSkill farmingSkill;
     private final MiningSkill miningSkill;
     private final CombatSkill combatSkill;
@@ -18,24 +24,18 @@ public class Skill {
     private final AlchemySkill alchemySkill;
     private final TamingSkill tamingSkill;
     private final DungeoneeringSkill dungeoneeringSkill;
-    private final PlayerSD player;
 
-    public Skill(PlayerSD player, FarmingSkill farmingSkill, MiningSkill miningSkill, CombatSkill combatSkill, ForagingSkill foragingSkill, FishingSkill fishingSkill, EnchantingSkill enchantingSkill, AlchemySkill alchemySkill, TamingSkill tamingSkill, DungeoneeringSkill dungeoneeringSkill) {
+    public Skill(PlayerSD player) {
         this.player = player;
-        this.farmingSkill = farmingSkill;
-        this.miningSkill = miningSkill;
-        this.combatSkill = combatSkill;
-        this.foragingSkill = foragingSkill;
-        this.fishingSkill = fishingSkill;
-        this.enchantingSkill = enchantingSkill;
-        this.alchemySkill = alchemySkill;
-        this.tamingSkill = tamingSkill;
-        this.dungeoneeringSkill = dungeoneeringSkill;
-    }
-
-    public void give(SkillType skillType, double amount) {
-        this.get(skillType.name()).giveXp(amount, player);
-        player.sendActionBar(ChatColor.DARK_AQUA + "+" + Functions.getInt(amount + "") + " " + skillType + " (" + Math.floor(player.getSkill().get(skillType).getCurrentXp() / player.getSkill().get(skillType).getCurrentNeedXp() * 1000d) / 10d + "%)", true);
+        this.farmingSkill = new FarmingSkill(Variables.get(player.getUniqueId(), "SkillFarming", 0, 0), Variables.get(player.getUniqueId(), "SkillFarming", 1, 0d));
+        this.miningSkill = new MiningSkill(Variables.get(player.getUniqueId(), "SkillMining", 0, 0), Variables.get(player.getUniqueId(), "SkillMining", 1, 0d));
+        this.combatSkill = new CombatSkill(Variables.get(player.getUniqueId(), "SkillCombat", 0, 0), Variables.get(player.getUniqueId(), "SkillCombat", 1, 0d));
+        this.foragingSkill = new ForagingSkill(Variables.get(player.getUniqueId(), "SkillForaging", 0, 0), Variables.get(player.getUniqueId(), "SkillForaging", 1, 0d));
+        this.fishingSkill = new FishingSkill(Variables.get(player.getUniqueId(), "SkillFishing", 0, 0), Variables.get(player.getUniqueId(), "SkillFishing", 1, 0d));
+        this.enchantingSkill = new EnchantingSkill(Variables.get(player.getUniqueId(), "SkillEnchanting", 0, 0), Variables.get(player.getUniqueId(), "SkillEnchanting", 1, 0d));
+        this.alchemySkill = new AlchemySkill(Variables.get(player.getUniqueId(), "SkillAlchemy", 0, 0), Variables.get(player.getUniqueId(), "SkillAlchemy", 1, 0d));
+        this.tamingSkill = new TamingSkill(Variables.get(player.getUniqueId(), "SkillTaming", 0, 0), Variables.get(player.getUniqueId(), "SkillTaming", 1, 0d));
+        this.dungeoneeringSkill = new DungeoneeringSkill(Variables.get(player.getUniqueId(), "SkillDungeoneering", 0, 0), Variables.get(player.getUniqueId(), "SkillDungeoneering", 1, 0d));
     }
 
     public AbstractSkill get(String name) {
@@ -53,5 +53,17 @@ public class Skill {
 
     public AbstractSkill get(SkillType skillType) {
         return this.get(skillType.name());
+    }
+
+    public void save() {
+        this.farmingSkill.save(player);
+        this.miningSkill.save(player);
+        this.combatSkill.save(player);
+        this.foragingSkill.save(player);
+        this.fishingSkill.save(player);
+        this.enchantingSkill.save(player);
+        this.alchemySkill.save(player);
+        this.tamingSkill.save(player);
+        this.dungeoneeringSkill.save(player);
     }
 }

@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.item.enchants;
 
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
+import me.maxiiiiii.skyblockdragons.material.Items;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.material.SkinMaterial;
@@ -27,7 +28,7 @@ public class BookCommand implements CommandExecutor, TabCompleter {
                     }
                     Map<EnchantType, Short> enchants = new HashMap<>();
                     enchants.put(EnchantType.valueOf(args[0]), level);
-                    ItemStack item = new Item(ItemMaterial.get("ENCHANTED_BOOK"), 0, ReforgeType.NULL, false, SkinMaterial.NULL, enchants);
+                    ItemStack item = new Item(Items.get("ENCHANTED_BOOK"), 0, ReforgeType.NULL, false, SkinMaterial.NULL, enchants);
                     ((Player) sender).getInventory().addItem(item);
                 } else if (args[0].equalsIgnoreCase("ALL")) {
                     Map<EnchantType, Short> enchants = new HashMap<>();
@@ -35,7 +36,7 @@ public class BookCommand implements CommandExecutor, TabCompleter {
                         if (enchantType.name().equals("ONE_FOR_ALL")) continue;
                         enchants.put(enchantType, enchantType.getMaxLevel());
                     }
-                    ItemStack item = new Item(ItemMaterial.get("ENCHANTED_BOOK"), 0, ReforgeType.NULL, false, SkinMaterial.NULL, enchants);
+                    ItemStack item = new Item(Items.get("ENCHANTED_BOOK"), 0, ReforgeType.NULL, false, SkinMaterial.NULL, enchants);
                     ((Player) sender).getInventory().addItem(item);
                 }
             } else {

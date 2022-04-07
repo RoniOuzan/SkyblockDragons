@@ -1,9 +1,10 @@
 package me.maxiiiiii.skyblockdragons.commands.menu;
 
+import me.maxiiiiii.skyblockdragons.item.objects.Stat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.item.objects.Stat;
+import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SkyblockMenu {
@@ -43,25 +45,11 @@ public class SkyblockMenu {
             skullMeta.setOwner(player.getName());
         }
         playerStats.setItemMeta(skullMeta);
-        Functions.setLore(playerStats,
-                Stat.DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getDamage()),
-                Stat.STRENGTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getStrength()),
-                Stat.CRIT_DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getCritDamage() + "%"),
-                Stat.CRIT_CHANCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getCritChance() + "%"),
-                Stat.ATTACK_SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getAttackSpeed() + "%"),
-                Stat.FEROCITY.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getFerocity()),
-                Stat.ABILITY_DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getAbilityDamage()),
-                Stat.HEALTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getHealth()),
-                Stat.DEFENSE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getDefense()),
-                Stat.TRUE_DEFENSE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getTrueDefense()),
-                Stat.SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getSpeed() + "%"),
-                Stat.INTELLIGENCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getIntelligence()),
-                Stat.MINING_SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getMiningSpeed()),
-                Stat.MINING_FORTUNE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getMiningFortune()),
-                Stat.MAGIC_FIND.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getMagicFind()),
-                Stat.PET_LUCK.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getPetLuck()),
-                Stat.SEA_CREATURE_CHANCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getSeaCreatureChance())
-        );
+        ArrayList<String> lores = new ArrayList<>();
+        for (Stat stat : player.getStats()) {
+            lores.add(stat.type.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(stat.amount));
+        }
+        Functions.setLore(playerStats, lores);
         inv.setItem(13, playerStats);
 
         ItemStack skills = new ItemStack(Material.DIAMOND_SWORD);
@@ -200,90 +188,78 @@ public class SkyblockMenu {
             skullMeta.setOwner(player.getName());
         }
         playerStats.setItemMeta(skullMeta);
-        Functions.setLore(playerStats,
-                Stat.DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getDamage()),
-                Stat.STRENGTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getStrength()),
-                Stat.CRIT_DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getCritDamage() + "%"),
-                Stat.CRIT_CHANCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getCritChance() + "%"),
-                Stat.ATTACK_SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getAttackSpeed() + "%"),
-                Stat.FEROCITY.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getFerocity()),
-                Stat.ABILITY_DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getAbilityDamage()),
-                Stat.HEALTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getHealth()),
-                Stat.DEFENSE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getDefense()),
-                Stat.TRUE_DEFENSE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getTrueDefense()),
-                Stat.SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getSpeed() + "%"),
-                Stat.INTELLIGENCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getIntelligence()),
-                Stat.MINING_SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getMiningSpeed()),
-                Stat.MINING_FORTUNE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getMiningFortune()),
-                Stat.MAGIC_FIND.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getMagicFind()),
-                Stat.PET_LUCK.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getPetLuck()),
-                Stat.SEA_CREATURE_CHANCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getSeaCreatureChance())
-        );
+        ArrayList<String> lores = new ArrayList<>();
+        for (Stat stat : player.getStats()) {
+            lores.add(stat.type.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(stat.amount));
+        }
+        Functions.setLore(playerStats, lores);
         inv.setItem(4, playerStats);
 
+        PlayerSD playerSD = SkyblockDragons.getPlayer(player);
+        
         ItemStack damage = new ItemStack(Material.BLAZE_ROD);
-        Functions.setName(damage, Stat.DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getDamage()));
+        Functions.setName(damage, StatType.DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getDamage()));
         inv.setItem(19, damage);
 
         ItemStack strength = new ItemStack(Material.BLAZE_POWDER);
-        Functions.setName(strength, Stat.STRENGTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStrength()));
+        Functions.setName(strength, StatType.STRENGTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getStrength()));
         inv.setItem(20, strength);
 
         ItemStack critDamage = new ItemStack(Material.INK_SACK, 1, (short) 4);
-        Functions.setName(critDamage, Stat.CRIT_DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getCritDamage()) + "%");
+        Functions.setName(critDamage, StatType.CRIT_DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getCritDamage()));
         inv.setItem(21, critDamage);
 
         ItemStack critChance = new ItemStack(Material.INK_SACK, 1, (short) 4);
-        Functions.setName(critChance, Stat.CRIT_CHANCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getCritChance()) + "%");
+        Functions.setName(critChance, StatType.CRIT_CHANCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getCritChance()));
         inv.setItem(22, critChance);
 
         ItemStack attackSpeed = new ItemStack(Material.GOLD_AXE);
-        Functions.setName(attackSpeed, Stat.ATTACK_SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getAttackSpeed()) + "%");
+        Functions.setName(attackSpeed, StatType.ATTACK_SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getAttackSpeed()));
         inv.setItem(23, attackSpeed);
 
         ItemStack ferocity = new ItemStack(Material.INK_SACK, 1, (short) 1);
-        Functions.setName(ferocity, Stat.FEROCITY.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getFerocity()));
+        Functions.setName(ferocity, StatType.FEROCITY.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getFerocity()));
         inv.setItem(24, ferocity);
 
         ItemStack health = new ItemStack(Material.GOLDEN_APPLE);
-        Functions.setName(health, Stat.HEALTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getHealth()));
+        Functions.setName(health, StatType.HEALTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getHealth()));
         inv.setItem(25, health);
 
         ItemStack defense = new ItemStack(Material.IRON_CHESTPLATE);
-        Functions.setName(defense, Stat.DEFENSE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getDefense()));
-        Functions.setLore(defense, "", ChatColor.WHITE + "Effective Health: " + ChatColor.RED + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getHealth() * (1 + (SkyblockDragons.players.get(player.getUniqueId()).getDefense() / 100))));
+        Functions.setName(defense, StatType.DEFENSE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getDefense()));
+        Functions.setLore(defense, "", ChatColor.WHITE + "Effective Health: " + ChatColor.RED + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getHealth().amount * (1 + (SkyblockDragons.players.get(player.getUniqueId()).getStats().getDefense().amount / 100))));
         inv.setItem(28, defense);
 
         ItemStack trueDefense = new ItemStack(Material.IRON_BLOCK);
-        Functions.setName(trueDefense, Stat.TRUE_DEFENSE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getTrueDefense()));
+        Functions.setName(trueDefense, StatType.TRUE_DEFENSE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getTrueDefense()));
         inv.setItem(29, trueDefense);
 
         ItemStack speed = new ItemStack(Material.SUGAR);
-        Functions.setName(speed, Stat.SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getSpeed()) + "%");
+        Functions.setName(speed, StatType.SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getSpeed()));
         inv.setItem(30, speed);
 
         ItemStack intelligence = new ItemStack(Material.ENCHANTED_BOOK);
-        Functions.setName(intelligence, Stat.INTELLIGENCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getIntelligence()));
+        Functions.setName(intelligence, StatType.INTELLIGENCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getIntelligence()));
         inv.setItem(31, intelligence);
 
         ItemStack miningSpeed = new ItemStack(Material.IRON_PICKAXE);
-        Functions.setName(miningSpeed, Stat.MINING_SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getMiningSpeed()));
+        Functions.setName(miningSpeed, StatType.MINING_SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getMiningSpeed()));
         inv.setItem(32, miningSpeed);
 
         ItemStack miningFortune = new ItemStack(Material.GOLD_PICKAXE);
-        Functions.setName(miningFortune, Stat.MINING_FORTUNE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getMiningFortune()));
+        Functions.setName(miningFortune, StatType.MINING_FORTUNE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getMiningFortune()));
         inv.setItem(33, miningFortune);
 
         ItemStack magicFind = new ItemStack(Material.INK_SACK, 1, (short) 12);
-        Functions.setName(magicFind, Stat.MAGIC_FIND.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getMagicFind()));
+        Functions.setName(magicFind, StatType.MAGIC_FIND.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getMagicFind()));
         inv.setItem(34, magicFind);
 
         ItemStack petLuck = new ItemStack(Material.INK_SACK, 1, (short) 5);
-        Functions.setName(petLuck, Stat.PET_LUCK.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getPetLuck()));
+        Functions.setName(petLuck, StatType.PET_LUCK.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getPetLuck()));
         inv.setItem(37, petLuck);
 
         ItemStack seaCreatureChance = new ItemStack(Material.RAW_FISH);
-        Functions.setName(seaCreatureChance, Stat.SEA_CREATURE_CHANCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getSeaCreatureChance()));
+        Functions.setName(seaCreatureChance, StatType.SEA_CREATURE_CHANCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(SkyblockDragons.players.get(player.getUniqueId()).getStats().getSeaCreatureChance()));
         inv.setItem(38, seaCreatureChance);
 
         player.openInventory(inv);

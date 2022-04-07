@@ -67,18 +67,19 @@ public class ItemList {
 
         int length = 28 * (page - 1);
         for (int i = 0; i < 28; i++) {
-            try {
-                inv.setItem(Functions.intToSlot(i), new Item(materials[i + length]));
-            } catch (IndexOutOfBoundsException e){
-                inv.setItem(Functions.intToSlot(i), new ItemStack(Material.AIR));
+            if (i + length < materials.length) {
+                inv.setItem(Functions.intToSlot(i), new Item(materials[i+ length]));
+                player.sendMessage(materials[i + length].name());
+            } else {
+                inv.setItem(Functions.intToSlot(i), null);
             }
         }
 
         player.openInventory(inv);
     }
 
-    public static void openItemList(Player player, int num, String searchItem) {
-        Inventory inv =  Bukkit.createInventory(player, 54, ChatColor.DARK_GRAY + "Item List " + num);
+    public static void openItemList(Player player, int page, String searchItem) {
+        Inventory inv =  Bukkit.createInventory(player, 54, ChatColor.DARK_GRAY + "Item List " + page);
 
         ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
         ItemMeta glassItemMeta = glass.getItemMeta();
@@ -116,11 +117,13 @@ public class ItemList {
             }
         }
 
-        int length = 28 * (num - 1);
+        int length = 28 * (page - 1);
         for (int i = 0; i < 28; i++) {
             try {
                 inv.setItem(Functions.intToSlot(i), new Item(materials.get(i+ length)));
+                player.sendMessage(materials.get(i + length).name());
             } catch (IndexOutOfBoundsException e){
+                player.sendMessage(i + "");
                 inv.setItem(Functions.intToSlot(i), new ItemStack(Material.AIR));
             }
         }

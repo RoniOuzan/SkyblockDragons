@@ -7,7 +7,6 @@ import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.material.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.material.ToolMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
@@ -92,19 +91,9 @@ public class EntitySD {
     }
 
     public static void saveLocations() {
-        Variables.delete("EntitiesSpawnsLocations");
-        int i = 0;
-        for (Location location : entitiesLocations.keySet()) {
-            Variables.set("EntitiesSpawnsLocations", i, location);
-            Variables.set("EntitiesSpawnsEntity", i, entitiesLocations.get(location));
-            i++;
-        }
     }
 
     public static void loadLocations() {
-        for (int i = 0; i < Variables.getSize("EntitiesSpawnsLocations"); i++) {
-            entitiesLocations.put(Variables.get("EntitiesSpawnsLocations", i, null), Variables.get("EntitiesSpawnsEntity", i, EntityMaterial.NULL));
-        }
     }
 
     public static EntitySD get(UUID uuid) {

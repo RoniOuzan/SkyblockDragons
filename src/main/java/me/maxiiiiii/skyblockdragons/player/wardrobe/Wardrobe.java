@@ -2,24 +2,51 @@ package me.maxiiiiii.skyblockdragons.player.wardrobe;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
+import static me.maxiiiiii.skyblockdragons.util.Functions.numberToItemSlot;
 
 @Getter
 @Setter
 public class Wardrobe {
+    private final PlayerSD player;
     private final ArrayList<WardrobeSlot> slots;
+    private int equippedSlot;
 
-    public Wardrobe(ArrayList<WardrobeSlot> slots) {
+    public Wardrobe(PlayerSD player) {
+        this.player = player;
+        ArrayList<WardrobeSlot> slots = new ArrayList<>();
+        for (int i = 0; i < 18; i++) {
+            slots.add(new WardrobeSlot(
+                    i,
+                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0) + (i < 9 ? 0 : 36), null),
+                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1) + (i < 9 ? 0 : 36), null),
+                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2) + (i < 9 ? 0 : 36), null),
+                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3) + (i < 9 ? 0 : 36), null)
+            ));
+        }
         this.slots = slots;
-    }
-
-    public Wardrobe(WardrobeSlot slot1, WardrobeSlot slot2, WardrobeSlot slot3, WardrobeSlot slot4, WardrobeSlot slot5, WardrobeSlot slot6, WardrobeSlot slot7, WardrobeSlot slot8, WardrobeSlot slot9, WardrobeSlot slot10, WardrobeSlot slot11, WardrobeSlot slot12, WardrobeSlot slot13, WardrobeSlot slot14, WardrobeSlot slot15, WardrobeSlot slot16, WardrobeSlot slot17, WardrobeSlot slot18) {
-        this.slots = new ArrayList<>(Arrays.asList(slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, slot10, slot11, slot12, slot13, slot14, slot15, slot16, slot17, slot18));
+        this.equippedSlot = Variables.get(player.getUniqueId(), "EquippedSlot", 0, 0);
     }
 
     public WardrobeSlot getSlot(int slot) {
         return this.slots.get(slot);
+    }
+
+    public void save() {
+        Variables.delete(player.getUniqueId(), "Wardrobe");
+        for (int i = 0; i < slots.size(); i++) {
+            for (int j = 0; j < 4; j++) {
+                if (getSlot(i).getPeace(j).getType() == Material.STAINED_GLASS_PANE)
+                    continue;
+
+                Variables.set(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, j) + (i < 9 ? 0 : 36), getSlot(i).getPeace(j));
+            }
+        }
+        Variables.set(player.getUniqueId(), "EquippedSlot", 0, equippedSlot);
     }
 }

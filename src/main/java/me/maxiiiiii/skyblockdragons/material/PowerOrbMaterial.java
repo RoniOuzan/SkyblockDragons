@@ -11,7 +11,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import java.util.Map;
 
 @Getter
-public class PowerOrbMaterial extends ItemMaterial implements ConfigurationSerializable {
+public class PowerOrbMaterial extends ItemMaterial {
     private final ItemAbility ability;
     private final String powerOrbName;
     private final String powerOrbDescription;
@@ -22,12 +22,4 @@ public class PowerOrbMaterial extends ItemMaterial implements ConfigurationSeria
         this.powerOrbName = name.split(" Power ")[0];
         this.powerOrbDescription = powerOrbDescription;
     }
-
-//    public Map<String, Object> serialize() {
-//        Map<String, Object> map = super.serialize();
-//        map.put("ability", ability);
-//        map.put("powerOrbName", powerOrbName);
-//        map.put("powerOrbDescription", powerOrbDescription);
-//        return map;
-//    }
 }

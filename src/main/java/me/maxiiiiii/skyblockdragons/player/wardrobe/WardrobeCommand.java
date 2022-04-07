@@ -1,5 +1,7 @@
 package me.maxiiiiii.skyblockdragons.player.wardrobe;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,10 +16,10 @@ public class WardrobeCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            Player player = (Player) sender;
+            PlayerSD player = SkyblockDragons.getPlayer((Player) sender);
             if (args.length > 0) {
                 if (isPlayerName(args[0])) {
-                    player = Bukkit.getPlayer(args[0]);
+                    player = SkyblockDragons.getPlayer(args[0]);
                 } else {
                     sender.sendMessage(ChatColor.RED + "There is no player with name " + args[0]);
                 }

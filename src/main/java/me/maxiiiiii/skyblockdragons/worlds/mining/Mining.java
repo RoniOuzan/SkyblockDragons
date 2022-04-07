@@ -42,7 +42,7 @@ public class Mining implements Listener {
         Block block = e.getBlock();
         BlockMaterial blockMaterial = BlockMaterial.get(block.getType().toString());
 
-        double miningTime = (blockMaterial.blockStrength * 50) / Math.max(player.miningSpeed, 1);
+        double miningTime = (blockMaterial.blockStrength * 50) / Math.max(player.getStats().getMiningSpeed().amount, 1);
 
         if (miningTime <= 1) {
             BlockBreakEvent event = new BlockBreakEvent(e.getBlock(), player);

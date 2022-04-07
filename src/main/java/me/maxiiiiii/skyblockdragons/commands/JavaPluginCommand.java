@@ -1,27 +1,14 @@
 package me.maxiiiiii.skyblockdragons.commands;
 
 import de.tr7zw.changeme.nbtapi.NBTCompound;
-import de.tr7zw.changeme.nbtapi.NBTEntity;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
-import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
-import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.material.Items;
-import me.maxiiiiii.skyblockdragons.material.NormalMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.storage.Variable;
-import me.maxiiiiii.skyblockdragons.storage.Variables;
-import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,13 +17,10 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 public class JavaPluginCommand implements CommandExecutor, TabCompleter {
     @Override

@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.commands.menu;
 
 import me.maxiiiiii.skyblockdragons.item.objects.Stat;
+import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
@@ -11,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ProfileMenu {
     static public void openProfileMenu(PlayerSD player, PlayerSD target) {
@@ -26,25 +26,11 @@ public class ProfileMenu {
             skullMeta.setOwner(player.getName());
         }
         head.setItemMeta(skullMeta);
-        Functions.setLore(head,
-                Stat.DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getDamage()),
-                Stat.STRENGTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getStrength()),
-                Stat.CRIT_DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getCritDamage() + "%"),
-                Stat.CRIT_CHANCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getCritChance() + "%"),
-                Stat.ATTACK_SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getAttackSpeed() + "%"),
-                Stat.FEROCITY.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getFerocity()),
-                Stat.ABILITY_DAMAGE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getAbilityDamage()),
-                Stat.HEALTH.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getHealth()),
-                Stat.DEFENSE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getDefense()),
-                Stat.TRUE_DEFENSE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getTrueDefense()),
-                Stat.SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getSpeed() + "%"),
-                Stat.INTELLIGENCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getIntelligence()),
-                Stat.MINING_SPEED.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getMiningSpeed()),
-                Stat.MINING_FORTUNE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getMiningFortune()),
-                Stat.MAGIC_FIND.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getMagicFind()),
-                Stat.PET_LUCK.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getPetLuck()),
-                Stat.SEA_CREATURE_CHANCE.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getSeaCreatureChance())
-        );
+        ArrayList<String> lores = new ArrayList<>();
+        for (Stat stat : player.getStats()) {
+            lores.add(stat.type.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(stat.amount));
+        }
+        Functions.setLore(head, lores);
         inventory.setItem(22, head);
 
         ItemStack tool = target.getEquipment().getItemInMainHand();
@@ -57,7 +43,7 @@ public class ProfileMenu {
         inventory.setItem(28, Functions.isNotAir(leggings) ? leggings : Functions.createItem(Material.STAINED_GLASS_PANE, 0, ChatColor.YELLOW + "Player Leggings"));
         ItemStack boots = target.getEquipment().getBoots();
         inventory.setItem(37, Functions.isNotAir(boots) ? boots : Functions.createItem(Material.STAINED_GLASS_PANE, 0, ChatColor.YELLOW + "Player Boots"));
-        ItemStack pet = target.activePet < 0 ? Functions.createItem(Material.STAINED_GLASS_PANE, 0, ChatColor.YELLOW + "Player Pet") : target.getPetActive();
+        ItemStack pet = target.getPlayerPet().activePet < 0 ? Functions.createItem(Material.STAINED_GLASS_PANE, 0, ChatColor.YELLOW + "Player Pet") : target.getPetActive();
         inventory.setItem(46, pet);
 
         ItemStack close = Functions.createItem(Material.BARRIER, ChatColor.RED + "Close", ChatColor.YELLOW + "Click to close!");

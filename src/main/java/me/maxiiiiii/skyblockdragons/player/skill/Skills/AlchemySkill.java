@@ -1,10 +1,12 @@
 package me.maxiiiiii.skyblockdragons.player.skill.Skills;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.item.objects.Stat;
+import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
+
+import java.util.Map;
 
 @Getter
 public class AlchemySkill extends AbstractSkill {
@@ -17,7 +19,7 @@ public class AlchemySkill extends AbstractSkill {
                         "Brewer",
                         level,
                         ChatColor.GRAY + "Potion that you brew have a " + ChatColor.DARK_GRAY + level + "➡" + ChatColor.GREEN + (level + 1) + "% " + ChatColor.WHITE + "longer duration.",
-                        Stat.INTELLIGENCE,
+                        StatType.INTELLIGENCE,
                         statsAmount,
                         coinsAmount
                 ),

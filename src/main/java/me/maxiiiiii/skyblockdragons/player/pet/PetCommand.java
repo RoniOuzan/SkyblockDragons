@@ -27,21 +27,21 @@ public class PetCommand implements CommandExecutor, TabCompleter {
                         if (args[1].equalsIgnoreCase("give") && args.length > 2) {
                             pet.setCurrentXp(pet.getCurrentXp() + Double.parseDouble(args[2]));
                             pet.update();
-                            player.pets.set(player.activePet, player.getPetActive());
+                            player.getPlayerPet().pets.set(player.getPlayerPet().activePet, player.getPetActive());
                         } else if (args[1].equalsIgnoreCase("set") && args.length > 2) {
                             pet.setCurrentXp(Double.parseDouble(args[2]));
                             pet.update();
-                            player.pets.set(player.activePet, player.getPetActive());
+                            player.getPlayerPet().pets.set(player.getPlayerPet().activePet, player.getPetActive());
                         } else if (args[1].equalsIgnoreCase("levelup")) {
                             pet.setCurrentXp(pet.getNeedXp());
                             pet.update();
-                            player.pets.set(player.activePet, player.getPetActive());
+                            player.getPlayerPet().pets.set(player.getPlayerPet().activePet, player.getPetActive());
                         } else if (args[1].equalsIgnoreCase("level") && args.length > 2) {
                             int level = Integer.parseInt(args[2]);
                             pet.setCurrentXp(0);
                             pet.setLevel(level);
                             pet.update();
-                            player.pets.set(player.activePet, player.getPetActive());
+                            player.getPlayerPet().pets.set(player.getPlayerPet().activePet, player.getPetActive());
                         }
                     } else {
                         player.sendMessage(ChatColor.GREEN + "Your pet has " + Functions.getNumberFormat(pet.getCurrentXp()) + " xp.");

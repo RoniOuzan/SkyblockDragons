@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class SkinMaterial extends ItemMaterial implements ConfigurationSerializable {
+public class SkinMaterial extends ItemMaterial {
     public static final SkinMaterial NULL = new SkinMaterial(Material.BARRIER, ItemFamily.NULL,"Null", Rarity.SPECIAL, "", "");
 
     public SkinMaterial(Material material, ItemFamily family, String name, Rarity rarity, String id, String nbt) {

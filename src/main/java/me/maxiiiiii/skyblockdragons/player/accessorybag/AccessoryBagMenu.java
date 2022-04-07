@@ -1,10 +1,9 @@
 package me.maxiiiiii.skyblockdragons.player.accessorybag;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.storage.Variables;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -33,7 +32,7 @@ public class AccessoryBagMenu {
         inv.setItem(49, close);
 
         PlayerSD playerSD = SkyblockDragons.getPlayer(player);
-        List<ItemStack> accessories = playerSD.accessoryBag;
+        List<ItemStack> accessories = playerSD.getAccessoryBag().getItems();
         for (int i = 0; i < 45; i++) {
             if (i < accessories.size())
                 inv.setItem(i, accessories.get(i));

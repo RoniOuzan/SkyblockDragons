@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.enchants;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemStats;
+import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemTypeGroup;
 import org.bukkit.ChatColor;
@@ -98,14 +98,14 @@ public class EnchantType {
     // Null
     public static EnchantType NULL = new EnchantType(0, "", 1);
 
-    private final ItemStats stats; // dmg, str, cd, cc, as, fer, hp, def, speed, mana
+    private final Stats stats; // dmg, str, cd, cc, as, fer, hp, def, speed, mana
     private final short maxLevel;
     private final String description;
     private final double multiplayer;
     private final ArrayList<ItemType> types;
     private final ArrayList<String> distractions;
 
-    EnchantType(ItemStats stats, int maxLevel ,String description, double multiplayer, ArrayList<ItemType> types, ArrayList<String> distractions) {
+    EnchantType(Stats stats, int maxLevel , String description, double multiplayer, ArrayList<ItemType> types, ArrayList<String> distractions) {
         this.stats = stats;
         this.description = description;
         this.multiplayer = multiplayer;
@@ -116,42 +116,42 @@ public class EnchantType {
     }
 
     EnchantType(int maxLevel, String description, double multiplayer, ArrayList<ItemType> types, ArrayList<String> distractions) {
-        this(new ItemStats(), maxLevel, description, multiplayer, types, distractions);
+        this(new Stats(), maxLevel, description, multiplayer, types, distractions);
     }
 
     EnchantType(int maxLevel, String description, double multiplayer, ItemType type, ArrayList<String> distractions) {
-        this(new ItemStats(), maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(type)), distractions);
+        this(new Stats(), maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(type)), distractions);
     }
 
     EnchantType(int maxLevel, String description, double multiplayer, ItemType type, String distraction) {
-        this(new ItemStats(), maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(type)), new ArrayList<>(Arrays.asList(distraction)));
+        this(new Stats(), maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(type)), new ArrayList<>(Arrays.asList(distraction)));
     }
 
     EnchantType(int maxLevel, String description, double multiplayer, ItemType type) {
-        this(new ItemStats(), maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(type)), new ArrayList<>());
+        this(new Stats(), maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(type)), new ArrayList<>());
     }
 
     EnchantType(int maxLevel, String description, double multiplayer, ArrayList<ItemType> types) {
-        this(new ItemStats(), maxLevel, description, multiplayer, types, new ArrayList<>());
+        this(new Stats(), maxLevel, description, multiplayer, types, new ArrayList<>());
     }
 
-    EnchantType(ItemStats stats, int maxLevel, String description, double multiplayer, ArrayList<ItemType> types) {
+    EnchantType(Stats stats, int maxLevel, String description, double multiplayer, ArrayList<ItemType> types) {
         this(stats, maxLevel, description, multiplayer, types, new ArrayList<>());
     }
 
-    EnchantType(ItemStats stats, int maxLevel, String description, double multiplayer, ItemType type) {
+    EnchantType(Stats stats, int maxLevel, String description, double multiplayer, ItemType type) {
         this(stats, maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(type)), new ArrayList<>());
     }
 
     EnchantType(int maxLevel, String description, double multiplayer) {
-        this(new ItemStats(), maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(ItemType.values())), new ArrayList<>());
+        this(new Stats(), maxLevel, description, multiplayer, new ArrayList<>(Arrays.asList(ItemType.values())), new ArrayList<>());
     }
 
     public static void registerEnchants() {
         // Swords
         enchants.put("BANE_OF_ARTHROPODS", new EnchantType(5, "", 0, ItemType.SWORD, new ArrayList<>(Arrays.asList("SHARPNESS", "SMITE"))));
         enchants.put("CLEAVE", new EnchantType(5, "", 0, ItemType.SWORD));
-        enchants.put("CRITICAL", new EnchantType(new ItemStats(0, 0, 10, 0, 0, 0, 0, 0, 0, 0), 5, "", 0, ItemType.SWORD));
+        enchants.put("CRITICAL", new EnchantType(new Stats(0, 0, 10, 0, 0, 0, 0, 0, 0, 0), 5, "", 0, ItemType.SWORD));
         enchants.put("ENDER_SLAYER", new EnchantType(5, "", 0, ItemType.SWORD));
         enchants.put("EXECUTE", new EnchantType(5, "", 0, ItemType.SWORD, "PROSECUTE"));
         enchants.put("EXPERIENCE", new EnchantType(3, "", 0, ItemType.SWORD));
@@ -191,29 +191,29 @@ public class EnchantType {
         enchants.put("CUBISM", new EnchantType(5, "", 0, ItemTypeGroup.WEAPON.toType()));
         enchants.put("DRAGON_HUNTER", new EnchantType(5, "", 0, ItemTypeGroup.WEAPON.toType()));
         enchants.put("IMPALING", new EnchantType(3, "", 0, ItemTypeGroup.WEAPON.toType()));
-        enchants.put("VICIOUS", new EnchantType(new ItemStats(0, 0, 0, 0, 0, 1, 0, 0, 0, 0), 5, "", 0, ItemTypeGroup.WEAPON.toType()));
+        enchants.put("VICIOUS", new EnchantType(new Stats(0, 0, 0, 0, 0, 1, 0, 0, 0, 0), 5, "", 0, ItemTypeGroup.WEAPON.toType()));
 
         // Armor
         // Helmet
         enchants.put("AQUA_AFFINITY", new EnchantType(1, "", 0, ItemType.HELMET));
-        enchants.put("BIG_BRAIN", new EnchantType(new ItemStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 5), 5, "", 0, ItemType.HELMET));
+        enchants.put("BIG_BRAIN", new EnchantType(new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 5), 5, "", 0, ItemType.HELMET));
         enchants.put("RESPIRATION", new EnchantType(3, "", 0, ItemType.HELMET));
         // Chestplate
         enchants.put("COUNTER_STRIKE", new EnchantType(5, "", 0, ItemType.CHESTPLATE));
         enchants.put("TRUE_PROTECTION", new EnchantType(1, "", 0, ItemType.CHESTPLATE));
         // Leggings
-        enchants.put("SMARTY_PANTS", new EnchantType(new ItemStats(0, 0, 0, 0, 0, 0, 0, 0, 0, 5), 5, "", 0, ItemType.LEGGINGS));
+        enchants.put("SMARTY_PANTS", new EnchantType(new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 5), 5, "", 0, ItemType.LEGGINGS));
         // Boots
         enchants.put("DEPTH_STRIDER", new EnchantType(3, "", 0, ItemType.BOOTS, new ArrayList<>(Arrays.asList("FROST_WALKER"))));
         enchants.put("FEATHER_FALLING", new EnchantType(4, "", 0, ItemType.BOOTS));
         enchants.put("FROST_WALKER", new EnchantType(2, "", 0, ItemType.BOOTS, new ArrayList<>(Arrays.asList("DEPTH_STRIDER"))));
-        enchants.put("SUGAR_RUSH", new EnchantType(new ItemStats(0, 0, 0, 0, 0, 0, 0, 0, 2, 0), 3, "", 0, ItemType.BOOTS));
+        enchants.put("SUGAR_RUSH", new EnchantType(new Stats(0, 0, 0, 0, 0, 0, 0, 0, 2, 0), 3, "", 0, ItemType.BOOTS));
         // All Armors
         enchants.put("BLAST_PROTECTION", new EnchantType(5, "", 0, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("FIRE_PROTECTION", "PROJECTILE_PROTECTION", "PROTECTION"))));
         enchants.put("FIRE_PROTECTION", new EnchantType(5, "", 0, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("BLAST_PROTECTION", "PROJECTILE_PROTECTION", "PROTECTION"))));
-        enchants.put("GROWTH", new EnchantType(new ItemStats(0, 0, 0, 0, 0, 0, 15, 0, 0, 0), 5, "", 0, ItemTypeGroup.ARMOR.toType()));
+        enchants.put("GROWTH", new EnchantType(new Stats(0, 0, 0, 0, 0, 0, 15, 0, 0, 0), 5, "", 0, ItemTypeGroup.ARMOR.toType()));
         enchants.put("PROJECTILE_PROTECTION", new EnchantType(5, "", 0, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("BLAST_PROTECTION", "FIRE_PROTECTION", "PROTECTION"))));
-        enchants.put("PROTECTION", new EnchantType(new ItemStats(0, 0, 0, 0, 0, 0, 0, 3, 0, 0), 5, "", 0, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("BLAST_PROTECTION", "FIRE_PROTECTION", "PROJEC)TILE_PROTECTION"))));
+        enchants.put("PROTECTION", new EnchantType(new Stats(0, 0, 0, 0, 0, 0, 0, 3, 0, 0), 5, "", 0, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("BLAST_PROTECTION", "FIRE_PROTECTION", "PROJEC)TILE_PROTECTION"))));
         enchants.put("REJUVENATE", new EnchantType(5, "", 0, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("RESPITE"))));
         enchants.put("RESPITE", new EnchantType(5, "", 0, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("REJUVENATE"))));
 

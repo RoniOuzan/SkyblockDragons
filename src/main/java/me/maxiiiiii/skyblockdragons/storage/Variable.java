@@ -1,20 +1,35 @@
 package me.maxiiiiii.skyblockdragons.storage;
 
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.util.serialization.Serializer;
+import org.bukkit.Bukkit;
 
-import java.io.Serializable;
-import java.util.UUID;
-
-public class Variable<T> {
-    public UUID uuid;
-    public String id;
+public class Variable {
+    public String name;
     public int data;
-    public T value;
+    public String value;
 
-    public Variable(UUID uuid, String id, int data, T value) {
-        this.uuid = uuid;
-        this.id = id;
+    public Variable(String name, int data, String value) {
+        this.name = name;
         this.data = data;
         this.value = value;
+    }
+
+    public <T> Variable setValue(T value) {
+        this.value = Serializer.serialize(value);
+        return this;
+    }
+
+    public <T> T getValue() {
+        return Serializer.deserialize(this.value);
+    }
+
+    @Override
+    public String toString() {
+        return "Variable{" +
+                "name=" + name +
+                "data=" + data +
+                "value=" + value +
+                "}";
     }
 }

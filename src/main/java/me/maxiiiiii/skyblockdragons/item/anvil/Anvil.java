@@ -98,17 +98,17 @@ public class Anvil {
                     item = new Item(material1, getHotPotato(item), getReforge(item1), isRecombed(item1), getSkin(item1), enchants, getNecronScrolls(item1));
                 } else if (material2 instanceof NecronBladeMaterial.NecronBladeScroll && material1 instanceof NecronBladeMaterial) {
                     ArrayList<NecronBladeMaterial.NecronBladeAbility> scrolls = getNecronScrolls(item1);
-                    if (material2.equals(ItemMaterial.get("IMPLOSION")) && !nbt2.getBoolean("IMPLOSION")) {
+                    if (material2.equals(Items.get("IMPLOSION")) && !nbt2.getBoolean("IMPLOSION")) {
                         scrolls.add(NecronBladeMaterial.NecronBladeAbility.IMPLOSION);
                     }
-                    if (material2.equals(ItemMaterial.get("WITHER_SHIELD")) && !nbt2.getBoolean("WITHER_SHIELD")) {
+                    if (material2.equals(Items.get("WITHER_SHIELD")) && !nbt2.getBoolean("WITHER_SHIELD")) {
                         scrolls.add(NecronBladeMaterial.NecronBladeAbility.WITHER_SHIELD);
                     }
-                    if (material2.equals(ItemMaterial.get("SHADOW_WARP")) && !nbt2.getBoolean("SHADOW_WARP")) {
+                    if (material2.equals(Items.get("SHADOW_WARP")) && !nbt2.getBoolean("SHADOW_WARP")) {
                         scrolls.add(NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP);
                     }
 
-                    if (material2.equals(ItemMaterial.get("WITHER_IMPACT"))) {
+                    if (material2.equals(Items.get("WITHER_IMPACT"))) {
                         scrolls.add(NecronBladeMaterial.NecronBladeAbility.IMPLOSION);
                         scrolls.add(NecronBladeMaterial.NecronBladeAbility.WITHER_SHIELD);
                         scrolls.add(NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP);

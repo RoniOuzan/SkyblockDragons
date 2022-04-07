@@ -1,10 +1,12 @@
 package me.maxiiiiii.skyblockdragons.player.skill.Skills;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.item.objects.Stat;
+import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
+
+import java.util.Map;
 
 @Getter
 public class DungeoneeringSkill extends AbstractSkill {
@@ -18,14 +20,13 @@ public class DungeoneeringSkill extends AbstractSkill {
                         "Catacomber",
                         level,
                         ChatColor.WHITE + "Increasing the stats of your dungeon items by " + ChatColor.DARK_GRAY + getLevelIncrease(level) + "➡" + ChatColor.GREEN + levelIncrease[level] + "% " + ChatColor.WHITE + "while in " + ChatColor.RED + "The Catacombs" + ChatColor.WHITE + ".",
-                        Stat.HEALTH,
+                        StatType.HEALTH,
                         1d,
                         coinsAmount
                 ),
                 level,
                 50,
-                totalXp,
-                needXps);
+                totalXp);
     }
 
     private static int getLevelIncrease(int level) {

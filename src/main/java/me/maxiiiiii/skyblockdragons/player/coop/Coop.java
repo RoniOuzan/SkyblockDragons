@@ -1,11 +1,6 @@
 package me.maxiiiiii.skyblockdragons.player.coop;
 
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.storage.Variable;
-import me.maxiiiiii.skyblockdragons.storage.Variables;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,9 +18,9 @@ public class Coop extends ArrayList<PlayerSD> {
         super(Arrays.stream(players).collect(Collectors.toList()));
         this.leader = players[0];
         this.uuid = UUID.randomUUID();
-        for (PlayerSD player : players) {
-            player.coop = this;
-        }
+//        for (PlayerSD player : players) {
+//            player.coop = this;
+//        }
 
         coops.put(this.uuid, this);
 //        Coop.save();

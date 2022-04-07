@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class ToolMaterial extends ItemMaterial implements ConfigurationSerializable {
+public class ToolMaterial extends ItemMaterial {
     public static final ToolMaterial NULL = new ToolMaterial(Material.BARRIER, ItemFamily.NULL,"Null", ItemType.NULL, Rarity.SPECIAL, "", "", 0, "", new ItemAbility(AbilityAction.NONE, "", "", 0, 0));
 
     private String description;
@@ -40,11 +40,4 @@ public class ToolMaterial extends ItemMaterial implements ConfigurationSerializa
     public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description, ItemAbility... abilities) {
         this(material, family, name, type, rarity, "", "", 0, description, new ArrayList<>(Arrays.asList(abilities)));
     }
-
-//    public Map<String, Object> serialize() {
-//        Map<String, Object> map = super.serialize();
-//        map.put("description", description);
-//        map.put("ability", abilities);
-//        return map;
-//    }
 }

@@ -1,40 +1,35 @@
 package me.maxiiiiii.skyblockdragons.player.wardrobe;
 
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.storage.Variables;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
-import static me.maxiiiiii.skyblockdragons.SkyblockDragons.*;
 
 public class WardrobeMenu {
-    public static void openWardrobe(Player player, int page) {
+    public static void openWardrobe(PlayerSD player, int page) {
         Inventory inventory = Bukkit.createInventory(player, 54, ChatColor.DARK_GRAY + "Wardrobe (" + ((page > 1) ? 2 : 1) + "/2)");
-
-        PlayerSD PlayerSD = players.get(player.getUniqueId());
 
         int startValue = (page > 1) ? 9 : 0;
         for (int i = startValue; i < 9 + startValue; i++) {
             for (int j = 0; j < 4; j++) {
-                inventory.setItem(numberToItemSlot(i, j), PlayerSD.getWardrobe().getSlot(i).getPeace(j));
+                inventory.setItem(numberToItemSlot(i, j), player.getWardrobe().getSlot(i).getPeace(j));
             }
         }
 
         int adder = (page > 1) ? 9 : 0;
         for (int i = 36; i < 45; i++) {
-            if (PlayerSD.getWardrobe().getSlot(i - 36 + adder).getHelmet().getType() == Material.STAINED_GLASS_PANE && PlayerSD.getWardrobe().getSlot(i - 36 + adder).getChestplate().getType() == Material.STAINED_GLASS_PANE && PlayerSD.getWardrobe().getSlot(i - 36 + adder).getLeggings().getType() == Material.STAINED_GLASS_PANE && PlayerSD.getWardrobe().getSlot(i - 36 + adder).getBoots().getType() == Material.STAINED_GLASS_PANE) {
+            if (player.getWardrobe().getSlot(i - 36 + adder).getHelmet().getType() == Material.STAINED_GLASS_PANE && player.getWardrobe().getSlot(i - 36 + adder).getChestplate().getType() == Material.STAINED_GLASS_PANE && player.getWardrobe().getSlot(i - 36 + adder).getLeggings().getType() == Material.STAINED_GLASS_PANE && player.getWardrobe().getSlot(i - 36 + adder).getBoots().getType() == Material.STAINED_GLASS_PANE) {
                 inventory.setItem(i, createItem(Material.INK_SACK, 1, 8, ChatColor.GRAY + "Slot " + ((i - 35) + ((page > 1) ? 9 : 0)) + ": " + ChatColor.RED + "Empty", ChatColor.GRAY + "This wardrobe slot contains no", ChatColor.GRAY + "armor."));
             } else {
                 inventory.setItem(i, createItem(Material.INK_SACK, 1, 9, ChatColor.GRAY + "Slot " + ((i - 35) + ((page > 1) ? 9 : 0)) + ": " + ChatColor.GREEN + "Ready", ChatColor.GRAY + "This wardrobe slot is ready to", ChatColor.GRAY + "be equipped.", "", ChatColor.YELLOW + "Click to equip this armor set!"));
             }
         }
 
-        int currentSlot = Variables.get(player.getUniqueId(), "WardrobeEquip", 0);
+        int currentSlot = player.getWardrobe().getEquippedSlot();
         if (currentSlot != 0) {
             if (page > 1 && currentSlot > 9) {
                 inventory.setItem(currentSlot + 26, createItem(Material.INK_SACK, 1, 10, ChatColor.GRAY + "Slot " + (currentSlot) + ": " + ChatColor.GREEN + "Equipped", ChatColor.GRAY + "This wardrobe slot contains your", ChatColor.GRAY + "current armor set", "", ChatColor.YELLOW + "Click to unequip this armor set!"));

@@ -1,10 +1,12 @@
 package me.maxiiiiii.skyblockdragons.player.skill.Skills;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.item.objects.Stat;
+import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
+
+import java.util.Map;
 
 @Getter
 public class MiningSkill extends AbstractSkill {
@@ -18,7 +20,7 @@ public class MiningSkill extends AbstractSkill {
                         "Spelunker",
                         level,
                         ChatColor.WHITE + "Graints " + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + (level * 4) + "➡" + ChatColor.GREEN + ((level + 1) * 4) + " " + ChatColor.GOLD + "Mining Fortune" + ChatColor.WHITE + ", which increases your chance for multiple ore drops.",
-                        Stat.DEFENSE,
+                        StatType.DEFENSE,
                         statsAmount,
                         coinsAmount
                 ),
@@ -26,5 +28,10 @@ public class MiningSkill extends AbstractSkill {
                 60,
                 totalXp
         );
+    }
+
+
+    public static MiningSkill deserialize(Map<String, Object> args) {
+        return new MiningSkill((int) args.get("level"), (double) args.get("totalXp"));
     }
 }
