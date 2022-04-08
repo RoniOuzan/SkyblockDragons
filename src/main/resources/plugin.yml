@@ -133,3 +133,6 @@ commands:
   RecipesWith:
     permission: skyblockdragons.recipeswith
     usage: /<command>
+  Warp:
+    permission: skyblockdragons.warp
+    usage: /<command> <warp>
