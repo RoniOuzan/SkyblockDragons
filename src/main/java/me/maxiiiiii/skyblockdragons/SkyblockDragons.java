@@ -107,6 +107,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PickUpListeners(), this);
         getServer().getPluginManager().registerEvents(new KnockbackListener(), this);
         getServer().getPluginManager().registerEvents(new PortalListener(), this);
+        getServer().getPluginManager().registerEvents(new ProjectileHitListener(), this);
 
         // World Listeners
         new Mining(this);
@@ -201,6 +202,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         for (Player player : Bukkit.getOnlinePlayers()) {
             new PlayerSD(player);
         }
+
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, Variables::save, 6000L, 6000L);
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (PlayerSD player : players.values()) {

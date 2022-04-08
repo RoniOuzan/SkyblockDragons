@@ -69,7 +69,9 @@ public class PlayerSD extends PlayerClass {
 
     public final Cooldown<PlayerSD> updateStatsCooldown = new Cooldown<>();
 
-    public static final double HEALTH_REGEN = 1.02;
+    private double lastCoins;
+
+    public static final double HEALTH_REGEN = 1.05;
 
     public PlayerSD(Player player) {
         super(player);
@@ -110,6 +112,8 @@ public class PlayerSD extends PlayerClass {
         this.playerPet = new PlayerPet(this);
 
         this.accessoryBag = new AccessoryBag(this);
+
+        this.lastCoins = this.getCoins();
 
         SkyblockDragons.players.put(player.getUniqueId(), this);
     }
@@ -179,12 +183,25 @@ public class PlayerSD extends PlayerClass {
         return SkyblockDragons.economy.getBalance(this);
     }
 
-    public void addBalance(double amount) {
+    public void addCoins(double amount) {
+        amount = Math.floor(amount * 10d)/ 10d;
+        this.lastCoins = this.getCoins();
         SkyblockDragons.economy.depositPlayer(this, amount);
     }
 
-    public void removeBalance(double amount) {
+    public void removeCoins(double amount) {
+        amount = Math.floor(amount * 10d)/ 10d;
+        this.lastCoins = this.getCoins();
         SkyblockDragons.economy.withdrawPlayer(this, amount);
+    }
+
+    public void setCoins(double amount) {
+        amount = Math.floor(amount * 10d)/ 10d;
+        SkyblockDragons.economy.depositPlayer(this, this.getCoins() - amount);
+    }
+
+    public double getCoins() {
+        return SkyblockDragons.economy.getBalance(this);
     }
 
     public double getPersonalBank() {
@@ -251,9 +268,9 @@ public class PlayerSD extends PlayerClass {
         stats.reset();
 
         if (Mining.miningWorlds.contains(player.getWorld())) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, -1, false, false));
-        } else {
-            player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, 255, false, false));
+//        } else {
+//            player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
         }
 
         ArrayList<ItemFamily> accessoryFamilies = new ArrayList<>();
@@ -422,7 +439,16 @@ public class PlayerSD extends PlayerClass {
         scores.add(objective.getScore(ChatColor.GRAY + format.format(now) + ChatColor.DARK_GRAY + " " + this.getWorld().getName()));
         scores.add(objective.getScore(""));
         scores.add(objective.getScore(ChatColor.WHITE + "Player: " + ChatColor.GREEN + this.getPlayer().getName()));
-        scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse())));
+        if (this.lastCoins != this.getCoins()) {
+            this.setCoins(this.getCoins());
+            if (this.getCoins() - this.lastCoins > 0)
+                scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse()) + " (+" + (this.getCoins() - this.lastCoins) + ")"));
+            else
+                scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse()) + " (" + (this.getCoins() - this.lastCoins) + ")"));
+            this.lastCoins = this.getCoins();
+        } else {
+            scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse())));
+        }
         String bitsAdder = "";
 
         if (playTime % 36000L >= 0L && playTime % 36000L < 20L) {

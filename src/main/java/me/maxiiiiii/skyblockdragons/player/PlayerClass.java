@@ -3,8 +3,6 @@ package me.maxiiiiii.skyblockdragons.player;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementProgress;
@@ -31,8 +29,6 @@ import org.bukkit.util.Vector;
 
 import java.net.InetSocketAddress;
 import java.util.*;
-
-import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
 
 public class PlayerClass extends EntitySD implements Player {
     private final Player player;
@@ -1232,6 +1228,10 @@ public class PlayerClass extends EntitySD implements Player {
     @Override
     public Block getTargetBlock(Set<Material> transparent, int maxDistance) {
         return this.player.getTargetBlock(transparent, maxDistance);
+    }
+
+    public Block getTargetBlock(int maxDistance) {
+        return this.player.getTargetBlock(Functions.getNotSolidBlocks(), maxDistance);
     }
 
     @Override

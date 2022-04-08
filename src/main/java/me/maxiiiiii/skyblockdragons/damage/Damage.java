@@ -3,7 +3,6 @@ package me.maxiiiiii.skyblockdragons.damage;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.ItemDrop;
-import me.maxiiiiii.skyblockdragons.entity.RareDrop;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
@@ -18,12 +17,12 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.entity.SlimeSplitEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
@@ -41,6 +40,8 @@ public class Damage implements Listener {
     }
 
     public double damage(EntitySD player, EntitySD entity, double activeFerocity, DamageType damageType, double baseAbilityDamage, double abilityScaling) {
+        if (player == null || entity == null) return 0;
+
         entity.entity.setNoDamageTicks(0);
         entity.entity.setMaximumNoDamageTicks(0);
 
@@ -48,7 +49,8 @@ public class Damage implements Listener {
         if (player instanceof PlayerSD) {
             millisecondsCD -= ((PlayerSD) player).getStats().getAttackSpeed().amount * 2.5;
         }
-        if (cooldown(player, player.getDamageCooldown(damageType), millisecondsCD, false)) return -3;
+        if (!damageType.isMagic())
+            if (cooldown(player, player.getDamageCooldown(damageType), millisecondsCD, false)) return -3;
 
         DamageCalculator damageCalculator = this.getDamage(player, entity, damageType, baseAbilityDamage, abilityScaling);
         double damage = damageCalculator.damage;
@@ -114,9 +116,7 @@ public class Damage implements Listener {
     }
 
     public DamageCalculator getDamage(EntitySD player, EntitySD entity, DamageType damageType, double baseAbilityDamage, double abilityScaling) {
-        Item item = null;
-        if (player.getEquipment().getItemInMainHand() != null)
-            item = new Item(player.getEquipment().getItemInMainHand());
+        Item item = new Item(player.getEquipment().getItemInMainHand());
         double damage = 1;
         boolean critHit = false;
 
@@ -139,17 +139,15 @@ public class Damage implements Listener {
 
         String fullSet = equipment.fullSet;
 
-        if (item != null) {
-            if (player instanceof PlayerSD) {
-                PlayerSD playerSD = (PlayerSD) player;
-                if (damageType.isMagic()) {
-                    damage = baseAbilityDamage * ((1 + (playerSD.getStats().getIntelligence().amount / 100) * (playerSD.getStats().getAbilityScaling().amount * abilityScaling))); // damage formula / calculation
-                } else if (item.getMaterial().getType() != ItemType.BOW || damageType == DamageType.PROJECTILE) {
-                    damage = (5 + playerSD.getStats().getDamage().amount) * (1 + (playerSD.getStats().getStrength().amount / 100)); // damage formula / calculation
-                }
-            } else {
-                damage = player.type.getDamage();
+        if (player instanceof PlayerSD) {
+            PlayerSD playerSD = (PlayerSD) player;
+            if (damageType.isMagic()) {
+                damage = baseAbilityDamage * ((1 + (playerSD.getStats().getIntelligence().amount / 100) * (playerSD.getStats().getAbilityScaling().amount * abilityScaling))); // damage formula / calculation
+            } else if (item.getMaterial().getType() != ItemType.BOW || damageType == DamageType.PROJECTILE) {
+                damage = (5 + playerSD.getStats().getDamage().amount) * (1 + (playerSD.getStats().getStrength().amount / 100)); // damage formula / calculation
             }
+        } else {
+            damage = player.type.getDamage();
         }
 
         // crit
@@ -246,6 +244,20 @@ public class Damage implements Listener {
     }
 
     @EventHandler
+    public void onDamage(EntityDamageByBlockEvent e) {
+        if (!e.getDamager().getType().isSolid()) {
+            EntitySD entity = new EntitySD((LivingEntity) e.getEntity());
+
+            if (cooldown(entity, entity.damageCooldownLava, 500, false)) {
+                e.setCancelled(true);
+                return;
+            }
+
+            e.setDamage(entity.getMaxHealth() / 20);
+        }
+    }
+
+    @EventHandler
     public void onSlimeSplit(SlimeSplitEvent e) {
         e.setCancelled(true);
     }
@@ -262,18 +274,25 @@ public class Damage implements Listener {
 
             PlayerSD player = SkyblockDragons.getPlayer((PlayerSD) entity.getAttacker());
             player.giveSkill(SkillType.COMBAT, entity.type.combatXp);
-            if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0)
-                for (ItemDrop drop : entity.type.drops) {
-                    player.give(drop);
+            if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0) {
+                for (ItemDrop drop : entity.type.getDrops()) {
+                    ItemStack item = drop.generate(player);
+                    if (item != null) {
+                        player.give(drop);
+                    }
                 }
-            else
-                for (ItemDrop drop : entity.type.drops) {
+            } else {
+                for (ItemDrop drop : entity.type.getDrops()) {
                     ItemStack item = drop.generate(player);
                     if (item != null) {
                         org.bukkit.entity.Item dropped = entity.entity.getWorld().dropItem(entity.entity.getLocation(), item);
                         dropped.addScoreboardTag(player.getName());
                     }
                 }
+            }
+
+            Functions.createHologram(entity.getLocation().add(0, 3, 0), new ArrayList<>(Arrays.asList(ChatColor.GOLD + player.getName(), ChatColor.GOLD + "+" + Functions.getNumberFormat(entity.type.getCoins()))), 40);
+            player.addCoins(entity.type.getCoins());
         }
     }
 
@@ -288,6 +307,10 @@ public class Damage implements Listener {
                 e.setDeathMessage(ChatColor.GRAY + player.getDisplayName() + ChatColor.GRAY + " died by " + ((Player) player.getAttacker().entity).getDisplayName() + ChatColor.GRAY + "!");
             else
                 e.setDeathMessage(ChatColor.GRAY + player.getDisplayName() + ChatColor.GRAY + " died by " + player.getAttacker().type.getName() + ChatColor.GRAY + "!");
+
+        double amount = player.getCoins() / 2;
+        player.removeCoins(amount);
+        player.sendMessage(ChatColor.RED + "You died and lost " + Functions.getNumberFormat(amount) + " coins.");
 
         Functions.Wait(1L, () -> player.spigot().respawn());
     }

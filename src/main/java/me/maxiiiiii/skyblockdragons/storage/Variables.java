@@ -44,6 +44,15 @@ public class Variables {
         return null;
     }
 
+    public static <T> T get(String name, int data, T defaultValue) {
+        List<Variable> output = variables.stream().filter(
+                v -> v.name.equals(name) && v.data == data
+        ).collect(Collectors.toList());
+        if (output.size() > 0)
+            return output.get(0).getValue();
+        return defaultValue;
+    }
+
     public static <T> void set(UUID uuid, String name, int data, T value) {
         List<Variable> variables = playerVariables.getOrDefault(uuid, new ArrayList<>());
         boolean did = false;

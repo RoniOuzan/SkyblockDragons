@@ -61,7 +61,7 @@ public class PlayerBreakBlockListener implements Listener {
         if (Functions.randomInt(1, 2) == 1) {
             return Material.STONE;
         }
-        if (block.getLocation().getY() > 168) {
+        if (block.getLocation().getY() > 166) {
             return Functions.getRandom(Material.COAL_ORE, Material.GOLD_ORE, Material.IRON_ORE);
         } else if (block.getLocation().getY() > 122) {
             return Functions.getRandom(Material.REDSTONE_ORE, Material.LAPIS_ORE, Material.EMERALD_ORE);

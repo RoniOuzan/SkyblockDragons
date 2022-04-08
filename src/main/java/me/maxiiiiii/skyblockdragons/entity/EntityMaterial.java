@@ -31,10 +31,11 @@ public class EntityMaterial implements ConfigurationSerializable {
     public double knockbackResistance;
     public boolean ai;
     public double combatXp;
+    public double coins;
 
     public ItemDrop[] drops;
 
-    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance, boolean ai, double combatXp, ItemDrop... drops) {
+    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance, boolean ai, double combatXp, double coins, ItemDrop... drops) {
         this.entityType = entityType;
         this.name = name;
         this.level = level;
@@ -47,11 +48,12 @@ public class EntityMaterial implements ConfigurationSerializable {
         this.knockbackResistance = knockbackResistance;
         this.ai = ai;
         this.combatXp = combatXp;
+        this.coins = coins;
         this.drops = drops;
     }
 
-    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance, double combatXp, ItemDrop... drops) {
-        this(entityType, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, true, combatXp, drops);
+    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance, double combatXp, double coins, ItemDrop... drops) {
+        this(entityType, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, true, combatXp, coins, drops);
     }
 
     public static void registerItems() {
@@ -66,9 +68,10 @@ public class EntityMaterial implements ConfigurationSerializable {
                 new Equipment(Material.GOLD_HELMET, null, null, null, Material.BOW, null),
                 105,
                 0,
-                2,
-                new ItemDrop(Items.get("GOLDEN_SKELETON_BOW"), 1, 1d),
-                new ItemDrop(Items.get("GOLDEN_SKELETON_HELMET"), 1, 1d),
+                4,
+                0.5,
+                new RareDrop(Items.get("GOLDEN_SKELETON_BOW"), 1, 2d),
+                new RareDrop(Items.get("GOLDEN_SKELETON_HELMET"), 1, 2d),
                 new ItemDrop(Items.get("BONE"), 1, 4),
                 new ItemDrop(Items.get("ARROW"), 2, 10)
         ));
@@ -85,9 +88,10 @@ public class EntityMaterial implements ConfigurationSerializable {
                 110,
                 0,
                 5,
+                1,
                 new ItemDrop(Items.get("LAPIS"), 1, 6),
-                new RareDrop(Items.get("ENCHANTED_LAPIS"), 1, 2, 2d, RareDrop.Rarity.RARE),
-                new RareDrop(Items.get("LAPIS_TALISMAN"), 1, 0.5d, RareDrop.Rarity.RARE)
+                new RareDrop(Items.get("ENCHANTED_LAPIS"), 1, 2, 2d),
+                new RareDrop(Items.get("LAPIS_TALISMAN"), 1, 0.5d)
         ));
 
         entities.put("REDSTONE_PIGMAN", new EntityMaterial(
@@ -101,34 +105,35 @@ public class EntityMaterial implements ConfigurationSerializable {
                 new Equipment(null, null, null, null, Material.GOLD_SWORD, null),
                 125,
                 0,
-                8,
+                10,
+                1,
                 new ItemDrop(Items.get("ROTTEN_FLESH"), 1, 6),
                 new ItemDrop(Items.get("REDSTONE"), 1, 5),
-                new RareDrop(Items.get("ENCHANTED_REDSTONE"), 1, 2, 2d, RareDrop.Rarity.RARE),
-                new RareDrop(Items.get("PIGMAN_HELMET"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(Items.get("PIGMAN_CHESTPLATE"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(Items.get("PIGMAN_LEGGINGS"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(Items.get("PIGMAN_BOOTS"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(Items.get("PIGMAN_DAGGER"), 1, 2d, RareDrop.Rarity.RARE),
-                new RareDrop(Items.get("REDSTONE_TALISMAN"), 1, 0.5d, RareDrop.Rarity.RARE)
+                new RareDrop(Items.get("ENCHANTED_REDSTONE"), 1, 2, 1d),
+                new RareDrop(Items.get("PIGMAN_HELMET"), 1, 2d),
+                new RareDrop(Items.get("PIGMAN_CHESTPLATE"), 1, 2d),
+                new RareDrop(Items.get("PIGMAN_LEGGINGS"), 1, 2d),
+                new RareDrop(Items.get("PIGMAN_BOOTS"), 1, 2d),
+                new RareDrop(Items.get("PIGMAN_DAGGER"), 1, 2d),
+                new RareDrop(Items.get("REDSTONE_TALISMAN"), 1, 0.5d)
         ));
 
-        entities.put("SLIME", new EntityMaterial(
-                EntityType.SLIME,
-                ChatColor.GREEN + "Slime",
+        entities.put("EMERALD_CREEPER", new EntityMaterial(
+                EntityType.CREEPER,
+                ChatColor.GREEN + "Emerald Creeper",
                 5,
-                200,
-                10,
-                150,
+                100,
+                15,
+                100,
                 0,
                 new Equipment(),
                 140,
                 0,
-                10,
-                new ItemDrop(Items.get("SLIME_BALL"), 1, 10),
+                15,
+                2,
+                new ItemDrop(Items.get("GUNPOWDER"), 1, 10),
                 new ItemDrop(Items.get("EMERALD"), 1, 6),
-                new RareDrop(Items.get("SLIME_TALISMAN"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(Items.get("EMERALD_TALISMAN"), 1, 0.5d, RareDrop.Rarity.RARE)
+                new RareDrop(Items.get("EMERALD_TALISMAN"), 1, 0.5d)
         ));
 
         entities.put("DIAMOND_ZOMBIE", new EntityMaterial(
@@ -142,11 +147,12 @@ public class EntityMaterial implements ConfigurationSerializable {
                 new Equipment(Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE, Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS, Material.DIAMOND_SWORD, null),
                 120,
                 0.1,
-                20,
-                new ItemDrop(Items.get("DIAMOND"), 1, 7),
-                new RareDrop(Items.get("ENCHANTED_DIAMOND"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(Items.get("DIAMOND_TALISMAN"), 1, 0.5d, RareDrop.Rarity.RARE),
-                new RareDrop(Items.get("DIAMOND_BLOCK_TALISMAN"), 1, 0.1d, RareDrop.Rarity.RARE)
+                25,
+                3,
+                new ItemDrop(Items.get("DIAMOND"), 1, 5),
+                new RareDrop(Items.get("ENCHANTED_DIAMOND"), 1, 1d),
+                new RareDrop(Items.get("DIAMOND_TALISMAN"), 1, 0.5d),
+                new RareDrop(Items.get("DIAMOND_BLOCK_TALISMAN"), 1, 0.1d)
         ));
 
         entities.put("OBSIDIAN_ZOMBIE", new EntityMaterial(
@@ -161,20 +167,21 @@ public class EntityMaterial implements ConfigurationSerializable {
                 100,
                 0.2,
                 35,
+                4,
                 new ItemDrop(Items.get("OBSIDIAN"), 1, 4),
-                new RareDrop(Items.get("ENCHANTED_OBSIDIAN"), 1, 2d, RareDrop.Rarity.RARE),
-                new RareDrop(Items.get("OBSIDIAN_HELMET"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(Items.get("OBSIDIAN_LEGGINGS"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(Items.get("OBSIDIAN_LEGGINGS"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(Items.get("OBSIDIAN_BOOTS"), 1, 1d, RareDrop.Rarity.RARE),
-                new RareDrop(Items.get("OBSIDIAN_TALISMAN"), 1, 0.5d, RareDrop.Rarity.RARE)
+                new RareDrop(Items.get("ENCHANTED_OBSIDIAN"), 1, 2d),
+                new RareDrop(Items.get("OBSIDIAN_HELMET"), 1, 1.5d),
+                new RareDrop(Items.get("OBSIDIAN_LEGGINGS"), 1, 1.5d),
+                new RareDrop(Items.get("OBSIDIAN_LEGGINGS"), 1, 1.5d),
+                new RareDrop(Items.get("OBSIDIAN_BOOTS"), 1, 1.5d),
+                new RareDrop(Items.get("OBSIDIAN_TALISMAN"), 1, 0.5d)
         ));
 
-        entities.put("DUMMY", new EntityMaterial(EntityType.ZOMBIE, "Dummy", Integer.MAX_VALUE, 500000, 0, 0, 0, new Equipment(), 0, 1, false, 0));
+        entities.put("DUMMY", new EntityMaterial(EntityType.ZOMBIE, "Dummy", Integer.MAX_VALUE, 500000, 0, 0, 0, new Equipment(), 0, 1, false, 0, 0));
 
-        entities.put("PLAYER", new EntityMaterial(EntityType.PLAYER, "", -1, -1, -1, -1, -1, new Equipment(), -1, 0, -1));
+        entities.put("PLAYER", new EntityMaterial(EntityType.PLAYER, "", -1, -1, -1, -1, -1, new Equipment(), -1, 0, -1, -1));
 
-        NULL = new EntityMaterial(EntityType.SKELETON, "Null", 0, 1, 0, 0, 0, new Equipment(), 0, 1, 0);
+        NULL = new EntityMaterial(EntityType.SKELETON, "Null", 0, 1, 0, 0, 0, new Equipment(), 0, 1, 0, 0);
     }
 
     public static EntityMaterial get(String name) {

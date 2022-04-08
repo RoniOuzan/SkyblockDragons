@@ -23,6 +23,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Pigman_Dagger implements Listener {
     private static final Cooldown<Player> cooldown = new Cooldown<>();
 
@@ -33,7 +36,7 @@ public class Pigman_Dagger implements Listener {
         if (!Functions.getId(item).equals("PIGMAN_DAGGER")) return;
         if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) return;
 
-        if (Functions.cooldown(e.getPlayer(), cooldown, 1000, true)) return;
+        if (Functions.cooldown(e.getPlayer(), cooldown, 5000, true)) return;
 
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
         Location location = player.getEyeLocation().subtract(0, 0.2, 0).add(player.getLocation().getDirection());
@@ -51,13 +54,15 @@ public class Pigman_Dagger implements Listener {
 
         Functions.Wait(12L, () -> Functions.playCircle(location.clone().add(location.getDirection().multiply(2.1)), 1, 80, particle));
 
+        List<Entity> damaged = new ArrayList<>();
         Functions.Loop(4, 4L, i -> {
             Location newLocation = location.clone().add(location.getDirection().multiply(i));
             location.getWorld().spawnParticle(Particle.LAVA, newLocation, 3, 0, 0, 0, 1);
 
             for (Entity entity : Functions.loopEntities(newLocation, 2)) {
-                if (entity instanceof Creature) {
+                if (entity instanceof Creature && !damaged.contains(entity)) {
                     player.makeDamage(entity, Damage.DamageType.MAGIC, 1, ability.getAbilityDamage(), ability.getAbilityScaling());
+                    damaged.add(entity);
                 }
             }
         });

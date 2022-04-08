@@ -1,5 +1,7 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
+import de.tr7zw.changeme.nbtapi.NBTEntity;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.material.ArmorMaterial;
@@ -29,8 +31,8 @@ public class EntitySD {
 
     public final Cooldown<Player> actionBarCooldown = new Cooldown<>();
     public final Cooldown<EntitySD> damageCooldownMelee = new Cooldown<>();
-    public final Cooldown<EntitySD> damageCooldownMagic = new Cooldown<>();
     public final Cooldown<EntitySD> damageCooldownProjectile = new Cooldown<>();
+    public final Cooldown<EntitySD> damageCooldownLava = new Cooldown<>();
 
     public EntitySD(Location location, EntityMaterial type) {
         this.type = type;
@@ -98,7 +100,8 @@ public class EntitySD {
 
     public static void loadLocations() {
         for (int i = 0; i < Variables.getSize("EntitiesSpawnsLocations"); i++) {
-            entitiesLocations.put(Variables.get("EntitiesSpawnsLocations", i), Variables.get("EntitiesSpawnsEntity", i));
+            if (!Variables.get("EntitiesSpawnsEntity", i, EntityMaterial.NULL).name.equals("Null"))
+                entitiesLocations.put(Variables.get("EntitiesSpawnsLocations", i), Variables.get("EntitiesSpawnsEntity", i));
         }
     }
 
@@ -241,10 +244,6 @@ public class EntitySD {
 
             case PROJECTILE:
                 return this.damageCooldownProjectile;
-
-            case MAGIC:
-            case CRITICAL_MAGIC:
-                return this.damageCooldownMagic;
         }
         return this.damageCooldownMelee;
     }

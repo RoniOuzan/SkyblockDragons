@@ -1483,20 +1483,22 @@ public class Functions {
     }
 
     public static void copyNBTStack(ItemStack toItem, ItemStack fromItem) {
-        if (nbtHasKey(fromItem, "Stack")) {
-            NBTItem nbtItemFrom = new NBTItem(fromItem);
-            NBTCompound nbtFrom = nbtItemFrom.getCompound("Item");
+        try {
+            if (nbtHasKey(fromItem, "Stack")) {
+                NBTItem nbtItemFrom = new NBTItem(fromItem);
+                NBTCompound nbtFrom = nbtItemFrom.getCompound("Item");
 
-            NBTItem nbtItem = new NBTItem(toItem, true);
-            NBTCompound nbt = nbtItem.getCompound("Item");
-            nbt.setInteger("Stack", nbtFrom.getInteger("Stack"));
-            nbt.setString("Date", nbtFrom.getString("Date"));
-        } else {
-            NBTItem nbtItem = new NBTItem(toItem, true);
-            NBTCompound nbt = nbtItem.getCompound("Item");
-            nbt.removeKey("Stack");
-            nbt.removeKey("Date");
-        }
+                NBTItem nbtItem = new NBTItem(toItem, true);
+                NBTCompound nbt = nbtItem.getCompound("Item");
+                nbt.setInteger("Stack", nbtFrom.getInteger("Stack"));
+                nbt.setString("Date", nbtFrom.getString("Date"));
+            } else {
+                NBTItem nbtItem = new NBTItem(toItem, true);
+                NBTCompound nbt = nbtItem.getCompound("Item");
+                nbt.removeKey("Stack");
+                nbt.removeKey("Date");
+            }
+        } catch (NullPointerException ignored) {}
     }
 
     public static void setLine(ItemStack item, int line, String text) {
@@ -1652,5 +1654,9 @@ public class Functions {
         nbt.setString("Date", format.format(now));
 
         return item;
+    }
+
+    public static Set<Material> getNotSolidBlocks() {
+        return Arrays.stream(Material.values()).filter(m -> !m.isOccluding()).collect(Collectors.toSet());
     }
 }

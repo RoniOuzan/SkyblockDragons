@@ -48,6 +48,6 @@ public class SellCommand implements CommandExecutor, Listener {
         }
 
         PlayerSD player = SkyblockDragons.getPlayer((Player) e.getPlayer());
-        player.addBalance(amount);
+        player.addCoins(amount);
     }
 }

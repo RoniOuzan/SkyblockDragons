@@ -288,15 +288,15 @@ public class Recipe implements Comparable<Recipe> {
         ), -1));
 
         recipes.put("COAL_TALISMAN", new Recipe(new Item(Items.get("COAL_TALISMAN")), getItems(
-                new Item(Items.items.get("ENCHANTED_COAL"), 8),
-                new Item(Items.items.get("ENCHANTED_COAL"), 8),
-                new Item(Items.items.get("ENCHANTED_COAL"), 8),
-                new Item(Items.items.get("ENCHANTED_COAL"), 8),
+                new Item(Items.items.get("ENCHANTED_COAL"), 1),
+                new Item(Items.items.get("ENCHANTED_COAL"), 1),
+                new Item(Items.items.get("ENCHANTED_COAL"), 1),
+                new Item(Items.items.get("ENCHANTED_COAL"), 1),
                 null,
-                new Item(Items.items.get("ENCHANTED_COAL"), 8),
-                new Item(Items.items.get("ENCHANTED_COAL"), 8),
-                new Item(Items.items.get("ENCHANTED_COAL"), 8),
-                new Item(Items.items.get("ENCHANTED_COAL"), 8)
+                new Item(Items.items.get("ENCHANTED_COAL"), 1),
+                new Item(Items.items.get("ENCHANTED_COAL"), 1),
+                new Item(Items.items.get("ENCHANTED_COAL"), 1),
+                new Item(Items.items.get("ENCHANTED_COAL"), 1)
         ), -1));
 
         recipes.put("COAL_BLOCK_TALISMAN", new Recipe(new Item(Items.get("COAL_BLOCK_TALISMAN")), getItems(
@@ -312,15 +312,15 @@ public class Recipe implements Comparable<Recipe> {
         ), 4));
 
         recipes.put("IRON_TALISMAN", new Recipe(new Item(Items.get("IRON_TALISMAN")), getItems(
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 8),
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 8),
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 8),
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 8),
+                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
                 null,
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 8),
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 8),
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 8),
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 8)
+                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1)
         ), -1));
 
         recipes.put("IRON_BLOCK_TALISMAN", new Recipe(new Item(Items.get("IRON_BLOCK_TALISMAN")), getItems(
@@ -336,15 +336,15 @@ public class Recipe implements Comparable<Recipe> {
         ), 4));
 
         recipes.put("GOLD_TALISMAN", new Recipe(new Item(Items.get("GOLD_TALISMAN")), getItems(
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 8),
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 8),
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 8),
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 8),
+                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
                 null,
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 8),
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 8),
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 8),
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 8)
+                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1)
         ), -1));
 
         recipes.put("GOLD_BLOCK_TALISMAN", new Recipe(new Item(Items.get("GOLD_BLOCK_TALISMAN")), getItems(
@@ -360,15 +360,15 @@ public class Recipe implements Comparable<Recipe> {
         ), 4));
 
         recipes.put("LAPIS_TALISMAN", new Recipe(new Item(Items.get("LAPIS_TALISMAN")), getItems(
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 8),
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 8),
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 8),
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 8),
+                new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
+                new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
+                new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
+                new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
                 null,
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 8),
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 8),
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 8),
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 8)
+                new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
+                new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
+                new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
+                new Item(Items.items.get("ENCHANTED_LAPIS"), 1)
         ), -1));
 
         recipes.put("LAPIS_BLOCK_TALISMAN", new Recipe(new Item(Items.get("LAPIS_BLOCK_TALISMAN")), getItems(
@@ -384,15 +384,15 @@ public class Recipe implements Comparable<Recipe> {
         ), 4));
 
         recipes.put("REDSTONE_TALISMAN", new Recipe(new Item(Items.get("REDSTONE_TALISMAN")), getItems(
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 8),
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 8),
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 8),
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 8),
+                new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
+                new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
+                new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
+                new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
                 null,
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 8),
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 8),
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 8),
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 8)
+                new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
+                new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
+                new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
+                new Item(Items.items.get("ENCHANTED_REDSTONE"), 1)
         ), -1));
 
         recipes.put("REDSTONE_BLOCK_TALISMAN", new Recipe(new Item(Items.get("REDSTONE_BLOCK_TALISMAN")), getItems(
@@ -408,15 +408,15 @@ public class Recipe implements Comparable<Recipe> {
         ), 4));
 
         recipes.put("EMERALD_TALISMAN", new Recipe(new Item(Items.get("EMERALD_TALISMAN")), getItems(
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 8),
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 8),
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 8),
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 8),
+                new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
+                new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
+                new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
+                new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
                 null,
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 8),
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 8),
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 8),
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 8)
+                new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
+                new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
+                new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
+                new Item(Items.items.get("ENCHANTED_EMERALD"), 1)
         ), -1));
 
         recipes.put("EMERALD_BLOCK_TALISMAN", new Recipe(new Item(Items.get("EMERALD_BLOCK_TALISMAN")), getItems(
@@ -432,15 +432,15 @@ public class Recipe implements Comparable<Recipe> {
         ), 4));
 
         recipes.put("DIAMOND_TALISMAN", new Recipe(new Item(Items.get("DIAMOND_TALISMAN")), getItems(
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 8),
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 8),
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 8),
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 8),
+                new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
+                new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
+                new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
+                new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
                 null,
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 8),
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 8),
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 8),
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 8)
+                new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
+                new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
+                new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
+                new Item(Items.items.get("ENCHANTED_DIAMOND"), 1)
         ), -1));
 
         recipes.put("DIAMOND_BLOCK_TALISMAN", new Recipe(new Item(Items.get("DIAMOND_BLOCK_TALISMAN")), getItems(
@@ -456,16 +456,160 @@ public class Recipe implements Comparable<Recipe> {
         ), 4));
 
         recipes.put("OBSIDIAN_TALISMAN", new Recipe(new Item(Items.get("OBSIDIAN_TALISMAN")), getItems(
-                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 16),
-                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 16),
-                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 16),
-                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 16),
+                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 4),
+                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 4),
+                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 4),
+                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 4),
                 new Item(Items.items.get("DIAMOND_TALISMAN")),
-                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 16),
-                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 16),
-                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 16),
-                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 16)
+                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 4),
+                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 4),
+                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 4),
+                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 4)
         ), 4));
+
+        recipes.put("LAPIS_HELMET", new Recipe(new Item(Items.get("LAPIS_HELMET")), getItems(
+                new Item(Items.get("LAPIS")),
+                new Item(Items.get("LAPIS")),
+                new Item(Items.get("LAPIS")),
+                new Item(Items.get("LAPIS")),
+                null,
+                new Item(Items.get("LAPIS")),
+                null,
+                null,
+                null
+        ), -1));
+
+        recipes.put("LAPIS_CHESTPLATE", new Recipe(new Item(Items.get("LAPIS_CHESTPLATE")), getItems(
+                new Item(Items.get("LAPIS")),
+                null,
+                new Item(Items.get("LAPIS")),
+                new Item(Items.get("LAPIS")),
+                new Item(Items.get("LAPIS")),
+                new Item(Items.get("LAPIS")),
+                new Item(Items.get("LAPIS")),
+                new Item(Items.get("LAPIS")),
+                new Item(Items.get("LAPIS"))
+        ), -1));
+
+        recipes.put("LAPIS_LEGGINGS", new Recipe(new Item(Items.get("LAPIS_LEGGINGS")), getItems(
+                new Item(Items.get("LAPIS")),
+                new Item(Items.get("LAPIS")),
+                new Item(Items.get("LAPIS")),
+                new Item(Items.get("LAPIS")),
+                null,
+                new Item(Items.get("LAPIS")),
+                new Item(Items.get("LAPIS")),
+                null,
+                new Item(Items.get("LAPIS"))
+        ), -1));
+
+        recipes.put("LAPIS_BOOTS", new Recipe(new Item(Items.get("LAPIS_BOOTS")), getItems(
+                null,
+                null,
+                null,
+                new Item(Items.get("LAPIS")),
+                null,
+                new Item(Items.get("LAPIS")),
+                new Item(Items.get("LAPIS")),
+                null,
+                new Item(Items.get("LAPIS"))
+        ), -1));
+
+        recipes.put("REDSTONE_HELMET", new Recipe(new Item(Items.get("REDSTONE_HELMET")), getItems(
+                new Item(Items.get("REDSTONE")),
+                new Item(Items.get("REDSTONE")),
+                new Item(Items.get("REDSTONE")),
+                new Item(Items.get("REDSTONE")),
+                null,
+                new Item(Items.get("REDSTONE")),
+                null,
+                null,
+                null
+        ), -1));
+
+        recipes.put("REDSTONE_CHESTPLATE", new Recipe(new Item(Items.get("REDSTONE_CHESTPLATE")), getItems(
+                new Item(Items.get("REDSTONE")),
+                null,
+                new Item(Items.get("REDSTONE")),
+                new Item(Items.get("REDSTONE")),
+                new Item(Items.get("REDSTONE")),
+                new Item(Items.get("REDSTONE")),
+                new Item(Items.get("REDSTONE")),
+                new Item(Items.get("REDSTONE")),
+                new Item(Items.get("REDSTONE"))
+        ), -1));
+
+        recipes.put("REDSTONE_LEGGINGS", new Recipe(new Item(Items.get("REDSTONE_LEGGINGS")), getItems(
+                new Item(Items.get("REDSTONE")),
+                new Item(Items.get("REDSTONE")),
+                new Item(Items.get("REDSTONE")),
+                new Item(Items.get("REDSTONE")),
+                null,
+                new Item(Items.get("REDSTONE")),
+                new Item(Items.get("REDSTONE")),
+                null,
+                new Item(Items.get("REDSTONE"))
+        ), -1));
+
+        recipes.put("REDSTONE_BOOTS", new Recipe(new Item(Items.get("REDSTONE_BOOTS")), getItems(
+                null,
+                null,
+                null,
+                new Item(Items.get("REDSTONE")),
+                null,
+                new Item(Items.get("REDSTONE")),
+                new Item(Items.get("REDSTONE")),
+                null,
+                new Item(Items.get("REDSTONE"))
+        ), -1));
+
+        recipes.put("EMERALD_HELMET", new Recipe(new Item(Items.get("EMERALD_HELMET")), getItems(
+                new Item(Items.get("EMERALD")),
+                new Item(Items.get("EMERALD")),
+                new Item(Items.get("EMERALD")),
+                new Item(Items.get("EMERALD")),
+                null,
+                new Item(Items.get("EMERALD")),
+                null,
+                null,
+                null
+        ), -1));
+
+        recipes.put("EMERALD_CHESTPLATE", new Recipe(new Item(Items.get("EMERALD_CHESTPLATE")), getItems(
+                new Item(Items.get("EMERALD")),
+                null,
+                new Item(Items.get("EMERALD")),
+                new Item(Items.get("EMERALD")),
+                new Item(Items.get("EMERALD")),
+                new Item(Items.get("EMERALD")),
+                new Item(Items.get("EMERALD")),
+                new Item(Items.get("EMERALD")),
+                new Item(Items.get("EMERALD"))
+        ), -1));
+
+        recipes.put("EMERALD_LEGGINGS", new Recipe(new Item(Items.get("EMERALD_LEGGINGS")), getItems(
+                new Item(Items.get("EMERALD")),
+                new Item(Items.get("EMERALD")),
+                new Item(Items.get("EMERALD")),
+                new Item(Items.get("EMERALD")),
+                null,
+                new Item(Items.get("EMERALD")),
+                new Item(Items.get("EMERALD")),
+                null,
+                new Item(Items.get("EMERALD"))
+        ), -1));
+
+        recipes.put("EMERALD_BOOTS", new Recipe(new Item(Items.get("EMERALD_BOOTS")), getItems(
+                null,
+                null,
+                null,
+                new Item(Items.get("EMERALD")),
+                null,
+                new Item(Items.get("EMERALD")),
+                new Item(Items.get("EMERALD")),
+                null,
+                new Item(Items.get("EMERALD"))
+        ), -1));
 
         for (Material material : Material.values()) {
             if (material.name().contains("_NUGGET")) continue;
@@ -482,7 +626,7 @@ public class Recipe implements Comparable<Recipe> {
                     ShapedRecipe shaped = (ShapedRecipe) recipe;
 
                     ItemStack[] items = new ItemStack[]{null, null, null, null, null, null, null, null, null};
-                    int i = 0;
+                    int i = shaped.getShape().length == 3 ? 0 : 3;
                     for (String row : shaped.getShape()) {
                         if (row.length() == 3) {
                             for (String slot : row.split("")) {
