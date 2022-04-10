@@ -6,9 +6,9 @@ import me.maxiiiiii.skyblockdragons.entity.ItemDrop;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
-import me.maxiiiiii.skyblockdragons.material.ArmorMaterial;
-import me.maxiiiiii.skyblockdragons.material.Items;
-import me.maxiiiiii.skyblockdragons.material.ToolMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.types.ToolMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -42,8 +42,8 @@ public class Damage implements Listener {
     public double damage(EntitySD player, EntitySD entity, double activeFerocity, DamageType damageType, double baseAbilityDamage, double abilityScaling) {
         if (player == null || entity == null) return 0;
 
-        entity.entity.setNoDamageTicks(0);
-        entity.entity.setMaximumNoDamageTicks(0);
+        entity.setNoDamageTicks(0);
+        entity.setMaximumNoDamageTicks(0);
 
         long millisecondsCD = 500;
         if (player instanceof PlayerSD) {
@@ -73,7 +73,7 @@ public class Damage implements Listener {
 
         if (player instanceof PlayerSD) {
             PlayerSD playerSD = (PlayerSD) player;
-            if (damageType.isNormal() && activeFerocity > 0 && !entity.entity.isDead()) {
+            if (damageType.isNormal() && activeFerocity > 0 && !entity.isDead()) {
                 if (Functions.chanceOf(activeFerocity)) {
                     playerSD.playSound(player.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1f, 1f);
                     new BukkitRunnable() {
@@ -93,7 +93,7 @@ public class Damage implements Listener {
                                 end.add(1.5, -1.5, 0);
                             }
 
-                            EntityDamageEntityEvent playerDamageEntity = new EntityDamageEntityEvent(player.entity, entity.entity, DamageType.NORMAL, damage, true);
+                            EntityDamageEntityEvent playerDamageEntity = new EntityDamageEntityEvent(player, entity, DamageType.NORMAL, damage, true);
                             Bukkit.getServer().getPluginManager().callEvent(playerDamageEntity);
 
                             particleLine(start, end, Particle.REDSTONE, 155, 0, 0);
@@ -221,9 +221,9 @@ public class Damage implements Listener {
             return;
         }
         victim.setAttacker(attacker);
-        double health = victim.entity.getHealth();
-        victim.entity.damage(0);
-        victim.entity.setHealth(Math.max(health - damage, 0));
+        double health = victim.getHealth();
+        victim.damage(0);
+        victim.setHealth(Math.max(health - damage, 0));
         EntityKnockbackEvent knockbackEvent = new EntityKnockbackEvent(e.getVictim(), e.getAttacker());
         Bukkit.getServer().getPluginManager().callEvent(knockbackEvent);
     }
@@ -269,7 +269,7 @@ public class Damage implements Listener {
             e.getDrops().clear();
             e.setDroppedExp(0);
 
-            EntitySD.entities.remove(entity.entity.getUniqueId());
+            EntitySD.entities.remove(entity.getUniqueId());
             if (entity.getAttacker() == null) return;
 
             PlayerSD player = SkyblockDragons.getPlayer((PlayerSD) entity.getAttacker());
@@ -285,7 +285,7 @@ public class Damage implements Listener {
                 for (ItemDrop drop : entity.type.getDrops()) {
                     ItemStack item = drop.generate(player);
                     if (item != null) {
-                        org.bukkit.entity.Item dropped = entity.entity.getWorld().dropItem(entity.entity.getLocation(), item);
+                        org.bukkit.entity.Item dropped = entity.getWorld().dropItem(entity.getLocation(), item);
                         dropped.addScoreboardTag(player.getName());
                     }
                 }
@@ -304,7 +304,7 @@ public class Damage implements Listener {
             e.setDeathMessage(ChatColor.GRAY + player.getDisplayName() + ChatColor.GRAY + " died!");
         else
             if (player.getAttacker() instanceof Player)
-                e.setDeathMessage(ChatColor.GRAY + player.getDisplayName() + ChatColor.GRAY + " died by " + ((Player) player.getAttacker().entity).getDisplayName() + ChatColor.GRAY + "!");
+                e.setDeathMessage(ChatColor.GRAY + player.getDisplayName() + ChatColor.GRAY + " died by " + ((Player) player.getAttacker()).getDisplayName() + ChatColor.GRAY + "!");
             else
                 e.setDeathMessage(ChatColor.GRAY + player.getDisplayName() + ChatColor.GRAY + " died by " + player.getAttacker().type.getName() + ChatColor.GRAY + "!");
 

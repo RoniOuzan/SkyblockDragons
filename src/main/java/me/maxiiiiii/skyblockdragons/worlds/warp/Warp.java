@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.worlds.warp;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.util.objects.Requirement;
+import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 

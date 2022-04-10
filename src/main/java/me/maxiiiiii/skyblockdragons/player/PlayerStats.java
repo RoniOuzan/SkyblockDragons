@@ -22,8 +22,28 @@ public class PlayerStats extends Stats {
     }
 
     @Override
+    public Stat get(StatType stat) {
+        Stat output = super.get(stat);
+        if (stat == StatType.MANA) output = this.mana;
+        return output;
+    }
+
+    @Override
+    public Stat get(Stat stat) {
+        Stat output = super.get(stat);
+        if (stat.type == StatType.MANA) output = this.mana;
+        return output;
+    }
+
+    @Override
     public void normalize() {
         super.normalize();
         this.mana.normalize();
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+        this.mana = this.intelligence;
     }
 }

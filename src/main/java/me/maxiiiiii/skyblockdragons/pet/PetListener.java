@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.player.pet;
+package me.maxiiiiii.skyblockdragons.pet;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;

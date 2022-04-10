@@ -7,7 +7,8 @@ import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.abilities.*;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.commands.*;
-import me.maxiiiiii.skyblockdragons.material.Items;
+import me.maxiiiiii.skyblockdragons.item.enchants.EnchantingTableCommand;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
 import me.maxiiiiii.skyblockdragons.item.anvil.AnvilCommand;
 import me.maxiiiiii.skyblockdragons.player.bank.BankCommand;
@@ -21,7 +22,7 @@ import me.maxiiiiii.skyblockdragons.item.*;
 import me.maxiiiiii.skyblockdragons.item.enchants.BookCommand;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.player.coop.CoopCommand;
-import me.maxiiiiii.skyblockdragons.player.pet.*;
+import me.maxiiiiii.skyblockdragons.pet.*;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillAdminCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillListener;
@@ -161,6 +162,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new BankCommand(), this);
         getServer().getPluginManager().registerEvents(new SellCommand(), this);
         getServer().getPluginManager().registerEvents(new RecipesCommand(), this);
+        getServer().getPluginManager().registerEvents(new EnchantingTableCommand(), this);
 
         // Commands
         getCommand("Stat").setExecutor(new StatCommand());
@@ -200,6 +202,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("RecipesWith").setExecutor(new RecipesWithCommand());
         getCommand("Variables").setExecutor(new VariableCommand());
         getCommand("Warp").setExecutor(new WarpCommand());
+        getCommand("EnchantingTable").setExecutor(new EnchantingTableCommand());
 
 //        Coop.load();
         EntitySD.loadLocations();

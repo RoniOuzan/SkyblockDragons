@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.worlds.mining;
 
 import me.maxiiiiii.skyblockdragons.entity.ItemDrop;
-import me.maxiiiiii.skyblockdragons.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
 import org.bukkit.Material;
 
 import java.util.Arrays;

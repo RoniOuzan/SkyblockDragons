@@ -1,11 +1,9 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
-import de.tr7zw.changeme.nbtapi.NBTEntity;
-import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
-import me.maxiiiiii.skyblockdragons.material.ArmorMaterial;
-import me.maxiiiiii.skyblockdragons.material.ToolMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.ToolMaterial;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
@@ -20,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class EntitySD {
+public class EntitySD extends EntityClass {
     public static final HashMap<UUID, EntitySD> entities = new HashMap<>();
     public static HashMap<Location, EntityMaterial> entitiesLocations = new HashMap<>();
 
@@ -35,8 +33,9 @@ public class EntitySD {
     public final Cooldown<EntitySD> damageCooldownLava = new Cooldown<>();
 
     public EntitySD(Location location, EntityMaterial type) {
+        super((LivingEntity) location.getWorld().spawnEntity(location, type.entityType));
         this.type = type;
-        this.entity = (LivingEntity) location.getWorld().spawnEntity(location, type.entityType);
+        this.entity = super.entity;
 
         if (this.type.equipment.helmet != null)
             this.entity.getEquipment().setHelmet(this.type.equipment.helmet);
@@ -81,6 +80,7 @@ public class EntitySD {
     }
 
     public EntitySD(LivingEntity entity) {
+        super(entity);
         if (!isEntitySD(entity)) throw new EntityAssociateException("Tried to Associate entity " + Functions.getEntityName(entity));
 
         this.type = Functions.getEntityMaterial(entity);

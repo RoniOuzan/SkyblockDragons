@@ -1,17 +1,13 @@
-package me.maxiiiiii.skyblockdragons.player.pet;
+package me.maxiiiiii.skyblockdragons.pet;
 
 import lombok.Getter;
 import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 @Getter
 @Setter

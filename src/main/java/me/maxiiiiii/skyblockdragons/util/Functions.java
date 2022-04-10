@@ -11,18 +11,20 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.events.EntityHealth;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.types.NecronBladeMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.ReforgeMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.SkinMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.material.*;
-import me.maxiiiiii.skyblockdragons.player.pet.PetMaterial;
+import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.interfaces.LoopTask;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Task;
@@ -47,8 +49,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static me.maxiiiiii.skyblockdragons.material.Items.items;
-import static me.maxiiiiii.skyblockdragons.material.Items.vanillaMaterials;
+import static me.maxiiiiii.skyblockdragons.item.material.Items.items;
+import static me.maxiiiiii.skyblockdragons.item.material.Items.vanillaMaterials;
 import static me.maxiiiiii.skyblockdragons.commands.menu.ItemList.openItemList;
 
 public class Functions {
@@ -118,12 +120,6 @@ public class Functions {
     }
 
     public static <T> String getNumberFormat(T num) {
-//        if (isInt(num + "") || isDouble(num + "") || isByte(num + "") || isFloat(num + "") || isLong(num + "") || isShort(num + "")) {
-//            String output = getInt(num + "");
-//            output = output.replaceAll("(?<=\\d)(?=(\\d\\d\\d)+(?!\\d))", ",");
-//            return output;
-//        }
-//        return num + "";
         if (num instanceof Number) {
             String[] nums = (num + "").split("\\.");
             nums[0] = nums[0].replaceAll("(?<=\\d)(?=(\\d\\d\\d)+(?!\\d))", ",");
@@ -132,9 +128,9 @@ public class Functions {
             for (int i = 1; i < nums.length; i++) {
                 sb.append(".").append(nums[i]);
             }
-            return sb.toString();
+            return Functions.getInt(sb.toString());
         }
-        return num + "";
+        return Functions.getInt(num + "");
     }
 
     public static void setName(ItemStack item, String name) {
@@ -604,7 +600,7 @@ public class Functions {
             NBTItem nbtItem = new NBTItem(item);
             NBTCompound nbt = nbtItem.getCompound("Item");
             String id = nbt.getString("id");
-            for (PetMaterial material : PetMaterial.Pets.values()) {
+            for (PetMaterial material : PetMaterial.pets.values()) {
                 if (material.name().equals(id)) {
                     return material;
                 }

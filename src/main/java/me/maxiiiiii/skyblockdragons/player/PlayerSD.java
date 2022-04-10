@@ -12,13 +12,14 @@ import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.abilities.Atomsplit_Katana;
 import me.maxiiiiii.skyblockdragons.item.abilities.Rogue_Sword;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
-import me.maxiiiiii.skyblockdragons.material.*;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
-import me.maxiiiiii.skyblockdragons.player.pet.Pet;
-import me.maxiiiiii.skyblockdragons.player.pet.PlayerPet;
+import me.maxiiiiii.skyblockdragons.pet.Pet;
+import me.maxiiiiii.skyblockdragons.pet.PlayerPet;
 import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.Wardrobe;
@@ -267,10 +268,12 @@ public class PlayerSD extends PlayerClass {
 
         stats.reset();
 
+        StatsMultiplayer statsMultiplayer = new StatsMultiplayer();
+
         if (Mining.miningWorlds.contains(player.getWorld())) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, 255, false, false));
-//        } else {
-//            player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
+        } else {
+            player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
         }
 
         ArrayList<ItemFamily> accessoryFamilies = new ArrayList<>();
@@ -305,10 +308,24 @@ public class PlayerSD extends PlayerClass {
             this.addPetStats(this.getPetActive());
         }
 
-        // Full Sets
-        if (fullSet.equals("Superior Blood")) {
-            this.stats.increasePlayerStat(0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 0, 0, 0, 0);
-        }
+        if (helmetMaterial == Items.get("ENDER_HELMET"))
+            statsMultiplayer.increase(5, 5, 5, 5, 5, 5);
+        if (helmetMaterial == Items.get("ENDER_CHESTPLATE"))
+            statsMultiplayer.increase(5, 5, 5, 5, 5, 5);
+        if (helmetMaterial == Items.get("ENDER_LEGGINGS"))
+            statsMultiplayer.increase(5, 5, 5, 5, 5, 5);
+        if (helmetMaterial == Items.get("ENDER_BOOTS"))
+            statsMultiplayer.increase(5, 5, 5, 5, 5, 5);
+
+        if (helmetMaterial == Items.get("ENDER_GUARD_HELMET"))
+            statsMultiplayer.increase(10, 10, 10, 10, 10, 10);
+        if (helmetMaterial == Items.get("ENDER_GUARD_CHESTPLATE"))
+            statsMultiplayer.increase(10, 10, 10, 10, 10, 10);
+        if (helmetMaterial == Items.get("ENDER_GUARD_LEGGINGS"))
+            statsMultiplayer.increase(10, 10, 10, 10, 10, 10);
+        if (helmetMaterial == Items.get("ENDER_GuARD_BOOTS"))
+            statsMultiplayer.increase(10, 10, 10, 10, 10, 10);
+
 
         if (System.currentTimeMillis() - Atomsplit_Katana.atomsplitAbility.getOrDefault(player, 0L) <= 4000) {
             this.stats.ferocity.amount += 400;
@@ -321,6 +338,14 @@ public class PlayerSD extends PlayerClass {
         if (System.currentTimeMillis() - Rogue_Sword.rogueSwordLastTimeUsed.getOrDefault(this.player, 0L) <= 30000) {
             this.stats.speed.amount += (Rogue_Sword.rogueSwordAmountUsed.get(this.player) + 1) * 10;
         }
+
+
+        // Full Sets
+        if (fullSet.equals("Superior Blood")) {
+            statsMultiplayer.increase(0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 0, 0, 0, 0);
+        }
+
+        statsMultiplayer.apply(this.stats);
 
         if (manaRegan) {
             if (this.stats.mana.amount < this.stats.intelligence.amount) {

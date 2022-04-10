@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.material;
+package me.maxiiiiii.skyblockdragons.item.material.types;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
@@ -7,7 +7,6 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 @Getter
 public class AccessoryMaterial extends ItemMaterial {

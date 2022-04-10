@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.util.objects;
+package me.maxiiiiii.skyblockdragons.util.objects.requirements;
 
 public enum RequirementType {
     SKILL,

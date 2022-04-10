@@ -1,8 +1,10 @@
-package me.maxiiiiii.skyblockdragons.player.pet;
+package me.maxiiiiii.skyblockdragons.pet;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import lombok.Getter;
 import lombok.Setter;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemSD;
+import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
@@ -11,6 +13,7 @@ import me.maxiiiiii.skyblockdragons.util.objects.ParticlePacketUtil;
 import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,9 +21,8 @@ import java.util.HashMap;
 
 @Getter
 @Setter
-public class PetMaterial {
-    //        Items.put("ENDER_DRAGON_PET", new PetMaterial("Ender Dragon", Rarity.EPIC, "", "", new ArrayList<>(Arrays.asList(0d, 0.5d, 0.5d, 0.1d, 0d, 0d, 0d, 0d, 0d, 0d)), new ArrayList<>(Arrays.asList()))));
-    public static final HashMap<String, PetMaterial> Pets = new HashMap<>();
+public class PetMaterial implements ItemSD {
+    public static final HashMap<String, PetMaterial> pets = new HashMap<>();
 
     public static PetMaterial NULL = null;
 
@@ -28,14 +30,14 @@ public class PetMaterial {
     public ArrayList<Rarity> rarities;
     public String id;
     public String nbt;
-    public ArrayList<Double> stats;
+    public Stats stats;
     public ArrayList<PetAbility> abilities;
     public SkillType skill;
     public int maxLevel;
     public ParticlePacketUtil[] particles;
     public SoundUtil[] sounds;
 
-    PetMaterial(String name, ArrayList<Rarity> rarities, String id, String nbt, ArrayList<Double> stats, ArrayList<PetAbility> abilities, SkillType skill, int maxLevel, Object... array) {
+    PetMaterial(String name, ArrayList<Rarity> rarities, String id, String nbt, Stats stats, ArrayList<PetAbility> abilities, SkillType skill, int maxLevel, Object... array) {
         this.name = name;
         this.rarities = rarities;
         this.id = id;
@@ -61,12 +63,12 @@ public class PetMaterial {
         this.maxLevel = maxLevel;
     }
 
-    PetMaterial(String name, ArrayList<Rarity> rarities, String id, String nbt, ArrayList<Double> stats, ArrayList<PetAbility> abilities, SkillType skill, Object... array) {
+    PetMaterial(String name, ArrayList<Rarity> rarities, String id, String nbt, Stats stats, ArrayList<PetAbility> abilities, SkillType skill, Object... array) {
         this(name, rarities, id, nbt, stats, abilities, skill, 100, array);
     }
 
     public static boolean isPetMaterial(String name) {
-        for (String pet : Pets.keySet()) {
+        for (String pet : pets.keySet()) {
             if (pet.equals(name.toUpperCase())) {
                 return true;
             }
@@ -75,23 +77,34 @@ public class PetMaterial {
     }
 
     public static void registerItems() {
-        Pets.put("ENDER_DRAGON", new PetMaterial("Ender Dragon",
+        pets.put("ENDER_DRAGON", new PetMaterial("Ender Dragon",
                 new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY)),
                 "083a89e8-c8b9-4c15-bccb-7b4af8d31b20",
                 "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTFkMDhjMDI4OWQ5ZWZlNTE5ZTg3ZjdiODE0Y2IyMzQ5ZjQ0NzViZDNjMzdkNDRmOWM0ZjBlNTA4ZTc3OTgxZSJ9fX0=",
-                new ArrayList<>(Arrays.asList(0d, 0.5d, 0.5d, 0.1d, 0d, 0d, 0d, 0d, 0d, 0d)),
+                new Stats(0, 0.5, 0.5, 0.1, 0, 0),
                 new ArrayList<>(Arrays.asList(new PetAbility("End Strike", "Deal " + ChatColor.GREEN + "LEVEL*0.2% " + ChatColor.GRAY + "more damage to end mobs", new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY))), new PetAbility("One with the Dragons", "Buffs the Aspect of the Dragons sword by " + ChatColor.GREEN + "LEVEL*0.5 " + StatType.DAMAGE.getIconAndText() + " " + ChatColor.GRAY + "and " + ChatColor.GREEN + "LEVEL*0.3 " + StatType.STRENGTH.getIconAndText(), new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY))), new PetAbility("Superior", "Increases most stats by " + ChatColor.GREEN + "LEVEL*0.1%", new ArrayList<>(Arrays.asList(Rarity.LEGENDARY))))),
                 SkillType.COMBAT,
                 EnumWrappers.Particle.SMOKE_NORMAL, EnumWrappers.Particle.SPELL_WITCH,
                 Sound.ENTITY_ENDERDRAGON_FLAP
         ));
 
-        NULL = new PetMaterial("Null", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)), "", "", new ArrayList<>(Arrays.asList(0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d)), new ArrayList<>(Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL))))), SkillType.COMBAT, new ParticlePacketUtil(EnumWrappers.Particle.REDSTONE, 1, 0, 0, 1f, 5));
+        pets.put("ENDERMAN", new PetMaterial("Enderman",
+                new ArrayList<>(Arrays.asList(Rarity.COMMON, Rarity.UNCOMMON, Rarity.RARE)),
+                "6e4d2ed0-05e8-4959-b06c-e649d9113349",
+                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTZjMGIzNmQ1M2ZmZjY5YTQ5YzdkNmYzOTMyZjJiMGZlOTQ4ZTAzMjIyNmQ1ZTgwNDVlYzU4NDA4YTM2ZTk1MSJ9fX0=",
+                new Stats(0, 0, 0.5, 0.1, 0, 0),
+                new ArrayList<>(Arrays.asList(new PetAbility("Enderian", "Take " + ChatColor.GREEN + "LEVEL*0.3% " + ChatColor.GRAY + "less damage from end monsters.", new ArrayList<>(Arrays.asList(Rarity.COMMON, Rarity.UNCOMMON, Rarity.RARE))))),
+                SkillType.COMBAT,
+                EnumWrappers.Particle.SPELL_WITCH,
+                Sound.ENTITY_ENDERMEN_AMBIENT
+        ));
+
+        NULL = new PetMaterial("Null", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)), "", "", new Stats(0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d), new ArrayList<>(Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL))))), SkillType.COMBAT, new ParticlePacketUtil(EnumWrappers.Particle.REDSTONE, 1, 0, 0, 1f, 5));
     }
 
     public String name() {
-        for (String key : Pets.keySet()) {
-            if (Pets.get(key) == this) {
+        for (String key : pets.keySet()) {
+            if (pets.get(key) == this) {
                 return key;
             }
         }

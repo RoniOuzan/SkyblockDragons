@@ -2,7 +2,11 @@ package me.maxiiiiii.skyblockdragons.item.craftingtable;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.material.*;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.NormalMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.WeaponMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
@@ -609,6 +613,151 @@ public class Recipe implements Comparable<Recipe> {
                 new Item(Items.get("EMERALD")),
                 null,
                 new Item(Items.get("EMERALD"))
+        ), -1));
+
+        recipes.put("ENDERMAN_TALISMAN_UNCOMMON", new Recipe(new Item(Items.get("ENDERMAN_TALISMAN_UNCOMMON")), getItems(
+                new Item(Items.get("ENDERMAN_TALISMAN_COMMON")),
+                new Item(Items.get("ENDERMAN_TALISMAN_COMMON")),
+                null,
+                new Item(Items.get("ENDERMAN_TALISMAN_COMMON")),
+                new Item(Items.get("ENDERMAN_TALISMAN_COMMON")),
+                null,
+                null,
+                null,
+                null
+        ), 0));
+
+        recipes.put("ENDERMAN_TALISMAN_RARE", new Recipe(new Item(Items.get("ENDERMAN_TALISMAN_RARE")), getItems(
+                new Item(Items.get("ENDERMAN_TALISMAN_UNCOMMON")),
+                new Item(Items.get("ENDERMAN_TALISMAN_UNCOMMON")),
+                null,
+                new Item(Items.get("ENDERMAN_TALISMAN_UNCOMMON")),
+                new Item(Items.get("ENDERMAN_TALISMAN_UNCOMMON")),
+                null,
+                null,
+                null,
+                null
+        ), 0));
+
+        recipes.put("ENDERMAN_TALISMAN_EPIC", new Recipe(new Item(Items.get("ENDERMAN_TALISMAN_EPIC")), getItems(
+                new Item(Items.get("ENDERMAN_TALISMAN_RARE")),
+                new Item(Items.get("ENDERMAN_TALISMAN_RARE")),
+                null,
+                new Item(Items.get("ENDERMAN_TALISMAN_RARE")),
+                new Item(Items.get("ENDERMAN_TALISMAN_RARE")),
+                null,
+                null,
+                null,
+                null
+        ), 0));
+
+        recipes.put("ENDERMAN_TALISMAN_LEGENDARY", new Recipe(new Item(Items.get("ENDERMAN_TALISMAN_LEGENDARY")), getItems(
+                new Item(Items.get("ENDERMAN_TALISMAN_LEGENDARY")),
+                new Item(Items.get("ENDERMAN_TALISMAN_LEGENDARY")),
+                null,
+                new Item(Items.get("ENDERMAN_TALISMAN_LEGENDARY")),
+                new Item(Items.get("ENDERMAN_TALISMAN_LEGENDARY")),
+                null,
+                null,
+                null,
+                null
+        ), 0));
+
+        recipes.put("ENDER_HELMET", new Recipe(new Item(Items.get("ENDER_HELMET")), getItems(
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                null,
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                null,
+                null,
+                null
+        ), -1));
+
+        recipes.put("ENDER_CHESTPLATE", new Recipe(new Item(Items.get("ENDER_CHESTPLATE")), getItems(
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                null,
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                new Item(Items.get("EYE_OF_ENDERMAN"))
+        ), -1));
+
+        recipes.put("ENDER_LEGGINGS", new Recipe(new Item(Items.get("ENDER_LEGGINGS")), getItems(
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                null,
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                null,
+                new Item(Items.get("EYE_OF_ENDERMAN"))
+        ), -1));
+
+        recipes.put("ENDER_BOOTS", new Recipe(new Item(Items.get("ENDER_BOOTS")), getItems(
+                null,
+                null,
+                null,
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                null,
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                new Item(Items.get("EYE_OF_ENDERMAN")),
+                null,
+                new Item(Items.get("EYE_OF_ENDERMAN"))
+        ), -1));
+
+
+        recipes.put("ENDER_GUARD_HELMET", new Recipe(new Item(Items.get("ENDER_GUARD_HELMET")), getItems(
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                null,
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                null,
+                null,
+                null
+        ), -1));
+
+        recipes.put("ENDER_GUARD_CHESTPLATE", new Recipe(new Item(Items.get("ENDER_GUARD_CHESTPLATE")), getItems(
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                null,
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                new Item(Items.get("EYE_OF_ENDER_GUARD"))
+        ), -1));
+
+        recipes.put("ENDER_GUARD_LEGGINGS", new Recipe(new Item(Items.get("ENDER_GUARD_LEGGINGS")), getItems(
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                null,
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                null,
+                new Item(Items.get("EYE_OF_ENDER_GUARD"))
+        ), -1));
+
+        recipes.put("ENDER_GUARD_BOOTS", new Recipe(new Item(Items.get("ENDER_GUARD_BOOTS")), getItems(
+                null,
+                null,
+                null,
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                null,
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                new Item(Items.get("EYE_OF_ENDER_GUARD")),
+                null,
+                new Item(Items.get("EYE_OF_ENDER_GUARD"))
         ), -1));
 
         for (Material material : Material.values()) {

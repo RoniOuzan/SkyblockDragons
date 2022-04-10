@@ -36,7 +36,7 @@ public enum ItemType {
     }
 
     public boolean isReforgeable() {
-        return (this == ItemType.SWORD || this == ItemType.BOW || this == ItemType.WAND || this == ItemType.ITEM || this == ItemType.AXE || this == ItemType.PICKAXE || this == ItemType.ROD || this == ItemType.ACCESSORY);
+        return (this == ItemType.SWORD || this == ItemType.BOW || this == ItemType.ACCESSORY || this == ItemType.HELMET || this == ItemType.CHESTPLATE || this == ItemType.LEGGINGS || this == ItemType.BOOTS);
     }
 
     public boolean isArmor() {

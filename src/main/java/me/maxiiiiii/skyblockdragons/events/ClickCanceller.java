@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.events;
 
-import me.maxiiiiii.skyblockdragons.material.NormalMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.NormalMaterial;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;

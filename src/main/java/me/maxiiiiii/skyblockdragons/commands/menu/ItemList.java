@@ -1,9 +1,9 @@
 package me.maxiiiiii.skyblockdragons.commands.menu;
 
-import me.maxiiiiii.skyblockdragons.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.material.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

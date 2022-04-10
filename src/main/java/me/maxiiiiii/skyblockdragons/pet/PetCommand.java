@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.player.pet;
+package me.maxiiiiii.skyblockdragons.pet;
 
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
@@ -20,7 +20,7 @@ public class PetCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player) {
             PlayerSD player = SkyblockDragons.players.get(((Player) sender).getUniqueId());
             if (args.length > 0) {
-                PetMaterial petMaterial = PetMaterial.Pets.get(args[0].toUpperCase());
+                PetMaterial petMaterial = PetMaterial.pets.get(args[0].toUpperCase());
                 if (args[0].equalsIgnoreCase("xp")) {
                     Pet pet = player.getPetActive();
                     if (args.length > 1) {
@@ -69,7 +69,7 @@ public class PetCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> tabs = new ArrayList<>();
-        for (PetMaterial pet : PetMaterial.Pets.values()) {
+        for (PetMaterial pet : PetMaterial.pets.values()) {
             tabs.add(pet.name());
         }
         return tabs;

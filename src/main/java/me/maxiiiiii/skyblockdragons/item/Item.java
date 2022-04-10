@@ -4,10 +4,11 @@ import de.tr7zw.changeme.nbtapi.*;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.material.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -18,7 +19,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 import static me.maxiiiiii.skyblockdragons.util.Functions.manaCostCalculator;
@@ -214,7 +214,7 @@ public class Item extends ItemStack implements ConfigurationSerializable {
             }
             NBTList<Double> statList = nbt.getDoubleList("Stats");
             for (Stat stat : stats) {
-                statList.add(Double.parseDouble(stat.amount + ""));
+                statList.add(stat.amount);
             }
             if (material.getType() != ItemType.ITEM || rarity.getLevel() >= 5 || ((material instanceof NormalMaterial) && !((NormalMaterial) material).isStackAble())) {
                 int random = Functions.randomInt(1, 10000);
@@ -532,7 +532,8 @@ public class Item extends ItemStack implements ConfigurationSerializable {
                 lores.add(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "One For All I");
             }
         } else {
-            boolean everyLine = (enchantList.size() <= 6);
+            boolean everyLine = enchantList.size() <= 6;
+            boolean description = enchantList.size() <= 3;
             int times = 0;
             StringBuilder enchant = new StringBuilder(",");
             if (!enchants.containsKey(EnchantType.NULL)) {
@@ -544,6 +545,9 @@ public class Item extends ItemStack implements ConfigurationSerializable {
                                 lores.add(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + enchantType + " " + Functions.integerToRoman(enchants.get(enchantType)));
                             } else {
                                 lores.add(ChatColor.BLUE + enchantType.toString() + " " + Functions.integerToRoman(enchants.get(enchantType)));
+                            }
+                            if (description) {
+                                lores.addAll(loreBuilder(enchantType.getDescription(enchants.get(enchantType))));
                             }
                         } else {
                             if (enchantType instanceof UltimateEnchantType) {

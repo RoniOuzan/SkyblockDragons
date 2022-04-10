@@ -1043,7 +1043,7 @@ public class PlayerClass extends EntitySD implements Player {
     }
 
     @Override
-    public Spigot spigot() {
+    public Player.Spigot spigot() {
         return this.player.spigot();
     }
 

@@ -21,13 +21,11 @@ public class GoBack implements Listener {
         if (e.getInventory().getType() == InventoryType.CHEST) {
             Player player = (Player) e.getPlayer();
             Inventory inventory = e.getInventory();
-            ArrayList<Inventory> defaultValue = new ArrayList<>();
-            ArrayList<Inventory> inventories = playerGoBack.getOrDefault(player.getUniqueId(), defaultValue);
+            ArrayList<Inventory> inventories = playerGoBack.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
             try {
-                if (!inventories.get(inventories.size() - 1).getTitle().contains(inventory.getTitle().split(" ")[0]) && !inventory.getTitle().contains("Bank")) {
+                if (!inventories.get(inventories.size() - 1).getTitle().contains("Page") || !inventory.getTitle().contains("Page"))
                     inventories.add(inventory);
-                }
             } catch (ArrayIndexOutOfBoundsException ex) {
                 inventories.add(inventory);
             }

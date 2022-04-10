@@ -1,11 +1,10 @@
-package me.maxiiiiii.skyblockdragons.material;
+package me.maxiiiiii.skyblockdragons.item.material.types;
 
 import lombok.Getter;
 import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 import java.util.ArrayList;
 import java.util.Arrays;

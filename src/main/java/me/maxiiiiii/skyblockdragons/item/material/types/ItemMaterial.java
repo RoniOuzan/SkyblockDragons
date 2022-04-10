@@ -1,7 +1,8 @@
-package me.maxiiiiii.skyblockdragons.material;
+package me.maxiiiiii.skyblockdragons.item.material.types;
 
 import lombok.Getter;
 import lombok.ToString;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Material;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 @Getter
 @ToString
-public class ItemMaterial implements ConfigurationSerializable {
+public class ItemMaterial implements ConfigurationSerializable, ItemSD {
     protected Material material;
     protected ItemFamily family;
     protected String name;

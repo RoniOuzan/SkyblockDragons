@@ -48,6 +48,7 @@ public enum ItemFamily {
     LEATHER,
     STONE,
     CHAIN,
+    COAL,
     IRON,
     GOLD,
     LAPIS,
@@ -55,7 +56,8 @@ public enum ItemFamily {
     EMERALD,
     DIAMOND,
     OBSIDIAN,
-    COAL,
+    ENDERMAN,
+    ENDER,
     NULL
 }
 

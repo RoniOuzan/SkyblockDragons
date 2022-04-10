@@ -58,6 +58,10 @@ public class Stats implements Iterable<Stat> {
         this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
+    public Stats(double health, double defense, double speed, double intelligence) {
+        this(0, 0, 0, 0, 0, 0, health, defense, speed, intelligence);
+    }
+
     public Stats(double miningSpeed, double miningFortune) {
         this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, miningSpeed, miningFortune, 0, 0);
     }
@@ -226,6 +230,50 @@ public class Stats implements Iterable<Stat> {
 
     public Stat get(Stat stat) {
         switch (stat.type) {
+            case DAMAGE:
+                return this.damage;
+            case STRENGTH:
+                return this.strength;
+            case CRIT_DAMAGE:
+                return this.critDamage;
+            case CRIT_CHANCE:
+                return this.critChance;
+            case ABILITY_DAMAGE:
+                return this.abilityDamage;
+            case ABILITY_SCALING:
+                return this.abilityScaling;
+            case ATTACK_SPEED:
+                return this.attackSpeed;
+            case FEROCITY:
+                return this.ferocity;
+            case HEALTH:
+                return this.health;
+            case DEFENSE:
+                return this.defense;
+            case TRUE_DEFENSE:
+                return this.trueDefense;
+            case SPEED:
+                return this.speed;
+            case INTELLIGENCE:
+                return this.intelligence;
+            case MAGIC_FIND:
+                return this.magicFind;
+            case PET_LUCK:
+                return this.petLuck;
+            case MINING_SPEED:
+                return this.miningSpeed;
+            case MINING_FORTUNE:
+                return this.miningFortune;
+            case SEA_CREATURE_CHANCE:
+                return this.seaCreatureChance;
+            case ABSORPTION:
+                return this.absorption;
+        }
+        return null;
+    }
+
+    public Stat get(StatType stat) {
+        switch (stat) {
             case DAMAGE:
                 return this.damage;
             case STRENGTH:

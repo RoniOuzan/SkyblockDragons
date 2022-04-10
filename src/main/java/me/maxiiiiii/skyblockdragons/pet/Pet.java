@@ -1,9 +1,11 @@
-package me.maxiiiiii.skyblockdragons.player.pet;
+package me.maxiiiiii.skyblockdragons.pet;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import de.tr7zw.changeme.nbtapi.*;
 import lombok.Getter;
 import lombok.Setter;
+import me.maxiiiiii.skyblockdragons.item.objects.Stat;
+import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
@@ -56,24 +58,24 @@ public class Pet extends ItemStack implements Comparable<Pet> {
     public ItemStack getAsItem() {
         ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         ArrayList<String> lores = new ArrayList<>();
-        double[] stats = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        Stats stats = new Stats();
 
         lores.add(ChatColor.DARK_GRAY + setTitleCase(this.petMaterial.getSkill().name()) + " Pet");
         lores.add("");
 
-        for (int i = 0; i < 10; i++) {
+        for (Stat stat : stats) {
             String statSymbol = "+";
 
             String percent = "";
-            if (i == 2 || i == 3 || i == 4) percent = "%";
+            if (stat.type.isPercentage()) percent = "%";
 
-            double stat = this.petMaterial.getStats().get(i) * this.level;
-            stats[i] = stat;
-            if (this.petMaterial.getStats().get(i) != 0d) {
-                if (this.petMaterial.getStats().get(i) < 0)
+            double statDisplay = this.petMaterial.getStats().get(stat).amount * this.level;
+            stats.get(stat).amount = statDisplay;
+            if (this.petMaterial.getStats().get(stat).amount != 0d) {
+                if (this.petMaterial.getStats().get(stat).amount < 0)
                     statSymbol = "-";
 
-                lores.add(ChatColor.GRAY + Item.getStat(i).toString() + " " + ChatColor.GREEN + statSymbol + Math.abs(stat) + percent);
+                lores.add(ChatColor.GRAY + stat.type.toString() + " " + ChatColor.GREEN + statSymbol + Math.abs(statDisplay) + percent);
             }
         }
 
@@ -116,8 +118,8 @@ public class Pet extends ItemStack implements Comparable<Pet> {
         NBTCompound nbt = nbtItem.addCompound("Item");
         nbt.setString("id", this.petMaterial.name() + "_PET");
         NBTList<Double> statList = nbt.getDoubleList("Stats");
-        for (double stat : stats) {
-            statList.add(stat);
+        for (Stat stat : stats) {
+            statList.add(stat.amount);
         }
         int random = Functions.randomInt(1, 10000);
         nbt.setString("Stack", random + "");
@@ -145,24 +147,24 @@ public class Pet extends ItemStack implements Comparable<Pet> {
 
     private void toItem(boolean rightClickToAdd) {
         ArrayList<String> lores = new ArrayList<>();
-        double[] stats = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        Stats stats = new Stats();
 
         lores.add(ChatColor.DARK_GRAY + setTitleCase(this.petMaterial.getSkill().name()) + " Pet");
         lores.add("");
 
-        for (int i = 0; i < 10; i++) {
+        for (Stat stat : stats) {
             String statSymbol = "+";
 
             String percent = "";
-            if (i == 2 || i == 3 || i == 4) percent = "%";
+            if (stat.type.isPercentage()) percent = "%";
 
-            double stat = this.petMaterial.getStats().get(i) * this.level;
-            stats[i] = stat;
-            if (this.petMaterial.getStats().get(i) != 0d) {
-                if (this.petMaterial.getStats().get(i) < 0)
+            double statDisplay = this.petMaterial.getStats().get(stat).amount * this.level;
+            stats.get(stat).amount = statDisplay;
+            if (this.petMaterial.getStats().get(stat).amount != 0d) {
+                if (this.petMaterial.getStats().get(stat).amount < 0)
                     statSymbol = "-";
 
-                lores.add(ChatColor.GRAY + Item.getStat(i).toString() + " " + ChatColor.GREEN + statSymbol + Functions.getInt(Math.abs(Math.floor(stat * 100d) / 100d) + "") + percent);
+                lores.add(ChatColor.GRAY + stat.type.toString() + " " + ChatColor.GREEN + statSymbol + Math.abs(statDisplay) + percent);
             }
         }
 
@@ -206,8 +208,8 @@ public class Pet extends ItemStack implements Comparable<Pet> {
         nbt.setString("id", this.petMaterial.name() + "_PET");
 //        nbt.setIntArray("Stats", stats);
         NBTList<Double> statList = nbt.getDoubleList("Stats");
-        for (double stat : stats) {
-            statList.add(stat);
+        for (Stat stat : stats) {
+            statList.add(stat.amount);
         }
         int random = Functions.randomInt(1, 10000);
         nbt.setString("Stack", random + "");
@@ -261,7 +263,7 @@ public class Pet extends ItemStack implements Comparable<Pet> {
             Rarity rarity = Functions.getRarity(nbt.getInteger("Rarity"));
             int level = nbt.getInteger("Level");
             double currentXp = nbt.getDouble("CurrentXp");
-            return new Pet(PetMaterial.Pets.get(petMaterial), rarity, level, currentXp, rightClickToAdd);
+            return new Pet(PetMaterial.pets.get(petMaterial), rarity, level, currentXp, rightClickToAdd);
         } catch (NullPointerException ignored) {}
         return new Pet(PetMaterial.NULL, Rarity.SPECIAL, 1, 0, rightClickToAdd);
     }

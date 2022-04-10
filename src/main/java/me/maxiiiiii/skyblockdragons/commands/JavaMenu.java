@@ -4,7 +4,7 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.RecipesMenu;
 import me.maxiiiiii.skyblockdragons.player.bank.BankMenu;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.CraftingTableMenu;
-import me.maxiiiiii.skyblockdragons.player.pet.PetMenu;
+import me.maxiiiiii.skyblockdragons.pet.PetMenu;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillMenu;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeMenu;
