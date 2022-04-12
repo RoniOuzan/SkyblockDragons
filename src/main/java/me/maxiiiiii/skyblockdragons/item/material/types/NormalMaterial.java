@@ -1,13 +1,14 @@
 package me.maxiiiiii.skyblockdragons.item.material.types;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemDescriptionAble;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import org.bukkit.Material;
 
 @Getter
-public class NormalMaterial extends ItemMaterial {
+public class NormalMaterial extends ItemMaterial implements ItemDescriptionAble {
     private final String description;
     private final boolean isEnchanted;
     private final boolean showRecipe;

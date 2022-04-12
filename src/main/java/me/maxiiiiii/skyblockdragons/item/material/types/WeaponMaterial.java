@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.item.material.types;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemStatsAble;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import org.bukkit.Material;
 
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class WeaponMaterial extends ToolMaterial {
+public class WeaponMaterial extends ToolMaterial implements ItemStatsAble {
     private Stats stats;
     private String description;
 

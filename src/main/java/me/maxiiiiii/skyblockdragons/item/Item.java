@@ -5,6 +5,10 @@ import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemDescriptionAble;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemEnchantAble;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemStatsAble;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
@@ -103,45 +107,41 @@ public class Item extends ItemStack implements ConfigurationSerializable {
 
         Stats stats = new Stats();
 
-        if (this.material instanceof WeaponMaterial) {
+        if (this.material instanceof ItemStatsAble)
             stats = applyStats(lores, hotPotato, reforge, rarity, enchants);
 
+        if (this.material instanceof ItemEnchantAble)
             applyEnchants(lores, enchants, enchantList);
 
+        if (this.material instanceof ItemDescriptionAble)
             applyDescription(lores);
 
+        if (this.material instanceof ArmorMaterial)
+            applyFullSet(lores);
+
+        if (this.material instanceof ItemAbilityAble)
             applyAbilities(lores, player, enchants);
 
-            if (this.material instanceof NecronBladeMaterial) {
-                if (necronBladeAbilities.size() >= 3) {
-                    if (isNotLastEmpty(lores)) lores.add("");
-                    lores.add(ChatColor.GOLD + "Item Ability: Wither Impact " + ChatColor.YELLOW + "" + ChatColor.BOLD + "RIGHT CLICK");
 
-                    String description = ChatColor.GRAY + "Teleports " + ChatColor.GREEN + "10 blocks " + ChatColor.GRAY + "ahead of you. Then implode dealing " + ChatColor.RED + "10,000 " + ChatColor.GRAY + "damage to nearby enemies. Also applies the " + ChatColor.YELLOW + "wither shield " + ChatColor.GRAY + "scroll ability reducing damage taken and granting an " + ChatColor.GOLD + "❤ Absorption " + ChatColor.GRAY + "shield for " + ChatColor.YELLOW + "5 " + ChatColor.GRAY + "seconds.";
-                    lores.addAll(Functions.loreBuilder(description));
+        if (this.material instanceof NecronBladeMaterial) {
+            if (necronBladeAbilities.size() >= 3) {
+                if (isNotLastEmpty(lores)) lores.add("");
+                lores.add(ChatColor.GOLD + "Item Ability: Wither Impact " + ChatColor.YELLOW + "" + ChatColor.BOLD + "RIGHT CLICK");
 
-                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(300, player, enchants));
-                } else if (necronBladeAbilities.size() > 0) {
-                    for (NecronBladeMaterial.NecronBladeAbility ability : necronBladeAbilities) {
-                        applyNecronAbility(lores, ability, player, enchants);
-                    }
-                } else {
-                    if (isNotLastEmpty(lores)) lores.add("");
+                String description = ChatColor.GRAY + "Teleports " + ChatColor.GREEN + "10 blocks " + ChatColor.GRAY + "ahead of you. Then implode dealing " + ChatColor.RED + "10,000 " + ChatColor.GRAY + "damage to nearby enemies. Also applies the " + ChatColor.YELLOW + "wither shield " + ChatColor.GRAY + "scroll ability reducing damage taken and granting an " + ChatColor.GOLD + "❤ Absorption " + ChatColor.GRAY + "shield for " + ChatColor.YELLOW + "5 " + ChatColor.GRAY + "seconds.";
+                lores.addAll(Functions.loreBuilder(description));
 
-                    lores.add(ChatColor.YELLOW + "Right-click to use your class ability!");
+                lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(300, player, enchants));
+            } else if (necronBladeAbilities.size() > 0) {
+                for (NecronBladeMaterial.NecronBladeAbility ability : necronBladeAbilities) {
+                    applyNecronAbility(lores, ability, player, enchants);
                 }
+            } else {
+                if (isNotLastEmpty(lores)) lores.add("");
+
+                lores.add(ChatColor.YELLOW + "Right-click to use your class ability!");
             }
-        } else if (this.material instanceof ArmorMaterial) {
-            stats = applyStats(lores, hotPotato, reforge, rarity, enchants);
-
-            applyEnchants(lores, enchants, enchantList);
-
-            applyDescription(lores);
-
-            applyFullSet(lores);
         } else if (this.material instanceof BookMaterial) {
-            applyEnchants(lores, enchants, enchantList);
-
             int cost = getBookCost(enchants);
             lores.add("");
             lores.add(ChatColor.GRAY + "Apply Cost: " + ChatColor.DARK_AQUA + cost + " Exp Levels");
@@ -158,22 +158,8 @@ public class Item extends ItemStack implements ConfigurationSerializable {
                 lores.add(SkillRequirement.toString(SkillType.ENCHANTING, levelRequirement));
             }
         } else if (this.material instanceof MiningMaterial) {
-            lores.add(ChatColor.DARK_GRAY + "Breaking Power " + ((MiningMaterial) material).getBreakingPower());
-            lores.add("");
-
-            stats = applyStats(lores, hotPotato, reforge, rarity, enchants);
-
-            applyEnchants(lores, enchants, enchantList);
-
-            applyDescription(lores);
-
-            applyAbilities(lores, player, enchants);
-        } else if (this.material instanceof ToolMaterial) {
-            applyEnchants(lores, enchants, enchantList);
-
-            applyDescription(lores);
-
-            applyAbilities(lores, player, enchants);
+            lores.add(0, ChatColor.DARK_GRAY + "Breaking Power " + ((MiningMaterial) material).getBreakingPower());
+            lores.add(1, "");
         } else if (this.material instanceof ReforgeMaterial) {
             ReforgeMaterial material = (ReforgeMaterial) this.material;
 
@@ -192,25 +178,15 @@ public class Item extends ItemStack implements ConfigurationSerializable {
             lores.add("");
             lores.add(ChatColor.GRAY + "This skin can be applied to");
             lores.add(Items.items.get(material.name().replaceAll("_SKIN", "")).getRarity().getColor() + Items.items.get(material.name().replaceAll("_SKIN", "")).getName());
-        } else if (this.material instanceof AccessoryMaterial) {
-            stats = applyStats(lores, hotPotato, reforge, rarity);
-
-            applyDescription(lores);
         } else if (this.material instanceof PowerOrbMaterial) {
             PowerOrbMaterial material = (PowerOrbMaterial) this.material;
 
-            lores.add(ChatColor.GOLD + "Item Ability: " + material.getAbility().getName());
-            lores.addAll(Functions.loreBuilder(material.getAbility().getDescription(), ChatColor.GRAY, 34));
-            lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + "50%");
-
-            lores.add("");
+            if (isNotLastEmpty(lores)) lores.add("");
 
             lores.add(material.getRarity().getColor() + "Orb Buff: " + material.getPowerOrbName());
             lores.addAll(Functions.loreBuilder(material.getPowerOrbDescription(), ChatColor.GRAY, 50));
         } else if (this.material instanceof NormalMaterial) {
             NormalMaterial material = (NormalMaterial) this.material;
-
-            lores.addAll(loreBuilder(material.getDescription()));
 
             if (material.isShowRecipe()) {
                 lores.add(ChatColor.YELLOW + "Right-click to view recipe!");

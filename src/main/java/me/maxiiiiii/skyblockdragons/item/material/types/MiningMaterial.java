@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.material.types;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemStatsAble;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import org.bukkit.Material;
 
@@ -9,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-public class MiningMaterial extends ToolMaterial {
+public class MiningMaterial extends ToolMaterial implements ItemStatsAble {
     private final Stats stats;
     private final int breakingPower;
 

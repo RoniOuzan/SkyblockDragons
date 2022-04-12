@@ -2,6 +2,9 @@ package me.maxiiiiii.skyblockdragons.item.material.types;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemDescriptionAble;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemEnchantAble;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import org.bukkit.Material;
 
@@ -11,7 +14,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ToolMaterial extends ItemMaterial {
+public class ToolMaterial extends ItemMaterial implements ItemDescriptionAble, ItemAbilityAble, ItemEnchantAble {
     public static final ToolMaterial NULL = new ToolMaterial(Material.BARRIER, ItemFamily.NULL,"Null", ItemType.NULL, Rarity.SPECIAL, "", "", 0, "", new ItemAbility(AbilityAction.NONE, "", "", 0, 0));
 
     private String description;
