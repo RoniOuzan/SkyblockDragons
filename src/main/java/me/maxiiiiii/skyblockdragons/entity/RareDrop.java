@@ -1,8 +1,11 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
@@ -54,11 +57,15 @@ public class RareDrop extends ItemDrop {
 
     @Override
     public ItemStack generate(PlayerSD player) {
-        ItemStack item = super.generate(player);
-        if (item != null) {
-            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
-            player.sendMessage(rarity.getColor() + "" + ChatColor.BOLD + rarity.toString() + " DROP! " + ChatColor.GRAY + "(" + ChatColor.RESET + item.getItemMeta().getDisplayName() + ChatColor.GRAY + ")");
-        }
+        double chance = this.chance * player.getEnchantLevel(EnchantType.LUCK) * 0.05;
+        if (Functions.randomDouble(0, 100) > chance)
+            return null;
+        int amount = Functions.randomInt(this.minAmount, this.maxAmount + player.getEnchantLevel(EnchantType.LOOTING));
+        ItemStack item = new Item(this.getMaterial(), amount);
+
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
+        player.sendMessage(rarity.getColor() + "" + ChatColor.BOLD + rarity.toString() + " DROP! " + ChatColor.GRAY + "(" + ChatColor.RESET + item.getItemMeta().getDisplayName() + ChatColor.GRAY + ")");
+
         return item;
     }
 }

@@ -14,9 +14,11 @@ public enum ReforgeType {
 
     // Reforge Stones
     // Armors
+    RENOWNED(new ArrayList<>(Arrays.asList(new Stats(0, 3, 3, 2, 1, 0, 2, 2, 1, 1), new Stats(0, 4, 4, 4, 1, 0, 3, 3, 1, 4), new Stats(0, 6, 6, 6, 2, 0, 4, 4, 1, 8), new Stats(0, 8, 8, 8, 3, 0, 6, 6, 1, 8), new Stats(0, 10, 10, 10, 4, 0, 8, 8, 1, 10), new Stats(0, 12, 12, 12, 5, 0, 10, 10, 1, 12))), ItemTypeGroup.ARMOR.toType(), true),
     ANCIENT(new ArrayList<>(Arrays.asList(new Stats(0, 4, 10, 3, 0, 0, 7, 7, 0, 6), new Stats(0, 8, 20, 5, 0, 0, 7, 7, 0, 8), new Stats(0, 7, 30, 7, 0, 0, 7, 7, 0, 12), new Stats(0, 18, 40, 9, 0, 0, 7, 7, 0, 16), new Stats(0, 25, 50, 12, 0, 0, 7, 7, 0, 20), new Stats(0, 35, 60, 15, 0, 0, 7, 7, 0, 25))), new ArrayList<>(Arrays.asList(ItemType.HELMET, ItemType.CHESTPLATE, ItemType.LEGGINGS, ItemType.BOOTS)), true),
     NECROTIC(new ArrayList<>(Arrays.asList(new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 30), new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 60), new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 90), new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 120), new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 150), new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 200))), new ArrayList<>(Arrays.asList(ItemType.HELMET, ItemType.CHESTPLATE, ItemType.LEGGINGS, ItemType.BOOTS)), true),
     // Swords
+    FABLED(new ArrayList<>(Arrays.asList(new Stats(0, 30, 15, 0, 0, 0), new Stats(0, 35, 20, 0, 0, 0), new Stats(0, 40, 25, 0, 0, 0), new Stats(0, 50, 32, 0, 0, 0), new Stats(0, 60, 40, 0, 0, 0), new Stats(0, 75, 50, 0, 0, 0))), new ArrayList<>(Arrays.asList(ItemType.SWORD)), true),
     WITHERED(new ArrayList<>(Arrays.asList(new Stats(0, 60, 0, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 75, 0, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 90, 0, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 110, 0, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 135, 0, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 170, 0, 0, 0, 0, 0, 0, 0, 0))), new ArrayList<>(Arrays.asList(ItemType.SWORD)), true),
 
     // Reforges

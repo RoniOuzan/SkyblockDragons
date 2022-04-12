@@ -16,6 +16,7 @@ import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.pet.Pet;
@@ -27,6 +28,7 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
+import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
 import me.maxiiiiii.skyblockdragons.worlds.mining.Mining;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -227,6 +229,8 @@ public class PlayerSD extends PlayerClass {
         } else {
             this.player.getInventory().addItem(item);
         }
+        PlayerGetItemEvent event = new PlayerGetItemEvent(this, item);
+        Bukkit.getServer().getPluginManager().callEvent(event);
     }
 
     public void addItemStat(ItemStack item) {
@@ -275,6 +279,9 @@ public class PlayerSD extends PlayerClass {
         } else {
             player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
         }
+
+        if (getEnchantLevel(EnchantType.RESPIRATION) > 0)
+            player.setMaximumAir((getEnchantLevel(EnchantType.RESPIRATION) * 200) + 200);
 
         ArrayList<ItemFamily> accessoryFamilies = new ArrayList<>();
         for (ItemStack accessory : this.accessoryBag.getItems()) {
@@ -341,6 +348,15 @@ public class PlayerSD extends PlayerClass {
 
 
         // Full Sets
+        if (fullSet.equals("Old Blood")) {
+            statsMultiplayer.increase(StatType.HEALTH, 20);
+        }
+        if (fullSet.equals("Protector Blood") && player.getHealth() >= player.getMaxHealth() / 2) {
+            statsMultiplayer.increase(StatType.DEFENSE, 30);
+        }
+        if (fullSet.equals("Young Blood") && player.getHealth() >= player.getMaxHealth() / 2) {
+            stats.speed.amount += 70;
+        }
         if (fullSet.equals("Superior Blood")) {
             statsMultiplayer.increase(0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 0, 0, 0, 0);
         }
@@ -376,7 +392,7 @@ public class PlayerSD extends PlayerClass {
     public boolean manaCost(int manaCost, ItemStack item, String abilityName) {
         if (this.player.getGameMode() == GameMode.CREATIVE) return false;
 
-        int cost = Functions.manaCostCalculator(manaCost, item);
+        int cost = Functions.manaCostCalculator(manaCost, this);
         if (this.stats.mana.amount >= cost) {
             this.stats.mana.amount -= cost;
             Functions.sendActionBar(this, abilityName + ChatColor.AQUA + "! (" + cost + " Mana)");
@@ -389,7 +405,7 @@ public class PlayerSD extends PlayerClass {
     public boolean manaCost(int manaCost, ItemStack item, int i) {
         if (this.player.getGameMode() == GameMode.CREATIVE) return true;
 
-        int cost = Functions.manaCostCalculator(manaCost, item);
+        int cost = Functions.manaCostCalculator(manaCost, this);
         if (this.stats.mana.amount >= cost) {
             this.stats.mana.amount -= cost;
             Functions.sendActionBar(this, ((WeaponMaterial) Functions.getItemMaterial(item)).getAbilities().get(i).getName() + ChatColor.AQUA + "! (" + cost + " Mana)");
@@ -402,7 +418,7 @@ public class PlayerSD extends PlayerClass {
         if (this.player.getGameMode() == GameMode.CREATIVE) return false;
 
         ToolMaterial material = (ToolMaterial) Functions.getItemMaterial(item);
-        int cost = manaCostCalculator(material.getAbilities().get(i).getManaCost(), item);
+        int cost = manaCostCalculator(material.getAbilities().get(i).getManaCost(), this);
         if (this.stats.mana.amount >= cost) {
             this.stats.mana.amount -= cost;
             Functions.sendActionBar(this, material.getAbilities().get(i).getName() + ChatColor.AQUA + "! (" + cost + " Mana)");
@@ -413,10 +429,14 @@ public class PlayerSD extends PlayerClass {
     }
 
     public short getEnchantLevel(EnchantType enchant) {
+        if (skill.getEnchantingSkill().getLevel() < enchant.getRequirement().getLevel() && this.getGameMode() != GameMode.CREATIVE)
+            return 0;
         return Functions.getEnchantLevel(player.getEquipment().getItemInMainHand(), enchant);
     }
 
     public short getEnchantLevel(EnchantType enchant, Condition condition) {
+        if (skill.getEnchantingSkill().getLevel() < enchant.getRequirement().getLevel() && this.getGameMode() != GameMode.CREATIVE)
+            return 0;
         if (!condition.check())
             return 0;
         return Functions.getEnchantLevel(player.getEquipment().getItemInMainHand(), enchant);
@@ -431,7 +451,7 @@ public class PlayerSD extends PlayerClass {
 
             ItemMaterial itemMaterial = getItemMaterial(itemStack);
 
-            Item item = new Item(itemMaterial, itemStack);
+            Item item = new Item(this, itemMaterial, itemStack);
             copyNBTStack(item, itemStack);
             if (!item.isSimilar(itemStack) && !getId(itemStack).contains("_PET") && !Functions.getId(item).equals("SKYBLOCK_MENU")) {
                 player.getInventory().setItem(i, item);
@@ -484,6 +504,9 @@ public class PlayerSD extends PlayerClass {
         }
         scores.add(objective.getScore(ChatColor.WHITE + "Bits: " + ChatColor.AQUA + getNumberFormat(bits) + " " + bitsAdder));
         scores.add(objective.getScore(" "));
+        if (this.getWorldSD() == WorldSD.THE_END) {
+
+        }
         if (this.playerPet.activePet >= 0) {
             scores.add(objective.getScore(ChatColor.WHITE + "Active Pet:"));
             scores.add(objective.getScore("  " + this.getPetActive().getRarity().getColor() + this.getPetActive().getPetMaterial().getName()));
@@ -576,5 +599,13 @@ public class PlayerSD extends PlayerClass {
 
     public void makeDamage(Entity entity, Damage.DamageType damageType, double damage) {
         makeDamage(entity, damageType, damage, 0, 0);
+    }
+
+    public WorldSD getWorldSD() {
+        for (WorldSD world : WorldSD.values()) {
+            if (world.getWorld() == player.getWorld())
+                return world;
+        }
+        return null;
     }
 }

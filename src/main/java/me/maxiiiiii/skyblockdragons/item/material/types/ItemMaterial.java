@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Getter
 @ToString
-public class ItemMaterial implements ConfigurationSerializable, ItemSD {
+public class ItemMaterial implements ConfigurationSerializable, MaterialSD {
     protected Material material;
     protected ItemFamily family;
     protected String name;

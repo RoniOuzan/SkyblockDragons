@@ -214,27 +214,6 @@ public class EntityMaterial implements ConfigurationSerializable {
                 new RareDrop(Items.get("ENDERMAN_TALISMAN_EPIC"), 1, 0.01)
         ));
 
-        entities.put("ENDERMAN_TIER_3", new EntityMaterial(
-                EntityType.ENDERMAN,
-                ChatColor.WHITE + "Enderman Tier 3",
-                21,
-                1100,
-                2,
-                400,
-                0,
-                new Equipment(),
-                100,
-                0,
-                75,
-                12,
-                new ItemDrop(Items.get("ENDER_PEARL"), 1, 3),
-                new RareDrop(Items.get("ENDERMAN_TALISMAN_COMMON"), 1, 0.75),
-                new RareDrop(Items.get("ENDERMAN_TALISMAN_UNCOMMON"), 1, 0.3),
-                new RareDrop(Items.get("ENDERMAN_TALISMAN_RARE"), 1, 0.1),
-                new RareDrop(Items.get("ENDERMAN_TALISMAN_EPIC"), 1, 0.05),
-                new RareDrop(Items.get("ENDERMAN_TALISMAN_LEGENDARY"), 1, 0.02)
-        ));
-
         entities.put("ENDER_GUARD", new EntityMaterial(
                 EntityType.ENDERMAN,
                 ChatColor.DARK_PURPLE + "Ender Guard",
@@ -251,6 +230,92 @@ public class EntityMaterial implements ConfigurationSerializable {
                 new ItemDrop(Items.get("ENDER_PEARL"), 1, 3),
                 new RareDrop(Items.get("SUMMONING_EYE"), 1, 1)
         ));
+
+
+        entities.put("OLD_DRAGON", new EntityDragonMaterial(
+                ChatColor.YELLOW + "Old Dragon",
+                -1,
+                1,
+                0,
+                0,
+                10,
+                new Equipment(),
+                100,
+                1
+        ));
+
+        entities.put("PROTECTOR_DRAGON", new EntityDragonMaterial(
+                ChatColor.GRAY + "Protector Dragon",
+                -1,
+                1,
+                50,
+                0,
+                10,
+                new Equipment(),
+                100,
+                1
+        ));
+
+        entities.put("WISE_DRAGON", new EntityDragonMaterial(
+                ChatColor.AQUA + "Wise Dragon",
+                -1,
+                1,
+                0,
+                0,
+                10,
+                new Equipment(),
+                100,
+                1
+        ));
+
+        entities.put("UNSTABLE_DRAGON", new EntityDragonMaterial(
+                ChatColor.DARK_PURPLE + "Unstable Dragon",
+                -1,
+                1,
+                50,
+                0,
+                10,
+                new Equipment(),
+                100,
+                1
+        ));
+
+        entities.put("YOUNG_DRAGON", new EntityDragonMaterial(
+                ChatColor.GREEN + "Young Dragon",
+                -1,
+                1,
+                50,
+                0,
+                10,
+                new Equipment(),
+                100,
+                1
+        ));
+
+        entities.put("STRONG_DRAGON", new EntityDragonMaterial(
+                ChatColor.RED + "Strong Dragon",
+                -1,
+                1,
+                50,
+                0,
+                10,
+                new Equipment(),
+                100,
+                1
+        ));
+
+        entities.put("SUPERIOR_DRAGON", new EntityDragonMaterial(
+                ChatColor.GOLD + "Superior Dragon",
+                -1,
+                1,
+                50,
+                0,
+                10,
+                new Equipment(),
+                100,
+                1
+        ));
+
 
         entities.put("DUMMY", new EntityMaterial(EntityType.ZOMBIE, "Dummy", Integer.MAX_VALUE, 500000, 0, 0, 0, new Equipment(), 0, 1, false, 0, 0));
 

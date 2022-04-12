@@ -15,6 +15,6 @@ public enum SkillType {
 
     @Override
     public String toString() {
-        return Functions.setTitleCase(this.name());
+        return Functions.setTitleCase(this.name().replace("_", " "));
     }
 }

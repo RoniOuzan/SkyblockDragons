@@ -2,50 +2,53 @@ package me.maxiiiiii.skyblockdragons;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import me.maxiiiiii.skyblockdragons.damage.KnockbackListener;
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.item.abilities.*;
-import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
-import me.maxiiiiii.skyblockdragons.item.craftingtable.commands.*;
-import me.maxiiiiii.skyblockdragons.item.enchants.EnchantingTableCommand;
-import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
-import me.maxiiiiii.skyblockdragons.item.anvil.AnvilCommand;
-import me.maxiiiiii.skyblockdragons.player.bank.BankCommand;
-import me.maxiiiiii.skyblockdragons.commands.BitsCommand;
 import me.maxiiiiii.skyblockdragons.commands.*;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
+import me.maxiiiiii.skyblockdragons.damage.KnockbackListener;
 import me.maxiiiiii.skyblockdragons.entity.EntityCommand;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.events.*;
-import me.maxiiiiii.skyblockdragons.item.*;
+import me.maxiiiiii.skyblockdragons.item.ItemCommand;
+import me.maxiiiiii.skyblockdragons.item.abilities.Terminator;
+import me.maxiiiiii.skyblockdragons.item.abilities.*;
+import me.maxiiiiii.skyblockdragons.item.anvil.AnvilCommand;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.commands.*;
 import me.maxiiiiii.skyblockdragons.item.enchants.BookCommand;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
-import me.maxiiiiii.skyblockdragons.player.coop.CoopCommand;
-import me.maxiiiiii.skyblockdragons.pet.*;
+import me.maxiiiiii.skyblockdragons.item.enchants.EnchantingTableCommand;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeCommand;
+import me.maxiiiiii.skyblockdragons.pet.*;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.StatCommand;
+import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
+import me.maxiiiiii.skyblockdragons.player.bank.BankCommand;
+import me.maxiiiiii.skyblockdragons.player.coop.CoopCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillAdminCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillListener;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillMenuCommand;
-import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.events.UpdateStatsListeners;
-import me.maxiiiiii.skyblockdragons.player.StatCommand;
-import me.maxiiiiii.skyblockdragons.storage.VariableCommand;
-import me.maxiiiiii.skyblockdragons.storage.Variables;
-import me.maxiiiiii.skyblockdragons.util.*;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeCommand;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeListener;
+import me.maxiiiiii.skyblockdragons.storage.VariableCommand;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
+import me.maxiiiiii.skyblockdragons.util.EntityHider;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.FlyTo;
 import me.maxiiiiii.skyblockdragons.util.objects.ParticlePacketUtil;
+import me.maxiiiiii.skyblockdragons.util.objects.PickableItem;
 import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
-import me.maxiiiiii.skyblockdragons.worlds.mining.Mining;
+import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
+import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.worlds.warp.PlayerWarpListener;
 import me.maxiiiiii.skyblockdragons.worlds.warp.WarpCommand;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.*;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.*;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -85,6 +88,14 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             holo.delete();
         }
 
+        for (World world : Bukkit.getWorlds()) {
+            world.getLivingEntities().stream().filter(e -> e.getScoreboardTags().contains("EntitySD") || e.getScoreboardTags().contains("Pet") || e.getScoreboardTags().contains("PickableItem")).forEach(Entity::remove);
+        }
+
+
+
+        TheEnd.resetEyes();
+
         Variables.load();
 
         Items.registerItems();
@@ -111,11 +122,14 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new KnockbackListener(), this);
         getServer().getPluginManager().registerEvents(new PortalListener(), this);
         getServer().getPluginManager().registerEvents(new ProjectileHitListener(), this);
+        getServer().getPluginManager().registerEvents(new EndermanTeleportListener(), this);
+        getServer().getPluginManager().registerEvents(new PickableItem(), this);
+        getServer().getPluginManager().registerEvents(new PlayerPickupItemListener(), this);
 
         getServer().getPluginManager().registerEvents(new PlayerWarpListener(), this);
 
         // World Listeners
-        new Mining(this);
+        WorldSD.registerWorlds(this);
 
         // Abilities
         getServer().getPluginManager().registerEvents(new Aspect_of_The_End(), this);
@@ -147,6 +161,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Midas_Staff(), this);
         getServer().getPluginManager().registerEvents(new ERRORMerang_Wand(), this);
         getServer().getPluginManager().registerEvents(new Pigman_Dagger(), this);
+        getServer().getPluginManager().registerEvents(new Aspect_Of_The_Dragons(), this);
 
         // Command Listeners
         getServer().getPluginManager().registerEvents(new ItemCommand(), this);
@@ -250,6 +265,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                     if (player.getPlayerPet().getPetArmorStand().armorStand.getLocation().distance(player.getLocation()) > 3)
                         new FlyTo(player.getPlayerPet().getPetArmorStand().armorStand, player, 20, 1.5, true, player.getPlayerPet().petArmorStand.hologram, new Vector(0, 1.6, 0));
                     player.getPlayerPet().petArmorStand.armorStand.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.1 : -0.1), 0));
+                    player.getPlayerPet().petArmorStand.hologram.teleport(player.getPlayerPet().petArmorStand.hologram.getLocation().add(0, 1.6, 0));
                     for (ParticlePacketUtil particle : player.getPetActive().petMaterial.particles) {
                         Functions.spawnParticle(Functions.getPlayerShowedPets(), particle, player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.8, 0));
                     }
@@ -296,6 +312,17 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 }
             }
         }, 0L, 200L);
+
+//        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+//            for (PlayerSD player : players.values()) {
+//                for (LivingEntity entity : player.getWorld().getLivingEntities()) {
+//                    if (entity instanceof Creature) {
+//                        player.getWorld().strikeLightningEffect(entity.getLocation());
+//                        player.makeDamage(entity, Damage.DamageType.MAGIC, 1, 50, 0.05);
+//                    }
+//                }
+//            }
+//        }, 3000L, 6000L);
 
         System.out.println("Skyblock Dragons plugin has been loaded!");
     }
@@ -349,3 +376,12 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         return getPlayer(player.getUniqueId());
     }
 }
+
+
+//                                            slayers
+//                                              /\
+//                                              ||
+// deep mines -> the end -> bat workers -> bear -> griffin
+//                                      ||
+//                                      \/
+//                                   dungeons

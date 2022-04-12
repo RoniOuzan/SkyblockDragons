@@ -19,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 import static me.maxiiiiii.skyblockdragons.item.anvil.AnvilGui.*;
 
-public class AnvilCommand implements CommandExecutor, Listener {
+public class  AnvilCommand implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
@@ -142,7 +142,7 @@ public class AnvilCommand implements CommandExecutor, Listener {
                         try {
                             if (e.getCurrentItem().getType() != Material.STAINED_GLASS_PANE) {
                                 Anvil anvil = new Anvil(e.getInventory().getItem(29), e.getInventory().getItem(33));
-                                e.getInventory().setItem(13, anvil.combine());
+                                e.getInventory().setItem(13, anvil.combine(SkyblockDragons.getPlayer((Player) e.getWhoClicked())));
                                 if (e.getInventory().getItem(13).getType() != Material.BARRIER && e.getInventory().getItem(29).getType() != Material.AIR || e.getInventory().getItem(33).getType() != Material.AIR) {
                                     updateLine(e.getInventory(), false);
                                 }

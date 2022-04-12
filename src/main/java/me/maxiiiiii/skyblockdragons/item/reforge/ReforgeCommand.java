@@ -1,13 +1,13 @@
 package me.maxiiiiii.skyblockdragons.item.reforge;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -18,11 +18,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,32 +46,57 @@ public class ReforgeCommand implements CommandExecutor, Listener {
         return ReforgeType.SPICY;
     }
 
-    private void updateLines(Inventory inv, boolean red) {
+    private void updateLines(PlayerSD player, Inventory inventory, boolean red) {
         if (red) {
             ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14);
             int n = 0;
             for (int i = 0; i < 5; i++) {
-                inv.setItem(n, glass);
+                inventory.setItem(n, glass);
                 n += 9;
             }
             n = 8;
             for (int i = 0; i < 5; i++) {
-                inv.setItem(n, glass);
+                inventory.setItem(n, glass);
                 n += 9;
             }
         } else {
             ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 5);
             int n = 0;
             for (int i = 0; i < 5; i++) {
-                inv.setItem(n, glass);
+                inventory.setItem(n, glass);
                 n += 9;
             }
             n = 8;
             for (int i = 0; i < 5; i++) {
-                inv.setItem(n, glass);
+                inventory.setItem(n, glass);
                 n += 9;
             }
         }
+        if (Functions.isNotAir(inventory.getItem(13))) {
+            ItemStack anvil = ReforgeMenu.anvil.clone();
+            List<String> lores = anvil.getItemMeta().getLore();
+            lores.remove(lores.size() - 1);
+            int cost = getCost(inventory, player);
+            lores.add(ChatColor.GRAY + "Cost: " + ChatColor.GOLD + Functions.getNumberFormat(cost));
+            lores.add("");
+            lores.add(ChatColor.YELLOW + "Click to reforge!");
+            Functions.setLore(anvil, lores);
+            inventory.setItem(22, anvil);
+        }
+    }
+
+    public static int getCost(Inventory inventory, PlayerSD player) {
+        int cost = 0;
+        if (inventory.getItem(13).getItemMeta().getDisplayName().contains("Accessory Bag")) {
+            for (ItemStack item : player.getAccessoryBag().getItems()) {
+                if (Functions.getRarity(item) == ReforgeMenu.raritySelected.getOrDefault(player.getPlayer(), Rarity.COMMON))
+                    cost += Functions.getRarity(item).getLevel() * 10000;
+            }
+            cost = (int) Math.pow(cost, 0.8);
+        } else {
+            cost = Functions.getRarity(inventory.getItem(13)).getLevel() * 10000;
+        }
+        return cost;
     }
 
     @Override
@@ -80,6 +105,15 @@ public class ReforgeCommand implements CommandExecutor, Listener {
             ReforgeMenu.openReforgeMenu((Player) sender, false);
         }
         return true;
+    }
+
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent e) {
+        if (e.getInventory().getTitle().equals("Reforge Menu")) {
+            if (Functions.isNotAir(e.getInventory().getItem(13)) && !e.getInventory().getItem(13).getItemMeta().getDisplayName().contains("Accessory Bag")) {
+                e.getPlayer().getInventory().addItem(e.getInventory().getItem(13));
+            }
+        }
     }
 
     @EventHandler
@@ -95,10 +129,11 @@ public class ReforgeCommand implements CommandExecutor, Listener {
                 e.setCancelled(false);
             }
             if (e.getSlot() == 41) {
-                if (Functions.isNotAir(e.getInventory().getItem(13))) {
-                    player.getInventory().addItem(e.getInventory().getItem(13));
-                }
-                e.getInventory().setItem(13, e.getCurrentItem());
+//                if (Functions.isNotAir(e.getInventory().getItem(13))) {
+//                    player.getInventory().addItem(e.getInventory().getItem(13));
+//                }
+//                e.getInventory().setItem(13, e.getCurrentItem());
+                ReforgeMenu.openReforgeMenu(player, true);
             }
 
             if (e.getSlot() == 42 && e.getInventory().getItem(13).getItemMeta().getDisplayName().contains("Accessory Bag")) {
@@ -110,7 +145,7 @@ public class ReforgeCommand implements CommandExecutor, Listener {
             }
 
             if (Functions.isNotAir(e.getInventory().getItem(13))) {
-                if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Accessory Bag")) {
+                if (e.getSlot() == 13 && e.getCurrentItem().getItemMeta().getDisplayName().contains("Accessory Bag")) {
                     ReforgeMenu.openReforgeMenu(player, false);
                     return;
                 }
@@ -118,6 +153,13 @@ public class ReforgeCommand implements CommandExecutor, Listener {
                 NBTItem nbt = new NBTItem(e.getInventory().getItem(13));
 
                 if (e.getSlot() == 22) {
+                    int cost = Integer.parseInt(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getLore().get(5).split(": ")[1].replace(",", "")));
+                    if (playerSD.getCoins() < cost) {
+                        player.sendMessage(ChatColor.RED + "You don't have enough coins to reforge this item!");
+                        return;
+                    }
+                    playerSD.removeCoins(cost);
+
                     if (e.getInventory().getItem(13).getItemMeta().getDisplayName().contains("Accessory Bag")) {
                         ReforgeType reforgeType = getRandomReforge(ItemType.ACCESSORY);
                         for (int i = 0; i < 10; i++) {
@@ -130,7 +172,7 @@ public class ReforgeCommand implements CommandExecutor, Listener {
                         for (ItemStack item : playerSD.getAccessoryBag().getItems()) {
                             if (Items.get(item).getRarity() == ReforgeMenu.raritySelected.getOrDefault(player, Rarity.COMMON)) {
                                 Reforge reforge = new Reforge(item, reforgeType);
-                                accessories.set(i, reforge.apply());
+                                accessories.set(i, reforge.apply(playerSD));
                             }
                             i++;
                         }
@@ -146,7 +188,7 @@ public class ReforgeCommand implements CommandExecutor, Listener {
                         }
                         player.sendMessage(ChatColor.GREEN + "You have been reforged your " + e.getInventory().getItem(13).getItemMeta().getDisplayName() + ChatColor.GREEN + " to " + Functions.getRarity(e.getInventory().getItem(13)).getColor() + reforgeType.toString() + ChatColor.GREEN + ".");
                         Reforge reforge = new Reforge(e.getInventory().getItem(13), reforgeType);
-                        e.getInventory().setItem(13, reforge.apply());
+                        e.getInventory().setItem(13, reforge.apply(playerSD));
                         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.5f, 1f);
                     }
                 }
@@ -154,7 +196,7 @@ public class ReforgeCommand implements CommandExecutor, Listener {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    updateLines(e.getInventory(), !Functions.getItemMaterial(e.getInventory().getItem(13)).getType().isReforgeable());
+                    updateLines(playerSD, e.getInventory(), (!Functions.getItemMaterial(e.getInventory().getItem(13)).getType().isReforgeable() || (Functions.isNotAir(e.getInventory().getItem(13)) && !e.getInventory().getItem(13).getItemMeta().getDisplayName().contains("Reforge Accessory Bag"))));
                 }
             }.runTaskLater(SkyblockDragons.plugin, 1);
         }

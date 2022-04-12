@@ -18,9 +18,10 @@ public class JoinQuitListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
-        if (player.getPlayerPet().activePet >= 0)
+        if (player.getPlayerPet().activePet >= 0) {
             player.getPlayerPet().petArmorStand.armorStand.remove();
             player.getPlayerPet().petArmorStand.hologram.delete();
+        }
         player.save();
         SkyblockDragons.players.remove(e.getPlayer().getUniqueId());
     }

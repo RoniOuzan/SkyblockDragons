@@ -60,10 +60,14 @@ public class EntitySD extends EntityClass {
         this.entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(this.type.health);
         this.entity.setHealth(this.type.health);
         this.entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(this.type.knockbackResistance);
-        this.entity.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv " + this.type.level + ChatColor.DARK_GRAY + "] " + ChatColor.WHITE + this.type.name);
+        if (this.type.level < 0)
+            this.entity.setCustomName(ChatColor.WHITE + this.type.name);
+        else
+            this.entity.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv " + this.type.level + ChatColor.DARK_GRAY + "] " + ChatColor.WHITE + this.type.name);
         this.entity.setCustomNameVisible(true);
         this.entity.setAI(this.type.ai);
         this.entity.setCanPickupItems(false);
+        this.entity.addScoreboardTag("EntitySD");
 
         if (this.entity instanceof Zombie)
             ((Zombie) this.entity).setBaby(false);
@@ -100,7 +104,7 @@ public class EntitySD extends EntityClass {
 
     public static void loadLocations() {
         for (int i = 0; i < Variables.getSize("EntitiesSpawnsLocations"); i++) {
-            if (!Variables.get("EntitiesSpawnsEntity", i, EntityMaterial.NULL).name.equals("Null"))
+            if (Variables.get("EntitiesSpawnsEntity", i) != null)
                 entitiesLocations.put(Variables.get("EntitiesSpawnsLocations", i), Variables.get("EntitiesSpawnsEntity", i));
         }
     }

@@ -1,10 +1,12 @@
 package me.maxiiiiii.skyblockdragons.item.enchants;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -21,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
@@ -64,12 +67,29 @@ public class EnchantingTableCommand implements CommandExecutor, Listener {
 
             if (e.getCurrentItem().getType() == Material.ENCHANTED_BOOK) {
                 EnchantType enchantType = EnchantType.enchants.get(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName().replace(" ", "_").toUpperCase()));
-                EnchantingTableMenu.openEnchantMenu(player, enchantType, new Item(e.getInventory().getItem(19)));
+                EnchantingTableMenu.openEnchantMenu(player, enchantType, new Item(SkyblockDragons.getPlayer(player), e.getInventory().getItem(19)));
             }
         } else if (e.getInventory().getTitle().equals("Enchant Item")) {
             e.setCancelled(true);
 
             if (e.getCurrentItem().getType() == Material.ENCHANTED_BOOK) {
+                int cost = Integer.parseInt(e.getCurrentItem().getItemMeta().getLore().stream().filter(s -> s.contains("Costs: ")).map(ChatColor::stripColor).collect(Collectors.toList()).get(0).split(" ")[1]);
+                Item requirementItem = new Item(SkyblockDragons.getPlayer(player), e.getCurrentItem());
+                if (player.getGameMode() != GameMode.CREATIVE) {
+                    for (EnchantType enchantType : requirementItem.getEnchants().keySet()) {
+                        if (SkyblockDragons.getPlayer(player).getSkill().getEnchantingSkill().getLevel() < enchantType.getRequirement().getLevel()) {
+                            player.sendMessage(ChatColor.RED + "You don't have the requirements to apply this enchant!");
+                            player.closeInventory();
+                            return;
+                        }
+                    }
+                }
+                if (player.getLevel() < cost && player.getGameMode() != GameMode.CREATIVE) {
+                    player.sendMessage(ChatColor.RED + "You don't have enough level to apply this enchant!");
+                    player.closeInventory();
+                    return;
+                }
+                player.setLevel(player.getLevel() - cost);
                 ItemStack fromItem = e.getInventory().getItem(13);
                 Map<EnchantType, Short> enchants = Functions.getEnchants(fromItem);
                 Map<EnchantType, Short> enchantsToAdd = Functions.getEnchants(e.getCurrentItem());
@@ -79,7 +99,7 @@ public class EnchantingTableCommand implements CommandExecutor, Listener {
                     else
                         enchants.put(enchantType, enchantsToAdd.get(enchantType));
                 }
-                Item item = new Item(Items.get(fromItem), (isStackable(fromItem) ? fromItem.getAmount() : 1), getHotPotato(fromItem), getReforge(fromItem), isRecombed(fromItem), getSkin(fromItem), enchants, getNecronScrolls(fromItem));
+                Item item = new Item(SkyblockDragons.getPlayer(player), Items.get(fromItem), (isStackable(fromItem) ? fromItem.getAmount() : 1), getHotPotato(fromItem), getReforge(fromItem), isRecombed(fromItem), getSkin(fromItem), enchants, getNecronScrolls(fromItem));
                 EnchantingTableMenu.openEnchantingTable(player, item);
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
             }

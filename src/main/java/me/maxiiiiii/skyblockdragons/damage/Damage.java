@@ -56,6 +56,18 @@ public class Damage implements Listener {
         double damage = damageCalculator.damage;
         boolean critHit = damageCalculator.critHit;
 
+        if (player.getEnchantLevel(EnchantType.LIFE_STEAL) > 0) {
+            player.setHealth(Math.min(player.getMaxHealth(), player.getHealth() + player.getHealth() * (player.getEnchantLevel(EnchantType.LIFE_STEAL) * 0.5)));
+        }
+        if (player.getEnchantLevel(EnchantType.SYPHON) > 0) {
+            if (player instanceof PlayerSD)
+                player.setHealth(Math.min(player.getMaxHealth(), player.getHealth() + player.getHealth() * ((player.getEnchantLevel(EnchantType.SYPHON) * 0.1 + 0.1)) * Math.min(((PlayerSD) player).getStats().critDamage.amount / 100, 10)));
+        }
+        if (player.getEnchantLevel(EnchantType.MANA_STEAL) > 0) {
+            if (player instanceof PlayerSD)
+                ((PlayerSD) player).getStats().mana.amount += ((PlayerSD) player).getStats().mana.amount * player.getEnchantLevel(EnchantType.MANA_STEAL) * 0.25;
+        }
+
         // hologram
         String damageDisplay = ChatColor.GRAY + "" + Functions.getNumberFormat(damage);
         if (critHit) {
@@ -116,7 +128,11 @@ public class Damage implements Listener {
     }
 
     public DamageCalculator getDamage(EntitySD player, EntitySD entity, DamageType damageType, double baseAbilityDamage, double abilityScaling) {
-        Item item = new Item(player.getEquipment().getItemInMainHand());
+        Item item;
+        if (player instanceof PlayerSD)
+            item = new Item((PlayerSD) player, player.getEquipment().getItemInMainHand());
+        else
+            item = new Item(null, player.getEquipment().getItemInMainHand());
         double damage = 1;
         boolean critHit = false;
 
@@ -191,6 +207,9 @@ public class Damage implements Listener {
             baseMultiplayer += 0.2;
         }
 
+        if (fullSet.equals("Strong Blood") && toolMaterial == Items.get("ASPECT_OF_THE_END"))
+            baseAbilityDamage += 0.2;
+
         // final damage
         damage *= baseMultiplayer;
         damage *= postMultiplayer;
@@ -222,6 +241,7 @@ public class Damage implements Listener {
         }
         victim.setAttacker(attacker);
         double health = victim.getHealth();
+        e.setDamage(damage);
         victim.damage(0);
         victim.setHealth(Math.max(health - damage, 0));
         EntityKnockbackEvent knockbackEvent = new EntityKnockbackEvent(e.getVictim(), e.getAttacker());
@@ -245,6 +265,11 @@ public class Damage implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByBlockEvent e) {
+        if (e.getDamager() == null) {
+            EntitySD.get(e.getEntity()).kill();
+            return;
+        }
+
         if (!e.getDamager().getType().isSolid()) {
             EntitySD entity = new EntitySD((LivingEntity) e.getEntity());
 
@@ -276,10 +301,7 @@ public class Damage implements Listener {
             player.giveSkill(SkillType.COMBAT, entity.type.combatXp);
             if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0) {
                 for (ItemDrop drop : entity.type.getDrops()) {
-                    ItemStack item = drop.generate(player);
-                    if (item != null) {
-                        player.give(drop);
-                    }
+                    player.give(drop);
                 }
             } else {
                 for (ItemDrop drop : entity.type.getDrops()) {
@@ -291,8 +313,15 @@ public class Damage implements Listener {
                 }
             }
 
+            if (player.getEnchantLevel(EnchantType.VAMPIRISM) > 0) {
+                player.setHealth(Math.min(player.getMaxHealth(), player.getHealth() * (1 + (player.getEnchantLevel(EnchantType.VAMPIRISM) * 0.01))));
+            }
+
             Functions.createHologram(entity.getLocation().add(0, 3, 0), new ArrayList<>(Arrays.asList(ChatColor.GOLD + player.getName(), ChatColor.GOLD + "+" + Functions.getNumberFormat(entity.type.getCoins()))), 40);
-            player.addCoins(entity.type.getCoins());
+            double coins = entity.type.getCoins();
+            if (player.getEnchantLevel(EnchantType.SCAVENGER) > 0)
+                coins += (player.getEnchantLevel(EnchantType.SCAVENGER) * EnchantType.SCAVENGER.getMultiplayers().get(player.getEnchantLevel(EnchantType.SCAVENGER)));
+            player.addCoins(coins);
         }
     }
 

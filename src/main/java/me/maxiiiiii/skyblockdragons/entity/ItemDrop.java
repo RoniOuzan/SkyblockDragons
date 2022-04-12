@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
 import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -35,9 +36,10 @@ public class ItemDrop extends Item {
 
     @Nullable
     public ItemStack generate(PlayerSD player) {
-        if (Functions.randomDouble(0, 100) > this.chance)
+        double chance = this.chance;
+        if (Functions.randomDouble(0, 100) > chance)
             return null;
-        int amount = Functions.randomInt(this.minAmount, this.maxAmount);
+        int amount = Functions.randomInt(this.minAmount, this.maxAmount + player.getEnchantLevel(EnchantType.LOOTING) + player.getEnchantLevel(EnchantType.CHANCE));
         return new Item(this.getMaterial(), amount);
     }
 }

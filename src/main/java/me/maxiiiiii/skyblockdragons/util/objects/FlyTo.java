@@ -8,16 +8,16 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class FlyTo extends BukkitRunnable {
-    public Entity entity;
-    public Entity target;
-    public long denominator;
+    private final Entity entity;
+    private final Entity target;
+    private final long denominator;
 
-    public Hologram hologram;
-    public Vector hologramAdder;
+    private final Hologram hologram;
+    private final Vector hologramAdder;
 
-    public double stopAt;
+    private final double stopAt;
 
-    public boolean lookAtTarget;
+    private final boolean lookAtTarget;
 
     public FlyTo(Entity entity, Entity target, long denominator, double stopAt, boolean lookAtTarget, Hologram hologram, Vector hologramAdder) {
         this.entity = entity;

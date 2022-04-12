@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.pet;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import lombok.Getter;
 import lombok.Setter;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemSD;
+import me.maxiiiiii.skyblockdragons.item.objects.MaterialSD;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
@@ -13,7 +13,6 @@ import me.maxiiiiii.skyblockdragons.util.objects.ParticlePacketUtil;
 import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +20,7 @@ import java.util.HashMap;
 
 @Getter
 @Setter
-public class PetMaterial implements ItemSD {
+public class PetMaterial implements MaterialSD {
     public static final HashMap<String, PetMaterial> pets = new HashMap<>();
 
     public static PetMaterial NULL = null;
@@ -100,6 +99,10 @@ public class PetMaterial implements ItemSD {
         ));
 
         NULL = new PetMaterial("Null", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)), "", "", new Stats(0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d), new ArrayList<>(Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL))))), SkillType.COMBAT, new ParticlePacketUtil(EnumWrappers.Particle.REDSTONE, 1, 0, 0, 1f, 5));
+    }
+
+    public static PetMaterial get(String name) {
+        return pets.getOrDefault(name, PetMaterial.NULL);
     }
 
     public String name() {

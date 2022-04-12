@@ -145,6 +145,12 @@ public class Functions {
         item.setItemMeta(itemMeta);
     }
 
+    public static void setLore(ItemStack item, List<String> lores) {
+        ItemMeta itemMeta = item.getItemMeta();
+        itemMeta.setLore(lores);
+        item.setItemMeta(itemMeta);
+    }
+
     public static void setLore(ItemStack item, String... lore) {
         ArrayList<String> lores = new ArrayList<>(Arrays.asList(lore));
         setLore(item, lores);
@@ -248,15 +254,15 @@ public class Functions {
         return blocks;
     }
 
-    public static ArrayList<Block> loopBlocksHorizontally(Location center, int size) {
+    public static ArrayList<Block> loopBlocksHorizontally(Location center, double size) {
         ArrayList<Block> blocks = new ArrayList<Block>();
         int X = center.getBlockX();
         int Y = center.getBlockY();
         int Z = center.getBlockZ();
-        for (int x = X - size; x <= X + size; x++) {
-            for (int y = Y - size; y <= Y + size; y++) {
-                for (int z = Z - size; z <= Z + size; z++) {
-                    if (center.distance(center.getWorld().getBlockAt(x, y, z).getLocation()) <= (double) size) {
+        for (int x = X - (int) size; x <= X + size; x++) {
+            for (int y = Y - (int) size; y <= Y + size; y++) {
+                for (int z = Z - (int) size; z <= Z + size; z++) {
+                    if (center.distance(center.getWorld().getBlockAt(x, y, z).getLocation()) <= size) {
                         if (Math.floor(center.getY()) == Math.floor(y)) {
                             blocks.add(center.getWorld().getBlockAt(x, y, z));
                         }
@@ -1231,15 +1237,21 @@ public class Functions {
         }
     }
 
-    public static int manaCostCalculator(int manaCost, ItemStack item) {
-        return manaCostCalculator(manaCost, getEnchants(item));
+    public static int manaCostCalculator(int manaCost, PlayerSD player) {
+        Map<EnchantType, Short> enchants = getEnchants(player.getEquipment().getItemInMainHand());
+        return manaCostCalculator(manaCost, player, enchants);
     }
 
-    public static int manaCostCalculator(int manaCost, Map<EnchantType, Short> enchants) {
+    public static int manaCostCalculator(int manaCost, PlayerSD player, Map<EnchantType, Short> enchants) {
         int finalCost = manaCost;
         for (EnchantType enchantType : enchants.keySet()) {
             if (enchantType.name().equals("ULTIMATE_WISE")) {
-                finalCost -= manaCost * 0.1 * enchants.get(enchantType);
+                finalCost *= 1 - (0.1 * enchants.get(enchantType));
+            }
+        }
+        if (player != null) {
+            if (player.getItems().fullSet.equals("Wise Blood")) {
+                finalCost *= 0.6;
             }
         }
         return finalCost;
@@ -1654,5 +1666,13 @@ public class Functions {
 
     public static Set<Material> getNotSolidBlocks() {
         return Arrays.stream(Material.values()).filter(m -> !m.isOccluding()).collect(Collectors.toSet());
+    }
+
+    public static String getWhatAfterNumber(int num) {
+        int last = Integer.parseInt(((num + "").charAt((num + "").length() - 1)) + "");
+        if (last == 1) return "st";
+        else if (last == 2) return "nd";
+        else if (last == 3) return "rd";
+        else return "th";
     }
 }

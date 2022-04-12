@@ -185,16 +185,15 @@ public class EnchantType {
     public static void registerEnchants() {
         // Swords
         enchants.put("BANE_OF_ARTHROPODS", new EnchantType(5, "Increases damage dealt to Spiders, Cave Spiders and Silverfish by MULTIPLAYER%", new EnchantMultiplayer(10, 20, 30, 40, 60, 80, 100), SkillRequirement.NULL, ItemType.SWORD, new ArrayList<>(Arrays.asList("SHARPNESS", "SMITE"))));
-        enchants.put("CLEAVE", new EnchantType(5, "Deals " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "of your damage dealt to other monsters within 4 blocks of the target.", new EnchantMultiplayer(3, 6, 9, 12, 15, 20), new SkillRequirement(SkillType.ENCHANTING, 4), ItemType.SWORD));
         enchants.put("CRITICAL", new EnchantType(new Stats(0, 0, 10, 0, 0, 0, 0, 0, 0, 0), 5, "Increases " + StatType.CRIT_DAMAGE.getIconAndText() + " " + ChatColor.GRAY + "by " + ChatColor.GREEN + "MULTIPLAYER%" + ChatColor.GRAY + ".", new EnchantMultiplayer(10, 20, 30, 40, 50, 70, 100), new SkillRequirement(SkillType.ENCHANTING, 9), ItemType.SWORD));
         enchants.put("ENDER_SLAYER", new EnchantType(5, "Increases damage dealt to Ender Dragons and Endermen by " + ChatColor.GREEN + "MULTIPLAYER%" + ChatColor.GRAY + ".", new EnchantMultiplayer(10, 20, 30, 40, 60, 80, 100), new SkillRequirement(SkillType.ENCHANTING, 11), ItemType.SWORD));
         enchants.put("EXECUTE", new EnchantType(5, "Increases damage dealt by " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "for each percent of " + StatType.HEALTH.getIconAndText() + " " + ChatColor.GRAY + "missing of your target.", new EnchantMultiplayer(0.2, 0.4, 0.6, 0.8, 1, 1.25), new SkillRequirement(SkillType.ENCHANTING, 14), ItemType.SWORD, "PROSECUTE"));
         enchants.put("EXPERIENCE", new EnchantType(3, "Grants a " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GREEN + "chance for mobs and ores to drop double experience.", new EnchantMultiplayer(12.5, 25, 37.5, 50), SkillRequirement.NULL, ItemType.SWORD));
         enchants.put("FIRST_STRIKE" , new EnchantType(4, "Increases melee damage dealt by " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "for the first hit on a mob.", new EnchantMultiplayer(25, 50, 75, 100, 125), new SkillRequirement(SkillType.ENCHANTING, 10), ItemType.SWORD, "TRIPLE_STRIKE"));
         enchants.put("GIANT_KILLER", new EnchantType(5, "Increases damage dealt by " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "for each percent of extra " + StatType.HEALTH.getIconAndText() + " " + ChatColor.GRAY + "that your target has above you up to " + ChatColor.GREEN + "50%" + ChatColor.GRAY + ".", new EnchantMultiplayer(0.1, 0.2, 0.3, 0.4, 0.6, 0.9, 1.2), new SkillRequirement(SkillType.ENCHANTING, 8), ItemType.SWORD, "TITAN_KILLER"));
-        enchants.put("LETHALITY", new EnchantType(5, "Reduces the " + StatType.DEFENSE.getIconAndText() + " " + ChatColor.GRAY + "of your target by " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "for 4s seconds.", new EnchantMultiplayer(1.2, 2.4, 3.6, 4.8, 6, 9), new SkillRequirement(SkillType.ENCHANTING, 14), ItemType.SWORD));
+//        enchants.put("LETHALITY", new EnchantType(5, "Reduces the " + StatType.DEFENSE.getIconAndText() + " " + ChatColor.GRAY + "of your target by " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "for 4s seconds.", new EnchantMultiplayer(1.2, 2.4, 3.6, 4.8, 6, 9), new SkillRequirement(SkillType.ENCHANTING, 14), ItemType.SWORD));
         enchants.put("LIFE_STEAL", new EnchantType(5, "Heals for " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "of your max " + StatType.HEALTH.getIconAndText() + " " + ChatColor.GRAY + "each time you hit a mob.", new EnchantMultiplayer(0.5, 1, 1.5, 2, 2.5), new SkillRequirement(SkillType.ENCHANTING, 5), ItemType.SWORD, new ArrayList<>(Arrays.asList("SYPHON", "MANA_STEAL"))));
-        enchants.put("LOOTING", new EnchantType(5, "Increases the chance of a Monster dropping an item by " + ChatColor.GREEN + "MULTIPLAYER%" + ChatColor.GRAY + ".", new EnchantMultiplayer(15, 30, 45, 60, 75), SkillRequirement.NULL, ItemType.SWORD));
+        enchants.put("LOOTING", new EnchantType(5, "Increases the amount of drops of a Monster by " + ChatColor.GREEN + "MULTIPLAYER%" + ChatColor.GRAY + ".", new EnchantMultiplayer(1, 2, 3, 4, 5), SkillRequirement.NULL, ItemType.SWORD));
         enchants.put("LUCK", new EnchantType(5, "Increases the chance of a Monster dropping their rare drops by " + ChatColor.GREEN + "MULTIPLAYER%" + ChatColor.GRAY + ".", new EnchantMultiplayer(5, 10, 15, 20, 25, 30, 35), new SkillRequirement(SkillType.ENCHANTING, 3), ItemType.SWORD));
         enchants.put("MANA_STEAL", new EnchantType(5, "Regain " + ChatColor.AQUA + "MULTIPLAYER% " + ChatColor.GRAY + "of your " + StatType.MANA.getIconAndText() + " " + ChatColor.GRAY + "on hit.", new EnchantMultiplayer(0.25, 0.5, 0.75), new SkillRequirement(SkillType.ENCHANTING, 20), ItemType.SWORD, new ArrayList<>(Arrays.asList("LIFE_STEAL", "SYPHON")), false));
         enchants.put("PROSECUTE", new EnchantType(5, "Increases damage dealt by " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "for each percent of " + StatType.HEALTH.getIconAndText() + " " + ChatColor.GRAY + "your target has.", new EnchantMultiplayer(0.1, 0.2, 0.3, 0.4, 0.7, 1), new SkillRequirement(SkillType.ENCHANTING, 25), ItemType.SWORD, "EXECUTE"));
@@ -202,17 +201,15 @@ public class EnchantType {
         enchants.put("SHARPNESS", new EnchantType(5, "Increases melee damage dealt by " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + ".", new EnchantMultiplayer(5, 10, 15, 20, 30, 45, 65), SkillRequirement.NULL, ItemType.SWORD, new ArrayList<>(Arrays.asList("SMITE", "BANE_OF_ARTHROPODS"))));
         enchants.put("SMITE", new EnchantType(5, "increases damage dealt to Skeletons, Zombies, Pigmen and Withers by " + ChatColor.GREEN + "MULTIPLAYER%" + ChatColor.GRAY + ".", new EnchantMultiplayer(10, 20, 30, 40, 60, 80, 100), SkillRequirement.NULL, ItemType.SWORD, new ArrayList<>(Arrays.asList("SHARPNESS", "BANE_OF_ARTHROPODS"))));
         enchants.put("SYPHON", new EnchantType(3, "Heals for " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "of your max " + StatType.HEALTH.getIconAndText() + " " + ChatColor.GRAY + "per " + ChatColor.BLUE + "100 " + StatType.CRIT_DAMAGE.getIconAndText() + " " + ChatColor.GRAY + "you deal per hit, up to " + ChatColor.BLUE + "1,000 " + StatType.CRIT_DAMAGE.getIconAndText() + ChatColor.GRAY + ".", new EnchantMultiplayer(0.2, 0.3, 0.4, 0.5, 0.6), new SkillRequirement(SkillType.ENCHANTING, 15), ItemType.SWORD, new ArrayList<>(Arrays.asList("LIFE_STEAL", "MANA_STEAL"))));
-        enchants.put("THUNDERBOLT", new EnchantType(5, "Strikes Monsters within 2 blocks with lightning every 3 consecutive hits, dealing " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "of your damage.", new EnchantMultiplayer(4, 8, 12, 16, 20, 25), new SkillRequirement(SkillType.ENCHANTING, 20), ItemType.SWORD, "THUNDERLORD"));
-        enchants.put("THUNDERLORD", new EnchantType(5, "Strikes a Monster with lightning every 3 consecutive hits, dealing " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "more damage.", new EnchantMultiplayer(8, 16, 24, 32, 40, 50, 60), new SkillRequirement(SkillType.ENCHANTING, 14), ItemType.SWORD, "THUNDERBOLT"));
         enchants.put("TITAN_KILLER", new EnchantType(5, "Increases damage dealt by " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "for every " + ChatColor.GREEN + "100 " + StatType.DEFENSE.getIconAndText() + " " + ChatColor.GRAY + "your target has up to " + ChatColor.GREEN + "60%" + ChatColor.GRAY + ".", new EnchantMultiplayer(2, 4, 6, 8, 12, 16, 20), new SkillRequirement(SkillType.ENCHANTING, 28), ItemType.SWORD, "GIANT_KILLER"));
-        enchants.put("TRIPLE_STRIKE", new EnchantType(4, "Increases melee damage dealt by " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "for the first three hits on a mob.", new EnchantMultiplayer(10, 20, 30, 40, 50), new SkillRequirement(SkillType.ENCHANTING, 19), ItemType.SWORD, "FIRST_STRIKE"));
+        enchants.put("TRIPLE_STRIKE", new EnchantType(4, "Increases melee damage dealt by " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "if the mob has more than " + ChatColor.GREEN + "67% " + ChatColor.GRAY + "health.", new EnchantMultiplayer(10, 20, 30, 40, 50), new SkillRequirement(SkillType.ENCHANTING, 19), ItemType.SWORD, "FIRST_STRIKE"));
         enchants.put("VAMPIRISM", new EnchantType(5, "Heals for " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "of your missing " + StatType.HEALTH.getIconAndText() + " " + ChatColor.GRAY + "whenever you kill an enemy.", new EnchantMultiplayer(1, 2, 3, 4, 5, 6), new SkillRequirement(SkillType.ENCHANTING, 15), ItemType.SWORD));
 
         // Bow
-        enchants.put("CHANCE", new EnchantType(5, "Increases the chance of Monster dropping an item by " + ChatColor.GREEN + "MULTIPLAYER%" + ChatColor.GRAY + ".", new EnchantMultiplayer(15, 30, 45, 60, 75), new SkillRequirement(SkillType.ENCHANTING, 11), ItemType.BOW));
+        enchants.put("CHANCE", new EnchantType(5, "Increases the amount of drops of a Monster by " + ChatColor.GREEN + "MULTIPLAYER%" + ChatColor.GRAY + ".", new EnchantMultiplayer(1, 2, 3, 4, 5), new SkillRequirement(SkillType.ENCHANTING, 11), ItemType.BOW));
         enchants.put("AIMING", new EnchantType(5, "Arrows home towards Ender Dragons if they are within " + ChatColor.GREEN + "MULTIPLAYER " + ChatColor.GRAY + "blocks.", new EnchantMultiplayer(2, 4, 6, 8, 10), new SkillRequirement(SkillType.ENCHANTING, 8), ItemType.BOW));
         enchants.put("INFINITE_QUIVER", new EnchantType(5, "Saves arrows " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "of the time when you fire your bow.", new EnchantMultiplayer(6, 12, 18, 24, 30), new SkillRequirement(SkillType.ENCHANTING, 2), ItemType.BOW));
-        enchants.put("OVERLOAD", new EnchantType(5, "Having a " + StatType.CRIT_CHANCE.getIconAndText() + " " + ChatColor.GRAY + "above 100% grants a chance to perform a Mega Critical Hit dealing " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "extra damage.", new EnchantMultiplayer(15, 30, 45, 60, 75), new SkillRequirement(SkillType.ENCHANTING, 33), ItemType.BOW, false));
+//        enchants.put("OVERLOAD", new EnchantType(5, "Having a " + StatType.CRIT_CHANCE.getIconAndText() + " " + ChatColor.GRAY + "above 100% grants a chance to perform a Mega Critical Hit dealing " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "extra damage.", new EnchantMultiplayer(15, 30, 45, 60, 75), new SkillRequirement(SkillType.ENCHANTING, 33), ItemType.BOW, false));
         enchants.put("POWER", new EnchantType(5, "Increases bow damage by " + ChatColor.GREEN + "MULTIPLAYER%" + ChatColor.GRAY + ".", new EnchantMultiplayer(8, 16, 24, 32, 40, 50, 65), SkillRequirement.NULL, ItemType.BOW));
         enchants.put("SNIPE", new EnchantType(3, "Increases bow damage by " + ChatColor.GREEN + "MULTIPLAYER% " + ChatColor.GRAY + "damage for every " + ChatColor.GREEN + "10 " + ChatColor.GRAY + "blocks travelled.", new EnchantMultiplayer(1, 2, 3, 4), new SkillRequirement(SkillType.ENCHANTING, 6), ItemType.BOW));
 
@@ -256,15 +253,12 @@ public class EnchantType {
         enchants.put("AAAULTIMATE_WISE", new UltimateEnchantType(5, "Reduces the abiliyu mana cost of this item by " + ChatColor.GREEN + "MULTYPLAYER%" + ChatColor.GRAY + ".", new EnchantMultiplayer(10, 20, 30, 40, 50), new SkillRequirement(SkillType.ENCHANTING, 20), new ArrayList<>(Arrays.asList(ItemType.SWORD)), "ULTIMATE_WISE"));
 
         BANE_OF_ARTHROPODS = enchants.get("BANE_OF_ARTHROPODS");
-        CLEAVE = enchants.get("CLEAVE");
         CRITICAL = enchants.get("CRITICAL");
         ENDER_SLAYER = enchants.get("ENDER_SLAYER");
         EXECUTE = enchants.get("EXECUTE");
         EXPERIENCE = enchants.get("EXPERIENCE");
-        FIRE_ASPECT = enchants.get("FIRE_ASPECT");
         FIRST_STRIKE = enchants.get("TRIPLE_STRIKE");
         GIANT_KILLER = enchants.get("TITAN_KILLER");
-        KNOCKBACK = enchants.get("KNOCKBACK");
         LETHALITY = enchants.get("LETHALITY");
         LIFE_STEAL = enchants.get("LIFE_STEAL");
         LOOTING = enchants.get("LOOTING");
@@ -275,8 +269,6 @@ public class EnchantType {
         SHARPNESS = enchants.get("SHARPNESS");
         SMITE = enchants.get("SMITE");
         SYPHON = enchants.get("SYPHON");
-        THUNDERBOLT = enchants.get("THUNDERLORD");
-        THUNDERLORD = enchants.get("THUNDERBOLT");
         TITAN_KILLER = enchants.get("TITAN_KILLER");
         TRIPLE_STRIKE = enchants.get("TRIPLE_STRIKE");
         VAMPIRISM = enchants.get("VAMPIRISM");
@@ -320,7 +312,7 @@ public class EnchantType {
     }
 
     public String getDescription(int level) {
-        return this.getDescription().replace("MULTIPLAYER", level + "");
+        return this.getDescription().replace("MULTIPLAYER", this.getMultiplayers().get(level) + "");
     }
 
     public String name() {

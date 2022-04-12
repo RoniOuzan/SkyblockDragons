@@ -29,7 +29,6 @@ public class EntityKnockbackEvent extends EntityEvent implements Cancellable {
                 0,
                 entity.entity.getLocation().getZ() - source.entity.getLocation().getZ()
         ).normalize().multiply(0.6).multiply((source instanceof Player && ((Player) source.entity).isSprinting()) ? 1.2 : 1).setY(0.3));
-        System.out.println(this.velocity);
     }
 
     public EntitySD getEntitySD() {

@@ -8,7 +8,10 @@ import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -28,40 +31,44 @@ public class Item extends ItemStack implements ConfigurationSerializable {
     private final ItemMaterial material;
     private final int amount;
 
-    public Item(ItemMaterial material, int amount, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
+    public Item(PlayerSD player, ItemMaterial material, int amount, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
         super(material.getMaterial(), amount, material.getMaterial() == Material.SKULL_ITEM ? (short) 3 : ((material.getNbt().equals("") && !material.getId().equals("")) ? Short.parseShort(material.getId()) : (short) 0));
         this.material = material;
         this.amount = amount;
 
-        this.toItem(hotPotato, reforge, recombabulated, skin, enchants, necronBladeAbilities);
+        this.toItem(player, hotPotato, reforge, recombabulated, skin, enchants, necronBladeAbilities);
     }
 
-    public Item(ItemMaterial material, int amount, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants) {
-        this(material, amount, hotPotato, reforge, recombabulated, skin, enchants, new ArrayList<>());
+    public Item(PlayerSD player, ItemMaterial material, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
+        this(player, material, 1, hotPotato, reforge, recombabulated, skin, enchants, necronBladeAbilities);
     }
 
-    public Item(ItemMaterial material, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
-        this(material, 1, hotPotato, reforge, recombabulated, skin, enchants, necronBladeAbilities);
-    }
-
-    public Item(ItemMaterial material, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants) {
-        this(material, 1, hotPotato, reforge, recombabulated, skin, enchants, new ArrayList<>());
+    public Item(PlayerSD player, ItemMaterial material, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants) {
+        this(player, material, 1, hotPotato, reforge, recombabulated, skin, enchants, new ArrayList<>());
     }
 
     public Item(ItemMaterial material, int amount) {
-        this(material, amount, 0, ReforgeType.NULL, false, SkinMaterial.NULL, new HashMap<>(), new ArrayList<>());
+        this(null, material, amount, 0, ReforgeType.NULL, false, SkinMaterial.NULL, new HashMap<>(), new ArrayList<>());
+    }
+
+    public Item(PlayerSD player, ItemMaterial material, int amount) {
+        this(player, material, amount, 0, ReforgeType.NULL, false, SkinMaterial.NULL, new HashMap<>(), new ArrayList<>());
     }
 
     public Item(ItemMaterial material) {
-         this(material, 1);
+        this(material, 1);
     }
 
-    public Item(ItemStack itemStack) {
-        this(Functions.getItemMaterial(itemStack), itemStack);
+    public Item(PlayerSD player, ItemMaterial material) {
+        this(player, material, 1);
     }
 
-    public Item(ItemMaterial material, ItemStack fromItem) {
-        this(material, (isStackable(fromItem) ? fromItem.getAmount() : 1), getHotPotato(fromItem), getReforge(fromItem), isRecombed(fromItem), getSkin(fromItem), getEnchants(fromItem), getNecronScrolls(fromItem));
+    public Item(PlayerSD player, ItemStack itemStack) {
+        this(player, Functions.getItemMaterial(itemStack), itemStack);
+    }
+
+    public Item(PlayerSD player, ItemMaterial material, ItemStack fromItem) {
+        this(player, material, (isStackable(fromItem) ? fromItem.getAmount() : 1), getHotPotato(fromItem), getReforge(fromItem), isRecombed(fromItem), getSkin(fromItem), Functions.getEnchants(fromItem), getNecronScrolls(fromItem));
         Functions.copyNBTStack(this, fromItem);
     }
 
@@ -69,7 +76,7 @@ public class Item extends ItemStack implements ConfigurationSerializable {
         super.setAmount(amount);
     }
 
-    private void toItem(int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
+    private void toItem(PlayerSD player, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
         int recombed = recombabulated ? 1 : 0;
 
         ArrayList<String> enchantsString = new ArrayList<>();
@@ -103,7 +110,7 @@ public class Item extends ItemStack implements ConfigurationSerializable {
 
             applyDescription(lores);
 
-            applyAbilities(lores, enchants);
+            applyAbilities(lores, player, enchants);
 
             if (this.material instanceof NecronBladeMaterial) {
                 if (necronBladeAbilities.size() >= 3) {
@@ -113,10 +120,10 @@ public class Item extends ItemStack implements ConfigurationSerializable {
                     String description = ChatColor.GRAY + "Teleports " + ChatColor.GREEN + "10 blocks " + ChatColor.GRAY + "ahead of you. Then implode dealing " + ChatColor.RED + "10,000 " + ChatColor.GRAY + "damage to nearby enemies. Also applies the " + ChatColor.YELLOW + "wither shield " + ChatColor.GRAY + "scroll ability reducing damage taken and granting an " + ChatColor.GOLD + "❤ Absorption " + ChatColor.GRAY + "shield for " + ChatColor.YELLOW + "5 " + ChatColor.GRAY + "seconds.";
                     lores.addAll(Functions.loreBuilder(description));
 
-                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(300, enchants));
+                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(300, player, enchants));
                 } else if (necronBladeAbilities.size() > 0) {
                     for (NecronBladeMaterial.NecronBladeAbility ability : necronBladeAbilities) {
-                        applyNecronAbility(lores, ability, enchants);
+                        applyNecronAbility(lores, ability, player, enchants);
                     }
                 } else {
                     if (isNotLastEmpty(lores)) lores.add("");
@@ -141,6 +148,15 @@ public class Item extends ItemStack implements ConfigurationSerializable {
             lores.add("");
             lores.add(ChatColor.GRAY + "Use this item on an item in an Anvil");
             lores.add(ChatColor.GRAY + "to apply it!");
+            int levelRequirement = 0;
+            for (EnchantType enchantType : enchants.keySet()) {
+                if (enchantType.getRequirement().getLevel() >= levelRequirement)
+                    levelRequirement = enchantType.getRequirement().getLevel();
+            }
+            if (player == null || player.getSkill().getEnchantingSkill().getLevel() < levelRequirement) {
+                lores.add("");
+                lores.add(SkillRequirement.toString(SkillType.ENCHANTING, levelRequirement));
+            }
         } else if (this.material instanceof MiningMaterial) {
             lores.add(ChatColor.DARK_GRAY + "Breaking Power " + ((MiningMaterial) material).getBreakingPower());
             lores.add("");
@@ -151,13 +167,13 @@ public class Item extends ItemStack implements ConfigurationSerializable {
 
             applyDescription(lores);
 
-            applyAbilities(lores, enchants);
+            applyAbilities(lores, player, enchants);
         } else if (this.material instanceof ToolMaterial) {
             applyEnchants(lores, enchants, enchantList);
 
             applyDescription(lores);
 
-            applyAbilities(lores, enchants);
+            applyAbilities(lores, player, enchants);
         } else if (this.material instanceof ReforgeMaterial) {
             ReforgeMaterial material = (ReforgeMaterial) this.material;
 
@@ -324,7 +340,7 @@ public class Item extends ItemStack implements ConfigurationSerializable {
         }
     }
 
-    private void applyNecronAbility(ArrayList<String> lores, NecronBladeMaterial.NecronBladeAbility ability, Map<EnchantType, Short> enchants) {
+    private void applyNecronAbility(ArrayList<String> lores, NecronBladeMaterial.NecronBladeAbility ability, PlayerSD player, Map<EnchantType, Short> enchants) {
         if (isNotLastEmpty(lores)) lores.add("");
         if (this.material instanceof NecronBladeMaterial) {
             lores.add(ChatColor.GOLD + "Item Ability: " + ability.getAbility().getName() + " " + ability.getAbility().getAction().toString());
@@ -333,9 +349,9 @@ public class Item extends ItemStack implements ConfigurationSerializable {
 
             if (ability.getAbility().getManaCost() != 0) {
                 if (ability.getAbility().getManaCost() >= 10000) {
-                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + manaCostCalculator((ability.getAbility().getManaCost() / 10000), enchants) + "%");
+                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + manaCostCalculator((ability.getAbility().getManaCost() / 10000), player, enchants) + "%");
                 } else {
-                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + manaCostCalculator(ability.getAbility().getManaCost(), enchants));
+                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + manaCostCalculator(ability.getAbility().getManaCost(), player, enchants));
                 }
             }
 
@@ -344,7 +360,7 @@ public class Item extends ItemStack implements ConfigurationSerializable {
         }
     }
 
-    private void applyAbilities(ArrayList<String> lores, Map<EnchantType, Short> enchants) {
+    private void applyAbilities(ArrayList<String> lores, PlayerSD player, Map<EnchantType, Short> enchants) {
         if (this.material instanceof ToolMaterial) {
             ToolMaterial material = (ToolMaterial) this.material;
 
@@ -361,9 +377,9 @@ public class Item extends ItemStack implements ConfigurationSerializable {
 
                     if (ability.getManaCost() != 0) {
                         if (ability.getManaCost() >= 10000) {
-                            lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator((ability.getManaCost() / 10000), enchants) + "%");
+                            lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator((ability.getManaCost() / 10000), player, enchants) + "%");
                         } else {
-                            lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(ability.getManaCost(), enchants));
+                            lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(ability.getManaCost(), player, enchants));
                         }
                     }
 
@@ -439,7 +455,8 @@ public class Item extends ItemStack implements ConfigurationSerializable {
                     for (EnchantType enchantType : EnchantType.enchants.values()) {
                         if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
                             if (enchantType.getStats().get(stat).amount != 0) {
-                                statAdder += enchantType.getStats().get(stat).amount * enchants.get(enchantType);
+                                if (enchantType.getStats().get(stat).amount != 0)
+                                    statAdder += enchantType.getMultiplayers().get(enchants.get(enchantType));
                             }
                             if (enchantType.name().equals("ONE_FOR_ALL")) {
                                 oneForAll = true;
@@ -511,7 +528,7 @@ public class Item extends ItemStack implements ConfigurationSerializable {
         return stats;
     }
 
-    private int getBookCost(Map<EnchantType, Short> enchants) {
+    public static int getBookCost(Map<EnchantType, Short> enchants) {
         int cost = 3;
         if (!enchants.containsKey(EnchantType.NULL)) {
             for (EnchantType enchantType : EnchantType.enchants.values()) {
@@ -541,20 +558,12 @@ public class Item extends ItemStack implements ConfigurationSerializable {
                     if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
                         times++;
                         if (everyLine) {
-                            if (enchantType instanceof UltimateEnchantType) {
-                                lores.add(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + enchantType + " " + Functions.integerToRoman(enchants.get(enchantType)));
-                            } else {
-                                lores.add(ChatColor.BLUE + enchantType.toString() + " " + Functions.integerToRoman(enchants.get(enchantType)));
-                            }
+                            lores.add(getEnchantLoreColor(enchantType, enchants.get(enchantType)) + enchantType + " " + Functions.integerToRoman(enchants.get(enchantType)));
                             if (description) {
                                 lores.addAll(loreBuilder(enchantType.getDescription(enchants.get(enchantType))));
                             }
                         } else {
-                            if (enchantType instanceof UltimateEnchantType) {
-                                enchant.append(", " + ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD).append(enchantType).append(" ").append(Functions.integerToRoman(enchants.get(enchantType)));
-                            } else {
-                                enchant.append(", " + ChatColor.BLUE).append(enchantType).append(" ").append(Functions.integerToRoman(enchants.get(enchantType)));
-                            }
+                            enchant.append(", " + getEnchantLoreColor(enchantType, enchants.get(enchantType))).append(enchantType).append(" ").append(Functions.integerToRoman(enchants.get(enchantType)));
                             if (times % 3 == 0) {
                                 enchant = new StringBuilder(enchant.toString().replaceAll(",, ", ""));
                                 lores.add(enchant.toString());
@@ -569,6 +578,18 @@ public class Item extends ItemStack implements ConfigurationSerializable {
                 }
             }
         }
+    }
+
+    public static String getEnchantLoreColor(EnchantType enchantType, int level) {
+        if (enchantType instanceof UltimateEnchantType)
+            return ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD;
+        if (level <= enchantType.getMaxLevel())
+            return ChatColor.BLUE + "";
+        if (level == enchantType.getMaxLevel() + 1)
+            return ChatColor.GOLD + "";
+        if (level == enchantType.getMaxLevel() + 2)
+            return ChatColor.GOLD + "" + ChatColor.BOLD;
+        return ChatColor.BLUE + "";
     }
 
     public static StatType getStat(int num) {
@@ -617,6 +638,8 @@ public class Item extends ItemStack implements ConfigurationSerializable {
 
     private static boolean isNotLastEmpty(ArrayList<String> lores) {
         try {
+            if (lores.get(lores.size() - 1).contains("Requires")) return false;
+
             if (lores.get(lores.size() - 1).equals("")) {
                 return false;
             }
@@ -624,6 +647,21 @@ public class Item extends ItemStack implements ConfigurationSerializable {
             return false;
         }
         return true;
+    }
+
+    public Map<EnchantType, Short> getEnchants() {
+        Map<EnchantType, Short> enchants = new HashMap<>();
+        NBTItem nbtItem = new NBTItem(this);
+        NBTCompound nbt = nbtItem.getCompound("Item");
+        NBTCompound compound1 = nbt.getCompound("Enchants");
+        NBTCompound compound2 = nbt.getCompound("UltimateEnchant");
+        for (EnchantType enchant : EnchantType.enchants.values()) {
+            if (compound1.hasKey(enchant.name()))
+                enchants.put(enchant, Short.parseShort(compound1.getInteger(enchant.name()) + ""));
+            else if (compound2.hasKey(enchant.name()))
+                enchants.put(enchant, Short.parseShort(compound1.getInteger(enchant.name()) + ""));
+        }
+        return enchants;
     }
 
     public Map<String, Object> serialize() {

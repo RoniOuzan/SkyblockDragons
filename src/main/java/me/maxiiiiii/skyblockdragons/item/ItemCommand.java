@@ -1,6 +1,8 @@
 package me.maxiiiiii.skyblockdragons.item;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -35,7 +37,6 @@ public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
                 String[] title = e.getClickedInventory().getTitle().split(" ");
                 if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Search Items")) {
                     p.closeInventory();
-                    // searchItem.put(p, true);
                     openSign(p, (lines) -> openItemList(p, 1, lines.get(0)));
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Next Page")) {
                     p.closeInventory();
@@ -48,7 +49,7 @@ public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
                     }
                 } else if (!e.getCurrentItem().getItemMeta().getDisplayName().contains("Close") && !e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.RESET + "")) {
                     ItemMaterial material = getItemMaterial(e.getCurrentItem());
-                    e.getWhoClicked().getInventory().addItem(new Item(material));
+                    e.getWhoClicked().getInventory().addItem(new Item(SkyblockDragons.getPlayer((Player) e.getWhoClicked()), material));
                 }
             }
         } catch (NullPointerException ignored) {
@@ -58,7 +59,7 @@ public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            Player player = (Player) sender;
+            PlayerSD player = SkyblockDragons.getPlayer((Player) sender);
             ItemStack item;
             byte amount = 1;
             if (args.length > 0 && !args[0].equalsIgnoreCase("list")) {
@@ -66,21 +67,21 @@ public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
                     if (args.length > 1) {
                         if (isByte(args[1])) {
                             amount = Byte.parseByte(args[1]);
-                            if (args.length > 2 && isPlayerName(args[2])) player = Bukkit.getPlayerExact(args[2]);
+                            if (args.length > 2 && isPlayerName(args[2])) player = SkyblockDragons.getPlayer(args[2]);
                         } else if (args.length > 2 && isByte(args[2])) {
                             amount = Byte.parseByte(args[2]);
-                            if (isPlayerName(args[1])) player = Bukkit.getPlayerExact(args[1]);
+                            if (isPlayerName(args[1])) player = SkyblockDragons.getPlayer(args[1]);
                         } else if (isPlayerName(args[1])) {
-                            player = Bukkit.getPlayerExact(args[1]);
+                            player = SkyblockDragons.getPlayer(args[1]);
                             if (args.length > 2 && isByte(args[2])) amount = Byte.parseByte(args[2]);
                         } else if (args.length > 2 && isPlayerName(args[2])) {
-                            player = Bukkit.getPlayerExact(args[2]);
+                            player = SkyblockDragons.getPlayer(args[2]);
                             if (isByte(args[1])) amount = Byte.parseByte(args[1]);
                         }
                     }
 
                     for (int i = 0; i < amount; i++) {
-                        item = new Item(items.get(args[0].toUpperCase()));
+                        item = new Item(player, items.get(args[0].toUpperCase()));
                         player.getInventory().addItem(item);
                     }
                     sender.sendMessage(ChatColor.GREEN + "Gave " + args[0].toUpperCase() + " to " + player.getName());
@@ -90,21 +91,21 @@ public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
                             if (args.length > 1) {
                                 if (isByte(args[1])) {
                                     amount = Byte.parseByte(args[1]);
-                                    if (args.length > 2 && isPlayerName(args[2])) player = Bukkit.getPlayerExact(args[2]);
+                                    if (args.length > 2 && isPlayerName(args[2])) player = SkyblockDragons.getPlayer(args[2]);
                                 } else if (args.length > 2 && isByte(args[2])) {
                                     amount = Byte.parseByte(args[2]);
-                                    if (isPlayerName(args[1])) player = Bukkit.getPlayerExact(args[1]);
+                                    if (isPlayerName(args[1])) player = SkyblockDragons.getPlayer(args[1]);
                                 } else if (isPlayerName(args[1])) {
-                                    player = Bukkit.getPlayerExact(args[1]);
+                                    player = SkyblockDragons.getPlayer(args[1]);
                                     if (args.length > 2 && isByte(args[2])) amount = Byte.parseByte(args[2]);
                                 } else if (args.length > 2 && isPlayerName(args[2])) {
-                                    player = Bukkit.getPlayerExact(args[2]);
+                                    player = SkyblockDragons.getPlayer(args[2]);
                                     if (isByte(args[1])) amount = Byte.parseByte(args[1]);
                                 }
                             }
 
                             for (int i = 0; i < amount; i++) {
-                                player.getInventory().addItem(new Item(itemMaterial));
+                                player.getInventory().addItem(new Item(player, itemMaterial));
                             }
                             sender.sendMessage(ChatColor.GREEN + "Gave " + itemMaterial.name() + " to " + player.getName());
                         }
