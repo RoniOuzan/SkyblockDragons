@@ -207,8 +207,12 @@ public class Damage implements Listener {
             baseMultiplayer += 0.2;
         }
 
+        if (toolMaterial == Items.get("ENDER_BOW") && entity.type.getEntityType() == EntityType.ENDER_DRAGON || entity.type.getEntityType() == EntityType.ENDERMAN) {
+            baseMultiplayer += 0.5;
+        }
+
         if (fullSet.equals("Strong Blood") && toolMaterial == Items.get("ASPECT_OF_THE_END"))
-            baseAbilityDamage += 0.2;
+            baseMultiplayer += 0.2;
 
         // final damage
         damage *= baseMultiplayer;

@@ -487,9 +487,9 @@ public class PlayerSD extends PlayerClass {
         if (this.lastCoins != this.getCoins()) {
             this.setCoins(this.getCoins());
             if (this.getCoins() - this.lastCoins > 0)
-                scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse()) + " (+" + (this.getCoins() - this.lastCoins) + ")"));
+                scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse()) + " (+" + Functions.getShortNumber(this.getCoins() - this.lastCoins) + ")"));
             else
-                scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse()) + " (" + (this.getCoins() - this.lastCoins) + ")"));
+                scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse()) + " (" + Functions.getShortNumber(this.getCoins() - this.lastCoins) + ")"));
             this.lastCoins = this.getCoins();
         } else {
             scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse())));

@@ -307,6 +307,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (Location location : EntitySD.entitiesLocations.keySet()) {
+                if (Bukkit.getOnlinePlayers().stream().map(Entity::getWorld).noneMatch(w -> w == location.getWorld())) continue;
                 if (!EntitySD.entities.values().stream().filter(e -> e.type == EntitySD.entitiesLocations.get(location)).map(e -> e.location).collect(Collectors.toList()).contains(location)) {
                     new EntitySD(location, EntitySD.entitiesLocations.get(location));
                 }

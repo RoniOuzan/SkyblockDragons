@@ -30,15 +30,19 @@ public class ReforgeMenu {
             inv.setItem(i, glass);
         }
 
-        ItemStack redGlass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14);
+        ItemStack coloredGlass;
+        if (isAccessoryBag)
+            coloredGlass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 5);
+        else
+            coloredGlass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14);
         int n = 0;
         for (int i = 0; i < 5; i++) {
-            inv.setItem(n, redGlass);
+            inv.setItem(n, coloredGlass);
             n += 9;
         }
         n = 8;
         for (int i = 0; i < 5; i++) {
-            inv.setItem(n, redGlass);
+            inv.setItem(n, coloredGlass);
             n += 9;
         }
 
@@ -74,7 +78,7 @@ public class ReforgeMenu {
 
         if (isAccessoryBag) {
             ItemStack rarity = Functions.createItem(Material.EYE_OF_ENDER, ChatColor.GREEN + "Rarity");
-            Rarity selected = raritySelected.getOrDefault(player, Rarity.COMMON);
+            Rarity selected = raritySelected.getOrDefault(player, Rarity.NONE);
             ArrayList<String> rarityLores = new ArrayList<>();
             for (Rarity value : Rarity.values()) {
                 if (value == selected) {

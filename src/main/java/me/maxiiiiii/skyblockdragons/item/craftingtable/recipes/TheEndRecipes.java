@@ -177,5 +177,17 @@ public class TheEndRecipes {
                 null,
                 new Item(Items.get("EYE_OF_ENDER_GUARD"))
         ), -1));
+
+        recipes.put("ENDER_BOW", new Recipe(new Item(Items.get("ENDER_BOW")), getItems(
+                null,
+                new Item(Items.get("EYE_OF_ENDER_GUARD"), 3),
+                new Item(Items.get("STICK")),
+                new Item(Items.get("EYE_OF_ENDER_GUARD"), 3),
+                null,
+                new Item(Items.get("STICK")),
+                null,
+                new Item(Items.get("EYE_OF_ENDER_GUARD"), 3),
+                new Item(Items.get("STICK"))
+        ), -1));
     }
 }

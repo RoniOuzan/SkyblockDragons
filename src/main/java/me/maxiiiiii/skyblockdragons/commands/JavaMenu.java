@@ -40,7 +40,7 @@ public class JavaMenu implements CommandExecutor, Listener {
     public void onInventoryClick(InventoryClickEvent e) {
         if (!Functions.isNotAir(e.getCurrentItem())) return;
 
-        if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Close") && e.getCurrentItem().getType() == Material.BARRIER) {
+        if (e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().getDisplayName().contains("Close") && e.getCurrentItem().getType() == Material.BARRIER) {
             e.getWhoClicked().closeInventory();
         }
         if (e.getClickedInventory().getTitle().contains("Skyblock Menu") || e.getClickedInventory().getTitle().contains("Your Skyblock Profile")) {

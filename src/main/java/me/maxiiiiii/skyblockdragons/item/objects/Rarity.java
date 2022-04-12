@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 
 @Getter
 public enum Rarity {
+    NONE(0, ChatColor.DARK_GRAY),
     COMMON(1, ChatColor.WHITE),
     UNCOMMON(2, ChatColor.GREEN),
     RARE(3, ChatColor.BLUE),

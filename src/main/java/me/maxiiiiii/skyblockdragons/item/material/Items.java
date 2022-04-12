@@ -54,6 +54,8 @@ public class Items {
 
         items.put("GOLDEN_SKELETON_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Golden Skeleton Bow", Rarity.COMMON, new Stats(30, 0, 0, 0, 0, 0, 0, 0, 0, 0), ""));
 
+        items.put("ENDER_BOW", new BowMaterial(Material.BOW, ItemFamily.ENDER, "Ender Bow", Rarity.EPIC, new Stats(85, 50, 5, 0, 0, 0), "Deals " + ChatColor.GREEN + "+50% " + ChatColor.GRAY + "damage to Ender Dragons and Endermen."));
+
         items.put("TERMINATOR", new BowMaterial(Material.BOW, ItemFamily.JUJU,"Terminator", Rarity.LEGENDARY, new Stats(335, 50, 250, 0, 40, 0, 0, 0, 0, 0), ChatColor.GOLD + "Shortbow: Instantly Shoots! NEW_LINE " + ChatColor.GRAY + "Shoots " + ChatColor.AQUA + "3 " + ChatColor.GRAY + "arrows at once. " + ChatColor.GRAY + "Can damage endermen. NEW_LINE NEW_LINE " + ChatColor.RED + "Divides your RESET_LENGTH " + StatType.CRIT_CHANCE.getIconAndText() + ChatColor.RED + " by 4!", new ItemAbility(AbilityAction.RIGHT_CLICK, "Salvation", ChatColor.GRAY + "Can be casted after landing RESET_LENGTH " + ChatColor.GOLD + "3 " + ChatColor.GRAY + "hits. NEW_LINE Shoot a beam, penetrating up NEW_LINE to " + ChatColor.YELLOW + "5 " + ChatColor.GRAY + "foes and dealing " + ChatColor.RED + "2x " + ChatColor.GRAY + "the damage an arrow would. NEW_LINE The beam always crits.", 0, 2)));
         items.put("BONEMERANG", new BowMaterial(Material.BONE, ItemFamily.BONEMERANG, "Bonemerang", Rarity.LEGENDARY, new Stats(270, 130, 0, 0, 0, 0, 0, 0, 0, 0), "Deals " + ChatColor.RED + "double damage " + ChatColor.GRAY + "when coming back. Pierces up to " + ChatColor.YELLOW + "10 " + ChatColor.GRAY + "foes.", new ItemAbility(AbilityAction.RIGHT_CLICK, "Swing", "Throw the bone a short distance, dealing the damage an arrow would.", 0, 0)));
 

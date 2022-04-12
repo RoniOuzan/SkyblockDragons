@@ -6,6 +6,7 @@ import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.*;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.EntityType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -235,7 +236,7 @@ public class EntityMaterial implements ConfigurationSerializable {
         entities.put("OLD_DRAGON", new EntityDragonMaterial(
                 ChatColor.YELLOW + "Old Dragon",
                 -1,
-                1,
+                3_000_000,
                 0,
                 0,
                 10,
@@ -247,7 +248,7 @@ public class EntityMaterial implements ConfigurationSerializable {
         entities.put("PROTECTOR_DRAGON", new EntityDragonMaterial(
                 ChatColor.GRAY + "Protector Dragon",
                 -1,
-                1,
+                2_000_000,
                 50,
                 0,
                 10,
@@ -259,7 +260,7 @@ public class EntityMaterial implements ConfigurationSerializable {
         entities.put("WISE_DRAGON", new EntityDragonMaterial(
                 ChatColor.AQUA + "Wise Dragon",
                 -1,
-                1,
+                2_000_000,
                 0,
                 0,
                 10,
@@ -271,8 +272,8 @@ public class EntityMaterial implements ConfigurationSerializable {
         entities.put("UNSTABLE_DRAGON", new EntityDragonMaterial(
                 ChatColor.DARK_PURPLE + "Unstable Dragon",
                 -1,
-                1,
-                50,
+                2_000_000,
+                0,
                 0,
                 10,
                 new Equipment(),
@@ -283,8 +284,8 @@ public class EntityMaterial implements ConfigurationSerializable {
         entities.put("YOUNG_DRAGON", new EntityDragonMaterial(
                 ChatColor.GREEN + "Young Dragon",
                 -1,
-                1,
-                50,
+                2_000_000,
+                0,
                 0,
                 10,
                 new Equipment(),
@@ -295,8 +296,8 @@ public class EntityMaterial implements ConfigurationSerializable {
         entities.put("STRONG_DRAGON", new EntityDragonMaterial(
                 ChatColor.RED + "Strong Dragon",
                 -1,
-                1,
-                50,
+                2_000_000,
+                0,
                 0,
                 10,
                 new Equipment(),
@@ -307,15 +308,14 @@ public class EntityMaterial implements ConfigurationSerializable {
         entities.put("SUPERIOR_DRAGON", new EntityDragonMaterial(
                 ChatColor.GOLD + "Superior Dragon",
                 -1,
-                1,
-                50,
+                2_500_000,
+                20,
                 0,
                 10,
                 new Equipment(),
                 100,
                 1
         ));
-
 
         entities.put("DUMMY", new EntityMaterial(EntityType.ZOMBIE, "Dummy", Integer.MAX_VALUE, 500000, 0, 0, 0, new Equipment(), 0, 1, false, 0, 0));
 

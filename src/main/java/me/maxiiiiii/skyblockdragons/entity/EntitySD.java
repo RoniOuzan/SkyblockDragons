@@ -8,6 +8,8 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
+import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -104,8 +106,29 @@ public class EntitySD extends EntityClass {
 
     public static void loadLocations() {
         for (int i = 0; i < Variables.getSize("EntitiesSpawnsLocations"); i++) {
-            if (Variables.get("EntitiesSpawnsEntity", i) != null)
-                entitiesLocations.put(Variables.get("EntitiesSpawnsLocations", i), Variables.get("EntitiesSpawnsEntity", i));
+            if (Variables.get("EntitiesSpawnsEntity", i) == null || Variables.get("EntitiesSpawnsLocations", i) == null)
+                continue;
+            Location location = Variables.get("EntitiesSpawnsLocations", i, new Location(Bukkit.getWorld("Hub"), 0, 0, 0));
+            EntityMaterial material = Variables.get("EntitiesSpawnsEntity", i);
+            if (material == EntityMaterial.NULL) {
+                if (location.getWorld().getName().equals("DeepMines")) {
+                    if (location.getY() >= 170) {
+                        material = EntityMaterial.get("GOLDEN_SKELETON");
+                    } else if (location.getY() >= 120) {
+                        material = Functions.getRandom(EntityMaterial.get("LAPIS_ZOMBIE"), EntityMaterial.get("REDSTONE_PIGMAN"), EntityMaterial.get("EMERALD_CREEPER"));
+                    } else {
+                        material = Functions.getRandom(EntityMaterial.get("DIAMOND_ZOMBIE"), EntityMaterial.get("DIAMOND_ZOMBIE"), EntityMaterial.get("OBSIDIAN_ZOMBIE"));
+                    }
+                } else if (location.getWorld().getName().equals("TheEnd")) {
+                    if (location.distance(TheEnd.MIDDLE) <= 60) {
+                        material = EntityMaterial.get("ENDER_GUARD");
+                    } else if (location.distance(TheEnd.MIDDLE) <= 120) {
+                        material = EntityMaterial.get("ENDERMAN_TIER_2");
+                    } else
+                        material = EntityMaterial.get("ENDERMAN_TIER_1");
+                }
+            }
+            entitiesLocations.put(location, material);
         }
     }
 
