@@ -12,6 +12,7 @@ import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemStatsAble;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
+import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -108,7 +109,7 @@ public class Item extends ItemStack implements ConfigurationSerializable {
         Stats stats = new Stats();
 
         if (this.material instanceof ItemStatsAble)
-            stats = applyStats(lores, hotPotato, reforge, rarity, enchants);
+            stats = applyStats(lores, player, hotPotato, reforge, rarity, enchants);
 
         if (this.material instanceof ItemEnchantAble)
             applyEnchants(lores, enchants, enchantList);
@@ -337,69 +338,44 @@ public class Item extends ItemStack implements ConfigurationSerializable {
     }
 
     private void applyAbilities(ArrayList<String> lores, PlayerSD player, Map<EnchantType, Short> enchants) {
-        if (this.material instanceof ToolMaterial) {
-            ToolMaterial material = (ToolMaterial) this.material;
+        ItemAbilityAble material = (ItemAbilityAble) this.material;
 
-            if (material.getAbilities().size() == 0 || material.getAbilities().get(0) == null)
-                return;
+        if (material.getAbilities().size() == 0 || material.getAbilities().get(0) == null)
+            return;
 
-            if (material.getAbilities().get(0).getAction() != AbilityAction.NULL) {
-                for (ItemAbility ability : material.getAbilities()) {
-                    if (isNotLastEmpty(lores)) lores.add("");
+        if (material.getAbilities().get(0).getAction() != AbilityAction.NULL) {
+            for (ItemAbility ability : material.getAbilities()) {
+                if (isNotLastEmpty(lores)) lores.add("");
 
-                    lores.add(ChatColor.GOLD + "Item Ability: " + ability.getName() + " " + ChatColor.YELLOW + "" + ChatColor.BOLD + ability.getAction().toString());
+                lores.add(ChatColor.GOLD + "Item Ability: " + ability.getName() + " " + ChatColor.YELLOW + "" + ChatColor.BOLD + ability.getAction().toString());
 
-                    lores.addAll(loreBuilder(ability.getDescription().replace("ABILITY_DAMAGE", Functions.getNumberFormat(ability.getAbilityDamage()))));
+                lores.addAll(loreBuilder(ability.getDescription().replace("ABILITY_DAMAGE", Functions.getNumberFormat(ability.getAbilityDamage()))));
 
-                    if (ability.getManaCost() != 0) {
-                        if (ability.getManaCost() >= 10000) {
-                            lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator((ability.getManaCost() / 10000), player, enchants) + "%");
-                        } else {
-                            lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(ability.getManaCost(), player, enchants));
-                        }
+                if (ability.getManaCost() != 0) {
+                    if (ability.getManaCost() >= 10000) {
+                        lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator((ability.getManaCost() / 10000), player, enchants) + "%");
+                    } else {
+                        lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(ability.getManaCost(), player, enchants));
                     }
+                }
 
-                    if (ability.getCooldown() != 0) {
-                        lores.add(ChatColor.DARK_GRAY + "Cooldown: " + ChatColor.GREEN + ability.getCooldown() + "s");
-                    }
+                if (ability.getCooldown() != 0) {
+                    lores.add(ChatColor.DARK_GRAY + "Cooldown: " + ChatColor.GREEN + ability.getCooldown() + "s");
                 }
             }
         }
     }
 
     private void applyDescription(ArrayList<String> lores) {
-        if (this.material instanceof ToolMaterial) {
-            ToolMaterial material = (ToolMaterial) this.material;
-            if (!material.getDescription().isEmpty()) {
-                if (isNotLastEmpty(lores)) lores.add("");
-                lores.addAll(loreBuilder(material.getDescription()));
-            }
-        } else if (this.material instanceof AccessoryMaterial) {
-            AccessoryMaterial material = (AccessoryMaterial) this.material;
-            if (!material.getDescription().isEmpty()) {
-                if (isNotLastEmpty(lores)) lores.add("");
-                lores.addAll(loreBuilder(material.getDescription()));
-            }
-        } else if (this.material instanceof ArmorMaterial) {
-            ArmorMaterial material = (ArmorMaterial) this.material;
-            if (!material.getDescription().isEmpty()) {
-                if (isNotLastEmpty(lores)) lores.add("");
-                lores.addAll(loreBuilder(material.getDescription()));
-            }
+        ItemDescriptionAble material = (ItemDescriptionAble) this.material;
+        if (!material.getDescription().isEmpty()) {
+            if (isNotLastEmpty(lores)) lores.add("");
+
+            lores.addAll(loreBuilder(material.getDescription()));
         }
     }
 
-    private Stats applyStats(ArrayList<String> lores, int hotPotato, ReforgeType reforge, Rarity rarity) {
-        Map<EnchantType, Short> enchants = new HashMap<>();
-        enchants.put(EnchantType.NULL, (short) 0);
-        return applyStats(lores, hotPotato, reforge, rarity, enchants, false);
-    }
-
-    private Stats applyStats(ArrayList<String> lores, int hotPotato, ReforgeType reforge, Rarity rarity, Map<EnchantType, Short> enchants) {
-        return applyStats(lores, hotPotato, reforge, rarity, enchants, true);
-    }
-
-    private Stats applyStats(ArrayList<String> lores, int hotPotato, ReforgeType reforge, Rarity rarity, Map<EnchantType, Short> enchants, boolean enchant) {
+    private Stats applyStats(ArrayList<String> lores, PlayerSD player, int hotPotato, ReforgeType reforge, Rarity rarity, Map<EnchantType, Short> enchants) {
         Stats stats = new Stats();
         for (Stat stat : stats.toList()) {
             String statReforge = "";
@@ -425,75 +401,40 @@ public class Item extends ItemStack implements ConfigurationSerializable {
                     statReforge = ChatColor.BLUE + "(" + reforge + " SYMBOL" + Math.abs(reforge.getStats().get(rarity.getLevel() - 1).get(stat).amount) + percent + ")";
                 }
             }
-            boolean oneForAll = false;
-            if (enchant) {
-                if (!enchants.containsKey(EnchantType.NULL)) {
-                    for (EnchantType enchantType : EnchantType.enchants.values()) {
-                        if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
-                            if (enchantType.getStats().get(stat).amount != 0) {
-                                if (enchantType.getStats().get(stat).amount != 0)
-                                    statAdder += enchantType.getMultiplayers().get(enchants.get(enchantType));
-                            }
-                            if (enchantType.name().equals("ONE_FOR_ALL")) {
-                                oneForAll = true;
-                            }
+            boolean oneForAll = enchants.keySet().stream().anyMatch(e -> e == EnchantType.ONE_FOR_ALL);
+            if (!enchants.containsKey(EnchantType.NULL)) {
+                for (EnchantType enchantType : EnchantType.enchants.values()) {
+                    if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
+                        if (enchantType.getStats().get(stat).amount != 0) {
+                            if (enchantType.getStats().get(stat).amount != 0)
+                                statAdder += enchantType.getMultiplayers().get(enchants.get(enchantType));
                         }
                     }
                 }
             }
 
-            if (this.material instanceof WeaponMaterial) {
-                WeaponMaterial material = (WeaponMaterial) this.material;
+            ItemStatsAble material = (ItemStatsAble) this.material;
 
-                if (oneForAll && stat.type == StatType.DAMAGE)
-                    statAdder += (material.getStats().get(stat).amount + statAdder * 6);
-
-                double statDisplay = material.getStats().get(stat).amount + statAdder;
-                stats.get(stat).amount = statDisplay;
-                if (material.getStats().get(stat).amount + statAdder != 0) {
-                    if (material.getStats().get(stat).amount + statAdder < 0) statSymbol = "-";
-                    statReforge = statReforge.replace("SYMBOL", statSymbol);
-                    lores.add(ChatColor.GRAY + stat.type.toString() + ": " + statColor + statSymbol + Math.abs(statDisplay) + percent + " " + statPotato + statReforge);
-                }
-            } else if (this.material instanceof ArmorMaterial) {
-                ArmorMaterial material = (ArmorMaterial) this.material;
-
-                if (oneForAll && stat.type == StatType.DAMAGE)
-                    statAdder += (material.getStats().get(stat).amount + statAdder * 6);
-
-                double statDisplay = material.getStats().get(stat).amount + statAdder;
-                stats.get(stat).amount = statDisplay;
-                if (material.getStats().get(stat).amount + statAdder != 0) {
-                    if (material.getStats().get(stat).amount + statAdder < 0) statSymbol = "-";
-                    statReforge = statReforge.replace("SYMBOL", statSymbol);
-                    lores.add(ChatColor.GRAY + stat.type.toString() + ": " + statColor + statSymbol + Math.abs(statDisplay) + percent + " " + statPotato + statReforge);
-                }
-            } else if (this.material instanceof AccessoryMaterial) {
-                AccessoryMaterial material = (AccessoryMaterial) this.material;
-
-                if (oneForAll && stat.type == StatType.DAMAGE)
+            if (oneForAll && stat.type == StatType.DAMAGE)
                 statAdder += (material.getStats().get(stat).amount + statAdder * 6);
 
-                double statDisplay = material.getStats().get(stat).amount + statAdder;
-                stats.get(stat).amount = statDisplay;
-                if (material.getStats().get(stat).amount + statAdder != 0) {
-                    if (material.getStats().get(stat).amount + statAdder < 0) statSymbol = "-";
-                    statReforge = statReforge.replace("SYMBOL", statSymbol);
-                    lores.add(ChatColor.GRAY + stat.type.toString() + ": " + statColor + statSymbol + Math.abs(statDisplay) + percent + " " + statPotato + statReforge);
+            if (player != null) {
+                if (player.getPlayerPet().getActivePet() >= 0) {
+                    if (player.getPetActive().getPetMaterial() == PetMaterial.get("ENDER_DRAGON") && this.material == Items.get("ASPECT_OF_THE_DRAGON")) {
+                        if (stat.type == StatType.DAMAGE)
+                            statAdder += player.getPetActive().getLevel() * 0.5;
+                        else if (stat.type == StatType.STRENGTH)
+                            statAdder += player.getPetActive().getLevel() * 0.3;
+                    }
                 }
-            } else if (this.material instanceof MiningMaterial) {
-                MiningMaterial material = (MiningMaterial) this.material;
+            }
 
-                if (oneForAll && stat.type == StatType.DAMAGE)
-                    statAdder += (material.getStats().get(stat).amount + statAdder * 6);
-
-                double statDisplay = material.getStats().get(stat).amount + statAdder;
-                stats.get(stat).amount = statDisplay;
-                if (material.getStats().get(stat).amount + statAdder != 0) {
-                    if (material.getStats().get(stat).amount + statAdder < 0) statSymbol = "-";
-                    statReforge = statReforge.replace("SYMBOL", statSymbol);
-                    lores.add(ChatColor.GRAY + stat.type.toString() + ": " + statColor + statSymbol + Math.abs(statDisplay) + percent + " " + statPotato + statReforge);
-                }
+            double statDisplay = material.getStats().get(stat).amount + statAdder;
+            stats.get(stat).amount = statDisplay;
+            if (material.getStats().get(stat).amount + statAdder != 0) {
+                if (material.getStats().get(stat).amount + statAdder < 0) statSymbol = "-";
+                statReforge = statReforge.replace("SYMBOL", statSymbol);
+                lores.add(ChatColor.GRAY + stat.type.toString() + ": " + statColor + statSymbol + Math.abs(statDisplay) + percent + " " + statPotato + statReforge);
             }
         }
 
@@ -568,50 +509,6 @@ public class Item extends ItemStack implements ConfigurationSerializable {
         return ChatColor.BLUE + "";
     }
 
-    public static StatType getStat(int num) {
-        switch (num) {
-            case 0:
-                return StatType.DAMAGE;
-            case 1:
-                return StatType.STRENGTH;
-            case 2:
-                return StatType.CRIT_DAMAGE;
-            case 3:
-                return StatType.CRIT_CHANCE;
-            case 4:
-                return StatType.ABILITY_DAMAGE;
-            case 5:
-                return StatType.ABILITY_SCALING;
-            case 6:
-                return StatType.ATTACK_SPEED;
-            case 7:
-                return StatType.FEROCITY;
-            case 8:
-                return StatType.HEALTH;
-            case 9:
-                return StatType.DEFENSE;
-            case 10:
-                return StatType.TRUE_DEFENSE;
-            case 11:
-                return StatType.SPEED;
-            case 12:
-                return StatType.INTELLIGENCE;
-            case 13:
-                return StatType.MAGIC_FIND;
-            case 14:
-                return StatType.PET_LUCK;
-            case 15:
-                return StatType.MINING_SPEED;
-            case 16:
-                return StatType.MINING_FORTUNE;
-            case 17:
-                return StatType.SEA_CREATURE_CHANCE;
-            case 18:
-                return StatType.ABSORPTION;
-        }
-        return StatType.DAMAGE;
-    }
-
     private static boolean isNotLastEmpty(ArrayList<String> lores) {
         try {
             if (lores.get(lores.size() - 1).contains("Requires")) return false;
@@ -619,7 +516,7 @@ public class Item extends ItemStack implements ConfigurationSerializable {
             if (lores.get(lores.size() - 1).equals("")) {
                 return false;
             }
-        } catch (ArrayIndexOutOfBoundsException ex) {
+        } catch (IndexOutOfBoundsException ex) {
             return false;
         }
         return true;

@@ -15,8 +15,7 @@ public class CombatSkill extends AbstractSkill {
                 "Fight mobs and players to earn Combat XP!",
                 new SkillRewards(
                     "Warrior",
-                        level,
-                        ChatColor.WHITE + "Deal " + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + level + "➡" + ChatColor.GREEN + (level + 1) + "% " + ChatColor.WHITE + "more damage to mobs",
+                        ChatColor.WHITE + "Deal " + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + (level * 4) + "➡" + ChatColor.GREEN + ((level + 1) * 4) + "% " + ChatColor.WHITE + "more damage to mobs",
                         StatType.CRIT_CHANCE,
                         0.5,
                         coinsAmount

@@ -14,10 +14,9 @@ public class TamingSkill extends AbstractSkill {
                 "Level up pets to earn Pet XP!",
                 new SkillRewards(
                         "Zoologist",
-                        level,
                         ChatColor.WHITE + "Gain " + ChatColor.DARK_GRAY + level + "➡" + ChatColor.GREEN + (level + 1) + "% " + ChatColor.WHITE + "extra pet exp.",
                         StatType.SPEED,
-                        1d,
+                        1,
                         coinsAmount
                 ),
                 level,

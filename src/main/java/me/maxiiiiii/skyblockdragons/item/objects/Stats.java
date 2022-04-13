@@ -138,6 +138,10 @@ public class Stats implements Iterable<Stat> {
         return null;
     }
 
+    public void add(StatType stat, double amount) {
+        this.get(stat).amount += amount;
+    }
+
     public void increasePlayerStat(double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double seaCreatureChance, double absorption) {
         this.damage.increase(damage);
         this.strength.increase(strength);

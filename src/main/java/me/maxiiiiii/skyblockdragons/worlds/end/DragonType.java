@@ -29,6 +29,6 @@ public enum DragonType {
 
     @Override
     public String toString() {
-        return this.color + Functions.setTitleCase(this.name());
+        return this.color + "" + ChatColor.BOLD + Functions.setTitleCase(this.name());
     }
 }

@@ -26,6 +26,7 @@ public class EntitySD extends EntityClass {
 
     public LivingEntity entity;
     public EntityMaterial type;
+    public EntityHologram hologram;
     public EntitySD attacker;
     public Location location;
 
@@ -62,14 +63,13 @@ public class EntitySD extends EntityClass {
         this.entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(this.type.health);
         this.entity.setHealth(this.type.health);
         this.entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(this.type.knockbackResistance);
-        if (this.type.level < 0)
-            this.entity.setCustomName(ChatColor.WHITE + this.type.name);
-        else
-            this.entity.setCustomName(ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv " + this.type.level + ChatColor.DARK_GRAY + "] " + ChatColor.WHITE + this.type.name);
-        this.entity.setCustomNameVisible(true);
+//        this.entity.setCustomName(this.type.name());
+        this.entity.setCustomNameVisible(false);
         this.entity.setAI(this.type.ai);
         this.entity.setCanPickupItems(false);
         this.entity.addScoreboardTag("EntitySD");
+
+        this.hologram = new EntityHologram(this);
 
         if (this.entity instanceof Zombie)
             ((Zombie) this.entity).setBaby(false);
@@ -83,6 +83,13 @@ public class EntitySD extends EntityClass {
         this.attacker = null;
 
         entities.put(this.entity.getUniqueId(), this);
+    }
+
+    @Override
+    public String getCustomName() {
+        if (this.type.level < 0)
+            return ChatColor.WHITE + this.type.name;
+        return ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv " + this.type.level + ChatColor.DARK_GRAY + "] " + ChatColor.WHITE + this.type.name;
     }
 
     public EntitySD(LivingEntity entity) {
@@ -147,6 +154,7 @@ public class EntitySD extends EntityClass {
 
     public void kill() {
         this.entity.remove();
+        this.hologram.getStand().remove();
         entities.remove(this.entity.getUniqueId());
     }
 

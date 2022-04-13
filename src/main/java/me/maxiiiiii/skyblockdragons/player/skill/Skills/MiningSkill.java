@@ -18,10 +18,9 @@ public class MiningSkill extends AbstractSkill {
                 "Spelunk island for ores and valuable materials to earn Mining XP!",
                 new SkillRewards(
                         "Spelunker",
-                        level,
-                        ChatColor.WHITE + "Graints " + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + (level * 4) + "➡" + ChatColor.GREEN + ((level + 1) * 4) + " " + ChatColor.GOLD + "Mining Fortune" + ChatColor.WHITE + ", which increases your chance for multiple ore drops.",
+                        ChatColor.WHITE + "Grants " + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + (level * 4) + "➡" + ChatColor.GREEN + ((level + 1) * 4) + " " + ChatColor.GOLD + "Mining Fortune" + ChatColor.WHITE + ", which increases your chance for multiple ore drops.",
                         StatType.DEFENSE,
-                        statsAmount,
+                        2,
                         coinsAmount
                 ),
                 level,

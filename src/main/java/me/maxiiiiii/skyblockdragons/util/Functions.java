@@ -102,19 +102,21 @@ public class Functions {
     }
 
     public static String getShortNumber(double num) {
+        double signum = Math.signum(num);
+        num = Math.abs(num);
         String output = getInt(num + "");
         if (num >= 1000000000000000000d) {
-            output = num + "";
+            output = num * signum + "";
         } else if (num >= 1000000000000000d) {
-            output = Math.round(num / 1000000000000000d * 100d) / 100d + "Q";
+            output = Math.round(num * signum / 1000000000000000d * 100d) / 100d + "Q";
         } else if (num >= 1000000000000d) {
-            output = Math.round(num / 1000000000000d * 100d) / 100d + "T";
+            output = Math.round(num * signum / 1000000000000d * 100d) / 100d + "T";
         } else if (num >= 1000000000d) {
-            output = Math.round(num / 1000000000d * 100d) / 100d + "B";
+            output = Math.round(num * signum / 1000000000d * 100d) / 100d + "B";
         } else if (num >= 1000000d) {
-            output = Math.round(num / 1000000d * 100d) / 100d + "M";
+            output = Math.round(num * signum / 1000000d * 100d) / 100d + "M";
         } else if (num >= 1000d) {
-            output = Math.round(num / 1000d * 100d) / 100d + "K";
+            output = Math.round(num * signum / 1000d * 100d) / 100d + "K";
         }
         return output;
     }

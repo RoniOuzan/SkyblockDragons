@@ -18,10 +18,9 @@ public class ForagingSkill extends AbstractSkill {
                 "Cut trees and forage for other plants to earn Foraging XP!",
                 new SkillRewards(
                         "Logger,",
-                        level,
                         ChatColor.WHITE + "Grants " + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + (level * 4) + "➡" + ChatColor.GREEN + ((level + 1) * 4) + " " + ChatColor.GOLD + "Foraging Fortune " + ChatColor.WHITE + ", which increase your chance for multiple logs.",
                         StatType.STRENGTH,
-                        statsAmount,
+                        2,
                         coinsAmount
                 ),
                 level,

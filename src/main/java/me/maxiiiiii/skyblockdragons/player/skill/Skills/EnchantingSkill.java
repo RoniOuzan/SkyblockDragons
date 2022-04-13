@@ -10,18 +10,15 @@ import java.util.Map;
 
 @Getter
 public class EnchantingSkill extends AbstractSkill {
-    private static final double[] statsAmount = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
-
     public EnchantingSkill(int level, double totalXp) {
         super(
                 "Enchanting",
                 "Enchant items to earn Enchanting XP!",
                 new SkillRewards(
                         "Conjurer",
-                        level,
                         ChatColor.WHITE + "Gain " + ChatColor.DARK_GRAY + (level * 4) + "➡" + ChatColor.GREEN + ((level + 1) * 4) + " " + ChatColor.WHITE + "more experience orbs from any source.",
                         StatType.INTELLIGENCE,
-                        statsAmount,
+                        2,
                         coinsAmount
                 ),
                 level,

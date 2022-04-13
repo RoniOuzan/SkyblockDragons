@@ -17,6 +17,7 @@ import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.pet.Pet;
@@ -29,6 +30,8 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
+import me.maxiiiiii.skyblockdragons.worlds.end.DragonType;
+import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.worlds.mining.Mining;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -82,7 +85,7 @@ public class PlayerSD extends PlayerClass {
         player.setHealthScale(40d);
         this.player = player;
 
-        this.stats = new PlayerStats(
+        this.stats = new PlayerStats(this,
                 0,
                 0,
                 0,
@@ -358,7 +361,16 @@ public class PlayerSD extends PlayerClass {
             stats.speed.amount += 70;
         }
         if (fullSet.equals("Superior Blood")) {
-            statsMultiplayer.increase(0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 0, 0, 0, 0);
+            statsMultiplayer.increase(0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 5, 5, 0, 0);
+        }
+
+
+        // Pets
+        if (this.getPlayerPet().getActivePet() >= 0) {
+            if (this.getPetActive().getPetMaterial() == PetMaterial.get("ENDER_DRAGON")) {
+                double amount = this.getPetActive().getLevel() * 0.1;
+                statsMultiplayer.increase(0, amount, amount, amount, amount, 0, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, 0);
+            }
         }
 
         statsMultiplayer.apply(this.stats);
@@ -504,13 +516,19 @@ public class PlayerSD extends PlayerClass {
         }
         scores.add(objective.getScore(ChatColor.WHITE + "Bits: " + ChatColor.AQUA + getNumberFormat(bits) + " " + bitsAdder));
         scores.add(objective.getScore(" "));
-        if (this.getWorldSD() == WorldSD.THE_END) {
-
+        if (TheEnd.dragon != null) {
+            DragonType dragonType = DragonType.getDragonType(TheEnd.dragon.type.getName());
+            if (this.getWorldSD() == WorldSD.THE_END && dragonType != null) {
+                scores.add(objective.getScore(dragonType + " Dragon"));
+                scores.add(objective.getScore("  " + ChatColor.WHITE + "Dragon's Health: " + ChatColor.GREEN + Functions.getNumberFormat(TheEnd.dragon.getHealth()) + StatType.HEALTH.getIcon()));
+                scores.add(objective.getScore("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getNumberFormat(TheEnd.dragonDamage.getOrDefault(this, 0d))));
+                scores.add(objective.getScore("  "));
+            }
         }
         if (this.playerPet.activePet >= 0) {
             scores.add(objective.getScore(ChatColor.WHITE + "Active Pet:"));
             scores.add(objective.getScore("  " + this.getPetActive().getRarity().getColor() + this.getPetActive().getPetMaterial().getName()));
-            scores.add(objective.getScore("  "));
+            scores.add(objective.getScore("   "));
         }
         scores.add(objective.getScore(ChatColor.YELLOW + "www.error.net"));
         Collections.reverse(scores);
@@ -607,5 +625,11 @@ public class PlayerSD extends PlayerClass {
                 return world;
         }
         return null;
+    }
+
+    @Override
+    public void giveExp(int amount) {
+        amount *= 1 + (this.getSkill().getEnchantingSkill().getLevel() * 4 / 100);
+        super.giveExp(amount);
     }
 }

@@ -18,15 +18,15 @@ public class DungeoneeringSkill extends AbstractSkill {
                 "Complete this dungeon to earn experience and unlock new rewards!",
                 new SkillRewards(
                         "Catacomber",
-                        level,
                         ChatColor.WHITE + "Increasing the stats of your dungeon items by " + ChatColor.DARK_GRAY + getLevelIncrease(level) + "➡" + ChatColor.GREEN + levelIncrease[level] + "% " + ChatColor.WHITE + "while in " + ChatColor.RED + "The Catacombs" + ChatColor.WHITE + ".",
                         StatType.HEALTH,
-                        1d,
+                        1,
                         coinsAmount
                 ),
                 level,
                 50,
-                totalXp);
+                totalXp,
+                needXps);
     }
 
     private static int getLevelIncrease(int level) {

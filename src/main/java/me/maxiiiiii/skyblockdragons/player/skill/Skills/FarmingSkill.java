@@ -18,10 +18,9 @@ public class FarmingSkill extends AbstractSkill {
                 "Harvest crops and shear sheep to earn Farming XP!",
                 new SkillRewards(
                         "Farmhand",
-                        level,
                         ChatColor.WHITE + "Grants " + ChatColor.DARK_GRAY + (level * 4) + "➡" + ChatColor.GREEN + ((level + 1) * 4) + " " + ChatColor.GOLD + "Farming Fortune" + ChatColor.WHITE + ", which increase your chance for multiple crops.",
                         StatType.HEALTH,
-                        statAmount,
+                        2,
                         coinsAmount
                 ),
                 level,

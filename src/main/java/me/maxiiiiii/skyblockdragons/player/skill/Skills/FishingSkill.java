@@ -18,10 +18,9 @@ public class FishingSkill extends AbstractSkill {
                 "Visit your local pond to fish and earn Fishing XP!",
                 new SkillRewards(
                         "Treasure Hunter",
-                        level,
                         ChatColor.WHITE + "Increases the chance to find treasure when fishing by " + ChatColor.DARK_GRAY + (level * 0.2) + "➡" + ChatColor.GREEN + ((level + 1) * 0.2) + "%" + ChatColor.WHITE + ".",
                         StatType.HEALTH,
-                        statAmount,
+                        2,
                         coinsAmount
                 ),
                 level,

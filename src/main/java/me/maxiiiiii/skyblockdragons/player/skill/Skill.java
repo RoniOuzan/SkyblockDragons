@@ -9,11 +9,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Consumer;
 
 @Getter
-public class Skill {
+public class Skill implements Iterable<AbstractSkill> {
     private final PlayerSD player;
     private final FarmingSkill farmingSkill;
     private final MiningSkill miningSkill;
@@ -65,5 +65,57 @@ public class Skill {
         this.alchemySkill.save(player);
         this.tamingSkill.save(player);
         this.dungeoneeringSkill.save(player);
+    }
+
+    public int size() {
+        return 9;
+    }
+
+    public AbstractSkill get(int index) {
+        switch (index) {
+            case 0:
+                return farmingSkill;
+            case 1:
+                return miningSkill;
+            case 2:
+                return combatSkill;
+            case 3:
+                return foragingSkill;
+            case 4:
+                return fishingSkill;
+            case 5:
+                return enchantingSkill;
+            case 6:
+                return alchemySkill;
+            case 7:
+                return tamingSkill;
+            case 8:
+                return dungeoneeringSkill;
+        }
+        return farmingSkill;
+    }
+
+    @Override
+    public Iterator<AbstractSkill> iterator() {
+        return new SkillIterator();
+    }
+
+    private class SkillIterator implements Iterator<AbstractSkill> {
+        private int index = 0;
+
+        @Override
+        public boolean hasNext() {
+            return index < size();
+        }
+
+        @Override
+        public AbstractSkill next() {
+            return get(index++);
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("not supported yet");
+        }
     }
 }

@@ -9,6 +9,9 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.ToolMaterial;
+import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.pet.Pet;
+import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -127,20 +130,21 @@ public class Damage implements Listener {
         }
     }
 
-    public DamageCalculator getDamage(EntitySD player, EntitySD entity, DamageType damageType, double baseAbilityDamage, double abilityScaling) {
+    public DamageCalculator getDamage(EntitySD attacker, EntitySD victim, DamageType damageType, double baseAbilityDamage, double abilityScaling) {
         Item item;
-        if (player instanceof PlayerSD)
-            item = new Item((PlayerSD) player, player.getEquipment().getItemInMainHand());
+        if (attacker instanceof PlayerSD)
+            item = new Item((PlayerSD) attacker, attacker.getEquipment().getItemInMainHand());
         else
-            item = new Item(null, player.getEquipment().getItemInMainHand());
+            item = new Item(null, attacker.getEquipment().getItemInMainHand());
         double damage = 1;
         boolean critHit = false;
 
         double baseMultiplayer = 1;
         double postMultiplayer = 1;
-        double damageReduction = entity.getDefense() / (entity.getDefense() + 100);
+        double damageReduction = victim.getDefense() / (victim.getDefense() + 100);
+        double baseReducer = 1;
 
-        EntitySD.Equipment equipment = player.getItems();
+        EntitySD.Equipment equipment = attacker.getItems();
         ItemStack tool = equipment.tool;
         ItemStack helmet = equipment.helmet;
         ItemStack chestplate = equipment.chestplate;
@@ -155,20 +159,20 @@ public class Damage implements Listener {
 
         String fullSet = equipment.fullSet;
 
-        if (player instanceof PlayerSD) {
-            PlayerSD playerSD = (PlayerSD) player;
+        if (attacker instanceof PlayerSD) {
+            PlayerSD playerSD = (PlayerSD) attacker;
             if (damageType.isMagic()) {
                 damage = baseAbilityDamage * ((1 + (playerSD.getStats().getIntelligence().amount / 100) * (playerSD.getStats().getAbilityScaling().amount * abilityScaling))); // damage formula / calculation
             } else if (item.getMaterial().getType() != ItemType.BOW || damageType == DamageType.PROJECTILE) {
                 damage = (5 + playerSD.getStats().getDamage().amount) * (1 + (playerSD.getStats().getStrength().amount / 100)); // damage formula / calculation
             }
         } else {
-            damage = player.type.getDamage();
+            damage = attacker.type.getDamage();
         }
 
         // crit
-        if (player instanceof PlayerSD) {
-            PlayerSD playerSD = (PlayerSD) player;
+        if (attacker instanceof PlayerSD) {
+            PlayerSD playerSD = (PlayerSD) attacker;
             if (Functions.chanceOf(playerSD.getStats().getCritChance().amount) && damageType != DamageType.MAGIC) {
                 damage *= (1 + (playerSD.getStats().getCritDamage().amount / 100));
                 critHit = true;
@@ -182,22 +186,22 @@ public class Damage implements Listener {
 
         // enchants
         if (damageType == DamageType.PROJECTILE) {
-            baseMultiplayer += player.getEnchantLevel(EnchantType.POWER) * 0.08;
-            baseMultiplayer += player.getEnchantLevel(EnchantType.SNIPE) * (player.getLocation().distance(entity.getLocation()) / 5) * 0.01;
+            baseMultiplayer += attacker.getEnchantLevel(EnchantType.POWER) * 0.08;
+            baseMultiplayer += attacker.getEnchantLevel(EnchantType.SNIPE) * (attacker.getLocation().distance(victim.getLocation()) / 5) * 0.01;
         } else {
-            baseMultiplayer += player.getEnchantLevel(EnchantType.SHARPNESS) * 0.05;
-            baseMultiplayer += player.getEnchantLevel(EnchantType.SMITE, entity::isUndead) * 0.08;
-            baseMultiplayer += player.getEnchantLevel(EnchantType.BANE_OF_ARTHROPODS, entity::isBaneOfArthropods) * 0.08;
-            baseMultiplayer += player.getEnchantLevel(EnchantType.GIANT_KILLER) * (Math.max((entity.getHealth() - player.getHealth()) / player.getMaxHealth(), 0) / 10) * 0.1;
-            baseMultiplayer += player.getEnchantLevel(EnchantType.TITAN_KILLER) * (Math.max((entity.getHealth() - player.getHealth()) / player.getMaxHealth(), 0) / 10) * 0.1;
-            baseMultiplayer += player.getEnchantLevel(EnchantType.ENDER_SLAYER, entity::isEnderMob) * 0.12;
-            baseMultiplayer += player.getEnchantLevel(EnchantType.DRAGON_HUNTER, () -> entity.entity instanceof EnderDragon) * 0.08;
-            baseMultiplayer += player.getEnchantLevel(EnchantType.EXECUTE) * (entity.getMaxHealth() - entity.getHealth()) / entity.getMaxHealth() * 0.002;
-            baseMultiplayer += player.getEnchantLevel(EnchantType.PROSECUTE) * entity.getHealth() / entity.getMaxHealth() * 0.001;
-            baseMultiplayer += player.getEnchantLevel(EnchantType.CUBISM, entity::isCubism) * 0.1;
-            baseMultiplayer += player.getEnchantLevel(EnchantType.FIRST_STRIKE, () -> Math.floor((entity.getHealth() / entity.getMaxHealth()) * 100d) >= 99) * 0.25;
-            baseMultiplayer += player.getEnchantLevel(EnchantType.TRIPLE_STRIKE, () -> Math.floor((entity.getHealth() / entity.getMaxHealth()) * 100d) >= 67) * 0.1;
-            baseMultiplayer += player.getEnchantLevel(EnchantType.IMPALING, entity::isImpaled) * 0.1;
+            baseMultiplayer += attacker.getEnchantLevel(EnchantType.SHARPNESS) * 0.05;
+            baseMultiplayer += attacker.getEnchantLevel(EnchantType.SMITE, victim::isUndead) * 0.08;
+            baseMultiplayer += attacker.getEnchantLevel(EnchantType.BANE_OF_ARTHROPODS, victim::isBaneOfArthropods) * 0.08;
+            baseMultiplayer += attacker.getEnchantLevel(EnchantType.GIANT_KILLER) * (Math.max((victim.getHealth() - attacker.getHealth()) / attacker.getMaxHealth(), 0) / 10) * 0.1;
+            baseMultiplayer += attacker.getEnchantLevel(EnchantType.TITAN_KILLER) * (Math.max((victim.getHealth() - attacker.getHealth()) / attacker.getMaxHealth(), 0) / 10) * 0.1;
+            baseMultiplayer += attacker.getEnchantLevel(EnchantType.ENDER_SLAYER, victim::isEnderMob) * 0.12;
+            baseMultiplayer += attacker.getEnchantLevel(EnchantType.DRAGON_HUNTER, () -> victim.entity instanceof EnderDragon) * 0.08;
+            baseMultiplayer += attacker.getEnchantLevel(EnchantType.EXECUTE) * (victim.getMaxHealth() - victim.getHealth()) / victim.getMaxHealth() * 0.002;
+            baseMultiplayer += attacker.getEnchantLevel(EnchantType.PROSECUTE) * victim.getHealth() / victim.getMaxHealth() * 0.001;
+            baseMultiplayer += attacker.getEnchantLevel(EnchantType.CUBISM, victim::isCubism) * 0.1;
+            baseMultiplayer += attacker.getEnchantLevel(EnchantType.FIRST_STRIKE, () -> Math.floor((victim.getHealth() / victim.getMaxHealth()) * 100d) >= 99) * 0.25;
+            baseMultiplayer += attacker.getEnchantLevel(EnchantType.TRIPLE_STRIKE, () -> Math.floor((victim.getHealth() / victim.getMaxHealth()) * 100d) >= 67) * 0.1;
+            baseMultiplayer += attacker.getEnchantLevel(EnchantType.IMPALING, victim::isImpaled) * 0.1;
         }
 
         if (damageType == DamageType.PROJECTILE && helmetMaterial == Items.get("GOLDEN_SKELETON_HELMET") && toolMaterial == Items.get("GOLDEN_SKELETON_BOW")) {
@@ -207,16 +211,35 @@ public class Damage implements Listener {
             baseMultiplayer += 0.2;
         }
 
-        if (toolMaterial == Items.get("ENDER_BOW") && entity.type.getEntityType() == EntityType.ENDER_DRAGON || entity.type.getEntityType() == EntityType.ENDERMAN) {
-            baseMultiplayer += 0.5;
+        if (toolMaterial == Items.get("ENDER_BOW") && victim.type.getEntityType() == EntityType.ENDER_DRAGON || victim.type.getEntityType() == EntityType.ENDERMAN) {
+            postMultiplayer += 1;
         }
 
         if (fullSet.equals("Strong Blood") && toolMaterial == Items.get("ASPECT_OF_THE_END"))
             baseMultiplayer += 0.2;
 
+        if (attacker instanceof PlayerSD) {
+            PlayerSD playerSD = (PlayerSD) attacker;
+            if (playerSD.getPlayerPet().getActivePet() >= 0) {
+                if (playerSD.getPetActive().getPetMaterial() == PetMaterial.get("ENDER_DRAGON") && (victim.type.getEntityType() == EntityType.ENDERMAN || victim.type.getEntityType() == EntityType.ENDER_DRAGON || victim.type.getEntityType() == EntityType.ENDERMITE)) {
+                    baseMultiplayer += playerSD.getPetActive().getLevel() * 0.0025;
+                }
+            }
+        }
+
+        if (victim instanceof PlayerSD) {
+            PlayerSD victimSD = (PlayerSD) victim;
+            if (victimSD.getPlayerPet().getActivePet() >= 0) {
+                if (victimSD.getPetActive().getPetMaterial() == PetMaterial.get("ENDERMAN")) {
+                    baseReducer *= 1 - (victimSD.getPetActive().getLevel() * 0.003);
+                }
+            }
+        }
+
         // final damage
         damage *= baseMultiplayer;
         damage *= postMultiplayer;
+        damage *= baseReducer;
         damage *= 1 - damageReduction;
         damage = Math.floor(damage);
 
@@ -248,6 +271,12 @@ public class Damage implements Listener {
         e.setDamage(damage);
         victim.damage(0);
         victim.setHealth(Math.max(health - damage, 0));
+        ChatColor color = ChatColor.GREEN;
+        if (victim.getHealth() <= victim.getMaxHealth() / 4)
+            color = ChatColor.RED;
+        else if (victim.getHealth() <= victim.getMaxHealth() / 2)
+            color = ChatColor.YELLOW;
+        victim.hologram.getStand().setCustomName(victim.getCustomName() + " " + color + victim.getHealth() + StatType.HEALTH.getIcon());
         EntityKnockbackEvent knockbackEvent = new EntityKnockbackEvent(e.getVictim(), e.getAttacker());
         Bukkit.getServer().getPluginManager().callEvent(knockbackEvent);
     }
@@ -299,6 +328,7 @@ public class Damage implements Listener {
             e.setDroppedExp(0);
 
             EntitySD.entities.remove(entity.getUniqueId());
+            entity.hologram.remove();
             if (entity.getAttacker() == null) return;
 
             PlayerSD player = SkyblockDragons.getPlayer((PlayerSD) entity.getAttacker());

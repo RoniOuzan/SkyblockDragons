@@ -27,7 +27,7 @@ public abstract class AbstractSkill {
     private double totalXp;
     private final double[] needXp;
 
-    public AbstractSkill(String name, String description, SkillRewards rewards, int level, int maxLevel, double totalXp) {
+    public AbstractSkill(String name, String description, SkillRewards rewards, int level, int maxLevel, double totalXp, double[] needXps) {
         this.name = name;
         this.description = description;
         this.rewards = rewards;
@@ -42,7 +42,11 @@ public abstract class AbstractSkill {
         this.needXp = needXps;
     }
 
-    public double getCurrentNeedXp() {
+    public AbstractSkill(String name, String description, SkillRewards rewards, int level, int maxLevel, double totalXp) {
+        this(name, description, rewards, level, maxLevel, totalXp, needXps);
+    }
+
+        public double getCurrentNeedXp() {
         return this.needXp[this.level];
     }
 
@@ -56,15 +60,15 @@ public abstract class AbstractSkill {
             levelledUp = true;
         }
         if (levelledUp) {
-            player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "--------------------------------------------------");
+            player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "------------------------------------------");
             player.sendMessage("    " + ChatColor.AQUA + "" + ChatColor.BOLD + "SKILL LEVEL UP " + ChatColor.RESET + "" + ChatColor.DARK_AQUA + this.name + " " + ChatColor.DARK_GRAY + integerToRoman(this.level - 1) + ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "➡" + ChatColor.DARK_AQUA + integerToRoman(this.level));
             player.sendMessage("");
             player.sendMessage("    " + ChatColor.GREEN + "" + ChatColor.BOLD + "REWARDS");
             player.sendMessage("      " + ChatColor.YELLOW + this.rewards.getName() + integerToRoman(this.level));
             player.sendMessage("         " + this.rewards.getPassive());
-            player.sendMessage("       " + ChatColor.DARK_GRAY + "+" + ChatColor.GREEN + getInt(this.rewards.getStatAmount() + "") + this.rewards.getStat().getIconAndText());
-            player.sendMessage("       " + ChatColor.DARK_GRAY + "+" + ChatColor.GOLD + getNumberFormat(this.rewards.getCoinsAmount()) + " " + ChatColor.GRAY + "Coins");
-            player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "--------------------------------------------------");
+            player.sendMessage("       " + ChatColor.DARK_GRAY + "+" + ChatColor.GREEN + getInt(this.rewards.getStatAmount() *  this.level + "") + this.rewards.getStat().getIconAndText());
+            player.sendMessage("       " + ChatColor.DARK_GRAY + "+" + ChatColor.GOLD + getNumberFormat(this.rewards.getCoinsAmount()[this.level]) + " " + ChatColor.GRAY + "Coins");
+            player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "------------------------------------------");
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
         }
     }

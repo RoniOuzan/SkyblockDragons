@@ -52,7 +52,7 @@ public class TheEnd extends WorldSD implements Listener {
             EnderDragon dragon = (EnderDragon) e.getEntity();
             dragon.setPhase(EnderDragon.Phase.HOVER);
             Functions.While(() -> !dragon.isDead(), 2L, i -> {
-                for (Entity entity : dragon.getNearbyEntities(2.5, 2.5, 2.5)) {
+                for (Entity entity : dragon.getNearbyEntities(1, 1, 1)) {
                     if (entity instanceof Arrow && ((Arrow) entity).getShooter() != null) {
                         entity.remove();
                         SkyblockDragons.getPlayer((Player) ((Arrow) entity).getShooter()).makeDamage(dragon, Damage.DamageType.PROJECTILE, 1);

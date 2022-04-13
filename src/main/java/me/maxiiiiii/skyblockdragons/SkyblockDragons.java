@@ -114,7 +114,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new ClickListener(), this);
         getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
         getServer().getPluginManager().registerEvents(new DropListener(), this);
-        getServer().getPluginManager().registerEvents(new EntityHealth(), this);
+//        getServer().getPluginManager().registerEvents(new EntityHealth(), this);
         getServer().getPluginManager().registerEvents(new PlayerClickOnPlayerListener(), this);
         getServer().getPluginManager().registerEvents(new ArmorStandManipulateListener(), this);
         getServer().getPluginManager().registerEvents(new PlaceHeadListener(), this);
@@ -125,6 +125,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new EndermanTeleportListener(), this);
         getServer().getPluginManager().registerEvents(new PickableItem(), this);
         getServer().getPluginManager().registerEvents(new PlayerPickupItemListener(), this);
+        getServer().getPluginManager().registerEvents(new UpdateInventoryListeners(), this);
 
         getServer().getPluginManager().registerEvents(new PlayerWarpListener(), this);
 
