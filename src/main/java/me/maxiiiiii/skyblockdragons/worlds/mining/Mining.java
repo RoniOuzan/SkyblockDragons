@@ -3,38 +3,33 @@ package me.maxiiiiii.skyblockdragons.worlds.mining;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.worlds.WorldType;
-import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
-import me.maxiiiiii.skyblockdragons.worlds.mining.deepmines.DeepMines;
+import me.maxiiiiii.skyblockdragons.worlds.deepmines.DeepMines;
 import net.minecraft.server.v1_12_R1.BlockPosition;
-import net.minecraft.server.v1_12_R1.EntityPlayer;
 import net.minecraft.server.v1_12_R1.PacketPlayOutBlockBreakAnimation;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
 
 public class Mining implements Listener {
-    public static final List<World> miningWorlds = new ArrayList<>(Arrays.asList(TheEnd.world, Bukkit.getWorld("DeepMines")));
+    public static final List<World> miningWorlds = new ArrayList<>(Arrays.asList(TheEnd.world, DeepMines.world));
 
     public static final HashMap<Player, Boolean> isDigging = new HashMap<>();
 
-    public Mining(Plugin plugin) {
+    public Mining(JavaPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         plugin.getServer().getPluginManager().registerEvents(new PlayerBreakBlockListener(), plugin);
     }
@@ -47,7 +42,8 @@ public class Mining implements Listener {
 
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
         Block block = e.getBlock();
-        BlockMaterial blockMaterial = BlockMaterial.get(block.getType().toString());
+        BlockMaterial blockMaterial = BlockMaterial.get(block.getType());
+        if (blockMaterial == null) return;
 
         double miningTime = (blockMaterial.blockStrength * 50) / Math.max(player.getStats().getMiningSpeed().amount, 1);
 
@@ -87,12 +83,9 @@ public class Mining implements Listener {
         }
     }
 
-    private static void stopMining(Player player, Block block) {
-        CraftPlayer craftPlayer = (CraftPlayer) player.getPlayer();
-        EntityPlayer entityPlayer = craftPlayer.getHandle();
-
+    private static void stopMining(PlayerSD player, Block block) {
         PacketPlayOutBlockBreakAnimation packet = new PacketPlayOutBlockBreakAnimation(player.getEntityId(), new BlockPosition(block.getLocation().getBlockX(), block.getLocation().getBlockY(), block.getLocation().getBlockZ()), -1);
-        entityPlayer.playerConnection.sendPacket(packet);
+        player.sendPacket(packet);
 
         isDigging.put(player, false);
     }

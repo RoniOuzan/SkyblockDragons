@@ -1,5 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class Tree_Capitator implements Listener {
-    private final Cooldown cooldown = new Cooldown();
+    private final Cooldown<PlayerSD> cooldown = new Cooldown<>();
 
     @EventHandler
     public void onBreak(BlockBreakEvent e) {
@@ -20,7 +22,7 @@ public class Tree_Capitator implements Listener {
 
         if (!getId(item).equals("TREE_CAPITATOR")) return;
 
-        Player player = e.getPlayer();
+        PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
 
         if (cooldown(player, cooldown, 2000, true)) return;
 

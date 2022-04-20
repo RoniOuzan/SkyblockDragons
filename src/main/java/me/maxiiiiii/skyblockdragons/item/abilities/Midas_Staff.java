@@ -1,5 +1,9 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,18 +24,16 @@ public class Midas_Staff implements Listener {
     private final Cooldown<Player> cooldown = new Cooldown<>();
 
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
+    public void onClick(PlayerUseAbilityEvent e) {
+        Item item = e.getItem();
 
-        if (!getId(item).equals("MIDAS_STAFF")) return;
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (item.getMaterial() != Items.get("MIDAS_STAFF")) return;
 
-        Player player = e.getPlayer();
-
-        if (cooldown(player, cooldown, 1000, true)) return;
+        PlayerSD player = e.getPlayer();
 
         Vector direction = player.getLocation().getDirection().clone();
         direction.setY(0);
+        direction.multiply(5);
         direction.normalize();
         Location location = player.getLocation().add(direction.clone().multiply(1));
         location.add(0, 1, 0);

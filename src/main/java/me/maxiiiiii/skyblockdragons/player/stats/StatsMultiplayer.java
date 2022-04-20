@@ -1,7 +1,6 @@
-package me.maxiiiiii.skyblockdragons.player;
+package me.maxiiiiii.skyblockdragons.player.stats;
 
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 
 import java.util.HashMap;
 import java.util.Map;

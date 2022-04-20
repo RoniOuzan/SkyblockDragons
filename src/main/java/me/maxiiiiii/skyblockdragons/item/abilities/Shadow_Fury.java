@@ -1,37 +1,29 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
-import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import org.bukkit.Location;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.*;
-import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
-import static me.maxiiiiii.skyblockdragons.SkyblockDragons.*;
+import static me.maxiiiiii.skyblockdragons.SkyblockDragons.plugin;
 
 public class Shadow_Fury implements Listener {
-    private final Cooldown<Player> cooldown = new Cooldown<>();
-
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
+    public void onClick(PlayerUseAbilityEvent e) {
+        Item item = e.getItem();
 
-        if (!getId(item).equals("SHADOW_FURY")) return;
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (item.getMaterial() != Items.get("SHADOW_FURY")) return;
 
-        Player player = e.getPlayer();
-
-        if (cooldown(player, cooldown, 15000, true)) return;
+        PlayerSD player = e.getPlayer();
 
         List<Entity> nearbyEntities = player.getNearbyEntities(10, 10, 10);
         ArrayList<Entity> entities = new ArrayList<>();

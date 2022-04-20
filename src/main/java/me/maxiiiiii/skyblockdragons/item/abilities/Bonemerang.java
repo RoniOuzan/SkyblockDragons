@@ -1,5 +1,8 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.util.objects.SlotCooldown;
@@ -36,11 +39,10 @@ public class Bonemerang implements Listener {
     }
 
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
+    public void onClick(PlayerUseAbilityEvent e) {
+        Item item = e.getItem();
 
-        if (!Functions.getId(item).equals("BONEMERANG")) return;
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (item.getMaterial() != Items.get("BONEMERANG")) return;
 
         Player player = e.getPlayer();
         Location location = player.getLocation().add(0, 0.5, 0);

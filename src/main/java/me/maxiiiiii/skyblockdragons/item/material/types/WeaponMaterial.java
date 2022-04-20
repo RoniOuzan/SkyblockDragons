@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemStatsAble;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -16,25 +17,9 @@ public class WeaponMaterial extends ToolMaterial implements ItemStatsAble {
     private Stats stats;
     private String description;
 
-    public WeaponMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, double sellPrice, Stats stats, String description, List<ItemAbility> abilities) {
-        super(material, family, name, type, rarity, id, nbt, sellPrice, description, abilities);
+    public WeaponMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, double sellPrice, Stats stats, String description, Object... objects) {
+        super(material, family, name, type, rarity, id, nbt, sellPrice, description, objects);
         this.stats = stats;
         this.description = description;
-    }
-
-    public WeaponMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, double sellPrice, Stats stats, String description, ItemAbility... abilities) {
-        this(material, family, name, type, rarity, id, nbt, sellPrice, stats, description, new ArrayList<>(Arrays.asList(abilities)));
-    }
-
-    public WeaponMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, Stats stats, String description, ItemAbility... abilities) {
-        this(material, family, name, type, rarity, id, nbt, 0, stats, description, new ArrayList<>(Arrays.asList(abilities)));
-    }
-
-    public WeaponMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, double sellPrice, Stats stats, String description, ItemAbility... abilities) {
-        this(material, family, name, type, rarity, "", "", sellPrice, stats, description, new ArrayList<>(Arrays.asList(abilities)));
-    }
-
-    public WeaponMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, Stats stats, String description, ItemAbility... abilities) {
-        this(material, family, name, type, rarity, "", "", 0, stats, description, new ArrayList<>(Arrays.asList(abilities)));
     }
 }

@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
-import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
@@ -21,7 +21,8 @@ import org.bukkit.util.Vector;
 import java.util.HashMap;
 import java.util.Map;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getVector;
 
 public class Terminator implements Listener {
     private final Map<Projectile, BukkitTask> tasks = new HashMap<>();
@@ -36,16 +37,6 @@ public class Terminator implements Listener {
         Player player = e.getPlayer();
 
         if (cooldown(player, cooldown, 200, false)) return;
-
-//        Vector v = new Vector(player.getLocation().getDirection().getX() * 2, player.getLocation().getDirection().getY() * 2, player.getLocation().getDirection().getZ() * 2);
-//        Arrow a1 = player.launchProjectile(Arrow.class, v);
-//        Arrow a2 = player.launchProjectile(Arrow.class, v.clone().add(new Vector(0.13, 0, 0.13)));
-//        Arrow a3 = player.launchProjectile(Arrow.class, v.clone().add(new Vector(-0.13, 0, -0.13)));
-//        a2.getLocation().setYaw(a2.getLocation().getYaw() + 5);
-//        a3.getLocation().setYaw(a2.getLocation().getYaw() - 5);
-//        a1.addScoreboardTag("TERMINATOR");
-//        a2.addScoreboardTag("TERMINATOR");
-//        a3.addScoreboardTag("TERMINATOR");
 
         Vector vector1 = player.getLocation().getDirection().multiply(3);
         Vector vector2 = getVector(player, 5, 0, 3);

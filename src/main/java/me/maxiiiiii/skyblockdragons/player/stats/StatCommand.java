@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.player;
+package me.maxiiiiii.skyblockdragons.player.stats;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

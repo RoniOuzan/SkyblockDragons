@@ -2,13 +2,6 @@ package me.maxiiiiii.skyblockdragons.item.objects;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
-import org.bukkit.configuration.serialization.DelegateDeserialization;
-import org.bukkit.configuration.serialization.SerializableAs;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -17,21 +10,28 @@ public class ItemAbility {
     private String name;
     private String description;
     private int manaCost;
+    private boolean customManaCost;
     private int cooldown;
     private double abilityDamage;
     private double abilityScaling;
 
-    public ItemAbility(AbilityAction action, String name, String description, int manaCost, int cooldown, double abilityDamage, double abilityScaling) {
+    public ItemAbility(AbilityAction action, String name, String description, int manaCost, boolean customManaCost, int cooldown, double abilityDamage, double abilityScaling) {
         this.action = action;
         this.name = name;
         this.description = description;
         this.manaCost = manaCost;
+        this.customManaCost = customManaCost;
         this.cooldown = cooldown;
         this.abilityDamage = abilityDamage;
+        this.abilityScaling = abilityScaling;
     }
 
-    public ItemAbility(AbilityAction action, String name, String description, int manaCost, int cooldown) {
-        this(action, name, description, manaCost, cooldown, 0, 0);
+    public ItemAbility(AbilityAction action, String name, String description, int manaCost, boolean customManaCost, int cooldown) {
+        this(action, name, description, manaCost, customManaCost, cooldown, 0, 0);
+    }
+
+    public ItemAbility(AbilityAction action, String name, String description) {
+        this(action, name, description, 0, false, 0, 0, 0);
     }
 
 //    @Override

@@ -11,6 +11,7 @@ public enum ItemType {
     ITEM,
     AXE,
     PICKAXE,
+    DRILL,
     SPADE,
     HOE,
     ROD,

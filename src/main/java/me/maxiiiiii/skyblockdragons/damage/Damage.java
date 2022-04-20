@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.damage;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.entity.ItemDrop;
+import me.maxiiiiii.skyblockdragons.entity.EntityDrop;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
@@ -10,7 +10,6 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.ToolMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.pet.Pet;
 import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
@@ -162,7 +161,7 @@ public class Damage implements Listener {
         if (attacker instanceof PlayerSD) {
             PlayerSD playerSD = (PlayerSD) attacker;
             if (damageType.isMagic()) {
-                damage = baseAbilityDamage * ((1 + (playerSD.getStats().getIntelligence().amount / 100) * (playerSD.getStats().getAbilityScaling().amount * abilityScaling))); // damage formula / calculation
+                damage = baseAbilityDamage * (1 + (playerSD.getStats().getIntelligence().amount / 100) * (playerSD.getStats().getAbilityScaling().amount + abilityScaling)); // damage formula / calculation
             } else if (item.getMaterial().getType() != ItemType.BOW || damageType == DamageType.PROJECTILE) {
                 damage = (5 + playerSD.getStats().getDamage().amount) * (1 + (playerSD.getStats().getStrength().amount / 100)); // damage formula / calculation
             }
@@ -276,7 +275,8 @@ public class Damage implements Listener {
             color = ChatColor.RED;
         else if (victim.getHealth() <= victim.getMaxHealth() / 2)
             color = ChatColor.YELLOW;
-        victim.hologram.getStand().setCustomName(victim.getCustomName() + " " + color + victim.getHealth() + StatType.HEALTH.getIcon());
+        if (!(victim instanceof PlayerSD))
+            victim.hologram.getStand().setCustomName(victim.getCustomName() + " " + color + victim.getHealth() + StatType.HEALTH.getIcon());
         EntityKnockbackEvent knockbackEvent = new EntityKnockbackEvent(e.getVictim(), e.getAttacker());
         Bukkit.getServer().getPluginManager().callEvent(knockbackEvent);
     }
@@ -320,6 +320,12 @@ public class Damage implements Listener {
         e.setCancelled(true);
     }
 
+    @EventHandler
+    public void onCreeperExplode(EntityExplodeEvent e) {
+        EntitySD entity = EntitySD.get(e.getEntity());
+        entity.hologram.remove();
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
         if (e.getEntity() instanceof Creature && !(e.getEntity() instanceof Player)) {
@@ -334,11 +340,11 @@ public class Damage implements Listener {
             PlayerSD player = SkyblockDragons.getPlayer((PlayerSD) entity.getAttacker());
             player.giveSkill(SkillType.COMBAT, entity.type.combatXp);
             if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0) {
-                for (ItemDrop drop : entity.type.getDrops()) {
+                for (EntityDrop drop : entity.type.getDrops()) {
                     player.give(drop);
                 }
             } else {
-                for (ItemDrop drop : entity.type.getDrops()) {
+                for (EntityDrop drop : entity.type.getDrops()) {
                     ItemStack item = drop.generate(player);
                     if (item != null) {
                         org.bukkit.entity.Item dropped = entity.getWorld().dropItem(entity.getLocation(), item);

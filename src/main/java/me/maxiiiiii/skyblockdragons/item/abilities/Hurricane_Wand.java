@@ -1,5 +1,9 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import org.bukkit.*;
@@ -30,13 +34,12 @@ public class Hurricane_Wand implements Listener {
     };
 
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
+    public void onClick(PlayerUseAbilityEvent e) {
+        Item item = e.getItem();
 
-        if (!Functions.getId(item).equals("HURRICANE_WAND")) return;
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (item.getMaterial() != Items.get("HURRICANE_WAND")) return;
 
-        Player player = e.getPlayer();
+        PlayerSD player = e.getPlayer();
         Location location = player.getLocation().add(0, 2, 0);
 
         ArrayList<Location> locations = new ArrayList<>();

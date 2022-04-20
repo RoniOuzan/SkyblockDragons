@@ -5,10 +5,7 @@ import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
-import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemDescriptionAble;
-import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemEnchantAble;
-import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemStatsAble;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.*;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
@@ -16,6 +13,7 @@ import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -27,6 +25,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 import static me.maxiiiiii.skyblockdragons.util.Functions.manaCostCalculator;
@@ -281,6 +280,11 @@ public class Item extends ItemStack implements ConfigurationSerializable {
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         if (lores.size() > 0 && isNotLastEmpty(lores)) lores.add("");
+
+        if (material instanceof ItemRequirementAble) {
+            lores.addAll(((ItemRequirementAble) material).getRequirements().stream().filter(r -> player == null || !r.hasRequirement(player)).map(Requirement::toString).collect(Collectors.toList()));
+        }
+
         if (recombabulated) {
             lores.add(rarity.getColor() + "" + ChatColor.MAGIC + "X" + ChatColor.RESET + " " + rarity + " " + this.material.getType().toString() + " " + rarity.getColor() + "" + ChatColor.MAGIC + "X");
         } else {
@@ -480,7 +484,7 @@ public class Item extends ItemStack implements ConfigurationSerializable {
                                 lores.addAll(loreBuilder(enchantType.getDescription(enchants.get(enchantType))));
                             }
                         } else {
-                            enchant.append(", " + getEnchantLoreColor(enchantType, enchants.get(enchantType))).append(enchantType).append(" ").append(Functions.integerToRoman(enchants.get(enchantType)));
+                            enchant.append(", ").append(getEnchantLoreColor(enchantType, enchants.get(enchantType))).append(enchantType).append(" ").append(Functions.integerToRoman(enchants.get(enchantType)));
                             if (times % 3 == 0) {
                                 enchant = new StringBuilder(enchant.toString().replaceAll(",, ", ""));
                                 lores.add(enchant.toString());

@@ -54,8 +54,16 @@ public class Stats implements Iterable<Stat> {
         this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, health, defense, 0, speed, intelligence, 0, 0, 0, 0, 0, 0);
     }
 
+    public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence, double miningSpeed, double miningFortune) {
+        this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, health, defense, 0, speed, intelligence, 0, 0, miningSpeed, miningFortune, 0, 0);
+    }
+
     public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity) {
         this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    }
+
+    public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double miningSpeed, double miningFortune) {
+        this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, 0, 0, 0, 0, 0, 0, 0, miningSpeed, miningFortune, 0, 0);
     }
 
     public Stats(double health, double defense, double speed, double intelligence) {

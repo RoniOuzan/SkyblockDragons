@@ -81,7 +81,7 @@ public class Functions {
 
     public static void sendActionBar(PlayerSD player, String message) {
         int healthAdder = 0;
-        if (Wither_Impact.witherShieldHealth.containsKey(player.getUniqueId()) && System.currentTimeMillis() - Wither_Impact.witherShield <= 5000) {
+        if (Wither_Impact.witherShieldHealth.containsKey(player.getUniqueId()) && System.currentTimeMillis() - Wither_Impact.witherShield.getOrDefault(player.getUniqueId(), 0L) <= 5000) {
             healthAdder += Wither_Impact.witherShieldHealth.get(player.getUniqueId());
         }
         message = "" + ChatColor.RED + (int) (player.getHealth() + healthAdder) + "/" + (int) player.getMaxHealth() + StatType.HEALTH.getIcon() + " " + ChatColor.GOLD + message + " " + ChatColor.AQUA + (int) SkyblockDragons.players.get(player.getUniqueId()).getStats().getMana().amount + "/" + (int) SkyblockDragons.players.get(player.getUniqueId()).getStats().getIntelligence().amount + StatType.INTELLIGENCE.getIcon();
@@ -1676,5 +1676,15 @@ public class Functions {
         else if (last == 2) return "nd";
         else if (last == 3) return "rd";
         else return "th";
+    }
+
+    public static <T> List<T> splitList(String example, Object... objects) {
+        List<T> list = new ArrayList<>();
+        for (Object object : objects) {
+            if (object.getClass().getName().equals(example) || object.getClass().getSuperclass().getName().equals(example)) {
+                list.add((T) object);
+            }
+        }
+        return list;
     }
 }

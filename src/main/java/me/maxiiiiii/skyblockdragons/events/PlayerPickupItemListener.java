@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.events;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.player.PlayerGetItemEvent;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

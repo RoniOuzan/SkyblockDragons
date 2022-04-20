@@ -1,5 +1,9 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -31,12 +35,12 @@ public class Twister_Wand implements Listener {
     };
 
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
-        if (!getId(item).equals("TWISTER_WAND")) return;
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+    public void onClick(PlayerUseAbilityEvent e) {
+        Item item = e.getItem();
 
-        Player player = e.getPlayer();
+        if (item.getMaterial() != Items.get("TWISTER_WAND")) return;
+
+        PlayerSD player = e.getPlayer();
         Location loc = player.getLocation().add(0, 2, 0);
 
         player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1f, 1.5f);

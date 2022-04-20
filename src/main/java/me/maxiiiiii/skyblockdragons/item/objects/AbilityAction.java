@@ -11,6 +11,18 @@ public enum AbilityAction {
     NONE,
     NULL;
 
+    public boolean isLeftClick() {
+        return this == LEFT_CLICK || this == LEFT_SHIFT_CLICK;
+    }
+
+    public boolean isRightClick() {
+        return this == RIGHT_CLICK || this == RIGHT_SHIFT_CLICK;
+    }
+
+    public boolean isShiftClick() {
+        return this == LEFT_SHIFT_CLICK || this == RIGHT_SHIFT_CLICK;
+    }
+
     @Override
     public String toString() {
         if (this == AbilityAction.NONE) {

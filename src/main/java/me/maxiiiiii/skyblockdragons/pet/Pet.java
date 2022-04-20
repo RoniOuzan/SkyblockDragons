@@ -69,13 +69,13 @@ public class Pet extends ItemStack implements Comparable<Pet> {
             String percent = "";
             if (stat.type.isPercentage()) percent = "%";
 
-            double statDisplay = this.petMaterial.getStats().get(stat).amount * this.level;
+            double statDisplay = Math.round(this.petMaterial.getStats().get(stat).amount * this.level * 10d) / 10d;
             stats.get(stat).amount = statDisplay;
             if (this.petMaterial.getStats().get(stat).amount != 0d) {
                 if (this.petMaterial.getStats().get(stat).amount < 0)
                     statSymbol = "-";
 
-                lores.add(ChatColor.GRAY + stat.type.toString() + " " + ChatColor.GREEN + statSymbol + Math.abs(statDisplay) + percent);
+                lores.add(ChatColor.GRAY + stat.type.toString() + " " + ChatColor.GREEN + statSymbol + Functions.getInt(Math.abs(statDisplay) + "") + percent);
             }
         }
 

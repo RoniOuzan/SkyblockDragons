@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
+import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
@@ -216,6 +217,7 @@ public class EntitySD extends EntityClass {
         return this.entity.getEquipment();
     }
 
+    @Getter
     public class Equipment {
         public ItemStack tool;
         public ItemStack helmet;

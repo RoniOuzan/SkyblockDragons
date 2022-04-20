@@ -14,6 +14,14 @@ public enum ItemFullSet {
     PROTECTOR_DRAGON("Protector blood", "Increases " + StatType.DEFENSE.getIconAndText() + " " + ChatColor.GRAY + "by " + ChatColor.GREEN + "30% " + ChatColor.GRAY + "while you are above " + ChatColor.GREEN + "50% " + StatType.HEALTH.getIconAndText() + ChatColor.GRAY + ".", 0),
     OLD_DRAGON("Old blood", "Increases the " + StatType.HEALTH.getIconAndText() + " " + ChatColor.GRAY + "by " + ChatColor.GREEN + "20%" + ChatColor.GRAY + ".", 0),
     PIGMAN("Burning", "Deal " + ChatColor.GREEN + "+20% " + ChatColor.GRAY + "damage with " + ChatColor.GREEN + "Pigman Dagger" + ChatColor.GRAY + ".", 0),
+
+    COBALT("Cobalt", "", 0),
+    CHLOROPHYTE("Chlorophyte", "", 0),
+    LUMINATE("Luminate", "", 0),
+    DERNIC("Dernic", "", 0),
+    HEMATITE("Hematite", "", 0),
+    VOID_CRYSTAL("Void Crystal", "", 0),
+
     NULL("", "", 0);
 
     private final String name;

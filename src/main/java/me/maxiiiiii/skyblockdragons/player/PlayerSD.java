@@ -7,7 +7,7 @@ import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamageEntityEvent;
-import me.maxiiiiii.skyblockdragons.entity.ItemDrop;
+import me.maxiiiiii.skyblockdragons.entity.EntityDrop;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.abilities.Atomsplit_Katana;
 import me.maxiiiiii.skyblockdragons.item.abilities.Rogue_Sword;
@@ -22,8 +22,11 @@ import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.pet.Pet;
 import me.maxiiiiii.skyblockdragons.pet.PlayerPet;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
 import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
+import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
+import me.maxiiiiii.skyblockdragons.player.stats.StatsMultiplayer;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -203,7 +206,8 @@ public class PlayerSD extends PlayerClass {
 
     public void setCoins(double amount) {
         amount = Math.floor(amount * 10d)/ 10d;
-        SkyblockDragons.economy.depositPlayer(this, this.getCoins() - amount);
+        SkyblockDragons.economy.withdrawPlayer(player, SkyblockDragons.economy.getBalance(this.player));
+        SkyblockDragons.economy.depositPlayer(player, amount);
     }
 
     public double getCoins() {
@@ -225,8 +229,8 @@ public class PlayerSD extends PlayerClass {
     }
 
     public void give(ItemStack item) {
-        if (item instanceof ItemDrop) {
-            ItemStack itemStack = ((ItemDrop) item).generate(this);
+        if (item instanceof EntityDrop) {
+            ItemStack itemStack = ((EntityDrop) item).generate(this);
             if (itemStack != null)
                 this.player.getInventory().addItem(itemStack);
         } else {
@@ -295,23 +299,23 @@ public class PlayerSD extends PlayerClass {
         }
 
         // tool
-        if (Functions.isNotAir(tool))
+        if (Functions.isNotAir(tool) && toolMaterial.getRequirements().stream().allMatch(r -> r.hasRequirement(this)))
             if (toolMaterial.getType().isTool()) this.addItemStat(tool);
 
         // helmet
-        if (Functions.isNotAir(helmet))
+        if (Functions.isNotAir(helmet) && helmetMaterial.getRequirements().stream().allMatch(r -> r.hasRequirement(this)))
             if (helmetMaterial.getType() == ItemType.HELMET) this.addItemStat(helmet);
 
         // chestplate
-        if (Functions.isNotAir(chestplate))
+        if (Functions.isNotAir(chestplate) && chestplateMaterial.getRequirements().stream().allMatch(r -> r.hasRequirement(this)))
             if (chestplateMaterial.getType() == ItemType.CHESTPLATE) this.addItemStat(chestplate);
 
         // leggings
-        if (Functions.isNotAir(leggings))
+        if (Functions.isNotAir(leggings) && leggingsMaterial.getRequirements().stream().allMatch(r -> r.hasRequirement(this)))
             if (leggingsMaterial.getType() == ItemType.LEGGINGS) this.addItemStat(leggings);
 
         // boots
-        if (Functions.isNotAir(boots))
+        if (Functions.isNotAir(boots) && bootsMaterial.getRequirements().stream().allMatch(r -> r.hasRequirement(this)))
             if (bootsMaterial.getType() == ItemType.BOOTS) this.addItemStat(boots);
 
         if (this.playerPet.activePet >= 0) {
@@ -415,15 +419,15 @@ public class PlayerSD extends PlayerClass {
     }
 
     public boolean manaCost(int manaCost, ItemStack item, int i) {
-        if (this.player.getGameMode() == GameMode.CREATIVE) return true;
+        if (this.player.getGameMode() == GameMode.CREATIVE) return false;
 
         int cost = Functions.manaCostCalculator(manaCost, this);
         if (this.stats.mana.amount >= cost) {
             this.stats.mana.amount -= cost;
             Functions.sendActionBar(this, ((WeaponMaterial) Functions.getItemMaterial(item)).getAbilities().get(i).getName() + ChatColor.AQUA + "! (" + cost + " Mana)");
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     public boolean manaCost(ItemStack item, int i) {

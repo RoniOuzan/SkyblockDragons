@@ -2,39 +2,31 @@ package me.maxiiiiii.skyblockdragons.item.abilities;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.ToolMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemAbility;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import me.maxiiiiii.skyblockdragons.util.objects.ParticleUtil;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Aspect_Of_The_Dragons implements Listener {
-    private static final Cooldown<Player> cooldown = new Cooldown<>();
-
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
+    public void onClick(PlayerUseAbilityEvent e) {
+        if (!e.getAbility().getName().equals("Dragon Rage")) return;
 
-        if (!Functions.getId(item).equals("ASPECT_OF_THE_DRAGON")) return;
-        if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) return;
-
-        if (Functions.cooldown(e.getPlayer(), cooldown, 2000, true)) return;
+        Item item = e.getItem();
 
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
         Location location = player.getEyeLocation().subtract(0, 0.2, 0).add(player.getLocation().getDirection());

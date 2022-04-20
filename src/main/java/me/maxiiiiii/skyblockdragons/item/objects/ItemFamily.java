@@ -64,5 +64,11 @@ public enum ItemFamily {
     OBSIDIAN,
     ENDERMAN,
     ENDER,
+    COBALT,
+    CHLOROPHYTE,
+    LUMINATE,
+    DERNIC,
+    HEMATITE,
+    VOID_CRYSTAL,
     NULL
 }

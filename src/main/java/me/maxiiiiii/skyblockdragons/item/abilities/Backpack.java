@@ -3,6 +3,9 @@ package me.maxiiiiii.skyblockdragons.item.abilities;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,11 +24,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class Backpack implements Listener {
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
+    public void onClick(PlayerUseAbilityEvent e) {
+        Item item = e.getItem();
 
-        if (!Functions.getId(item).contains("_BACKPACK")) return;
-        if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) return;
+        if (!item.getMaterial().name().contains("BACKPACK")) return;
 
         Backpack.openBackpack(e.getPlayer(), item);
     }

@@ -1,5 +1,9 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -26,19 +30,14 @@ import static me.maxiiiiii.skyblockdragons.SkyblockDragons.plugin;
 
 public class Leaping_Sword implements Listener {
     private final HashMap<UUID, Boolean> isEnabled = new HashMap<>();
-    private final Cooldown<Player> cooldown = new Cooldown<>();
 
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
+    public void onClick(PlayerUseAbilityEvent e) {
+        Item item = e.getItem();
 
-        if (!getId(item).equals("LEAPING_SWORD")) return;
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (item.getMaterial() != Items.get("LEAPING_SWORD")) return;
 
-        Player player = e.getPlayer();
-
-        if (players.get(player.getUniqueId()).manaCost(player.getEquipment().getItemInMainHand(), 0)) return;
-        if (cooldown(player, cooldown, 1000, true)) return;
+        PlayerSD player = e.getPlayer();
 
         Location l = player.getLocation();
         Vector v = new Vector(l.getDirection().getX() * 5, l.getDirection().getY() / 3 + 1, l.getDirection().getZ() * 5);

@@ -1,32 +1,25 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
-import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class Aspect_of_The_End implements Listener{
-    private final Cooldown<Player> cooldown = new Cooldown<>();
-
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
-        if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (Functions.getId(item).equals("ASPECT_OF_THE_END")) {
-                Player player = e.getPlayer();
+    public void onClick(PlayerUseAbilityEvent e) {
+        Item item = e.getItem();
 
-                if (Functions.cooldown(player, cooldown, 50, false)) return;
+        if (item.getMaterial() != Items.get("ASPECT_OF_THE_END")) return;
 
-                if (SkyblockDragons.players.get(player.getUniqueId()).manaCost(player.getEquipment().getItemInMainHand(), 0)) return;
-                player.playSound(player.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 1f, 1f);
-                Functions.teleportForward(player, 8);
-            }
-        }
+        Player player = e.getPlayer();
+
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 1f, 1f);
+        Functions.teleportForward(player, 8);
     }
 }

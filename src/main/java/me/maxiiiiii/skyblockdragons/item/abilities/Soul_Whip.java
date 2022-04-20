@@ -1,8 +1,10 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
-import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Creature;
@@ -10,14 +12,11 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerFishEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Soul_Whip implements Listener {
-    private final Cooldown<Player> cooldown = new Cooldown<>();
     private final int AMOUNT = 15;
 
     @EventHandler
@@ -30,17 +29,13 @@ public class Soul_Whip implements Listener {
     }
 
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
+    public void onClick(PlayerUseAbilityEvent e) {
+        Item item = e.getItem();
 
-        if (!Functions.getId(item).equals("SOUL_WHIP")) return;
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-
+        if (item.getMaterial() != Items.get("SOUL_WHIP")) return;
 
         Player player = e.getPlayer();
         Location location = player.getEyeLocation().add(0, -0.5, 0);
-
-        if (Functions.cooldown(player, cooldown, 500, false)) return;
 
         new BukkitRunnable() {
             double i = 0;

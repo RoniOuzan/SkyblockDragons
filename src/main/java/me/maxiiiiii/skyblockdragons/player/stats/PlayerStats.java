@@ -1,9 +1,10 @@
-package me.maxiiiiii.skyblockdragons.player;
+package me.maxiiiiii.skyblockdragons.player.stats;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.objects.Stat;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 
 import java.util.AbstractList;

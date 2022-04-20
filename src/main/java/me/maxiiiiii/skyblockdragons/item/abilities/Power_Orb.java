@@ -1,5 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
@@ -18,13 +20,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Power_Orb implements Listener {
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
+    public void onClick(PlayerUseAbilityEvent e) {
+        Item item = e.getItem();
 
         if (!Functions.getId(item).contains("_POWER_ORB")) return;
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
-        Player player = e.getPlayer();
+        PlayerSD player = e.getPlayer();
+
+        if (player.manaCost((int) player.getStats().getIntelligence().amount, item, 0)) return;
+
         Location location = player.getLocation().clone().add(player.getLocation().getDirection().setY(0)).subtract(0, 1, 0);
 
         new PowerOrb(PowerOrb.Type.valueOf(Functions.getId(item).split("_POWER")[0]), location);

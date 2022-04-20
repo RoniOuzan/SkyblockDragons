@@ -45,23 +45,9 @@ public class Builders_Wand implements Listener {
     private static void recursiveBlocks(Player player, Location location, Material material, int blockFaceX, int blockFaceY, int blockFaceZ) {
         ArrayList<Block> blocks = loopBlocks(location, 1);
         blocks.add(location.getBlock());
-//
-//        NBTItem nbtItem = new NBTItem(player.getEquipment().getItemInMainHand());
-//        NBTCompound nbt = nbtItem.getCompound("Item");
-//        NBTCompound itemsCompound = nbt.getCompound("BuildersWandItems");
-//        ArrayList<ItemStack> items = new ArrayList<>();
-//        boolean hasMaterial = false;
-//        for (int i = 0; i < 54; i++) {
-//            if (!itemsCompound.hasKey(i + "")) continue;
-//
-//            items.add(itemsCompound.getItemStack(i + ""));
-//            if (itemsCompound.getItemStack(i + "").getType() == material) hasMaterial = true;
-//        }
 
         for (Block block : blocks) {
             if (block.getType() == material) {
-//                if ((location.getBlockX() == block.getX() && connectedX) || (location.getBlockY() == block.getY() && connectedY) || (location.getBlockZ() == block.getZ() && connectedZ)) {
-
                 if (blockFaceX != 0)
                     if (location.getBlockX() != block.getX())
                         continue;
@@ -89,22 +75,6 @@ public class Builders_Wand implements Listener {
                                     }
                                 }
                             }
-//                        } else if (hasMaterial) {
-//                            for (int i = 0; i < 54; i++) {
-//                                if (items.get(i) == null) continue;
-//
-//                                if (items.get(i).getType() == material) {
-//                                    if (items.get(i).getAmount() > 1) {
-//                                        ItemStack item = player.getInventory().getItem(i).clone();
-//                                        item.setAmount(item.getAmount() - 1);
-//                                        items.set(i, item);
-//                                        itemsCompound.setItemStack(i + "", item);
-//                                    } else {
-//                                        itemsCompound.setItemStack(i + "", null);
-//                                    }
-//                                }
-//                            }
-//                            nbtItem.applyNBT(player.getEquipment().getItemInMainHand());
                         } else {
                             continue;
                         }

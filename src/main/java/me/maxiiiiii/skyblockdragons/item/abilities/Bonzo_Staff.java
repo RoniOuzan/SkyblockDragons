@@ -1,6 +1,10 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
 import de.tr7zw.changeme.nbtapi.NBTEntity;
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import org.bukkit.*;
 import org.bukkit.entity.*;
@@ -23,7 +27,6 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.randomInt;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.*;
 
 public class Bonzo_Staff implements Listener {
-    private final Cooldown<Player> cooldown = new Cooldown<>();
     private final ArrayList<ItemStack> balloons = new ArrayList<>(Arrays.asList(
             applySkull(new ItemStack(Material.SKULL_ITEM, 1, (byte) 3), "b7685f9f-c378-41d8-a636-a07320b6c9ae", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTJkZDExZGEwNDI1MmY3NmI2OTM0YmMyNjYxMmY1NGYyNjRmMzBlZWQ3NGRmODk5NDEyMDllMTkxYmViYzBhMiJ9fX0="),
             applySkull(new ItemStack(Material.SKULL_ITEM, 1, (byte) 3), "934a0bf5-884d-417a-bbb7-dcea0f933b0c", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWVmMTYyZGVmODQ1YWEzZGM3ZDQ2Y2QwOGE3YmY5NWJiZGZkMzJkMzgxMjE1YWE0MWJmZmFkNTIyNDI5ODcyOCJ9fX0="),
@@ -38,16 +41,12 @@ public class Bonzo_Staff implements Listener {
     private final ArrayList<Color> colors = new ArrayList<>(Arrays.asList(Color.RED, Color.ORANGE, Color.YELLOW, Color.LIME, Color.AQUA, Color.BLUE, Color.PURPLE, Color.FUCHSIA));
 
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
+    public void onClick(PlayerUseAbilityEvent e) {
+        Item item = e.getItem();
 
-        if (!getId(item).equals("BONZO_STAFF")) return;
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (item.getMaterial() != Items.get("BONZO_STAFF")) return;
 
-        Player player = e.getPlayer();
-
-        if (players.get(player.getUniqueId()).manaCost(player.getEquipment().getItemInMainHand(), 0)) return;
-        if (cooldown(player, cooldown, 100, false)) return;
+        PlayerSD player = e.getPlayer();
 
         Location location = player.getLocation().clone().subtract(0, 0.5, 0);
         location.add(location.getDirection().multiply(1));

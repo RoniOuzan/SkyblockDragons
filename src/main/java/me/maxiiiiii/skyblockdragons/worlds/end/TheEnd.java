@@ -26,6 +26,7 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class TheEnd extends WorldSD implements Listener {
 
     public static final Map<PlayerSD, Double> dragonDamage = new HashMap<>();
 
-    public TheEnd(Plugin plugin) {
+    public TheEnd(JavaPlugin plugin) {
         super(world, "The End", WorldType.COMBAT, WorldType.MINING);
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         plugin.getServer().getPluginManager().registerEvents(new PlayerPlaceEyeListener(), plugin);

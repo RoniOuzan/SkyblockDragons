@@ -1,6 +1,10 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import me.maxiiiiii.skyblockdragons.util.interfaces.LoopTask;
 import me.maxiiiiii.skyblockdragons.util.objects.aifly;
@@ -20,19 +24,15 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 import static me.maxiiiiii.skyblockdragons.util.Functions.Wait;
 
 public class Flower_of_Truth implements Listener {
-    private final Cooldown<Player> cooldown = new Cooldown<>();
-
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
+    public void onClick(PlayerUseAbilityEvent e) {
+        Item item = e.getItem();
 
-        if (!getId(item).equals("FLOWER_OF_TRUTH")) return;
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (item.getMaterial() != Items.get("FLOWER_OF_TRUTH")) return;
 
         Player player = e.getPlayer();
 
-        if (cooldown(player, cooldown, 1000, true)) return;
-//        if (HypixelItems.players.get(player.getUniqueId()).manaCost(Integer.parseInt(Functions.getInt(HypixelItems.players.get(player.getUniqueId()).getIntelligence() / 10 + "")), player.getEquipment().getItemInMainHand(), 0)) return;
+        if (SkyblockDragons.players.get(player.getUniqueId()).manaCost(Integer.parseInt(Functions.getInt(SkyblockDragons.players.get(player.getUniqueId()).getStats().getIntelligence().amount / 10 + "")), player.getEquipment().getItemInMainHand(), 0)) return;
 
         Location location = player.getLocation();
 
@@ -76,61 +76,5 @@ public class Flower_of_Truth implements Listener {
                 }
             }
         }, (i) -> stand.remove());
-
-//        ItemStack item = e.getItem();
-//
-//        if (!Functions.getId(item).equals("FLOWER_OF_TRUTH")) return;
-//        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-//
-//
-//        Player player = e.getPlayer();
-//        if (Functions.cooldown(player, cooldown, 1000, true)) return;
-//        if (!HypixelItems.players.get(player.getUniqueId()).manaCost(Integer.parseInt(Functions.getInt(HypixelItems.players.get(player.getUniqueId()).getIntelligence() / 10 + "")), player.getEquipment().getItemInMainHand(), 0)) return;
-//
-//        player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EAT, 1f, 1f);
-//
-//        ArmorStand armorStand = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
-//        armorStand.setVisible(false);
-//        armorStand.setCustomName("FLOWER_OF_TRUTH_" + player.getName());
-//        armorStand.setCustomNameVisible(false);
-//        armorStand.setGravity(false);
-//        armorStand.setArms(true);
-//        armorStand.setItemInHand(new ItemStack(Material.RED_ROSE));
-//        armorStand.setBasePlate(false);
-//
-//        ArrayList<Entity> damagedEntities = new ArrayList<>();
-//
-//        Bukkit.getScheduler().runTaskTimer(HypixelItems.plugin, new Runnable() {
-//            int i = 0;
-//            int damaged = 0;
-//            Location l = player.getLocation().clone();
-//            boolean isStopped = false;
-//            @Override
-//            public void run() {
-//                if (i >= 20) {
-//                    armorStand.remove();
-//                    return;
-//                }
-//                if (!isStopped) {
-//                    armorStand.teleport(armorStand.getLocation().add(l.getDirection().multiply((i + 1) / 2)));
-//                }
-//                List<Entity> entities = armorStand.getNearbyEntities(5, 5, 5);
-//                for (Entity entity : entities) {
-//                    if (entity instanceof Creature) {
-//                        if (!damagedEntities.contains(entity)) {
-//                            damagedEntities.add(entity);
-//                            new aifly(armorStand, entity.getLocation(), 200).runTaskTimer(HypixelItems.plugin, 0L, 2L);
-//                            ((Creature) entity).damage(1d, player);
-//                            damaged++;
-//                            if (damaged >= 5) {
-//                                isStopped = true;
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
-//                i++;
-//            }
-//        }, 0L, 2L);
     }
 }

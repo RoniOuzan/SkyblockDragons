@@ -1,5 +1,8 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -18,17 +21,15 @@ public class Rogue_Sword implements Listener {
     public static HashMap<Player, Long> rogueSwordLastTimeUsed = new HashMap<>();
 
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
+    public void onClick(PlayerUseAbilityEvent e) {
+        Item item = e.getItem();
 
-        if (!Functions.getId(item).equals("ROGUE_SWORD")) return;
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (item.getMaterial() != Items.get("ROGUE_SWORD")) return;
 
-        Player player = e.getPlayer();
+        PlayerSD player = e.getPlayer();
         PlayerSD stat = SkyblockDragons.players.get(player.getUniqueId());
 
         if (stat.manaCost(item, 0)) return;
-        SkyblockDragons.players.get(player.getUniqueId()).manaCost(player.getEquipment().getItemInMainHand(), 0);
 
         rogueSwordAmountUsed.put(player, rogueSwordAmountUsed.getOrDefault(player, 0) + 1);
         rogueSwordLastTimeUsed.put(player, System.currentTimeMillis());

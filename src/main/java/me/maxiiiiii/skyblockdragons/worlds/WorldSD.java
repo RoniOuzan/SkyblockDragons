@@ -4,9 +4,9 @@ import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.worlds.hub.Hub;
 import me.maxiiiiii.skyblockdragons.worlds.mining.Mining;
-import me.maxiiiiii.skyblockdragons.worlds.mining.deepmines.DeepMines;
+import me.maxiiiiii.skyblockdragons.worlds.deepmines.DeepMines;
 import org.bukkit.World;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ public abstract class WorldSD {
         this.worldType = Arrays.stream(worldType).collect(Collectors.toList());
     }
 
-    public static void registerWorlds(Plugin plugin) {
+    public static void registerWorlds(JavaPlugin plugin) {
         new Mining(plugin);
         HUB = new Hub(plugin);
         DEEP_MINES = new DeepMines(plugin);

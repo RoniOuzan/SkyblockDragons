@@ -10,7 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 
-public class RareDrop extends ItemDrop {
+public class EntityRareDrop extends EntityDrop {
     @Getter
     public enum Rarity {
         RARE(ChatColor.BLUE),
@@ -32,16 +32,16 @@ public class RareDrop extends ItemDrop {
 
     public Rarity rarity;
 
-    public RareDrop(ItemMaterial material, int minAmount, int maxAmount, double chance, Rarity rarity) {
+    public EntityRareDrop(ItemMaterial material, int minAmount, int maxAmount, double chance, Rarity rarity) {
         super(material, minAmount, maxAmount, chance);
         this.rarity = rarity;
     }
 
-    public RareDrop(ItemMaterial material, int minAmount, int maxAmount, double chance) {
+    public EntityRareDrop(ItemMaterial material, int minAmount, int maxAmount, double chance) {
         this(material, minAmount, maxAmount, chance, getRarity(chance));
     }
 
-    public RareDrop(ItemMaterial material, int amount, double chance) {
+    public EntityRareDrop(ItemMaterial material, int amount, double chance) {
         this(material, amount, amount, chance, getRarity(chance));
     }
 
@@ -60,7 +60,7 @@ public class RareDrop extends ItemDrop {
         double chance = this.chance * player.getEnchantLevel(EnchantType.LUCK) * 0.05;
         if (Functions.randomDouble(0, 100) > chance)
             return null;
-        int amount = Functions.randomInt(this.minAmount, this.maxAmount + player.getEnchantLevel(EnchantType.LOOTING));
+        int amount = Functions.randomInt(this.minAmount, this.maxAmount);
         ItemStack item = new Item(this.getMaterial(), amount);
 
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);

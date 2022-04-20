@@ -1,6 +1,10 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -31,14 +35,13 @@ public class Tornado_Wand implements Listener {
     };
 
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
+    public void onClick(PlayerUseAbilityEvent e) {
+        Item item = e.getItem();
 
-        if (!getId(item).equals("TORNADO_WAND")) return;
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (item.getMaterial() != Items.get("TORNADO_WAND")) return;
 
-        Player player = e.getPlayer();
-        Location loc = player.getLocation().add(0, 2, 0);
+        PlayerSD player = e.getPlayer();
+        Location location = player.getLocation().add(0, 2, 0);
 
         player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1f, 1.5f);
 
@@ -48,7 +51,7 @@ public class Tornado_Wand implements Listener {
         for (double y = 0; y < height; ++y) {
             double radius = y / 5;
             double rad = (y / 20.0) * Math.PI;
-            Location standLocation = loc.clone().add(
+            Location standLocation = location.clone().add(
                     Math.cos(rad) * radius,
                     y / 4,
                     Math.sin(rad) * radius
@@ -61,7 +64,7 @@ public class Tornado_Wand implements Listener {
         Bukkit.getScheduler().runTaskTimer(SkyblockDragons.plugin, () -> {
             pieces.forEach(piece -> {
                 piece.rad += (Math.PI + 2) * 2;
-                Location newPieceLoc = loc.clone().add(
+                Location newPieceLoc = location.clone().add(
                         Math.cos(piece.rad) * piece.radius,
                         piece.height,
                         Math.sin(piece.rad) * piece.radius
@@ -70,7 +73,7 @@ public class Tornado_Wand implements Listener {
             });
         }, 0L, 1L);
 
-//        Location blockLocation = getBlockBelow(loc).getLocation();
+//        Location blockLocation = getBlockBelow(location).getLocation();
 
 //        Bukkit.getScheduler().runTaskTimer(plugin, () -> {
 //            pieces.forEach(piece -> {

@@ -28,7 +28,7 @@ import static me.maxiiiiii.skyblockdragons.SkyblockDragons.plugin;
 
 public class Wither_Impact implements Listener {
     private final Cooldown<Player> cooldown = new Cooldown<>();
-    public static long witherShield = 0;
+    public static HashMap<UUID, Long> witherShield = new HashMap<>();
     public static HashMap<UUID, Integer> witherShieldHealth = new HashMap<>();
 
     @EventHandler
@@ -53,7 +53,7 @@ public class Wither_Impact implements Listener {
 
             double heal = players.get(player.getUniqueId()).getStats().getCritDamage().amount * 1.5;
             witherShieldHealth.put(player.getUniqueId(), (int) heal);
-            witherShield = System.currentTimeMillis();
+            witherShield.put(player.getUniqueId(), System.currentTimeMillis());
 
             teleportForward(player, 10);
 

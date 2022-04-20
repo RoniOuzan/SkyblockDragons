@@ -1,5 +1,9 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -22,20 +26,17 @@ import static me.maxiiiiii.skyblockdragons.SkyblockDragons.players;
 public class Axe_of_The_Shredded implements Listener {
     private final HashMap<Player, Integer> manaCost = new HashMap<>();
     private final HashMap<Player, Long> timeUsed = new HashMap<>();
-    private final Cooldown<Player> cooldown = new Cooldown<>();
 
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
+    public void onClick(PlayerUseAbilityEvent e) {
+        Item item = e.getItem();
 
-        if (!getId(item).equals("AXE_OF_THE_SHREDDED")) return;
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (item.getMaterial() != Items.get("AXE_OF_THE_SHREDDED")) return;
 
-        Player player = e.getPlayer();
+        PlayerSD player = e.getPlayer();
         Location location = player.getLocation();
 
-        if (cooldown(player, cooldown, 500, false)) return;
-        if (players.get(player.getUniqueId()).manaCost(manaCost.getOrDefault(player, 10) * 2, player.getEquipment().getItemInMainHand(), "Throw")) return;
+        if (!players.get(player.getUniqueId()).manaCost(manaCost.getOrDefault(player, 10) * 2, player.getEquipment().getItemInMainHand(), 0)) return;
 
         if (timeUsed.getOrDefault(player, System.currentTimeMillis() + 5000L) - System.currentTimeMillis() >= 5000) manaCost.put(player, 20);
         else

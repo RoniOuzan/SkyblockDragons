@@ -1,38 +1,36 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.getId;
+import static me.maxiiiiii.skyblockdragons.SkyblockDragons.plugin;
 import static me.maxiiiiii.skyblockdragons.util.Functions.getTargetEntity;
 import static me.maxiiiiii.skyblockdragons.util.Functions.randomDouble;
-import static me.maxiiiiii.skyblockdragons.SkyblockDragons.*;
 
 public class Troll_Eye implements Listener {
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
-        ItemStack item = e.getItem();
+    public void onClick(PlayerUseAbilityEvent e) {
+        Item item = e.getItem();
 
-        if (!getId(item).equals("TROLL_EYE")) return;
-        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (item.getMaterial() != Items.get("TROLL_EYE")) return;
 
-        e.setCancelled(true);
-
-        Player player = e.getPlayer();
+        PlayerSD player = e.getPlayer();
 
         Entity targetEntity;
         try {
             targetEntity = getTargetEntity(player, 100);
-        } catch (NullPointerException ex) {return;}
+        } catch (NullPointerException ex) {
+            return;
+        }
 
         new BukkitRunnable() {
             double times = 0;

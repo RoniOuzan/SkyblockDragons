@@ -1,11 +1,12 @@
 package me.maxiiiiii.skyblockdragons.worlds.mining;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.entity.ItemDrop;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -17,32 +18,32 @@ import org.bukkit.util.Vector;
 public class PlayerBreakBlockListener implements Listener {
     @EventHandler
     public void onBreakBlock(PlayerBreakBlockEvent e) {
-        if (!e.getPlayer().getWorld().getName().equals("DeepMines")) return;
-
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
         ItemStack item = e.getPlayer().getEquipment().getItemInMainHand();
         Block block = e.getBlock();
         if (player.getGameMode() != GameMode.SURVIVAL) return;
 
-        if (!block.getType().toString().contains("_ORE") && e.getBlock().getType() != Material.STONE) return;
-
         e.setDropItems(false);
         e.setExpToDrop((int) Math.ceil(Math.sqrt(e.getMaterial().miningXp)));
         int amount = 1 + Functions.randomInt(0, Functions.getEnchantLevel(item, EnchantType.FORTUNE));
         if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0)
-            for (ItemDrop drop : e.getMaterial().drops) {
-                player.give(drop);
+            for (BlockDrop drop : e.getMaterial().drops) {
+                ItemStack itemStack = drop.generate(player, block);
+                if (itemStack != null) {
+                    itemStack.setAmount(amount);
+                    player.give(itemStack);
+                }
             }
         else
-            for (ItemDrop drop : e.getMaterial().drops) {
-                ItemStack itemToDrop = drop.generate(player);
-                if (itemToDrop != null) {
-                    itemToDrop.setAmount(amount);
+            for (BlockDrop drop : e.getMaterial().drops) {
+                ItemStack itemStack = drop.generate(player, block);
+                if (itemStack != null) {
+                    itemStack.setAmount(amount);
                     org.bukkit.entity.Item dropped = block.getWorld().dropItem(block.getLocation().add(new Vector(
                             player.getLocation().getX() - block.getLocation().getX(),
                             player.getLocation().getY() - block.getLocation().getY(),
                             player.getLocation().getZ() - block.getLocation().getZ()
-                    ).normalize()), itemToDrop);
+                    ).normalize()), itemStack);
                     dropped.addScoreboardTag(player.getName());
                 }
             }
@@ -52,7 +53,10 @@ public class PlayerBreakBlockListener implements Listener {
                 player.giveExp(e.getMaterial().xp);
         player.giveSkill(SkillType.MINING, e.getMaterial().miningXp);
         Functions.Wait(1L, () -> e.getBlock().setType(Material.BEDROCK));
-        Functions.Wait(60L, () -> e.getBlock().setType(getOre(e.getBlock())));
+        if (player.getWorldSD() == WorldSD.DEEP_MINES)
+            Functions.Wait(60L, () -> e.getBlock().setType(getOre(e.getBlock())));
+        else if (player.getWorldSD() == WorldSD.THE_END)
+            Functions.Wait(100L, () -> e.getBlock().setType(Material.ENDER_STONE));
     }
 
     public static Material getOre(Block block) {

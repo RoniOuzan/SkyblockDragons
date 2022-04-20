@@ -22,7 +22,7 @@ import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeCommand;
 import me.maxiiiiii.skyblockdragons.pet.*;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.StatCommand;
+import me.maxiiiiii.skyblockdragons.player.stats.StatCommand;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
 import me.maxiiiiii.skyblockdragons.player.bank.BankCommand;
 import me.maxiiiiii.skyblockdragons.player.coop.CoopCommand;
@@ -105,16 +105,15 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         Bukkit.getScheduler().runTaskAsynchronously(this, Recipe::registerRecipes);
 
         // Listeners
+        getServer().getPluginManager().registerEvents(new Damage(), this);
         getServer().getPluginManager().registerEvents(new JoinQuitListener(), this);
         getServer().getPluginManager().registerEvents(new ClickCanceller(), this);
-        getServer().getPluginManager().registerEvents(new Damage(), this);
         getServer().getPluginManager().registerEvents(new UpdateStatsListeners(), this);
         getServer().getPluginManager().registerEvents(new GoBack(), this);
         getServer().getPluginManager().registerEvents(new PetListener(), this);
         getServer().getPluginManager().registerEvents(new ClickListener(), this);
         getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
         getServer().getPluginManager().registerEvents(new DropListener(), this);
-//        getServer().getPluginManager().registerEvents(new EntityHealth(), this);
         getServer().getPluginManager().registerEvents(new PlayerClickOnPlayerListener(), this);
         getServer().getPluginManager().registerEvents(new ArmorStandManipulateListener(), this);
         getServer().getPluginManager().registerEvents(new PlaceHeadListener(), this);
@@ -126,6 +125,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PickableItem(), this);
         getServer().getPluginManager().registerEvents(new PlayerPickupItemListener(), this);
         getServer().getPluginManager().registerEvents(new UpdateInventoryListeners(), this);
+        getServer().getPluginManager().registerEvents(new PlayerUseAbilityListener(), this);
 
         getServer().getPluginManager().registerEvents(new PlayerWarpListener(), this);
 
@@ -160,7 +160,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Builders_Wand(), this);
         getServer().getPluginManager().registerEvents(new Axe_of_The_Shredded(), this);
         getServer().getPluginManager().registerEvents(new Midas_Staff(), this);
-        getServer().getPluginManager().registerEvents(new ERRORMerang_Wand(), this);
         getServer().getPluginManager().registerEvents(new Pigman_Dagger(), this);
         getServer().getPluginManager().registerEvents(new Aspect_Of_The_Dragons(), this);
 
@@ -266,7 +265,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                     if (player.getPlayerPet().getPetArmorStand().armorStand.getLocation().distance(player.getLocation()) > 3)
                         new FlyTo(player.getPlayerPet().getPetArmorStand().armorStand, player, 20, 1.5, true, player.getPlayerPet().petArmorStand.hologram, new Vector(0, 1.6, 0));
                     player.getPlayerPet().petArmorStand.armorStand.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.1 : -0.1), 0));
-                    player.getPlayerPet().petArmorStand.hologram.teleport(player.getPlayerPet().petArmorStand.hologram.getLocation().add(0, 1.6, 0));
+                    player.getPlayerPet().petArmorStand.hologram.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 1.6, 0));
                     for (ParticlePacketUtil particle : player.getPetActive().petMaterial.particles) {
                         Functions.spawnParticle(Functions.getPlayerShowedPets(), particle, player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.8, 0));
                     }
