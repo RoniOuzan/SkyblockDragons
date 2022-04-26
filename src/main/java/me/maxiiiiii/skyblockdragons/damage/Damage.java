@@ -299,7 +299,11 @@ public class Damage implements Listener {
     @EventHandler
     public void onDamage(EntityDamageByBlockEvent e) {
         if (e.getDamager() == null) {
-            EntitySD.get(e.getEntity()).kill();
+            EntitySD entity = EntitySD.get(e.getEntity());
+            if (entity != null) {
+                entity.kill();
+                entity.hologram.remove();
+            }
             return;
         }
 
@@ -328,6 +332,7 @@ public class Damage implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
+        if (e.getEntity().getKiller() == null) return;
         if (e.getEntity() instanceof Creature && !(e.getEntity() instanceof Player)) {
             EntitySD entity = EntitySD.get(e.getEntity().getUniqueId());
             e.getDrops().clear();

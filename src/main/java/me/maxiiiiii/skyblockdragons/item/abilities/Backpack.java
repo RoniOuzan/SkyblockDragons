@@ -24,7 +24,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class Backpack implements Listener {
     @EventHandler
-    public void onClick(PlayerUseAbilityEvent e) {
+    public void onPlayerUseAbility(PlayerUseAbilityEvent e) {
         Item item = e.getItem();
 
         if (!item.getMaterial().name().contains("BACKPACK")) return;

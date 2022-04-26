@@ -27,7 +27,7 @@ import org.bukkit.util.Vector;
 
 public class Gyrokinetic_Wand implements Listener {
     @EventHandler
-    public void onClick(PlayerUseAbilityEvent e) {
+    public void onPlayerUseAbility(PlayerUseAbilityEvent e) {
         Item item = e.getItem();
 
         if (item.getMaterial() != Items.get("GYROKINETIC_WAND")) return;

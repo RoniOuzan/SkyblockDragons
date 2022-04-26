@@ -39,7 +39,7 @@ public class Bonemerang implements Listener {
     }
 
     @EventHandler
-    public void onClick(PlayerUseAbilityEvent e) {
+    public void onPlayerUseAbility(PlayerUseAbilityEvent e) {
         Item item = e.getItem();
 
         if (item.getMaterial() != Items.get("BONEMERANG")) return;
@@ -70,37 +70,7 @@ public class Bonemerang implements Listener {
             public void run() {
                 if (stand.isDead()) cancel();
                 if (i > AMOUNT) {
-//                    new BukkitRunnable() {
-//                        int i = AMOUNT;
-//                        @Override
-//                        public void run() {
-//                            if (stand.isDead()) cancel();
-//                            if (i <= 0) {
-//                                stand.remove();
-//                                updateItem(player, slot, item);
-//                                cancel();
-//                            }
-//                            Location newLocation = location.clone().add(location.getDirection().multiply(i));
-//                            if (chanceOf(20)) location.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, newLocation.clone().add(0, 1, 0), 0, 0, 0, 0, 0);
-//                            stand.teleport(newLocation);
-//
-//                            if (stand.getLocation().clone().add(0, 1, 0).getBlock().getType().isSolid()) {
-//                                stand.getWorld().spawnParticle(Particle.CLOUD, stand.getLocation(), 5, 1, 1, 1, 1);
-//                                stand.remove();
-//                                new BukkitRunnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        updateItem(player, slot, item);
-//                                    }
-//                                }.runTaskLater(plugin, 60L);
-//                                player.playSound(player.getLocation(), Sound.ENTITY_SKELETON_HURT, 1f, 20f);
-//                                cancel();
-//                            }
-//
-//                            i--;
-//                        }
-//                    }.runTaskTimer(plugin, 0L, 1L);
-                    new aifly(stand, player, AMOUNT * 50).runTaskTimer(SkyblockDragons.plugin, 0L, 1L);
+                    new aifly(stand, player, AMOUNT * 25).runTaskTimer(SkyblockDragons.plugin, 0L, 1L);
                     new BukkitRunnable() {
                         int i = 0;
                         @Override

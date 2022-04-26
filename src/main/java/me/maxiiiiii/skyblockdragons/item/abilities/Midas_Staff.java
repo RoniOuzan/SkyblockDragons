@@ -24,7 +24,7 @@ public class Midas_Staff implements Listener {
     private final Cooldown<Player> cooldown = new Cooldown<>();
 
     @EventHandler
-    public void onClick(PlayerUseAbilityEvent e) {
+    public void onPlayerUseAbility(PlayerUseAbilityEvent e) {
         Item item = e.getItem();
 
         if (item.getMaterial() != Items.get("MIDAS_STAFF")) return;

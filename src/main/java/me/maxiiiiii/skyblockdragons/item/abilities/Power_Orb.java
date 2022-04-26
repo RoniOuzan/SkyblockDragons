@@ -20,7 +20,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Power_Orb implements Listener {
     @EventHandler
-    public void onClick(PlayerUseAbilityEvent e) {
+    public void onPlayerUseAbility(PlayerUseAbilityEvent e) {
         Item item = e.getItem();
 
         if (!Functions.getId(item).contains("_POWER_ORB")) return;

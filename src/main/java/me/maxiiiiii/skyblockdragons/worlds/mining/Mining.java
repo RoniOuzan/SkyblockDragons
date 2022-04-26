@@ -1,12 +1,17 @@
 package me.maxiiiiii.skyblockdragons.worlds.mining;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.BlockPosition;
+import com.comphenix.protocol.wrappers.EnumWrappers;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.worlds.deepmines.DeepMines;
-import net.minecraft.server.v1_12_R1.BlockPosition;
-import net.minecraft.server.v1_12_R1.PacketPlayOutBlockBreakAnimation;
+import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -18,18 +23,27 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 public class Mining implements Listener {
     public static final List<World> miningWorlds = new ArrayList<>(Arrays.asList(TheEnd.world, DeepMines.world));
 
-    public static final HashMap<Player, Boolean> isDigging = new HashMap<>();
+    public static final HashMap<UUID, Block> playerDigging = new HashMap<>();
 
     public Mining(JavaPlugin plugin) {
+        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+        protocolManager.addPacketListener(new PacketAdapter(SkyblockDragons.plugin, PacketType.Play.Client.BLOCK_DIG) {
+            @Override
+            public void onPacketReceiving(PacketEvent e) {
+                PacketContainer packet = e.getPacket();
+                Player player = e.getPlayer();
+                if (packet.getPlayerDigTypes().read(0) == EnumWrappers.PlayerDigType.ABORT_DESTROY_BLOCK && playerDigging.getOrDefault(player.getUniqueId(), null) != null) {
+                    playerDigging.put(player.getUniqueId(), player.getWorld().getBlockAt(player.getLocation().getBlockX(), -5, player.getLocation().getBlockZ()));
+                }
+            }
+        });
+
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         plugin.getServer().getPluginManager().registerEvents(new PlayerBreakBlockListener(), plugin);
     }
@@ -38,55 +52,116 @@ public class Mining implements Listener {
     public void onBlockDamage(BlockDamageEvent e) {
         if (!miningWorlds.contains(e.getBlock().getWorld())) return;
 
-        if (isDigging.getOrDefault(e.getPlayer(), false)) return;
+        if (playerDigging.getOrDefault(e.getPlayer().getUniqueId(), null) != null) return;
 
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
         Block block = e.getBlock();
         BlockMaterial blockMaterial = BlockMaterial.get(block.getType());
         if (blockMaterial == null) return;
 
-        double miningTime = (blockMaterial.blockStrength * 50) / Math.max(player.getStats().getMiningSpeed().amount, 1);
+        double miningTime = ((blockMaterial.blockStrength * 30) / Math.max(player.getStats().getMiningSpeed().amount, 1)) * 50;
 
-        if (miningTime <= 1) {
+        player.sendMessage(miningTime);
+        if (miningTime <= 50) {
             BlockBreakEvent event = new BlockBreakEvent(e.getBlock(), player);
             Bukkit.getServer().getPluginManager().callEvent(event);
             return;
         }
 
         if (player.getBreakingPower() >= blockMaterial.breakingPower) {
-            AtomicBoolean isStopped = new AtomicBoolean(false);
+            playerDigging.put(player.getUniqueId(), block);
 
-            isDigging.put(player, true);
-
-            Functions.Loop(Math.min((int) miningTime, 9), (long) (miningTime / 9), i -> {
-                if (miningTime < 9)
-                    i = (int) ((i / miningTime) * 9);
-                if (!player.getTargetBlock(5).getLocation().equals(block.getLocation())) {
-                    isStopped.set(true);
-                    stopMining(player, block);
-                }
-
-                if (isStopped.get()) return;
-
-                PacketPlayOutBlockBreakAnimation packet = new PacketPlayOutBlockBreakAnimation(player.getEntityId(), new BlockPosition(block.getLocation().getBlockX(), block.getLocation().getBlockY(), block.getLocation().getBlockZ()), i + 1);
-                player.sendPacket(packet);
-            }, i -> {
-                if (isStopped.get()) return;
-
-                stopMining(player, block);
-
-                PlayerBreakBlockEvent event = new PlayerBreakBlockEvent(player, e.getBlock(), blockMaterial);
-                Bukkit.getServer().getPluginManager().callEvent(event);
-            });
+            new MiningThread(player, block, miningTime);
         } else {
             player.sendMessage(ChatColor.RED + "Your tool is not strong enough to mine this block!");
         }
     }
 
-    private static void stopMining(PlayerSD player, Block block) {
-        PacketPlayOutBlockBreakAnimation packet = new PacketPlayOutBlockBreakAnimation(player.getEntityId(), new BlockPosition(block.getLocation().getBlockX(), block.getLocation().getBlockY(), block.getLocation().getBlockZ()), -1);
-        player.sendPacket(packet);
 
-        isDigging.put(player, false);
+    private static class MiningThread extends Thread {
+        private final PlayerSD player;
+        private final Block block;
+        private final double miningTime;
+        private final BlockMaterial blockMaterial;
+
+        private MiningThread(PlayerSD player, Block block, double miningTime) {
+            super(player.getUniqueId().toString() + "_MINING");
+            this.player = player;
+            this.block = block;
+            this.miningTime = miningTime;
+            this.blockMaterial = BlockMaterial.get(block.getType());
+
+            this.start();
+        }
+
+        @Override
+        public void run() {
+            for (int i = 0; i < 9; i++) {
+                if (this.cancel()) return;
+
+                BlockAnimationPacket packet = new BlockAnimationPacket(player, block, (byte) i);
+                packet.send(player);
+
+                long now = System.currentTimeMillis();
+                while (!this.isInterrupted() && System.currentTimeMillis() - now < miningTime / 9) {
+                    if (this.cancel()) return;
+
+                    packet.send(player);
+                    try {
+                        sleep(5);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                i++;
+            }
+
+            stopMining(player, block);
+
+            Bukkit.getScheduler().runTask(SkyblockDragons.plugin, () -> {
+                PlayerBreakBlockEvent event = new PlayerBreakBlockEvent(player, block, blockMaterial);
+                Bukkit.getServer().getPluginManager().callEvent(event);
+            });
+
+            this.interrupt();
+        }
+
+        private boolean cancel() {
+            if (playerDigging.get(player.getUniqueId()).getY() < 0) {
+                playerDigging.put(player.getUniqueId(), null);
+                BlockAnimationPacket packet = new BlockAnimationPacket(player, block, (byte) -1);
+                packet.send(player);
+                return true;
+            }
+            return false;
+        }
+    }
+
+    private static void stopMining(PlayerSD player, Block block) {
+        BlockAnimationPacket packet = new BlockAnimationPacket(player, block, (byte) -1);
+        packet.send(player);
+
+        playerDigging.put(player.getUniqueId(), null);
+    }
+
+    private static class BlockAnimationPacket {
+        private final PacketContainer packet;
+
+        private BlockAnimationPacket(PlayerSD player, Block block, int stage) {
+            packet = new PacketContainer(PacketType.Play.Server.BLOCK_BREAK_ANIMATION);
+            packet.getIntegers().write(0, player.getEntityId());
+            packet.getIntegers().write(1, stage);
+            packet.getBlockPositionModifier().write(0, new BlockPosition(block.getX(), block.getY(), block.getZ()));
+        }
+
+        private void send(Player player) {
+            ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+            try {
+                protocolManager.sendServerPacket(player, packet);
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

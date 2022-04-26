@@ -1,5 +1,8 @@
 package me.maxiiiiii.skyblockdragons.player;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketContainer;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
@@ -51,6 +54,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -145,6 +149,13 @@ public class PlayerSD extends PlayerClass {
     public void sendPacket(Packet<?> packet) {
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
         entityPlayer.playerConnection.sendPacket(packet);
+    }
+
+    public void sendProtocolPacket(PacketContainer packet) {
+        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+        try {
+            protocolManager.sendServerPacket(player, packet);
+        } catch (InvocationTargetException ignored) {}
     }
 
     public void addPlayTime(int amount) {
@@ -282,7 +293,7 @@ public class PlayerSD extends PlayerClass {
         StatsMultiplayer statsMultiplayer = new StatsMultiplayer();
 
         if (Mining.miningWorlds.contains(player.getWorld())) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, 255, false, false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, -1, false, false));
         } else {
             player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
         }
@@ -354,7 +365,7 @@ public class PlayerSD extends PlayerClass {
         }
 
 
-        // Full Sets
+        // Full Set
         if (fullSet.equals("Old Blood")) {
             statsMultiplayer.increase(StatType.HEALTH, 20);
         }
@@ -554,7 +565,7 @@ public class PlayerSD extends PlayerClass {
         this.sendActionBar(message, false);
     }
 
-    public Entity getTargetEntity(int maxDistance) {
+    public Creature getTargetEntity(int maxDistance) {
         Location location = player.getLocation();
 
         for (int i = 0; i <= maxDistance; i++) {
@@ -562,7 +573,7 @@ public class PlayerSD extends PlayerClass {
 
             for (Entity entity : Functions.loopEntities(loc, 1.5)) {
                 if (entity instanceof Creature) {
-                    return entity;
+                    return (Creature) entity;
                 }
             }
 

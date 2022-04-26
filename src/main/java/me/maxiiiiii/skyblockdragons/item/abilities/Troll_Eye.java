@@ -18,7 +18,7 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.randomDouble;
 
 public class Troll_Eye implements Listener {
     @EventHandler
-    public void onClick(PlayerUseAbilityEvent e) {
+    public void onPlayerUseAbility(PlayerUseAbilityEvent e) {
         Item item = e.getItem();
 
         if (item.getMaterial() != Items.get("TROLL_EYE")) return;

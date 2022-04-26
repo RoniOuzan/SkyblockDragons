@@ -20,7 +20,7 @@ public class Atomsplit_Katana implements Listener {
     public static HashMap<Player, Long> atomsplitAbility = new HashMap<>();
 
     @EventHandler
-    public void onClick(PlayerUseAbilityEvent e) {
+    public void onPlayerUseAbility(PlayerUseAbilityEvent e) {
         Item item = e.getItem();
 
         if (item.getMaterial() != Items.get("ATOMSPLIT_KATANA")) return;

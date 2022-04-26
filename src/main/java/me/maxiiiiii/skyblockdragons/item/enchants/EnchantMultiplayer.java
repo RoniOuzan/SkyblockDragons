@@ -9,7 +9,7 @@ public class EnchantMultiplayer {
 
     public double get(int level) {
         if (level >= multiplayers.length)
-            return multiplayers[multiplayers.length - 1];
+            return multiplayers[0] * level;
         else
             return multiplayers[level - 1];
     }

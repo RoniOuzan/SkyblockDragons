@@ -34,7 +34,7 @@ public class Hurricane_Wand implements Listener {
     };
 
     @EventHandler
-    public void onClick(PlayerUseAbilityEvent e) {
+    public void onPlayerUseAbility(PlayerUseAbilityEvent e) {
         Item item = e.getItem();
 
         if (item.getMaterial() != Items.get("HURRICANE_WAND")) return;

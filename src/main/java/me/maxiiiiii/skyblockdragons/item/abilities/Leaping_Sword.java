@@ -32,7 +32,7 @@ public class Leaping_Sword implements Listener {
     private final HashMap<UUID, Boolean> isEnabled = new HashMap<>();
 
     @EventHandler
-    public void onClick(PlayerUseAbilityEvent e) {
+    public void onPlayerUseAbility(PlayerUseAbilityEvent e) {
         Item item = e.getItem();
 
         if (item.getMaterial() != Items.get("LEAPING_SWORD")) return;

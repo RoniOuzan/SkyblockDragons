@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.player.skill;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import org.bukkit.ChatColor;
@@ -70,6 +71,8 @@ public abstract class AbstractSkill {
             player.sendMessage("       " + ChatColor.DARK_GRAY + "+" + ChatColor.GOLD + getNumberFormat(this.rewards.getCoinsAmount()[this.level]) + " " + ChatColor.GRAY + "Coins");
             player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "------------------------------------------");
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
+
+            SkyblockDragons.getPlayer(player).updatePlayerInventory();
         }
     }
 

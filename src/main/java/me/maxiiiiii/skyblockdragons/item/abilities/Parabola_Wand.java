@@ -21,7 +21,7 @@ import static me.maxiiiiii.skyblockdragons.SkyblockDragons.*;
 
 public class Parabola_Wand implements Listener {
     @EventHandler
-    public void onClick(PlayerUseAbilityEvent e) {
+    public void onPlayerUseAbility(PlayerUseAbilityEvent e) {
         Item item = e.getItem();
 
         if (item.getMaterial() != Items.get("PARABOLA_WAND")) return;

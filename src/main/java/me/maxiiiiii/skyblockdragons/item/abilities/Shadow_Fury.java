@@ -18,7 +18,7 @@ import static me.maxiiiiii.skyblockdragons.SkyblockDragons.plugin;
 
 public class Shadow_Fury implements Listener {
     @EventHandler
-    public void onClick(PlayerUseAbilityEvent e) {
+    public void onPlayerUseAbility(PlayerUseAbilityEvent e) {
         Item item = e.getItem();
 
         if (item.getMaterial() != Items.get("SHADOW_FURY")) return;

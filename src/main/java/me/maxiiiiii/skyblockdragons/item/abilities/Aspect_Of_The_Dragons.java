@@ -23,7 +23,7 @@ import java.util.List;
 
 public class Aspect_Of_The_Dragons implements Listener {
     @EventHandler
-    public void onClick(PlayerUseAbilityEvent e) {
+    public void onPlayerUseAbility(PlayerUseAbilityEvent e) {
         if (!e.getAbility().getName().equals("Dragon Rage")) return;
 
         Item item = e.getItem();

@@ -37,7 +37,7 @@ public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
                 String[] title = e.getClickedInventory().getTitle().split(" ");
                 if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Search Items")) {
                     p.closeInventory();
-                    openSign(p, (lines) -> openItemList(p, 1, lines.get(0)));
+                    openSign(p, lines -> openItemList(p, 1, lines.get(0)));
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Next Page")) {
                     p.closeInventory();
                     openItemList(p, Integer.parseInt(title[2]) + 1);

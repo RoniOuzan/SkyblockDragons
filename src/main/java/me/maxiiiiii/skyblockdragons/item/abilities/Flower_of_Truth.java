@@ -25,7 +25,7 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.Wait;
 
 public class Flower_of_Truth implements Listener {
     @EventHandler
-    public void onClick(PlayerUseAbilityEvent e) {
+    public void onPlayerUseAbility(PlayerUseAbilityEvent e) {
         Item item = e.getItem();
 
         if (item.getMaterial() != Items.get("FLOWER_OF_TRUTH")) return;

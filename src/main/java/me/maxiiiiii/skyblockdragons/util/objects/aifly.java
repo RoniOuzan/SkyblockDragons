@@ -9,19 +9,19 @@ import static me.maxiiiiii.skyblockdragons.SkyblockDragons.players;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.plugin;
 
 public class aifly extends BukkitRunnable {
-    int i = 0;
-    Entity e;
-    Location loc;
-    long duration;
-    Location startLoc;
-    double dx;
-    double dy;
-    double dz;
-    long times;
-    double x1;
-    double y1;
-    double z1;
-    boolean changeDirection;
+    private int i = 0;
+    private Entity e;
+    private Location loc;
+    private long duration;
+    private Location startLoc;
+    private double dx;
+    private double dy;
+    private double dz;
+    private long times;
+    private double x1;
+    private double y1;
+    private double z1;
+    private boolean changeDirection;
 
     public aifly(Entity e, Location loc, long duration){
         this.e = e;

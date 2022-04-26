@@ -35,10 +35,7 @@ import me.maxiiiiii.skyblockdragons.storage.VariableCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.EntityHider;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.FlyTo;
-import me.maxiiiiii.skyblockdragons.util.objects.ParticlePacketUtil;
-import me.maxiiiiii.skyblockdragons.util.objects.PickableItem;
-import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
+import me.maxiiiiii.skyblockdragons.util.objects.*;
 import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.worlds.warp.PlayerWarpListener;
@@ -94,7 +91,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
 
 
-        TheEnd.resetEyes();
+        Bukkit.getScheduler().runTask(this, TheEnd::resetEyes);
 
         Variables.load();
 
@@ -162,6 +159,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Midas_Staff(), this);
         getServer().getPluginManager().registerEvents(new Pigman_Dagger(), this);
         getServer().getPluginManager().registerEvents(new Aspect_Of_The_Dragons(), this);
+        getServer().getPluginManager().registerEvents(new Moody_Grappleshot(), this);
 
         // Command Listeners
         getServer().getPluginManager().registerEvents(new ItemCommand(), this);

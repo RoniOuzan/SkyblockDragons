@@ -28,7 +28,7 @@ public class Axe_of_The_Shredded implements Listener {
     private final HashMap<Player, Long> timeUsed = new HashMap<>();
 
     @EventHandler
-    public void onClick(PlayerUseAbilityEvent e) {
+    public void onPlayerUseAbility(PlayerUseAbilityEvent e) {
         Item item = e.getItem();
 
         if (item.getMaterial() != Items.get("AXE_OF_THE_SHREDDED")) return;
