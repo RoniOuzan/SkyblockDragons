@@ -9,6 +9,8 @@ import me.maxiiiiii.skyblockdragons.entity.EntityCommand;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.events.*;
+import me.maxiiiiii.skyblockdragons.inventory.MenuListener;
+import me.maxiiiiii.skyblockdragons.inventory.menus.ProfileMenu;
 import me.maxiiiiii.skyblockdragons.item.ItemCommand;
 import me.maxiiiiii.skyblockdragons.item.abilities.Terminator;
 import me.maxiiiiii.skyblockdragons.item.abilities.*;
@@ -22,18 +24,17 @@ import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeCommand;
 import me.maxiiiiii.skyblockdragons.pet.*;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.stats.StatCommand;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
 import me.maxiiiiii.skyblockdragons.player.bank.BankCommand;
 import me.maxiiiiii.skyblockdragons.player.coop.CoopCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillAdminCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillListener;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillMenuCommand;
+import me.maxiiiiii.skyblockdragons.player.stats.StatCommand;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeCommand;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeListener;
 import me.maxiiiiii.skyblockdragons.storage.VariableCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
-import me.maxiiiiii.skyblockdragons.util.EntityHider;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.*;
 import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
@@ -45,7 +46,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -111,7 +114,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new ClickListener(), this);
         getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
         getServer().getPluginManager().registerEvents(new DropListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerClickOnPlayerListener(), this);
         getServer().getPluginManager().registerEvents(new ArmorStandManipulateListener(), this);
         getServer().getPluginManager().registerEvents(new PlaceHeadListener(), this);
         getServer().getPluginManager().registerEvents(new PickUpListeners(), this);
@@ -123,8 +125,11 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerPickupItemListener(), this);
         getServer().getPluginManager().registerEvents(new UpdateInventoryListeners(), this);
         getServer().getPluginManager().registerEvents(new PlayerUseAbilityListener(), this);
+        getServer().getPluginManager().registerEvents(new ProfileMenu.Event(), this);
 
         getServer().getPluginManager().registerEvents(new PlayerWarpListener(), this);
+
+        getServer().getPluginManager().registerEvents(new MenuListener(), this);
 
         // World Listeners
         WorldSD.registerWorlds(this);
@@ -160,9 +165,10 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Pigman_Dagger(), this);
         getServer().getPluginManager().registerEvents(new Aspect_Of_The_Dragons(), this);
         getServer().getPluginManager().registerEvents(new Moody_Grappleshot(), this);
+        getServer().getPluginManager().registerEvents(new Wither_Cloak(), this);
+        getServer().getPluginManager().registerEvents(new Magma_Cloak(), this);
 
         // Command Listeners
-        getServer().getPluginManager().registerEvents(new ItemCommand(), this);
         getServer().getPluginManager().registerEvents(new JavaMenu(), this);
         getServer().getPluginManager().registerEvents(new AnvilCommand(), this);
         getServer().getPluginManager().registerEvents(new ReforgeCommand(), this);
@@ -173,7 +179,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new WardrobeListener(), this);
         getServer().getPluginManager().registerEvents(new PetMenuCommand(), this);
         getServer().getPluginManager().registerEvents(new BankCommand(), this);
-        getServer().getPluginManager().registerEvents(new SellCommand(), this);
         getServer().getPluginManager().registerEvents(new RecipesCommand(), this);
         getServer().getPluginManager().registerEvents(new EnchantingTableCommand(), this);
 
@@ -209,13 +214,13 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("EntitySD").setTabCompleter(new EntityCommand());
         getCommand("Coop").setExecutor(new CoopCommand());
         getCommand("Coop").setTabCompleter(new CoopCommand());
-        getCommand("Sell").setExecutor(new SellCommand());
         getCommand("Recipes").setExecutor(new RecipesCommand());
         getCommand("RecipesFor").setExecutor(new RecipesForCommand());
         getCommand("RecipesWith").setExecutor(new RecipesWithCommand());
         getCommand("Variables").setExecutor(new VariableCommand());
         getCommand("Warp").setExecutor(new WarpCommand());
         getCommand("EnchantingTable").setExecutor(new EnchantingTableCommand());
+        getCommand("Profile").setExecutor(new ProfileMenu.Command());
 
 //        Coop.load();
         EntitySD.loadLocations();
@@ -322,6 +327,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 //                }
 //            }
 //        }, 3000L, 6000L);
+
 
         System.out.println("Skyblock Dragons plugin has been loaded!");
     }

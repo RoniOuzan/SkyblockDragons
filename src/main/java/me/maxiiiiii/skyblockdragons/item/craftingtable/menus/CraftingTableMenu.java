@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.createItem;
+import static me.maxiiiiii.skyblockdragons.util.Functions.numToSlot;
 
 public class CraftingTableMenu {
     public static ItemStack recipe = createItem(Material.BARRIER, ChatColor.RED + "Recipe Required", new ArrayList<>(Arrays.asList(ChatColor.GRAY + "Add the items for valid recipe", ChatColor.GRAY + "in the crafting grid to the", ChatColor.GRAY + "left!")));
@@ -68,3 +69,41 @@ public class CraftingTableMenu {
         }
     }
 }
+
+/*
+public CraftingTableMenu(PlayerSD player) {
+        super(player, "Craft Item", 6, InventoryGlassType.ALL, false);
+
+        this.setItem(23, createItem(Material.BARRIER, ChatColor.RED + "Recipe Required", "RECIPE_REQUIRED", ChatColor.GRAY + "Add the items for valid recipe", ChatColor.GRAY + "in the crafting grid to the", ChatColor.GRAY + "left!"));
+
+        for (int i = 0; i < 9; i++) {
+            this.setItem(Functions.numToSlot(i), new ItemStack(Material.AIR));
+        }
+    }
+
+    @Override
+    public void update() {
+        for (int i = 45; i < 54; i++) {
+            this.setItem(i, Functions.createItem(Material.STAINED_GLASS_PANE, 14, ChatColor.RESET + ""));
+        }
+
+        this.setItem(16, createItem(Material.STAINED_GLASS_PANE, 7, ChatColor.RED + "Quick Crafting Slot", "QUICK_CRAFT", ChatColor.GRAY + "Quick crafting allows you to", ChatColor.GRAY + "craft items without assembling", ChatColor.GRAY + "the recipe."));
+        this.setItem(25, createItem(Material.STAINED_GLASS_PANE, 7, ChatColor.RED + "Quick Crafting Slot", "QUICK_CRAFT", ChatColor.GRAY + "Quick crafting allows you to", ChatColor.GRAY + "craft items without assembling", ChatColor.GRAY + "the recipe."));
+        this.setItem(34, createItem(Material.STAINED_GLASS_PANE, 7, ChatColor.RED + "Quick Crafting Slot", "QUICK_CRAFT", ChatColor.GRAY + "Quick crafting allows you to", ChatColor.GRAY + "craft items without assembling", ChatColor.GRAY + "the recipe."));
+
+        List<Recipe> recipes = Recipe.getRecipesCanCraft(SkyblockDragons.getPlayer(player), 3);
+        if (recipes.size() > 0)
+            inventory.setItem(16, Functions.setUnstackable(recipes.get(0).getItem()));
+        if (recipes.size() > 1)
+            inventory.setItem(25, Functions.setUnstackable(recipes.get(1).getItem()));
+        if (recipes.size() > 2)
+            inventory.setItem(34, Functions.setUnstackable(recipes.get(2).getItem()));
+    }
+
+    @Override
+    public void onInventoryClick(InventoryClickEvent e) {
+        if ((e.getSlot() % 9 == 1 || e.getSlot() % 9 == 2 || e.getSlot() % 9 == 3) && (e.getSlot() / 9 == 1 || e.getSlot() / 9 == 2 || e.getSlot() / 9 == 3)) {
+            e.setCancelled(false);
+        }
+    }
+ */

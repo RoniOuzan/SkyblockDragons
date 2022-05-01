@@ -3,7 +3,6 @@ package me.maxiiiiii.skyblockdragons.util.objects;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.util.EntityHider;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

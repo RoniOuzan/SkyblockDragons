@@ -11,19 +11,19 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.item.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.events.EntityHealth;
+import me.maxiiiiii.skyblockdragons.item.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.NecronBladeMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.ReforgeMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.SkinMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.interfaces.LoopTask;
@@ -32,12 +32,16 @@ import me.maxiiiiii.skyblockdragons.util.interfaces.While;
 import me.maxiiiiii.skyblockdragons.util.objects.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -51,7 +55,6 @@ import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.item.material.Items.items;
 import static me.maxiiiiii.skyblockdragons.item.material.Items.vanillaMaterials;
-import static me.maxiiiiii.skyblockdragons.commands.menu.ItemList.openItemList;
 
 public class Functions {
     public static ItemStack applySkull(ItemStack item, String id, String value) {
@@ -65,6 +68,17 @@ public class Functions {
         nbt.applyNBT(item);
 
         nbt.applyNBT(item);
+
+        return item;
+    }
+
+    public static ItemStack applyHead(ItemStack item, OfflinePlayer player) {
+        if (item.getType() != Material.SKULL_ITEM || item.getDurability() != 3) return item;
+
+        SkullMeta meta = (SkullMeta) item.getItemMeta();
+        meta.setOwningPlayer(player);
+
+        item.setItemMeta(meta);
 
         return item;
     }
@@ -84,12 +98,12 @@ public class Functions {
         if (Wither_Impact.witherShieldHealth.containsKey(player.getUniqueId()) && System.currentTimeMillis() - Wither_Impact.witherShield.getOrDefault(player.getUniqueId(), 0L) <= 5000) {
             healthAdder += Wither_Impact.witherShieldHealth.get(player.getUniqueId());
         }
-        message = "" + ChatColor.RED + (int) (player.getHealth() + healthAdder) + "/" + (int) player.getMaxHealth() + StatType.HEALTH.getIcon() + " " + ChatColor.GOLD + message + " " + ChatColor.AQUA + (int) SkyblockDragons.players.get(player.getUniqueId()).getStats().getMana().amount + "/" + (int) SkyblockDragons.players.get(player.getUniqueId()).getStats().getIntelligence().amount + StatType.INTELLIGENCE.getIcon();
+        message = "" + ChatColor.RED + (int) (player.getHealth() + healthAdder) + "/" + (int) player.getMaxHealth() + StatType.HEALTH.getIcon() + " " + ChatColor.GOLD + message + " " + ChatColor.AQUA + (int) player.getStats().getMana().amount + "/" + (int) player.getStats().getIntelligence().amount + StatType.INTELLIGENCE.getIcon();
         player.sendActionBar(message);
     }
 
     public static void sendActionBar(PlayerSD player) {
-        sendActionBar(player, "" + ChatColor.GREEN + (int) SkyblockDragons.players.get(player.getUniqueId()).getStats().getDefense().amount + StatType.DEFENSE.getIcon());
+        sendActionBar(player, "" + ChatColor.GREEN + (int) player.getStats().getDefense().amount + StatType.DEFENSE.getIcon());
     }
 
     public static void setArmorColor(ItemStack item, Color color) {
@@ -941,7 +955,7 @@ public class Functions {
         return SkinMaterial.NULL;
     }
 
-    public static ItemStack createItem(Material material, int amount, int data, String name, ArrayList<String> lores) {
+    public static ItemStack createItem(Material material, int amount, int data, String name, List<String> lores) {
         ItemStack item = new ItemStack(material, amount, (short) data);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(name);
@@ -951,14 +965,14 @@ public class Functions {
     }
 
     public static ItemStack createItem(Material material, int amount, int data, String name, String... lore) {
-        return createItem(material, amount, data, name, new ArrayList<>(Arrays.asList(lore)));
+        return createItem(material, amount, data, name, Arrays.asList(lore));
     }
 
     public static ItemStack createItem(Material material, int amount, String name, String... lore) {
         return createItem(material, amount, (short) 0, name, lore);
     }
 
-    public static ItemStack createItem(Material material, int amount, String name, ArrayList<String> lore) {
+    public static ItemStack createItem(Material material, int amount, String name, List<String> lore) {
         return createItem(material, amount, (short) 0, name, lore);
     }
 
@@ -974,7 +988,7 @@ public class Functions {
         return createItem(material, 1, (short) 0, name, lore);
     }
 
-    public static ItemStack createItem(Material material, String name, ArrayList<String> lore) {
+    public static ItemStack createItem(Material material, String name, List<String> lore) {
         return createItem(material, 1, (short) 0, name, lore);
     }
 

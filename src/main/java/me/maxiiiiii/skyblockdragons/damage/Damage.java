@@ -332,6 +332,7 @@ public class Damage implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
+        e.getDrops().clear();
         if (e.getEntity().getKiller() == null) return;
         if (e.getEntity() instanceof Creature && !(e.getEntity() instanceof Player)) {
             EntitySD entity = EntitySD.get(e.getEntity().getUniqueId());

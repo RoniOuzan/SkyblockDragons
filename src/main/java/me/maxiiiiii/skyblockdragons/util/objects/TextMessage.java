@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.util;//Created by Justis Root. Released into the public domain.
+package me.maxiiiiii.skyblockdragons.util.objects;//Created by Justis Root. Released into the public domain.
 //https://gist.github.com/justisr/7a7449adac931a066c51/
 //
 //Source is licensed for any use, provided that this copyright notice is retained.

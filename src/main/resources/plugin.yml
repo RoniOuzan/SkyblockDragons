@@ -139,3 +139,8 @@ commands:
   Hub:
     permission: skyblockdragons.hub
     usage: /<command>
+  Test:
+    permission: skyblockdragons.test
+  Profile:
+    permission: skyblockdragons.profile
+    usage: /<commamd> [<player>]

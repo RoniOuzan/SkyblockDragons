@@ -211,7 +211,7 @@ public class Recipe implements Comparable<Recipe> {
 
     public static List<Recipe> getRecipesCanCraft(PlayerSD player, int maxTimes) {
         List<Recipe> output = new ArrayList<>();
-        for (Recipe recipe : allRecipes) {
+        for (Recipe recipe : allRecipes.stream().filter(r -> r.getSlotToUpgrade() >= 0).collect(Collectors.toList())) {
             Map<ItemMaterial, Integer> items = recipe.getAllItems();
             boolean stopped = false;
             for (ItemMaterial material : items.keySet()) {

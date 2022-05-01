@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Getter
 @ToString
-public abstract class ItemMaterial implements ConfigurationSerializable, MaterialSD {
+public abstract class ItemMaterial implements ConfigurationSerializable, MaterialSD, Comparable<ItemMaterial> {
     protected Material material;
     protected ItemFamily family;
     protected String name;
@@ -60,5 +60,10 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
 
     public static ItemMaterial deserialize(Map<String, Object> args) {
         return Items.get((String) args.get("id"));
+    }
+
+    @Override
+    public int compareTo(ItemMaterial itemMaterial) {
+        return this.name().compareTo(itemMaterial.name());
     }
 }

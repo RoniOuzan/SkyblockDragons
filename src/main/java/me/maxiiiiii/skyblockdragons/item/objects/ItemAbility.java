@@ -34,6 +34,10 @@ public class ItemAbility {
         this(action, name, description, 0, false, 0, 0, 0);
     }
 
+    public ItemAbility(AbilityAction action, String name, String description, boolean customManaCost) {
+        this(action, name, description, 0, customManaCost, 0, 0, 0);
+    }
+
 //    @Override
 //    public Map<String, Object> serialize() {
 //        Map<String, Object> map = new HashMap<>();

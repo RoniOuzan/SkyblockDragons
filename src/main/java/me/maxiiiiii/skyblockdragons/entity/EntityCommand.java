@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.entity;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.TextMessage;
+import me.maxiiiiii.skyblockdragons.util.objects.TextMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;

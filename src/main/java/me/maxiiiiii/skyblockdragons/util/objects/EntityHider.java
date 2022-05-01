@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.util;
+package me.maxiiiiii.skyblockdragons.util.objects;
 
 import static com.comphenix.protocol.PacketType.Play.Server.*;
 

@@ -1,61 +1,26 @@
 package me.maxiiiiii.skyblockdragons.item;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.inventory.menus.ItemListMenu;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.getItemMaterial;
-import static me.maxiiiiii.skyblockdragons.util.Functions.isByte;
-import static me.maxiiiiii.skyblockdragons.util.Functions.isItemMaterial;
-import static me.maxiiiiii.skyblockdragons.util.Functions.isPlayerName;
-import static me.maxiiiiii.skyblockdragons.util.Functions.openSign;
 import static me.maxiiiiii.skyblockdragons.item.material.Items.items;
-import static me.maxiiiiii.skyblockdragons.commands.menu.ItemList.openItemList;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent e) {
-        try {
-            if (e.getClickedInventory().getTitle().contains("Item List")) {
-                e.setCancelled(true);
-                Player p = (Player) e.getWhoClicked();
-                String[] title = e.getClickedInventory().getTitle().split(" ");
-                if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Search Items")) {
-                    p.closeInventory();
-                    openSign(p, lines -> openItemList(p, 1, lines.get(0)));
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Next Page")) {
-                    p.closeInventory();
-                    openItemList(p, Integer.parseInt(title[2]) + 1);
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Previous Page")) {
-                    if (title[2].equals("1")) {
-                        p.sendMessage(ChatColor.RED + "You can't go to the previous page!");
-                    } else {
-                        openItemList(p, Integer.parseInt(title[2]) - 1);
-                    }
-                } else if (!e.getCurrentItem().getItemMeta().getDisplayName().contains("Close") && !e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.RESET + "")) {
-                    ItemMaterial material = getItemMaterial(e.getCurrentItem());
-                    e.getWhoClicked().getInventory().addItem(new Item(SkyblockDragons.getPlayer((Player) e.getWhoClicked()), material));
-                }
-            }
-        } catch (NullPointerException ignored) {
-        }
-    }
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
@@ -112,7 +77,7 @@ public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
                     }
                 }
             } else {
-                openItemList(player, 1);
+                new ItemListMenu(player, "").open();
             }
         }
         return true;

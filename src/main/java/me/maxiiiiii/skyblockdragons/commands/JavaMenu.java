@@ -38,7 +38,7 @@ public class JavaMenu implements CommandExecutor, Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (!Functions.isNotAir(e.getCurrentItem())) return;
+        if (!Functions.isNotAir(e.getCurrentItem()) || !e.getCurrentItem().hasItemMeta()) return;
 
         if (e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().getDisplayName().contains("Close") && e.getCurrentItem().getType() == Material.BARRIER) {
             e.getWhoClicked().closeInventory();
