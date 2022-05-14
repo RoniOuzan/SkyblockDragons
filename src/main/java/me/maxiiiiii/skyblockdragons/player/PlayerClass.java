@@ -159,6 +159,7 @@ public class PlayerClass extends EntitySD implements Player {
     }
 
     @Override
+    @Deprecated
     public void playNote(Location loc, byte instrument, byte note) {
         this.player.playNote(loc, instrument, note);
     }
@@ -209,6 +210,7 @@ public class PlayerClass extends EntitySD implements Player {
     }
 
     @Override
+    @Deprecated
     public void playEffect(Location loc, Effect effect, int data) {
         this.player.playEffect(loc, effect, data);
     }
@@ -219,16 +221,19 @@ public class PlayerClass extends EntitySD implements Player {
     }
 
     @Override
+    @Deprecated
     public void sendBlockChange(Location loc, Material material, byte data) {
         this.player.sendBlockChange(loc, material, data);
     }
 
     @Override
+    @Deprecated
     public boolean sendChunkChange(Location loc, int sx, int sy, int sz, byte[] data) {
         return this.player.sendChunkChange(loc, sx, sy, sz, data);
     }
 
     @Override
+    @Deprecated
     public void sendBlockChange(Location loc, int material, byte data) {
         this.player.sendBlockChange(loc, material, data);
     }
@@ -249,16 +254,19 @@ public class PlayerClass extends EntitySD implements Player {
     }
 
     @Override
+    @Deprecated
     public void awardAchievement(Achievement achievement) {
         this.player.awardAchievement(achievement);
     }
 
     @Override
+    @Deprecated
     public void removeAchievement(Achievement achievement) {
         this.player.removeAchievement(achievement);
     }
 
     @Override
+    @Deprecated
     public boolean hasAchievement(Achievement achievement) {
         return this.player.hasAchievement(achievement);
     }
@@ -529,6 +537,7 @@ public class PlayerClass extends EntitySD implements Player {
     }
 
     @Override
+    @Deprecated
     public void hidePlayer(Player player) {
         this.player.hidePlayer(player);
     }
@@ -542,19 +551,16 @@ public class PlayerClass extends EntitySD implements Player {
         if (entity == null) return;
 
         SkyblockDragons.entityHider.hideEntity(player, entity);
-//        PacketPlayOutEntityDestroy packet = new PacketPlayOutEntityDestroy(entity.getEntityId());
-//        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 
     public void showEntity(Entity entity) {
         if (entity == null) return;
 
         SkyblockDragons.entityHider.showEntity(player, entity);
-//        PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving((EntityLiving) entity);
-//        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 
     @Override
+    @Deprecated
     public void showPlayer(Player player) {
         this.player.showPlayer(player);
     }
@@ -600,6 +606,7 @@ public class PlayerClass extends EntitySD implements Player {
     }
 
     @Override
+    @Deprecated
     public void setTexturePack(String url) {
         this.player.setTexturePack(url);
     }
@@ -655,6 +662,7 @@ public class PlayerClass extends EntitySD implements Player {
     }
 
     @Override
+    @Deprecated
     public void sendTitle(String title, String subtitle) {
         this.player.sendTitle(title, subtitle);
     }
@@ -868,11 +876,13 @@ public class PlayerClass extends EntitySD implements Player {
     }
 
     @Override
+    @Deprecated
     public Entity getPassenger() {
         return this.player.getPassenger();
     }
 
     @Override
+    @Deprecated
     public boolean setPassenger(Entity passenger) {
         return this.player.setPassenger(passenger);
     }
@@ -1118,11 +1128,13 @@ public class PlayerClass extends EntitySD implements Player {
     }
 
     @Override
+    @Deprecated
     public ItemStack getItemInHand() {
         return this.player.getItemInHand();
     }
 
     @Override
+    @Deprecated
     public void setItemInHand(ItemStack item) {
         this.player.setItemInHand(item);
     }
@@ -1186,21 +1198,25 @@ public class PlayerClass extends EntitySD implements Player {
     }
 
     @Override
+    @Deprecated
     public Entity getShoulderEntityLeft() {
         return this.player.getShoulderEntityLeft();
     }
 
     @Override
+    @Deprecated
     public void setShoulderEntityLeft(Entity entity) {
         this.player.setShoulderEntityLeft(entity);
     }
 
     @Override
+    @Deprecated
     public Entity getShoulderEntityRight() {
         return this.player.getShoulderEntityRight();
     }
 
     @Override
+    @Deprecated
     public void setShoulderEntityRight(Entity entity) {
         this.player.setShoulderEntityRight(entity);
     }
@@ -1440,6 +1456,7 @@ public class PlayerClass extends EntitySD implements Player {
     }
 
     @Override
+    @Deprecated
     public void resetMaxHealth() {
         this.player.resetMaxHealth();
     }

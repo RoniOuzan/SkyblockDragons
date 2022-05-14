@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 
 import java.util.Map;
 
@@ -16,6 +17,7 @@ public class FishingSkill extends AbstractSkill {
         super(
                 "Fishing",
                 "Visit your local pond to fish and earn Fishing XP!",
+                Material.FISHING_ROD,
                 new SkillRewards(
                         "Treasure Hunter",
                         ChatColor.WHITE + "Increases the chance to find treasure when fishing by " + ChatColor.DARK_GRAY + (level * 0.2) + "➡" + ChatColor.GREEN + ((level + 1) * 0.2) + "%" + ChatColor.WHITE + ".",

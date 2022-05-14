@@ -1,16 +1,19 @@
 package me.maxiiiiii.skyblockdragons.inventory;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.InventoryHolder;
+
+import java.util.ArrayList;
 
 public class MenuListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (e.getCurrentItem() == null) return;
+        if (!Functions.isNotAir(e.getCurrentItem())) return;
 
         InventoryHolder holder = e.getClickedInventory().getHolder();
 
@@ -29,9 +32,16 @@ public class MenuListener implements Listener {
 //                }
 //            }
             NBTItem nbt = new NBTItem(e.getCurrentItem());
-            if (nbt.hasKey("CloseButton")) {
+            if (nbt.getString("GuiButton").equals("CLOSE")) {
                 menu.getPlayer().closeInventory();
                 return;
+            }
+            if (nbt.getString("GuiButton").equals("GO_BACK")) {
+                Menu.removeLastHistory(e.getWhoClicked().getUniqueId());
+                if (Menu.menusHistory.getOrDefault(e.getWhoClicked().getUniqueId(), new ArrayList<>()).size() > 0) {
+                    Menu.menusHistory.get(e.getWhoClicked().getUniqueId()).get(0).open();
+                    e.getWhoClicked().sendMessage(Menu.menusHistory.get(e.getWhoClicked().getUniqueId()).get(0).getTitle());
+                }
             }
 
             if (menu instanceof PageMenu) {
@@ -53,6 +63,46 @@ public class MenuListener implements Listener {
             }
 
             menu.onInventoryClick(e);
+        }
+    }
+
+    @EventHandler
+    public void onInventoryDrag(InventoryDragEvent   e) {
+        InventoryHolder holder = e.getInventory().getHolder();
+
+        if (holder instanceof Menu) {
+            Menu menu = (Menu) holder;
+
+            menu.onInventoryDrag(e);
+        }
+    }
+
+    @EventHandler
+    public void onInventoryOpen(InventoryOpenEvent e) {
+        InventoryHolder holder = e.getInventory().getHolder();
+
+        if (holder instanceof Menu) {
+            Menu menu = (Menu) holder;
+
+            menu.onInventoryOpen(e);
+        }
+    }
+
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent e) {
+        InventoryHolder holder = e.getInventory().getHolder();
+
+        if (holder instanceof Menu) {
+            Menu menu = (Menu) holder;
+
+            Functions.Wait(1L, () -> {
+                if (e.getPlayer().getOpenInventory().getTopInventory().getType() == InventoryType.CRAFTING) {
+                    e.getPlayer().sendMessage("cleared");
+                    Menu.menusHistory.put(e.getPlayer().getUniqueId(), new ArrayList<>());
+                }
+            });
+
+            menu.onInventoryClose(e);
         }
     }
 }

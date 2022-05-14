@@ -1,14 +1,14 @@
 package me.maxiiiiii.skyblockdragons.events;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.inventory.menus.SkyblockMenu;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.commands.menu.SkyblockMenu;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class ClickListener implements Listener {
@@ -18,7 +18,7 @@ public class ClickListener implements Listener {
 
         if (Functions.getId(item).equals("SKYBLOCK_MENU")) {
             e.setCancelled(true);
-            SkyblockMenu.openSkyblockMenu(SkyblockDragons.getPlayer(e.getPlayer()));
+            new SkyblockMenu(SkyblockDragons.getPlayer(e.getPlayer()));
         }
     }
 
@@ -30,7 +30,7 @@ public class ClickListener implements Listener {
 
         if (Functions.getId(e.getCurrentItem()).equals("SKYBLOCK_MENU")) {
             e.getWhoClicked().closeInventory();
-            SkyblockMenu.openSkyblockMenu(SkyblockDragons.getPlayer(e.getWhoClicked().getName()));
+            new SkyblockMenu(SkyblockDragons.getPlayer((Player) e.getWhoClicked()));
         }
     }
 }

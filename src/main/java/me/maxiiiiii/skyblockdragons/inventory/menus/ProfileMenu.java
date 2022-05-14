@@ -49,9 +49,9 @@ public class ProfileMenu extends Menu {
             if (sender instanceof Player) {
                 PlayerSD player = SkyblockDragons.getPlayer((Player) sender);
                 if (args.length > 0) {
-                    new ProfileMenu(player, SkyblockDragons.getPlayer(args[0])).open();
+                    new ProfileMenu(player, SkyblockDragons.getPlayer(args[0]));
                 } else {
-                    new ProfileMenu(player, player).open();
+                    new ProfileMenu(player, player);
                 }
             }
             return true;
@@ -62,7 +62,7 @@ public class ProfileMenu extends Menu {
         @EventHandler
         public void onClickOnPlayer(PlayerInteractEntityEvent e) {
             if (e.getRightClicked() instanceof Player) {
-                new ProfileMenu(SkyblockDragons.getPlayer(e.getPlayer()), SkyblockDragons.getPlayer((Player) e.getRightClicked())).open();
+                new ProfileMenu(SkyblockDragons.getPlayer(e.getPlayer()), SkyblockDragons.getPlayer((Player) e.getRightClicked()));
             }
         }
     }

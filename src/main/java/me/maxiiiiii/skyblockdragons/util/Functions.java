@@ -13,6 +13,7 @@ import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.events.EntityHealth;
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
@@ -24,10 +25,10 @@ import me.maxiiiiii.skyblockdragons.item.material.types.SkinMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
+import me.maxiiiiii.skyblockdragons.pet.Pet;
 import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.interfaces.LoopTask;
-import me.maxiiiiii.skyblockdragons.util.interfaces.Task;
 import me.maxiiiiii.skyblockdragons.util.interfaces.While;
 import me.maxiiiiii.skyblockdragons.util.objects.*;
 import org.bukkit.*;
@@ -53,8 +54,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static me.maxiiiiii.skyblockdragons.item.material.Items.items;
-import static me.maxiiiiii.skyblockdragons.item.material.Items.vanillaMaterials;
+import static me.maxiiiiii.skyblockdragons.item.material.Items.*;
 
 public class Functions {
     public static ItemStack applySkull(ItemStack item, String id, String value) {
@@ -70,6 +70,10 @@ public class Functions {
         nbt.applyNBT(item);
 
         return item;
+    }
+
+    public static ItemStack applySkull(String id, String value) {
+        return applySkull(new ItemStack(Material.SKULL_ITEM, 1, (short) 3), id, value);
     }
 
     public static ItemStack applyHead(ItemStack item, OfflinePlayer player) {
@@ -106,13 +110,14 @@ public class Functions {
         sendActionBar(player, "" + ChatColor.GREEN + (int) player.getStats().getDefense().amount + StatType.DEFENSE.getIcon());
     }
 
-    public static void setArmorColor(ItemStack item, Color color) {
+    public static ItemStack setArmorColor(ItemStack item, Color color) {
         if (!(item.getType() == Material.LEATHER_HELMET || item.getType() == Material.LEATHER_CHESTPLATE || item.getType() == Material.LEATHER_LEGGINGS || item.getType() == Material.LEATHER_BOOTS)) {
-            return;
+            return item;
         }
         LeatherArmorMeta leatherArmorMeta = item.hasItemMeta() ? (LeatherArmorMeta) item.getItemMeta() : (LeatherArmorMeta) Bukkit.getItemFactory().getItemMeta(item.getType());
         leatherArmorMeta.setColor(color);
         item.setItemMeta(leatherArmorMeta);
+        return item;
     }
 
     public static String getShortNumber(double num) {
@@ -155,21 +160,16 @@ public class Functions {
         item.setItemMeta(itemMeta);
     }
 
-    public static void setLore(ItemStack item, ArrayList<String> lores) {
+    public static ItemStack setLore(ItemStack item, List<String> lores) {
         ItemMeta itemMeta = item.getItemMeta();
         itemMeta.setLore(lores);
         item.setItemMeta(itemMeta);
+        return item;
     }
 
-    public static void setLore(ItemStack item, List<String> lores) {
-        ItemMeta itemMeta = item.getItemMeta();
-        itemMeta.setLore(lores);
-        item.setItemMeta(itemMeta);
-    }
-
-    public static void setLore(ItemStack item, String... lore) {
+    public static ItemStack setLore(ItemStack item, String... lore) {
         ArrayList<String> lores = new ArrayList<>(Arrays.asList(lore));
-        setLore(item, lores);
+        return setLore(item, lores);
     }
 
     public static ArrayList<Entity> loopEntities(Location center, double size) {
@@ -827,10 +827,16 @@ public class Functions {
     }
 
     public static String getNormalName(ItemStack item) {
-        ItemMaterial material = Items.get(item);
-        if (material == Items.NULL)
-            return "";
-        return material.getName();
+        if (item instanceof Item) {
+            return ((Item) item).getMaterial().getName();
+        } else if (item instanceof Pet) {
+            return ((Pet) item).getPetMaterial().getName();
+        } else {
+            ItemMaterial material = Items.get(item);
+            if (material == NULL)
+                return item.getItemMeta().getDisplayName();
+            return material.getName();
+        }
     }
 
     public static ChatColor getEnchantColor(int level) {
@@ -1292,11 +1298,8 @@ public class Functions {
     }
 
     public static double average(double... nums) {
-        double sum = 0;
-        for (int i = 0; i < nums.length; i++) {
-            sum += nums[i];
-        }
-        return sum;
+        if (nums.length == 0) return 0;
+        return Arrays.stream(nums).sum() / nums.length;
     }
 
     public static boolean isSkillName(String name) {
@@ -1354,13 +1357,24 @@ public class Functions {
         return vector.multiply(multiplayer);
     }
 
-    public static void Wait(long delay, Task task) {
+    public static void Wait(long delay, Runnable task) {
         new BukkitRunnable() {
             @Override
             public void run() {
-                task.task();
+                task.run();
             }
         }.runTaskLater(SkyblockDragons.plugin, delay);
+    }
+
+    public static void Delay(long milliseconds, Runnable task) {
+        new Thread(() -> {
+            try {
+                Thread.sleep(milliseconds);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            task.run();
+        }).start();
     }
 
     // Loop(amount, delay, (amount) -> {TASK});
@@ -1700,5 +1714,14 @@ public class Functions {
             }
         }
         return list;
+    }
+
+    public static ItemStack addLine(ItemStack item, String... lines) {
+        ItemMeta meta = item.getItemMeta();
+        List<String> lores = meta.getLore();
+        lores.addAll(Arrays.asList(lines));
+        meta.setLore(lores);
+        item.setItemMeta(meta);
+        return item;
     }
 }

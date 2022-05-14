@@ -144,3 +144,11 @@ commands:
   Profile:
     permission: skyblockdragons.profile
     usage: /<commamd> [<player>]
+  Storage:
+    permission: skyblockdragons.storage
+    usage: /<command>
+  EnderChest:
+    permission: skyblockdragons.enderchest
+    usage: /<command> [<page>]
+    aliases:
+      - ec

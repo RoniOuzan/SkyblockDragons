@@ -8,13 +8,14 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @Getter
 @Setter
 public class PlayerPet {
     public PlayerSD player;
     public int activePet;
-    public ArrayList<Pet> pets;
+    public List<Pet> pets;
     public Pet.ArmorStand petArmorStand;
     public boolean hidePets;
 

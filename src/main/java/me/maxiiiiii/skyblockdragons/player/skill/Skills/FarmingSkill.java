@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 
 import java.util.Map;
 
@@ -16,6 +17,7 @@ public class FarmingSkill extends AbstractSkill {
         super(
                 "Farming",
                 "Harvest crops and shear sheep to earn Farming XP!",
+                Material.GOLD_HOE,
                 new SkillRewards(
                         "Farmhand",
                         ChatColor.WHITE + "Grants " + ChatColor.DARK_GRAY + (level * 4) + "➡" + ChatColor.GREEN + ((level + 1) * 4) + " " + ChatColor.GOLD + "Farming Fortune" + ChatColor.WHITE + ", which increase your chance for multiple crops.",

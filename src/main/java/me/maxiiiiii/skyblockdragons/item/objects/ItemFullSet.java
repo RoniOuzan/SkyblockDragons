@@ -15,12 +15,12 @@ public enum ItemFullSet {
     OLD_DRAGON("Old blood", "Increases the " + StatType.HEALTH.getIconAndText() + " " + ChatColor.GRAY + "by " + ChatColor.GREEN + "20%" + ChatColor.GRAY + ".", 0),
     PIGMAN("Burning", "Deal " + ChatColor.GREEN + "+20% " + ChatColor.GRAY + "damage with " + ChatColor.GREEN + "Pigman Dagger" + ChatColor.GRAY + ".", 0),
 
-    COBALT("Cobalt", "", 0),
-    CHLOROPHYTE("Chlorophyte", "", 0),
-    LUMINATE("Luminate", "", 0),
-    DERNIC("Dernic", "", 0),
-    HEMATITE("Hematite", "", 0),
-    VOID_CRYSTAL("Void Crystal", "", 0),
+    COBALT("Cobalt", "Reduces the cooldown of drill abilities by " + ChatColor.GREEN + "5%" + ChatColor.GRAY + ".", 0),
+    CHLOROPHYTE("Chlorophyte", "Reduces the cooldown of drill abilities by " + ChatColor.GREEN + "10%" + ChatColor.GRAY + ".", 0),
+    LUMINATE("Luminate", "Reduces the cooldown of drill abilities by " + ChatColor.GREEN + "15%" + ChatColor.GRAY + ".", 0),
+    DERNIC("Dernic", "Reduces the cooldown of drill abilities by " + ChatColor.GREEN + "20%" + ChatColor.GRAY + ".", 0),
+    HEMATITE("Hematite", "Reduces the cooldown of drill abilities by " + ChatColor.GREEN + "30%" + ChatColor.GRAY + ".", 0),
+    VOID_CRYSTAL("Void Crystal", "Reduces the cooldown of drill abilities by " + ChatColor.GREEN + "50%" + ChatColor.GRAY + ".", 0),
 
     NULL("", "", 0);
 

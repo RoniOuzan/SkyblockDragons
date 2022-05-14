@@ -4,10 +4,7 @@ import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 
-import static me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe.recipes;
-import static me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe.getItems;
-
-public class DeepMinesRecipes {
+public class DeepMinesRecipes extends RecipeRegister {
     public static void registerRecipes () {
         recipes.put("ENCHANTED_COAL", new Recipe(new Item(Items.get("ENCHANTED_COAL")), getItems(
                 new Item(Items.items.get("COAL"), 32),

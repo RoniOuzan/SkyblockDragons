@@ -11,12 +11,14 @@ import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.events.*;
 import me.maxiiiiii.skyblockdragons.inventory.MenuListener;
 import me.maxiiiiii.skyblockdragons.inventory.menus.ProfileMenu;
+import me.maxiiiiii.skyblockdragons.inventory.menus.SkyblockMenu;
 import me.maxiiiiii.skyblockdragons.item.ItemCommand;
 import me.maxiiiiii.skyblockdragons.item.abilities.Terminator;
 import me.maxiiiiii.skyblockdragons.item.abilities.*;
 import me.maxiiiiii.skyblockdragons.item.anvil.AnvilCommand;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
-import me.maxiiiiii.skyblockdragons.item.craftingtable.commands.*;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.CraftingTableMenu;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.RecipesMenu;
 import me.maxiiiiii.skyblockdragons.item.enchants.BookCommand;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantingTableCommand;
@@ -29,10 +31,11 @@ import me.maxiiiiii.skyblockdragons.player.bank.BankCommand;
 import me.maxiiiiii.skyblockdragons.player.coop.CoopCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillAdminCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillListener;
-import me.maxiiiiii.skyblockdragons.player.skill.SkillMenuCommand;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillMenu;
 import me.maxiiiiii.skyblockdragons.player.stats.StatCommand;
-import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeCommand;
-import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeListener;
+import me.maxiiiiii.skyblockdragons.player.storage.EnderChestMenu;
+import me.maxiiiiii.skyblockdragons.player.storage.StorageMenu;
+import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeMenu;
 import me.maxiiiiii.skyblockdragons.storage.VariableCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -89,10 +92,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         }
 
         for (World world : Bukkit.getWorlds()) {
-            world.getLivingEntities().stream().filter(e -> e.getScoreboardTags().contains("EntitySD") || e.getScoreboardTags().contains("Pet") || e.getScoreboardTags().contains("PickableItem")).forEach(Entity::remove);
+            world.getLivingEntities().stream().filter(e -> e.getScoreboardTags().contains("EntitySD") || e.getScoreboardTags().contains("Pet") || e.getScoreboardTags().contains("PickableItem") || e.getScoreboardTags().contains("EntityHealth")).forEach(Entity::remove);
         }
-
-
 
         Bukkit.getScheduler().runTask(this, TheEnd::resetEyes);
 
@@ -103,13 +104,13 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         PetMaterial.registerItems();
         EntityMaterial.registerItems();
         Bukkit.getScheduler().runTaskAsynchronously(this, Recipe::registerRecipes);
+        WorldSD.registerWorlds(this);
 
         // Listeners
         getServer().getPluginManager().registerEvents(new Damage(), this);
         getServer().getPluginManager().registerEvents(new JoinQuitListener(), this);
         getServer().getPluginManager().registerEvents(new ClickCanceller(), this);
         getServer().getPluginManager().registerEvents(new UpdateStatsListeners(), this);
-        getServer().getPluginManager().registerEvents(new GoBack(), this);
         getServer().getPluginManager().registerEvents(new PetListener(), this);
         getServer().getPluginManager().registerEvents(new ClickListener(), this);
         getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
@@ -130,9 +131,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerWarpListener(), this);
 
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
-
-        // World Listeners
-        WorldSD.registerWorlds(this);
 
         // Abilities
         getServer().getPluginManager().registerEvents(new Aspect_of_The_End(), this);
@@ -169,22 +167,16 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Magma_Cloak(), this);
 
         // Command Listeners
-        getServer().getPluginManager().registerEvents(new JavaMenu(), this);
         getServer().getPluginManager().registerEvents(new AnvilCommand(), this);
         getServer().getPluginManager().registerEvents(new ReforgeCommand(), this);
         getServer().getPluginManager().registerEvents(new AccessoryBagCommand(), this);
-        getServer().getPluginManager().registerEvents(new CraftingTable(), this);
-        getServer().getPluginManager().registerEvents(new ViewRecipe(), this);
         getServer().getPluginManager().registerEvents(new SkillListener(), this);
-        getServer().getPluginManager().registerEvents(new WardrobeListener(), this);
-        getServer().getPluginManager().registerEvents(new PetMenuCommand(), this);
         getServer().getPluginManager().registerEvents(new BankCommand(), this);
-        getServer().getPluginManager().registerEvents(new RecipesCommand(), this);
         getServer().getPluginManager().registerEvents(new EnchantingTableCommand(), this);
 
         // Commands
         getCommand("Stat").setExecutor(new StatCommand());
-        getCommand("Menu").setExecutor(new JavaMenu());
+        getCommand("Menu").setExecutor(new SkyblockMenu.Command());
         getCommand("Item").setExecutor(new ItemCommand());
         getCommand("Item").setTabCompleter(new ItemCommand());
         getCommand("SkyblockDragons").setExecutor(new JavaPluginCommand());
@@ -196,16 +188,15 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("Book").setExecutor(new BookCommand());
         getCommand("Book").setTabCompleter(new BookCommand());
         getCommand("AccessoryBag").setExecutor(new AccessoryBagCommand());
-        getCommand("ViewRecipe").setExecutor(new ViewRecipe());
-        getCommand("ViewRecipe").setTabCompleter(new ViewRecipe());
-        getCommand("CraftingTable").setExecutor(new CraftingTable());
+        registerCommand("ViewRecipe", new Recipe.ViewCommand());
+        registerCommand("CraftingTable", new CraftingTableMenu.Command());
         getCommand("PlayTime").setExecutor(new PlayTime());
-        getCommand("SkillMenu").setExecutor(new SkillMenuCommand());
+        getCommand("SkillMenu").setExecutor(new SkillMenu.Command());
         getCommand("SkillAdmin").setExecutor(new SkillAdminCommand());
-        getCommand("Wardrobe").setExecutor(new WardrobeCommand());
+        registerCommand("Wardrobe", new WardrobeMenu.Command());
         getCommand("PetAdmin").setExecutor(new PetCommand());
         getCommand("PetAdmin").setTabCompleter(new PetCommand());
-        getCommand("PetMenu").setExecutor(new PetMenuCommand());
+        registerCommand("PetMenu", new PetMenu.Command());
         getCommand("FlyTo").setExecutor(new FlyToCommand());
         getCommand("Bank").setExecutor(new BankCommand());
         getCommand("Sound").setExecutor(new SoundCommand());
@@ -214,13 +205,15 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("EntitySD").setTabCompleter(new EntityCommand());
         getCommand("Coop").setExecutor(new CoopCommand());
         getCommand("Coop").setTabCompleter(new CoopCommand());
-        getCommand("Recipes").setExecutor(new RecipesCommand());
-        getCommand("RecipesFor").setExecutor(new RecipesForCommand());
-        getCommand("RecipesWith").setExecutor(new RecipesWithCommand());
+        registerCommand("Recipes", new RecipesMenu.Command());
+        registerCommand("RecipesFor", new RecipesMenu.ForMenu.Command());
+        registerCommand("RecipesWith", new RecipesMenu.WithMenu.Command());
         getCommand("Variables").setExecutor(new VariableCommand());
         getCommand("Warp").setExecutor(new WarpCommand());
         getCommand("EnchantingTable").setExecutor(new EnchantingTableCommand());
         getCommand("Profile").setExecutor(new ProfileMenu.Command());
+        getCommand("Storage").setExecutor(new StorageMenu.Command());
+        getCommand("EnderChest").setExecutor(new EnderChestMenu.Command());
 
 //        Coop.load();
         EntitySD.loadLocations();
@@ -379,6 +372,11 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
     public static PlayerSD getPlayer(Player player) {
         return getPlayer(player.getUniqueId());
+    }
+
+    public void registerCommand(String name, CommandSD command) {
+        getCommand(name).setExecutor(command);
+        getCommand(name).setTabCompleter(command);
     }
 }
 

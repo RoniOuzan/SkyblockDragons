@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.worlds.end;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamageEntityEvent;
-import me.maxiiiiii.skyblockdragons.entity.EntityDragonMaterial;
+import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -25,7 +25,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
@@ -94,7 +93,7 @@ public class TheEnd extends WorldSD implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageEntityEvent e) {
-        if (e.getVictim().type instanceof EntityDragonMaterial) {
+        if (e.getVictim().type instanceof EntityDragon) {
             if (e.getAttacker() instanceof PlayerSD)
                 dragonDamage.put((PlayerSD) e.getAttacker(), dragonDamage.getOrDefault((PlayerSD) e.getAttacker(), 0d) + e.getDamage());
         }

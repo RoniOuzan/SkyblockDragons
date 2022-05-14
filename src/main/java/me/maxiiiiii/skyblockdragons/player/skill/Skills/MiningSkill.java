@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 
 import java.util.Map;
 
@@ -16,6 +17,7 @@ public class MiningSkill extends AbstractSkill {
         super(
                 "Mining",
                 "Spelunk island for ores and valuable materials to earn Mining XP!",
+                Material.DIAMOND_PICKAXE,
                 new SkillRewards(
                         "Spelunker",
                         ChatColor.WHITE + "Grants " + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + (level * 4) + "➡" + ChatColor.GREEN + ((level + 1) * 4) + " " + ChatColor.GOLD + "Mining Fortune" + ChatColor.WHITE + ", which increases your chance for multiple ore drops.",

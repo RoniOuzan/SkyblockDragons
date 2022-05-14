@@ -5,12 +5,10 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.bukkit.inventory.ItemStack;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
@@ -21,6 +19,7 @@ public abstract class AbstractSkill {
 
     private final String name;
     private final String description;
+    private final ItemStack item;
     private final SkillRewards rewards;
     private int level;
     private final int maxLevel;
@@ -28,9 +27,10 @@ public abstract class AbstractSkill {
     private double totalXp;
     private final double[] needXp;
 
-    public AbstractSkill(String name, String description, SkillRewards rewards, int level, int maxLevel, double totalXp, double[] needXps) {
+    public AbstractSkill(String name, String description, ItemStack item, SkillRewards rewards, int level, int maxLevel, double totalXp, double[] needXps) {
         this.name = name;
         this.description = description;
+        this.item = item;
         this.rewards = rewards;
         this.level = level;
         this.maxLevel = maxLevel;
@@ -43,11 +43,15 @@ public abstract class AbstractSkill {
         this.needXp = needXps;
     }
 
-    public AbstractSkill(String name, String description, SkillRewards rewards, int level, int maxLevel, double totalXp) {
-        this(name, description, rewards, level, maxLevel, totalXp, needXps);
+    public AbstractSkill(String name, String description, ItemStack item, SkillRewards rewards, int level, int maxLevel, double totalXp) {
+        this(name, description, item, rewards, level, maxLevel, totalXp, needXps);
     }
 
-        public double getCurrentNeedXp() {
+    public AbstractSkill(String name, String description, Material material, SkillRewards rewards, int level, int maxLevel, double totalXp) {
+        this(name, description, new ItemStack(material), rewards, level, maxLevel, totalXp, needXps);
+    }
+
+    public double getCurrentNeedXp() {
         return this.needXp[this.level];
     }
 

@@ -4,7 +4,8 @@ import lombok.Getter;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Getter
 public class Stats implements Iterable<Stat> {
@@ -64,6 +65,10 @@ public class Stats implements Iterable<Stat> {
 
     public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double miningSpeed, double miningFortune) {
         this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, 0, 0, 0, 0, 0, 0, 0, miningSpeed, miningFortune, 0, 0);
+    }
+
+    public Stats(double health, double defense, double trueDefense, double intelligence, double miningSpeed, double miningFortune, double magicFind) {
+        this(0, 0, 0, 0, 0, 0, 0, 0, health, defense, trueDefense, 0, intelligence, magicFind, 0, miningSpeed, miningFortune, 0, 0);
     }
 
     public Stats(double health, double defense, double speed, double intelligence) {
@@ -344,5 +349,9 @@ public class Stats implements Iterable<Stat> {
     @Override
     public Spliterator<Stat> spliterator() {
         return Spliterators.spliterator(this.toList(), Spliterator.ORDERED);
+    }
+
+    public Stream<Stat> stream() {
+        return StreamSupport.stream(spliterator(), false);
     }
 }

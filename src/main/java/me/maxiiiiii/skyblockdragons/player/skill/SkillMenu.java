@@ -1,19 +1,72 @@
 package me.maxiiiiii.skyblockdragons.player.skill;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.inventory.Menu;
+import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import org.bukkit.Bukkit;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.ArrayList;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.*;
-import static me.maxiiiiii.skyblockdragons.SkyblockDragons.players;
+public class SkillMenu extends Menu {
+    public SkillMenu(PlayerSD player) {
+        super(player, "Your Skills", 6, InventoryGlassType.ALL, true);
+    }
 
-public class SkillMenu {
+    @Override
+    public void update() {
+        this.setItem(4, createItem(Material.DIAMOND_SWORD, ChatColor.GREEN + "Your Skills", "YOUR_SKILLS", ChatColor.GRAY + "View your skill progression and", ChatColor.GRAY + "rewards", "", ChatColor.GOLD + "" + player.getSkill().getAverage() + " Skill Average"));
+
+        for (int i = 0; i < player.getSkill().size(); i++) {
+            AbstractSkill skill = player.getSkill().get(i);
+            int slot = i < 7 ? 19 + i : i == 7 ? 30 : 32;
+            this.setItem(slot, createItem(skill.getItem(), ChatColor.GREEN + skill.getName() + " " + skill.getLevel(), skill.getName().toUpperCase(), getItemLores(skill)));
+        }
+    }
+
+    @Override
+    public void onInventoryClick(InventoryClickEvent e) {
+
+    }
+
+    private static ArrayList<String> getItemLores(AbstractSkill skill) {
+        ArrayList<String> lores = new ArrayList<>(Functions.loreBuilder(skill.getDescription()));
+        lores.add("");
+        double percent = Math.floor(skill.getCurrentXp() / skill.getCurrentNeedXp() * 1000) / 10d;
+        lores.add(ChatColor.GRAY + "Progress to Level " + (skill.getLevel() + 1) + ": " + ChatColor.YELLOW + percent + "%");
+        String progressBar = Functions.progressBar(skill.getCurrentXp(), skill.getCurrentNeedXp(), 20);
+        lores.add(progressBar + " " + ChatColor.YELLOW + Functions.getNumberFormat(skill.getCurrentXp()) + ChatColor.GOLD + "/" + ChatColor.YELLOW + Functions.getShortNumber(skill.getCurrentNeedXp()));
+        lores.add("");
+        lores.add(ChatColor.GRAY + "Level " + (skill.getLevel() + 1) + " Rewards:");
+        lores.add("  " + ChatColor.YELLOW + skill.getRewards().getName() + " " + skill.getLevel());
+        for (String line : Functions.loreBuilder(skill.getRewards().getPassive(), ChatColor.WHITE, 20)) {
+            lores.add("    " + line);
+        }
+        lores.add("  " + ChatColor.DARK_GRAY + "+" + ChatColor.GREEN + Functions.getInt(skill.getRewards().getStatAmount() * skill.getLevel() + "") + " " + skill.getRewards().getStat().getIconAndText());
+        lores.add("  " + ChatColor.DARK_GRAY + "+" + ChatColor.GOLD + Functions.getNumberFormat(skill.getRewards().getCoinsAmount()[skill.getLevel()]) + " " + ChatColor.GRAY + "Coins");
+        lores.add("");
+        lores.add(ChatColor.YELLOW + "Click to view!");
+        return lores;
+    }
+
+    public static class Command implements CommandExecutor {
+        @Override
+        public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+            if (sender instanceof Player) {
+                new SkillMenu(SkyblockDragons.getPlayer((Player) sender));
+            }
+            return true;
+        }
+    }
+}
+
+/*
     public static void openSkillsMenu(Player player) {
         Inventory inventory = Bukkit.createInventory(player, 54, ChatColor.DARK_GRAY + "Your Skills");
 
@@ -93,4 +146,4 @@ public class SkillMenu {
         lores.add(ChatColor.YELLOW + "Click to view!");
         return lores;
     }
-}
+ */

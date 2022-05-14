@@ -1,15 +1,17 @@
 package me.maxiiiiii.skyblockdragons.pet;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import de.tr7zw.changeme.nbtapi.*;
+import de.tr7zw.changeme.nbtapi.NBTCompound;
+import de.tr7zw.changeme.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.NBTList;
+import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import lombok.Getter;
 import lombok.Setter;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stat;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
-import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -331,6 +333,14 @@ public class Pet extends ItemStack implements Comparable<Pet> {
     @Override
     public int compareTo(Pet pet) {
         return pet.getLength() - this.getLength();
+    }
+
+    @Override
+    public boolean equals(Object pet) {
+        if (pet instanceof Pet) {
+            return (this.getLength() == ((Pet) pet).getLength());
+        }
+        return false;
     }
 
     public static class ArmorStand implements ConfigurationSerializable {

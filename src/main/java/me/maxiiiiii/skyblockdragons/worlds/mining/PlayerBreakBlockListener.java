@@ -2,11 +2,11 @@ package me.maxiiiiii.skyblockdragons.worlds.mining;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
+import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -25,20 +25,17 @@ public class PlayerBreakBlockListener implements Listener {
 
         e.setDropItems(false);
         e.setExpToDrop((int) Math.ceil(Math.sqrt(e.getMaterial().miningXp)));
-        int amount = 1 + Functions.randomInt(0, Functions.getEnchantLevel(item, EnchantType.FORTUNE));
         if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0)
-            for (BlockDrop drop : e.getMaterial().drops) {
+            for (Drop drop : e.getMaterial().drops) {
                 ItemStack itemStack = drop.generate(player, block);
                 if (itemStack != null) {
-                    itemStack.setAmount(amount);
                     player.give(itemStack);
                 }
             }
         else
-            for (BlockDrop drop : e.getMaterial().drops) {
+            for (Drop drop : e.getMaterial().drops) {
                 ItemStack itemStack = drop.generate(player, block);
                 if (itemStack != null) {
-                    itemStack.setAmount(amount);
                     org.bukkit.entity.Item dropped = block.getWorld().dropItem(block.getLocation().add(new Vector(
                             player.getLocation().getX() - block.getLocation().getX(),
                             player.getLocation().getY() - block.getLocation().getY(),

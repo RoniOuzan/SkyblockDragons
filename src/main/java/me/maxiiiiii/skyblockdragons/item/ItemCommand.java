@@ -77,7 +77,7 @@ public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
                     }
                 }
             } else {
-                new ItemListMenu(player, "").open();
+                new ItemListMenu(player, "");
             }
         }
         return true;

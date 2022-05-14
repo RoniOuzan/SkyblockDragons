@@ -10,8 +10,8 @@ import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.worlds.deepmines.DeepMines;
-import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
+import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
+import me.maxiiiiii.skyblockdragons.worlds.WorldType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -24,14 +24,19 @@ import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class Mining implements Listener {
-    public static final List<World> miningWorlds = new ArrayList<>(Arrays.asList(TheEnd.world, DeepMines.world));
+    public static List<World> miningWorlds = null;
 
     public static final HashMap<UUID, Block> playerDigging = new HashMap<>();
 
     public Mining(JavaPlugin plugin) {
+        miningWorlds = WorldSD.worlds.stream().filter(w -> w.getWorldType().contains(WorldType.MINING)).map(WorldSD::getWorld).collect(Collectors.toList());
+
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
         protocolManager.addPacketListener(new PacketAdapter(SkyblockDragons.plugin, PacketType.Play.Client.BLOCK_DIG) {
             @Override
@@ -50,7 +55,7 @@ public class Mining implements Listener {
 
     @EventHandler
     public void onBlockDamage(BlockDamageEvent e) {
-        if (!miningWorlds.contains(e.getBlock().getWorld())) return;
+        if (!SkyblockDragons.getPlayer(e.getPlayer()).getWorldSD().isType(WorldType.MINING)) return;
 
         if (playerDigging.getOrDefault(e.getPlayer().getUniqueId(), null) != null) return;
 

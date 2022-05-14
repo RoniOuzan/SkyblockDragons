@@ -4,10 +4,7 @@ import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 
-import static me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe.recipes;
-import static me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe.getItems;
-
-public class DragonRecipes {
+public class DragonRecipes extends RecipeRegister {
     public static void registerRecipes() {
         recipes.put("OLD_DRAGON_HELMET", new Recipe(new Item(Items.get("OLD_DRAGON_HELMET")), getItems(
                 new Item(Items.get("OLD_DRAGON_FRAGMENT")),

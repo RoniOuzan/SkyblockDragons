@@ -4,6 +4,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 
 import java.util.Map;
 
@@ -12,6 +13,7 @@ public class TamingSkill extends AbstractSkill {
         super(
                 "Taming",
                 "Level up pets to earn Pet XP!",
+                Material.MONSTER_EGG,
                 new SkillRewards(
                         "Zoologist",
                         ChatColor.WHITE + "Gain " + ChatColor.DARK_GRAY + level + "➡" + ChatColor.GREEN + (level + 1) + "% " + ChatColor.WHITE + "extra pet exp.",

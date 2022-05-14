@@ -4,9 +4,9 @@ import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
-
-import java.util.Map;
+import org.bukkit.Material;
 
 @Getter
 public class DungeoneeringSkill extends AbstractSkill {
@@ -16,6 +16,7 @@ public class DungeoneeringSkill extends AbstractSkill {
     public DungeoneeringSkill(int level, double totalXp) {
         super("Dungeoneering",
                 "Complete this dungeon to earn experience and unlock new rewards!",
+                Functions.applySkull(Functions.createItem(Material.SKULL_ITEM, 3, ""), "3549f087-6655-4e1b-9b71-ecc1c59e59b7", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTI3MzcyODA5YjU2OTQ2NDZmNDRkN2E4MzdkNGZlNjZlNWVmNjJhZTcyNzAxMTcxNjUxYjNhNzgwY2IxZjljIn19fQ=="),
                 new SkillRewards(
                         "Catacomber",
                         ChatColor.WHITE + "Increasing the stats of your dungeon items by " + ChatColor.DARK_GRAY + getLevelIncrease(level) + "➡" + ChatColor.GREEN + levelIncrease[level] + "% " + ChatColor.WHITE + "while in " + ChatColor.RED + "The Catacombs" + ChatColor.WHITE + ".",

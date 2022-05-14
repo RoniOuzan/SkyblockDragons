@@ -10,35 +10,36 @@ import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamageEntityEvent;
-import me.maxiiiiii.skyblockdragons.entity.EntityDrop;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.abilities.Atomsplit_Katana;
 import me.maxiiiiii.skyblockdragons.item.abilities.Rogue_Sword;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
+import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.pet.Pet;
 import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
+import me.maxiiiiii.skyblockdragons.pet.PlayerPet;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
-import me.maxiiiiii.skyblockdragons.pet.Pet;
-import me.maxiiiiii.skyblockdragons.pet.PlayerPet;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
 import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.player.stats.StatsMultiplayer;
+import me.maxiiiiii.skyblockdragons.player.storage.EnderChest;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
+import me.maxiiiiii.skyblockdragons.worlds.WorldType;
 import me.maxiiiiii.skyblockdragons.worlds.end.DragonType;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
-import me.maxiiiiii.skyblockdragons.worlds.mining.Mining;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_12_R1.EntityPlayer;
@@ -73,12 +74,10 @@ public class PlayerSD extends PlayerClass {
 
     public Skill skill;
     public Wardrobe wardrobe;
-
     public BankAccount bank;
-
     public PlayerPet playerPet;
-
     public AccessoryBag accessoryBag;
+    public EnderChest enderChestSD;
 
     public final Cooldown<PlayerSD> updateStatsCooldown = new Cooldown<>();
 
@@ -119,12 +118,10 @@ public class PlayerSD extends PlayerClass {
 
         this.wardrobe = new Wardrobe(this);
         this.skill = new Skill(this);
-
         this.bank = new BankAccount(this, 50_000_000);
-
         this.playerPet = new PlayerPet(this);
-
         this.accessoryBag = new AccessoryBag(this);
+        this.enderChestSD = new EnderChest(this);
 
         this.lastCoins = this.getCoins();
 
@@ -139,6 +136,7 @@ public class PlayerSD extends PlayerClass {
         this.bank.save();
         this.playerPet.save();
         this.accessoryBag.save();
+        this.enderChestSD.save();
     }
 
     public void giveSkill(SkillType skillType, double amount) {
@@ -239,9 +237,9 @@ public class PlayerSD extends PlayerClass {
         return this.getPersonalBank();
     }
 
-    public void give(ItemStack item) {
-        if (item instanceof EntityDrop) {
-            ItemStack itemStack = ((EntityDrop) item).generate(this);
+    public void give(ItemStack item, Object source) {
+        if (item instanceof Drop) {
+            ItemStack itemStack = ((Drop) item).generate(this, source);
             if (itemStack != null)
                 this.player.getInventory().addItem(itemStack);
         } else {
@@ -249,6 +247,10 @@ public class PlayerSD extends PlayerClass {
         }
         PlayerGetItemEvent event = new PlayerGetItemEvent(this, item);
         Bukkit.getServer().getPluginManager().callEvent(event);
+    }
+
+    public void give(ItemStack item) {
+        this.give(item, null);
     }
 
     public void addItemStat(ItemStack item) {
@@ -292,7 +294,7 @@ public class PlayerSD extends PlayerClass {
 
         StatsMultiplayer statsMultiplayer = new StatsMultiplayer();
 
-        if (Mining.miningWorlds.contains(player.getWorld())) {
+        if (this.getWorldSD().isType(WorldType.MINING)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, -1, false, false));
         } else {
             player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
@@ -635,11 +637,7 @@ public class PlayerSD extends PlayerClass {
     }
 
     public WorldSD getWorldSD() {
-        for (WorldSD world : WorldSD.values()) {
-            if (world.getWorld() == player.getWorld())
-                return world;
-        }
-        return null;
+        return WorldSD.get(player.getWorld());
     }
 
     @Override

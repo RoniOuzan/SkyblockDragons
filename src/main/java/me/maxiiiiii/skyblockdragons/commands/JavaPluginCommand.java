@@ -3,10 +3,6 @@ package me.maxiiiiii.skyblockdragons.commands;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -14,7 +10,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -91,10 +90,7 @@ public class JavaPluginCommand implements CommandExecutor, TabCompleter {
                         } catch (NullPointerException ignored) {}
                     }
                 } else if (args[0].equalsIgnoreCase("test")) {
-                    PlayerSD player = SkyblockDragons.getPlayer((Player) sender);
-                    Creature entity = player.getTargetEntity(50);
-                    entity.setLeashHolder(player.getPlayer());
-                    player.sendMessage(entity.getLeashHolder().getType().name());
+
                 }
             } else {
                 sender.sendMessage(ChatColor.RED + "Invalid arguments!");

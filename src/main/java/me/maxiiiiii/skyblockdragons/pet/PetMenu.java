@@ -1,95 +1,70 @@
 package me.maxiiiiii.skyblockdragons.pet;
 
-import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.commands.CommandSD;
+import me.maxiiiiii.skyblockdragons.inventory.PageMenu;
+import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import org.bukkit.Bukkit;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.*;
+public class PetMenu extends PageMenu {
+    private boolean isConvertToItem;
 
-public class PetMenu {
-    public static ItemStack convertPetDisabled = createItem(Material.INK_SACK, 1, 8, ChatColor.GREEN + "Convert Pet to an Item", ChatColor.GRAY + "Enable this setting and click", ChatColor.GRAY + "any pet to convert it to an", ChatColor.GRAY + "item.", "", ChatColor.RED + "Disabled");
-    public static ItemStack convertPetEnabled = createItem(Material.INK_SACK, 1, 10, ChatColor.GREEN + "Convert Pet to an Item", ChatColor.GRAY + "Enable this setting and click", ChatColor.GRAY + "any pet to convert it to an", ChatColor.GRAY + "item.", "", ChatColor.GREEN + "Enabled");
-
-    public static void openPetMenu(Player player, int page) {
-        openPetMenu(player, page, false);
+    public PetMenu(PlayerSD player) {
+        super(player, "Pet Menu", 6, InventoryGlassType.SURROUND, player.getPlayerPet().getPets().stream().sorted().map(pet -> player.getPlayerPet().getPetActive().equals(pet) ? Functions.addLine(pet, "", ChatColor.YELLOW + "Click to summon!") : Functions.addLine(addNBT(pet, "ACTIVE"), "", ChatColor.RED + "Click to despawn!")).collect(Collectors.toList()), true);
+        this.isConvertToItem = false;
     }
 
-    public static void openPetMenu(Player player, int page, boolean isConvertToItem) {
-        PlayerSD playerSD = SkyblockDragons.players.get(player.getUniqueId());
-        Inventory inventory = Bukkit.createInventory(player, 54, "Pet Menu " + page);
-
-        ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
-        ItemMeta glassItemMeta = glass.getItemMeta();
-        glassItemMeta.setDisplayName(ChatColor.RESET + "");
-        glass.setItemMeta(glassItemMeta);
-
-        for (int i = 0; i < 54; i++) {
-            inventory.setItem(i, glass);
+    @Override
+    public void update() {
+        if (this.isConvertToItem) {
+            this.setItem(50, createItem(Material.INK_SACK, 10, ChatColor.GREEN + "Convert Pet to an Item", "CONVERT_DISABLED", ChatColor.GREEN + "Convert Pet to an Item", ChatColor.GRAY + "Enable this setting and click", ChatColor.GRAY + "any pet to convert it to an", ChatColor.GRAY + "item.", "", ChatColor.GREEN + "Enabled"));
+        } else {
+            this.setItem(50, createItem(Material.INK_SACK, 8, ChatColor.GREEN + "Convert Pet to an Item", "CONVERT_ENABLED", ChatColor.GRAY + "Enable this setting and click", ChatColor.GRAY + "any pet to convert it to an", ChatColor.GRAY + "item.", "", ChatColor.RED + "Disabled"));
         }
 
-        ItemStack close = new ItemStack(Material.BARRIER);
-        setName(close, ChatColor.RED + "Close");
-        setLore(close, new ArrayList<>(Arrays.asList("", ChatColor.YELLOW + "Click to close!")));
-        inventory.setItem(49, close);
+        this.setItem(51, createItem(Material.STONE_BUTTON, (player.getPlayerPet().hidePets ? ChatColor.RED : ChatColor.GREEN) + "Hide Pets", "HIDE_PETS_" + (player.getPlayerPet().hidePets ? "ENABLED" : "DISABLED"), ChatColor.GRAY + "Hide all pets which are little", ChatColor.GRAY + "heads from being visible in the", ChatColor.GRAY + "world.", "", ChatColor.GRAY + "Pet effects remain active.", "", ChatColor.GRAY + "Currently " + (player.getPlayerPet().hidePets ? ChatColor.RED + "Pets hidden!" : ChatColor.GREEN + "Pets shown!"), ChatColor.GRAY + "Selected Pet: " + (player.getPlayerPet().activePet < 0 ? ChatColor.RED + "None" : player.getPetActive().getName()), "", ChatColor.YELLOW + "Click to " + (player.getPlayerPet().hidePets ? "show!" : "hide!")));
+    }
 
-        ItemStack goBack = createItem(Material.ARROW, ChatColor.GREEN + "Go Back");
-        inventory.setItem(48, goBack);
-
-//        if (isConvertToItem) {
-//            inventory.setItem(50, convertPetEnabled);
-//        }
-//        else {
-            inventory.setItem(50, convertPetDisabled);
-//        }
-
-        ItemStack hidePets = createItem(Material.STONE_BUTTON, (playerSD.getPlayerPet().hidePets ? ChatColor.RED : ChatColor.GREEN) + "Hide Pets", ChatColor.GRAY + "Hide all pets which are little", ChatColor.GRAY + "heads from being visible in the", ChatColor.GRAY + "world.", "", ChatColor.GRAY + "Pet effects remain active.", "", ChatColor.GRAY + "Currently " + (playerSD.getPlayerPet().hidePets ? ChatColor.RED + "Pets hidden!" : ChatColor.GREEN + "Pets shown!"), ChatColor.GRAY + "Selected Pet: " + (playerSD.getPlayerPet().activePet < 0 ? ChatColor.RED + "None" : playerSD.getPetActive().getName()), "", ChatColor.YELLOW + "Click to " + (playerSD.getPlayerPet().hidePets ? "show!" : "hide!"));
-        inventory.setItem(51, hidePets);
-
-        ItemStack nextPage = new ItemStack(Material.ARROW);
-        Functions.setName(nextPage, ChatColor.GREEN + "Next Page");
-        Functions.setLore(nextPage, new ArrayList<>(Arrays.asList("", ChatColor.YELLOW + "Click to go next page!")));
-        inventory.setItem(53, nextPage);
-
-        ItemStack previousPage = new ItemStack(Material.ARROW);
-        Functions.setName(previousPage, ChatColor.GREEN + "Previous Page");
-        Functions.setLore(previousPage, new ArrayList<>(Arrays.asList("", ChatColor.YELLOW + "Click to go previous page!")));
-        inventory.setItem(45, previousPage);
-
-        Collections.sort(playerSD.getPlayerPet().getPets());
-        Pet[] pets = playerSD.getPlayerPet().getPets().toArray(new Pet[0]);
-        for (int i = 0; i < pets.length; i++) {
-            ArrayList<String> lores = (ArrayList<String>) pets[i].getItemMeta().getLore();
-
-            if (lores.get(lores.size() - 1).contains("Click to ")) continue;
-
-            lores.add("");
-            if (playerSD.getPlayerPet().getActivePet() == i)
-                lores.add(ChatColor.RED + "Click to despawn!");
-            else
-                lores.add(ChatColor.YELLOW + "Click to summon!");
-            setLore(pets[i], lores);
+    @Override
+    public void onInventoryClick(InventoryClickEvent e) {
+        if (this.getNBT(e.getCurrentItem()).contains("CONVERT_")) {
+            this.isConvertToItem = !this.isConvertToItem;
         }
 
-        int length = 28 * (page - 1);
-        for (int i = 0; i < 28; i++) {
-            try {
-                inventory.setItem(Functions.intToSlot(i), pets[i + length]);
-            } catch (IndexOutOfBoundsException e){
-                inventory.setItem(Functions.intToSlot(i), new ItemStack(Material.AIR));
-            }
+        if (this.getNBT(e.getCurrentItem()).contains("HIDE_PETS_")) {
+            this.player.getPlayerPet().hidePets = !this.player.getPlayerPet().hidePets;
         }
 
-        player.openInventory(inventory);
+        if (this.getNBT(e.getCurrentItem()).equals("ACTIVE")) {
+            this.player.setActivePet(-1);
+
+            this.player.getPlayerPet().petArmorStand.armorStand.remove();
+            this.player.getPlayerPet().petArmorStand.hologram.delete();
+            this.player.getPlayerPet().petArmorStand.slot = -1;
+        } else if (this.getNBT(e.getCurrentItem()).equals("PAGE_ITEM")) {
+            this.player.setActivePet(Functions.slotToInt(e.getSlot(), this.page));
+
+            this.player.getPlayerPet().petArmorStand.armorStand.remove();
+            this.player.getPlayerPet().petArmorStand.hologram.delete();
+            this.player.getPlayerPet().petArmorStand.slot = -1;
+        }
+    }
+
+    public static class Command extends CommandSD {
+        @Override
+        public void command(PlayerSD player, String[] args) {
+            new PetMenu(player);
+        }
+
+        @Override
+        public List<Argument> tabComplete(List<Argument> tabs) {
+            return tabs;
+        }
     }
 }

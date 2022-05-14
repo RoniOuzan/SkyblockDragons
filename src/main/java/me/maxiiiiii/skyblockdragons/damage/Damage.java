@@ -2,13 +2,13 @@ package me.maxiiiiii.skyblockdragons.damage;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.entity.EntityDrop;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
-import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.ToolMaterial;
+import me.maxiiiiii.skyblockdragons.item.objects.Drop;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -279,6 +279,8 @@ public class Damage implements Listener {
             victim.hologram.getStand().setCustomName(victim.getCustomName() + " " + color + victim.getHealth() + StatType.HEALTH.getIcon());
         EntityKnockbackEvent knockbackEvent = new EntityKnockbackEvent(e.getVictim(), e.getAttacker());
         Bukkit.getServer().getPluginManager().callEvent(knockbackEvent);
+
+        victim.type.onSpawn(victim);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -346,12 +348,12 @@ public class Damage implements Listener {
             PlayerSD player = SkyblockDragons.getPlayer((PlayerSD) entity.getAttacker());
             player.giveSkill(SkillType.COMBAT, entity.type.combatXp);
             if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0) {
-                for (EntityDrop drop : entity.type.getDrops()) {
-                    player.give(drop);
+                for (Drop drop : entity.type.getDrops()) {
+                    player.give(drop, entity);
                 }
             } else {
-                for (EntityDrop drop : entity.type.getDrops()) {
-                    ItemStack item = drop.generate(player);
+                for (Drop drop : entity.type.getDrops()) {
+                    ItemStack item = drop.generate(player, entity);
                     if (item != null) {
                         org.bukkit.entity.Item dropped = entity.getWorld().dropItem(entity.getLocation(), item);
                         dropped.addScoreboardTag(player.getName());

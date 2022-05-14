@@ -1,10 +1,12 @@
 package me.maxiiiiii.skyblockdragons.item.craftingtable;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.commands.CommandSD;
+import me.maxiiiiii.skyblockdragons.inventory.Menu;
+import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
 import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.item.craftingtable.recipes.DeepMinesRecipes;
-import me.maxiiiiii.skyblockdragons.item.craftingtable.recipes.DragonRecipes;
-import me.maxiiiiii.skyblockdragons.item.craftingtable.recipes.TheEndRecipes;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.recipes.*;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
@@ -12,21 +14,21 @@ import me.maxiiiiii.skyblockdragons.item.material.types.NormalMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.WeaponMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.*;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.setTitleCase;
 
 @Getter
-public class Recipe implements Comparable<Recipe> {
-    public static final HashMap<String, Recipe> recipes = new HashMap<>();
-    public static List<Recipe> allRecipes = new ArrayList<>();
+public class Recipe extends RecipeRegister implements Comparable<Recipe> {
+    public static List<Recipe> sorted = new ArrayList<>();
+    public static List<Recipe> abcSorted = new ArrayList<>();
 
     private final ItemStack item;
     private final ItemStack[] items;
@@ -34,7 +36,7 @@ public class Recipe implements Comparable<Recipe> {
     private final boolean viewable;
     private final boolean shapeless;
 
-    Recipe(ItemStack item, ItemStack[] items, int slotToUpgrade, boolean viewable, boolean shapeless) {
+    public Recipe(ItemStack item, ItemStack[] items, int slotToUpgrade, boolean viewable, boolean shapeless) {
         this.item = item;
         this.items = items;
         this.slotToUpgrade = slotToUpgrade;
@@ -50,39 +52,65 @@ public class Recipe implements Comparable<Recipe> {
         this(item, items, slotToUpgrade, true);
     }
 
-    public void view(Player player) {
-        Inventory inventory = Bukkit.createInventory(player, 54, setTitleCase(this.name().replace("_", " ")) + " Recipe");
+    public boolean isVanilla() {
+        return vanillaRecipes.containsValue(this);
+    }
 
-        ItemStack glass = createItem(Material.STAINED_GLASS_PANE, 15, ChatColor.RESET + "");
-        for (int i = 0; i < 54; i++) {
-            inventory.setItem(i, glass);
+    public void view(Player player) {
+        new View(SkyblockDragons.getPlayer(player));
+    }
+
+    public class View extends Menu {
+        public View(PlayerSD player) {
+            super(player, setTitleCase(name().replace("_", " ")) + " Recipe", 6, InventoryGlassType.ALL, false);
         }
 
-        ItemStack close = createItem(Material.BARRIER, ChatColor.RED + "Close");
-        inventory.setItem(49, close);
+        @Override
+        public void update() {
+            this.setItem(23, createItem(Material.WORKBENCH, ChatColor.GREEN + "Crafting Table", "CRAFTING_TABLE", ChatColor.GRAY + "Craft this recipe by using a", ChatColor.GRAY + "crafting table."));
 
-        ItemStack goBack = createItem(Material.ARROW, ChatColor.GREEN + "Go Back");
-        inventory.setItem(48, goBack);
+            this.setItem(25, item);
 
-        ItemStack craftingTable = createItem(Material.WORKBENCH, ChatColor.GREEN + "Crafting Table", new ArrayList<>(Arrays.asList(ChatColor.GRAY + "Craft this recipe by using a", ChatColor.GRAY + "crafting table.")));
-        inventory.setItem(23, craftingTable);
-
-        ItemStack item = this.item;
-        inventory.setItem(25, item);
-
-        for (int i = 0; i < 9; i++) {
-            try {
-                inventory.setItem(numToSlot(i), this.items[i]);
-            } catch (NullPointerException ex) {
-                inventory.setItem(numToSlot(i), new ItemStack(Material.AIR));
+            for (int i = 0; i < 9; i++) {
+                if (items[i] != null)
+                    inventory.setItem(Functions.numToSlot(i), items[i]);
+                else
+                    inventory.setItem(Functions.numToSlot(i), new ItemStack(Material.AIR));
             }
         }
 
-        player.openInventory(inventory);
-    }
+        @Override
+        public void onInventoryClick(InventoryClickEvent e) {
+            if (e.getSlot() % 9 == 1 || e.getSlot() % 9 == 2 || e.getSlot() % 9 == 3 &&
+                    e.getSlot() / 9 == 1 || e.getSlot() / 9 == 2 || e.getSlot() / 9 == 3) {
+                Recipe recipe = Recipe.get(Items.get(e.getCurrentItem()).name());
+                if (recipe != null)
+                    recipe.view((Player) e.getWhoClicked());
+            }
+        }
 
-    public static ItemStack[] getItems(ItemStack leftTop, ItemStack middleTop, ItemStack rightTop, ItemStack leftMiddle, ItemStack middle, ItemStack rightMiddle, ItemStack leftBottom, ItemStack middleBottom, ItemStack rightBottom) {
-        return new ItemStack[]{leftTop, middleTop, rightTop, leftMiddle, middle, rightMiddle, leftBottom, middleBottom, rightBottom};
+    }
+    public static class ViewCommand extends CommandSD {
+        @Override
+        public void command(PlayerSD player, String[] args) {
+            if (args.length > 0) {
+                if (Recipe.recipes.containsKey(args[0].toUpperCase())) {
+                    Recipe recipe = Recipe.get(args[0].toUpperCase());
+                    if (recipe.isViewable()) {
+                        recipe.view(player);
+                        return;
+                    }
+                }
+                player.sendMessage(ChatColor.RED + "Could not find a recipe with that name!");
+            }
+            player.sendMessage(ChatColor.WHITE + "/viewrecipe <RECIPE_NAME>");
+        }
+
+        @Override
+        public List<Argument> tabComplete(List<Argument> tabs) {
+            tabs.add(new Argument(0, "", Recipe.recipes.keySet()));
+            return tabs;
+        }
     }
 
     public static Recipe get(String name) {
@@ -91,60 +119,19 @@ public class Recipe implements Comparable<Recipe> {
 
     public static void registerRecipes() {
         DeepMinesRecipes.registerRecipes();
-
         TheEndRecipes.registerRecipes();
         DragonRecipes.registerRecipes();
+        DeeperMinesRecipes.registerRecipes();
 
-        for (Material material : Material.values()) {
-            if (material.name().contains("_NUGGET")) continue;
+        VanillaRecipes.registerRecipes();
 
-            for (org.bukkit.inventory.Recipe recipe : Bukkit.getRecipesFor(new ItemStack(material))) {
-                if (recipe instanceof ShapelessRecipe) {
-                    ShapelessRecipe less = (ShapelessRecipe) recipe;
-                    ItemStack[] items = new ItemStack[]{null, null, null, null, null, null, null, null, null};
-                    for (int i = 0; i < less.getIngredientList().size(); i++) {
-                        items[i] = new Item(Items.get(less.getIngredientList().get(i).getType().name()));
-                    }
-                    recipes.put(recipe.getResult().getType().name(), new Recipe(new Item(Items.get(recipe.getResult().getType().name()), recipe.getResult().getAmount()), items, 0));
-                } else if (recipe instanceof ShapedRecipe) {
-                    ShapedRecipe shaped = (ShapedRecipe) recipe;
+        recipes.putAll(vanillaRecipes);
 
-                    ItemStack[] items = new ItemStack[]{null, null, null, null, null, null, null, null, null};
-                    int i = shaped.getShape().length == 3 ? 0 : 3;
-                    for (String row : shaped.getShape()) {
-                        if (row.length() == 3) {
-                            for (String slot : row.split("")) {
-                                if (shaped.getIngredientMap().get(slot.charAt(0)) != null) {
-                                    items[i] = new Item(null, shaped.getIngredientMap().get(slot.charAt(0)));
-                                }
-                                i++;
-                            }
-                        } else if (row.length() == 2) {
-                            for (String slot : row.split("")) {
-                                if (material.toString().contains("HOE"))
-                                    i++;
-                                if (shaped.getIngredientMap().get(slot.charAt(0)) != null)
-                                    items[i] = new Item(null, shaped.getIngredientMap().get(slot.charAt(0)));
-                                if (!material.toString().contains("HOE"))
-                                    i += 2;
-                            }
-                            if (!material.toString().contains("HOE"))
-                                i--;
-                            else
-                                i++;
-                        } else {
-                            if (shaped.getIngredientMap().get(row.charAt(0)) != null)
-                                items[i + 1] = new Item(null, shaped.getIngredientMap().get(row.charAt(0)));
-                            i += 3;
-                        }
-                    }
-                    recipes.put(recipe.getResult().getType().name(), new Recipe(new Item(Items.get(recipe.getResult().getType().name()), recipe.getResult().getAmount()), items, -1));
-                }
-            }
-        }
+        sorted = new ArrayList<>(recipes.values());
+        sorted.sort(Collections.reverseOrder());
 
-        allRecipes = new ArrayList<>(recipes.values());
-        allRecipes.sort(Collections.reverseOrder());
+        abcSorted = recipes.values().stream().filter(r -> !r.isVanilla()).sorted(Comparator.comparing(Recipe::name)).collect(Collectors.toList());
+        abcSorted.addAll(recipes.values().stream().filter(Recipe::isVanilla).sorted(Comparator.comparing(Recipe::name)).collect(Collectors.toList()));
     }
 
     public Map<ItemMaterial, Integer> getAllItems() {
@@ -159,6 +146,11 @@ public class Recipe implements Comparable<Recipe> {
 
     public int getSize() {
         int size = 0;
+
+        if (!this.isVanilla()) {
+            size += 100_000;
+        }
+
         for (ItemStack itemStack : this.getItems()) {
             if (itemStack == null) continue;
             size += itemStack.getAmount();
@@ -191,7 +183,7 @@ public class Recipe implements Comparable<Recipe> {
         String itemId = Functions.getId(item);
         if (itemId.isEmpty()) return new ArrayList<>();
         List<Recipe> recipesFor = new ArrayList<>();
-        for (Recipe recipe : allRecipes) {
+        for (Recipe recipe : sorted) {
             if (Functions.getId(recipe.getItem()).equals(itemId))
                 recipesFor.add(recipe);
         }
@@ -202,7 +194,7 @@ public class Recipe implements Comparable<Recipe> {
         String itemId = Functions.getId(item);
         if (itemId.isEmpty()) return new ArrayList<>();
         List<Recipe> recipesFor = new ArrayList<>();
-        for (Recipe recipe : allRecipes) {
+        for (Recipe recipe : sorted) {
             if (Functions.getId(recipe.getItem()).equals(itemId) || Arrays.stream(recipe.getItems().clone()).map(Functions::getId).collect(Collectors.toList()).contains(itemId))
                 recipesFor.add(recipe);
         }
@@ -211,7 +203,7 @@ public class Recipe implements Comparable<Recipe> {
 
     public static List<Recipe> getRecipesCanCraft(PlayerSD player, int maxTimes) {
         List<Recipe> output = new ArrayList<>();
-        for (Recipe recipe : allRecipes.stream().filter(r -> r.getSlotToUpgrade() >= 0).collect(Collectors.toList())) {
+        for (Recipe recipe : sorted.stream().filter(r -> r.getSlotToUpgrade() >= 0).collect(Collectors.toList())) {
             Map<ItemMaterial, Integer> items = recipe.getAllItems();
             boolean stopped = false;
             for (ItemMaterial material : items.keySet()) {

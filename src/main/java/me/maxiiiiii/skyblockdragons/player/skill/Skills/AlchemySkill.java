@@ -5,14 +5,14 @@ import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
-
-import java.util.Map;
+import org.bukkit.Material;
 
 @Getter
 public class AlchemySkill extends AbstractSkill {
     public AlchemySkill(int level, double totalXp) {
         super("Alchemy",
                 "Brew potions to earn Alchemy XP!",
+                Material.BREWING_STAND_ITEM,
                 new SkillRewards(
                         "Brewer",
                         ChatColor.GRAY + "Potion that you brew have a " + ChatColor.DARK_GRAY + level + "➡" + ChatColor.GREEN + (level + 1) + "% " + ChatColor.WHITE + "longer duration.",

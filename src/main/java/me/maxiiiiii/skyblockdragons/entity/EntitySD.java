@@ -79,6 +79,8 @@ public class EntitySD extends EntityClass {
         if (this.entity.getVehicle() != null)
             this.entity.getVehicle().remove();
 
+        this.type.onSpawn(this);
+
         this.location = location;
 
         this.attacker = null;
@@ -95,7 +97,7 @@ public class EntitySD extends EntityClass {
 
     public EntitySD(LivingEntity entity) {
         super(entity);
-        if (!isEntitySD(entity)) throw new EntityAssociateException("Tried to Associate entity " + Functions.getEntityName(entity));
+        if (!isEntitySD(entity)) throw new EntityAssociateException("Tried to associate entity " + Functions.getEntityName(entity));
 
         this.type = Functions.getEntityMaterial(entity);
         this.entity = entity;

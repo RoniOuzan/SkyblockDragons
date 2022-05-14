@@ -9,7 +9,6 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.serialization.Serializer;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 import java.io.*;
 import java.util.*;
@@ -18,6 +17,10 @@ import java.util.stream.Collectors;
 public class Variables {
     public static final List<Variable> variables = new ArrayList<>();
     public static final Map<UUID, List<Variable>> playerVariables = new HashMap<>();
+
+    public static List<Variable> getVariableAll(UUID uuid, String name) {
+        return playerVariables.get(uuid).stream().filter(v -> v.name.equals(name)).collect(Collectors.toList());
+    }
 
     public static <T> T get(UUID uuid, String name, int data) {
         if (!playerVariables.containsKey(uuid)) return null;

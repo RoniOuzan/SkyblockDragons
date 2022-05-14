@@ -5,12 +5,8 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.Skills.*;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
-import org.bukkit.entity.Player;
 
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.Iterator;
 
 @Getter
 public class Skill implements Iterable<AbstractSkill> {
@@ -53,6 +49,20 @@ public class Skill implements Iterable<AbstractSkill> {
 
     public AbstractSkill get(SkillType skillType) {
         return this.get(skillType.name());
+    }
+
+    public double getAverage() {
+        return Functions.average(
+                this.getFarmingSkill().getLevel(),
+                this.getMiningSkill().getLevel(),
+                this.getCombatSkill().getLevel(),
+                this.getForagingSkill().getLevel(),
+                this.getFishingSkill().getLevel(),
+                this.getEnchantingSkill().getLevel(),
+                this.getAlchemySkill().getLevel(),
+                this.getTamingSkill().getLevel(),
+                this.getDungeoneeringSkill().getLevel()
+        );
     }
 
     public void save() {

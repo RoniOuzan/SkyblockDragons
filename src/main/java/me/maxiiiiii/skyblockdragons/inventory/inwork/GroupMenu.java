@@ -31,7 +31,7 @@ public abstract class GroupMenu extends Menu {
 
         if (this.getInventoryGlassType() == InventoryGlassType.SURROUND) {
             for (int i = 9; i < 18; i++) {
-                this.setItem(i, Menu.GLASS);
+                this.setItem(i, GLASS);
             }
         }
 
@@ -52,7 +52,7 @@ public abstract class GroupMenu extends Menu {
             }
             for (int i = 0; i < 9; i++) {
                 if (!Functions.isNotAir(this.inventory.getItem(i)))
-                    this.setItem(i, Menu.GLASS);
+                    this.setItem(i, GLASS);
             }
         }
 
