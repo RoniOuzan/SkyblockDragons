@@ -1,9 +1,9 @@
 package me.maxiiiiii.skyblockdragons.item.enchants;
 
-public class EnchantMultiplayer {
+public class EnchantMultiplier {
     private final double[] multiplayers;
 
-    public EnchantMultiplayer(double... multiplayers) {
+    public EnchantMultiplier(double... multiplayers) {
         this.multiplayers = multiplayers;
     }
 

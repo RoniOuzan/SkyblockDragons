@@ -11,7 +11,10 @@ import java.util.List;
 @Getter
 public enum Warp {
     HUB(new Location(Bukkit.getWorld("Hub"), -2.5, 70, -68.5, 180, 0)),
+
     DEEP_MINES(new Location(Bukkit.getWorld("DeepMines"), 1158.5, 210, 71.5, 180, 0)),
+    DEEPER_MINES(new Location(Bukkit.getWorld("DeeperMines"), -58.5, 200, -121.5, -90, 0)),
+
     THE_END(new Location(Bukkit.getWorld("TheEnd"), 119.5, 54, 1.5, 90, 0), "END");
 
     private final Location location;

@@ -7,8 +7,9 @@ import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemStatsAble;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
-import me.maxiiiiii.skyblockdragons.pet.Pet;
+import me.maxiiiiii.skyblockdragons.item.pet.Pet;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
@@ -94,7 +95,7 @@ public class RecipesMenu extends Menu {
 
     public enum Type {
         WEAPONS(i -> i instanceof Item && ((Item) i).getMaterial().getType().isWeapon()),
-        MINING(i -> i instanceof Item && (((Item) i).getMaterial().getType() == ItemType.PICKAXE || ((Item) i).getMaterial().getType() == ItemType.DRILL)),
+        MINING(i -> i instanceof Item && (Items.get(i).getType().isPickaxe() || Items.get(i).getType().isArmor()) && ((Items.get(i) instanceof ItemStatsAble && (((ItemStatsAble) Items.get(i)).getStats().getMiningSpeed().amount > 0 || ((ItemStatsAble) Items.get(i)).getStats().getMiningFortune().amount > 0)))),
         FARMING(i -> i instanceof Item && ((Item) i).getMaterial().getType() == ItemType.HOE),
         FISHING(i -> i instanceof Item && ((Item) i).getMaterial().getType() == ItemType.ROD),
         WANDS(i -> i instanceof Item && ((Item) i).getMaterial().getType() == ItemType.WAND),

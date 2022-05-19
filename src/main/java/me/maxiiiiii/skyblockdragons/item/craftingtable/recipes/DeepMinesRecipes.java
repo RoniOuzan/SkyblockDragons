@@ -7,11 +7,11 @@ import me.maxiiiiii.skyblockdragons.item.material.Items;
 public class DeepMinesRecipes extends RecipeRegister {
     public static void registerRecipes () {
         recipes.put("ENCHANTED_COAL", new Recipe(new Item(Items.get("ENCHANTED_COAL")), getItems(
-                new Item(Items.items.get("COAL"), 32),
-                new Item(Items.items.get("COAL"), 32),
-                new Item(Items.items.get("COAL"), 32),
-                new Item(Items.items.get("COAL"), 32),
-                new Item(Items.items.get("COAL"), 32),
+                new Item(Items.items.get("COAL"), 64),
+                new Item(Items.items.get("COAL"), 64),
+                new Item(Items.items.get("COAL"), 64),
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -19,11 +19,11 @@ public class DeepMinesRecipes extends RecipeRegister {
         ), -1));
 
         recipes.put("ENCHANTED_IRON_INGOT", new Recipe(new Item(Items.get("ENCHANTED_IRON_INGOT")), getItems(
-                new Item(Items.items.get("IRON_INGOT"), 32),
-                new Item(Items.items.get("IRON_INGOT"), 32),
-                new Item(Items.items.get("IRON_INGOT"), 32),
-                new Item(Items.items.get("IRON_INGOT"), 32),
-                new Item(Items.items.get("IRON_INGOT"), 32),
+                new Item(Items.items.get("IRON_INGOT"), 64),
+                new Item(Items.items.get("IRON_INGOT"), 64),
+                new Item(Items.items.get("IRON_INGOT"), 64),
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -31,11 +31,11 @@ public class DeepMinesRecipes extends RecipeRegister {
         ), -1));
 
         recipes.put("ENCHANTED_IRON_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_IRON_BLOCK")), getItems(
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 32),
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 32),
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 32),
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 32),
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 32),
+                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 64),
+                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 64),
+                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 64),
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -43,11 +43,11 @@ public class DeepMinesRecipes extends RecipeRegister {
         ), -1));
 
         recipes.put("ENCHANTED_GOLD_INGOT", new Recipe(new Item(Items.get("ENCHANTED_GOLD_INGOT")), getItems(
-                new Item(Items.items.get("GOLD_INGOT"), 32),
-                new Item(Items.items.get("GOLD_INGOT"), 32),
-                new Item(Items.items.get("GOLD_INGOT"), 32),
-                new Item(Items.items.get("GOLD_INGOT"), 32),
-                new Item(Items.items.get("GOLD_INGOT"), 32),
+                new Item(Items.items.get("GOLD_INGOT"), 64),
+                new Item(Items.items.get("GOLD_INGOT"), 64),
+                new Item(Items.items.get("GOLD_INGOT"), 64),
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -55,11 +55,11 @@ public class DeepMinesRecipes extends RecipeRegister {
         ), -1));
 
         recipes.put("ENCHANTED_GOLD_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_GOLD_BLOCK")), getItems(
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 32),
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 32),
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 32),
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 32),
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 32),
+                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 64),
+                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 64),
+                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 64),
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -67,11 +67,11 @@ public class DeepMinesRecipes extends RecipeRegister {
         ), -1));
 
         recipes.put("ENCHANTED_LAPIS", new Recipe(new Item(Items.get("ENCHANTED_LAPIS")), getItems(
-                new Item(Items.items.get("LAPIS"), 32),
-                new Item(Items.items.get("LAPIS"), 32),
-                new Item(Items.items.get("LAPIS"), 32),
-                new Item(Items.items.get("LAPIS"), 32),
-                new Item(Items.items.get("LAPIS"), 32),
+                new Item(Items.items.get("LAPIS"), 64),
+                new Item(Items.items.get("LAPIS"), 64),
+                new Item(Items.items.get("LAPIS"), 64),
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -79,11 +79,11 @@ public class DeepMinesRecipes extends RecipeRegister {
         ), -1));
 
         recipes.put("ENCHANTED_LAPIS_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_LAPIS_BLOCK")), getItems(
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 32),
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 32),
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 32),
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 32),
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 32),
+                new Item(Items.items.get("ENCHANTED_LAPIS"), 64),
+                new Item(Items.items.get("ENCHANTED_LAPIS"), 64),
+                new Item(Items.items.get("ENCHANTED_LAPIS"), 64),
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -91,11 +91,11 @@ public class DeepMinesRecipes extends RecipeRegister {
         ), -1));
 
         recipes.put("ENCHANTED_REDSTONE", new Recipe(new Item(Items.get("ENCHANTED_REDSTONE")), getItems(
-                new Item(Items.items.get("REDSTONE"), 32),
-                new Item(Items.items.get("REDSTONE"), 32),
-                new Item(Items.items.get("REDSTONE"), 32),
-                new Item(Items.items.get("REDSTONE"), 32),
-                new Item(Items.items.get("REDSTONE"), 32),
+                new Item(Items.items.get("REDSTONE"), 64),
+                new Item(Items.items.get("REDSTONE"), 64),
+                new Item(Items.items.get("REDSTONE"), 64),
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -103,11 +103,11 @@ public class DeepMinesRecipes extends RecipeRegister {
         ), -1));
 
         recipes.put("ENCHANTED_REDSTONE_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_REDSTONE_BLOCK")), getItems(
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 32),
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 32),
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 32),
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 32),
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 32),
+                new Item(Items.items.get("ENCHANTED_REDSTONE"), 64),
+                new Item(Items.items.get("ENCHANTED_REDSTONE"), 64),
+                new Item(Items.items.get("ENCHANTED_REDSTONE"), 64),
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -115,11 +115,11 @@ public class DeepMinesRecipes extends RecipeRegister {
         ), -1));
 
         recipes.put("ENCHANTED_EMERALD", new Recipe(new Item(Items.get("ENCHANTED_EMERALD")), getItems(
-                new Item(Items.items.get("EMERALD"), 32),
-                new Item(Items.items.get("EMERALD"), 32),
-                new Item(Items.items.get("EMERALD"), 32),
-                new Item(Items.items.get("EMERALD"), 32),
-                new Item(Items.items.get("EMERALD"), 32),
+                new Item(Items.items.get("EMERALD"), 64),
+                new Item(Items.items.get("EMERALD"), 64),
+                new Item(Items.items.get("EMERALD"), 64),
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -127,11 +127,11 @@ public class DeepMinesRecipes extends RecipeRegister {
         ), -1));
 
         recipes.put("ENCHANTED_EMERALD_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_EMERALD_BLOCK")), getItems(
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 32),
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 32),
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 32),
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 32),
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 32),
+                new Item(Items.items.get("ENCHANTED_EMERALD"), 64),
+                new Item(Items.items.get("ENCHANTED_EMERALD"), 64),
+                new Item(Items.items.get("ENCHANTED_EMERALD"), 64),
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -139,11 +139,11 @@ public class DeepMinesRecipes extends RecipeRegister {
         ), -1));
 
         recipes.put("ENCHANTED_DIAMOND", new Recipe(new Item(Items.get("ENCHANTED_DIAMOND")), getItems(
-                new Item(Items.items.get("DIAMOND"), 32),
-                new Item(Items.items.get("DIAMOND"), 32),
-                new Item(Items.items.get("DIAMOND"), 32),
-                new Item(Items.items.get("DIAMOND"), 32),
-                new Item(Items.items.get("DIAMOND"), 32),
+                new Item(Items.items.get("DIAMOND"), 64),
+                new Item(Items.items.get("DIAMOND"), 64),
+                new Item(Items.items.get("DIAMOND"), 64),
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -151,11 +151,11 @@ public class DeepMinesRecipes extends RecipeRegister {
         ), -1, true));
 
         recipes.put("ENCHANTED_DIAMOND_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_DIAMOND_BLOCK")), getItems(
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 32),
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 32),
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 32),
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 32),
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 32),
+                new Item(Items.items.get("ENCHANTED_DIAMOND"), 64),
+                new Item(Items.items.get("ENCHANTED_DIAMOND"), 64),
+                new Item(Items.items.get("ENCHANTED_DIAMOND"), 64),
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -163,11 +163,11 @@ public class DeepMinesRecipes extends RecipeRegister {
         ), -1, true));
 
         recipes.put("ENCHANTED_OBSIDIAN", new Recipe(new Item(Items.get("ENCHANTED_OBSIDIAN")), getItems(
-                new Item(Items.items.get("OBSIDIAN"), 32),
-                new Item(Items.items.get("OBSIDIAN"), 32),
-                new Item(Items.items.get("OBSIDIAN"), 32),
-                new Item(Items.items.get("OBSIDIAN"), 32),
-                new Item(Items.items.get("OBSIDIAN"), 32),
+                new Item(Items.items.get("OBSIDIAN"), 64),
+                new Item(Items.items.get("OBSIDIAN"), 64),
+                new Item(Items.items.get("OBSIDIAN"), 64),
+                null,
+                null,
                 null,
                 null,
                 null,

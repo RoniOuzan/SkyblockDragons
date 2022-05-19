@@ -19,12 +19,12 @@ public class PlayerBreakBlockListener implements Listener {
     @EventHandler
     public void onBreakBlock(PlayerBreakBlockEvent e) {
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
-        ItemStack item = e.getPlayer().getEquipment().getItemInMainHand();
         Block block = e.getBlock();
         if (player.getGameMode() != GameMode.SURVIVAL) return;
 
         e.setDropItems(false);
         e.setExpToDrop((int) Math.ceil(Math.sqrt(e.getMaterial().miningXp)));
+        Material brokeMaterial = e.getBlock().getType();
         if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0)
             for (Drop drop : e.getMaterial().drops) {
                 ItemStack itemStack = drop.generate(player, block);
@@ -49,11 +49,21 @@ public class PlayerBreakBlockListener implements Listener {
             if (Functions.chanceOf(12.5 * player.getEnchantLevel(EnchantType.EXPERIENCE)))
                 player.giveExp(e.getMaterial().xp);
         player.giveSkill(SkillType.MINING, e.getMaterial().miningXp);
+        if (player.getWorldSD() == WorldSD.DEEPER_MINES) {
+            if (e.getMaterial() == BlockMaterial.HEMATITE_ORE) {
+                if (player.chanceOf(1, e.getMaterial())) {
+                    Functions.Wait(1L, () -> e.getBlock().setType(Material.OBSIDIAN));
+                    return;
+                }
+            }
+        }
         Functions.Wait(1L, () -> e.getBlock().setType(Material.BEDROCK));
         if (player.getWorldSD() == WorldSD.DEEP_MINES)
             Functions.Wait(60L, () -> e.getBlock().setType(getOre(e.getBlock())));
         else if (player.getWorldSD() == WorldSD.THE_END)
             Functions.Wait(100L, () -> e.getBlock().setType(Material.ENDER_STONE));
+        else if (player.getWorldSD() == WorldSD.DEEPER_MINES)
+            Functions.Wait(100L, () -> e.getBlock().setType(brokeMaterial));
     }
 
     public static Material getOre(Block block) {

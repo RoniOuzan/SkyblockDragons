@@ -29,18 +29,22 @@ public enum ItemType {
     }
 
     public boolean isWeapon() {
-        return (this == ItemType.SWORD || this == ItemType.BOW);
+        return this == ItemType.SWORD || this == ItemType.BOW;
     }
 
     public boolean isTool() {
-        return (this == ItemType.SWORD || this == ItemType.BOW || this == ItemType.WAND || this == ItemType.ITEM || this == ItemType.AXE || this == ItemType.PICKAXE || this == ItemType.ROD);
+        return this == ItemType.SWORD || this == ItemType.BOW || this == ItemType.WAND || this == ItemType.ITEM || this == ItemType.AXE || this == ItemType.PICKAXE || this == ItemType.ROD;
     }
 
     public boolean isReforgeable() {
-        return (this == ItemType.SWORD || this == ItemType.BOW || this == ItemType.ACCESSORY || this == ItemType.HELMET || this == ItemType.CHESTPLATE || this == ItemType.LEGGINGS || this == ItemType.BOOTS);
+        return this == ItemType.SWORD || this == ItemType.BOW || this == ItemType.ACCESSORY || this == ItemType.HELMET || this == ItemType.CHESTPLATE || this == ItemType.LEGGINGS || this == ItemType.BOOTS;
     }
 
     public boolean isArmor() {
-        return (this == ItemType.HELMET || this == ItemType.CHESTPLATE || this == ItemType.LEGGINGS || this == ItemType.BOOTS);
+        return this == ItemType.HELMET || this == ItemType.CHESTPLATE || this == ItemType.LEGGINGS || this == ItemType.BOOTS;
+    }
+
+    public boolean isPickaxe() {
+        return this == ItemType.PICKAXE || this == ItemType.DRILL;
     }
 }

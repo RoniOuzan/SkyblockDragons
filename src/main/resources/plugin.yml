@@ -152,3 +152,6 @@ commands:
     usage: /<command> [<page>]
     aliases:
       - ec
+  Forge:
+    permission: skyblockdragons.forge
+    usage: /<command>

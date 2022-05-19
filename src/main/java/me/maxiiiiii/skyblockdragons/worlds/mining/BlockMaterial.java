@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.item.objects.RareDrop;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,12 +26,12 @@ public enum BlockMaterial {
     END_STONE(Material.ENDER_STONE, 200, 3, 30, 0, new Drop(Items.get("ENDER_STONE"), 1), new RareDrop(Items.get("ENCHANTED_ENDER_STONE"), 1, 0.5)),
     SAND_STONE(Material.SANDSTONE, 200, 3, 30, 0, new Drop(Items.get("ENDER_STONE"), 1), new RareDrop(Items.get("ENCHANTED_ENDER_STONE"), 1, 0.5)),
 
-    COBALT_ORE(Material.PRISMARINE, 400, 4, 25, 2, new Drop(Items.get("COBALT_INGOT"), 1)),
-    CHLOROPHYTE_ORE(Material.EMERALD_BLOCK, 600, 5, 35, 4, new Drop(Items.get("CHLOROPHYTE_INGOT"), 1)),
-    LUMINATE_ORE(Material.QUARTZ_BLOCK, 900, 6, 50, 5, new Drop(Items.get("LUMINATE_INGOT"), 1)),
-    DERNIC_ORE(Material.STAINED_CLAY, 7, 1300, 6, 80, 7, new Drop(Items.get("DERNIC_INGOT"), 1)),
-    HEMATITE_ORE(Material.NETHER_BRICK, 1600, 8, 120, 9, new Drop(Items.get("HEMATITE_INGOT"), 1)),
-    VOID_CRYSTAL_ORE(Material.SEA_LANTERN, 2500, 9, 180, 15, new Drop(Items.get("VOID_CRYSTAL_INGOT"), 1))
+    COBALT_ORE(Material.PRISMARINE, 400, 4, 25, 2, new Drop(Items.get("COBALT"), 1)),
+    CHLOROPHYTE_ORE(Material.EMERALD_BLOCK, 600, 5, 35, 4, new Drop(Items.get("CHLOROPHYTE"), 1)),
+    LUMINATE_ORE(Material.QUARTZ_BLOCK, 900, 6, 50, 5, new Drop(Items.get("LUMINATE"), 1)),
+    DERNIC_ORE(Material.STAINED_CLAY, 7, 1300, 6, 80, 7, new Drop(Items.get("DERNIC"), 1)),
+    HEMATITE_ORE(Material.NETHER_BRICK, 1600, 8, 120, 9, new Drop(Items.get("HEMATITE"), 1)),
+    VOID_CRYSTAL_ORE(Material.SEA_LANTERN, 2500, 9, 180, 15, new Drop(Items.get("VOID_CRYSTAL"), 1))
     ;
 
     public Material material;
@@ -58,6 +59,13 @@ public enum BlockMaterial {
     BlockMaterial(int blockStrength, int breakingPower, double miningXp, int xp, Drop... drops) {
         this(null, 0, blockStrength, breakingPower, miningXp, xp, drops);
         this.material = Material.getMaterial(this.name());
+    }
+
+    public static boolean isMiningFortuneAble(Block block) {
+        BlockMaterial material = BlockMaterial.get(block.getType());
+        if (material != null)
+            return material.name().contains("ORE");
+        return false;
     }
 
     public static BlockMaterial get(Material material) {

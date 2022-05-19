@@ -1,9 +1,8 @@
 package me.maxiiiiii.skyblockdragons.item.objects;
 
 import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.block.Block;
@@ -41,14 +40,14 @@ public class Drop extends Item {
 
     protected double[] calculateMultiplayers(PlayerSD player, Object source) {
         double chanceMultiplier = 1;
-        double dropAdder = 1;
+        int dropAdder = 1;
         if (source instanceof LivingEntity) {
             if (player.getPlayerPet().getActivePet() >= 0) {
                 if (player.getPetActive().getPetMaterial() == PetMaterial.get("ENDERMAN") && this.getMaterial().getFamily() == ItemFamily.ENDERMAN)
                     chanceMultiplier *= (player.getPetActive().getLevel() / 200d);
             }
         } else if (source instanceof Block) {
-            dropAdder += player.getEnchantLevel(EnchantType.FORTUNE, () -> ((Block) source).getType().name().contains("ORE"));
+            dropAdder += Math.floor(player.getStats().getMiningFortune().amount) / 100 + (Functions.chanceOf(player.getStats().getMiningFortune().amount % 100) ? 1 : 0);
         }
         return new double[]{chanceMultiplier, dropAdder};
     }

@@ -19,7 +19,7 @@ public class Variables {
     public static final Map<UUID, List<Variable>> playerVariables = new HashMap<>();
 
     public static List<Variable> getVariableAll(UUID uuid, String name) {
-        return playerVariables.get(uuid).stream().filter(v -> v.name.equals(name)).collect(Collectors.toList());
+        return playerVariables.getOrDefault(uuid, new ArrayList<>()).stream().filter(v -> v.name.equals(name)).collect(Collectors.toList());
     }
 
     public static <T> T get(UUID uuid, String name, int data) {
@@ -102,6 +102,17 @@ public class Variables {
 
     public static long getSize(String name) {
         return variables.stream().filter(v -> v.name.equals(name)).count();
+    }
+
+    public static boolean has(UUID uuid, String name, int data) {
+        if (!playerVariables.containsKey(uuid)) return false;
+
+        for (Variable variable : playerVariables.get(uuid)) {
+            if (variable.name.equals(name) && variable.data == data) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void save() {

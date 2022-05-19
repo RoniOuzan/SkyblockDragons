@@ -2,10 +2,10 @@ package me.maxiiiiii.skyblockdragons.inventory;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.BlockColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,12 +18,12 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 @Getter
 public abstract class Menu implements InventoryHolder {
-    public static final Map<UUID, List<Menu>> menusHistory = new HashMap<>();
-
     public final ItemStack GLASS = createItem(Material.STAINED_GLASS_PANE, 15, ChatColor.RESET + "", "GLASS");
     public final ItemStack CLOSE = createItem(Material.BARRIER, ChatColor.RED + "Close", "CLOSE", "", ChatColor.YELLOW + "Click to close!");
     public final ItemStack GO_BACK = createItem(Material.ARROW, ChatColor.GREEN + "Go Back", "GO_BACK", "", ChatColor.YELLOW + "Click to go back!");
@@ -61,8 +61,8 @@ public abstract class Menu implements InventoryHolder {
 
         if (utilButtons) {
             this.setItem(this.getRows() * 9 - 5, CLOSE);
-
-            this.setItem(this.getRows() * 9 - 6, GO_BACK);
+            if (player.getMenuHistory().size() > 0)
+                this.setItem(this.getRows() * 9 - 6, GO_BACK);
         }
 
         Functions.Wait(1, () -> {
@@ -77,7 +77,6 @@ public abstract class Menu implements InventoryHolder {
     protected Menu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, boolean update) {
         this(player, title, rows, inventoryGlassType, update, true);
     }
-
     public void setItem(int slot, ItemStack item) {
         this.inventory.setItem(slot, item);
     }
@@ -89,12 +88,14 @@ public abstract class Menu implements InventoryHolder {
     public abstract void update();
 
     public void open() {
-        player.openInventory(this.inventory);
-        List<Menu> menus = menusHistory.getOrDefault(this.player.getUniqueId(), new ArrayList<>());
-        menus.add(this);
-        menusHistory.put(this.player.getUniqueId(), menus);
+        this.open(true);
+    }
 
-        player.sendMessage(Menu.menusHistory.get(player.getUniqueId()).get(Menu.menusHistory.size() - 1).getTitle());
+    public void open(boolean addToHistory) {
+        player.openInventory(this.inventory);
+        if (addToHistory) {
+            player.getMenuHistory().add(this);
+        }
     }
 
     public int getRows() {
@@ -172,18 +173,13 @@ public abstract class Menu implements InventoryHolder {
         return item;
     }
 
-    protected ItemStack getGlass(BlockColor color) {
+    protected ItemStack getGlass(int color) {
         ItemStack item = this.GLASS;
-        item.setDurability(color.getData());
+        item.setDurability((short) color);
         return item;
     }
 
     public static void removeLastHistory(UUID uuid) {
-        List<Menu> history = Menu.menusHistory.get(uuid);
-
-        if (history == null) return;
-
-        history.remove(0);
-        Menu.menusHistory.put(uuid, history);
+        SkyblockDragons.getPlayer(uuid).getMenuHistory().remove(SkyblockDragons.getPlayer(uuid).getMenuHistory().size() - 1);
     }
 }

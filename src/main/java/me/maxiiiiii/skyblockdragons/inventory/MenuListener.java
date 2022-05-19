@@ -1,14 +1,15 @@
 package me.maxiiiiii.skyblockdragons.inventory;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.InventoryHolder;
-
-import java.util.ArrayList;
 
 public class MenuListener implements Listener {
     @EventHandler
@@ -21,6 +22,7 @@ public class MenuListener implements Listener {
             e.setCancelled(true);
 
             Menu menu = (Menu) holder;
+            PlayerSD player = SkyblockDragons.getPlayer((Player) e.getWhoClicked());
 
 //            if (menu instanceof GroupMenu) {
 //                GroupMenu groupMenu = (GroupMenu) menu;
@@ -38,9 +40,8 @@ public class MenuListener implements Listener {
             }
             if (nbt.getString("GuiButton").equals("GO_BACK")) {
                 Menu.removeLastHistory(e.getWhoClicked().getUniqueId());
-                if (Menu.menusHistory.getOrDefault(e.getWhoClicked().getUniqueId(), new ArrayList<>()).size() > 0) {
-                    Menu.menusHistory.get(e.getWhoClicked().getUniqueId()).get(0).open();
-                    e.getWhoClicked().sendMessage(Menu.menusHistory.get(e.getWhoClicked().getUniqueId()).get(0).getTitle());
+                if (player.getMenuHistory().size() > 0) {
+                    player.getMenuHistory().get(player.getMenuHistory().size() - 1).open(false);
                 }
             }
 
@@ -97,8 +98,7 @@ public class MenuListener implements Listener {
 
             Functions.Wait(1L, () -> {
                 if (e.getPlayer().getOpenInventory().getTopInventory().getType() == InventoryType.CRAFTING) {
-                    e.getPlayer().sendMessage("cleared");
-                    Menu.menusHistory.put(e.getPlayer().getUniqueId(), new ArrayList<>());
+                    SkyblockDragons.getPlayer((Player) e.getPlayer()).getMenuHistory().clear();
                 }
             });
 

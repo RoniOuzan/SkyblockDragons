@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.pet;
+package me.maxiiiiii.skyblockdragons.item.pet;
 
 import lombok.Getter;
 import lombok.Setter;

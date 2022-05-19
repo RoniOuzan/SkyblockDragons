@@ -22,7 +22,7 @@ public abstract class PageMenu extends Menu {
     protected PageMenu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, List<ItemStack> items, boolean update) {
         super(player, title, rows, inventoryGlassType, update);
         this.items = items.stream().peek(i -> {
-            if (getNBT(i).equals("")) {
+            if (this.getNBT(i).equals("")) {
                 NBTItem nbt = new NBTItem(i, true);
                 nbt.setString("GuiButton", "PAGE_ITEM");
             }
@@ -45,10 +45,12 @@ public abstract class PageMenu extends Menu {
         int maxItems = this.getMaxItemsInPage();
         int adder = maxItems * (page - 1);
         for (int i = 0; i < maxItems; i++) {
-            if (i + adder >= items.size()) break;
-            try {
+            if (i + adder >= items.size()) {
+                this.setItem(Functions.intToSlot(i), new ItemStack(Material.AIR));
+            } else {
                 this.setItem(Functions.intToSlot(i), items.get(i + adder));
-            } catch (ArrayIndexOutOfBoundsException ignored) {}
+            }
+
         }
     }
 
@@ -59,12 +61,12 @@ public abstract class PageMenu extends Menu {
             return;
         }
         this.page++;
-        this.open();
+        this.update();
     }
 
     public void lastPage() {
         this.page = (int) Math.ceil(this.items.size() / 28d);
-        this.open();
+        this.update();
     }
 
     public void previousPage() {

@@ -9,7 +9,6 @@ import me.maxiiiiii.skyblockdragons.item.material.interfaces.*;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
-import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -17,7 +16,6 @@ import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -28,12 +26,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
-import static me.maxiiiiii.skyblockdragons.util.Functions.manaCostCalculator;
 
 @Getter
-public class Item extends ItemStack implements ConfigurationSerializable {
-    private final ItemMaterial material;
-    private final int amount;
+public class Item extends ItemStack {
+    protected final ItemMaterial material;
+    protected final int amount;
 
     public Item(PlayerSD player, ItemMaterial material, int amount, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
         super(material.getMaterial(), amount, material.getMaterial() == Material.SKULL_ITEM ? (short) 3 : ((material.getNbt().equals("") && !material.getId().equals("")) ? Short.parseShort(material.getId()) : (short) 0));
@@ -83,19 +80,6 @@ public class Item extends ItemStack implements ConfigurationSerializable {
     private void toItem(PlayerSD player, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
         int recombed = recombabulated ? 1 : 0;
 
-        ArrayList<String> enchantsString = new ArrayList<>();
-        for (EnchantType enchantType : enchants.keySet()) {
-            if (enchantType.getTypes().contains(this.material.getType())) {
-                enchantsString.add(enchantType.realname());
-            }
-        }
-        Collections.sort(enchantsString);
-
-        ArrayList<EnchantType> enchantList = new ArrayList<>();
-        for (String key : enchantsString) {
-            enchantList.add(EnchantType.valueOf(key));
-        }
-
         Rarity rarity;
         if (this.material instanceof BookMaterial) {
             rarity = Functions.getBookRarity(enchants);
@@ -110,8 +94,9 @@ public class Item extends ItemStack implements ConfigurationSerializable {
         if (this.material instanceof ItemStatsAble)
             stats = applyStats(lores, player, hotPotato, reforge, rarity, enchants);
 
-        if (this.material instanceof ItemEnchantAble)
-            applyEnchants(lores, enchants, enchantList);
+        if (this.material instanceof ItemEnchantAble) {
+            applyEnchants(lores, enchants);
+        }
 
         if (this.material instanceof ItemDescriptionAble)
             applyDescription(lores);
@@ -208,12 +193,10 @@ public class Item extends ItemStack implements ConfigurationSerializable {
             for (Stat stat : stats) {
                 statList.add(stat.amount);
             }
-            if (material.getType() != ItemType.ITEM || rarity.getLevel() >= 5 || ((material instanceof NormalMaterial) && !((NormalMaterial) material).isStackAble())) {
-                int random = Functions.randomInt(1, 10000);
-                nbt.setInteger("Stack", random);
-                Date now = new Date();
+            if (material.getType() != ItemType.ITEM || (material instanceof NormalMaterial && !((NormalMaterial) material).isStackAble())) {
+                nbt.setInteger("Stack", Functions.randomInt(1, 10000));
                 SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                nbt.setString("Date", format.format(now));
+                nbt.setString("Date", format.format(new Date()));
             }
             nbt.setInteger("Rarity", rarity.getLevel());
             nbt.setString("Reforge", reforge.name());
@@ -222,8 +205,8 @@ public class Item extends ItemStack implements ConfigurationSerializable {
 
             NBTCompound nbtEnchants = nbt.addCompound("Enchants");
             NBTCompound nbtUltimateEnchant = nbt.addCompound("UltimateEnchant");
-            if (enchantList.toString().contains("One For All")) {
-                if (enchantList.toString().contains("Telekinesis")) {
+            if (enchants.containsKey(EnchantType.ONE_FOR_ALL)) {
+                if (enchants.containsKey(EnchantType.TELEKINESIS)) {
                     nbtEnchants.setShort("TELEKINESIS", (short) 1);
                 }
                 nbtEnchants.setShort("ONE_FOR_ALL", (short) 1);
@@ -424,7 +407,7 @@ public class Item extends ItemStack implements ConfigurationSerializable {
 
             if (player != null) {
                 if (player.getPlayerPet().getActivePet() >= 0) {
-                    if (player.getPetActive().getPetMaterial() == PetMaterial.get("ENDER_DRAGON") && this.material == Items.get("ASPECT_OF_THE_DRAGON")) {
+                    if (player.getPetActive().getPetMaterial() == Items.get("ENDER_DRAGON") && this.material == Items.get("ASPECT_OF_THE_DRAGON")) {
                         if (stat.type == StatType.DAMAGE)
                             statAdder += player.getPetActive().getLevel() * 0.5;
                         else if (stat.type == StatType.STRENGTH)
@@ -454,17 +437,20 @@ public class Item extends ItemStack implements ConfigurationSerializable {
         if (!enchants.containsKey(EnchantType.NULL)) {
             for (EnchantType enchantType : EnchantType.enchants.values()) {
                 if (enchants.containsKey(enchantType)) {
-                    cost += enchants.get(enchantType) * 4;
+                    cost += enchants.get(enchantType) * 6;
                 }
             }
         }
-        cost = (int) Math.pow(cost, 0.7);
+        cost = (int) Math.pow(cost, 0.8);
         return cost;
     }
 
-    private void applyEnchants(ArrayList<String> lores, Map<EnchantType, Short> enchants, ArrayList<EnchantType> enchantList) {
-        if (enchantList.toString().contains("One For All")) {
-            if (enchantList.toString().contains("Telekinesis")) {
+    private void applyEnchants(ArrayList<String> lores, Map<EnchantType, Short> enchants) {
+        List<EnchantType> enchantList = new ArrayList<>(enchants.keySet());
+        Collections.sort(enchantList);
+
+        if (enchants.containsKey(EnchantType.ONE_FOR_ALL)) {
+            if (enchants.containsKey(EnchantType.TELEKINESIS)) {
                 lores.add(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "One For All I, " + ChatColor.BLUE + "Telekinesis I");
             } else {
                 lores.add(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "One For All I");
@@ -539,12 +525,5 @@ public class Item extends ItemStack implements ConfigurationSerializable {
                 enchants.put(enchant, Short.parseShort(compound1.getInteger(enchant.name()) + ""));
         }
         return enchants;
-    }
-
-    public Map<String, Object> serialize() {
-        Map<String, Object> map = super.serialize();
-        map.put("material", this.material);
-        map.put("amount", this.amount);
-        return map;
     }
 }

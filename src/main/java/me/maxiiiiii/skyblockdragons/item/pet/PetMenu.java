@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.pet;
+package me.maxiiiiii.skyblockdragons.item.pet;
 
 import me.maxiiiiii.skyblockdragons.commands.CommandSD;
 import me.maxiiiiii.skyblockdragons.inventory.PageMenu;

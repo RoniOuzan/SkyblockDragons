@@ -66,7 +66,6 @@ public class Mining implements Listener {
 
         double miningTime = ((blockMaterial.blockStrength * 30) / Math.max(player.getStats().getMiningSpeed().amount, 1)) * 50;
 
-        player.sendMessage(miningTime);
         if (miningTime <= 50) {
             BlockBreakEvent event = new BlockBreakEvent(e.getBlock(), player);
             Bukkit.getServer().getPluginManager().callEvent(event);

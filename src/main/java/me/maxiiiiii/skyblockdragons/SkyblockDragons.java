@@ -23,8 +23,11 @@ import me.maxiiiiii.skyblockdragons.item.enchants.BookCommand;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantingTableCommand;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.pet.Pet;
+import me.maxiiiiii.skyblockdragons.item.pet.PetCommand;
+import me.maxiiiiii.skyblockdragons.item.pet.PetListener;
+import me.maxiiiiii.skyblockdragons.item.pet.PetMenu;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeCommand;
-import me.maxiiiiii.skyblockdragons.pet.*;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
 import me.maxiiiiii.skyblockdragons.player.bank.BankCommand;
@@ -41,6 +44,7 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.*;
 import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
+import me.maxiiiiii.skyblockdragons.worlds.deepermines.forge.Forge;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.worlds.warp.PlayerWarpListener;
 import me.maxiiiiii.skyblockdragons.worlds.warp.WarpCommand;
@@ -49,6 +53,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -97,11 +102,12 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         Bukkit.getScheduler().runTask(this, TheEnd::resetEyes);
 
+        ConfigurationSerialization.registerClass(EntityMaterial.class);
+
         Variables.load();
 
         Items.registerItems();
         EnchantType.registerEnchants();
-        PetMaterial.registerItems();
         EntityMaterial.registerItems();
         Bukkit.getScheduler().runTaskAsynchronously(this, Recipe::registerRecipes);
         WorldSD.registerWorlds(this);
@@ -214,6 +220,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("Profile").setExecutor(new ProfileMenu.Command());
         getCommand("Storage").setExecutor(new StorageMenu.Command());
         getCommand("EnderChest").setExecutor(new EnderChestMenu.Command());
+        registerCommand("Forge", new Forge.Command());
 
 //        Coop.load();
         EntitySD.loadLocations();
@@ -262,7 +269,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                         new FlyTo(player.getPlayerPet().getPetArmorStand().armorStand, player, 20, 1.5, true, player.getPlayerPet().petArmorStand.hologram, new Vector(0, 1.6, 0));
                     player.getPlayerPet().petArmorStand.armorStand.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.1 : -0.1), 0));
                     player.getPlayerPet().petArmorStand.hologram.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 1.6, 0));
-                    for (ParticlePacketUtil particle : player.getPetActive().petMaterial.particles) {
+                    for (ParticlePacketUtil particle : player.getPetActive().petMaterial.getParticles()) {
                         Functions.spawnParticle(Functions.getPlayerShowedPets(), particle, player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.8, 0));
                     }
                 }

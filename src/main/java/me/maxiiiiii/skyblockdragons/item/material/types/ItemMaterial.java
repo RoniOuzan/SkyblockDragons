@@ -38,10 +38,6 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
         return Functions.setTitleCase(this.name.replaceAll("_", " "));
     }
 
-    public static ItemMaterial get(String name) {
-        return Items.items.getOrDefault(name, Items.NULL);
-    }
-
     public String name() {
         for (String key : Items.items.keySet()) {
             if (Items.items.get(key) == this) {

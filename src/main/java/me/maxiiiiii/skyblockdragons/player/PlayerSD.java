@@ -10,6 +10,7 @@ import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamageEntityEvent;
+import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.abilities.Atomsplit_Katana;
 import me.maxiiiiii.skyblockdragons.item.abilities.Rogue_Sword;
@@ -20,9 +21,9 @@ import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.pet.Pet;
-import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
-import me.maxiiiiii.skyblockdragons.pet.PlayerPet;
+import me.maxiiiiii.skyblockdragons.item.pet.Pet;
+import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
+import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
@@ -38,6 +39,7 @@ import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
 import me.maxiiiiii.skyblockdragons.worlds.WorldType;
+import me.maxiiiiii.skyblockdragons.worlds.deepermines.forge.Forge;
 import me.maxiiiiii.skyblockdragons.worlds.end.DragonType;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
 import net.md_5.bungee.api.ChatMessageType;
@@ -79,9 +81,13 @@ public class PlayerSD extends PlayerClass {
     public AccessoryBag accessoryBag;
     public EnderChest enderChestSD;
 
+    public Forge forge;
+
     public final Cooldown<PlayerSD> updateStatsCooldown = new Cooldown<>();
 
     private double lastCoins;
+
+    private final List<Menu> menuHistory = new ArrayList<>();
 
     public static final double HEALTH_REGEN = 1.05;
 
@@ -123,6 +129,8 @@ public class PlayerSD extends PlayerClass {
         this.accessoryBag = new AccessoryBag(this);
         this.enderChestSD = new EnderChest(this);
 
+        this.forge = new Forge(this);
+
         this.lastCoins = this.getCoins();
 
         SkyblockDragons.players.put(player.getUniqueId(), this);
@@ -131,12 +139,15 @@ public class PlayerSD extends PlayerClass {
     public void save() {
         Variables.set(player.getUniqueId(), "PlayTime", 0, this.playTime);
         Variables.set(player.getUniqueId(), "Bits", 0, this.bits);
+
         this.wardrobe.save();
         this.skill.save();
         this.bank.save();
         this.playerPet.save();
         this.accessoryBag.save();
         this.enderChestSD.save();
+
+        this.forge.save();
     }
 
     public void giveSkill(SkillType skillType, double amount) {
@@ -598,6 +609,32 @@ public class PlayerSD extends PlayerClass {
         return inventory.getOrDefault(material, 0) >= amount;
     }
 
+    public Item getItem(ItemMaterial material, int amount) {
+        if (!this.hasItem(material, amount)) return null;
+
+        for (ItemStack item : this.getInventory().getContents()) {
+            if (item == null) continue;
+
+            if (item.getAmount() >= amount && Items.get(item) == material) {
+                return new Item(this, item);
+            }
+        }
+        return null;
+    }
+
+    public ItemStack getItemStack(ItemMaterial material, int amount) {
+        if (!this.hasItem(material, amount)) return null;
+
+        for (ItemStack item : this.getInventory().getContents()) {
+            if (item == null) continue;
+
+            if (item.getAmount() >= amount && Items.get(item) == material) {
+                return item;
+            }
+        }
+        return null;
+    }
+
     public void removeItems(ItemMaterial material, int amount) {
         for (int i = 0; i < 36; i++) {
             ItemStack item = this.getInventory().getItem(i);
@@ -623,8 +660,10 @@ public class PlayerSD extends PlayerClass {
         }
     }
 
-    public boolean chanceOf(double percent) {
-        return Functions.chanceOf(percent);
+    public boolean chanceOf(double percent, Object... other) {
+        double multiplier = 1;
+        multiplier += this.getStats().getMagicFind().amount / 100;
+        return Functions.chanceOf(percent * multiplier);
     }
 
     public void makeDamage(Entity entity, Damage.DamageType damageType, double damage, double baseAbilityDamage, double abilityScaling) {

@@ -1,22 +1,28 @@
 package me.maxiiiiii.skyblockdragons.item.material;
 
+import com.comphenix.protocol.wrappers.EnumWrappers;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.PetAbility;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Items {
-    public static HashMap<String, ItemMaterial> items = new HashMap<>();
-    public static HashMap<String, ItemMaterial> itemMaterials = new HashMap<>();
-    public static HashMap<String, ItemMaterial> vanillaMaterials = new HashMap<>();
+    public static Map<String, ItemMaterial> items = new HashMap<>();
+    public static Map<String, ItemMaterial> itemMaterials = new HashMap<>();
+    public static Map<String, PetMaterial> pets = new HashMap<>();
+    public static Map<String, ItemMaterial> vanillaMaterials = new HashMap<>();
 
     public static ToolMaterial NULL = null;
 
@@ -324,11 +330,12 @@ public class Items {
         items.put("MOODY_GRAPPLESHOT", new ToolMaterial(Material.TRIPWIRE_HOOK, ItemFamily.ITEM, "Moody Grappleshot", ItemType.ITEM, Rarity.EPIC, "", new ItemAbility(AbilityAction.RIGHT_CLICK, "Big Pull", "Throw a hook to grab and pull monsters." + " NEW_LINE " + "Pulling a monster multiplies its damage taken by " + ChatColor.RED + "2x " + ChatColor.GRAY + "and stops it from flying.")));
         items.put("TROLL_EYE", new ToolMaterial(Material.EYE_OF_ENDER, ItemFamily.TROLL, "Troll Eye", ItemType.ITEM, Rarity.EPIC, ChatColor.ITALIC + "Eye of the ender lost ERROR", new ItemAbility(AbilityAction.RIGHT_CLICK, "Get Out From My Face", "Make your target entity shoot ender pearls to every direction", 100, false, 15)));
         items.put("GRAPPLING_HOOK", new ToolMaterial(Material.FISHING_ROD, ItemFamily.GRAPPLING_HOOK, "Grappling Hook", ItemType.ITEM , Rarity.UNCOMMON, ChatColor.GRAY + "Travel around in style using this " + ChatColor.GREEN + "Grappling Hook" + ChatColor.GRAY + "."));
-        items.put("RECOMBABULATOR", new ToolMaterial(Material.SKULL_ITEM, ItemFamily.ITEM, "Recombobulator 3000", ItemType.ITEM, Rarity.LEGENDARY, "96538e7f-6b56-3557-9b7d-458afe4239e9", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTdjY2QzNmRjOGY3MmFkY2IxZjhjOGU2MWVlODJjZDk2ZWFkMTQwY2YyYTE2YTEzNjZiZTliNWE4ZTNjYzNmYyJ9fX0K", "Use in a " + ChatColor.GREEN + "Reforge Anvil "+ ChatColor.GRAY + "or at the Dungeon Blacksmith to permanently increase the rarity of a piece of armor, weapon, tool or talisman. An item's rarity can only be upgraded once!"));
 
 
 
         // Normal Items
+        items.put("RECOMBABULATOR", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.ITEM, "Recombobulator 3000", ItemType.ITEM, Rarity.LEGENDARY, "96538e7f-6b56-3557-9b7d-458afe4239e9", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTdjY2QzNmRjOGY3MmFkY2IxZjhjOGU2MWVlODJjZDk2ZWFkMTQwY2YyYTE2YTEzNjZiZTliNWE4ZTNjYzNmYyJ9fX0K", "Use in a " + ChatColor.GREEN + "Reforge Anvil "+ ChatColor.GRAY + "or at the Dungeon Blacksmith to permanently increase the rarity of a piece of armor, weapon, tool or talisman. An item's rarity can only be upgraded once!", false, false, false));
+
         items.put("HOT_POTATO_BOOK", new NormalMaterial(Material.BOOK, ItemFamily.HOT_POTATO, "Hot Potato Book", ItemType.ITEM, Rarity.EPIC, "", "", "Combine this Book in an Anvil with a weapon or armor piece to gain a small but permanent stat boost!", true, false, false));
         items.put("FUMING_POTATO_BOOK", new NormalMaterial(Material.BOOK, ItemFamily.HOT_POTATO, "Fuming Potato Book", ItemType.ITEM, Rarity.EPIC, "", "", "Use in an anvil to combine this book with a weapon or armor pieace to gain a small but permanent stat boost!" + " NEW_LINE NEW_LINE " + "This book bypasses the Hot Potato Book limit of 10, allowing you to upgrade an item up to " + ChatColor.GREEN + "15 " + ChatColor.GRAY + "times!", true, false, false));
 
@@ -352,12 +359,12 @@ public class Items {
         items.put("PROTECTOR_DRAGON_FRAGMENT", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.SUPERIOR_DRAGON, "Protector Dragon Fragment", ItemType.ITEM, Rarity.EPIC, "1d128fd0-bc28-4fe4-8cdd-17e9db01fe35", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDhkZTMzOWFmNjNhMjI5YzkyMzhkMDI3ZTQ3ZjUzZWViNTYxNDFhNDE5ZjUxYjM1YzMxZWExNDk0YjQzNWRkMyJ9fX0=", false, true, true));
         items.put("OLD_DRAGON_FRAGMENT", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.OLD_DRAGON, "Old Dragon Fragment", ItemType.ITEM, Rarity.EPIC, "9479343f-f19a-419a-a12e-a16880fd21ec", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2FhMDlhZDE3N2ZiY2NjNTNmYTMxNmNjMDRiZGQyYzkzNjZiYWVkODg5ZGY3NmM1YTI5ZGVmZWE4MTcwZGVmNSJ9fX0=", false, true, true));
 
-        items.put("COBALT_INGOT", new NormalMaterial(Material.PRISMARINE_SHARD, ItemFamily.COBALT, "Cobalt Ingot", ItemType.ITEM, Rarity.COMMON, "", "", true, true));
-        items.put("CHLOROPHYTE_INGOT", new NormalMaterial(Material.EMERALD, ItemFamily.CHLOROPHYTE, "Chlorophyte Ingot", ItemType.ITEM, Rarity.UNCOMMON, "", "", true, true));
-        items.put("LUMINATE_INGOT", new NormalMaterial(Material.QUARTZ, ItemFamily.LUMINATE, "Luminate Ingot", ItemType.ITEM, Rarity.RARE, "", "", true, true));
-        items.put("DERNIC_INGOT", new NormalMaterial(Material.COCOA, ItemFamily.DERNIC, "Dernic Ingot", ItemType.ITEM, Rarity.EPIC, "", "", true, true));
-        items.put("HEMATITE_INGOT", new NormalMaterial(Material.NETHER_BRICK_ITEM, ItemFamily.HEMATITE, "Hematite Ingot", ItemType.ITEM, Rarity.LEGENDARY, "", "", true, true));
-        items.put("VOID_CRYSTAL_INGOT", new NormalMaterial(Material.NETHER_STAR, ItemFamily.VOID_CRYSTAL, "Void Crystal Ingot", ItemType.ITEM, Rarity.MYTHIC, "", "", true, true));
+        items.put("COBALT", new NormalMaterial(Material.PRISMARINE_SHARD, ItemFamily.COBALT, "Cobalt", ItemType.ITEM, Rarity.COMMON, "", "", false, true, true));
+        items.put("CHLOROPHYTE", new NormalMaterial(Material.EMERALD, ItemFamily.CHLOROPHYTE, "Chlorophyte", ItemType.ITEM, Rarity.UNCOMMON, "", "", false, true, true));
+        items.put("LUMINATE", new NormalMaterial(Material.QUARTZ, ItemFamily.LUMINATE, "Luminate", ItemType.ITEM, Rarity.RARE, "", "", false, true, true));
+        items.put("DERNIC", new NormalMaterial(Material.INK_SACK, ItemFamily.DERNIC, "Dernic", ItemType.ITEM, Rarity.EPIC, "3", "", false, true, true));
+        items.put("HEMATITE", new NormalMaterial(Material.NETHER_BRICK_ITEM, ItemFamily.HEMATITE, "Hematite", ItemType.ITEM, Rarity.LEGENDARY, "", "", false, true, true));
+        items.put("VOID_CRYSTAL", new NormalMaterial(Material.NETHER_STAR, ItemFamily.VOID_CRYSTAL, "Void Crystal", ItemType.ITEM, Rarity.MYTHIC, "", "", false, true, true));
 
         items.put("COBALT_SHARD", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.COBALT, "Cobalt Shard", ItemType.ITEM, Rarity.COMMON, "a0a3a357-99ea-4faa-b2ed-166a001c59d6", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGJmNGQwMzI5NWI1YTlhZDk5MDYxNTM4ZGIwMzIyMDMxNWJkODhlZjkxNzhiODI2YzhjNjI4ZWVkOTg0ZWRmZCJ9fX0=", true, true));
         items.put("CHLOROPHYTE_SHARD", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.CHLOROPHYTE, "Chlorophyte Shard", ItemType.ITEM, Rarity.UNCOMMON, "6e26d3e8-8776-4ecb-8319-b4aa448c8ce5", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTEwM2ExOTUzYjA1NWM2MDE2N2E3YWUyODQwMmVmNTY2YmJjYTI2ZDAxNmNiMGE0N2UzNDY3MjUyYTNlYTA3NiJ9fX0=", true, true));
@@ -372,7 +379,33 @@ public class Items {
 
         items.put("ENCHANTED_BOOK", new BookMaterial(Material.ENCHANTED_BOOK, ItemFamily.BOOK, "Enchanted Book", ItemType.BOOK, Rarity.COMMON, "", ""));
 
-        itemMaterials = (HashMap<String, ItemMaterial>) items.clone();
+
+        // Pets
+        pets.put("ENDER_DRAGON", new PetMaterial("Ender Dragon",
+                "083a89e8-c8b9-4c15-bccb-7b4af8d31b20",
+                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTFkMDhjMDI4OWQ5ZWZlNTE5ZTg3ZjdiODE0Y2IyMzQ5ZjQ0NzViZDNjMzdkNDRmOWM0ZjBlNTA4ZTc3OTgxZSJ9fX0=",
+                new Stats(0, 0.5, 0.5, 0.1, 0, 0),
+                new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY)),
+                new ArrayList<>(Arrays.asList(new PetAbility("End Strike", "Deal " + ChatColor.GREEN + "LEVEL*0.25% " + ChatColor.GRAY + "more damage to end mobs", new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY))), new PetAbility("One with the Dragons", "Buffs the Aspect of the Dragons sword by " + ChatColor.GREEN + "LEVEL*0.5 " + StatType.DAMAGE.getIconAndText() + " " + ChatColor.GRAY + "and " + ChatColor.GREEN + "LEVEL*0.3 " + StatType.STRENGTH.getIconAndText(), new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY))), new PetAbility("Superior", "Increases most stats by " + ChatColor.GREEN + "LEVEL*0.1%", new ArrayList<>(Arrays.asList(Rarity.LEGENDARY))))),
+                SkillType.COMBAT,
+                EnumWrappers.Particle.SMOKE_NORMAL, EnumWrappers.Particle.SPELL_WITCH,
+                Sound.ENTITY_ENDERDRAGON_FLAP
+        ));
+
+        pets.put("ENDERMAN", new PetMaterial("Enderman",
+                "6e4d2ed0-05e8-4959-b06c-e649d9113349",
+                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTZjMGIzNmQ1M2ZmZjY5YTQ5YzdkNmYzOTMyZjJiMGZlOTQ4ZTAzMjIyNmQ1ZTgwNDVlYzU4NDA4YTM2ZTk1MSJ9fX0=",
+                new Stats(0, 0, 0.5, 0.1, 0, 0),
+                new ArrayList<>(Arrays.asList(Rarity.COMMON, Rarity.UNCOMMON, Rarity.RARE)),
+                new ArrayList<>(Arrays.asList(new PetAbility("Enderian", "Take " + ChatColor.GREEN + "LEVEL*0.3% " + ChatColor.GRAY + "less damage from end monsters.", new ArrayList<>(Arrays.asList(Rarity.COMMON, Rarity.UNCOMMON, Rarity.RARE))), new PetAbility("Enderator", "Increases the chance of enderman drops by " + ChatColor.GREEN + "LEVEL*0.5%" + ChatColor.GRAY + ".", new ArrayList<>(Arrays.asList(Rarity.RARE))))),
+                SkillType.COMBAT,
+                EnumWrappers.Particle.SPELL_WITCH,
+                Sound.ENTITY_ENDERMEN_AMBIENT
+        ));
+
+        items.putAll(pets);
+
+        itemMaterials = new HashMap<>(items);
 
         for (Material material : Material.values()) {
             if (material == Material.AIR) continue;
@@ -405,16 +438,16 @@ public class Items {
         ArrayList<String> keys = new ArrayList<>();
         for (String material : Items.items.keySet()) {
             ItemMaterial item = Items.items.get(material);
-            if (item.getType() == ItemType.ITEM && !(item instanceof NormalMaterial) && !material.contains("ENCHANTED_") && !material.contains("BOOK") && !material.contains("BARDING")) {
+            if (item.getType() == ItemType.ITEM && !material.contains("ENCHANTED_") && !material.contains("BOOK") && !material.contains("BARDING")) {
                 keys.add(material);
             }
         }
-        for (String string : keys) {
-            ItemMaterial item = Items.get(string);
+        for (String material : keys) {
+            ItemMaterial item = Items.get(material);
             int rarityAdder = 0;
             if (item.getMaterial().isBlock()) rarityAdder++;
-            NormalMaterial normalMaterial = new NormalMaterial(item.getMaterial(), ItemFamily.ENCHANTED_ITEM, "Enchanted " + item.getName(), ItemType.ITEM, Rarity.values()[item.getRarity().getLevel() + rarityAdder], item.getId(), item.getNbt(), true, true, true);
-            Items.items.put("ENCHANTED_" + string, normalMaterial);
+            NormalMaterial normalMaterial = new NormalMaterial(item.getMaterial(), ItemFamily.ENCHANTED_ITEM, "Enchanted " + item.getName(), ItemType.ITEM, Rarity.values()[item.getRarity().getLevel() + 1 + rarityAdder], item.getId(), item.getNbt(), true, true, true);
+            Items.items.put("ENCHANTED_" + material, normalMaterial);
         }
 
         NULL = new ToolMaterial(Material.BARRIER, ItemFamily.NULL,"Null", ItemType.NULL, Rarity.SPECIAL, "", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Null barrier that created by " + ChatColor.GRAY + "" + ChatColor.ITALIC + "ERROR with an item.");

@@ -7,11 +7,11 @@ import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import java.util.ArrayList;
 
 public class UltimateEnchantType extends EnchantType {
-    UltimateEnchantType(Stats stats, int maxLevel, String description, EnchantMultiplayer multiplayer, SkillRequirement requirement, ArrayList<ItemType> types, String distraction) {
+    UltimateEnchantType(Stats stats, int maxLevel, String description, EnchantMultiplier multiplayer, SkillRequirement requirement, ArrayList<ItemType> types, String distraction) {
         super(stats, maxLevel, description, multiplayer, requirement, types, getAllDistractions(distraction), false);
     }
 
-    UltimateEnchantType(int maxLevel, String description, EnchantMultiplayer multiplayer, SkillRequirement requirement, ArrayList<ItemType> types, String distraction) {
+    UltimateEnchantType(int maxLevel, String description, EnchantMultiplier multiplayer, SkillRequirement requirement, ArrayList<ItemType> types, String distraction) {
         this(new Stats(), maxLevel, description, multiplayer, requirement, types, distraction);
     }
 

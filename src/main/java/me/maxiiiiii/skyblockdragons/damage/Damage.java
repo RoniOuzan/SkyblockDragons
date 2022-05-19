@@ -10,7 +10,7 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ToolMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;

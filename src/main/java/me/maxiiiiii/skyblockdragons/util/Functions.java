@@ -25,8 +25,8 @@ import me.maxiiiiii.skyblockdragons.item.material.types.SkinMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
-import me.maxiiiiii.skyblockdragons.pet.Pet;
-import me.maxiiiiii.skyblockdragons.pet.PetMaterial;
+import me.maxiiiiii.skyblockdragons.item.pet.Pet;
+import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.interfaces.LoopTask;
 import me.maxiiiiii.skyblockdragons.util.interfaces.While;
@@ -622,7 +622,7 @@ public class Functions {
             NBTItem nbtItem = new NBTItem(item);
             NBTCompound nbt = nbtItem.getCompound("Item");
             String id = nbt.getString("id");
-            for (PetMaterial material : PetMaterial.pets.values()) {
+            for (PetMaterial material : Items.pets.values()) {
                 if (material.name().equals(id)) {
                     return material;
                 }
@@ -1070,7 +1070,8 @@ public class Functions {
 
     private static final String[] nicod = {"a", "e", "o", "u", "i"};
 
-    public static String getPlural(String text) {
+    public static String getPlural(String text, int num) {
+        if (num == 1) return text;
         String[] texts = text.split("");
         if (texts[texts.length - 1].equalsIgnoreCase("s") || (texts[texts.length - 2].equalsIgnoreCase("s") && texts[texts.length - 1].equalsIgnoreCase("h")) || (texts[texts.length - 2].equalsIgnoreCase("c") && texts[texts.length - 1].equalsIgnoreCase("h")) || texts[texts.length - 1].equalsIgnoreCase("x") || texts[texts.length - 1].equalsIgnoreCase("z")) {
             text += "es";
@@ -1716,10 +1717,17 @@ public class Functions {
         return list;
     }
 
-    public static ItemStack addLine(ItemStack item, String... lines) {
+    public static ItemStack addLine(ItemStack item, Object... lines) {
         ItemMeta meta = item.getItemMeta();
         List<String> lores = meta.getLore();
-        lores.addAll(Arrays.asList(lines));
+        for (Object line : lines) {
+            if (line instanceof String)
+                lores.add((String) line);
+            else if (line instanceof List)
+                lores.addAll((List<String>) line);
+            else
+                lores.add(line.toString());
+        }
         meta.setLore(lores);
         item.setItemMeta(meta);
         return item;

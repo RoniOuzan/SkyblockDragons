@@ -1,8 +1,7 @@
-package me.maxiiiiii.skyblockdragons.pet;
+package me.maxiiiiii.skyblockdragons.item.objects;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 
 import java.util.ArrayList;
 

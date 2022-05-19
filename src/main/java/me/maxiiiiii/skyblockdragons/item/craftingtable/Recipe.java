@@ -102,6 +102,7 @@ public class Recipe extends RecipeRegister implements Comparable<Recipe> {
                     }
                 }
                 player.sendMessage(ChatColor.RED + "Could not find a recipe with that name!");
+                return;
             }
             player.sendMessage(ChatColor.WHITE + "/viewrecipe <RECIPE_NAME>");
         }
