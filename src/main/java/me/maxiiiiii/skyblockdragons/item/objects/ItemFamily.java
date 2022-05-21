@@ -70,5 +70,6 @@ public enum ItemFamily {
     DERNIC,
     HEMATITE,
     VOID_CRYSTAL,
+    MYTHOLOGS_SPADE,
     NULL
 }

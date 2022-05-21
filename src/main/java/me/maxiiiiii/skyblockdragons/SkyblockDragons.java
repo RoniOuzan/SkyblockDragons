@@ -42,6 +42,7 @@ import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeMenu;
 import me.maxiiiiii.skyblockdragons.storage.VariableCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.Particles;
 import me.maxiiiiii.skyblockdragons.util.objects.*;
 import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
 import me.maxiiiiii.skyblockdragons.worlds.deepermines.forge.Forge;
@@ -171,6 +172,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Moody_Grappleshot(), this);
         getServer().getPluginManager().registerEvents(new Wither_Cloak(), this);
         getServer().getPluginManager().registerEvents(new Magma_Cloak(), this);
+        getServer().getPluginManager().registerEvents(new Mythologs_Spade(), this);
 
         // Command Listeners
         getServer().getPluginManager().registerEvents(new AnvilCommand(), this);
@@ -270,7 +272,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                     player.getPlayerPet().petArmorStand.armorStand.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.1 : -0.1), 0));
                     player.getPlayerPet().petArmorStand.hologram.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 1.6, 0));
                     for (ParticlePacketUtil particle : player.getPetActive().petMaterial.getParticles()) {
-                        Functions.spawnParticle(Functions.getPlayerShowedPets(), particle, player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.8, 0));
+                        particle.spawn(Functions.getPlayerShowedPets(), player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.8, 0));
                     }
                 }
 

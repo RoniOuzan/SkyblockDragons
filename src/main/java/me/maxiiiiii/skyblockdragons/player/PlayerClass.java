@@ -1,8 +1,13 @@
 package me.maxiiiiii.skyblockdragons.player;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketContainer;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import net.minecraft.server.v1_12_R1.EntityPlayer;
+import net.minecraft.server.v1_12_R1.Packet;
 import org.bukkit.*;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementProgress;
@@ -12,6 +17,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.PistonMoveReaction;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -27,6 +33,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 import java.util.*;
 
@@ -1574,6 +1581,18 @@ public class PlayerClass extends EntitySD implements Player {
     @Override
     public <T extends Projectile> T launchProjectile(Class<? extends T> projectile, Vector velocity) {
         return this.player.launchProjectile(projectile, velocity);
+    }
+
+    public void sendPacket(Packet<?> packet) {
+        EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+        entityPlayer.playerConnection.sendPacket(packet);
+    }
+
+    public void sendProtocolPacket(PacketContainer packet) {
+        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+        try {
+            protocolManager.sendServerPacket(player, packet);
+        } catch (InvocationTargetException ignored) {}
     }
 
     @Override

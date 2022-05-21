@@ -4,6 +4,6 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemAbility;
 
 import java.util.List;
 
-public interface ItemAbilityAble {
+public interface ItemAbilityAble extends ItemAble {
     List<ItemAbility> getAbilities();
 }

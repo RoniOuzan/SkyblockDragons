@@ -1,9 +1,9 @@
 package me.maxiiiiii.skyblockdragons.item.material;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
-import me.maxiiiiii.skyblockdragons.item.objects.PetAbility;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
@@ -331,6 +331,14 @@ public class Items {
         items.put("TROLL_EYE", new ToolMaterial(Material.EYE_OF_ENDER, ItemFamily.TROLL, "Troll Eye", ItemType.ITEM, Rarity.EPIC, ChatColor.ITALIC + "Eye of the ender lost ERROR", new ItemAbility(AbilityAction.RIGHT_CLICK, "Get Out From My Face", "Make your target entity shoot ender pearls to every direction", 100, false, 15)));
         items.put("GRAPPLING_HOOK", new ToolMaterial(Material.FISHING_ROD, ItemFamily.GRAPPLING_HOOK, "Grappling Hook", ItemType.ITEM , Rarity.UNCOMMON, ChatColor.GRAY + "Travel around in style using this " + ChatColor.GREEN + "Grappling Hook" + ChatColor.GRAY + "."));
 
+        // TODO add requires to the spades
+        String mythologsSpadeDescription = "Hold in your hand to reveal and dig out " + ChatColor.YELLOW + "Griffin Burrows " + ChatColor.GRAY + "in the griffin's island, which hold both " + ChatColor.GOLD + "treasure " + ChatColor.GRAY + "and " + ChatColor.RED + "dangers" + ChatColor.GRAY + "." + " NEW_LINE " + "Each level of the " + ChatColor.DARK_GREEN + "Mytholog's Spade " + ChatColor.GRAY + "you can find better " + ChatColor.GOLD + "treasures " + ChatColor.GRAY + "and drops.";
+        ItemAbility mythologicalSpadeAbility = new ItemAbility(AbilityAction.RIGHT_CLICK, "Echo", "Show the way to the next or nearby Griffin Burrow.", 50, false, 2);
+        items.put("MYTHOLOGS_SPADE_RARE", new ToolMaterial(Material.STONE_SPADE, ItemFamily.MYTHOLOGS_SPADE, "Mytholog's Spade", ItemType.ITEM, Rarity.RARE, mythologsSpadeDescription, mythologicalSpadeAbility));
+        items.put("MYTHOLOGS_SPADE_EPIC", new ToolMaterial(Material.IRON_SPADE, ItemFamily.MYTHOLOGS_SPADE, "Mytholog's Spade", ItemType.ITEM, Rarity.EPIC, mythologsSpadeDescription, mythologicalSpadeAbility));
+        items.put("MYTHOLOGS_SPADE_LEGENDARY", new ToolMaterial(Material.GOLD_SPADE, ItemFamily.MYTHOLOGS_SPADE, "Mytholog's Spade", ItemType.ITEM, Rarity.LEGENDARY, mythologsSpadeDescription, mythologicalSpadeAbility));
+        items.put("MYTHOLOGS_SPADE_MYTHIC", new ToolMaterial(Material.DIAMOND_SPADE, ItemFamily.MYTHOLOGS_SPADE, "Mytholog's Spade", ItemType.ITEM, Rarity.MYTHIC, mythologsSpadeDescription, mythologicalSpadeAbility));
+
 
 
         // Normal Items
@@ -438,7 +446,7 @@ public class Items {
         ArrayList<String> keys = new ArrayList<>();
         for (String material : Items.items.keySet()) {
             ItemMaterial item = Items.items.get(material);
-            if (item.getType() == ItemType.ITEM && !material.contains("ENCHANTED_") && !material.contains("BOOK") && !material.contains("BARDING")) {
+            if (item.getType() == ItemType.ITEM && !material.contains("ENCHANTED_") && !material.contains("BOOK") && !material.contains("BARDING") && !(item instanceof ItemAbilityAble)) {
                 keys.add(material);
             }
         }

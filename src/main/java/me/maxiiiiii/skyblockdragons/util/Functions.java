@@ -4,7 +4,6 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
@@ -18,19 +17,16 @@ import me.maxiiiiii.skyblockdragons.item.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.item.material.types.NecronBladeMaterial;
-import me.maxiiiiii.skyblockdragons.item.material.types.ReforgeMaterial;
-import me.maxiiiiii.skyblockdragons.item.material.types.SkinMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
-import me.maxiiiiii.skyblockdragons.item.pet.Pet;
-import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.interfaces.LoopTask;
 import me.maxiiiiii.skyblockdragons.util.interfaces.While;
-import me.maxiiiiii.skyblockdragons.util.objects.*;
+import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
+import me.maxiiiiii.skyblockdragons.util.objects.SignMenu;
+import me.maxiiiiii.skyblockdragons.util.objects.SlotCooldown;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Creature;
@@ -799,26 +795,6 @@ public class Functions {
         return Rarity.SPECIAL;
     }
 
-    public static void particleLine(Location loc1, Location loc2, Particle particle) {
-        particleLine(loc1, loc2, particle, 0, 0, 0);
-    }
-
-    public static void particleLine(Location loc1, Location loc2, Particle particle, double red, double green, double blue) {
-        final double DISTANCE = loc1.distance(loc2) * 5;
-        double t = 0;
-        for (int i = 0; i < DISTANCE; i++) {
-            t = t + 0.05;
-            Vector direction = new Vector(loc2.getX() - loc1.getX(), loc2.getY() - loc1.getY(), loc2.getZ() - loc1.getZ());
-            double x = direction.getX() * t;
-            double y = direction.getY() * t + 1.5;
-            double z = direction.getZ() * t;
-            loc1.add(x, y, z);
-            loc1.getWorld().spawnParticle(particle, loc1, 0, red, green, blue);
-
-            loc1.subtract(x, y, z);
-        }
-    }
-
     public static String getLocation(Location location) {
         double x = Math.floor(location.getX() * 100) / 100;
         double y = Math.floor(location.getY() * 100) / 100;
@@ -829,8 +805,6 @@ public class Functions {
     public static String getNormalName(ItemStack item) {
         if (item instanceof Item) {
             return ((Item) item).getMaterial().getName();
-        } else if (item instanceof Pet) {
-            return ((Pet) item).getPetMaterial().getName();
         } else {
             ItemMaterial material = Items.get(item);
             if (material == NULL)
@@ -1554,28 +1528,6 @@ public class Functions {
         }
     }
 
-    public static void spawnParticle(ArrayList<Player> players, ParticlePacketUtil particle, Location location) {
-        PacketContainer packet = particle.getParticle(location);
-        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-        for (Player player : players) {
-            if (particle.particle == EnumWrappers.Particle.REDSTONE) {
-                for (int i = 0; i < particle.amount; i++) {
-                    try {
-                        protocolManager.sendServerPacket(player, packet);
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else {
-                try {
-                    protocolManager.sendServerPacket(player, packet);
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
     public static ArrayList<Player> getPlayerShowedPets() {
         ArrayList<Player> players = new ArrayList<>();
         for (PlayerSD player : SkyblockDragons.players.values()) {
@@ -1661,18 +1613,6 @@ public class Functions {
     public static <T> T getRandom(T... ts) {
         int random = randomInt(0, ts.length - 1);
         return ts[random];
-    }
-
-    public static void playCircle(Location location, double radius, double amount, ParticleUtil particleUtil) {
-        for (double i = 0; i < 360; i += (360 / amount)) {
-            Location newLocation = location.clone().add(
-                    Math.cos(i) * -location.getDirection().getZ() * radius,
-                    Math.sin(i) * radius,
-                    Math.cos(i) * location.getDirection().getX() * radius
-            );
-
-            particleUtil.spawn(newLocation);
-        }
     }
 
     public static boolean chanceOf(double percent) {

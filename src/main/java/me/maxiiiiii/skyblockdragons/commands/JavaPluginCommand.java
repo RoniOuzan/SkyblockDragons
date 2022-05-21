@@ -90,7 +90,6 @@ public class JavaPluginCommand implements CommandExecutor, TabCompleter {
                         } catch (NullPointerException ignored) {}
                     }
                 } else if (args[0].equalsIgnoreCase("test")) {
-
                 }
             } else {
                 sender.sendMessage(ChatColor.RED + "Invalid arguments!");

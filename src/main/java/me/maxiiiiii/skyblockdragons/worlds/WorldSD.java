@@ -2,10 +2,11 @@ package me.maxiiiiii.skyblockdragons.worlds;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.worlds.deepermines.DeeperMines;
+import me.maxiiiiii.skyblockdragons.worlds.deepmines.DeepMines;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
+import me.maxiiiiii.skyblockdragons.worlds.griffin.GriffinIsland;
 import me.maxiiiiii.skyblockdragons.worlds.hub.Hub;
 import me.maxiiiiii.skyblockdragons.worlds.mining.Mining;
-import me.maxiiiiii.skyblockdragons.worlds.deepmines.DeepMines;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,6 +23,7 @@ public abstract class WorldSD {
     public static DeepMines DEEP_MINES = null;
     public static TheEnd THE_END = null;
     public static DeeperMines DEEPER_MINES = null;
+    public static GriffinIsland GRIFFIN_ISLAND = null;
 
     private final World world;
     private final String name;
@@ -43,11 +45,13 @@ public abstract class WorldSD {
         DEEP_MINES = new DeepMines(plugin);
         THE_END = new TheEnd(plugin);
         DEEPER_MINES = new DeeperMines(plugin);
+        GRIFFIN_ISLAND = new GriffinIsland(plugin);
 
         worlds.add(HUB);
         worlds.add(DEEP_MINES);
         worlds.add(THE_END);
         worlds.add(DEEPER_MINES);
+        worlds.add(GRIFFIN_ISLAND);
     }
 
     public static WorldSD get(String worldName) {

@@ -6,6 +6,10 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 public class ParticlePacketUtil {
     public EnumWrappers.Particle particle;
@@ -39,5 +43,27 @@ public class ParticlePacketUtil {
         else
             packet.getIntegers().write(0, amount);
         return packet;
+    }
+
+    public void spawn(List<Player> players, Location location) {
+        PacketContainer packet = getParticle(location);
+        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+        for (Player player : players) {
+            if (particle == EnumWrappers.Particle.REDSTONE) {
+                for (int i = 0; i < amount; i++) {
+                    try {
+                        protocolManager.sendServerPacket(player, packet);
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                try {
+                    protocolManager.sendServerPacket(player, packet);
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

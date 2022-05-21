@@ -1,10 +1,5 @@
 package me.maxiiiiii.skyblockdragons.util.objects;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.EnumWrappers;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 
@@ -16,12 +11,12 @@ public class ParticleUtil {
     public float speed;
     public int amount;
 
-    public ParticleUtil(Particle particle, float xOffset, float yOffset, float zOffset, float speed, int amount) {
+    public ParticleUtil(Particle particle, double xOffset, double yOffset, double zOffset, double speed, int amount) {
         this.particle = particle;
-        this.xOffset = xOffset;
-        this.yOffset = yOffset;
-        this.zOffset = zOffset;
-        this.speed = speed;
+        this.xOffset = (float) xOffset;
+        this.yOffset = (float) yOffset;
+        this.zOffset = (float) zOffset;
+        this.speed = (float) speed;
         this.amount = amount;
     }
 

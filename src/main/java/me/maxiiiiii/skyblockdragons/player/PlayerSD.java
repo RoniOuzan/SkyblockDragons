@@ -1,8 +1,5 @@
 package me.maxiiiiii.skyblockdragons.player;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketContainer;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
@@ -22,7 +19,6 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.pet.Pet;
-import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
@@ -42,12 +38,10 @@ import me.maxiiiiii.skyblockdragons.worlds.WorldType;
 import me.maxiiiiii.skyblockdragons.worlds.deepermines.forge.Forge;
 import me.maxiiiiii.skyblockdragons.worlds.end.DragonType;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
+import me.maxiiiiii.skyblockdragons.worlds.griffin.Griffin;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_12_R1.EntityPlayer;
-import net.minecraft.server.v1_12_R1.Packet;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -57,7 +51,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.*;
 
-import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -82,6 +75,8 @@ public class PlayerSD extends PlayerClass {
     public EnderChest enderChestSD;
 
     public Forge forge;
+
+    public Griffin griffin;
 
     public final Cooldown<PlayerSD> updateStatsCooldown = new Cooldown<>();
 
@@ -131,6 +126,8 @@ public class PlayerSD extends PlayerClass {
 
         this.forge = new Forge(this);
 
+        this.griffin = new Griffin(this);
+
         this.lastCoins = this.getCoins();
 
         SkyblockDragons.players.put(player.getUniqueId(), this);
@@ -153,18 +150,6 @@ public class PlayerSD extends PlayerClass {
     public void giveSkill(SkillType skillType, double amount) {
         this.skill.get(skillType.name()).giveXp(amount, player);
         this.sendActionBar(ChatColor.DARK_AQUA + "+" + Functions.getInt(amount + "") + " " + skillType + " (" + Math.floor(this.getSkill().get(skillType).getCurrentXp() / this.getSkill().get(skillType).getCurrentNeedXp() * 1000d) / 10d + "%)", true);
-    }
-
-    public void sendPacket(Packet<?> packet) {
-        EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-        entityPlayer.playerConnection.sendPacket(packet);
-    }
-
-    public void sendProtocolPacket(PacketContainer packet) {
-        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-        try {
-            protocolManager.sendServerPacket(player, packet);
-        } catch (InvocationTargetException ignored) {}
     }
 
     public void addPlayTime(int amount) {

@@ -1,5 +1,4 @@
 package me.maxiiiiii.skyblockdragons.item.material.interfaces;
 
-public interface ItemEnchantAble extends ItemAble {
-
+public interface ItemAble {
 }

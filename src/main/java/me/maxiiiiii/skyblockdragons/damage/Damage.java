@@ -6,14 +6,16 @@ import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.ToolMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.Particles;
+import me.maxiiiiii.skyblockdragons.util.objects.ParticleUtil;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -110,7 +112,7 @@ public class Damage implements Listener {
                             EntityDamageEntityEvent playerDamageEntity = new EntityDamageEntityEvent(player, entity, DamageType.NORMAL, damage, true);
                             Bukkit.getServer().getPluginManager().callEvent(playerDamageEntity);
 
-                            particleLine(start, end, Particle.REDSTONE, 155, 0, 0);
+                            Particles.line(start, end, new ParticleUtil(Particle.REDSTONE, 155, 0, 0, 0, 1));
                         }
                     }.runTaskLater(SkyblockDragons.plugin, 5L);
                 }

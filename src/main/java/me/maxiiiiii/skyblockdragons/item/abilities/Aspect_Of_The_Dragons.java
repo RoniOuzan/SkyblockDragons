@@ -9,6 +9,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemAbility;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.Particles;
 import me.maxiiiiii.skyblockdragons.util.objects.ParticleUtil;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -33,16 +34,16 @@ public class Aspect_Of_The_Dragons implements Listener {
 
         ParticleUtil particle = new ParticleUtil(Particle.FLAME, 0, 0, 0, 0.01f, 1);
 
-        Functions.playCircle(location, 0.4, 20, particle);
+        Particles.circle(location, 0.4, 20, particle);
         player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1f, 1f);
 
         ItemAbility ability = ((ToolMaterial) Items.get(item)).getAbilities().get(0);
 
-        Functions.Wait(4L, () -> Functions.playCircle(location.clone().add(location.getDirection().multiply(0.7)), 0.6, 40, particle));
+        Functions.Wait(4L, () -> Particles.circle(location.clone().add(location.getDirection().multiply(0.7)), 0.6, 40, particle));
 
-        Functions.Wait(8L, () -> Functions.playCircle(location.clone().add(location.getDirection().multiply(1.4)), 0.8, 60, particle));
+        Functions.Wait(8L, () -> Particles.circle(location.clone().add(location.getDirection().multiply(1.4)), 0.8, 60, particle));
 
-        Functions.Wait(12L, () -> Functions.playCircle(location.clone().add(location.getDirection().multiply(2.1)), 1, 80, particle));
+        Functions.Wait(12L, () -> Particles.circle(location.clone().add(location.getDirection().multiply(2.1)), 1, 80, particle));
 
         List<Entity> damaged = new ArrayList<>();
         Functions.Loop(4, 4L, i -> {
