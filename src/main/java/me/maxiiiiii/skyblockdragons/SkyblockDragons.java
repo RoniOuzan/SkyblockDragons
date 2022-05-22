@@ -60,6 +60,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
@@ -330,6 +331,15 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 //            }
 //        }, 3000L, 6000L);
 
+        Functions.Wait(10L, () -> {
+            System.out.println("Attempting to Load Addons");
+            for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+                if (!plugin.isEnabled() && plugin.getDescription().getDepend().contains("SkyblockDragons")) {
+                    plugin.getLogger().info(String.format("Enabling Addon %s", plugin.getName()));
+                    Bukkit.getPluginManager().enablePlugin(plugin);
+                }
+            }
+        });
 
         System.out.println("Skyblock Dragons plugin has been loaded!");
     }
@@ -337,6 +347,13 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(this);
+        System.out.println("Disabling Addons...");
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+            if (plugin.isEnabled() && plugin.getDescription().getDepend().contains("SkyblockDragons")) {
+                plugin.getLogger().info(String.format("Disabling Addon %s", plugin.getName()));
+                Bukkit.getPluginManager().disablePlugin(plugin);
+            }
+        }
 
         for (World world : Bukkit.getWorlds()) {
             for (Entity entity : world.getEntities()) {
@@ -357,6 +374,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 entity.remove();
         }
         Variables.save();
+        System.out.println("Disabled SkyblockDragons!");
     }
 
     private boolean setupEconomy() {
