@@ -4,32 +4,35 @@ import lombok.Getter;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Getter
 public class Stats implements Iterable<Stat> {
-    public Stat damage;
-    public Stat strength;
-    public Stat critDamage;
-    public Stat critChance;
-    public Stat abilityDamage;
-    public Stat abilityScaling;
-    public Stat attackSpeed;
-    public Stat ferocity;
-    public Stat health;
-    public Stat defense;
-    public Stat trueDefense;
-    public Stat speed;
-    public Stat intelligence;
-    public Stat magicFind;
-    public Stat petLuck;
-    public Stat miningSpeed;
-    public Stat miningFortune;
-    public Stat seaCreatureChance;
-    public Stat absorption;
+    public final Stat damage;
+    public final Stat strength;
+    public final Stat critDamage;
+    public final Stat critChance;
+    public final Stat abilityDamage;
+    public final Stat abilityScaling;
+    public final Stat attackSpeed;
+    public final Stat ferocity;
+    public final Stat health;
+    public final Stat defense;
+    public final Stat trueDefense;
+    public final Stat speed;
+    public final Stat intelligence;
+    public final Stat magicFind;
+    public final Stat petLuck;
+    public final Stat miningSpeed;
+    public final Stat miningFortune;
+    public final Stat farmingFortune;
+    public final Stat foragingFortune;
+    public final Stat seaCreatureChance;
+    public final Stat absorption;
 
-    public Stats(double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double seaCreatureChance, double absorption) {
+    public Stats(double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double farmingFortune, double foragingFortune, double seaCreatureChance, double absorption) {
         this.damage = new Stat(damage, StatType.DAMAGE);
         this.strength = new Stat(strength, StatType.STRENGTH);
         this.critDamage = new Stat(critDamage, StatType.CRIT_DAMAGE);
@@ -47,28 +50,26 @@ public class Stats implements Iterable<Stat> {
         this.petLuck = new Stat(petLuck, StatType.PET_LUCK);
         this.miningSpeed = new Stat(miningSpeed, StatType.MINING_SPEED);
         this.miningFortune = new Stat(miningFortune, StatType.MINING_FORTUNE);
+        this.farmingFortune = new Stat(farmingFortune, StatType.FARMING_FORTUNE);
+        this.foragingFortune = new Stat(foragingFortune, StatType.FORAGING_FORTUNE);
         this.seaCreatureChance = new Stat(seaCreatureChance, StatType.SEA_CREATURE_CHANCE);
         this.absorption = new Stat(absorption, StatType.ABSORPTION);
     }
 
     public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence) {
-        this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, health, defense, 0, speed, intelligence, 0, 0, 0, 0, 0, 0);
-    }
-
-    public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence, double miningSpeed, double miningFortune) {
-        this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, health, defense, 0, speed, intelligence, 0, 0, miningSpeed, miningFortune, 0, 0);
+        this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, health, defense, 0, speed, intelligence, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
     public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity) {
-        this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
     public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double miningSpeed, double miningFortune) {
-        this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, 0, 0, 0, 0, 0, 0, 0, miningSpeed, miningFortune, 0, 0);
+        this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, 0, 0, 0, 0, 0, 0, 0, miningSpeed, miningFortune, 0, 0, 0, 0);
     }
 
     public Stats(double health, double defense, double trueDefense, double intelligence, double miningSpeed, double miningFortune, double magicFind) {
-        this(0, 0, 0, 0, 0, 0, 0, 0, health, defense, trueDefense, 0, intelligence, magicFind, 0, miningSpeed, miningFortune, 0, 0);
+        this(0, 0, 0, 0, 0, 0, 0, 0, health, defense, trueDefense, 0, intelligence, magicFind, 0, miningSpeed, miningFortune, 0, 0, 0, 0);
     }
 
     public Stats(double health, double defense, double speed, double intelligence) {
@@ -76,11 +77,25 @@ public class Stats implements Iterable<Stat> {
     }
 
     public Stats(double miningSpeed, double miningFortune) {
-        this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, miningSpeed, miningFortune, 0, 0);
+        this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, miningSpeed, miningFortune, 0, 0, 0, 0);
+    }
+
+    public Stats(StatType stat, double amount) {
+        this();
+        this.add(stat, amount);
+    }
+
+    public Stats(Object... statsAndAmounts) {
+        this();
+        List<StatType> stats = Arrays.stream(statsAndAmounts).filter(o -> o instanceof StatType).map(o -> (StatType) o).collect(Collectors.toList());
+        List<Double> amounts = Arrays.stream(statsAndAmounts).filter(o -> o instanceof Double).map(o -> (Double) o).collect(Collectors.toList());
+        for (int i = 0; i < stats.size(); i++) {
+            this.add(stats.get(i), amounts.get(i));
+        }
     }
 
     public Stats() {
-        this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
     public List<Stat> toList() {

@@ -42,13 +42,16 @@ import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeMenu;
 import me.maxiiiiii.skyblockdragons.storage.VariableCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.Particles;
-import me.maxiiiiii.skyblockdragons.util.objects.*;
-import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
+import me.maxiiiiii.skyblockdragons.util.objects.EntityHider;
+import me.maxiiiiii.skyblockdragons.util.objects.FlyTo;
+import me.maxiiiiii.skyblockdragons.util.objects.PickableItem;
+import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
+import me.maxiiiiii.skyblockdragons.util.particle.ParticlePacketUtil;
+import me.maxiiiiii.skyblockdragons.world.WorldSD;
+import me.maxiiiiii.skyblockdragons.world.warp.PlayerWarpListener;
+import me.maxiiiiii.skyblockdragons.world.warp.WarpCommand;
 import me.maxiiiiii.skyblockdragons.worlds.deepermines.forge.Forge;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
-import me.maxiiiiii.skyblockdragons.worlds.warp.PlayerWarpListener;
-import me.maxiiiiii.skyblockdragons.worlds.warp.WarpCommand;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -187,8 +190,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("Menu").setExecutor(new SkyblockMenu.Command());
         getCommand("Item").setExecutor(new ItemCommand());
         getCommand("Item").setTabCompleter(new ItemCommand());
-        getCommand("SkyblockDragons").setExecutor(new JavaPluginCommand());
-        getCommand("SkyblockDragons").setTabCompleter(new JavaPluginCommand());
         getCommand("Bits").setExecutor(new BitsCommand());
         getCommand("Bits").setTabCompleter(new BitsCommand());
         getCommand("Anvil").setExecutor(new AnvilCommand());
@@ -272,7 +273,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                     player.getPlayerPet().petArmorStand.armorStand.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.1 : -0.1), 0));
                     player.getPlayerPet().petArmorStand.hologram.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 1.6, 0));
                     for (ParticlePacketUtil particle : player.getPetActive().petMaterial.getParticles()) {
-                        particle.spawn(Functions.getPlayerShowedPets(), player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.8, 0));
+                        particle.spawn(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.8, 0), Functions.getPlayerShowedPets());
                     }
                 }
 

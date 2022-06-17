@@ -5,7 +5,6 @@ import me.maxiiiiii.skyblockdragons.item.objects.Stat;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 
 import java.util.List;
 
@@ -50,10 +49,7 @@ public class PlayerStats extends Stats {
     @Override
     public void reset() {
         super.reset();
-        for (AbstractSkill skill : this.player.getSkill()) {
-            this.add(skill.getRewards().getStat(), skill.getRewards().getStatAmount());
-        }
-        this.miningFortune.amount += this.player.getSkill().getMiningSkill().getLevel() * 4;
+        this.mana.amount = 0;
     }
 
     @Override

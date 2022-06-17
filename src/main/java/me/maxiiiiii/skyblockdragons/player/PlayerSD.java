@@ -23,6 +23,7 @@ import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
+import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
@@ -286,15 +287,22 @@ public class PlayerSD extends PlayerClass {
 
         String fullSet = equipment.getFullSet();
 
-        stats.reset();
-
-        StatsMultiplayer statsMultiplayer = new StatsMultiplayer();
-
         if (this.getWorldSD().isType(WorldType.MINING)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, -1, false, false));
         } else {
             player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
         }
+
+        this.stats.reset();
+
+        StatsMultiplayer statsMultiplayer = new StatsMultiplayer();
+
+        for (AbstractSkill skill : this.getSkill()) {
+            this.stats.add(skill.getRewards().getStat(), skill.getRewards().getStatAmount() * skill.getLevel());
+        }
+        this.stats.add(StatType.MINING_FORTUNE, this.getSkill().getMiningSkill().getLevel() * 4);
+        this.stats.add(StatType.FARMING_FORTUNE, this.getSkill().getFarmingSkill().getLevel() * 4);
+        this.stats.add(StatType.FORAGING_FORTUNE, this.getSkill().getForagingSkill().getLevel() * 4);
 
         if (getEnchantLevel(EnchantType.RESPIRATION) > 0)
             player.setMaximumAir((getEnchantLevel(EnchantType.RESPIRATION) * 200) + 200);
@@ -371,7 +379,7 @@ public class PlayerSD extends PlayerClass {
             statsMultiplayer.increase(StatType.DEFENSE, 30);
         }
         if (fullSet.equals("Young Blood") && player.getHealth() >= player.getMaxHealth() / 2) {
-            stats.speed.amount += 70;
+            this.stats.speed.amount += 70;
         }
         if (fullSet.equals("Superior Blood")) {
             statsMultiplayer.increase(0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 5, 5, 0, 0);
