@@ -48,11 +48,7 @@ public class PlayerPlaceEyeEvent extends PlayerSDEvent implements Cancellable {
         this.cancelled = cancel;
     }
 
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
+    @Override
+    public HandlerList getHandlers() {return handlers;}
+    public static HandlerList getHandlerList() {return handlers;}
 }

@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.worlds.warp;
+package me.maxiiiiii.skyblockdragons.world.warp;
 
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;

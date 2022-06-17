@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.worlds.mining;
+package me.maxiiiiii.skyblockdragons.mining;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
@@ -6,7 +6,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
+import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

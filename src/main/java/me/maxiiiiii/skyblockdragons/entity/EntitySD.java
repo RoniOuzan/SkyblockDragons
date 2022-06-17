@@ -2,9 +2,11 @@ package me.maxiiiiii.skyblockdragons.entity;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.ToolMaterial;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
@@ -116,7 +118,9 @@ public class EntitySD extends EntityClass {
 
     public static void loadLocations() {
         for (int i = 0; i < Variables.getSize("EntitiesSpawnsLocations"); i++) {
-            if (Variables.get("EntitiesSpawnsEntity", i) == null || Variables.get("EntitiesSpawnsLocations", i) == null)
+            if (Variables.get("EntitiesSpawnsLocations", i) == null)
+                continue;
+            if (Variables.get("EntitiesSpawnsEntity", i) == null)
                 continue;
             Location location = Variables.get("EntitiesSpawnsLocations", i, new Location(Bukkit.getWorld("Hub"), 0, 0, 0));
             EntityMaterial material = Variables.get("EntitiesSpawnsEntity", i);
@@ -157,7 +161,8 @@ public class EntitySD extends EntityClass {
 
     public void kill() {
         this.entity.remove();
-        this.hologram.getStand().remove();
+        if (this.type != EntityMaterial.get("PLAYER"))
+            this.hologram.getStand().remove();
         entities.remove(this.entity.getUniqueId());
     }
 
@@ -221,17 +226,17 @@ public class EntitySD extends EntityClass {
 
     @Getter
     public class Equipment {
-        public ItemStack tool;
-        public ItemStack helmet;
-        public ItemStack chestplate;
-        public ItemStack leggings;
-        public ItemStack boots;
-        public ToolMaterial toolMaterial;
-        public ArmorMaterial helmetMaterial;
-        public ArmorMaterial chestplateMaterial;
-        public ArmorMaterial leggingsMaterial;
-        public ArmorMaterial bootsMaterial;
-        public String fullSet;
+        private final ItemStack tool;
+        private final ItemStack helmet;
+        private final ItemStack chestplate;
+        private final ItemStack leggings;
+        private final ItemStack boots;
+        private ToolMaterial toolMaterial;
+        private ArmorMaterial helmetMaterial;
+        private ArmorMaterial chestplateMaterial;
+        private ArmorMaterial leggingsMaterial;
+        private ArmorMaterial bootsMaterial;
+        private String fullSet;
 
         public Equipment() {
             tool = entity.getEquipment().getItemInMainHand();
@@ -268,6 +273,36 @@ public class EntitySD extends EntityClass {
             if (helmetMaterial.getFullSet().getName().equals(chestplateMaterial.getFullSet().getName()) && chestplateMaterial.getFullSet().getName().equals(leggingsMaterial.getFullSet().getName()) && leggingsMaterial.getFullSet().getName().equals(bootsMaterial.getFullSet().getName())) {
                 fullSet = helmetMaterial.getFullSet().getName();
             }
+        }
+
+        public Item getToolItem() {
+            if (EntitySD.this instanceof PlayerSD)
+                return new Item((PlayerSD) EntitySD.this, this.tool);
+            return new Item(this.tool);
+        }
+
+        public Item getHelmetItem() {
+            if (EntitySD.this instanceof PlayerSD)
+                return new Item((PlayerSD) EntitySD.this, this.helmet);
+            return new Item(this.helmet);
+        }
+
+        public Item getChestplateItem() {
+            if (EntitySD.this instanceof PlayerSD)
+                return new Item((PlayerSD) EntitySD.this, this.chestplate);
+            return new Item(this.chestplate);
+        }
+
+        public Item getLeggingsItem() {
+            if (EntitySD.this instanceof PlayerSD)
+                return new Item((PlayerSD) EntitySD.this, this.leggings);
+            return new Item(this.leggings);
+        }
+
+        public Item getTBootsItem() {
+            if (EntitySD.this instanceof PlayerSD)
+                return new Item((PlayerSD) EntitySD.this, this.boots);
+            return new Item(this.boots);
         }
     }
 

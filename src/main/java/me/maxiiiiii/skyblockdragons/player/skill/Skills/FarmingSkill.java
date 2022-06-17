@@ -2,19 +2,18 @@ package me.maxiiiiii.skyblockdragons.player.skill.Skills;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
-import java.util.Map;
-
 @Getter
 public class FarmingSkill extends AbstractSkill {
     private static final double[] statAmount = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5};
 
-    public FarmingSkill(int level, double totalXp) {
-        super(
+    public FarmingSkill(PlayerSD player, int level, double totalXp) {
+        super(player,
                 "Farming",
                 "Harvest crops and shear sheep to earn Farming XP!",
                 Material.GOLD_HOE,
@@ -29,9 +28,5 @@ public class FarmingSkill extends AbstractSkill {
                 60,
                 totalXp
         );
-    }
-
-    public static FarmingSkill deserialize(Map<String, Object> args) {
-        return new FarmingSkill((int) args.get("level"), (double) args.get("totalXp"));
     }
 }

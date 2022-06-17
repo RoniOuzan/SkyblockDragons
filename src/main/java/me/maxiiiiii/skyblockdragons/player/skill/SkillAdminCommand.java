@@ -22,7 +22,7 @@ public class SkillAdminCommand implements CommandExecutor {
                     if (args[1].equalsIgnoreCase("give")) {
                         try {
                             double amount = Double.parseDouble(args[2]);
-                            player.getSkill().get(args[0]).giveXp(amount, player);
+                            player.getSkill().get(args[0]).giveXp(amount);
                             sender.sendMessage(ChatColor.GREEN + "Gave " + args[2] + " " + Functions.setTitleCase(args[0]) + " xp to " + player.getName() + ".");
                         } catch (NumberFormatException ex) {
                             sender.sendMessage(ChatColor.RED + "Can't understand this number!");
@@ -30,7 +30,7 @@ public class SkillAdminCommand implements CommandExecutor {
                     } else if (args[1].equalsIgnoreCase("set") || args[1].equalsIgnoreCase("setXp")) {
                         try {
                             double amount = Double.parseDouble(args[2]);
-                            player.getSkill().get(args[0]).setXp(amount, player);
+                            player.getSkill().get(args[0]).setXp(amount);
                             sender.sendMessage(ChatColor.GREEN + "Setted " + args[2] + " " + Functions.setTitleCase(args[0]) + " xp to " + player.getName() + ".");
                         } catch (NumberFormatException ex) {
                             sender.sendMessage(ChatColor.RED + "Can't understand this number!");
@@ -38,7 +38,7 @@ public class SkillAdminCommand implements CommandExecutor {
                     } else if (args[1].equalsIgnoreCase("setLevel") || args[1].equalsIgnoreCase("setLVL")) {
                         try {
                             int level = Integer.parseInt(args[2]);
-                            player.getSkill().get(args[0]).setLevel(level, player);
+                            player.getSkill().get(args[0]).setLevel(level);
                             sender.sendMessage(ChatColor.GREEN + "Setted " + args[2] + " " + Functions.setTitleCase(args[0]) + " level to " + player.getName() + ".");
                         } catch (NumberFormatException ex) {
                             sender.sendMessage(ChatColor.RED + "Can't understand this number!");

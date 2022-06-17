@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.worlds.warp;
+package me.maxiiiiii.skyblockdragons.world.warp;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -7,12 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class WarpCommand implements CommandExecutor {
     @Override

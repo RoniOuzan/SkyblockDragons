@@ -72,6 +72,7 @@ public class Forge {
         @Override
         public void update() {
             this.setItem(48, getGlass(BlockColor.BLACK));
+            this.setItem(50, createItem(Material.EMPTY_MAP, ChatColor.YELLOW + "Milestone", "MILESTONE", "", ChatColor.YELLOW + "Click to view!"));
 
             for (int i = 1; i <= 5; i++) {
                 if (forging.containsKey(i)) {

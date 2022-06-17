@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.worlds;
+package me.maxiiiiii.skyblockdragons.world;
 
 public enum WorldType {
     MINING,

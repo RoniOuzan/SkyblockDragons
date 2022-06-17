@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.player.skill.Skills;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
@@ -9,8 +10,9 @@ import org.bukkit.Material;
 
 @Getter
 public class AlchemySkill extends AbstractSkill {
-    public AlchemySkill(int level, double totalXp) {
-        super("Alchemy",
+    public AlchemySkill(PlayerSD player, int level, double totalXp) {
+        super(player,
+                "Alchemy",
                 "Brew potions to earn Alchemy XP!",
                 Material.BREWING_STAND_ITEM,
                 new SkillRewards(

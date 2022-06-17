@@ -1,10 +1,8 @@
 package me.maxiiiiii.skyblockdragons.worlds.hub;
 
-import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
-import me.maxiiiiii.skyblockdragons.worlds.WorldType;
+import me.maxiiiiii.skyblockdragons.world.WorldSD;
+import me.maxiiiiii.skyblockdragons.world.WorldType;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Hub extends WorldSD {

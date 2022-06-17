@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.worlds.mining;
+package me.maxiiiiii.skyblockdragons.mining;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.material.Items;

@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.worlds.warp;
+package me.maxiiiiii.skyblockdragons.world.warp;
 
 import lombok.Getter;
 import org.bukkit.entity.Player;

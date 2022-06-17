@@ -1,16 +1,15 @@
 package me.maxiiiiii.skyblockdragons.player.skill.Skills;
 
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
-import java.util.Map;
-
 public class TamingSkill extends AbstractSkill {
-    public TamingSkill(int level, double totalXp) {
-        super(
+    public TamingSkill(PlayerSD player, int level, double totalXp) {
+        super(player,
                 "Taming",
                 "Level up pets to earn Pet XP!",
                 Material.MONSTER_EGG,
@@ -25,10 +24,5 @@ public class TamingSkill extends AbstractSkill {
                 50,
                 totalXp
         );
-    }
-
-
-    public static TamingSkill deserialize(Map<String, Object> args) {
-        return new TamingSkill((int) args.get("level"), (double) args.get("totalXp"));
     }
 }

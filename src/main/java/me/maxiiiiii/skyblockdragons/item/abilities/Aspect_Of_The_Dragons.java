@@ -9,8 +9,8 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemAbility;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.Particles;
-import me.maxiiiiii.skyblockdragons.util.objects.ParticleUtil;
+import me.maxiiiiii.skyblockdragons.util.particle.Particles;
+import me.maxiiiiii.skyblockdragons.util.particle.ParticleUil;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -32,18 +32,18 @@ public class Aspect_Of_The_Dragons implements Listener {
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
         Location location = player.getEyeLocation().subtract(0, 0.2, 0).add(player.getLocation().getDirection());
 
-        ParticleUtil particle = new ParticleUtil(Particle.FLAME, 0, 0, 0, 0.01f, 1);
+        ParticleUil particle = new ParticleUil(Particle.FLAME, 0, 0, 0, 0.01f, 1);
 
-        Particles.circle(location, 0.4, 20, particle);
+        Particles.circle(particle, location, 0.4, 20);
         player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1f, 1f);
 
         ItemAbility ability = ((ToolMaterial) Items.get(item)).getAbilities().get(0);
 
-        Functions.Wait(4L, () -> Particles.circle(location.clone().add(location.getDirection().multiply(0.7)), 0.6, 40, particle));
+        Functions.Wait(4L, () -> Particles.circle(particle, location.clone().add(location.getDirection().multiply(0.7)), 0.6, 40));
 
-        Functions.Wait(8L, () -> Particles.circle(location.clone().add(location.getDirection().multiply(1.4)), 0.8, 60, particle));
+        Functions.Wait(8L, () -> Particles.circle(particle, location.clone().add(location.getDirection().multiply(1.4)), 0.8, 60));
 
-        Functions.Wait(12L, () -> Particles.circle(location.clone().add(location.getDirection().multiply(2.1)), 1, 80, particle));
+        Functions.Wait(12L, () -> Particles.circle(particle, location.clone().add(location.getDirection().multiply(2.1)), 1, 80));
 
         List<Entity> damaged = new ArrayList<>();
         Functions.Loop(4, 4L, i -> {

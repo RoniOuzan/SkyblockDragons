@@ -8,9 +8,10 @@ import org.bukkit.ChatColor;
 @Getter
 @Setter
 public abstract class Requirement {
+    protected static final String icon = ChatColor.RED + "❣ Requires ";
+
     protected final RequirementType type;
     protected final int level;
-    protected static final String icon = ChatColor.RED + "❣ Requires ";
 
     protected Requirement(RequirementType type, int level) {
         this.type = type;

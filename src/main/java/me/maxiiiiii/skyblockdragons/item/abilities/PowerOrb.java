@@ -7,7 +7,7 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.ParticleUtil;
+import me.maxiiiiii.skyblockdragons.util.particle.ParticleUil;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -18,13 +18,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class PowerOrb extends BukkitRunnable {
     public enum Type {
-        RADIANT(600, ChatColor.GREEN, new ParticleUtil(Particle.REDSTONE, 0.1f, 1f, 0.1f, 1f, 1)), MANA_FLUX(600, ChatColor.BLUE, new ParticleUtil(Particle.REDSTONE, 0.2f, 0.2f, 1, 1f, 1)), OVERFLUX(1200, ChatColor.RED, new ParticleUtil(Particle.REDSTONE, 1, 0.1f, 0.1f, 1f, 1)), PLASMA(1200, ChatColor.LIGHT_PURPLE, new ParticleUtil(Particle.REDSTONE, 0.34f, 0.15f, 0.3f, 1f, 1));
+        RADIANT(600, ChatColor.GREEN, new ParticleUil(Particle.REDSTONE, 0.1f, 1f, 0.1f, 1f, 1)), MANA_FLUX(600, ChatColor.BLUE, new ParticleUil(Particle.REDSTONE, 0.2f, 0.2f, 1, 1f, 1)), OVERFLUX(1200, ChatColor.RED, new ParticleUil(Particle.REDSTONE, 1, 0.1f, 0.1f, 1f, 1)), PLASMA(1200, ChatColor.LIGHT_PURPLE, new ParticleUil(Particle.REDSTONE, 0.34f, 0.15f, 0.3f, 1f, 1));
 
         private final long standsFor;
         private final ChatColor color;
-        private final ParticleUtil particle;
+        private final ParticleUil particle;
 
-        Type(long standsFor, ChatColor color, ParticleUtil particle) {
+        Type(long standsFor, ChatColor color, ParticleUil particle) {
             this.standsFor = standsFor;
             this.color = color;
             this.particle = particle;

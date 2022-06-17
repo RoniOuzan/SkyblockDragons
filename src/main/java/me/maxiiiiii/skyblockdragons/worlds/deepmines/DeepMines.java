@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.worlds.deepmines;
 
-import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
-import me.maxiiiiii.skyblockdragons.worlds.WorldType;
+import me.maxiiiiii.skyblockdragons.world.WorldSD;
+import me.maxiiiiii.skyblockdragons.world.WorldType;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;

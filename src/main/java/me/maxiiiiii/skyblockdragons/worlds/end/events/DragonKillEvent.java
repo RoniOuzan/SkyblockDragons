@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Getter
 public class DragonKillEvent extends EntitySDEvent {
-    public static final HandlerList handler = new HandlerList();
+    public static final HandlerList handlers = new HandlerList();
 
     protected PlayerSD killer;
     protected Map<PlayerSD, Double> killers;
@@ -25,11 +25,6 @@ public class DragonKillEvent extends EntitySDEvent {
     }
 
     @Override
-    public HandlerList getHandlers() {
-        return handler;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handler;
-    }
+    public HandlerList getHandlers() {return handlers;}
+    public static HandlerList getHandlerList() {return handlers;}
 }

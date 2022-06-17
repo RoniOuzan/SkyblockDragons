@@ -60,6 +60,14 @@ public class Item extends ItemStack {
         this(material, 1);
     }
 
+    public Item(ItemStack itemStack) {
+        this(Functions.getItemMaterial(itemStack), itemStack);
+    }
+
+    public Item(ItemMaterial material, ItemStack fromItem) {
+        this(null, material, fromItem);
+    }
+
     public Item(PlayerSD player, ItemMaterial material) {
         this(player, material, 1);
     }
@@ -69,7 +77,17 @@ public class Item extends ItemStack {
     }
 
     public Item(PlayerSD player, ItemMaterial material, ItemStack fromItem) {
-        this(player, material, (isStackable(fromItem) ? fromItem.getAmount() : 1), getHotPotato(fromItem), getReforge(fromItem), isRecombed(fromItem), getSkin(fromItem), Functions.getEnchants(fromItem), getNecronScrolls(fromItem));
+        this(
+                player,
+                material,
+                (isStackable(fromItem) ? fromItem.getAmount() : 1),
+                getHotPotato(fromItem),
+                getReforge(fromItem),
+                isRecombed(fromItem),
+                getSkin(fromItem),
+                Functions.getEnchants(fromItem),
+                getNecronScrolls(fromItem)
+        );
         Functions.copyNBTStack(this, fromItem);
     }
 

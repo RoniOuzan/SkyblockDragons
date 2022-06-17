@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.worlds.hub;
 
-import me.maxiiiiii.skyblockdragons.worlds.warp.Warp;
+import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

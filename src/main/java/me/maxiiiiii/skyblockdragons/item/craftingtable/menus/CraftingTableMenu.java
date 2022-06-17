@@ -176,7 +176,7 @@ public class CraftingTableMenu extends Menu {
         Item[] items = new Item[9];
         for (int i = 0; i < 9; i++) {
             if (Functions.isNotAir(inventory.getItem(Functions.numToSlot(i))))
-                items[i] = new Item(null, inventory.getItem(Functions.numToSlot(i)));
+                items[i] = new Item(inventory.getItem(Functions.numToSlot(i)));
             else
                 items[i] = null;
         }

@@ -1,22 +1,18 @@
 package me.maxiiiiii.skyblockdragons.item.material.types;
 
-import com.comphenix.protocol.wrappers.EnumWrappers;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemStatsAble;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
-import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.objects.Stats;
-import me.maxiiiiii.skyblockdragons.item.objects.PetAbility;
+import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.ParticlePacketUtil;
 import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
+import me.maxiiiiii.skyblockdragons.util.particle.ParticlePacketUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 
 import java.util.ArrayList;
@@ -25,7 +21,7 @@ import java.util.List;
 
 @Getter
 public class PetMaterial extends ItemMaterial implements ItemStatsAble, ItemRequirementAble {
-    public static final PetMaterial NULL = new PetMaterial("Null", "", "", new Stats(), Arrays.asList(Rarity.NONE), Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)))), SkillType.COMBAT, new ParticlePacketUtil(EnumWrappers.Particle.REDSTONE, 1, 0, 0, 1f, 5));
+    public static final PetMaterial NULL = new PetMaterial("Null", "", "", new Stats(), Arrays.asList(Rarity.NONE), Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)))), SkillType.COMBAT, new ParticlePacketUtil(Particle.REDSTONE, 1, 0, 0, 1f, 5));
 
     private final Stats stats;
     private final List<Rarity> rarities;
@@ -50,8 +46,8 @@ public class PetMaterial extends ItemMaterial implements ItemStatsAble, ItemRequ
         for (Object object : array) {
             if (object instanceof ParticlePacketUtil) {
                 particles.add((ParticlePacketUtil) object);
-            } else if (object instanceof EnumWrappers.Particle) {
-                particles.add(new ParticlePacketUtil((EnumWrappers.Particle) object));
+            } else if (object instanceof Particle) {
+                particles.add(new ParticlePacketUtil((Particle) object));
             } else if (object instanceof SoundUtil) {
                 sounds.add((SoundUtil) object);
             } else if (object instanceof Sound) {

@@ -1,11 +1,13 @@
 package me.maxiiiiii.skyblockdragons.worlds.griffin.events;
 
+import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.entity.PlayerSDEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.Location;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
+@Getter
 public class PlayerDigBurrowEvent extends PlayerSDEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 

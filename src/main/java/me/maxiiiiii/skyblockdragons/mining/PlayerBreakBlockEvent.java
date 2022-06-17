@@ -1,8 +1,7 @@
-package me.maxiiiiii.skyblockdragons.worlds.mining;
+package me.maxiiiiii.skyblockdragons.mining;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.BlockBreakEvent;
 

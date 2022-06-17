@@ -3,8 +3,11 @@ package me.maxiiiiii.skyblockdragons.commands;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
+import me.maxiiiiii.skyblockdragons.util.particle.ParticlePacketUtil;
+import me.maxiiiiii.skyblockdragons.util.particle.Particles;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class JavaPluginCommand implements CommandExecutor, TabCompleter {
+public class SkyblockDragonsCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
@@ -90,6 +93,7 @@ public class JavaPluginCommand implements CommandExecutor, TabCompleter {
                         } catch (NullPointerException ignored) {}
                     }
                 } else if (args[0].equalsIgnoreCase("test")) {
+                    Particles.line(new ParticlePacketUtil(Particle.FLAME, 0f, 0f, 0f, 0, 1), ((Player) sender).getLocation(), ((Player) sender).getTargetBlock(null, 30).getLocation(), 0.2, sender);
                 }
             } else {
                 sender.sendMessage(ChatColor.RED + "Invalid arguments!");

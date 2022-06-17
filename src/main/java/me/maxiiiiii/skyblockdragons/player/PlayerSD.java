@@ -33,8 +33,8 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
-import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
-import me.maxiiiiii.skyblockdragons.worlds.WorldType;
+import me.maxiiiiii.skyblockdragons.world.WorldSD;
+import me.maxiiiiii.skyblockdragons.world.WorldType;
 import me.maxiiiiii.skyblockdragons.worlds.deepermines.forge.Forge;
 import me.maxiiiiii.skyblockdragons.worlds.end.DragonType;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
@@ -148,7 +148,7 @@ public class PlayerSD extends PlayerClass {
     }
 
     public void giveSkill(SkillType skillType, double amount) {
-        this.skill.get(skillType.name()).giveXp(amount, player);
+        this.skill.get(skillType.name()).giveXp(amount);
         this.sendActionBar(ChatColor.DARK_AQUA + "+" + Functions.getInt(amount + "") + " " + skillType + " (" + Math.floor(this.getSkill().get(skillType).getCurrentXp() / this.getSkill().get(skillType).getCurrentNeedXp() * 1000d) / 10d + "%)", true);
     }
 
@@ -272,19 +272,19 @@ public class PlayerSD extends PlayerClass {
     public void applyStats(boolean manaRegan) {
         Equipment equipment = this.getItems();
 
-        ItemStack tool = equipment.tool;
-        ItemStack helmet = equipment.helmet;
-        ItemStack chestplate = equipment.chestplate;
-        ItemStack leggings = equipment.leggings;
-        ItemStack boots = equipment.boots;
+        ItemStack tool = equipment.getTool();
+        ItemStack helmet = equipment.getHelmet();
+        ItemStack chestplate = equipment.getChestplate();
+        ItemStack leggings = equipment.getLeggings();
+        ItemStack boots = equipment.getBoots();
 
-        ToolMaterial toolMaterial = equipment.toolMaterial;
-        ArmorMaterial helmetMaterial = equipment.helmetMaterial;
-        ArmorMaterial chestplateMaterial = equipment.chestplateMaterial;
-        ArmorMaterial leggingsMaterial = equipment.leggingsMaterial;
-        ArmorMaterial bootsMaterial = equipment.bootsMaterial;
+        ToolMaterial toolMaterial = equipment.getToolMaterial();
+        ArmorMaterial helmetMaterial = equipment.getHelmetMaterial();
+        ArmorMaterial chestplateMaterial = equipment.getChestplateMaterial();
+        ArmorMaterial leggingsMaterial = equipment.getLeggingsMaterial();
+        ArmorMaterial bootsMaterial = equipment.getBootsMaterial();
 
-        String fullSet = equipment.fullSet;
+        String fullSet = equipment.getFullSet();
 
         stats.reset();
 

@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.worlds.mining;
+package me.maxiiiiii.skyblockdragons.mining;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -10,8 +10,8 @@ import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
-import me.maxiiiiii.skyblockdragons.worlds.WorldType;
+import me.maxiiiiii.skyblockdragons.world.WorldSD;
+import me.maxiiiiii.skyblockdragons.world.WorldType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;

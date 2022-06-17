@@ -119,19 +119,19 @@ public class Functions {
     public static String getShortNumber(double num) {
         double signum = Math.signum(num);
         num = Math.abs(num);
-        String output = getInt(num + "");
-        if (num >= 1000000000000000000d) {
-            output = num * signum + "";
-        } else if (num >= 1000000000000000d) {
-            output = Math.round(num * signum / 1000000000000000d * 100d) / 100d + "Q";
-        } else if (num >= 1000000000000d) {
-            output = Math.round(num * signum / 1000000000000d * 100d) / 100d + "T";
-        } else if (num >= 1000000000d) {
-            output = Math.round(num * signum / 1000000000d * 100d) / 100d + "B";
-        } else if (num >= 1000000d) {
-            output = Math.round(num * signum / 1000000d * 100d) / 100d + "M";
-        } else if (num >= 1000d) {
-            output = Math.round(num * signum / 1000d * 100d) / 100d + "K";
+        String output;
+        if (num >= 1_000_000_000_000_000d) {
+            output = Math.round(num * signum / 1000000000000000d * 100d) / 100d + "q";
+        } else if (num >= 1_000_000_000_000d) {
+            output = Math.round(num * signum / 1000000000000d * 100d) / 100d + "t";
+        } else if (num >= 1_000_000_000d) {
+            output = Math.round(num * signum / 1000000000d * 100d) / 100d + "b";
+        } else if (num >= 1_000_000d) {
+            output = Math.round(num * signum / 1000000d * 100d) / 100d + "m";
+        } else if (num >= 1_000d) {
+            output = Math.round(num * signum / 1000d * 100d) / 100d + "k";
+        } else {
+            output = getInt((num * signum) + "");
         }
         return output;
     }
@@ -1242,12 +1242,12 @@ public class Functions {
     public static int manaCostCalculator(int manaCost, PlayerSD player, Map<EnchantType, Short> enchants) {
         int finalCost = manaCost;
         for (EnchantType enchantType : enchants.keySet()) {
-            if (enchantType.name().equals("ULTIMATE_WISE")) {
+            if (enchantType == EnchantType.ULTIMATE_WISE) {
                 finalCost *= 1 - (0.1 * enchants.get(enchantType));
             }
         }
         if (player != null) {
-            if (player.getItems().fullSet.equals("Wise Blood")) {
+            if (player.getItems().getFullSet().equals("Wise Blood")) {
                 finalCost *= 0.6;
             }
         }

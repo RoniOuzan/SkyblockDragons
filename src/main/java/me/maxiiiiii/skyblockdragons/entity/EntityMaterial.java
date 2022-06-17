@@ -4,10 +4,10 @@ import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.types.deepermines.Ghost;
 import me.maxiiiiii.skyblockdragons.entity.types.deepermines.IceMiner;
+import me.maxiiiiii.skyblockdragons.entity.types.deepmines.*;
 import me.maxiiiiii.skyblockdragons.entity.types.other.Dummy;
 import me.maxiiiiii.skyblockdragons.entity.types.other.NullEntity;
 import me.maxiiiiii.skyblockdragons.entity.types.other.PlayerEntity;
-import me.maxiiiiii.skyblockdragons.entity.types.deepmines.*;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EnderGuard;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EndermanTier1;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EndermanTier2;
@@ -15,6 +15,7 @@ import me.maxiiiiii.skyblockdragons.entity.types.theend.dragon.*;
 import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
+import org.bukkit.Utility;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.Listener;
@@ -140,12 +141,14 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
     }
 
     @Override
+    @Utility
     public Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
         map.put("id", this.name());
         return map;
     }
 
+    @Utility
     public static EntityMaterial deserialize(Map<String, Object> args) {
         return EntityMaterial.get((String) args.get("id"));
     }

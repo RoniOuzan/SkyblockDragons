@@ -14,8 +14,8 @@ import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.Particles;
-import me.maxiiiiii.skyblockdragons.util.objects.ParticleUtil;
+import me.maxiiiiii.skyblockdragons.util.particle.Particles;
+import me.maxiiiiii.skyblockdragons.util.particle.ParticleUil;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -112,7 +112,7 @@ public class Damage implements Listener {
                             EntityDamageEntityEvent playerDamageEntity = new EntityDamageEntityEvent(player, entity, DamageType.NORMAL, damage, true);
                             Bukkit.getServer().getPluginManager().callEvent(playerDamageEntity);
 
-                            Particles.line(start, end, new ParticleUtil(Particle.REDSTONE, 155, 0, 0, 0, 1));
+                            Particles.line(new ParticleUil(Particle.REDSTONE, 155, 0, 0, 0, 1), start, end, 0.05);
                         }
                     }.runTaskLater(SkyblockDragons.plugin, 5L);
                 }
@@ -132,11 +132,7 @@ public class Damage implements Listener {
     }
 
     public DamageCalculator getDamage(EntitySD attacker, EntitySD victim, DamageType damageType, double baseAbilityDamage, double abilityScaling) {
-        Item item;
-        if (attacker instanceof PlayerSD)
-            item = new Item((PlayerSD) attacker, attacker.getEquipment().getItemInMainHand());
-        else
-            item = new Item(null, attacker.getEquipment().getItemInMainHand());
+        Item item = attacker.getItems().getToolItem();
         double damage = 1;
         boolean critHit = false;
 
@@ -146,19 +142,19 @@ public class Damage implements Listener {
         double baseReducer = 1;
 
         EntitySD.Equipment equipment = attacker.getItems();
-        ItemStack tool = equipment.tool;
-        ItemStack helmet = equipment.helmet;
-        ItemStack chestplate = equipment.chestplate;
-        ItemStack leggings = equipment.leggings;
-        ItemStack boots = equipment.boots;
+        ItemStack tool = equipment.getTool();
+        ItemStack helmet = equipment.getHelmet();
+        ItemStack chestplate = equipment.getChestplate();
+        ItemStack leggings = equipment.getLeggings();
+        ItemStack boots = equipment.getBoots();
 
-        ToolMaterial toolMaterial = equipment.toolMaterial;
-        ArmorMaterial helmetMaterial = equipment.helmetMaterial;
-        ArmorMaterial chestplateMaterial = equipment.chestplateMaterial;
-        ArmorMaterial leggingsMaterial = equipment.leggingsMaterial;
-        ArmorMaterial bootsMaterial = equipment.bootsMaterial;
+        ToolMaterial toolMaterial = equipment.getToolMaterial();
+        ArmorMaterial helmetMaterial = equipment.getHelmetMaterial();
+        ArmorMaterial chestplateMaterial = equipment.getChestplateMaterial();
+        ArmorMaterial leggingsMaterial = equipment.getLeggingsMaterial();
+        ArmorMaterial bootsMaterial = equipment.getBootsMaterial();
 
-        String fullSet = equipment.fullSet;
+        String fullSet = equipment.getFullSet();
 
         if (attacker instanceof PlayerSD) {
             PlayerSD playerSD = (PlayerSD) attacker;

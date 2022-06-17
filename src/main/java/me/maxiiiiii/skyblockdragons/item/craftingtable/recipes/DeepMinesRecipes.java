@@ -175,184 +175,288 @@ public class DeepMinesRecipes extends RecipeRegister {
         ), -1));
 
         recipes.put("COAL_TALISMAN", new Recipe(new Item(Items.get("COAL_TALISMAN")), getItems(
-                new Item(Items.items.get("ENCHANTED_COAL"), 1),
-                new Item(Items.items.get("ENCHANTED_COAL"), 1),
-                new Item(Items.items.get("ENCHANTED_COAL"), 1),
-                new Item(Items.items.get("ENCHANTED_COAL"), 1),
+                new Item(Items.items.get("COAL"), 64),
+                new Item(Items.items.get("COAL"), 64),
+                new Item(Items.items.get("COAL"), 64),
+                new Item(Items.items.get("COAL"), 64),
                 null,
+                new Item(Items.items.get("COAL"), 64),
+                new Item(Items.items.get("COAL"), 64),
+                new Item(Items.items.get("COAL"), 64),
+                new Item(Items.items.get("COAL"), 64)
+        ), -1));
+
+        recipes.put("COAL_RING", new Recipe(new Item(Items.get("COAL_RING")), getItems(
+                new Item(Items.items.get("ENCHANTED_COAL"), 1),
+                new Item(Items.items.get("ENCHANTED_COAL"), 1),
+                new Item(Items.items.get("ENCHANTED_COAL"), 1),
+                new Item(Items.items.get("ENCHANTED_COAL"), 1),
+                new Item(Items.items.get("COAL_TALISMAN")),
                 new Item(Items.items.get("ENCHANTED_COAL"), 1),
                 new Item(Items.items.get("ENCHANTED_COAL"), 1),
                 new Item(Items.items.get("ENCHANTED_COAL"), 1),
                 new Item(Items.items.get("ENCHANTED_COAL"), 1)
-        ), -1));
+        ), 4));
 
-        recipes.put("COAL_BLOCK_TALISMAN", new Recipe(new Item(Items.get("COAL_BLOCK_TALISMAN")), getItems(
+        recipes.put("COAL_ARTIFACT", new Recipe(new Item(Items.get("COAL_ARTIFACT")), getItems(
                 new Item(Items.items.get("ENCHANTED_COAL_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_COAL_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_COAL_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_COAL_BLOCK"), 1),
-                new Item(Items.items.get("COAL_TALISMAN")),
+                new Item(Items.items.get("COAL_RING")),
                 new Item(Items.items.get("ENCHANTED_COAL_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_COAL_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_COAL_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_COAL_BLOCK"), 1)
         ), 4));
 
+
         recipes.put("IRON_TALISMAN", new Recipe(new Item(Items.get("IRON_TALISMAN")), getItems(
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
-                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
+                new Item(Items.items.get("IRON_INGOT"), 64),
+                new Item(Items.items.get("IRON_INGOT"), 64),
+                new Item(Items.items.get("IRON_INGOT"), 64),
+                new Item(Items.items.get("IRON_INGOT"), 64),
                 null,
+                new Item(Items.items.get("IRON_INGOT"), 64),
+                new Item(Items.items.get("IRON_INGOT"), 64),
+                new Item(Items.items.get("IRON_INGOT"), 64),
+                new Item(Items.items.get("IRON_INGOT"), 64)
+        ), -1));
+
+        recipes.put("IRON_RING", new Recipe(new Item(Items.get("IRON_RING")), getItems(
+                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
+                new Item(Items.items.get("IRON_TALISMAN")),
                 new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
                 new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
                 new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1),
                 new Item(Items.items.get("ENCHANTED_IRON_INGOT"), 1)
-        ), -1));
+        ), 4));
 
-        recipes.put("IRON_BLOCK_TALISMAN", new Recipe(new Item(Items.get("IRON_BLOCK_TALISMAN")), getItems(
+        recipes.put("IRON_ARTIFACT", new Recipe(new Item(Items.get("IRON_ARTIFACT")), getItems(
                 new Item(Items.items.get("ENCHANTED_IRON_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_IRON_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_IRON_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_IRON_BLOCK"), 1),
-                new Item(Items.items.get("IRON_TALISMAN")),
+                new Item(Items.items.get("IRON_RING")),
                 new Item(Items.items.get("ENCHANTED_IRON_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_IRON_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_IRON_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_IRON_BLOCK"), 1)
         ), 4));
 
+
         recipes.put("GOLD_TALISMAN", new Recipe(new Item(Items.get("GOLD_TALISMAN")), getItems(
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
-                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
+                new Item(Items.items.get("GOLD_INGOT"), 64),
+                new Item(Items.items.get("GOLD_INGOT"), 64),
+                new Item(Items.items.get("GOLD_INGOT"), 64),
+                new Item(Items.items.get("GOLD_INGOT"), 64),
                 null,
+                new Item(Items.items.get("GOLD_INGOT"), 64),
+                new Item(Items.items.get("GOLD_INGOT"), 64),
+                new Item(Items.items.get("GOLD_INGOT"), 64),
+                new Item(Items.items.get("GOLD_INGOT"), 64)
+        ), -1));
+
+        recipes.put("GOLD_RING", new Recipe(new Item(Items.get("GOLD_RING")), getItems(
+                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
+                new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
+                new Item(Items.items.get("GOLD_TALISMAN")),
                 new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
                 new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
                 new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1),
                 new Item(Items.items.get("ENCHANTED_GOLD_INGOT"), 1)
-        ), -1));
+        ), 4));
 
-        recipes.put("GOLD_BLOCK_TALISMAN", new Recipe(new Item(Items.get("GOLD_BLOCK_TALISMAN")), getItems(
+        recipes.put("GOLD_ARTIFACT", new Recipe(new Item(Items.get("GOLD_ARTIFACT")), getItems(
                 new Item(Items.items.get("ENCHANTED_GOLD_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_GOLD_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_GOLD_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_GOLD_BLOCK"), 1),
-                new Item(Items.items.get("GOLD_TALISMAN")),
+                new Item(Items.items.get("GOLD_RING")),
                 new Item(Items.items.get("ENCHANTED_GOLD_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_GOLD_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_GOLD_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_GOLD_BLOCK"), 1)
         ), 4));
 
+
         recipes.put("LAPIS_TALISMAN", new Recipe(new Item(Items.get("LAPIS_TALISMAN")), getItems(
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
-                new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
+                new Item(Items.items.get("LAPIS"), 64),
+                new Item(Items.items.get("LAPIS"), 64),
+                new Item(Items.items.get("LAPIS"), 64),
+                new Item(Items.items.get("LAPIS"), 64),
                 null,
+                new Item(Items.items.get("LAPIS"), 64),
+                new Item(Items.items.get("LAPIS"), 64),
+                new Item(Items.items.get("LAPIS"), 64),
+                new Item(Items.items.get("LAPIS"), 64)
+        ), -1));
+
+        recipes.put("LAPIS_RING", new Recipe(new Item(Items.get("LAPIS_RING")), getItems(
+                new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
+                new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
+                new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
+                new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
+                new Item(Items.items.get("LAPIS_TALISMAN")),
                 new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
                 new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
                 new Item(Items.items.get("ENCHANTED_LAPIS"), 1),
                 new Item(Items.items.get("ENCHANTED_LAPIS"), 1)
-        ), -1));
+        ), 4));
 
-        recipes.put("LAPIS_BLOCK_TALISMAN", new Recipe(new Item(Items.get("LAPIS_BLOCK_TALISMAN")), getItems(
+        recipes.put("LAPIS_ARTIFACT", new Recipe(new Item(Items.get("LAPIS_ARTIFACT")), getItems(
                 new Item(Items.items.get("ENCHANTED_LAPIS_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_LAPIS_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_LAPIS_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_LAPIS_BLOCK"), 1),
-                new Item(Items.items.get("LAPIS_TALISMAN")),
+                new Item(Items.items.get("LAPIS_RING")),
                 new Item(Items.items.get("ENCHANTED_LAPIS_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_LAPIS_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_LAPIS_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_LAPIS_BLOCK"), 1)
         ), 4));
 
+
         recipes.put("REDSTONE_TALISMAN", new Recipe(new Item(Items.get("REDSTONE_TALISMAN")), getItems(
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
-                new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
+                new Item(Items.items.get("REDSTONE"), 64),
+                new Item(Items.items.get("REDSTONE"), 64),
+                new Item(Items.items.get("REDSTONE"), 64),
+                new Item(Items.items.get("REDSTONE"), 64),
                 null,
+                new Item(Items.items.get("REDSTONE"), 64),
+                new Item(Items.items.get("REDSTONE"), 64),
+                new Item(Items.items.get("REDSTONE"), 64),
+                new Item(Items.items.get("REDSTONE"), 64)
+        ), -1));
+
+        recipes.put("REDSTONE_RING", new Recipe(new Item(Items.get("REDSTONE_RING")), getItems(
+                new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
+                new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
+                new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
+                new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
+                new Item(Items.items.get("REDSTONE_TALISMAN")),
                 new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
                 new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
                 new Item(Items.items.get("ENCHANTED_REDSTONE"), 1),
                 new Item(Items.items.get("ENCHANTED_REDSTONE"), 1)
-        ), -1));
+        ), 4));
 
-        recipes.put("REDSTONE_BLOCK_TALISMAN", new Recipe(new Item(Items.get("REDSTONE_BLOCK_TALISMAN")), getItems(
+        recipes.put("REDSTONE_ARTIFACT", new Recipe(new Item(Items.get("REDSTONE_ARTIFACT")), getItems(
                 new Item(Items.items.get("ENCHANTED_REDSTONE_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_REDSTONE_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_REDSTONE_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_REDSTONE_BLOCK"), 1),
-                new Item(Items.items.get("REDSTONE_TALISMAN")),
+                new Item(Items.items.get("REDSTONE_RING")),
                 new Item(Items.items.get("ENCHANTED_REDSTONE_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_REDSTONE_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_REDSTONE_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_REDSTONE_BLOCK"), 1)
         ), 4));
 
+
         recipes.put("EMERALD_TALISMAN", new Recipe(new Item(Items.get("EMERALD_TALISMAN")), getItems(
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
-                new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
+                new Item(Items.items.get("EMERALD"), 64),
+                new Item(Items.items.get("EMERALD"), 64),
+                new Item(Items.items.get("EMERALD"), 64),
+                new Item(Items.items.get("EMERALD"), 64),
                 null,
+                new Item(Items.items.get("EMERALD"), 64),
+                new Item(Items.items.get("EMERALD"), 64),
+                new Item(Items.items.get("EMERALD"), 64),
+                new Item(Items.items.get("EMERALD"), 64)
+        ), -1));
+
+        recipes.put("EMERALD_RING", new Recipe(new Item(Items.get("EMERALD_RING")), getItems(
+                new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
+                new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
+                new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
+                new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
+                new Item(Items.items.get("EMERALD_TALISMAN")),
                 new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
                 new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
                 new Item(Items.items.get("ENCHANTED_EMERALD"), 1),
                 new Item(Items.items.get("ENCHANTED_EMERALD"), 1)
-        ), -1));
+        ), 4));
 
-        recipes.put("EMERALD_BLOCK_TALISMAN", new Recipe(new Item(Items.get("EMERALD_BLOCK_TALISMAN")), getItems(
+        recipes.put("EMERALD_ARTIFACT", new Recipe(new Item(Items.get("EMERALD_ARTIFACT")), getItems(
                 new Item(Items.items.get("ENCHANTED_EMERALD_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_EMERALD_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_EMERALD_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_EMERALD_BLOCK"), 1),
-                new Item(Items.items.get("EMERALD_TALISMAN")),
+                new Item(Items.items.get("EMERALD_RING")),
                 new Item(Items.items.get("ENCHANTED_EMERALD_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_EMERALD_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_EMERALD_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_EMERALD_BLOCK"), 1)
         ), 4));
 
+
         recipes.put("DIAMOND_TALISMAN", new Recipe(new Item(Items.get("DIAMOND_TALISMAN")), getItems(
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
-                new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
+                new Item(Items.items.get("DIAMOND"), 64),
+                new Item(Items.items.get("DIAMOND"), 64),
+                new Item(Items.items.get("DIAMOND"), 64),
+                new Item(Items.items.get("DIAMOND"), 64),
                 null,
+                new Item(Items.items.get("DIAMOND"), 64),
+                new Item(Items.items.get("DIAMOND"), 64),
+                new Item(Items.items.get("DIAMOND"), 64),
+                new Item(Items.items.get("DIAMOND"), 64)
+        ), -1));
+
+        recipes.put("DIAMOND_RING", new Recipe(new Item(Items.get("DIAMOND_RING")), getItems(
+                new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
+                new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
+                new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
+                new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
+                new Item(Items.items.get("DIAMOND_TALISMAN")),
                 new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
                 new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
                 new Item(Items.items.get("ENCHANTED_DIAMOND"), 1),
                 new Item(Items.items.get("ENCHANTED_DIAMOND"), 1)
-        ), -1));
+        ), 4));
 
-        recipes.put("DIAMOND_BLOCK_TALISMAN", new Recipe(new Item(Items.get("DIAMOND_BLOCK_TALISMAN")), getItems(
+        recipes.put("DIAMOND_ARTIFACT", new Recipe(new Item(Items.get("DIAMOND_ARTIFACT")), getItems(
                 new Item(Items.items.get("ENCHANTED_DIAMOND_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_DIAMOND_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_DIAMOND_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_DIAMOND_BLOCK"), 1),
-                new Item(Items.items.get("DIAMOND_TALISMAN")),
+                new Item(Items.items.get("DIAMOND_RING")),
                 new Item(Items.items.get("ENCHANTED_DIAMOND_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_DIAMOND_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_DIAMOND_BLOCK"), 1),
                 new Item(Items.items.get("ENCHANTED_DIAMOND_BLOCK"), 1)
         ), 4));
 
+
         recipes.put("OBSIDIAN_TALISMAN", new Recipe(new Item(Items.get("OBSIDIAN_TALISMAN")), getItems(
-                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 4),
-                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 4),
-                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 4),
-                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 4),
-                new Item(Items.items.get("DIAMOND_TALISMAN")),
-                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 4),
-                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 4),
-                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 4),
-                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 4)
+                new Item(Items.items.get("OBSIDIAN"), 64),
+                new Item(Items.items.get("OBSIDIAN"), 64),
+                new Item(Items.items.get("OBSIDIAN"), 64),
+                new Item(Items.items.get("OBSIDIAN"), 64),
+                null,
+                new Item(Items.items.get("OBSIDIAN"), 64),
+                new Item(Items.items.get("OBSIDIAN"), 64),
+                new Item(Items.items.get("OBSIDIAN"), 64),
+                new Item(Items.items.get("OBSIDIAN"), 64)
+        ), -1));
+
+        recipes.put("OBSIDIAN_RING", new Recipe(new Item(Items.get("OBSIDIAN_RING")), getItems(
+                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 1),
+                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 1),
+                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 1),
+                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 1),
+                new Item(Items.items.get("OBSIDIAN_TALISMAN")),
+                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 1),
+                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 1),
+                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 1),
+                new Item(Items.items.get("ENCHANTED_OBSIDIAN"), 1)
         ), 4));
+
 
         recipes.put("LAPIS_HELMET", new Recipe(new Item(Items.get("LAPIS_HELMET")), getItems(
                 new Item(Items.get("LAPIS")),

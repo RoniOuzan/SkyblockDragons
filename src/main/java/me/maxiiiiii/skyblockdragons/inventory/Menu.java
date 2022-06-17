@@ -34,7 +34,7 @@ public abstract class Menu implements InventoryHolder {
 
     protected final InventoryGlassType inventoryGlassType;
 
-    protected Menu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, boolean update, boolean utilButtons) {
+    protected Menu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, boolean autoUpdate, boolean utilButtons) {
         this.player = player;
         this.inventory = Bukkit.createInventory(this, rows * 9, title);
         this.inventoryGlassType = inventoryGlassType;
@@ -66,7 +66,7 @@ public abstract class Menu implements InventoryHolder {
         }
 
         Functions.Wait(1, () -> {
-            if (update) {
+            if (autoUpdate) {
                 Functions.While(() -> player.getOpenInventory().getTopInventory().getHolder().getClass() == this.getClass(), 1L, i -> this.update());
             } else
                 this.update();
@@ -74,8 +74,8 @@ public abstract class Menu implements InventoryHolder {
         });
     }
 
-    protected Menu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, boolean update) {
-        this(player, title, rows, inventoryGlassType, update, true);
+    protected Menu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, boolean autoUpdate) {
+        this(player, title, rows, inventoryGlassType, autoUpdate, true);
     }
     public void setItem(int slot, ItemStack item) {
         this.inventory.setItem(slot, item);
@@ -181,5 +181,9 @@ public abstract class Menu implements InventoryHolder {
 
     public static void removeLastHistory(UUID uuid) {
         SkyblockDragons.getPlayer(uuid).getMenuHistory().remove(SkyblockDragons.getPlayer(uuid).getMenuHistory().size() - 1);
+    }
+
+    protected void putItems(List<ItemStack> items, int firstSlot) {
+
     }
 }

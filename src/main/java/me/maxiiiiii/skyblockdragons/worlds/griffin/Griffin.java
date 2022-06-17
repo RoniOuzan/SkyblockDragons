@@ -1,59 +1,52 @@
 package me.maxiiiiii.skyblockdragons.worlds.griffin;
 
-import com.comphenix.protocol.wrappers.EnumWrappers;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.Particles;
-import me.maxiiiiii.skyblockdragons.util.objects.ParticlePacketUtil;
-import me.maxiiiiii.skyblockdragons.util.objects.ParticleUtil;
-import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
+import me.maxiiiiii.skyblockdragons.util.particle.ParticlePacketUtil;
+import me.maxiiiiii.skyblockdragons.util.particle.Particles;
+import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.util.Vector;
-
-import java.util.Arrays;
+import org.bukkit.Sound;
 
 @Getter
 public class Griffin {
     private final PlayerSD player;
     private Location burrow;
 
-    private boolean showingBlock;
+    private static final ParticlePacketUtil particle = new ParticlePacketUtil(Particle.FLAME, 0.1f, 0.1f, 0.1f, 0, 1);
 
     public Griffin(PlayerSD player) {
         this.player = player;
-        this.showingBlock = false;
 
-        Functions.While(() -> true, 2L, i -> {
-
+        Functions.While(() -> true, 5L, i -> {
+            if (player.getWorldSD() == WorldSD.GRIFFIN_ISLAND) {
+                Particles.square(particle, this.burrow, player);
+            }
         });
 
         this.next();
     }
 
     public void next() {
-        double a = Math.random() * 124;
-        double b = Math.random() * 124;
+        do {
+            double a = Math.random() * 124 * 124;
+            double b = Math.random() * 124 * 124;
 
-        this.burrow = new Location(
-                GriffinIsland.world,
-                Math.round(Math.sin(a) * (b)) + 0.5,
-                255,
-                Math.round(Math.cos(a) * (b)) + 0.5
-        );
-        this.burrow.setY(Functions.getLowestBlock(this.burrow).getY());
+            this.burrow = new Location(
+                    GriffinIsland.world,
+                    Math.round(Math.sin(a) * Math.sqrt(b)) + 0.5,
+                    255,
+                    Math.round(Math.cos(a) * Math.sqrt(b)) + 0.5
+            );
+            this.burrow.setY(Functions.getLowestBlock(this.burrow).getY());
+        } while (this.burrow.getBlock().getType() != Material.DIRT && this.burrow.getBlock().getType() != Material.GRASS);
     }
 
     public void showNext() {
-        particleLine(this.player.getLocation(), this.burrow);
-    }
-
-    public void revealBlock() {
-        if (player.getWorldSD() == WorldSD.GRIFFIN_ISLAND) {
-            ParticlePacketUtil particle = new ParticlePacketUtil(EnumWrappers.Particle.FLAME, 0.1f, 0.1f, 0.1f, 0, 1);
-            Particles.square(this.burrow, Arrays.asList(player.getPlayer()), particle);
-        }
+        Particles.line(particle, this.player.getLocation(), this.burrow, 1, player.getPlayer(), (Particles.LineRunnable) (a, l) -> player.playSound(l, Sound.BLOCK_NOTE_HARP, 1f, (float) (a * 0.1f)));
     }
 
     public boolean isBurrow(Location loc) {
@@ -61,22 +54,5 @@ public class Griffin {
                 loc.getX() == burrow.getX() &&
                 loc.getY() == burrow.getY() &&
                 loc.getZ() == burrow.getZ();
-    }
-
-    public void particleLine(Location loc1, Location loc2) {
-        final int DISTANCE = (int) (loc1.distance(loc2) * 5);
-        Location loc = loc1.clone();
-        ParticleUtil particle = new ParticleUtil(Particle.FLAME, 0.1, 0.1, 0.1, 0, 1);
-        Functions.Loop(DISTANCE, 1L, i -> {
-            double t = i * 0.05;
-            Vector direction = new Vector(loc2.getX() - loc1.getX(), loc2.getY() - loc1.getY(), loc2.getZ() - loc1.getZ());
-            double x = direction.getX() * t;
-            double y = direction.getY() * t + 1.5;
-            double z = direction.getZ() * t;
-            loc.add(x, y, z);
-            particle.spawn(loc);
-
-            loc.subtract(x, y, z);
-        });
     }
 }
