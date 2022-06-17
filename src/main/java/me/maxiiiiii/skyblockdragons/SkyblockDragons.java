@@ -42,19 +42,13 @@ import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeMenu;
 import me.maxiiiiii.skyblockdragons.storage.VariableCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.EntityHider;
-import me.maxiiiiii.skyblockdragons.util.objects.FlyTo;
-import me.maxiiiiii.skyblockdragons.util.objects.PickableItem;
-import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
-import me.maxiiiiii.skyblockdragons.util.particle.ParticlePacketUtil;
-import me.maxiiiiii.skyblockdragons.world.WorldSD;
-import me.maxiiiiii.skyblockdragons.world.npc.NPCListeners;
-import me.maxiiiiii.skyblockdragons.world.warp.PlayerWarpListener;
-import me.maxiiiiii.skyblockdragons.world.warp.WarpCommand;
+import me.maxiiiiii.skyblockdragons.util.Particles;
+import me.maxiiiiii.skyblockdragons.util.objects.*;
+import me.maxiiiiii.skyblockdragons.worlds.WorldSD;
 import me.maxiiiiii.skyblockdragons.worlds.deepermines.forge.Forge;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
+import me.maxiiiiii.skyblockdragons.worlds.warp.PlayerWarpListener;
+import me.maxiiiiii.skyblockdragons.worlds.warp.WarpCommand;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -65,7 +59,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
@@ -73,12 +67,12 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static final HashMap<UUID, PlayerSD> players = new HashMap<>();
+    public static final HashMap<UUID, ArrayList<Inventory>> playerGoBack = new HashMap<>();
     public static final ArrayList<Entity> entitiesToKill = new ArrayList<>();
     public static boolean disablePlayTime = false;
 
@@ -103,33 +97,21 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             holo.delete();
         }
 
-        if (getServer().getPluginManager().getPlugin("Citizens") == null || !getServer().getPluginManager().getPlugin("Citizens").isEnabled()) {
-            getLogger().log(Level.SEVERE, "Citizens 2.0 not found or not enabled");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        Functions.Wait(1L, () -> {
-            for (NPC npc : CitizensAPI.getNPCRegistry()) {
-                npc.despawn();
-            }
-        });
-
         for (World world : Bukkit.getWorlds()) {
             world.getLivingEntities().stream().filter(e -> e.getScoreboardTags().contains("EntitySD") || e.getScoreboardTags().contains("Pet") || e.getScoreboardTags().contains("PickableItem") || e.getScoreboardTags().contains("EntityHealth")).forEach(Entity::remove);
         }
 
         Bukkit.getScheduler().runTask(this, TheEnd::resetEyes);
 
+        ConfigurationSerialization.registerClass(EntityMaterial.class);
+
+        Variables.load();
+
         Items.registerItems();
         EnchantType.registerEnchants();
         EntityMaterial.registerItems();
         Bukkit.getScheduler().runTaskAsynchronously(this, Recipe::registerRecipes);
         WorldSD.registerWorlds(this);
-
-        ConfigurationSerialization.registerClass(EntityMaterial.class);
-
-        Variables.load();
 
         // Listeners
         getServer().getPluginManager().registerEvents(new Damage(), this);
@@ -152,7 +134,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new UpdateInventoryListeners(), this);
         getServer().getPluginManager().registerEvents(new PlayerUseAbilityListener(), this);
         getServer().getPluginManager().registerEvents(new ProfileMenu.Event(), this);
-        getServer().getPluginManager().registerEvents(new NPCListeners(), this);
 
         getServer().getPluginManager().registerEvents(new PlayerWarpListener(), this);
 
@@ -206,8 +187,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("Menu").setExecutor(new SkyblockMenu.Command());
         getCommand("Item").setExecutor(new ItemCommand());
         getCommand("Item").setTabCompleter(new ItemCommand());
-        getCommand("SkyblockDragons").setExecutor(new SkyblockDragonsCommand());
-        getCommand("SkyblockDragons").setTabCompleter(new SkyblockDragonsCommand());
+        getCommand("SkyblockDragons").setExecutor(new JavaPluginCommand());
+        getCommand("SkyblockDragons").setTabCompleter(new JavaPluginCommand());
         getCommand("Bits").setExecutor(new BitsCommand());
         getCommand("Bits").setTabCompleter(new BitsCommand());
         getCommand("Anvil").setExecutor(new AnvilCommand());
@@ -291,7 +272,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                     player.getPlayerPet().petArmorStand.armorStand.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.1 : -0.1), 0));
                     player.getPlayerPet().petArmorStand.hologram.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 1.6, 0));
                     for (ParticlePacketUtil particle : player.getPetActive().petMaterial.getParticles()) {
-                        particle.spawn(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.8, 0), Functions.getPlayerShowedPets());
+                        particle.spawn(Functions.getPlayerShowedPets(), player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.8, 0));
                     }
                 }
 
@@ -338,15 +319,17 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             }
         }, 0L, 200L);
 
-        Functions.Wait(10L, () -> {
-            System.out.println("Attempting to Load Addons");
-            for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-                if (!plugin.isEnabled() && plugin.getDescription().getDepend().contains("SkyblockDragons")) {
-                    plugin.getLogger().info("Enabling Addon " + plugin.getName());
-                    Bukkit.getPluginManager().enablePlugin(plugin);
-                }
-            }
-        });
+//        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+//            for (PlayerSD player : players.values()) {
+//                for (LivingEntity entity : player.getWorld().getLivingEntities()) {
+//                    if (entity instanceof Creature) {
+//                        player.getWorld().strikeLightningEffect(entity.getLocation());
+//                        player.makeDamage(entity, Damage.DamageType.MAGIC, 1, 50, 0.05);
+//                    }
+//                }
+//            }
+//        }, 3000L, 6000L);
+
 
         System.out.println("Skyblock Dragons plugin has been loaded!");
     }
@@ -354,13 +337,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(this);
-        System.out.println("Disabling Addons...");
-        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-            if (plugin.isEnabled() && plugin.getDescription().getDepend().contains("SkyblockDragons")) {
-                plugin.getLogger().info("Disabling Addon " + plugin.getName());
-                Bukkit.getPluginManager().disablePlugin(plugin);
-            }
-        }
 
         for (World world : Bukkit.getWorlds()) {
             for (Entity entity : world.getEntities()) {
@@ -374,10 +350,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             holo.delete();
         }
 
-        for (NPC npc : CitizensAPI.getNPCRegistry()) {
-            npc.despawn();
-        }
-
         EntitySD.entities.values().stream().filter(e -> !(e instanceof PlayerSD)).forEach(e -> e.entity.remove());
 
         for (Entity entity : entitiesToKill) {
@@ -385,7 +357,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 entity.remove();
         }
         Variables.save();
-        System.out.println("Disabled SkyblockDragons!");
     }
 
     private boolean setupEconomy() {
