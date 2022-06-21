@@ -51,6 +51,7 @@ import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.warp.PlayerWarpListener;
 import me.maxiiiiii.skyblockdragons.world.warp.WarpCommand;
 import me.maxiiiiii.skyblockdragons.worlds.deepermines.forge.Forge;
+import me.maxiiiiii.skyblockdragons.worlds.deepermines.forge.ForgeMilestoneCommand;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -186,6 +187,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new EnchantingTableCommand(), this);
 
         // Commands
+        getCommand("SkyblockDragons").setExecutor(new SkyblockDragonsCommand());
         getCommand("Stat").setExecutor(new StatCommand());
         getCommand("Menu").setExecutor(new SkyblockMenu.Command());
         getCommand("Item").setExecutor(new ItemCommand());
@@ -224,6 +226,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("Storage").setExecutor(new StorageMenu.Command());
         getCommand("EnderChest").setExecutor(new EnderChestMenu.Command());
         registerCommand("Forge", new Forge.Command());
+        registerCommand("ForgeMilestone", new ForgeMilestoneCommand());
 
 //        Coop.load();
         EntitySD.loadLocations();

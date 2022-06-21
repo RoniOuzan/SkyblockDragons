@@ -13,8 +13,8 @@ public class PlayerStats extends Stats {
     public Stat mana;
     private final PlayerSD player;
 
-    public PlayerStats(PlayerSD player, double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double seaCreatureChance, double absorption) {
-        super(damage, strength, critDamage, critChance, abilityDamage, abilityScaling, attackSpeed, ferocity, health, defense, trueDefense, speed, intelligence, magicFind, petLuck, miningSpeed, miningFortune, seaCreatureChance, absorption);
+    public PlayerStats(PlayerSD player, double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double farmingFortune, double foragingFortune, double seaCreatureChance, double absorption) {
+        super(damage, strength, critDamage, critChance, abilityDamage, abilityScaling, attackSpeed, ferocity, health, defense, trueDefense, speed, intelligence, magicFind, petLuck, miningSpeed, miningFortune, farmingFortune, foragingFortune, seaCreatureChance, absorption);
         this.mana = new Stat(this.intelligence.amount, StatType.MANA);
         this.player = player;
     }
@@ -28,9 +28,9 @@ public class PlayerStats extends Stats {
 
     @Override
     public Stat get(StatType stat) {
-        Stat output = super.get(stat);
-        if (stat == StatType.MANA) output = this.mana;
-        return output;
+        if (stat == StatType.MANA)
+            return this.mana;
+        return super.get(stat);
     }
 
     @Override
@@ -44,12 +44,6 @@ public class PlayerStats extends Stats {
     public void normalize() {
         super.normalize();
         this.mana.normalize();
-    }
-
-    @Override
-    public void reset() {
-        super.reset();
-        this.mana.amount = 0;
     }
 
     @Override

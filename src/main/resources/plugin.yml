@@ -155,3 +155,6 @@ commands:
   Forge:
     permission: skyblockdragons.forge
     usage: /<command>
+  ForgeMilestone:
+    permission: skyblockdragons.forge.milestone
+    usage: /<command> <text> [<amount>]

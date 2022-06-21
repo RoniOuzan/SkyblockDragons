@@ -367,7 +367,7 @@ public class Damage implements Listener {
             double coins = entity.type.getCoins();
             if (player.getEnchantLevel(EnchantType.SCAVENGER) > 0)
                 coins += (player.getEnchantLevel(EnchantType.SCAVENGER) * EnchantType.SCAVENGER.getMultiplayers().get(player.getEnchantLevel(EnchantType.SCAVENGER)));
-            player.addCoins(coins);
+            player.giveCoins(coins);
         }
     }
 

@@ -22,9 +22,11 @@ import java.util.Map;
 public class Forge {
     private final PlayerSD player;
     private final Map<Integer, ForgeSlot> forging;
+    private final ForgeMilestone milestone;
 
     public Forge(PlayerSD player) {
         this.player = player;
+        this.milestone = new ForgeMilestone(player);
         this.forging = new HashMap<>();
         for (int i = 1; i <= 5; i++) {
             if (Variables.get(player.getUniqueId(), "ForgeRecipe", i) != null)
@@ -116,6 +118,8 @@ public class Forge {
             } else if (this.getNBT(e.getCurrentItem()).equals("FORGE_SLOT")) {
                 int slot = e.getSlot() - 10;
                 new ForgeRecipe.View(player, slot);
+            } else if (this.getNBT(e.getCurrentItem()).equals("MILESTONE")) {
+                Forge.this.milestone.view();
             }
         }
 

@@ -117,6 +117,8 @@ public class Stats implements Iterable<Stat> {
                 petLuck,
                 miningSpeed,
                 miningFortune,
+                farmingFortune,
+                foragingFortune,
                 seaCreatureChance,
                 absorption
         ));
@@ -296,6 +298,10 @@ public class Stats implements Iterable<Stat> {
                 return this.miningSpeed;
             case MINING_FORTUNE:
                 return this.miningFortune;
+            case FARMING_FORTUNE:
+                return this.farmingFortune;
+            case FORAGING_FORTUNE:
+                return this.foragingFortune;
             case SEA_CREATURE_CHANCE:
                 return this.seaCreatureChance;
             case ABSORPTION:
@@ -340,6 +346,10 @@ public class Stats implements Iterable<Stat> {
                 return this.miningSpeed;
             case MINING_FORTUNE:
                 return this.miningFortune;
+            case FARMING_FORTUNE:
+                return this.farmingFortune;
+            case FORAGING_FORTUNE:
+                return this.foragingFortune;
             case SEA_CREATURE_CHANCE:
                 return this.seaCreatureChance;
             case ABSORPTION:

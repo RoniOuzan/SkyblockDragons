@@ -21,6 +21,6 @@ public class SkillXpReward implements Reward {
 
     @Override
     public String getLore() {
-        return ChatColor.DARK_GRAY + "+" + ChatColor.DARK_AQUA + Functions.getNumberFormat(this.amount) + " " + ChatColor.GRAY + skill.toString() + " Experience";
+        return ChatColor.DARK_AQUA + Functions.getNumberFormat(this.amount) + " " + ChatColor.GRAY + skill.toString() + " Experience";
     }
 }

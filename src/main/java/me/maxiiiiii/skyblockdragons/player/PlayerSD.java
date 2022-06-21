@@ -112,6 +112,8 @@ public class PlayerSD extends PlayerClass {
                 0,
                 0,
                 0,
+                0,
+                0,
                 0
         );
 
@@ -198,7 +200,7 @@ public class PlayerSD extends PlayerClass {
         return SkyblockDragons.economy.getBalance(this);
     }
 
-    public void addCoins(double amount) {
+    public void giveCoins(double amount) {
         amount = Math.floor(amount * 10d)/ 10d;
         this.lastCoins = this.getCoins();
         SkyblockDragons.economy.depositPlayer(this, amount);
