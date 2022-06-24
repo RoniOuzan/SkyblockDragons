@@ -23,6 +23,10 @@ public abstract class Milestone {
         this.amount = Variables.get(player.getUniqueId(), variableName, 0, 0);
     }
 
+    public void save() {
+        Variables.set(player.getUniqueId(), variableName, 0, this.amount);
+    }
+
     public void setAmount(int amount) {
         this.amount = amount;
     }

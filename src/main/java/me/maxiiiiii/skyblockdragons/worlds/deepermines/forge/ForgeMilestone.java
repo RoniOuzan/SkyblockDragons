@@ -11,7 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class ForgeMilestone extends Milestone {
-    protected ForgeMilestone(PlayerSD player) {
+    public ForgeMilestone(PlayerSD player) {
         super(player, "ForgeMilestone",
                 new MilestoneReward(new Rewards(), 10, false),
                 new MilestoneReward(new Rewards(), 50, false),

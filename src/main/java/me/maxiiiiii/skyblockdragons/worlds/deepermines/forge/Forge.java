@@ -60,6 +60,8 @@ public class Forge {
                 Variables.set(this.player.getUniqueId(), "ForgeTime", i, null);
             }
         }
+
+        this.milestone.save();
     }
 
     public void view() {
