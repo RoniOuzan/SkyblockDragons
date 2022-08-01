@@ -1405,6 +1405,21 @@ public class Functions {
         }
     }
 
+    public static void particleSphere(Location location, String particleName, double radius) {
+        Particle particle = Particle.valueOf(particleName.toUpperCase());
+        Bukkit.getScheduler().runTaskAsynchronously(SkyblockDragons.plugin, () -> {
+            for (double i = 0; i <= Math.PI; i += Math.PI / radius / 4) {
+                double sphereRadius = Math.sin(i) * radius;
+                double y = Math.cos(i) * radius;
+                for (double a = 0; a < Math.PI * 2; a+= Math.PI / radius / 4) {
+                    double x = Math.cos(a) * sphereRadius;
+                    double z = Math.sin(a) * sphereRadius;
+                    location.getWorld().spawnParticle(particle, location.clone().add(x, y, z), 0, 0, 0, 0, 0);
+                }
+            }
+        });
+    }
+
     public static Vector rotateAroundAxisX(Vector v, double angle) {
         angle = Math.toRadians(angle);
         double y, z, cos, sin;
