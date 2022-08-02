@@ -1,7 +1,9 @@
 package me.maxiiiiii.skyblockdragons.world.warp;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
+import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -10,12 +12,12 @@ import java.util.List;
 
 @Getter
 public enum Warp {
-    HUB(new Location(Bukkit.getWorld("Hub"), -2.5, 70, -68.5, 180, 0)),
+    HUB(WorldSD.HUB.getSpawn()),
 
-    DEEP_MINES(new Location(Bukkit.getWorld("DeepMines"), 1158.5, 210, 71.5, 180, 0)),
-    DEEPER_MINES(new Location(Bukkit.getWorld("DeeperMines"), -58.5, 200, -121.5, -90, 0)),
+    DEEP_MINES(WorldSD.DEEP_MINES.getSpawn()),
+    DEEPER_MINES(WorldSD.DEEPER_MINES.getSpawn()),
 
-    THE_END(new Location(Bukkit.getWorld("TheEnd"), 119.5, 54, 1.5, 90, 0), "END");
+    THE_END(WorldSD.THE_END.getSpawn(), "END");
 
     private final Location location;
     private final String alias;
@@ -29,5 +31,10 @@ public enum Warp {
 
     Warp(Location location, Requirement... requirements) {
         this(location, null, requirements);
+    }
+
+    public void warp(PlayerSD player) {
+        PlayerWarpEvent event = new PlayerWarpEvent(player, this);
+        Bukkit.getServer().getPluginManager().callEvent(event);
     }
 }

@@ -2,7 +2,6 @@ package me.maxiiiiii.skyblockdragons.world.warp;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -30,8 +29,7 @@ public class WarpCommand implements CommandExecutor {
                 return true;
             }
 
-            PlayerWarpEvent event = new PlayerWarpEvent(player, warp);
-            Bukkit.getServer().getPluginManager().callEvent(event);
+            warp.warp(player);
         }
         return true;
     }

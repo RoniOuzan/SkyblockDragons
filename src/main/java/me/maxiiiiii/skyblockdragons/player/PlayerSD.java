@@ -36,6 +36,7 @@ import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
+import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.worlds.deepermines.forge.Forge;
 import me.maxiiiiii.skyblockdragons.worlds.end.DragonType;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
@@ -672,6 +673,10 @@ public class PlayerSD extends PlayerClass {
 
     public WorldSD getWorldSD() {
         return WorldSD.get(player.getWorld());
+    }
+
+    public void warp(Warp warp) {
+        this.
     }
 
     @Override

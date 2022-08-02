@@ -9,6 +9,7 @@ import me.maxiiiiii.skyblockdragons.worlds.deepmines.DeepMines;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.worlds.griffin.GriffinIsland;
 import me.maxiiiiii.skyblockdragons.worlds.hub.Hub;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,11 +31,13 @@ public abstract class WorldSD implements Listener {
 
     private final World world;
     private final String name;
+    private final Location spawn;
     private final List<WorldType> worldType;
 
-    protected WorldSD(World world, String name, WorldType... worldType) {
+    protected WorldSD(World world, String name, Location spawn, WorldType... worldType) {
         this.world = world;
         this.name = name;
+        this.spawn = spawn;
         this.worldType = Arrays.stream(worldType).collect(Collectors.toList());
 
         SkyblockDragons.plugin.getServer().getPluginManager().registerEvents(this, SkyblockDragons.plugin);
@@ -73,7 +76,7 @@ public abstract class WorldSD implements Listener {
             if (world.getWorld().getName().equals(worldName))
                 return world;
         }
-        return null;
+        return HUB;
     }
 
     public static WorldSD get(World world) {

@@ -40,7 +40,7 @@ public class TheEnd extends WorldSD implements Listener {
     public static final Map<PlayerSD, Double> dragonDamage = new HashMap<>();
 
     public TheEnd(JavaPlugin plugin) {
-        super(world, "The End", WorldType.COMBAT, WorldType.MINING);
+        super(world, "The End", new Location(world, 119.5, 54, 1.5, 90, 0), WorldType.COMBAT, WorldType.MINING);
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         plugin.getServer().getPluginManager().registerEvents(new PlayerPlaceEyeListener(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new DragonKillListener(), plugin);
@@ -48,6 +48,7 @@ public class TheEnd extends WorldSD implements Listener {
 
     @EventHandler
     public void onSpawn(EntitySpawnEvent e) {
+        if (e.getLocation().getWorld() != world) return;
         if (e.getEntity() instanceof EnderDragon) {
             EnderDragon dragon = (EnderDragon) e.getEntity();
             dragon.setPhase(EnderDragon.Phase.HOVER);

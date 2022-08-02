@@ -12,7 +12,7 @@ public class DeeperMines extends WorldSD {
     public static final World world = Bukkit.getWorld("DeeperMines");
 
     public DeeperMines(JavaPlugin plugin) {
-        super(world, "Deeper Mines", WorldType.MINING, WorldType.COMBAT);
+        super(world, "Deeper Mines", new Location(world, -58.5, 200, -121.5, -90, 0), WorldType.MINING, WorldType.COMBAT);
     }
 
     @Override

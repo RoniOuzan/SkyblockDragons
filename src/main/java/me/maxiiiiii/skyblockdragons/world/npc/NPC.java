@@ -43,7 +43,7 @@ public abstract class NPC {
         return this.npc.getUniqueId();
     }
 
-    public final void spawn() {
+    public void spawn() {
         this.npc.spawn(this.location);
     }
 
