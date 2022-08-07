@@ -99,3 +99,62 @@ commands:
     aliases:
       - pm
       - pets
+  FlyTo:
+    permission: skyblockdragons.flyto
+    usage: /<command> <ticks>
+  Bank:
+    permission: skyblockdragons.bank
+    usage: /<command> <text>
+  Sound:
+    permission: skyblockdragons.sound
+    usage: /<command> <sound> <pitch>
+  EntitySD:
+    permission: skyblockdragons.mob.spawn
+    usage: /<command> <mob>
+    aliases:
+      - esd
+  Coop:
+    permission: skyblockdragons.coop
+    usage: /<command> <text> <player>
+  Variables:
+    permission: skyblockdragons.variables
+    usage: /<command> <text>
+    aliases:
+      - var
+  Sell:
+    permission: skyblockdragons.sell
+    usage: /<command>
+  Recipes:
+    permission: skyblockdragons.recipes
+    usage: /<command>
+  RecipesFor:
+    permission: skyblockdragons.recipesfor
+    usage: /<command>
+  RecipesWith:
+    permission: skyblockdragons.recipeswith
+    usage: /<command>
+  Warp:
+    permission: skyblockdragons.warp
+    usage: /<command> <warp>
+  Hub:
+    permission: skyblockdragons.hub
+    usage: /<command>
+  Test:
+    permission: skyblockdragons.test
+  Profile:
+    permission: skyblockdragons.profile
+    usage: /<commamd> [<player>]
+  Storage:
+    permission: skyblockdragons.storage
+    usage: /<command>
+  EnderChest:
+    permission: skyblockdragons.enderchest
+    usage: /<command> [<page>]
+    aliases:
+      - ec
+  Forge:
+    permission: skyblockdragons.forge
+    usage: /<command>
+  ForgeMilestone:
+    permission: skyblockdragons.forge.milestone
+    usage: /<command> <text> [<amount>]
