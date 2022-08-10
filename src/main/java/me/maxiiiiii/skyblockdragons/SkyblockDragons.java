@@ -113,7 +113,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         Items.registerItems();
         EnchantType.registerEnchants();
-        EntityMaterial.registerItems();
+        EntityMaterial.registerEntities();
         Bukkit.getScheduler().runTaskAsynchronously(this, Recipe::registerRecipes);
         WorldSD.registerWorlds(this);
 

@@ -10,7 +10,8 @@ public enum DragonType {
     UNSTABLE(ChatColor.DARK_PURPLE),
     YOUNG(ChatColor.GREEN),
     STRONG(ChatColor.RED),
-    SUPERIOR(ChatColor.GOLD)
+    SUPERIOR(ChatColor.GOLD),
+    ERROR(ChatColor.RED)
     ;
 
     public ChatColor color;

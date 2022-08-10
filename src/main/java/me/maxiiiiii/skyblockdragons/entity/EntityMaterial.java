@@ -75,7 +75,7 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
 
     }
 
-    public static void registerItems() {
+    public static void registerEntities() {
         entities.put("GOLDEN_SKELETON", new GoldenSkeleton());
         entities.put("LAPIS_ZOMBIE", new LapisZombie());
         entities.put("REDSTONE_PIGMAN", new RedstonePigman());
@@ -96,6 +96,7 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         entities.put("YOUNG_DRAGON", new YoungDragon());
         entities.put("STRONG_DRAGON", new StrongDragon());
         entities.put("SUPERIOR_DRAGON", new SuperiorDragon());
+        entities.put("ERROR_DRAGON", new ERRORDragon());
 
         entities.put("ICE_MINER", new IceMiner());
         entities.put("GHOST", new Ghost());

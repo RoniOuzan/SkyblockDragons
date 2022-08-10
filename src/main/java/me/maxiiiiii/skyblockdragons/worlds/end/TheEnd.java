@@ -26,9 +26,11 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TheEnd extends WorldSD implements Listener {
     public static final World world = Bukkit.getWorld("TheEnd");
@@ -141,6 +143,21 @@ public class TheEnd extends WorldSD implements Listener {
             return EntityMaterial.get("YOUNG_DRAGON");
         if (random >= 4)
             return EntityMaterial.get("STRONG_DRAGON");
-        return EntityMaterial.get("SUPERIOR_DRAGON");
+        if (random >= 1)
+            return EntityMaterial.get("SUPERIOR_DRAGON");
+        return EntityMaterial.get("ERROR_DRAGON");
+    }
+
+    public static void spawnDragon() {
+        dragon = new EntitySD(DRAGON_SPAWN, getRandomDragon());
+        for (Player player : Bukkit.getOnlinePlayers().stream().filter(p -> p.getWorld().getName().equals("TheEnd")).collect(Collectors.toList())) {
+            if (player.getLocation().distance(MIDDLE) <= 50) {
+                player.setVelocity(new Vector(
+                        DRAGON_SPAWN.getX() - player.getLocation().getX(),
+                        0,
+                        DRAGON_SPAWN.getZ() - player.getLocation().getZ()
+                ).normalize().multiply(2).setY(3));
+            }
+        }
     }
 }

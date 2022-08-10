@@ -1,6 +1,5 @@
 package me.maxiiiiii.skyblockdragons.worlds.end.listeners;
 
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
@@ -10,7 +9,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,18 +27,8 @@ public class PlayerPlaceEyeListener implements Listener {
         }
 
         if (e.getAmountOfEyes() >= 8) {
-            Functions.Wait(20L, () -> {
-                TheEnd.dragon = new EntitySD(TheEnd.DRAGON_SPAWN, TheEnd.getRandomDragon());
-                for (Player player : Bukkit.getOnlinePlayers().stream().filter(p -> p.getWorld().getName().equals("TheEnd")).collect(Collectors.toList())) {
-                    if (player.getLocation().distance(TheEnd.MIDDLE) <= 50) {
-                        player.setVelocity(new Vector(
-                                TheEnd.DRAGON_SPAWN.getX() - player.getLocation().getX(),
-                                0,
-                                TheEnd.DRAGON_SPAWN.getZ() - player.getLocation().getZ()
-                        ).normalize().multiply(2).setY(3));
-                    }
-                }
-            });
+            Functions.Wait(20L, TheEnd::spawnDragon);
         }
     }
 }
+// -4
