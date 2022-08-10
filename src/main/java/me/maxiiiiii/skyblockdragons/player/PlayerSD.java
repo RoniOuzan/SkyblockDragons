@@ -676,7 +676,7 @@ public class PlayerSD extends PlayerClass {
     }
 
     public void warp(Warp warp) {
-        this.
+
     }
 
     @Override
