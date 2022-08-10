@@ -1,11 +1,11 @@
 package me.maxiiiiii.skyblockdragons.events;
 
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.itemcreator.Stat;
+import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Creature;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,25 +15,37 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class EntityHealth implements Listener {
-    private final String ADDER = " " + ChatColor.GREEN + "" + ChatColor.YELLOW + "" + ChatColor.RED + "" + ChatColor.RESET + "";
+    public static final String SPLITTER = " " + ChatColor.GREEN + "" + ChatColor.YELLOW + "" + ChatColor.RED + "" + ChatColor.RESET + "";
 
-    private void addHealth(Entity entity) {
-        String name = Functions.setTitleCase(entity.getType().toString().replaceAll("_", " "));
+    private void addHealth(LivingEntity entity) {
+        String name = Functions.setTitleCase(entity.getCustomName());
         try {
             if (!entity.getCustomName().equals("")) {
-                String [] customName = entity.getCustomName().split(ADDER);
+                String [] customName = entity.getCustomName().split(SPLITTER);
                 name = customName[0];
             }
         } catch (NullPointerException ignored) {
         }
-        if (((LivingEntity) entity).getHealth() <= ((LivingEntity) entity).getMaxHealth() / 4) {
-            entity.setCustomName(name + " " + ChatColor.GREEN + "" + ChatColor.YELLOW + "" + ChatColor.RED + "" + ChatColor.RESET + "" + ChatColor.RED + Functions.getShortNumber(((LivingEntity) entity).getHealth()) + Stat.HEALTH.getIcon());
-        } else if (((LivingEntity) entity).getHealth() <= ((LivingEntity) entity).getMaxHealth() / 2) {
-            entity.setCustomName(name + " " + ChatColor.GREEN + "" + ChatColor.YELLOW + "" + ChatColor.RED + "" + ChatColor.RESET + "" + ChatColor.YELLOW + Functions.getShortNumber(((LivingEntity) entity).getHealth()) + Stat.HEALTH.getIcon());
+        if (entity.getHealth() <= entity.getMaxHealth() / 4) {
+            entity.setCustomName(name + SPLITTER + ChatColor.RED + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatType.HEALTH.getIcon());
+        } else if (entity.getHealth() <= entity.getMaxHealth() / 2) {
+            entity.setCustomName(name + SPLITTER + ChatColor.YELLOW + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatType.HEALTH.getIcon());
         } else {
-            entity.setCustomName(name + " " + ChatColor.GREEN + "" + ChatColor.YELLOW + "" + ChatColor.RED + "" + ChatColor.RESET + "" + ChatColor.GREEN + Functions.getShortNumber(((LivingEntity) entity).getHealth()) + Stat.HEALTH.getIcon());
+            entity.setCustomName(name + SPLITTER + ChatColor.GREEN + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatType.HEALTH.getIcon());
         }
         entity.setCustomNameVisible(true);
+    }
+
+    public static String getName(EntitySD entity) {
+        String name = Functions.setTitleCase(entity.type.getName());
+        try {
+            if (!entity.type.getName().equals("")) {
+                String [] customName = entity.type.getName().split(SPLITTER);
+                name = customName[0];
+            }
+        } catch (NullPointerException ignored) {
+        }
+        return name + SPLITTER + ChatColor.GREEN + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatType.HEALTH.getIcon();
     }
 
     @EventHandler
@@ -42,16 +54,16 @@ public class EntityHealth implements Listener {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    addHealth(e.getEntity());
+                    addHealth((LivingEntity) e.getEntity());
                 }
-            }.runTaskLater(SkyblockDragons.getInstance(), 1L);
+            }.runTaskLater(SkyblockDragons.plugin, 1L);
         }
     }
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player && e.getEntity() instanceof Creature) {
-            addHealth(e.getEntity());
+            Functions.Wait(1L, () -> addHealth((LivingEntity) e.getEntity()));
         }
     }
 }
