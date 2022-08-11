@@ -71,5 +71,6 @@ public enum ItemFamily {
     HEMATITE,
     VOID_CRYSTAL,
     MYTHOLOGS_SPADE,
+    ERROR_SCYTHE,
     NULL
 }

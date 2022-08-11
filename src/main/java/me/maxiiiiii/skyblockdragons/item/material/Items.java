@@ -56,7 +56,7 @@ public class Items {
 
         items.put("VALKYRIE", new NecronBladeMaterial(Material.IRON_SWORD, ItemFamily.NECRON_BLADE, "Valkyrie", Rarity.LEGENDARY, new Stats(270, 145, 0, 0, 0, 60, 0, 0, 0, 60), NecronBladeMaterial.NecronBladeType.VALKYRIE));
 
-
+        items.put("ERROR_SCYTHE", new SwordMaterial(Material.DIAMOND_HOE, ItemFamily.ERROR_SCYTHE,"ERROR Scythe", Rarity.SPECIAL, new Stats(3500, 0, 0, 0, 0, 0, 0, 0, 0, 0), "", new ItemAbility(AbilityAction.RIGHT_CLICK, "Arrow", ChatColor.GRAY + "Shoots " + ChatColor.GREEN + "arrows" ), new ItemAbility(AbilityAction.RIGHT_SHIFT_CLICK, "Wither Skull", ChatColor.GRAY + "Shoots " + ChatColor.GOLD + "Wither Skull"), new SkillRequirement(SkillType.COMBAT, 12)));
 
         // Bows
         items.put("BOW", new BowMaterial(Material.BOW, ItemFamily.WOOD, "Bow", Rarity.COMMON, new Stats(5, 5, 0, 0, 0, 0, 0, 0, 0, 0), ""));

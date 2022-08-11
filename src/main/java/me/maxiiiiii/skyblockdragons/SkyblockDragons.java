@@ -177,6 +177,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Wither_Cloak(), this);
         getServer().getPluginManager().registerEvents(new Magma_Cloak(), this);
         getServer().getPluginManager().registerEvents(new Mythologs_Spade(), this);
+        getServer().getPluginManager().registerEvents(new ERROR_SCYTHE(), this);
 
         // Command Listeners
         getServer().getPluginManager().registerEvents(new AnvilCommand(), this);
