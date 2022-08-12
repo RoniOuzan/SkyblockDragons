@@ -20,7 +20,7 @@ public class NecronBladeMaterial extends SwordMaterial {
     }
 
     public enum NecronBladeType {
-        VALKYRIE, HYPERION, SCYLLA, ASTRAEA
+        VALKYRIE, HYPERION, SCYLLA, ASTRAEA, NECRON_BLADE
     }
 
     @Getter
