@@ -60,7 +60,7 @@ public class SkyblockMenu extends Menu {
         } else if (this.getNBT(e.getCurrentItem()).equals("SKILLS")) {
             new SkillMenu(this.player);
         } else if (this.getNBT(e.getCurrentItem()).equals("KITS")) {
-            player.performCommand("kits");
+            player.performCommand("dm open kits");
         } else if (this.getNBT(e.getCurrentItem()).equals("RECIPE_BOOK")) {
             new RecipesMenu(player);
         } else if (this.getNBT(e.getCurrentItem()).equals("SHOP")) {
@@ -89,6 +89,8 @@ public class SkyblockMenu extends Menu {
             player.performCommand("settings");
         } else if (this.getNBT(e.getCurrentItem()).equals("ISLAND_WARP")) {
             player.performCommand("is go");
+        } else if (this.getNBT(e.getCurrentItem()).equals("SELL")) {
+            player.performCommand("sell");
         } else if (this.getNBT(e.getCurrentItem()).equals("ACCESSORY_BAG")) {
             player.performCommand("acbag");
         }

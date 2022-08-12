@@ -538,7 +538,7 @@ public class PlayerSD extends PlayerClass {
                 this.addBits(250);
             }
         }
-        scores.add(objective.getScore(ChatColor.WHITE + "Bits: " + ChatColor.AQUA + getNumberFormat(bits) + " " + bitsAdder));
+        scores.add(objective.getScore(ChatColor.WHITE + "Shards: " + ChatColor.YELLOW + getNumberFormat(bits) + " " + bitsAdder));
         scores.add(objective.getScore(" "));
         if (TheEnd.dragon != null) {
             DragonType dragonType = DragonType.getDragonType(TheEnd.dragon.type.getName());
@@ -554,7 +554,7 @@ public class PlayerSD extends PlayerClass {
             scores.add(objective.getScore("  " + this.getPetActive().getRarity().getColor() + this.getPetActive().getPetMaterial().getName()));
             scores.add(objective.getScore("   "));
         }
-        scores.add(objective.getScore(ChatColor.YELLOW + "www.error.net"));
+        scores.add(objective.getScore(ChatColor.YELLOW + "sbdragons.revivesmc.net"));
         Collections.reverse(scores);
 
         for (int i = 0; i < scores.size(); i++) {
