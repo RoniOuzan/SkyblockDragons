@@ -48,6 +48,7 @@ import me.maxiiiiii.skyblockdragons.util.objects.PickableItem;
 import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
 import me.maxiiiiii.skyblockdragons.util.particle.ParticlePacketUtil;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
+import me.maxiiiiii.skyblockdragons.world.npc.NPC;
 import me.maxiiiiii.skyblockdragons.world.warp.PlayerWarpListener;
 import me.maxiiiiii.skyblockdragons.world.warp.WarpCommand;
 import me.maxiiiiii.skyblockdragons.worlds.deepermines.forge.Forge;
@@ -361,6 +362,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             if (!entity.isDead())
                 entity.remove();
         }
+        NPC.despawnAllNPCS();
         Variables.save();
     }
 

@@ -52,4 +52,11 @@ public abstract class NPC {
     public void onDespawn(NPCDespawnEvent e) {}
 
     public void onClick(PlayerClickOnNPCEvent e) {}
+
+    public static void despawnAllNPCS(){
+        for(NPC npc : npcs.values()){
+            npc.npc.despawn();
+            npc.npc.destroy();
+        }
+    }
 }

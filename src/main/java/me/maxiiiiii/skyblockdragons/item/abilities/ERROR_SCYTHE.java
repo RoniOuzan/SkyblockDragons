@@ -33,17 +33,15 @@ public class ERROR_SCYTHE implements Listener {
 
         if (cooldown(player, cooldown, 1, true)) return;
 
-        Vector vector1 = player.getLocation().getDirection().multiply(3);
-        Arrow arrow1 = player.launchProjectile(Arrow.class, vector1);
-        arrow1.addScoreboardTag("Error_Scythe_Arrow");
         if (player.isSneaking()) {
-            if (!Functions.getId(item).equals("ERROR_SCYTHE")) return;
-
-            if (cooldown(player, cooldown, 1, false)) return;
-
             Vector vector2 = player.getLocation().getDirection().multiply(3);
             WitherSkull wither1 = player.launchProjectile(WitherSkull.class, vector2);
             wither1.addScoreboardTag("Error_Scythe_Wither");
+        }
+        else{
+            Vector vector1 = player.getLocation().getDirection().multiply(3);
+            Arrow arrow1 = player.launchProjectile(Arrow.class, vector1);
+            arrow1.addScoreboardTag("Error_Scythe_Arrow");
         }
     }
     @EventHandler

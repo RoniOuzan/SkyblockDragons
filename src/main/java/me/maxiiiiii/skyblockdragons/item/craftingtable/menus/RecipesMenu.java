@@ -135,7 +135,7 @@ public class RecipesMenu extends Menu {
         @Override
         public void onInventoryClick(InventoryClickEvent e) {
             if (this.getNBT(e.getCurrentItem()).equals("PAGE_ITEM")) {
-                Recipe.get(Items.get(e.getCurrentItem()).name()).view((Player) e.getWhoClicked());
+                getRecipeForItem(e.getCurrentItem()).view((Player) e.getWhoClicked());
             }
         }
 
@@ -152,7 +152,7 @@ public class RecipesMenu extends Menu {
         @Override
         public void onInventoryClick(InventoryClickEvent e) {
             if (this.getNBT(e.getCurrentItem()).equals("PAGE_ITEM")) {
-                Recipe.get(((Item) e.getCurrentItem()).getMaterial().name()).view((Player) e.getWhoClicked());
+                getRecipeForItem(e.getCurrentItem()).view((Player) e.getWhoClicked());
             }
         }
 
@@ -185,7 +185,7 @@ public class RecipesMenu extends Menu {
         @Override
         public void onInventoryClick(InventoryClickEvent e) {
             if (this.getNBT(e.getCurrentItem()).equals("PAGE_ITEM")) {
-                Recipe.get(((Item) e.getCurrentItem()).getMaterial().name()).view((Player) e.getWhoClicked());
+                getRecipeForItem(e.getCurrentItem()).view((Player) e.getWhoClicked());
             }
         }
 
@@ -208,5 +208,16 @@ public class RecipesMenu extends Menu {
                 return tabs;
             }
         }
+    }
+
+    public static Recipe getRecipeForItem(ItemStack item){
+        String id = "";
+        if (item instanceof Item){
+            id = ((Item) item).getMaterial().name();
+        }
+        else{
+            id = item.getType().name();
+        }
+        return Recipe.get(id);
     }
 }
