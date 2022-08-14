@@ -538,7 +538,7 @@ public class PlayerSD extends PlayerClass {
                 this.addBits(250);
             }
         }
-        scores.add(objective.getScore(ChatColor.WHITE + "Shards: " + ChatColor.YELLOW + getNumberFormat(bits) + " " + bitsAdder));
+        scores.add(objective.getScore(ChatColor.WHITE + "PCoin: " + ChatColor.DARK_GREEN + getNumberFormat(bits) + " " + bitsAdder));
         scores.add(objective.getScore(" "));
         if (TheEnd.dragon != null) {
             DragonType dragonType = DragonType.getDragonType(TheEnd.dragon.type.getName());

@@ -91,7 +91,7 @@ public class SkyblockMenu extends Menu {
             player.performCommand("is go");
         } else if (this.getNBT(e.getCurrentItem()).equals("SELL")) {
             player.performCommand("sell");
-        } else if (this.getNBT(e.getCurrentItem()).equals("ACCESSORY_BAG")) {
+        } else if (this.getNBT(e.getCurrentItem()).equals("ACCESSORY")) {
             player.performCommand("acbag");
         }
     }
