@@ -533,7 +533,7 @@ public class PlayerSD extends PlayerClass {
         String bitsAdder = "";
 
         if (playTime % 36000L >= 0L && playTime % 36000L < 20L) {
-            bitsAdder = ChatColor.AQUA + "(+250 Bits)";
+            bitsAdder = ChatColor.AQUA + "(+250 PCoins)";
             if (playTime % 36000L < 5L) {
                 this.addBits(250);
             }

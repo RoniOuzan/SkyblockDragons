@@ -46,6 +46,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.lang.reflect.InvocationTargetException;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -138,14 +139,7 @@ public class Functions {
 
     public static <T> String getNumberFormat(T num) {
         if (num instanceof Number) {
-            String[] nums = (num + "").split("\\.");
-            nums[0] = nums[0].replaceAll("(?<=\\d)(?=(\\d\\d\\d)+(?!\\d))", ",");
-            StringBuilder sb = new StringBuilder();
-            sb.append(nums[0]);
-            for (int i = 1; i < nums.length; i++) {
-                sb.append(".").append(nums[i]);
-            }
-            return Functions.getInt(sb.toString());
+            return NumberFormat.getNumberInstance(Locale.US).format(num);
         }
         return Functions.getInt(num + "");
     }
