@@ -247,6 +247,9 @@ public class Damage implements Listener {
     public void onDamageEntity(EntityDamageEntityEvent e) {
         EntitySD attacker = e.getAttacker();
         EntitySD victim = e.getVictim();
+        if (attacker == null || victim == null){
+            return;
+        }
         if (attacker instanceof PlayerSD)
             ((PlayerSD) attacker).setScoreboardScores();
 
@@ -292,7 +295,7 @@ public class Damage implements Listener {
             else
                 playerDamageEntity = new EntityDamageEntityEvent(e.getDamager(), e.getEntity(), DamageType.NORMAL, 1, false);
             Bukkit.getServer().getPluginManager().callEvent(playerDamageEntity);
-            e.setCancelled(true);
+//            e.setCancelled(true);
         }
     }
 
@@ -339,8 +342,8 @@ public class Damage implements Listener {
             e.getDrops().clear();
             e.setDroppedExp(0);
 
-            EntitySD.entities.remove(entity.getUniqueId());
             entity.hologram.remove();
+            EntitySD.entities.remove(entity.getUniqueId());
             if (entity.getAttacker() == null) return;
 
             PlayerSD player = SkyblockDragons.getPlayer((PlayerSD) entity.getAttacker());

@@ -41,6 +41,7 @@ import me.maxiiiiii.skyblockdragons.player.storage.StorageMenu;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeMenu;
 import me.maxiiiiii.skyblockdragons.storage.VariableCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
+import me.maxiiiiii.skyblockdragons.util.AddonUtils;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.EntityHider;
 import me.maxiiiiii.skyblockdragons.util.objects.FlyTo;
@@ -67,6 +68,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -335,6 +337,13 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 //                }
 //            }
 //        }, 3000L, 6000L);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                AddonUtils.enableAddons();
+            }
+        }.runTaskLater(plugin, 5);
+
 
 
         System.out.println("Skyblock Dragons plugin has been loaded!");
@@ -364,6 +373,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         }
         NPC.despawnAllNPCS();
         Variables.save();
+        AddonUtils.disableAddons();
     }
 
     private boolean setupEconomy() {

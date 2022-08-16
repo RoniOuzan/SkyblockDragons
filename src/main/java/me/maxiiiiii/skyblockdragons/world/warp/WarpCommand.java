@@ -16,6 +16,7 @@ public class WarpCommand implements CommandExecutor {
 
             if (args.length == 0) {
                 player.sendMessage(ChatColor.RED + "Invalid arguments");
+                return true;
             }
 
             Warp warp = null;
