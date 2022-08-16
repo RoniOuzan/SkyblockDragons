@@ -31,25 +31,29 @@ public class SkyblockMenu extends Menu {
     @Override
     public void update() {
         this.setItem(13, Functions.applyHead(createItem(Material.SKULL_ITEM, 3, ChatColor.GREEN + "Your Skyblock Profile", "STATS", player.getStats().stream().map(s -> s.type.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(s.amount)).collect(Collectors.toList())), this.player.getPlayer()));
-
         this.setItem(19, createItem(Material.DIAMOND_SWORD, ChatColor.GREEN + "Your Skills", "SKILLS"));
-        this.setItem(20, createItem(Material.PAINTING, ChatColor.GREEN + "Collection", "COLLECTION"));
+        this.setItem(20, Functions.applySkull(createItem(Material.SKULL_ITEM, 3, ChatColor.GREEN + "Kits", "KITS"), "eb1f0030-7c48-4fe3-8a92-45396a44fedd", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTg3MDhkNGI0YWIxMGI5YmE4NWVkMWE5MjQyYmY4MTEwNWM1NTk2ZDc0M2YyY2EyMGEzMzg3ZTI5ZDA2MzM0NSJ9fX0="));
         this.setItem(21, createItem(Material.BOOK, ChatColor.GREEN + "Recipe Book", "RECIPE_BOOK"));
-        this.setItem(22, createItem(Material.EMERALD, ChatColor.GREEN + "Trades", "TRADES"));
-        this.setItem(23, createItem(Material.WRITTEN_BOOK, ChatColor.GREEN + "Quests", "QUESTS"));
-        this.setItem(24, createItem(Material.WATCH, ChatColor.GREEN + "Calender", "CALENDER"));
+        this.setItem(22, createItem(Material.EMERALD, ChatColor.GREEN + "Shop", "SHOP"));
+        this.setItem(29, createItem(Material.WRITTEN_BOOK, ChatColor.GREEN + "Quests", "QUESTS"));
+        this.setItem(24, Functions.applySkull(createItem(Material.SKULL_ITEM, 3, ChatColor.GREEN + "Daily", "DAILY"), "36aa6338-5f47-4ede-afb7-6c37a3e1538d", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTJjNjJkODc2NjNjNTg4YWNiZDdjYWZiNWVlZjZhYTNjODg2YWVhZmU3YWJhYzJiOGE1MjcyYzM4OThhNWRhYyJ9fX0="));
         this.setItem(25, createItem(Material.CHEST, ChatColor.GREEN + "Storage", "STORAGE"));
 
-        this.setItem(29, createItem(Material.POTION, ChatColor.GREEN + "Active Effects", "EFFECTS"));
+        this.setItem(51, createItem(Material.POTION, ChatColor.GREEN + "Active Effects", "EFFECTS"));
         this.setItem(30, createItem(Material.BONE, ChatColor.GREEN + "Pets", "PETS"));
         this.setItem(31, createItem(Material.WORKBENCH, ChatColor.GREEN + "Crafting Table", "CRAFTING_TABLE"));
+        this.setItem(40, createItem(Material.GOLD_INGOT, ChatColor.YELLOW + "Sell", "SELL"));
         this.setItem(32, Functions.setArmorColor(createItem(Material.LEATHER_CHESTPLATE, ChatColor.GREEN + "Wardrobe", "WARDROBE"), Color.fromBGR(127, 63, 178)));
         this.setItem(33, Functions.applySkull(createItem(Material.SKULL_ITEM, 3, ChatColor.GREEN + "Bank", "BANK"), "34e13082-c38c-4a10-9932-509cf78f4ee1", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjA5Mjk5YTExN2JlZTg4ZDMyNjJmNmFiOTgyMTFmYmEzNDRlY2FlMzliNDdlYzg0ODEyOTcwNmRlZGM4MWU0ZiJ9fX0="));
 
-        this.setItem(47, Functions.applySkull(createItem(Material.SKULL_ITEM, 3, ChatColor.GREEN + "Fast Travel", "FAST_TRAVEL"), "b8c1ed51-5698-4a3c-a062-8ffd4bb471ed", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODc5ZTU0Y2JlODc4NjdkMTRiMmZiZGYzZjE4NzA4OTQzNTIwNDhkZmVjZDk2Mjg0NmRlYTg5M2IyMTU0Yzg1In19fQ=="));
-        this.setItem(48, createItem(Material.NAME_TAG, ChatColor.GREEN + "Profile Management", "PROFILE"));
-        this.setItem(50, createItem(Material.REDSTONE_TORCH_ON, ChatColor.GREEN + "Settings", "SETTINGS"));
+        this.setItem(23, Functions.applySkull(createItem(Material.SKULL_ITEM, 3, ChatColor.GREEN + "Warps", "FAST_TRAVEL"), "b8c1ed51-5698-4a3c-a062-8ffd4bb471ed", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODc5ZTU0Y2JlODc4NjdkMTRiMmZiZGYzZjE4NzA4OTQzNTIwNDhkZmVjZDk2Mjg0NmRlYTg5M2IyMTU0Yzg1In19fQ=="));
+//        this.setItem(48, createItem(Material.NAME_TAG, ChatColor.GREEN + "Profile Management", "PROFILE"));
+        this.setItem(49, createItem(Material.REDSTONE_TORCH_ON, ChatColor.GREEN + "Settings", "SETTINGS"));
         this.setItem(53, Functions.applySkull(createItem(Material.SKULL_ITEM, 3, ChatColor.GREEN + "Accessory Bag", "ACCESSORY"), "c3ffd9cc-db06-4eea-ab09-571aa5454092", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTYxYTkxOGMwYzQ5YmE4ZDA1M2U1MjJjYjkxYWJjNzQ2ODkzNjdiNGQ4YWEwNmJmYzFiYTkxNTQ3MzA5ODVmZiJ9fX0="));
+        this.setItem(47, Functions.applySkull(createItem(Material.SKULL_ITEM, 3, ChatColor.GREEN + "Warp to Your Island", "ISLAND_WARP"), "b8c1ed51-5698-4a3c-a062-8ffd4bb471ed", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODc5ZTU0Y2JlODc4NjdkMTRiMmZiZGYzZjE4NzA4OTQzNTIwNDhkZmVjZDk2Mjg0NmRlYTg5M2IyMTU0Yzg1In19fQ=="));
+        if (player.getWorld().getName().equals("ASkyBlock")) {
+            this.setItem(47, Functions.applySkull(createItem(Material.SKULL_ITEM, 3, ChatColor.GREEN + "Warp to Hub", "HUB_WARP"), "b8c1ed51-5698-4a3c-a062-8ffd4bb471ed", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODc5ZTU0Y2JlODc4NjdkMTRiMmZiZGYzZjE4NzA4OTQzNTIwNDhkZmVjZDk2Mjg0NmRlYTg5M2IyMTU0Yzg1In19fQ=="));
+        }
     }
 
     @Override
@@ -58,18 +62,19 @@ public class SkyblockMenu extends Menu {
             new SkyblockMenu.Stats(this.player);
         } else if (this.getNBT(e.getCurrentItem()).equals("SKILLS")) {
             new SkillMenu(this.player);
-        } else if (this.getNBT(e.getCurrentItem()).equals("COLLECTION")) {
+        } else if (this.getNBT(e.getCurrentItem()).equals("KITS")) {
+            player.performCommand("dm open kits");
         } else if (this.getNBT(e.getCurrentItem()).equals("RECIPE_BOOK")) {
             new RecipesMenu(player);
-        } else if (this.getNBT(e.getCurrentItem()).equals("TRADES")) {
-
+        } else if (this.getNBT(e.getCurrentItem()).equals("SHOP")) {
+            player.performCommand("shop");
         } else if (this.getNBT(e.getCurrentItem()).equals("QUESTS")) {
-
-        } else if (this.getNBT(e.getCurrentItem()).equals("CALENDER")) {
-
+            player.performCommand("quests");
+        } else if (this.getNBT(e.getCurrentItem()).equals("DAILY")) {
+            player.performCommand("dm open rewards");
         } else if (this.getNBT(e.getCurrentItem()).equals("STORAGE")) {
             new StorageMenu(this.player);
-        } else if (this.getNBT(e.getCurrentItem()).equals("EFFECTS")) {
+        } else if (this.getNBT(e.getCurrentItem()).equals("EFFECTS")) { //TODO LidanTheGamer
 
         } else if (this.getNBT(e.getCurrentItem()).equals("PETS")) {
             new PetMenu(player);
@@ -78,15 +83,21 @@ public class SkyblockMenu extends Menu {
         } else if (this.getNBT(e.getCurrentItem()).equals("WARDROBE")) {
             new WardrobeMenu(player, 1);
         } else if (this.getNBT(e.getCurrentItem()).equals("BANK")) {
-
+            player.performCommand("bank open");
         } else if (this.getNBT(e.getCurrentItem()).equals("FAST_TRAVEL")) {
-
-        } else if (this.getNBT(e.getCurrentItem()).equals("PROFILE")) {
-
+            player.performCommand("warps");
+        } else if (this.getNBT(e.getCurrentItem()).equals("PROFILE")) { // TODO LidanTheGamer_
+            player.performCommand("profile");
         } else if (this.getNBT(e.getCurrentItem()).equals("SETTINGS")) {
-
-        } else if (this.getNBT(e.getCurrentItem()).equals("ACCESSORY_BAG")) {
-
+            player.performCommand("settings");
+        } else if (this.getNBT(e.getCurrentItem()).equals("ISLAND_WARP")) {
+            player.performCommand("is go");
+        } else if (this.getNBT(e.getCurrentItem()).equals("HUB_WARP")) {
+            player.performCommand("hub");
+        } else if (this.getNBT(e.getCurrentItem()).equals("SELL")) {
+            player.performCommand("sell");
+        } else if (this.getNBT(e.getCurrentItem()).equals("ACCESSORY")) {
+            player.performCommand("acbag");
         }
     }
 

@@ -19,6 +19,8 @@ public enum ItemFamily {
     BONEMERANG,
     NECRON_ARMOR,
     STORM_ARMOR,
+    GOLDOR_ARMOR,
+    MAXOR_ARMOR,
     SUPERIOR_DRAGON,
     STRONG_DRAGON,
     YOUNG_DRAGON,
@@ -71,5 +73,7 @@ public enum ItemFamily {
     HEMATITE,
     VOID_CRYSTAL,
     MYTHOLOGS_SPADE,
+    ERROR_SCYTHE,
+    ADMIN,
     NULL
 }

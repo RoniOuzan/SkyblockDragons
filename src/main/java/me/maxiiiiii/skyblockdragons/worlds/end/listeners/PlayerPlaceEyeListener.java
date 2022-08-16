@@ -23,12 +23,13 @@ public class PlayerPlaceEyeListener implements Listener {
         e.addToAmountOfEyes();
         amountOfPlacedEyes.put(e.getPlayer(), amountOfPlacedEyes.getOrDefault(e.getPlayer(), 0) + 1);
         for (Player player : Bukkit.getOnlinePlayers().stream().filter(p -> p.getWorld().getName().equals("TheEnd")).collect(Collectors.toList())) {
-            player.sendMessage(e.getPlayer().getDisplayName() + " " + ChatColor.DARK_PURPLE + "placed an eye! (" + e.getAmountOfEyes() + "/8)");
+            player.sendMessage( ChatColor.DARK_PURPLE + "☬ " + e.getPlayer().getDisplayName() + ChatColor.LIGHT_PURPLE + " placed an eye! (" + e.getAmountOfEyes() + "/8)");
         }
 
         if (e.getAmountOfEyes() >= 8) {
             Functions.Wait(20L, TheEnd::spawnDragon);
         }
     }
+
 }
 // -4

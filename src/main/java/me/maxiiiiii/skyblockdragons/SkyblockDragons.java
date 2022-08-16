@@ -41,6 +41,7 @@ import me.maxiiiiii.skyblockdragons.player.storage.StorageMenu;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeMenu;
 import me.maxiiiiii.skyblockdragons.storage.VariableCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
+import me.maxiiiiii.skyblockdragons.util.AddonUtils;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.EntityHider;
 import me.maxiiiiii.skyblockdragons.util.objects.FlyTo;
@@ -48,6 +49,7 @@ import me.maxiiiiii.skyblockdragons.util.objects.PickableItem;
 import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
 import me.maxiiiiii.skyblockdragons.util.particle.ParticlePacketUtil;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
+import me.maxiiiiii.skyblockdragons.world.npc.NPC;
 import me.maxiiiiii.skyblockdragons.world.warp.PlayerWarpListener;
 import me.maxiiiiii.skyblockdragons.world.warp.WarpCommand;
 import me.maxiiiiii.skyblockdragons.worlds.deepermines.forge.Forge;
@@ -66,6 +68,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -177,6 +180,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Wither_Cloak(), this);
         getServer().getPluginManager().registerEvents(new Magma_Cloak(), this);
         getServer().getPluginManager().registerEvents(new Mythologs_Spade(), this);
+        getServer().getPluginManager().registerEvents(new ERROR_SCYTHE(), this);
 
         // Command Listeners
         getServer().getPluginManager().registerEvents(new AnvilCommand(), this);
@@ -333,6 +337,13 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 //                }
 //            }
 //        }, 3000L, 6000L);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                AddonUtils.enableAddons();
+            }
+        }.runTaskLater(plugin, 5);
+
 
 
         System.out.println("Skyblock Dragons plugin has been loaded!");
@@ -360,7 +371,9 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             if (!entity.isDead())
                 entity.remove();
         }
+        NPC.despawnAllNPCS();
         Variables.save();
+        AddonUtils.disableAddons();
     }
 
     private boolean setupEconomy() {

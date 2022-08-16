@@ -33,8 +33,8 @@ public class Serializer {
             BukkitObjectInputStream is = new BukkitObjectInputStream(in);
 
             return (T) is.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (IOException | ClassNotFoundException ignored) {
+
         }
         return null;
     }

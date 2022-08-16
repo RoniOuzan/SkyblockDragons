@@ -3,9 +3,9 @@ package me.maxiiiiii.skyblockdragons.worlds.end;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamageEntityEvent;
-import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
+import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.FlyToLocation;
@@ -17,12 +17,17 @@ import me.maxiiiiii.skyblockdragons.worlds.end.listeners.DragonKillListener;
 import me.maxiiiiii.skyblockdragons.worlds.end.listeners.PlayerPlaceEyeListener;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.EnderDragon;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.*;
+import org.bukkit.event.entity.EnderDragonChangePhaseEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,15 +42,54 @@ public class TheEnd extends WorldSD implements Listener {
     public static final Location MIDDLE_OF_LOOT = new Location(world, 1, 61, 15);
     public static final Location DRAGON_SPAWN = new Location(world, 0, 80, 0);
     public static final Location MIDDLE = new Location(world, 0, 64, 0);
-    public static EntitySD dragon = null;
-
     public static final Map<PlayerSD, Double> dragonDamage = new HashMap<>();
+    public static EntitySD dragon = null;
 
     public TheEnd(JavaPlugin plugin) {
         super(world, "The End", new Location(world, 119.5, 54, 1.5, 90, 0), WorldType.COMBAT, WorldType.MINING);
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         plugin.getServer().getPluginManager().registerEvents(new PlayerPlaceEyeListener(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new DragonKillListener(), plugin);
+    }
+
+    public static void resetEyes() {
+        for (Block block : Functions.loopBlocksHorizontally(MIDDLE, 10)) {
+            if (block.getType() == Material.ENDER_PORTAL_FRAME && block.getData() > 3) {
+                block.setData((byte) (block.getData() - 4));
+            }
+        }
+    }
+
+    public static EntityMaterial getRandomDragon() {
+        double random = Math.random() * 100;
+        if (random >= 84)
+            return EntityMaterial.get("OLD_DRAGON");
+        if (random >= 68)
+            return EntityMaterial.get("PROTECTOR_DRAGON");
+        if (random >= 52)
+            return EntityMaterial.get("WISE_DRAGON");
+        if (random >= 36)
+            return EntityMaterial.get("UNSTABLE_DRAGON");
+        if (random >= 20)
+            return EntityMaterial.get("YOUNG_DRAGON");
+        if (random >= 4)
+            return EntityMaterial.get("STRONG_DRAGON");
+        if (random >= 1)
+            return EntityMaterial.get("SUPERIOR_DRAGON");
+        return EntityMaterial.get("ERROR_DRAGON");
+    }
+
+    public static void spawnDragon() {
+        dragon = new EntitySD(DRAGON_SPAWN, getRandomDragon());
+        for (Player player : Bukkit.getOnlinePlayers().stream().filter(p -> p.getWorld().getName().equals("TheEnd")).collect(Collectors.toList())) {
+            if (player.getLocation().distance(MIDDLE) <= 50) {
+                player.setVelocity(new Vector(
+                        DRAGON_SPAWN.getX() - player.getLocation().getX(),
+                        0,
+                        DRAGON_SPAWN.getZ() - player.getLocation().getZ()
+                ).normalize().multiply(2).setY(3));
+            }
+        }
     }
 
     @EventHandler
@@ -96,9 +140,13 @@ public class TheEnd extends WorldSD implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageEntityEvent e) {
-        if (e.getVictim().type instanceof EntityDragon) {
-            if (e.getAttacker() instanceof PlayerSD)
-                dragonDamage.put((PlayerSD) e.getAttacker(), dragonDamage.getOrDefault((PlayerSD) e.getAttacker(), 0d) + e.getDamage());
+        try {
+            if (e.getVictim() != null && e.getVictim().type instanceof EntityDragon) {
+                if (e.getAttacker() instanceof PlayerSD)
+                    dragonDamage.put((PlayerSD) e.getAttacker(), dragonDamage.getOrDefault((PlayerSD) e.getAttacker(), 0d) + e.getDamage());
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
         }
     }
 
@@ -119,45 +167,5 @@ public class TheEnd extends WorldSD implements Listener {
     public void onDragonChangePhase(EnderDragonChangePhaseEvent e) {
         if (e.getNewPhase() == EnderDragon.Phase.DYING)
             e.setCancelled(true);
-    }
-
-    public static void resetEyes() {
-        for (Block block : Functions.loopBlocksHorizontally(MIDDLE, 10)) {
-            if (block.getType() == Material.ENDER_PORTAL_FRAME && block.getData() > 3) {
-                block.setData((byte) (block.getData() - 4));
-            }
-        }
-    }
-
-    public static EntityMaterial getRandomDragon() {
-        double random = Math.random() * 100;
-        if (random >= 84)
-            return EntityMaterial.get("OLD_DRAGON");
-        if (random >= 68)
-            return EntityMaterial.get("PROTECTOR_DRAGON");
-        if (random >= 52)
-            return EntityMaterial.get("WISE_DRAGON");
-        if (random >= 36)
-            return EntityMaterial.get("UNSTABLE_DRAGON");
-        if (random >= 20)
-            return EntityMaterial.get("YOUNG_DRAGON");
-        if (random >= 4)
-            return EntityMaterial.get("STRONG_DRAGON");
-        if (random >= 1)
-            return EntityMaterial.get("SUPERIOR_DRAGON");
-        return EntityMaterial.get("ERROR_DRAGON");
-    }
-
-    public static void spawnDragon() {
-        dragon = new EntitySD(DRAGON_SPAWN, getRandomDragon());
-        for (Player player : Bukkit.getOnlinePlayers().stream().filter(p -> p.getWorld().getName().equals("TheEnd")).collect(Collectors.toList())) {
-            if (player.getLocation().distance(MIDDLE) <= 50) {
-                player.setVelocity(new Vector(
-                        DRAGON_SPAWN.getX() - player.getLocation().getX(),
-                        0,
-                        DRAGON_SPAWN.getZ() - player.getLocation().getZ()
-                ).normalize().multiply(2).setY(3));
-            }
-        }
     }
 }
