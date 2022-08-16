@@ -83,7 +83,7 @@ public class SkyblockMenu extends Menu {
         } else if (this.getNBT(e.getCurrentItem()).equals("WARDROBE")) {
             new WardrobeMenu(player, 1);
         } else if (this.getNBT(e.getCurrentItem()).equals("BANK")) {
-            player.performCommand("bank");
+            player.performCommand("bank open");
         } else if (this.getNBT(e.getCurrentItem()).equals("FAST_TRAVEL")) {
             player.performCommand("warps");
         } else if (this.getNBT(e.getCurrentItem()).equals("PROFILE")) { // TODO LidanTheGamer_

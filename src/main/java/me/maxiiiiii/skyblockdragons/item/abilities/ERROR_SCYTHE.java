@@ -24,7 +24,7 @@ public class ERROR_SCYTHE implements Listener {
     private final Cooldown<Player> cooldown = new Cooldown<>();
 
     @EventHandler
-    public void onRightClick(PlayerInteractEvent e) {
+    public void onPlayerUseAbility(PlayerInteractEvent e) {
         ItemStack item = e.getItem();
 
         if (!Functions.getId(item).equals("ERROR_SCYTHE")) return;
@@ -37,8 +37,7 @@ public class ERROR_SCYTHE implements Listener {
             Vector vector2 = player.getLocation().getDirection().multiply(3);
             WitherSkull wither1 = player.launchProjectile(WitherSkull.class, vector2);
             wither1.addScoreboardTag("Error_Scythe_Wither");
-        }
-        else{
+        }else{
             Vector vector1 = player.getLocation().getDirection().multiply(3);
             Arrow arrow1 = player.launchProjectile(Arrow.class, vector1);
             arrow1.addScoreboardTag("Error_Scythe_Arrow");
