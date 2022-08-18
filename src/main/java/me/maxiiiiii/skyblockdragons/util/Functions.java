@@ -27,6 +27,8 @@ import me.maxiiiiii.skyblockdragons.util.interfaces.While;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import me.maxiiiiii.skyblockdragons.util.objects.SignMenu;
 import me.maxiiiiii.skyblockdragons.util.objects.SlotCooldown;
+import me.maxiiiiii.skyblockdragons.util.reflection.MinecraftReflectionProvider;
+import me.maxiiiiii.skyblockdragons.util.reflection.ReflectionUtil;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Creature;
@@ -1680,5 +1682,16 @@ public class Functions {
         meta.setLore(lores);
         item.setItemMeta(meta);
         return item;
+    }
+
+    public static String getLocalName(ItemStack itemStack) {
+        final String[] item = {itemStack.getType().name()};
+        assert MinecraftReflectionProvider.CRAFT_ITEMSTACK != null;
+        ReflectionUtil.newCall().getMethod(MinecraftReflectionProvider.CRAFT_ITEMSTACK, "asNMSCopy", ItemStack.class)
+                .get().passIfValid(reflectionMethod -> {
+                    Object nmsItemStack = reflectionMethod.invokeIfValid(null, itemStack);
+                    item[0] = ReflectionUtil.newCall().getMethod(MinecraftReflectionProvider.NMS_ITEMSTACK, "getName").get().invokeIfValid(nmsItemStack);
+                });
+        return item[0];
     }
 }
