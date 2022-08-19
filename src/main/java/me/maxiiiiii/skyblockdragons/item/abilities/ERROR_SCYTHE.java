@@ -26,7 +26,6 @@ public class ERROR_SCYTHE implements Listener {
     @EventHandler
     public void onPlayerUseAbility(PlayerInteractEvent e) {
         ItemStack item = e.getItem();
-
         if (!Functions.getId(item).equals("ERROR_SCYTHE")) return;
 
         Player player = e.getPlayer();

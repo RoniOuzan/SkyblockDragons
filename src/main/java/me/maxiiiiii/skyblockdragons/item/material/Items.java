@@ -1,6 +1,8 @@
 package me.maxiiiiii.skyblockdragons.item.material;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
@@ -14,10 +16,7 @@ import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 
 import java.rmi.MarshalException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Items {
     public static Map<String, ItemMaterial> items = new HashMap<>();
@@ -448,6 +447,9 @@ public class Items {
 
         for (Material material : Material.values()) {
             if (material == Material.AIR) continue;
+            if (!material.isItem()) continue;
+            ItemStack itemStack = new ItemStack(material, 1, (short) 0);
+            String localName = Functions.getLocalName(itemStack);
             String name = material.name();
             if (name.equals("SULPHUR"))
                 name = "GUNPOWDER";
@@ -464,10 +466,25 @@ public class Items {
                         vanillaMaterials.put(Functions.getColorName(i).toUpperCase() + "_" + name, new NormalMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(i) + " " +  name), ItemType.ITEM, rarity, i + "", "", false, true));
                     }
             }
+            else {
+                short maxDurability = 16;
+                boolean sameAsFirst = false;
+                SkyblockDragons.logger.info("[ITEMS_SCAMS] MAT INFO " + material.name() + " locale name: " + localName);
+                for (int i = 1; i < maxDurability; i++) {
+                    ItemStack newItemStack = new ItemStack(material, 1, (short) i);
+                    String newLocalName = Functions.getLocalName(newItemStack);
+                    SkyblockDragons.logger.info("[ITEMS_SCAMS] Adding " + material.name() + ":" + i);
+                    if (i != 0 && localName.equals(newLocalName)) {
+                        SkyblockDragons.logger.info("[ITEMS_SCAMS] Similar " + material.name() + ":" + i + "local name: " + newLocalName);
+                        break;
+                    }
+                    vanillaMaterials.put(name + ":" + i, new NormalMaterial(material, ItemFamily.VANILLA, newLocalName, ItemType.ITEM, rarity, i + "", "", false, true));
+                }
+            }
 
             if (material == Material.NETHER_STAR || material == Material.BEDROCK)
                 rarity = Rarity.LEGENDARY;
-            vanillaMaterials.put(name, new NormalMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(name.replace("_INGOT", "")), ItemType.ITEM, rarity, "", "", false, true));
+            vanillaMaterials.put(name, new NormalMaterial(material, ItemFamily.VANILLA, localName, ItemType.ITEM, rarity, "", "", false, true));
         }
         vanillaMaterials.put("LAPIS", new NormalMaterial(Material.INK_SACK, ItemFamily.VANILLA, "Lapis Lazuli", ItemType.ITEM, Rarity.COMMON, "4", "", false, true));
         vanillaMaterials.remove("BLUE_DYE");
@@ -493,6 +510,16 @@ public class Items {
     }
 
     public static ItemMaterial get(String name) {
+        String[] splitName = name.split(":");
+        name = splitName[0];
+        if (Functions.isInt(name)){
+            name = Material.getMaterial(Functions.getIntOrDefault(name, 1)).name();
+        }
+        name = name.toUpperCase(Locale.ROOT);
+        name = name.replace(":0", "");
+        if (splitName.length > 1) {
+            name = name + ":" + splitName[1];
+        }
         return Items.items.getOrDefault(name, Items.NULL);
     }
 
