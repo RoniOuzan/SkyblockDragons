@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.entity;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
+import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
@@ -21,6 +22,7 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class EntitySD extends EntityClass {
@@ -34,9 +36,7 @@ public class EntitySD extends EntityClass {
     public Location location;
 
     public final Cooldown<Player> actionBarCooldown = new Cooldown<>();
-    public final Cooldown<EntitySD> damageCooldownMelee = new Cooldown<>();
-    public final Cooldown<EntitySD> damageCooldownProjectile = new Cooldown<>();
-    public final Cooldown<EntitySD> damageCooldownLava = new Cooldown<>();
+    public final Map<Damage.DamageType, Cooldown<EntitySD>> damageCooldown = new HashMap<>();
 
     public EntitySD(Location location, EntityMaterial type) {
         super((LivingEntity) location.getWorld().spawnEntity(location, type.entityType));
@@ -66,7 +66,8 @@ public class EntitySD extends EntityClass {
         this.entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(this.type.health);
         this.entity.setHealth(this.type.health);
         this.entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(this.type.knockbackResistance);
-//        this.entity.setCustomName(this.type.name());
+        if (this.type instanceof EntityDragon)
+            this.entity.setCustomName(this.getCustomName());
         this.entity.setCustomNameVisible(false);
         this.entity.setAI(this.type.ai);
         this.entity.setCanPickupItems(false);
@@ -311,15 +312,10 @@ public class EntitySD extends EntityClass {
     }
 
     public Cooldown<EntitySD> getDamageCooldown(Damage.DamageType type) {
-        switch (type) {
-            case NORMAL:
-            case FALL:
-                return this.damageCooldownMelee;
-
-            case PROJECTILE:
-                return this.damageCooldownProjectile;
+        if (!this.damageCooldown.containsKey(type)) {
+            this.damageCooldown.put(type, new Cooldown<>());
         }
-        return this.damageCooldownMelee;
+        return this.damageCooldown.get(type);
     }
 
     public static class EntityAssociateException extends RuntimeException {

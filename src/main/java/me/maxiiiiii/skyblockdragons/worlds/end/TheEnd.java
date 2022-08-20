@@ -27,7 +27,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EnderDragonChangePhaseEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -90,33 +89,29 @@ public class TheEnd extends WorldSD implements Listener {
                 ).normalize().multiply(2).setY(3));
             }
         }
-    }
 
-    @EventHandler
-    public void onSpawn(EntitySpawnEvent e) {
-        if (e.getLocation().getWorld() != world) return;
-        if (e.getEntity() instanceof EnderDragon) {
-            EnderDragon dragon = (EnderDragon) e.getEntity();
-            dragon.setPhase(EnderDragon.Phase.HOVER);
-            Functions.While(() -> !dragon.isDead(), 2L, i -> {
-                for (Entity entity : dragon.getNearbyEntities(1, 1, 1)) {
-                    if (entity instanceof Arrow && ((Arrow) entity).getShooter() != null) {
-                        entity.remove();
-                        SkyblockDragons.getPlayer((Player) ((Arrow) entity).getShooter()).makeDamage(dragon, Damage.DamageType.PROJECTILE, 1);
-                    }
+        ((EnderDragon) dragon.entity).setPhase(EnderDragon.Phase.HOVER);
+        Functions.While(() -> !dragon.isDead(), 2L, i -> {
+            for (Entity entity : dragon.getNearbyEntities(1, 1, 1)) {
+                if (entity instanceof Arrow && ((Arrow) entity).getShooter() != null) {
+                    entity.remove();
+                    SkyblockDragons.getPlayer((Player) ((Arrow) entity).getShooter()).makeDamage(dragon, Damage.DamageType.PROJECTILE, 1);
                 }
-            });
-            Functions.While(() -> !dragon.isDead(), 80L, i -> {
-                if (i % 6 == 4 || i % 6 == 5) {
-                    return;
-                }
-                double x = Functions.randomDouble(-40, 40);
-                double y = Functions.randomDouble(70, 120);
-                double z = Functions.randomDouble(-40, 40);
-                Location location = new Location(getWorld(), x, y, z);
-                new FlyToLocation(dragon, location, 80, 5, true);
-            });
-        }
+            }
+        });
+        Functions.While(() -> !dragon.isDead(), 80L, i -> {
+            if (i % 6 == 4) {
+                return;
+            } else if (i % 6 == 5) {
+                ((EntityDragon) dragon.type).strikeAbility(dragon);
+                return;
+            }
+            double x = Functions.randomDouble(-40, 40);
+            double y = Functions.randomDouble(75, 120);
+            double z = Functions.randomDouble(-40, 40);
+            Location location = new Location(world, x, y, z);
+            new FlyToLocation(dragon, location, 80, 10, true);
+        });
     }
 
     @EventHandler

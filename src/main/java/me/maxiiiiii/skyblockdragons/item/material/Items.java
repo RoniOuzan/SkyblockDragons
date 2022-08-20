@@ -1,8 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.material;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
@@ -15,7 +13,6 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 
-import java.rmi.MarshalException;
 import java.util.*;
 
 public class Items {
@@ -465,17 +462,12 @@ public class Items {
                     for (short i = 0; i < 16; i++) {
                         vanillaMaterials.put(Functions.getColorName(i).toUpperCase() + "_" + name, new NormalMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(i) + " " +  name), ItemType.ITEM, rarity, i + "", "", false, true));
                     }
-            }
-            else {
+            } else {
                 short maxDurability = 16;
-                boolean sameAsFirst = false;
-                SkyblockDragons.logger.info("[ITEMS_SCAMS] MAT INFO " + material.name() + " locale name: " + localName);
                 for (int i = 1; i < maxDurability; i++) {
                     ItemStack newItemStack = new ItemStack(material, 1, (short) i);
                     String newLocalName = Functions.getLocalName(newItemStack);
-                    SkyblockDragons.logger.info("[ITEMS_SCAMS] Adding " + material.name() + ":" + i);
-                    if (i != 0 && localName.equals(newLocalName)) {
-                        SkyblockDragons.logger.info("[ITEMS_SCAMS] Similar " + material.name() + ":" + i + "local name: " + newLocalName);
+                    if (localName.equals(newLocalName)) {
                         break;
                     }
                     vanillaMaterials.put(name + ":" + i, new NormalMaterial(material, ItemFamily.VANILLA, newLocalName, ItemType.ITEM, rarity, i + "", "", false, true));

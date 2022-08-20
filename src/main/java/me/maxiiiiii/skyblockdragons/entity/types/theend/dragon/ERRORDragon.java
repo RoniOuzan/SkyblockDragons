@@ -4,6 +4,7 @@ import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
 
 public class ERRORDragon extends EntityDragon {
     public ERRORDragon() {
@@ -23,5 +24,10 @@ public class ERRORDragon extends EntityDragon {
     @Override
     public void onSpawn(EntitySD entity) {
 
+    }
+
+    @Override
+    public void strikeAbility(Entity entity) {
+        super.strikeAbility(entity, 0.5);
     }
 }

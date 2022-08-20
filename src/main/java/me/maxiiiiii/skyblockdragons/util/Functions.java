@@ -1690,7 +1690,9 @@ public class Functions {
         ReflectionUtil.newCall().getMethod(MinecraftReflectionProvider.CRAFT_ITEMSTACK, "asNMSCopy", ItemStack.class)
                 .get().passIfValid(reflectionMethod -> {
                     Object nmsItemStack = reflectionMethod.invokeIfValid(null, itemStack);
-                    item[0] = ReflectionUtil.newCall().getMethod(MinecraftReflectionProvider.NMS_ITEMSTACK, "getName").get().invokeIfValid(nmsItemStack);
+                    if (MinecraftReflectionProvider.NMS_ITEMSTACK != null) {
+                        item[0] = ReflectionUtil.newCall().getMethod(MinecraftReflectionProvider.NMS_ITEMSTACK, "getName").get().invokeIfValid(nmsItemStack);
+                    }
                 });
         return item[0];
     }

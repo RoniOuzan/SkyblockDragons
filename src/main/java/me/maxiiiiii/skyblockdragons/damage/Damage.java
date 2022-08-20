@@ -305,7 +305,8 @@ public class Damage implements Listener {
             EntitySD entity = EntitySD.get(e.getEntity());
             if (entity != null) {
                 entity.kill();
-                entity.hologram.remove();
+                if (entity.hologram != null)
+                    entity.hologram.remove();
             }
             return;
         }
@@ -313,7 +314,7 @@ public class Damage implements Listener {
         if (!e.getDamager().getType().isSolid()) {
             EntitySD entity = new EntitySD((LivingEntity) e.getEntity());
 
-            if (cooldown(entity, entity.damageCooldownLava, 500, false)) {
+            if (cooldown(entity, entity.getDamageCooldown(DamageType.FIRE), 500, false)) {
                 e.setCancelled(true);
                 return;
             }
