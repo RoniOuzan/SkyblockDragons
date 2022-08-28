@@ -3,11 +3,10 @@ package me.maxiiiiii.skyblockdragons.commands;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
-import me.maxiiiiii.skyblockdragons.util.particle.ParticlePacketUtil;
-import me.maxiiiiii.skyblockdragons.util.particle.Particles;
+import me.maxiiiiii.skyblockdragons.util.objects.WorldEditAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Particle;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,6 +25,7 @@ public class SkyblockDragonsCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
+            Player player = (Player) sender;
             if (args.length > 0) {
                 if (args[0].equalsIgnoreCase("reload")) {
                     sender.sendMessage(ChatColor.GREEN + "You have been reloaded SkyblockDragons plugin.");
@@ -93,7 +93,7 @@ public class SkyblockDragonsCommand implements CommandExecutor, TabCompleter {
                         } catch (NullPointerException ignored) {}
                     }
                 } else if (args[0].equalsIgnoreCase("test")) {
-                    Particles.line(new ParticlePacketUtil(Particle.FLAME, 0f, 0f, 0f, 0, 1), ((Player) sender).getLocation(), ((Player) sender).getTargetBlock(null, 30).getLocation(), 0.2, sender);
+                    WorldEditAPI.paste(new Location(Bukkit.getWorld("DungeonRooms"), 0, 64, 0), "plugins/WorldEdit/schematics/e914e099-f7e7-47a2-86d2-928a2248587a/test.schematic");
                 }
             } else {
                 sender.sendMessage(ChatColor.RED + "Invalid arguments!");

@@ -589,21 +589,17 @@ public class Functions {
     public static ItemMaterial getItemMaterial(ItemStack item) {
         if (!isNotAir(item)) return Items.NULL;
 
-        try {
-            NBTItem nbtItem = new NBTItem(item);
-            NBTCompound nbt = nbtItem.getCompound("Item");
+        NBTItem nbtItem = new NBTItem(item);
+        NBTCompound nbt = nbtItem.getCompound("Item");
+        if (nbt != null) {
             String id = nbt.getString("id");
-            Object[] value = items.values().stream().filter(material -> material.name().equals(id)).toArray();
-            if (value.length > 0 && value[0] instanceof ItemMaterial)
-                return (ItemMaterial) value[0];
-        } catch (NullPointerException ignored) {}
-        for (ItemMaterial material : vanillaMaterials.values()) {
-            if (material.getMaterial() == item.getType()) {
-                if (isColorable(material.getMaterial())) {
-                    if (material.getId().equals(item.getDurability() + ""))
+            return Items.get(id);
+        } else {
+            for (ItemMaterial material : vanillaMaterials.values()) {
+                if (material.getMaterial() == item.getType()) {
+                    if (material.getId().equals("") || material.getId().equals(item.getDurability() + ""))
                         return material;
-                } else
-                    return material;
+                }
             }
         }
         return Items.NULL;

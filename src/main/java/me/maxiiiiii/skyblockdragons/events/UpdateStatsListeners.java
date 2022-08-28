@@ -14,26 +14,26 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.copyNBTStack;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getId;
 
 public class UpdateStatsListeners implements Listener {
     @EventHandler
     public void onSlotChange(PlayerItemHeldEvent e) {
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
 
-        if (Functions.cooldown(player, player.updateStatsCooldown, 50, false)) return;
+        if (Functions.cooldown(player, player.updateStatsCooldown, 100, false)) return;
 
         Functions.Wait(1L, () -> {
-            player.applyStats(false);
-
             ItemStack itemStack = player.getEquipment().getItemInMainHand();
-            ItemMaterial itemMaterial = getItemMaterial(itemStack);
-
+            ItemMaterial itemMaterial = Functions.getItemMaterial(itemStack);
             Item item = new Item(player, itemMaterial, itemStack);
             copyNBTStack(item, itemStack);
             if (!item.isSimilar(itemStack) && !getId(itemStack).contains("_PET") && !Functions.getId(item).equals("SKYBLOCK_MENU")) {
                 player.getEquipment().setItemInMainHand(item);
             }
+
+            player.applyStats(false);
         });
     }
 

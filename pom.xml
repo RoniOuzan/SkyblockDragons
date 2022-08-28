@@ -91,7 +91,27 @@
             <id>everything</id>
             <url>https://repo.citizensnpcs.co/</url>
         </repository>
+        <repository>
+            <id>enginehub-maven</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
+<!--        <repository>-->
+<!--            <id>papermc</id>-->
+<!--            <url>https://repo.papermc.io/repository/maven-public/</url>-->
+<!--        </repository>-->
     </repositories>
+
+<!--    <dependencyManagement>-->
+<!--        <dependencies>-->
+<!--            <dependency>-->
+<!--                <groupId>com.intellectualsites.bom</groupId>-->
+<!--                <artifactId>bom-1.18.x</artifactId>-->
+<!--                <version>1.13</version>-->
+<!--                <scope>import</scope>-->
+<!--                <type>pom</type>-->
+<!--            </dependency>-->
+<!--        </dependencies>-->
+<!--    </dependencyManagement>-->
 
     <dependencies>
         <dependency>
@@ -160,5 +180,29 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>6.1.4-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-core</artifactId>
+            <version>6.1.4-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.fastasyncworldedit</groupId>-->
+<!--            <artifactId>FastAsyncWorldEdit-Core</artifactId>-->
+<!--            <version>2.4.3</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.fastasyncworldedit</groupId>-->
+<!--            <artifactId>FastAsyncWorldEdit-Bukkit</artifactId>-->
+<!--            <version>2.4.3</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
     </dependencies>
 </project>

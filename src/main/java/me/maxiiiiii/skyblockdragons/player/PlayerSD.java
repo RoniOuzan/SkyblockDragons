@@ -66,6 +66,9 @@ public class PlayerSD extends PlayerClass {
 
     public PlayerStats stats;
 
+    public Scoreboard scoreboard;
+    public Objective objective;
+
     public int playTime;
     public int bits;
 
@@ -117,6 +120,12 @@ public class PlayerSD extends PlayerClass {
                 0,
                 0
         );
+
+        this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+
+        this.objective = this.scoreboard.registerNewObjective(this.getPlayer().getName(), "dummy");
+        this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        this.objective.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "Skyblock Dragons");
 
         this.playTime = Variables.get(player.getUniqueId(), "PlayTime", 0, 0);
         this.bits = Variables.get(player.getUniqueId(), "Bits", 0, 0);
@@ -507,28 +516,21 @@ public class PlayerSD extends PlayerClass {
     }
 
     public void setScoreboardScores() {
-        ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
-
-        Scoreboard scoreboard = scoreboardManager.getNewScoreboard();
-
-        Objective objective = scoreboard.registerNewObjective(this.getPlayer().getName(), "dummy");
-        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        objective.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "Skyblock Dragons");
         ArrayList<Score> scores = new ArrayList<>();
         Date now = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy");
-        scores.add(objective.getScore(ChatColor.GRAY + format.format(now) + ChatColor.DARK_GRAY + " " + this.getWorld().getName()));
-        scores.add(objective.getScore(""));
-        scores.add(objective.getScore(ChatColor.WHITE + "Player: " + ChatColor.GREEN + this.getPlayer().getName()));
+        scores.add(this.objective.getScore(ChatColor.GRAY + format.format(now) + ChatColor.DARK_GRAY + " " + this.getWorld().getName()));
+        scores.add(this.objective.getScore(""));
+        scores.add(this.objective.getScore(ChatColor.WHITE + "Player: " + ChatColor.GREEN + this.getPlayer().getName()));
         if (this.lastCoins != this.getCoins()) {
             this.setCoins(this.getCoins());
             if (this.getCoins() - this.lastCoins > 0)
-                scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse()) + " (+" + Functions.getShortNumber(this.getCoins() - this.lastCoins) + ")"));
+                scores.add(this.objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse()) + " (+" + Functions.getShortNumber(this.getCoins() - this.lastCoins) + ")"));
             else
-                scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse()) + " (" + Functions.getShortNumber(this.getCoins() - this.lastCoins) + ")"));
+                scores.add(this.objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse()) + " (" + Functions.getShortNumber(this.getCoins() - this.lastCoins) + ")"));
             this.lastCoins = this.getCoins();
         } else {
-            scores.add(objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse())));
+            scores.add(this.objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse())));
         }
         String bitsAdder = "";
 
@@ -538,30 +540,30 @@ public class PlayerSD extends PlayerClass {
                 this.addBits(250);
             }
         }
-        scores.add(objective.getScore(ChatColor.WHITE + "PCoin: " + ChatColor.DARK_GREEN + getNumberFormat(bits) + " " + bitsAdder));
-        scores.add(objective.getScore(" "));
+        scores.add(this.objective.getScore(ChatColor.WHITE + "PCoin: " + ChatColor.DARK_GREEN + getNumberFormat(bits) + " " + bitsAdder));
+        scores.add(this.objective.getScore(" "));
         if (TheEnd.dragon != null) {
             DragonType dragonType = DragonType.getDragonType(TheEnd.dragon.type.getName());
             if (this.getWorldSD() == WorldSD.THE_END && dragonType != null) {
-                scores.add(objective.getScore(dragonType + " Dragon"));
-                scores.add(objective.getScore("  " + ChatColor.WHITE + "Dragon's Health: " + ChatColor.GREEN + Functions.getNumberFormat(TheEnd.dragon.getHealth()) + StatType.HEALTH.getIcon()));
-                scores.add(objective.getScore("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getNumberFormat(TheEnd.dragonDamage.getOrDefault(this, 0d))));
-                scores.add(objective.getScore("  "));
+                scores.add(this.objective.getScore(dragonType + " Dragon"));
+                scores.add(this.objective.getScore("  " + ChatColor.WHITE + "Dragon's Health: " + ChatColor.GREEN + Functions.getNumberFormat(TheEnd.dragon.getHealth()) + StatType.HEALTH.getIcon()));
+                scores.add(this.objective.getScore("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getNumberFormat(TheEnd.dragonDamage.getOrDefault(this, 0d))));
+                scores.add(this.objective.getScore("  "));
             }
         }
         if (this.playerPet.activePet >= 0) {
-            scores.add(objective.getScore(ChatColor.WHITE + "Active Pet:"));
-            scores.add(objective.getScore("  " + this.getPetActive().getRarity().getColor() + this.getPetActive().getPetMaterial().getName()));
-            scores.add(objective.getScore("   "));
+            scores.add(this.objective.getScore(ChatColor.WHITE + "Active Pet:"));
+            scores.add(this.objective.getScore("  " + this.getPetActive().getRarity().getColor() + this.getPetActive().getPetMaterial().getName()));
+            scores.add(this.objective.getScore("   "));
         }
-        scores.add(objective.getScore(ChatColor.YELLOW + "sbdragons.revivesmc.net"));
+        scores.add(this.objective.getScore(ChatColor.YELLOW + "sbdragons.revivesmc.net"));
         Collections.reverse(scores);
 
         for (int i = 0; i < scores.size(); i++) {
             scores.get(i).setScore(i);
         }
 
-        this.setScoreboard(scoreboard);
+        this.setScoreboard(this.scoreboard);
     }
 
     public void sendActionBar(String message, boolean ignoreCooldown) {
