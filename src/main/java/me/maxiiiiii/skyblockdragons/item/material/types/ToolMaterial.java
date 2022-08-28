@@ -7,10 +7,8 @@ import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemDescriptionAble
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemEnchantAble;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
-import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
-import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.Material;
 
 import java.util.List;
@@ -24,7 +22,7 @@ public class ToolMaterial extends ItemMaterial implements ItemDescriptionAble, I
     private List<Requirement> requirements;
     private List<ItemAbility> abilities;
 
-    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, double sellPrice, String description, Object... objects) {
+    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, double sellPrice, String description, MaterialModifier... objects) {
         super(material, family, name, type, rarity, id, nbt, sellPrice);
         this.description = description;
         this.requirements = Functions.splitList("me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement", objects);
@@ -33,11 +31,11 @@ public class ToolMaterial extends ItemMaterial implements ItemDescriptionAble, I
             this.abilities.add(new ItemAbility(AbilityAction.NULL, "", ""));
     }
 
-    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, String description, Object... objects) {
+    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, String description, MaterialModifier... objects) {
         this(material, family, name, type, rarity, id, nbt, 0, description, objects);
     }
 
-    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description, Object... objects) {
+    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description, MaterialModifier... objects) {
         this(material, family, name, type, rarity, "", "", 0, description, objects);
     }
 }

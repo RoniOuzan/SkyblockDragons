@@ -25,6 +25,8 @@ public class Items {
 
     public static void registerItems() {
         // Swords
+        items.put("ADMIN_SWORD", new SwordMaterial(Material.DIAMOND_SWORD, ItemFamily.ADMIN, "Admin Sword", Rarity.SPECIAL, new Stats(10000000, 10000000, 10000000, 10000000, 10000000,0 ,0, 10000000, 0, 10000000), ""));
+
         items.put("WOOD_SWORD", new SwordMaterial(Material.WOOD_SWORD, ItemFamily.WOOD, "Wood Sword", Rarity.COMMON, new Stats(5, 0, 0, 0, 0,0 ,0, 0, 0, 0), ""));
         items.put("STONE_SWORD", new SwordMaterial(Material.STONE_SWORD, ItemFamily.STONE, "Stone Sword", Rarity.COMMON, new Stats(5, 5, 0, 0, 0,0 ,0, 0, 0, 0), ""));
         items.put("IRON_SWORD", new SwordMaterial(Material.IRON_SWORD, ItemFamily.IRON, "Iron Sword", Rarity.COMMON, new Stats(10, 5, 0, 0, 0,0 ,0, 0, 0, 0), ""));
@@ -59,7 +61,8 @@ public class Items {
 
         items.put("ERROR_SCYTHE", new SwordMaterial(Material.DIAMOND_HOE, ItemFamily.ERROR_SCYTHE,"ERROR Scythe", Rarity.SPECIAL, new Stats(3500, 0, 0, 0, 0, 0, 0, 0, 0, 0), "", new ItemAbility(AbilityAction.RIGHT_CLICK, "Arrow", ChatColor.GRAY + "Shoots " + ChatColor.GREEN + "arrows" ), new ItemAbility(AbilityAction.RIGHT_SHIFT_CLICK, "Wither Skull", ChatColor.GRAY + "Shoots " + ChatColor.GOLD + "Wither Skull"), new SkillRequirement(SkillType.COMBAT, 0)));
 
-        items.put("ADMIN_SWORD", new SwordMaterial(Material.DIAMOND_SWORD, ItemFamily.ADMIN, "Admin Sword", Rarity.SPECIAL, new Stats(10000000, 10000000, 10000000, 10000000, 10000000,0 ,0, 10000000, 0, 10000000), ""));
+
+
         // Bows
         items.put("BOW", new BowMaterial(Material.BOW, ItemFamily.WOOD, "Bow", Rarity.COMMON, new Stats(5, 5, 0, 0, 0, 0, 0, 0, 0, 0), ""));
 
@@ -73,8 +76,6 @@ public class Items {
 
 
         // Armors
-        // Admin
-        items.put("ADMIN_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.ADMIN, "Admin Boots", ItemType.BOOTS, Rarity.SPECIAL, new Stats(10000000, 10000000, 10000000, 10000000, 10000000, 0, 10000000, 10000000, 5000, 10000000), "", ItemFullSet.NULL, (Color) null));
         // Leather
         items.put("LEATHER_HELMET", new ArmorMaterial(Material.LEATHER_HELMET, ItemFamily.LEATHER, "Leather Helmet", ItemType.HELMET, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 5, 0, 0, 0), "", ItemFullSet.NULL, (Color) null));
         items.put("LEATHER_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.LEATHER, "Leather Chestplate", ItemType.CHESTPLATE, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 5, 0, 0, 0), "", ItemFullSet.NULL, (Color) null));
@@ -127,6 +128,7 @@ public class Items {
         items.put("PIGMAN_CHESTPLATE", new ArmorMaterial(Material.GOLD_CHESTPLATE, ItemFamily.PIGMAN, "Pigman Chestplate", ItemType.CHESTPLATE, Rarity.UNCOMMON, "", "", new Stats(0, 5, 5, 0, 0, 0, 70, 40, 0, 10), "", ItemFullSet.PIGMAN));
         items.put("PIGMAN_LEGGINGS", new ArmorMaterial(Material.CHAINMAIL_LEGGINGS, ItemFamily.PIGMAN, "Pigman Leggings", ItemType.LEGGINGS, Rarity.UNCOMMON, "", "", new Stats(0, 5, 5, 0, 0, 0, 70, 40, 0, 10), "", ItemFullSet.PIGMAN));
         items.put("PIGMAN_BOOTS", new ArmorMaterial(Material.GOLD_BOOTS, ItemFamily.PIGMAN, "Pigman Boots", ItemType.BOOTS, Rarity.UNCOMMON, "", "", new Stats(0, 5, 5, 0, 0, 0, 70, 40, 0, 10), "", ItemFullSet.PIGMAN));
+
         // Ender
         items.put("ENDER_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.ENDER, "Ender Helmet", ItemType.HELMET, Rarity.RARE, "7ddb45e0-6b48-4e42-943e-b0a6dcec34ee", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjcxNWNhMGY3NDI1NDRhZTNjYTEwNDI5NzU3OGMyZWQ3MDBlYTNhNTQ5ODA0MTM1MTJmNWU3YTBiYzA2NzI5YSJ9fX0=", new Stats(0, 12, 12, 2, 0, 0, 135, 60, 0, 10), "Increases all damage stats by " + ChatColor.GREEN + "5% " + ChatColor.GRAY + "in " + ChatColor.DARK_PURPLE + "The End" + ChatColor.GRAY + ".", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 12)));
         items.put("ENDER_CHESTPLATE", new ArmorMaterial(Material.CHAINMAIL_CHESTPLATE, ItemFamily.ENDER, "Ender Chestplate", ItemType.CHESTPLATE, Rarity.RARE, "", "", new Stats(0, 12, 12, 2, 0, 0, 135, 60, 0, 10), "Increases all damage stats by " + ChatColor.GREEN + "5% " + ChatColor.GRAY + "in " + ChatColor.DARK_PURPLE + "The End" + ChatColor.GRAY + ".", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 12)));
@@ -137,6 +139,7 @@ public class Items {
         items.put("ENDER_GUARD_CHESTPLATE", new ArmorMaterial(Material.CHAINMAIL_CHESTPLATE, ItemFamily.ENDER, "Ender Guard Chestplate", ItemType.CHESTPLATE, Rarity.EPIC, "", "", new Stats(0, 12, 12, 2, 0, 0, 135, 60, 0, 10), "Increases all damage stats by " + ChatColor.GREEN + "10% " + ChatColor.GRAY + "in " + ChatColor.DARK_PURPLE + "The End" + ChatColor.GRAY + ".", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 15)));
         items.put("ENDER_GUARD_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.ENDER, "Ender Guard Leggings", ItemType.LEGGINGS, Rarity.EPIC, "", "", new Stats(0, 12, 12, 2, 0, 0, 135, 60, 0, 10), "Increases all damage stats by " + ChatColor.GREEN + "10% " + ChatColor.GRAY + "in " + ChatColor.DARK_PURPLE + "The End" + ChatColor.GRAY + ".", ItemFullSet.NULL, Color.fromRGB(182, 9, 176), new SkillRequirement(SkillType.COMBAT, 15)));
         items.put("ENDER_GUARD_BOOTS", new ArmorMaterial(Material.CHAINMAIL_BOOTS, ItemFamily.ENDER, "Ender Guard Boots", ItemType.BOOTS, Rarity.EPIC, "", "", new Stats(0, 12, 12, 2, 0, 0, 135, 60, 0, 10), "Increases all damage stats by " + ChatColor.GREEN + "10% " + ChatColor.GRAY + "in " + ChatColor.DARK_PURPLE + "The End" + ChatColor.GRAY + ".", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 15)));
+
         // Necron
         items.put("NECRON_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.NECRON_ARMOR, "Necron's Helmet", ItemType.HELMET, Rarity.LEGENDARY, "16b91b55-02b7-3315-bd9a-7da8467e4a96", "ewogICJ0aW1lc3RhbXAiIDogMTYwNTYyMzI0OTc5MywKICAicHJvZmlsZUlkIiA6ICIwNjEzY2I1Y2QxYjg0M2JjYjI4OTk1NWU4N2QzMGEyYyIsCiAgInByb2ZpbGVOYW1lIiA6ICJicmVhZGxvYWZzcyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8yYmJiMmZhN2E2Y2EwODcyODBlYTBjYjU2NGI0MWVmMWFlNDA0YTE5ZjdhODEyOGQzZDI4YzUxOWE4NWUwNjNmIgogICAgfQogIH0KfQ", new Stats(0, 40, 30, 0, 0, 0, 180, 100, 0, 30), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHER_ARMOR));
         items.put("NECRON_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.NECRON_ARMOR, "Necron's Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 40, 30, 0, 0, 0, 260, 140, 0, 10), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHER_ARMOR, Color.fromRGB(231,65,60)));
@@ -157,6 +160,7 @@ public class Items {
         items.put("MAXOR_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.MAXOR_ARMOR,"Maxor's Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 0, 45, 0, 0, 0, 260, 110, 30, 15), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHER_ARMOR, Color.fromRGB(74,20,183)));
         items.put("MAXOR_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.MAXOR_ARMOR,"Maxor's Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 0, 45, 0, 0, 0, 230, 105, 30, 10), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHER_ARMOR, Color.fromRGB(93,47,185)));
         items.put("MAXOR_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.MAXOR_ARMOR, "Maxor's Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 0, 45, 0, 0, 0, 145, 65, 30, 10), "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".", ItemFullSet.WITHER_ARMOR, Color.fromRGB(137,105,200)));
+
         // Superior
         items.put("SUPERIOR_DRAGON_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.SUPERIOR_DRAGON, "Superior Dragon Helmet", ItemType.HELMET, Rarity.LEGENDARY, "7fd17d6f-9e42-478c-8cce-68aec1d52eec", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzU1OGVmYmU2Njk3NjA5OWNmZDYyNzYwZDllMDUxNzBkMmJiOGY1MWU2ODgyOWFiOGEwNTFjNDhjYmM0MTVjYiJ9fX0=", new Stats(0, 10, 10, 2, 0, 0, 90, 130, 3, 25), "", ItemFullSet.SUPERIOR_DRAGON, new SkillRequirement(SkillType.COMBAT, 21)));
         items.put("SUPERIOR_DRAGON_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.SUPERIOR_DRAGON, "Superior Dragon Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 10, 10, 2, 0, 0, 150, 190, 3, 25), "", ItemFullSet.SUPERIOR_DRAGON, Color.fromRGB(242,223,17), new SkillRequirement(SkillType.COMBAT, 21)));
@@ -224,6 +228,12 @@ public class Items {
         items.put("VOID_CRYSTAL_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.VOID_CRYSTAL, "Void Crystal Chestplate", ItemType.CHESTPLATE, Rarity.MYTHIC, new Stats(145, 140, 120, 30, 310, 110, 20), "", ItemFullSet.VOID_CRYSTAL, Color.fromRGB(180, 40, 225)));
         items.put("VOID_CRYSTAL_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.VOID_CRYSTAL, "Void Crystal Leggings", ItemType.LEGGINGS, Rarity.MYTHIC, new Stats(140, 135, 80, 30, 290, 105, 20), "", ItemFullSet.VOID_CRYSTAL, Color.fromRGB(190, 60, 230)));
         items.put("VOID_CRYSTAL_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.VOID_CRYSTAL, "Void Crystal Boots", ItemType.BOOTS, Rarity.MYTHIC, new Stats(130, 120, 60, 30, 260, 90, 20), "", ItemFullSet.VOID_CRYSTAL, Color.fromRGB(200, 70, 235)));
+
+        // Admin
+        items.put("ADMIN_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.ADMIN, "Admin Boots", ItemType.BOOTS, Rarity.SPECIAL, new Stats(10000000, 10000000, 10000000, 10000000, 10000000, 0, 10000000, 10000000, 5000, 10000000), "", ItemFullSet.NULL, (Color) null));
+
+
+
         // Tools
         items.put("WOOD_PICKAXE", new MiningMaterial(Material.WOOD_PICKAXE, ItemFamily.WOOD, "Wood Pickaxe", ItemType.PICKAXE, Rarity.COMMON, new Stats(50, 0), 1, ""));
         items.put("STONE_PICKAXE", new MiningMaterial(Material.STONE_PICKAXE, ItemFamily.STONE, "Stone Pickaxe", ItemType.PICKAXE, Rarity.COMMON, new Stats(80, 0), 2, ""));
