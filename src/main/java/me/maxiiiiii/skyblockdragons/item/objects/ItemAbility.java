@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ItemAbility {
+public class ItemAbility implements MaterialModifier {
     private AbilityAction action;
     private String name;
     private String description;

@@ -18,6 +18,7 @@ import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
+import me.maxiiiiii.skyblockdragons.item.modifiers.*;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
@@ -837,14 +838,14 @@ public class Functions {
         return Rarity.COMMON;
     }
 
-    public static Rarity getBookRarity(Map<EnchantType, Short> enchants) {
+    public static Rarity getBookRarity(ItemModifiers modifiers) {
         short highest = 0;
         for (EnchantType enchant : EnchantType.enchants.values()) {
-            if (enchants.containsKey(enchant)) {
+            if (modifiers.getEnchants().containsKey(enchant)) {
                 if (enchant instanceof UltimateEnchantType) {
                     highest = 10;
-                } else if (enchants.get(enchant) > highest) {
-                    highest = enchants.get(enchant);
+                } else if (modifiers.getEnchants().get(enchant) > highest) {
+                    highest = modifiers.getEnchants().get(enchant);
                 }
             }
         }
@@ -870,7 +871,7 @@ public class Functions {
         return getRarity(itemMaterial.getRarity().getLevel());
     }
 
-    public static Map<EnchantType, Short> getEnchants(ItemStack item) {
+    public static EnchantModifier getEnchants(ItemStack item) {
         Map<EnchantType, Short> enchants = new HashMap<>();
         try {
             NBTItem nbtItem = new NBTItem(item);
@@ -883,9 +884,9 @@ public class Functions {
                 else if (compound2.hasKey(enchant.name()))
                     enchants.put(enchant, Short.parseShort(compound1.getInteger(enchant.name()) + ""));
             }
-            return enchants;
+            return new EnchantModifier(enchants);
         } catch (NullPointerException ignored) {}
-        return enchants;
+        return new EnchantModifier(enchants);
     }
 
     public static ArrayList<EnchantType> getEnchantsList(ItemStack item) {
@@ -1131,22 +1132,22 @@ public class Functions {
         return true;
     }
 
-    public static int getHotPotato(ItemStack item) {
+    public static HotPotatoModifier getHotPotato(ItemStack item) {
         try {
             NBTItem nbtItem = new NBTItem(item);
             NBTCompound nbt = nbtItem.getCompound("Item");
-            return nbt.getInteger("HotPotato");
+            return new HotPotatoModifier(nbt.getInteger("HotPotato"));
         } catch (NullPointerException ignored) {}
-        return 0;
+        return new HotPotatoModifier(0);
     }
 
-    public static boolean isRecombed(ItemStack item) {
+    public static RecombabulatorModifier isRecombed(ItemStack item) {
         try {
             NBTItem nbtItem = new NBTItem(item);
             NBTCompound nbt = nbtItem.getCompound("Item");
-            return nbt.getBoolean("RarityUpgraded");
+            return new RecombabulatorModifier(nbt.getBoolean("RarityUpgraded"));
         } catch (NullPointerException ignored) {}
-        return false;
+        return new RecombabulatorModifier(false);
     }
 
     public static boolean isStackable(ItemStack item) {
@@ -1171,7 +1172,7 @@ public class Functions {
         return !(material instanceof SkinMaterial) && !(material instanceof ReforgeMaterial);
     }
 
-    public static ArrayList<NecronBladeMaterial.NecronBladeAbility> getNecronScrolls(ItemStack item) {
+    public static NecronBladeScrollsModifier getNecronScrolls(ItemStack item) {
         ArrayList<NecronBladeMaterial.NecronBladeAbility> scrolls = new ArrayList<>();
         try {
             NBTItem nbtItem = new NBTItem(item);
@@ -1181,7 +1182,7 @@ public class Functions {
             if (necronScrolls.getBoolean("WITHER_SHIELD")) scrolls.add(NecronBladeMaterial.NecronBladeAbility.WITHER_SHIELD);
             if (necronScrolls.getBoolean("SHADOW_WARP")) scrolls.add(NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP);
         } catch (NullPointerException ignored) {}
-        return scrolls;
+        return new NecronBladeScrollsModifier(scrolls);
     }
 
     public static boolean isSkin(ItemMaterial material) {
@@ -1227,15 +1228,15 @@ public class Functions {
     }
 
     public static int manaCostCalculator(int manaCost, PlayerSD player) {
-        Map<EnchantType, Short> enchants = getEnchants(player.getEquipment().getItemInMainHand());
-        return manaCostCalculator(manaCost, player, enchants);
+        ItemModifiers modifiers = ItemModifiers.getModifiers(player.getEquipment().getItemInMainHand());
+        return manaCostCalculator(manaCost, player, modifiers);
     }
 
-    public static int manaCostCalculator(int manaCost, PlayerSD player, Map<EnchantType, Short> enchants) {
+    public static int manaCostCalculator(int manaCost, PlayerSD player, ItemModifiers modifiers) {
         int finalCost = manaCost;
-        for (EnchantType enchantType : enchants.keySet()) {
+        for (EnchantType enchantType : modifiers.getEnchants().keySet()) {
             if (enchantType == EnchantType.ULTIMATE_WISE) {
-                finalCost *= 1 - (0.1 * enchants.get(enchantType));
+                finalCost *= 1 - (0.1 * modifiers.getEnchants().get(enchantType));
             }
         }
         if (player != null) {

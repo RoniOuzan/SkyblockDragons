@@ -2,11 +2,13 @@ package me.maxiiiiii.skyblockdragons.item;
 
 import de.tr7zw.changeme.nbtapi.*;
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.*;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
+import me.maxiiiiii.skyblockdragons.item.modifiers.*;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -32,61 +34,57 @@ public class Item extends ItemStack {
     protected final ItemMaterial material;
     protected final int amount;
 
-    public Item(PlayerSD player, ItemMaterial material, int amount, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
+    protected final ItemModifiers modifiers;
+
+    // int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities
+    public Item(PlayerSD player, ItemMaterial material, int amount, ItemModifier... modifiers) {
         super(material.getMaterial(), amount, material.getMaterial() == Material.SKULL_ITEM ? (short) 3 : ((material.getNbt().equals("") && !material.getId().equals("")) ? Short.parseShort(material.getId()) : (short) 0));
+        SkyblockDragons.logger.info("i. " + modifiers.length);
+        this.modifiers = new ItemModifiers(modifiers);
         this.material = material;
         this.amount = amount;
 
-        this.toItem(player, hotPotato, reforge, recombabulated, skin, enchants, necronBladeAbilities);
+        this.toItem(player);
     }
 
-    public Item(PlayerSD player, ItemMaterial material, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
-        this(player, material, 1, hotPotato, reforge, recombabulated, skin, enchants, necronBladeAbilities);
+    public Item(PlayerSD player, ItemMaterial material, ItemModifier... modifiers) {
+        this(player, material, 1, modifiers);
     }
 
-    public Item(PlayerSD player, ItemMaterial material, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants) {
-        this(player, material, 1, hotPotato, reforge, recombabulated, skin, enchants, new ArrayList<>());
+    public Item(ItemMaterial material, int amount, ItemModifier... modifiers) {
+        this(null, material, amount, modifiers);
     }
 
-    public Item(ItemMaterial material, int amount) {
-        this(null, material, amount, 0, ReforgeType.NULL, false, SkinMaterial.NULL, new HashMap<>(), new ArrayList<>());
-    }
-
-    public Item(PlayerSD player, ItemMaterial material, int amount) {
-        this(player, material, amount, 0, ReforgeType.NULL, false, SkinMaterial.NULL, new HashMap<>(), new ArrayList<>());
-    }
-
-    public Item(ItemMaterial material) {
-        this(material, 1);
+    public Item(ItemMaterial material, ItemModifier... modifiers) {
+        this(material, 1, modifiers);
     }
 
     public Item(ItemStack itemStack) {
         this(Functions.getItemMaterial(itemStack), itemStack);
     }
 
-    public Item(ItemMaterial material, ItemStack fromItem) {
-        this(null, material, fromItem);
+    public Item(ItemMaterial material, ItemStack fromItem, ItemModifier... modifiers) {
+        this(null, material, fromItem, modifiers);
     }
 
-    public Item(PlayerSD player, ItemMaterial material) {
-        this(player, material, 1);
+    public Item(PlayerSD player, ItemStack itemStack, ItemModifier... modifiers) {
+        this(player, Functions.getItemMaterial(itemStack), itemStack, modifiers);
     }
 
-    public Item(PlayerSD player, ItemStack itemStack) {
-        this(player, Functions.getItemMaterial(itemStack), itemStack);
-    }
-
-    public Item(PlayerSD player, ItemMaterial material, ItemStack fromItem) {
+    public Item(PlayerSD player, ItemMaterial material, ItemModifiers itemModifiers, ItemModifier... modifiers) {
         this(
                 player,
                 material,
-                (isStackable(fromItem) ? fromItem.getAmount() : 1),
-                getHotPotato(fromItem),
-                getReforge(fromItem),
-                isRecombed(fromItem),
-                getSkin(fromItem),
-                Functions.getEnchants(fromItem),
-                getNecronScrolls(fromItem)
+                overrideModifiers(itemModifiers, modifiers)
+        );
+    }
+
+    public Item(PlayerSD player, ItemMaterial material, ItemStack fromItem, ItemModifier... modifiers) {
+        this(
+                player,
+                material,
+                isStackable(fromItem) ? fromItem.getAmount() : 1,
+                convertModifiersFromItem(modifiers, fromItem)
         );
         Functions.copyNBTStack(this, fromItem);
     }
@@ -95,12 +93,12 @@ public class Item extends ItemStack {
         super.setAmount(amount);
     }
 
-    private void toItem(PlayerSD player, int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities) {
-        int recombed = recombabulated ? 1 : 0;
+    private void toItem(PlayerSD player) {
+        int recombed = modifiers.getRecombabulated() ? 1 : 0;
 
         Rarity rarity;
         if (this.material instanceof BookMaterial) {
-            rarity = Functions.getBookRarity(enchants);
+            rarity = Functions.getBookRarity(modifiers);
         } else {
             rarity = Functions.getRarity(material.getRarity().getLevel() + recombed);
         }
@@ -110,10 +108,10 @@ public class Item extends ItemStack {
         Stats stats = new Stats();
 
         if (this.material instanceof ItemStatsAble)
-            stats = applyStats(lores, player, hotPotato, reforge, rarity, enchants);
+            stats = applyStats(lores, player, rarity);
 
         if (this.material instanceof ItemEnchantAble) {
-            applyEnchants(lores, enchants);
+            applyEnchants(lores);
         }
 
         if (this.material instanceof ItemDescriptionAble)
@@ -123,21 +121,21 @@ public class Item extends ItemStack {
             applyFullSet(lores);
 
         if (this.material instanceof ItemAbilityAble)
-            applyAbilities(lores, player, enchants);
+            applyAbilities(lores, player);
 
 
         if (this.material instanceof NecronBladeMaterial) {
-            if (necronBladeAbilities.size() >= 3) {
+            if (modifiers.getNecronBladeScrolls().size() >= 3) {
                 if (isNotLastEmpty(lores)) lores.add("");
                 lores.add(ChatColor.GOLD + "Item Ability: Wither Impact " + ChatColor.YELLOW + "" + ChatColor.BOLD + "RIGHT CLICK");
 
                 String description = ChatColor.GRAY + "Teleports " + ChatColor.GREEN + "10 blocks " + ChatColor.GRAY + "ahead of you. Then implode dealing " + ChatColor.RED + "10,000 " + ChatColor.GRAY + "damage to nearby enemies. Also applies the " + ChatColor.YELLOW + "wither shield " + ChatColor.GRAY + "scroll ability reducing damage taken and granting an " + ChatColor.GOLD + "❤ Absorption " + ChatColor.GRAY + "shield for " + ChatColor.YELLOW + "5 " + ChatColor.GRAY + "seconds.";
                 lores.addAll(Functions.loreBuilder(description));
 
-                lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(300, player, enchants));
-            } else if (necronBladeAbilities.size() > 0) {
-                for (NecronBladeMaterial.NecronBladeAbility ability : necronBladeAbilities) {
-                    applyNecronAbility(lores, ability, player, enchants);
+                lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(300, player, modifiers));
+            } else if (modifiers.getNecronBladeScrolls().size() > 0) {
+                for (NecronBladeMaterial.NecronBladeAbility ability : modifiers.getNecronBladeScrolls()) {
+                    applyNecronAbility(lores, ability, player);
                 }
             } else {
                 if (isNotLastEmpty(lores)) lores.add("");
@@ -145,14 +143,14 @@ public class Item extends ItemStack {
                 lores.add(ChatColor.YELLOW + "Right-click to use your class ability!");
             }
         } else if (this.material instanceof BookMaterial) {
-            int cost = getBookCost(enchants);
+            int cost = getBookCost();
             lores.add("");
             lores.add(ChatColor.GRAY + "Apply Cost: " + ChatColor.DARK_AQUA + cost + " Exp Levels");
             lores.add("");
             lores.add(ChatColor.GRAY + "Use this item on an item in an Anvil");
             lores.add(ChatColor.GRAY + "to apply it!");
             int levelRequirement = 0;
-            for (EnchantType enchantType : enchants.keySet()) {
+            for (EnchantType enchantType : modifiers.getEnchants().keySet()) {
                 if (enchantType.getRequirement().getLevel() >= levelRequirement)
                     levelRequirement = enchantType.getRequirement().getLevel();
             }
@@ -217,47 +215,47 @@ public class Item extends ItemStack {
                 nbt.setString("Date", format.format(new Date()));
             }
             nbt.setInteger("Rarity", rarity.getLevel());
-            nbt.setString("Reforge", reforge.name());
-            nbt.setInteger("HotPotato", hotPotato);
-            nbt.setBoolean("RarityUpgraded", recombabulated);
+            nbt.setString("Reforge", modifiers.getReforge().name());
+            nbt.setInteger("HotPotato", modifiers.getHotPotato());
+            nbt.setBoolean("RarityUpgraded", modifiers.getRecombabulated());
 
             NBTCompound nbtEnchants = nbt.addCompound("Enchants");
             NBTCompound nbtUltimateEnchant = nbt.addCompound("UltimateEnchant");
-            if (enchants.containsKey(EnchantType.ONE_FOR_ALL)) {
-                if (enchants.containsKey(EnchantType.TELEKINESIS)) {
+            if (modifiers.getEnchants().containsKey(EnchantType.ONE_FOR_ALL)) {
+                if (modifiers.getEnchants().containsKey(EnchantType.TELEKINESIS)) {
                     nbtEnchants.setShort("TELEKINESIS", (short) 1);
                 }
                 nbtEnchants.setShort("ONE_FOR_ALL", (short) 1);
             } else {
                 for (EnchantType enchantType : EnchantType.enchants.values()) {
-                    if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
+                    if (modifiers.getEnchants().containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
                         if (enchantType instanceof UltimateEnchantType) {
-                            nbtUltimateEnchant.setShort(enchantType.name(), enchants.get(enchantType));
+                            nbtUltimateEnchant.setShort(enchantType.name(), modifiers.getEnchants().get(enchantType));
                         }
-                        nbtEnchants.setShort(enchantType.name(), enchants.get(enchantType));
+                        nbtEnchants.setShort(enchantType.name(), modifiers.getEnchants().get(enchantType));
                     }
                 }
             }
 
             if (this.material instanceof BookMaterial) {
-                nbt.setInteger("BookCost", getBookCost(enchants));
+                nbt.setInteger("BookCost", getBookCost());
             }
 
             if (this.material instanceof NecronBladeMaterial) {
                 NBTCompound necronScrolls = nbt.addCompound("NecronScrolls");
-                necronScrolls.setBoolean("IMPLOSION", necronBladeAbilities.contains(NecronBladeMaterial.NecronBladeAbility.IMPLOSION));
-                necronScrolls.setBoolean("WITHER_SHIELD", necronBladeAbilities.contains(NecronBladeMaterial.NecronBladeAbility.WITHER_SHIELD));
-                necronScrolls.setBoolean("SHADOW_WARP", necronBladeAbilities.contains(NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP));
+                necronScrolls.setBoolean("IMPLOSION", modifiers.getNecronBladeScrolls().contains(NecronBladeMaterial.NecronBladeAbility.IMPLOSION));
+                necronScrolls.setBoolean("WITHER_SHIELD", modifiers.getNecronBladeScrolls().contains(NecronBladeMaterial.NecronBladeAbility.WITHER_SHIELD));
+                necronScrolls.setBoolean("SHADOW_WARP", modifiers.getNecronBladeScrolls().contains(NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP));
             }
 
             if (!material.getNbt().equals("")) {
                 NBTCompound skull = nbtItem.addCompound("SkullOwner");
-                if (skin != null && skin != SkinMaterial.NULL) {
-                    skull.setString("Id", skin.getId());
+                if (modifiers.getSkin() != null && modifiers.getSkin() != SkinMaterial.NULL) {
+                    skull.setString("Id", modifiers.getSkin().getId());
                     NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
-                    texture.setString("Value", skin.getNbt());
+                    texture.setString("Value", modifiers.getSkin().getNbt());
 
-                    nbt.setString("Skin", skin.name());
+                    nbt.setString("Skin", modifiers.getSkin().name());
                 } else {
                     skull.setString("Id", material.getId());
                     NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
@@ -272,8 +270,8 @@ public class Item extends ItemStack {
 
         ItemMeta meta = this.getItemMeta();
         String reforgeText = "";
-        if (reforge != ReforgeType.NULL) {
-            reforgeText = reforge + " ";
+        if (modifiers.getReforge() != ReforgeType.NULL) {
+            reforgeText = modifiers.getReforge() + " ";
         }
         meta.setDisplayName(rarity.getColor() + reforgeText + this.material.getName());
         meta.setUnbreakable(true);
@@ -286,7 +284,7 @@ public class Item extends ItemStack {
             lores.addAll(((ItemRequirementAble) material).getRequirements().stream().filter(r -> player == null || !r.hasRequirement(player)).map(Requirement::toString).collect(Collectors.toList()));
         }
 
-        if (recombabulated) {
+        if (modifiers.getRecombabulated()) {
             lores.add(rarity.getColor() + "" + ChatColor.MAGIC + "X" + ChatColor.RESET + " " + rarity + " " + this.material.getType().toString() + " " + rarity.getColor() + "" + ChatColor.MAGIC + "X");
         } else {
             lores.add(rarity + " " + this.material.getType().toString());
@@ -322,7 +320,7 @@ public class Item extends ItemStack {
         }
     }
 
-    private void applyNecronAbility(ArrayList<String> lores, NecronBladeMaterial.NecronBladeAbility ability, PlayerSD player, Map<EnchantType, Short> enchants) {
+    private void applyNecronAbility(ArrayList<String> lores, NecronBladeMaterial.NecronBladeAbility ability, PlayerSD player) {
         if (isNotLastEmpty(lores)) lores.add("");
         if (this.material instanceof NecronBladeMaterial) {
             lores.add(ChatColor.GOLD + "Item Ability: " + ability.getAbility().getName() + " " + ability.getAbility().getAction().toString());
@@ -331,9 +329,9 @@ public class Item extends ItemStack {
 
             if (ability.getAbility().getManaCost() != 0) {
                 if (ability.getAbility().getManaCost() >= 10000) {
-                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + manaCostCalculator((ability.getAbility().getManaCost() / 10000), player, enchants) + "%");
+                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + manaCostCalculator((ability.getAbility().getManaCost() / 10000), player, modifiers) + "%");
                 } else {
-                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + manaCostCalculator(ability.getAbility().getManaCost(), player, enchants));
+                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + manaCostCalculator(ability.getAbility().getManaCost(), player, modifiers));
                 }
             }
 
@@ -342,7 +340,7 @@ public class Item extends ItemStack {
         }
     }
 
-    private void applyAbilities(ArrayList<String> lores, PlayerSD player, Map<EnchantType, Short> enchants) {
+    private void applyAbilities(ArrayList<String> lores, PlayerSD player) {
         ItemAbilityAble material = (ItemAbilityAble) this.material;
 
         if (material.getAbilities().size() == 0 || material.getAbilities().get(0) == null)
@@ -358,9 +356,9 @@ public class Item extends ItemStack {
 
                 if (ability.getManaCost() != 0) {
                     if (ability.getManaCost() >= 10000) {
-                        lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator((ability.getManaCost() / 10000), player, enchants) + "%");
+                        lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator((ability.getManaCost() / 10000), player, modifiers) + "%");
                     } else {
-                        lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(ability.getManaCost(), player, enchants));
+                        lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(ability.getManaCost(), player, modifiers));
                     }
                 }
 
@@ -380,7 +378,7 @@ public class Item extends ItemStack {
         }
     }
 
-    private Stats applyStats(ArrayList<String> lores, PlayerSD player, int hotPotato, ReforgeType reforge, Rarity rarity, Map<EnchantType, Short> enchants) {
+    private Stats applyStats(ArrayList<String> lores, PlayerSD player, Rarity rarity) {
         Stats stats = new Stats();
         for (Stat stat : stats.toList()) {
             String statReforge = "";
@@ -394,25 +392,25 @@ public class Item extends ItemStack {
             if (stat.type.isPercentage()) percent = "%";
 
             double statAdder = 0;
-            if (hotPotato > 0) {
+            if (modifiers.getHotPotato() > 0) {
                 if (stat.type == StatType.STRENGTH || stat.type == StatType.DAMAGE) {
-                    statAdder += hotPotato * 2;
-                    statPotato = ChatColor.YELLOW + "(+" + hotPotato * 2 + ") ";
+                    statAdder += modifiers.getHotPotato() * 2;
+                    statPotato = ChatColor.YELLOW + "(+" + modifiers.getHotPotato() * 2 + ") ";
                 }
             }
-            if (reforge != ReforgeType.NULL && reforge != null) {
-                if (reforge.getStats().get(rarity.getLevel() - 1).get(stat).amount != 0) {
-                    statAdder += reforge.getStats().get(rarity.getLevel() - 1).get(stat).amount;
-                    statReforge = ChatColor.BLUE + "(" + reforge + " SYMBOL" + Math.abs(reforge.getStats().get(rarity.getLevel() - 1).get(stat).amount) + percent + ")";
+            if (modifiers.getReforge() != ReforgeType.NULL && modifiers.getReforge() != null) {
+                if (modifiers.getReforge().getStats().get(rarity.getLevel() - 1).get(stat).amount != 0) {
+                    statAdder += modifiers.getReforge().getStats().get(rarity.getLevel() - 1).get(stat).amount;
+                    statReforge = ChatColor.BLUE + "(" + modifiers.getReforge() + " SYMBOL" + Math.abs(modifiers.getReforge().getStats().get(rarity.getLevel() - 1).get(stat).amount) + percent + ")";
                 }
             }
-            boolean oneForAll = enchants.keySet().stream().anyMatch(e -> e == EnchantType.ONE_FOR_ALL);
-            if (!enchants.containsKey(EnchantType.NULL)) {
+            boolean oneForAll = modifiers.getEnchants().keySet().stream().anyMatch(e -> e == EnchantType.ONE_FOR_ALL);
+            if (!modifiers.getEnchants().containsKey(EnchantType.NULL)) {
                 for (EnchantType enchantType : EnchantType.enchants.values()) {
-                    if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
+                    if (modifiers.getEnchants().containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
                         if (enchantType.getStats().get(stat).amount != 0) {
                             if (enchantType.getStats().get(stat).amount != 0)
-                                statAdder += enchantType.getMultiplayers().get(enchants.get(enchantType));
+                                statAdder += enchantType.getMultiplayers().get(modifiers.getEnchants().get(enchantType));
                         }
                     }
                 }
@@ -445,17 +443,17 @@ public class Item extends ItemStack {
 
         if (lores.size() == 0) return stats;
 
-        if (!enchants.containsKey(EnchantType.NULL) && !lores.get(lores.size() - 1).equals("")) lores.add("");
+        if (!modifiers.getEnchants().containsKey(EnchantType.NULL) && !lores.get(lores.size() - 1).equals("")) lores.add("");
 
         return stats;
     }
 
-    public static int getBookCost(Map<EnchantType, Short> enchants) {
+    public int getBookCost() {
         int cost = 3;
-        if (!enchants.containsKey(EnchantType.NULL)) {
+        if (!modifiers.getEnchants().containsKey(EnchantType.NULL)) {
             for (EnchantType enchantType : EnchantType.enchants.values()) {
-                if (enchants.containsKey(enchantType)) {
-                    cost += enchants.get(enchantType) * 6;
+                if (modifiers.getEnchants().containsKey(enchantType)) {
+                    cost += modifiers.getEnchants().get(enchantType) * 6;
                 }
             }
         }
@@ -463,12 +461,12 @@ public class Item extends ItemStack {
         return cost;
     }
 
-    private void applyEnchants(ArrayList<String> lores, Map<EnchantType, Short> enchants) {
-        List<EnchantType> enchantList = new ArrayList<>(enchants.keySet());
+    private void applyEnchants(ArrayList<String> lores) {
+        List<EnchantType> enchantList = new ArrayList<>(modifiers.getEnchants().keySet());
         Collections.sort(enchantList);
 
-        if (enchants.containsKey(EnchantType.ONE_FOR_ALL)) {
-            if (enchants.containsKey(EnchantType.TELEKINESIS)) {
+        if (modifiers.getEnchants().containsKey(EnchantType.ONE_FOR_ALL)) {
+            if (modifiers.getEnchants().containsKey(EnchantType.TELEKINESIS)) {
                 lores.add(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "One For All I, " + ChatColor.BLUE + "Telekinesis I");
             } else {
                 lores.add(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "One For All I");
@@ -478,22 +476,22 @@ public class Item extends ItemStack {
             boolean description = enchantList.size() <= 3;
             int times = 0;
             StringBuilder enchant = new StringBuilder(",");
-            if (!enchants.containsKey(EnchantType.NULL)) {
+            if (!modifiers.getEnchants().containsKey(EnchantType.NULL)) {
                 for (EnchantType enchantType : enchantList) {
-                    if (enchants.containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
+                    if (modifiers.getEnchants().containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
                         times++;
                         if (everyLine) {
-                            lores.add(getEnchantLoreColor(enchantType, enchants.get(enchantType)) + enchantType + " " + Functions.integerToRoman(enchants.get(enchantType)));
+                            lores.add(getEnchantLoreColor(enchantType, modifiers.getEnchants().get(enchantType)) + enchantType + " " + Functions.integerToRoman(modifiers.getEnchants().get(enchantType)));
                             if (description) {
-                                lores.addAll(loreBuilder(enchantType.getDescription(enchants.get(enchantType))));
+                                lores.addAll(loreBuilder(enchantType.getDescription(modifiers.getEnchants().get(enchantType))));
                             }
                         } else {
-                            enchant.append(", ").append(getEnchantLoreColor(enchantType, enchants.get(enchantType))).append(enchantType).append(" ").append(Functions.integerToRoman(enchants.get(enchantType)));
+                            enchant.append(", ").append(getEnchantLoreColor(enchantType, modifiers.getEnchants().get(enchantType))).append(enchantType).append(" ").append(Functions.integerToRoman(modifiers.getEnchants().get(enchantType)));
                             if (times % 3 == 0) {
                                 enchant = new StringBuilder(enchant.toString().replaceAll(",, ", ""));
                                 lores.add(enchant.toString());
                                 enchant = new StringBuilder(",");
-                            } else if (times == enchants.size()) {
+                            } else if (times == modifiers.getEnchants().size()) {
                                 enchant = new StringBuilder(enchant.toString().replaceAll(",, ", ""));
                                 lores.add(enchant.toString());
                                 enchant = new StringBuilder(",");
@@ -543,5 +541,20 @@ public class Item extends ItemStack {
                 enchants.put(enchant, Short.parseShort(compound1.getInteger(enchant.name()) + ""));
         }
         return enchants;
+    }
+
+    private static ItemModifier[] convertModifiersFromItem(ItemModifier[] modifiers, ItemStack item) {
+        Map<Class<? extends ItemModifier>, ItemModifier> newModifiers = new HashMap<>();
+        for (ItemModifier modifier : ItemModifiers.getModifiers(item)) {
+            newModifiers.put(modifier.getClass(), modifier);
+        }
+        for (ItemModifier modifier : modifiers) {
+            newModifiers.put(modifier.getClass(), modifier);
+        }
+        return newModifiers.values().toArray(new ItemModifier[0]);
+    }
+
+    private static ItemModifier[] overrideModifiers(ItemModifiers itemModifiers, ItemModifier[] modifiers) {
+        return itemModifiers.getOverrided(modifiers).toArray();
     }
 }
