@@ -749,7 +749,14 @@ public class Functions {
     }
 
     public static boolean isPlayerName(String name) {
-        return Arrays.stream(Bukkit.getOfflinePlayers()).anyMatch(p -> p.getName().equalsIgnoreCase(name));
+        return Arrays.stream(Bukkit.getOfflinePlayers())
+                .anyMatch(p -> {
+                    String playerName = p.getName();
+                    if (playerName == null){
+                        return false;
+                    }
+                    return playerName.equalsIgnoreCase(name);
+                });
     }
 
     public static ReforgeType getReforge(String name) {

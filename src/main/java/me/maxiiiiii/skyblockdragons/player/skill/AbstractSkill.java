@@ -67,19 +67,23 @@ public abstract class AbstractSkill {
             levelledUp = true;
         }
         if (levelledUp) {
-            player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "------------------------------------------");
-            player.sendMessage("    " + ChatColor.AQUA + "" + ChatColor.BOLD + "SKILL LEVEL UP " + ChatColor.RESET + "" + ChatColor.DARK_AQUA + this.name + " " + ChatColor.DARK_GRAY + integerToRoman(this.level - 1) + ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "➡" + ChatColor.DARK_AQUA + integerToRoman(this.level));
-            player.sendMessage("");
-            player.sendMessage("    " + ChatColor.GREEN + "" + ChatColor.BOLD + "REWARDS");
-            player.sendMessage("      " + ChatColor.YELLOW + this.rewards.getName() + integerToRoman(this.level));
-            player.sendMessage("         " + this.rewards.getPassive());
-            player.sendMessage("       " + ChatColor.DARK_GRAY + "+" + ChatColor.GREEN + getInt(this.rewards.getStatAmount() *  this.level + "") + this.rewards.getStat().getIconAndText());
-            player.sendMessage("       " + ChatColor.DARK_GRAY + "+" + ChatColor.GOLD + getNumberFormat(this.rewards.getCoinsAmount()[this.level]) + " " + ChatColor.GRAY + "Coins");
-            player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "------------------------------------------");
-            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
+            levelUpMessage();
 
             SkyblockDragons.getPlayer(player).updatePlayerInventory();
         }
+    }
+
+    public void levelUpMessage() {
+        player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "------------------------------------------");
+        player.sendMessage("    " + ChatColor.AQUA + "" + ChatColor.BOLD + "SKILL LEVEL UP " + ChatColor.RESET + "" + ChatColor.DARK_AQUA + this.name + " " + ChatColor.DARK_GRAY + integerToRoman(this.level - 1) + ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "➡" + ChatColor.DARK_AQUA + integerToRoman(this.level));
+        player.sendMessage("");
+        player.sendMessage("    " + ChatColor.GREEN + "" + ChatColor.BOLD + "REWARDS");
+        player.sendMessage("      " + ChatColor.YELLOW + this.rewards.getName() + integerToRoman(this.level));
+        player.sendMessage("         " + this.rewards.getPassive());
+        player.sendMessage("       " + ChatColor.DARK_GRAY + "+" + ChatColor.GREEN + getInt(this.rewards.getStatAmount() *  this.level + "") + this.rewards.getStat().getIconAndText());
+        player.sendMessage("       " + ChatColor.DARK_GRAY + "+" + ChatColor.GOLD + getNumberFormat(this.rewards.getCoinsAmount()[this.level]) + " " + ChatColor.GRAY + "Coins");
+        player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "------------------------------------------");
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
     }
 
     public void setXp(double amount) {
@@ -96,6 +100,10 @@ public abstract class AbstractSkill {
 
     public static double getTotalXpForLevel(int level) {
         int sum = 0;
+        if (level == 50){
+            level = 49;
+            sum += needXps[49];
+        }
         for (int i = 0; i < level; i++) {
             sum += needXps[i];
         }

@@ -1,56 +1,69 @@
 package me.maxiiiiii.skyblockdragons.player.skill;
 
+import me.maxiiiiii.skyblockdragons.commands.CommandSD;
+import me.maxiiiiii.skyblockdragons.commands.manager.QuickCommand;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SkillAdminCommand implements CommandExecutor {
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class SkillAdminCommand extends CommandSD {
+
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            if (args.length > 2) {
-                if (Functions.isSkillName(args[0])) {
-                    PlayerSD player = SkyblockDragons.getPlayer((Player) sender);
-                    if (args.length > 3 && Functions.isPlayerName(args[3])) {
-                        player = SkyblockDragons.getPlayer(args[3]);
+    public void command(PlayerSD player, String[] args) {
+        if (args.length > 2) {
+            if (Functions.isSkillName(args[0])) {
+                if (args.length > 3 && Functions.isPlayerName(args[3])) {
+                    player = SkyblockDragons.getPlayer(args[3]);
+                }
+                if (args[1].equalsIgnoreCase("give")) {
+                    try {
+                        double amount = Double.parseDouble(args[2]);
+                        player.getSkill().get(args[0]).giveXp(amount);
+                        player.sendMessage(ChatColor.GREEN + "Gave " + args[2] + " " + Functions.setTitleCase(args[0]) + " xp to " + player.getName() + ".");
+                    } catch (NumberFormatException ex) {
+                        player.sendMessage(ChatColor.RED + "Can't understand this number!");
                     }
-                    if (args[1].equalsIgnoreCase("give")) {
-                        try {
-                            double amount = Double.parseDouble(args[2]);
-                            player.getSkill().get(args[0]).giveXp(amount);
-                            sender.sendMessage(ChatColor.GREEN + "Gave " + args[2] + " " + Functions.setTitleCase(args[0]) + " xp to " + player.getName() + ".");
-                        } catch (NumberFormatException ex) {
-                            sender.sendMessage(ChatColor.RED + "Can't understand this number!");
-                        }
-                    } else if (args[1].equalsIgnoreCase("set") || args[1].equalsIgnoreCase("setXp")) {
-                        try {
-                            double amount = Double.parseDouble(args[2]);
-                            player.getSkill().get(args[0]).setXp(amount);
-                            sender.sendMessage(ChatColor.GREEN + "Setted " + args[2] + " " + Functions.setTitleCase(args[0]) + " xp to " + player.getName() + ".");
-                        } catch (NumberFormatException ex) {
-                            sender.sendMessage(ChatColor.RED + "Can't understand this number!");
-                        }
-                    } else if (args[1].equalsIgnoreCase("setLevel") || args[1].equalsIgnoreCase("setLVL")) {
-                        try {
-                            int level = Integer.parseInt(args[2]);
-                            player.getSkill().get(args[0]).setLevel(level);
-                            sender.sendMessage(ChatColor.GREEN + "Setted " + args[2] + " " + Functions.setTitleCase(args[0]) + " level to " + player.getName() + ".");
-                        } catch (NumberFormatException ex) {
-                            sender.sendMessage(ChatColor.RED + "Can't understand this number!");
-                        }
+                } else if (args[1].equalsIgnoreCase("set") || args[1].equalsIgnoreCase("setXp")) {
+                    try {
+                        double amount = Double.parseDouble(args[2]);
+                        player.getSkill().get(args[0]).setXp(amount);
+                        player.sendMessage(ChatColor.GREEN + "Setted " + args[2] + " " + Functions.setTitleCase(args[0]) + " xp to " + player.getName() + ".");
+                    } catch (NumberFormatException ex) {
+                        player.sendMessage(ChatColor.RED + "Can't understand this number!");
                     }
-                } else {
-                    sender.sendMessage(ChatColor.RED + "Can't understand the skill " + args[0] + "!");
+                } else if (args[1].equalsIgnoreCase("setLevel") || args[1].equalsIgnoreCase("setLVL")) {
+                    try {
+                        int level = Integer.parseInt(args[2]);
+                        player.getSkill().get(args[0]).setLevel(level);
+                        player.sendMessage(ChatColor.GREEN + "Setted " + args[2] + " " + Functions.setTitleCase(args[0]) + " level to " + player.getName() + ".");
+                    } catch (NumberFormatException ex) {
+                        player.sendMessage(ChatColor.RED + "Can't understand this number!");
+                    }
                 }
             } else {
-                sender.sendMessage(ChatColor.RED + "Invalid arguments!");
+                player.sendMessage(ChatColor.RED + "Can't understand the skill " + args[0] + "!");
             }
+        } else {
+            player.sendMessage(ChatColor.RED + "Invalid arguments! use /skilladmin <skill> give/set/setLevel/setLVL <number> [<player>]");
         }
-        return true;
+    }
+
+    @Override
+    public List<Argument> tabComplete(List<Argument> tabs) {
+        tabs.add(new Argument(0, "", "farming", "mining", "combat", "foraging", "fishing", "enchanting", "alchemy", "taming", "dungeoneering"));
+        tabs.add(new Argument(1, "", "give", "set", "setLevel", "setLVL"));
+//        tabs.add(new Argument(2, "", "10", "100", "1000"));
+        tabs.add(new Argument(3, "", Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList())));
+        return tabs;
     }
 }
