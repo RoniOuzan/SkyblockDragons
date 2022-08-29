@@ -4,8 +4,7 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.item.material.types.SkinMaterial;
-import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
+import me.maxiiiiii.skyblockdragons.item.modifiers.EnchantModifier;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -68,7 +67,7 @@ public class EnchantingTableMenu {
         if (enchantType.getMaxLevel() == 1) {
             Map<EnchantType, Short> enchants = new HashMap<>();
             enchants.put(enchantType, (short) 1);
-            inventory.setItem(31, new Item(SkyblockDragons.getPlayer(player), Items.get("ENCHANTED_BOOK"), 1, ReforgeType.NULL, false, SkinMaterial.NULL, enchants));
+            inventory.setItem(31, new Item(SkyblockDragons.getPlayer(player), Items.get("ENCHANTED_BOOK"), new EnchantModifier(enchants)));
             List<String> lores = inventory.getItem(31).getItemMeta().getLore();
             lores.add("");
             lores.add(ChatColor.GRAY + "Costs: " + ChatColor.DARK_AQUA + 5 + " Exp");
@@ -81,7 +80,7 @@ public class EnchantingTableMenu {
             Map<EnchantType, Short> enchants = new HashMap<>();
             for (short i = 1; i < 3; i++) {
                 enchants.put(enchantType, i);
-                inventory.setItem(29 + i + (i == 2 ? 1 : 0), new Item(SkyblockDragons.getPlayer(player), Items.get("ENCHANTED_BOOK"), 1, ReforgeType.NULL, false, SkinMaterial.NULL, enchants));
+                inventory.setItem(29 + i + (i == 2 ? 1 : 0), new Item(SkyblockDragons.getPlayer(player), Items.get("ENCHANTED_BOOK"), new EnchantModifier(enchants)));
                 List<String> lores = inventory.getItem(29 + i + (i == 2 ? 1 : 0)).getItemMeta().getLore();
                 lores.add("");
                 lores.add(ChatColor.GRAY + "Costs: " + ChatColor.DARK_AQUA + i + " Exp");
@@ -95,7 +94,7 @@ public class EnchantingTableMenu {
             Map<EnchantType, Short> enchants = new HashMap<>();
             for (short i = 1; i < 4; i++) {
                 enchants.put(enchantType, i);
-                inventory.setItem(29 + i, new Item(SkyblockDragons.getPlayer(player), Items.get("ENCHANTED_BOOK"), 1, ReforgeType.NULL, false, SkinMaterial.NULL, enchants));
+                inventory.setItem(29 + i, new Item(SkyblockDragons.getPlayer(player), Items.get("ENCHANTED_BOOK"), new EnchantModifier(enchants)));
                 List<String> lores = inventory.getItem(29 + i).getItemMeta().getLore();
                 lores.add("");
                 lores.add(ChatColor.GRAY + "Costs: " + ChatColor.DARK_AQUA + i + " Exp");
@@ -109,7 +108,7 @@ public class EnchantingTableMenu {
             Map<EnchantType, Short> enchants = new HashMap<>();
             for (short i = 1; i < 5; i++) {
                 enchants.put(enchantType, i);
-                inventory.setItem(28 + i + (i > 2 ? 1 : 0), new Item(SkyblockDragons.getPlayer(player), Items.get("ENCHANTED_BOOK"), 1, ReforgeType.NULL, false, SkinMaterial.NULL, enchants));
+                inventory.setItem(28 + i + (i > 2 ? 1 : 0), new Item(SkyblockDragons.getPlayer(player), Items.get("ENCHANTED_BOOK"), new EnchantModifier(enchants)));
                 List<String> lores = inventory.getItem(28 + i + (i > 2 ? 1 : 0)).getItemMeta().getLore();
                 lores.add("");
                 lores.add(ChatColor.GRAY + "Costs: " + ChatColor.DARK_AQUA + i + " Exp");
@@ -123,7 +122,7 @@ public class EnchantingTableMenu {
             Map<EnchantType, Short> enchants = new HashMap<>();
             for (short i = 1; i < 6; i++) {
                 enchants.put(enchantType, i);
-                inventory.setItem(28 + i, new Item(SkyblockDragons.getPlayer(player), Items.get("ENCHANTED_BOOK"), 1, ReforgeType.NULL, false, SkinMaterial.NULL, enchants));
+                inventory.setItem(28 + i, new Item(SkyblockDragons.getPlayer(player), Items.get("ENCHANTED_BOOK"), new EnchantModifier(enchants)));
                 List<String> lores = inventory.getItem(28 + i).getItemMeta().getLore();
                 lores.add("");
                 lores.add(ChatColor.GRAY + "Costs: " + ChatColor.DARK_AQUA + i + " Exp");

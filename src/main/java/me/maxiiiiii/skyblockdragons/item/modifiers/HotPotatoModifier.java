@@ -15,11 +15,11 @@ public class HotPotatoModifier extends ItemModifier {
         this(0);
     }
 
-    public static ItemModifier getModifier(ItemStack item) {
-        return Functions.getHotPotato(item);
-    }
-
     public int get() {
         return amount;
+    }
+
+    public static ItemModifier getModifier(ItemStack item) {
+        return Functions.getHotPotato(item);
     }
 }

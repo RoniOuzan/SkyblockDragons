@@ -19,11 +19,11 @@ public class EnchantModifier extends ItemModifier {
         this(new HashMap<>());
     }
 
-    public static ItemModifier getModifier(ItemStack item) {
-        return Functions.getEnchants(item);
-    }
-
     public Map<EnchantType, Short> get() {
         return enchants;
+    }
+
+    public static ItemModifier getModifier(ItemStack item) {
+        return Functions.getEnchants(item);
     }
 }

@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.item;
 
 import de.tr7zw.changeme.nbtapi.*;
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
@@ -38,6 +39,7 @@ public class Item extends ItemStack {
     // int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities
     public Item(PlayerSD player, ItemMaterial material, int amount, ItemModifier... modifiers) {
         super(material.getMaterial(), amount, material.getMaterial() == Material.SKULL_ITEM ? (short) 3 : ((material.getNbt().equals("") && !material.getId().equals("")) ? Short.parseShort(material.getId()) : (short) 0));
+        SkyblockDragons.logger.info("i. " + modifiers.length);
         this.modifiers = new ItemModifiers(modifiers);
         this.material = material;
         this.amount = amount;
@@ -67,6 +69,14 @@ public class Item extends ItemStack {
 
     public Item(PlayerSD player, ItemStack itemStack, ItemModifier... modifiers) {
         this(player, Functions.getItemMaterial(itemStack), itemStack, modifiers);
+    }
+
+    public Item(PlayerSD player, ItemMaterial material, ItemModifiers itemModifiers, ItemModifier... modifiers) {
+        this(
+                player,
+                material,
+                overrideModifiers(itemModifiers, modifiers)
+        );
     }
 
     public Item(PlayerSD player, ItemMaterial material, ItemStack fromItem, ItemModifier... modifiers) {
@@ -541,6 +551,10 @@ public class Item extends ItemStack {
         for (ItemModifier modifier : modifiers) {
             newModifiers.put(modifier.getClass(), modifier);
         }
-        return (ItemModifier[]) newModifiers.values().toArray();
+        return newModifiers.values().toArray(new ItemModifier[0]);
+    }
+
+    private static ItemModifier[] overrideModifiers(ItemModifiers itemModifiers, ItemModifier[] modifiers) {
+        return itemModifiers.getOverrided(modifiers).toArray();
     }
 }

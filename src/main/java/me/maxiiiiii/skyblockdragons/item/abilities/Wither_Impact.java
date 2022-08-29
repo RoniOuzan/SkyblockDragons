@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
 import me.maxiiiiii.skyblockdragons.item.material.types.NecronBladeMaterial;
+import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -17,14 +18,13 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.players;
 import static me.maxiiiiii.skyblockdragons.SkyblockDragons.plugin;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class Wither_Impact implements Listener {
     private final Cooldown<Player> cooldown = new Cooldown<>();
@@ -41,7 +41,7 @@ public class Wither_Impact implements Listener {
 
         Player player = e.getPlayer();
 
-        ArrayList<NecronBladeMaterial.NecronBladeAbility> scrolls = getNecronScrolls(item);
+        List<NecronBladeMaterial.NecronBladeAbility> scrolls = ItemModifiers.getModifiers(item).getNecronBladeScrolls();
 
         if (scrolls.size() >= 3) {
             if (cooldown(player, cooldown, 200, true)) return;

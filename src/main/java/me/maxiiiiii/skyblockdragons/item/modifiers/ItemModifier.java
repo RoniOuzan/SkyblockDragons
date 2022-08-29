@@ -2,17 +2,17 @@ package me.maxiiiiii.skyblockdragons.item.modifiers;
 
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class ItemModifier {
-    private static final List<Class<? extends ItemModifier>> classes = new ArrayList<>();
+    private static final Set<Class<? extends ItemModifier>> classes = new HashSet<>();
 
     public ItemModifier(Class<? extends ItemModifier> clazz) {
         classes.add(clazz);
     }
 
-    public static List<Class<? extends ItemModifier>> getClasses() {
+    public static Set<Class<? extends ItemModifier>> getClasses() {
         return classes;
     }
 

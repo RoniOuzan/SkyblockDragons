@@ -4,6 +4,8 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import lombok.Setter;
+import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
+import me.maxiiiiii.skyblockdragons.item.modifiers.ReforgeModifier;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.item.Item;
@@ -29,7 +31,7 @@ public class Reforge {
         NBTCompound nbt = nbtItem.getCompound("Item");
         if (!nbt.getString("Reforge").equals(this.reforgeType.toString().trim())) {
             nbt.setString("Reforge", this.reforgeType.toString().trim());
-            item = new Item(player, Functions.getItemMaterial(this.item), getHotPotato(this.item), getReforge(nbt.getString("Reforge")), isRecombed(this.item), getSkin(this.item), getEnchants(this.item), getNecronScrolls(this.item));
+            item = new Item(player, this.item, ItemModifiers.getModifiers(item).getOverrided(new ReforgeModifier(getReforge(nbt.getString("Reforge")))).toArray());
         }
         return item;
     }

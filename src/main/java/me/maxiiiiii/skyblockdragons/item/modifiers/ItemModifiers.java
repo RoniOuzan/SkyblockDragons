@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.modifiers;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.NecronBladeMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.SkinMaterial;
@@ -38,6 +39,23 @@ public class ItemModifiers implements Iterable<ItemModifier> {
                 (ReforgeModifier) getOrDefault(modifiers, ReforgeModifier.class, new ReforgeModifier()),
                 (SkinModifier) getOrDefault(modifiers, SkinModifier.class, new SkinModifier())
         );
+        SkyblockDragons.logger.info("1 " + modifiers.length);
+    }
+
+    public static ItemModifier[] override(ItemModifier[] itemModifiers, ItemModifier... modifiers) {
+        Map<Class<? extends ItemModifier>, ItemModifier> modifierMap = new HashMap<>();
+        for (ItemModifier modifier : itemModifiers) {
+            modifierMap.put(modifier.getClass(), modifier);
+        }
+        for (ItemModifier modifier : modifiers) {
+            modifierMap.put(modifier.getClass(), modifier);
+        }
+        return modifierMap.values().toArray(new ItemModifier[0]);
+    }
+
+    public ItemModifiers getOverrided(ItemModifier... modifiers) {
+        SkyblockDragons.logger.info("o. " + modifiers.length);
+        return new ItemModifiers(override(toArray(), modifiers));
     }
 
     public Map<EnchantType, Short> getEnchants() {
@@ -64,33 +82,33 @@ public class ItemModifiers implements Iterable<ItemModifier> {
         return this.skin.get();
     }
 
-    private List<ItemModifier> toList() {
-        return new ArrayList<>(Arrays.asList(
+    public ItemModifier[] toArray() {
+        return new ItemModifier[]{
                 this.enchants,
                 this.hotPotato,
                 this.necronBladeScrolls,
                 this.recombabulator,
                 this.reforge,
                 this.skin
-        ));
+        };
     }
 
     @Override
     public Iterator<ItemModifier> iterator() {
-        return this.toList().iterator();
+        return Arrays.stream(this.toArray()).iterator();
     }
 
     @Override
     public void forEach(Consumer<? super ItemModifier> action) {
         Objects.requireNonNull(action);
-        for (ItemModifier e : this.toList()) {
+        for (ItemModifier e : this.toArray()) {
             action.accept(e);
         }
     }
 
     @Override
     public Spliterator<ItemModifier> spliterator() {
-        return Spliterators.spliterator(this.toList(), Spliterator.ORDERED);
+        return Spliterators.spliterator(this.toArray(), Spliterator.ORDERED);
     }
 
     public Stream<ItemModifier> stream() {
@@ -108,7 +126,7 @@ public class ItemModifiers implements Iterable<ItemModifier> {
 
     public static ItemModifiers getModifiers(ItemStack item) {
         List<ItemModifier> modifiers = new ArrayList<>();
-        for (Class<? extends ItemModifier> clazz : ItemModifier.getClasses()) {
+        for (Class<? extends ItemModifier> clazz : new ArrayList<>(ItemModifier.getClasses())) {
             try {
                 ItemModifier modifier = (ItemModifier) clazz.getDeclaredMethod("getModifier", ItemStack.class).invoke(null, item);
                 modifiers.add(modifier);

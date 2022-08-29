@@ -4,6 +4,8 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.item.modifiers.EnchantModifier;
+import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -24,8 +26,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class EnchantingTableCommand implements CommandExecutor, Listener {
     @Override
@@ -91,15 +91,15 @@ public class EnchantingTableCommand implements CommandExecutor, Listener {
                 }
                 player.setLevel(player.getLevel() - cost);
                 ItemStack fromItem = e.getInventory().getItem(13);
-                Map<EnchantType, Short> enchants = Functions.getEnchants(fromItem);
-                Map<EnchantType, Short> enchantsToAdd = Functions.getEnchants(e.getCurrentItem());
+                Map<EnchantType, Short> enchants = ItemModifiers.getModifiers(fromItem).getEnchants();
+                Map<EnchantType, Short> enchantsToAdd = ItemModifiers.getModifiers(e.getCurrentItem()).getEnchants();
                 for (EnchantType enchantType : enchantsToAdd.keySet()) {
                     if (Objects.equals(enchants.getOrDefault(enchantType, (short) 0), enchantsToAdd.get(enchantType)))
                         enchants.remove(enchantType);
                     else
                         enchants.put(enchantType, enchantsToAdd.get(enchantType));
                 }
-                Item item = new Item(SkyblockDragons.getPlayer(player), Items.get(fromItem), (isStackable(fromItem) ? fromItem.getAmount() : 1), getHotPotato(fromItem), getReforge(fromItem), isRecombed(fromItem), getSkin(fromItem), enchants, getNecronScrolls(fromItem));
+                Item item = new Item(SkyblockDragons.getPlayer(player), Items.get(fromItem), ItemModifiers.getModifiers(fromItem), new EnchantModifier(enchants));
                 EnchantingTableMenu.openEnchantingTable(player, item);
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
             }

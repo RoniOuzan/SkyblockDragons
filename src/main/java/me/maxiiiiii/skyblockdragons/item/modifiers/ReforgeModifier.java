@@ -1,6 +1,8 @@
 package me.maxiiiiii.skyblockdragons.item.modifiers;
 
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
+import me.maxiiiiii.skyblockdragons.util.Functions;
+import org.bukkit.inventory.ItemStack;
 
 public class ReforgeModifier extends ItemModifier {
     private final ReforgeType reforge;
@@ -16,5 +18,9 @@ public class ReforgeModifier extends ItemModifier {
 
     public ReforgeType get() {
         return this.reforge;
+    }
+
+    public static ItemModifier getModifier(ItemStack item) {
+        return new ReforgeModifier(Functions.getReforge(item));
     }
 }

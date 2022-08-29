@@ -4,10 +4,11 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import lombok.Setter;
-import me.maxiiiiii.skyblockdragons.item.material.types.*;
-import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.types.*;
+import me.maxiiiiii.skyblockdragons.item.modifiers.*;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -17,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
@@ -54,24 +56,24 @@ public class Anvil {
                     ReforgeType reforgeType = getReforge(reforge.getReforgeName());
                     if (reforgeType.getTypes().contains(material1.getType())) {
                         if (!nbt1.getString("Reforge").equals(reforge.name())) {
-                            item = new Item(player, material1, getHotPotato(item), reforgeType, isRecombed(item1), getSkin(item1), getEnchants(item1), getNecronScrolls(item1));
+                            item = new Item(player, material1, ItemModifiers.getModifiers(item1), new ReforgeModifier(reforgeType));
                         }
                     }
                 } else if (material2 instanceof SkinMaterial) {
                     SkinMaterial skin = (SkinMaterial) material2;
                     if (material1.name().equals(skin.name().replaceAll("_SKIN", ""))) {
                         if (!nbt1.getString("Skin").equals(skin.name())) {
-                            item = new Item(player, material1, getHotPotato(item), getReforge(item1), isRecombed(item1), skin, getEnchants(item1), getNecronScrolls(item1));
+                            item = new Item(player, material1, ItemModifiers.getModifiers(item1), new SkinModifier(skin));
                         }
                     }
                 } else if (nbt2.getString("id").equals("RECOMBABULATOR")) {
                     if (isRecombable(material1)) {
                         if (!nbt1.getBoolean("RarityUpgrade")) {
-                            item = new Item(player, material1, getHotPotato(item), getReforge(item1), true, getSkin(item1), getEnchants(item1), getNecronScrolls(item1));
+                            item = new Item(player, material1, ItemModifiers.getModifiers(item1), new RecombabulatorModifier(true));
                         }
                     }
                 } else if (material2 instanceof BookMaterial) {
-                    Map<EnchantType, Short> enchants = getEnchants(item1);
+                    Map<EnchantType, Short> enchants = ItemModifiers.getModifiers(item1).getEnchants();
 
                     NBTCompound enchants1 = nbt1.getCompound("Enchants");
 
@@ -79,7 +81,7 @@ public class Anvil {
 
                     for (EnchantType enchantType : EnchantType.enchants.values()) {
                         if (enchants1.hasKey(enchantType.name()) && enchants2.hasKey(enchantType.name()) && enchants1.getShort(enchantType.name()).equals(enchants2.getShort(enchantType.name()))) {
-                            for (EnchantType enchantDistraction : getEnchants(item1).keySet()) {
+                            for (EnchantType enchantDistraction : ItemModifiers.getModifiers(item1).getEnchants().keySet()) {
                                 if (enchantType.getDistractions().contains(enchantDistraction.name())) {
                                     enchants.remove(enchantDistraction);
                                 }
@@ -88,17 +90,17 @@ public class Anvil {
                                 enchants.put(enchantType, Short.parseShort((enchants2.getInteger(enchantType.name()) + 1) + ""));
                             }
                         } else if (enchants2.hasKey(enchantType.name())) {
-                            for (EnchantType enchantDistraction : getEnchants(item1).keySet()) {
-                                if (enchantType.getDistractions().contains(enchantDistraction.name()) || (enchantDistraction.realname().contains("AAA") && getEnchants(item2).keySet().toString().contains("AAA"))) {
+                            for (EnchantType enchantDistraction : ItemModifiers.getModifiers(item1).getEnchants().keySet()) {
+                                if (enchantType.getDistractions().contains(enchantDistraction.name()) || (enchantDistraction.realname().contains("AAA") && ItemModifiers.getModifiers(item2).getEnchants().keySet().toString().contains("AAA"))) {
                                     enchants.remove(enchantDistraction);
                                 }
                             }
                             enchants.put(enchantType, Short.parseShort(enchants2.getInteger(enchantType.name()) + ""));
                         }
                     }
-                    item = new Item(player, material1, getHotPotato(item), getReforge(item1), isRecombed(item1), getSkin(item1), enchants, getNecronScrolls(item1));
+                    item = new Item(player, material1, ItemModifiers.getModifiers(item1), new EnchantModifier(enchants));
                 } else if (material2 instanceof NecronBladeMaterial.NecronBladeScroll && material1 instanceof NecronBladeMaterial) {
-                    ArrayList<NecronBladeMaterial.NecronBladeAbility> scrolls = getNecronScrolls(item1);
+                    List<NecronBladeMaterial.NecronBladeAbility> scrolls = ItemModifiers.getModifiers(item1).getNecronBladeScrolls();
                     if (material2.equals(Items.get("IMPLOSION")) && !nbt2.getBoolean("IMPLOSION")) {
                         scrolls.add(NecronBladeMaterial.NecronBladeAbility.IMPLOSION);
                     }
@@ -115,10 +117,10 @@ public class Anvil {
                         scrolls.add(NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP);
                     }
 
-                    item = new Item(player, material1, getHotPotato(item), getReforge(item1), isRecombed(item1), getSkin(item1), getEnchants(item1), scrolls);
+                    item = new Item(player, material1, ItemModifiers.getModifiers(item1), new NecronBladeScrollsModifier(scrolls));
                 } else if (material2.getFamily() == ItemFamily.HOT_POTATO && material2 instanceof NormalMaterial && (material1 instanceof WeaponMaterial || material1 instanceof ArmorMaterial)) {
-                    if ((material2.name().contains("FUMING") && getHotPotato(item1) < 15) || (material2.name().contains("HOT") && getHotPotato(item1) < 10)) {
-                        item = new Item(player, material1, getHotPotato(item1) + 1, getReforge(item1), isRecombed(item1), getSkin(item1), getEnchants(item1), getNecronScrolls(item1));
+                    if ((material2.name().contains("FUMING") && ItemModifiers.getModifiers(item1).getHotPotato() < 15) || (material2.name().contains("HOT") && ItemModifiers.getModifiers(item1).getHotPotato() < 10)) {
+                        item = new Item(player, material1, ItemModifiers.getModifiers(item1), new HotPotatoModifier(ItemModifiers.getModifiers(item1).getHotPotato() + 1));
                     }
                 }
             }
