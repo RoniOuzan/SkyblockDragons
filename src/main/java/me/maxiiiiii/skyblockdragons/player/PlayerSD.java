@@ -38,8 +38,6 @@ import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.worlds.deepermines.forge.Forge;
-import me.maxiiiiii.skyblockdragons.worlds.end.DragonType;
-import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.worlds.griffin.Griffin;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -51,10 +49,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scoreboard.*;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
@@ -66,8 +65,7 @@ public class PlayerSD extends PlayerClass {
 
     public PlayerStats stats;
 
-    public Scoreboard scoreboard;
-    public Objective objective;
+    private final ScoreboardSD scoreboardSD;
 
     public int playTime;
     public int bits;
@@ -121,12 +119,6 @@ public class PlayerSD extends PlayerClass {
                 0
         );
 
-        this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-
-        this.objective = this.scoreboard.registerNewObjective(this.getPlayer().getName(), "dummy");
-        this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        this.objective.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "Skyblock Dragons");
-
         this.playTime = Variables.get(player.getUniqueId(), "PlayTime", 0, 0);
         this.bits = Variables.get(player.getUniqueId(), "Bits", 0, 0);
 
@@ -142,6 +134,8 @@ public class PlayerSD extends PlayerClass {
         this.griffin = new Griffin(this);
 
         this.lastCoins = this.getCoins();
+
+        this.scoreboardSD = new ScoreboardSD(this);
 
         SkyblockDragons.players.put(player.getUniqueId(), this);
     }
@@ -513,57 +507,6 @@ public class PlayerSD extends PlayerClass {
             menu.setItemMeta(menuMeta);
             player.getInventory().setItem(8, menu);
         }
-    }
-
-    public void setScoreboardScores() {
-        ArrayList<Score> scores = new ArrayList<>();
-        Date now = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy");
-        scores.add(this.objective.getScore(ChatColor.GRAY + format.format(now) + ChatColor.DARK_GRAY + " " + this.getWorld().getName()));
-        scores.add(this.objective.getScore(""));
-        scores.add(this.objective.getScore(ChatColor.WHITE + "Player: " + ChatColor.GREEN + this.getPlayer().getName()));
-        if (this.lastCoins != this.getCoins()) {
-            this.setCoins(this.getCoins());
-            if (this.getCoins() - this.lastCoins > 0)
-                scores.add(this.objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse()) + " (+" + Functions.getShortNumber(this.getCoins() - this.lastCoins) + ")"));
-            else
-                scores.add(this.objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse()) + " (" + Functions.getShortNumber(this.getCoins() - this.lastCoins) + ")"));
-            this.lastCoins = this.getCoins();
-        } else {
-            scores.add(this.objective.getScore(ChatColor.WHITE + "Purse: " + ChatColor.GOLD + getNumberFormat(this.getPurse())));
-        }
-        String bitsAdder = "";
-
-        if (playTime % 36000L >= 0L && playTime % 36000L < 20L) {
-            bitsAdder = ChatColor.AQUA + "(+250 PCoins)";
-            if (playTime % 36000L < 5L) {
-                this.addBits(250);
-            }
-        }
-        scores.add(this.objective.getScore(ChatColor.WHITE + "PCoin: " + ChatColor.DARK_GREEN + getNumberFormat(bits) + " " + bitsAdder));
-        scores.add(this.objective.getScore(" "));
-        if (TheEnd.dragon != null) {
-            DragonType dragonType = DragonType.getDragonType(TheEnd.dragon.type.getName());
-            if (this.getWorldSD() == WorldSD.THE_END && dragonType != null) {
-                scores.add(this.objective.getScore(dragonType + " Dragon"));
-                scores.add(this.objective.getScore("  " + ChatColor.WHITE + "Dragon's Health: " + ChatColor.GREEN + Functions.getNumberFormat(TheEnd.dragon.getHealth()) + StatType.HEALTH.getIcon()));
-                scores.add(this.objective.getScore("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getNumberFormat(TheEnd.dragonDamage.getOrDefault(this, 0d))));
-                scores.add(this.objective.getScore("  "));
-            }
-        }
-        if (this.playerPet.activePet >= 0) {
-            scores.add(this.objective.getScore(ChatColor.WHITE + "Active Pet:"));
-            scores.add(this.objective.getScore("  " + this.getPetActive().getRarity().getColor() + this.getPetActive().getPetMaterial().getName()));
-            scores.add(this.objective.getScore("   "));
-        }
-        scores.add(this.objective.getScore(ChatColor.YELLOW + "sbdragons.revivesmc.net"));
-        Collections.reverse(scores);
-
-        for (int i = 0; i < scores.size(); i++) {
-            scores.get(i).setScore(i);
-        }
-
-        this.setScoreboard(this.scoreboard);
     }
 
     public void sendActionBar(String message, boolean ignoreCooldown) {

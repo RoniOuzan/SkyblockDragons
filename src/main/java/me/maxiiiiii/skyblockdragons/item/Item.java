@@ -39,7 +39,6 @@ public class Item extends ItemStack {
     // int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities
     public Item(PlayerSD player, ItemMaterial material, int amount, ItemModifier... modifiers) {
         super(material.getMaterial(), amount, material.getMaterial() == Material.SKULL_ITEM ? (short) 3 : ((material.getNbt().equals("") && !material.getId().equals("")) ? Short.parseShort(material.getId()) : (short) 0));
-        SkyblockDragons.logger.info("i. " + modifiers.length);
         this.modifiers = new ItemModifiers(modifiers);
         this.material = material;
         this.amount = amount;

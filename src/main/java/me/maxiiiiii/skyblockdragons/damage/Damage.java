@@ -251,7 +251,7 @@ public class Damage implements Listener {
             return;
         }
         if (attacker instanceof PlayerSD)
-            ((PlayerSD) attacker).setScoreboardScores();
+            ((PlayerSD) attacker).getScoreboardSD().update();
 
         double damage;
         if (e.isFerocity()) {

@@ -39,7 +39,6 @@ public class ItemModifiers implements Iterable<ItemModifier> {
                 (ReforgeModifier) getOrDefault(modifiers, ReforgeModifier.class, new ReforgeModifier()),
                 (SkinModifier) getOrDefault(modifiers, SkinModifier.class, new SkinModifier())
         );
-        SkyblockDragons.logger.info("1 " + modifiers.length);
     }
 
     public static ItemModifier[] override(ItemModifier[] itemModifiers, ItemModifier... modifiers) {
@@ -54,7 +53,6 @@ public class ItemModifiers implements Iterable<ItemModifier> {
     }
 
     public ItemModifiers getOverrided(ItemModifier... modifiers) {
-        SkyblockDragons.logger.info("o. " + modifiers.length);
         return new ItemModifiers(override(toArray(), modifiers));
     }
 

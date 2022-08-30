@@ -245,7 +245,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             for (PlayerSD player : players.values()) {
                 // playtime
                 player.addPlayTime(20);
-                player.setScoreboardScores();
+                player.getScoreboardSD().update();
 
                 player.setFoodLevel(20);
 

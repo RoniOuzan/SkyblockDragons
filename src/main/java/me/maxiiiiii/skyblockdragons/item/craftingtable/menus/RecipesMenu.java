@@ -210,14 +210,7 @@ public class RecipesMenu extends Menu {
         }
     }
 
-    public static Recipe getRecipeForItem(ItemStack item){
-        String id = "";
-        if (item instanceof Item){
-            id = ((Item) item).getMaterial().name();
-        }
-        else{
-            id = item.getType().name();
-        }
-        return Recipe.get(id);
+    public static Recipe getRecipeForItem(ItemStack item) {
+        return Recipe.get(Functions.getItemMaterial(item).name());
     }
 }
