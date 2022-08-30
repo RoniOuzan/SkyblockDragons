@@ -12,6 +12,7 @@ import me.maxiiiiii.skyblockdragons.entity.types.theend.EnderGuard;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EndermanTier1;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EndermanTier2;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.dragon.*;
+import me.maxiiiiii.skyblockdragons.entity.types.witherisland.wither.TestWither;
 import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
@@ -71,7 +72,11 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
 
     public abstract void onSpawn(EntitySD entity);
 
-    public void onDamage(PlayerSD player, EntitySD entity) {
+    public void onTick(EntitySD entity){
+
+    }
+
+    public void onDamage(EntitySD attacker, EntitySD entity) {
 
     }
 
@@ -101,6 +106,7 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         entities.put("ICE_MINER", new IceMiner());
         entities.put("GHOST", new Ghost());
 
+        entities.put("TEST_WITHER", new TestWither());
 
         entities.put("DUMMY", new Dummy());
 

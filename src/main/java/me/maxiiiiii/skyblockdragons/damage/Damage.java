@@ -75,8 +75,8 @@ public class Damage implements Listener {
         // hologram
         String damageDisplay = ChatColor.GRAY + "" + Functions.getNumberFormat(damage);
         if (critHit) {
-            damageDisplay = rainbowText(damage + "");
-            damageDisplay = Functions.getNumberFormat(damageDisplay);
+            damageDisplay = Functions.getNumberFormat(damage);
+            damageDisplay = rainbowText(damageDisplay);
             damageDisplay = ChatColor.WHITE + "✧" + damageDisplay + ChatColor.WHITE + "✧";
         } else if (damageType.isMagic())
             damageDisplay = ChatColor.DARK_AQUA + "" + Functions.getNumberFormat(damage);
@@ -250,8 +250,9 @@ public class Damage implements Listener {
         if (attacker == null || victim == null){
             return;
         }
-        if (attacker instanceof PlayerSD)
+        if (attacker instanceof PlayerSD) {
             ((PlayerSD) attacker).getScoreboardSD().update();
+        }
 
         double damage;
         if (e.isFerocity()) {
@@ -277,11 +278,11 @@ public class Damage implements Listener {
         else if (victim.getHealth() <= victim.getMaxHealth() / 2)
             color = ChatColor.YELLOW;
         if (!(victim instanceof PlayerSD))
-            victim.hologram.getStand().setCustomName(victim.getCustomName() + " " + color + victim.getHealth() + StatType.HEALTH.getIcon());
+            victim.hologram.getStand().setCustomName(victim.getCustomName() + " " + color + Functions.getNumberFormat(victim.getHealth()) + StatType.HEALTH.getIcon());
         EntityKnockbackEvent knockbackEvent = new EntityKnockbackEvent(e.getVictim(), e.getAttacker());
         Bukkit.getServer().getPluginManager().callEvent(knockbackEvent);
 
-        victim.type.onSpawn(victim);
+        victim.type.onDamage(attacker, victim);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

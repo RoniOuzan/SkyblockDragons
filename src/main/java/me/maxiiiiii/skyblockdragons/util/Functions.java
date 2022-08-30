@@ -140,11 +140,8 @@ public class Functions {
         return output;
     }
 
-    public static <T> String getNumberFormat(T num) {
-        if (num instanceof Number) {
-            return NumberFormat.getNumberInstance(Locale.US).format(num);
-        }
-        return Functions.getInt(num + "");
+    public static <T> String getNumberFormat(Number num) {
+        return NumberFormat.getNumberInstance(Locale.US).format(num);
     }
 
     public static void setName(ItemStack item, String name) {
