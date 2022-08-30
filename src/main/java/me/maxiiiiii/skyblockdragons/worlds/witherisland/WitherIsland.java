@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.worlds.witherisland;
 
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
+import me.maxiiiiii.skyblockdragons.entity.types.witherisland.EntityWither;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
@@ -20,9 +21,9 @@ public class WitherIsland extends WorldSD implements Listener {
     public static final Location MIDDLE_OF_LOOT = new Location(world, -63.500, 72.50000, 63.500);
     public static final Location WITHER_SPAWN = new Location(world, -63.500, 72.50000, 63.500);
     public static final Location MIDDLE = new Location(world, -63.500, 72.50000, 63.500);
-    public static EntitySD Wither = null;
+    public static EntityWither Wither = null;
 
-    public  static final Map<PlayerSD, Double> witherDamage = new HashMap<>();
+    public static final Map<PlayerSD, Double> witherDamage = new HashMap<>();
 
     public WitherIsland(JavaPlugin plugin) {
         super(world, "Wither Island", new Location(world, -109.500,65.00000, 139.500), WorldType.COMBAT, WorldType.MINING);

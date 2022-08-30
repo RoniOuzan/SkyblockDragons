@@ -120,6 +120,198 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         Bukkit.getScheduler().runTaskAsynchronously(this, Recipe::registerRecipes);
         WorldSD.registerWorlds(this);
 
+        registerAllEvents();
+
+        // Command Listeners
+        getServer().getPluginManager().registerEvents(new AnvilCommand(), this);
+        getServer().getPluginManager().registerEvents(new ReforgeCommand(), this);
+        getServer().getPluginManager().registerEvents(new AccessoryBagCommand(), this);
+        getServer().getPluginManager().registerEvents(new SkillListener(), this);
+        getServer().getPluginManager().registerEvents(new BankCommand(), this);
+        getServer().getPluginManager().registerEvents(new EnchantingTableCommand(), this);
+
+        registerAllCommands();
+
+//        Coop.load();
+        EntitySD.loadLocations();
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            new PlayerSD(player);
+        }
+
+        autoSaveVariables();
+
+        playerEverySecond();
+
+        playerEvery5Ticks();
+
+        spawnEntitiesTimer();
+
+//        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+//            for (PlayerSD player : players.values()) {
+//                for (LivingEntity entity : player.getWorld().getLivingEntities()) {
+//                    if (entity instanceof Creature) {
+//                        player.getWorld().strikeLightningEffect(entity.getLocation());
+//                        player.makeDamage(entity, Damage.DamageType.MAGIC, 1, 50, 0.05);
+//                    }
+//                }
+//            }
+//        }, 3000L, 6000L);
+        loadAddonsAfter();
+
+        System.out.println("Skyblock Dragons plugin has been loaded!");
+    }
+
+    private void loadAddonsAfter() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                AddonUtils.enableAddons();
+            }
+        }.runTaskLater(plugin, 5);
+    }
+
+    private void spawnEntitiesTimer() {
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            for (Location location : EntitySD.entitiesLocations.keySet()) {
+                if (Bukkit.getOnlinePlayers().stream().map(Entity::getWorld).noneMatch(w -> w == location.getWorld())) continue;
+                if (!EntitySD.entities.values().stream().filter(e -> e.type == EntitySD.entitiesLocations.get(location)).map(e -> e.location).collect(Collectors.toList()).contains(location)) {
+                    new EntitySD(location, EntitySD.entitiesLocations.get(location));
+                }
+            }
+        }, 0L, 200L);
+    }
+
+    private void playerEvery5Ticks() {
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            for (PlayerSD player : players.values()) {
+                // pets
+                if (player.getPlayerPet().activePet >= 0) {
+                    if (player.getPlayerPet().petArmorStand != null && player.getPlayerPet().petArmorStand.armorStand.getWorld() != player.getWorld()) {
+                        player.getPlayerPet().petArmorStand.armorStand.remove();
+                        player.getPlayerPet().petArmorStand.hologram.delete();
+                        player.getPlayerPet().petArmorStand = null;
+                        return;
+                    }
+                    if (player.getPlayerPet().getPetArmorStand() == null || player.getPlayerPet().getPetArmorStand().slot != player.getPlayerPet().activePet)
+                        player.getPlayerPet().petArmorStand = new Pet.ArmorStand(player, player.getPetActive(), Pet.spawnPet(player, player.getPetActive()), player.getPlayerPet().activePet);
+
+                    if (player.getPlayerPet().getPetArmorStand().armorStand.getLocation().distance(player.getLocation()) > 3)
+                        new FlyTo(player.getPlayerPet().getPetArmorStand().armorStand, player, 20, 1.5, true, player.getPlayerPet().petArmorStand.hologram, new Vector(0, 1.6, 0));
+                    player.getPlayerPet().petArmorStand.armorStand.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.1 : -0.1), 0));
+                    player.getPlayerPet().petArmorStand.hologram.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 1.6, 0));
+                    for (ParticlePacketUtil particle : player.getPetActive().petMaterial.getParticles()) {
+                        particle.spawn(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.8, 0), Functions.getPlayerShowedPets());
+                    }
+                }
+
+                if (player.getPlayerPet().activePet >= 0) {
+                    if (player.getPetActive().levelUp(player)) {
+                        player.getPlayerPet().pets.set(player.getPlayerPet().activePet, player.getPetActive());
+                    }
+                }
+
+                if (player.getPlayerPet().hidePets) {
+                    for (Entity entity : player.getWorld().getEntities()) {
+                        if (entity.getScoreboardTags().contains("Pet")) {
+                            player.hideEntity(entity);
+                        }
+                    }
+
+                    for (Hologram hologram : HologramsAPI.getHolograms(this)) {
+                        if (hologram.getLine(0).toString().contains(ChatColor.GREEN + "" + ChatColor.DARK_GREEN + "" + ChatColor.GREEN + "" + ChatColor.DARK_GREEN)) {
+                            hologram.getVisibilityManager().hideTo(player);
+                        }
+                    }
+                } else {
+                    for (Entity entity : player.getWorld().getEntities()) {
+                        if (entity.getScoreboardTags().contains("Pet")) {
+                            player.showEntity(entity);
+                        }
+                    }
+
+                    for (Hologram hologram : HologramsAPI.getHolograms(this)) {
+                        if (hologram.getLine(0).toString().contains(ChatColor.GREEN + "" + ChatColor.DARK_GREEN + "" + ChatColor.GREEN + "" + ChatColor.DARK_GREEN)) {
+                            hologram.getVisibilityManager().showTo(player);
+                        }
+                    }
+                }
+            }
+        }, 0L, 5L);
+    }
+
+    private void playerEverySecond() {
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            for (PlayerSD player : players.values()) {
+                // playtime
+                player.addPlayTime(20);
+                player.getScoreboardSD().update();
+
+                player.setFoodLevel(20);
+
+                player.applyStats(true);
+
+                // pet sound
+                if (player.getPlayerPet().activePet >= 0)
+                    for (SoundUtil sound : player.getPetActive().petMaterial.getSounds()) {
+                        for (Player showed : Functions.getPlayerShowedPets()) {
+                            if (showed.getWorld() == player.getPlayerPet().petArmorStand.armorStand.getWorld())
+                                showed.playSound(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.5, 0), sound.sound, (2f - (float) showed.getEyeLocation().distance(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.5, 0))) / 4, sound.pitch);
+                        }
+                    }
+            }
+        }, 0L, 20L);
+    }
+
+    private void autoSaveVariables() {
+        getServer().getScheduler().runTaskTimerAsynchronously(this, Variables::save, 6000L, 6000L);
+    }
+
+    private void registerAllCommands() {
+        // Commands
+        getCommand("SkyblockDragons").setExecutor(new SkyblockDragonsCommand());
+        getCommand("Stat").setExecutor(new StatCommand());
+        getCommand("Menu").setExecutor(new SkyblockMenu.Command());
+        getCommand("Item").setExecutor(new ItemCommand());
+        getCommand("Item").setTabCompleter(new ItemCommand());
+        getCommand("Bits").setExecutor(new BitsCommand());
+        getCommand("Bits").setTabCompleter(new BitsCommand());
+        getCommand("Anvil").setExecutor(new AnvilCommand());
+        getCommand("ReforgeMenu").setExecutor(new ReforgeCommand());
+        getCommand("Book").setExecutor(new BookCommand());
+        getCommand("Book").setTabCompleter(new BookCommand());
+        getCommand("AccessoryBag").setExecutor(new AccessoryBagCommand());
+        registerCommand("ViewRecipe", new Recipe.ViewCommand());
+        registerCommand("CraftingTable", new CraftingTableMenu.Command());
+        getCommand("PlayTime").setExecutor(new PlayTime());
+        getCommand("SkillMenu").setExecutor(new SkillMenu.Command());
+        getCommand("SkillAdmin").setExecutor(new SkillAdminCommand());
+        registerCommand("Wardrobe", new WardrobeMenu.Command());
+        getCommand("PetAdmin").setExecutor(new PetCommand());
+        getCommand("PetAdmin").setTabCompleter(new PetCommand());
+        registerCommand("PetMenu", new PetMenu.Command());
+        getCommand("FlyTo").setExecutor(new FlyToCommand());
+        getCommand("Bank").setExecutor(new BankCommand());
+        getCommand("Sound").setExecutor(new SoundCommand());
+        getCommand("Sound").setTabCompleter(new SoundCommand());
+        getCommand("EntitySD").setExecutor(new EntityCommand());
+        getCommand("EntitySD").setTabCompleter(new EntityCommand());
+        getCommand("Coop").setExecutor(new CoopCommand());
+        getCommand("Coop").setTabCompleter(new CoopCommand());
+        registerCommand("Recipes", new RecipesMenu.Command());
+        registerCommand("RecipesFor", new RecipesMenu.ForMenu.Command());
+        registerCommand("RecipesWith", new RecipesMenu.WithMenu.Command());
+        getCommand("Variables").setExecutor(new VariableCommand());
+        getCommand("Warp").setExecutor(new WarpCommand());
+        getCommand("EnchantingTable").setExecutor(new EnchantingTableCommand());
+        getCommand("Profile").setExecutor(new ProfileMenu.Command());
+        getCommand("Storage").setExecutor(new StorageMenu.Command());
+        getCommand("EnderChest").setExecutor(new EnderChestMenu.Command());
+        registerCommand("Forge", new Forge.Command());
+        registerCommand("ForgeMilestone", new ForgeMilestoneCommand());
+    }
+
+    private void registerAllEvents() {
         // Listeners
         getServer().getPluginManager().registerEvents(new Damage(), this);
         getServer().getPluginManager().registerEvents(new JoinQuitListener(), this);
@@ -181,172 +373,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Magma_Cloak(), this);
         getServer().getPluginManager().registerEvents(new Mythologs_Spade(), this);
         getServer().getPluginManager().registerEvents(new ERROR_SCYTHE(), this);
-
-        // Command Listeners
-        getServer().getPluginManager().registerEvents(new AnvilCommand(), this);
-        getServer().getPluginManager().registerEvents(new ReforgeCommand(), this);
-        getServer().getPluginManager().registerEvents(new AccessoryBagCommand(), this);
-        getServer().getPluginManager().registerEvents(new SkillListener(), this);
-        getServer().getPluginManager().registerEvents(new BankCommand(), this);
-        getServer().getPluginManager().registerEvents(new EnchantingTableCommand(), this);
-
-        // Commands
-        getCommand("SkyblockDragons").setExecutor(new SkyblockDragonsCommand());
-        getCommand("Stat").setExecutor(new StatCommand());
-        getCommand("Menu").setExecutor(new SkyblockMenu.Command());
-        getCommand("Item").setExecutor(new ItemCommand());
-        getCommand("Item").setTabCompleter(new ItemCommand());
-        getCommand("Bits").setExecutor(new BitsCommand());
-        getCommand("Bits").setTabCompleter(new BitsCommand());
-        getCommand("Anvil").setExecutor(new AnvilCommand());
-        getCommand("ReforgeMenu").setExecutor(new ReforgeCommand());
-        getCommand("Book").setExecutor(new BookCommand());
-        getCommand("Book").setTabCompleter(new BookCommand());
-        getCommand("AccessoryBag").setExecutor(new AccessoryBagCommand());
-        registerCommand("ViewRecipe", new Recipe.ViewCommand());
-        registerCommand("CraftingTable", new CraftingTableMenu.Command());
-        getCommand("PlayTime").setExecutor(new PlayTime());
-        getCommand("SkillMenu").setExecutor(new SkillMenu.Command());
-        getCommand("SkillAdmin").setExecutor(new SkillAdminCommand());
-        registerCommand("Wardrobe", new WardrobeMenu.Command());
-        getCommand("PetAdmin").setExecutor(new PetCommand());
-        getCommand("PetAdmin").setTabCompleter(new PetCommand());
-        registerCommand("PetMenu", new PetMenu.Command());
-        getCommand("FlyTo").setExecutor(new FlyToCommand());
-        getCommand("Bank").setExecutor(new BankCommand());
-        getCommand("Sound").setExecutor(new SoundCommand());
-        getCommand("Sound").setTabCompleter(new SoundCommand());
-        getCommand("EntitySD").setExecutor(new EntityCommand());
-        getCommand("EntitySD").setTabCompleter(new EntityCommand());
-        getCommand("Coop").setExecutor(new CoopCommand());
-        getCommand("Coop").setTabCompleter(new CoopCommand());
-        registerCommand("Recipes", new RecipesMenu.Command());
-        registerCommand("RecipesFor", new RecipesMenu.ForMenu.Command());
-        registerCommand("RecipesWith", new RecipesMenu.WithMenu.Command());
-        getCommand("Variables").setExecutor(new VariableCommand());
-        getCommand("Warp").setExecutor(new WarpCommand());
-        getCommand("EnchantingTable").setExecutor(new EnchantingTableCommand());
-        getCommand("Profile").setExecutor(new ProfileMenu.Command());
-        getCommand("Storage").setExecutor(new StorageMenu.Command());
-        getCommand("EnderChest").setExecutor(new EnderChestMenu.Command());
-        registerCommand("Forge", new Forge.Command());
-        registerCommand("ForgeMilestone", new ForgeMilestoneCommand());
-
-//        Coop.load();
-        EntitySD.loadLocations();
-
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            new PlayerSD(player);
-        }
-
-        getServer().getScheduler().runTaskTimerAsynchronously(this, Variables::save, 6000L, 6000L);
-
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            for (PlayerSD player : players.values()) {
-                // playtime
-                player.addPlayTime(20);
-                player.getScoreboardSD().update();
-
-                player.setFoodLevel(20);
-
-                player.applyStats(true);
-
-                // pet sound
-                if (player.getPlayerPet().activePet >= 0)
-                    for (SoundUtil sound : player.getPetActive().petMaterial.getSounds()) {
-                        for (Player showed : Functions.getPlayerShowedPets()) {
-                            if (showed.getWorld() == player.getPlayerPet().petArmorStand.armorStand.getWorld())
-                                showed.playSound(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.5, 0), sound.sound, (2f - (float) showed.getEyeLocation().distance(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.5, 0))) / 4, sound.pitch);
-                        }
-                    }
-            }
-        }, 0L, 20L);
-
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            for (PlayerSD player : players.values()) {
-                // pets
-                if (player.getPlayerPet().activePet >= 0) {
-                    if (player.getPlayerPet().petArmorStand != null && player.getPlayerPet().petArmorStand.armorStand.getWorld() != player.getWorld()) {
-                        player.getPlayerPet().petArmorStand.armorStand.remove();
-                        player.getPlayerPet().petArmorStand.hologram.delete();
-                        player.getPlayerPet().petArmorStand = null;
-                        return;
-                    }
-                    if (player.getPlayerPet().getPetArmorStand() == null || player.getPlayerPet().getPetArmorStand().slot != player.getPlayerPet().activePet)
-                        player.getPlayerPet().petArmorStand = new Pet.ArmorStand(player, player.getPetActive(), Pet.spawnPet(player, player.getPetActive()), player.getPlayerPet().activePet);
-
-                    if (player.getPlayerPet().getPetArmorStand().armorStand.getLocation().distance(player.getLocation()) > 3)
-                        new FlyTo(player.getPlayerPet().getPetArmorStand().armorStand, player, 20, 1.5, true, player.getPlayerPet().petArmorStand.hologram, new Vector(0, 1.6, 0));
-                    player.getPlayerPet().petArmorStand.armorStand.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.1 : -0.1), 0));
-                    player.getPlayerPet().petArmorStand.hologram.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 1.6, 0));
-                    for (ParticlePacketUtil particle : player.getPetActive().petMaterial.getParticles()) {
-                        particle.spawn(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.8, 0), Functions.getPlayerShowedPets());
-                    }
-                }
-
-                if (player.getPlayerPet().activePet >= 0) {
-                    if (player.getPetActive().levelUp(player)) {
-                        player.getPlayerPet().pets.set(player.getPlayerPet().activePet, player.getPetActive());
-                    }
-                }
-
-                if (player.getPlayerPet().hidePets) {
-                    for (Entity entity : player.getWorld().getEntities()) {
-                        if (entity.getScoreboardTags().contains("Pet")) {
-                            player.hideEntity(entity);
-                        }
-                    }
-
-                    for (Hologram hologram : HologramsAPI.getHolograms(this)) {
-                        if (hologram.getLine(0).toString().contains(ChatColor.GREEN + "" + ChatColor.DARK_GREEN + "" + ChatColor.GREEN + "" + ChatColor.DARK_GREEN)) {
-                            hologram.getVisibilityManager().hideTo(player);
-                        }
-                    }
-                } else {
-                    for (Entity entity : player.getWorld().getEntities()) {
-                        if (entity.getScoreboardTags().contains("Pet")) {
-                            player.showEntity(entity);
-                        }
-                    }
-
-                    for (Hologram hologram : HologramsAPI.getHolograms(this)) {
-                        if (hologram.getLine(0).toString().contains(ChatColor.GREEN + "" + ChatColor.DARK_GREEN + "" + ChatColor.GREEN + "" + ChatColor.DARK_GREEN)) {
-                            hologram.getVisibilityManager().showTo(player);
-                        }
-                    }
-                }
-            }
-        }, 0L, 5L);
-
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            for (Location location : EntitySD.entitiesLocations.keySet()) {
-                if (Bukkit.getOnlinePlayers().stream().map(Entity::getWorld).noneMatch(w -> w == location.getWorld())) continue;
-                if (!EntitySD.entities.values().stream().filter(e -> e.type == EntitySD.entitiesLocations.get(location)).map(e -> e.location).collect(Collectors.toList()).contains(location)) {
-                    new EntitySD(location, EntitySD.entitiesLocations.get(location));
-                }
-            }
-        }, 0L, 200L);
-
-//        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
-//            for (PlayerSD player : players.values()) {
-//                for (LivingEntity entity : player.getWorld().getLivingEntities()) {
-//                    if (entity instanceof Creature) {
-//                        player.getWorld().strikeLightningEffect(entity.getLocation());
-//                        player.makeDamage(entity, Damage.DamageType.MAGIC, 1, 50, 0.05);
-//                    }
-//                }
-//            }
-//        }, 3000L, 6000L);
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                AddonUtils.enableAddons();
-            }
-        }.runTaskLater(plugin, 5);
-
-
-
-        System.out.println("Skyblock Dragons plugin has been loaded!");
+        new PacketListeners(); // not really an event but works like them
     }
 
     @Override

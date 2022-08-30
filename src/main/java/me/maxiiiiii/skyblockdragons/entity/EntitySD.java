@@ -83,6 +83,13 @@ public class EntitySD extends EntityClass {
             this.entity.getVehicle().remove();
 
         this.type.onSpawn(this);
+        Functions.While(() -> !this.entity.isDead(), 1, amount -> {
+            this.type.onTick(this);
+        }, amount -> {
+            if (!this.hologram.getStand().isDead()){
+                this.hologram.remove();
+            }
+        });
 
         this.location = location;
 
