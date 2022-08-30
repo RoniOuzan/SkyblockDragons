@@ -199,7 +199,7 @@ public class Items {
         items.put("ETERNITY_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.ETERNITY, "Enternity Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 40, 30, 0, 0, 0, 260, 140, 0, 10), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
         items.put("ETERNITY_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.ETERNITY, "Enternity Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 40, 30, 0, 0, 0, 260, 140, 0, 10), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
         items.put("INFINTY_SHARD", new SkinMaterial(Material.SKULL_ITEM, ItemFamily.ETERNITY, "INFINTY_SHARD", Rarity.EPIC, "7901865a-c657-41c6-bc97-31916f921d9e", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2IzMzI4ZDNlOWQ3MTA0MjAzMjI1NTViMTcyMzkzMDdmMTIyNzBhZGY4MWJmNjNhZmM1MGZhYTA0YjVjMDZlMSJ9fX0="));
-        3
+
     // Deeper Mines
         // Cobalt
         items.put("COBALT_HELMET", new ArmorMaterial(Material.DIAMOND_HELMET, ItemFamily.COBALT, "Cobalt Helmet", ItemType.HELMET, Rarity.COMMON, new Stats(35, 25, 0, 20, 75, 20, 0), "", ItemFullSet.COBALT));
