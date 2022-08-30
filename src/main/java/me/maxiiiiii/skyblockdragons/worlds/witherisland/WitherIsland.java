@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.worlds.WitherIsland;
+package me.maxiiiiii.skyblockdragons.worlds.witherisland;
 
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -7,7 +7,6 @@ import me.maxiiiiii.skyblockdragons.world.WorldType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.Wither;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
@@ -28,6 +27,7 @@ public class WitherIsland extends WorldSD implements Listener {
     public WitherIsland(JavaPlugin plugin) {
         super(world, "Wither Island", new Location(world, -109.500,65.00000, 139.500), WorldType.COMBAT, WorldType.MINING);
     }
+
     @EventHandler
     public void onSpawn(EntitySpawnEvent e) {
         if (e.getLocation().getWorld() != world) return;

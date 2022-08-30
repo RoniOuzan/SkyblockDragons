@@ -1,55 +1,34 @@
 package me.maxiiiiii.skyblockdragons.player;
 
+import dev.jcsoftware.jscoreboards.JPerPlayerMethodBasedScoreboard;
+import dev.jcsoftware.jscoreboards.JScoreboardOptions;
+import dev.jcsoftware.jscoreboards.JScoreboardTabHealthStyle;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.worlds.end.DragonType;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.getNumberFormat;
 
 public class ScoreboardSD {
+    private final JPerPlayerMethodBasedScoreboard scoreboard;
     private final PlayerSD player;
-
-    private final Scoreboard scoreboard;
-    private final Objective objective;
-    private final List<Score> scores;
 
     public ScoreboardSD(PlayerSD player) {
         this.player = player;
 
-        this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-
-        this.objective = this.scoreboard.registerNewObjective(this.player.getName(), "dummy");
-        this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        this.objective.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "Skyblock Dragons");
-
-        this.scores = new ArrayList<>();
+        this.scoreboard = new JPerPlayerMethodBasedScoreboard(new JScoreboardOptions(JScoreboardTabHealthStyle.NUMBER, true));
+        this.scoreboard.addPlayer(player.getPlayer());
+        this.scoreboard.setTitle(player, ChatColor.YELLOW + "" + ChatColor.BOLD + "Skyblock Dragons");
 
         this.update();
-    }
-
-    public void setScore(int num, String text) {
-        for (Score score : scores) {
-            if (score.getScore() == num) {
-                this.scoreboard.resetScores(score.getEntry());
-            }
-        }
-        this.scores.removeIf(s -> s.getScore() == num);
-        this.objective.getScore(text).setScore(num);
-        this.scores.add(objective.getScore(text));
     }
 
     public void update() {
@@ -95,13 +74,7 @@ public class ScoreboardSD {
         }
         scores.add(ChatColor.YELLOW + "sbdragons.revivesmc.net");
 
-        Collections.reverse(scores);
-
-        player.sendMessage(scores.toString());
-        for (int i = 0; i < scores.size(); i++) {
-            setScore(i, scores.get(i));
-        }
-
-        this.player.setScoreboard(this.scoreboard);
+        this.scoreboard.setLines(player, scores);
+        this.scoreboard.updateScoreboard();
     }
 }
