@@ -1,19 +1,15 @@
 package me.maxiiiiii.skyblockdragons.entity.types.witherisland;
 
 import de.tr7zw.changeme.nbtapi.NBTEntity;
-import me.libraryaddict.disguise.DisguiseAPI;
-import me.libraryaddict.disguise.disguisetypes.DisguiseType;
-import me.libraryaddict.disguise.disguisetypes.MobDisguise;
-import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import me.maxiiiiii.skyblockdragons.util.objects.FlyToLocation;
+import me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -22,12 +18,15 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wither;
 
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public abstract class EntityWither extends EntityMaterial {
 
     public int phase = 0;
     public int i = 0;
+    public UUID uuid = null;
+    public EntitySD entitySD;
 
     public EntityWither(String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance) {
         super(EntityType.WITHER, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, true, 0, 0);
@@ -49,6 +48,12 @@ public abstract class EntityWither extends EntityMaterial {
     @Override
     public void onSpawn(EntitySD entity) {
         if (entity.entity instanceof Wither){
+            WitherIsland.wither = this;
+            WitherIsland.witherDamage.clear();
+            uuid = entity.entity.getUniqueId();
+            entitySD = entity;
+            entity.entity.setMaximumNoDamageTicks(0);
+            entity.entity.setNoDamageTicks(0);
             Wither witherBoss = (Wither) entity.entity;
             blueExplodeAbility(entity, 200);
         }
@@ -88,7 +93,13 @@ public abstract class EntityWither extends EntityMaterial {
     }
 
     @Override
-    public void onDamage(EntitySD attacker, EntitySD entity) {
-
+    public void onDamage(EntitySD attacker, EntitySD entity, Double damage) {
+        if (attacker instanceof PlayerSD){
+            PlayerSD playerSD = (PlayerSD) attacker;
+            double oldDamage = WitherIsland.witherDamage.getOrDefault(attacker.getUniqueId(), 0d);
+            double newDamage = oldDamage + damage;
+            WitherIsland.witherDamage.put(attacker.getUniqueId(), newDamage);
+            playerSD.sendMessage(String.format("Damage to Wither: %s", Functions.getNumberFormat(newDamage)));
+        }
     }
 }

@@ -27,7 +27,7 @@ public class Items {
         // Swords
         items.put("ADMIN_SWORD", new SwordMaterial(Material.DIAMOND_SWORD, ItemFamily.ADMIN, "Admin Sword", Rarity.SPECIAL, new Stats(10000000, 10000000, 10000000, 10000000, 10000000,0 ,0, 10000000, 0, 10000000), ""));
         items.put("ADMIN_NOOB_SWORD", new SwordMaterial(Material.WOOD_SWORD, ItemFamily.ADMIN, "Admin N00B Sword", Rarity.SPECIAL, new Stats(1000, 1000, 1000, 1000, 1000,0 ,0, 1000, 0, 1000), ""));
-        items.put("ADMIN_MAD_SWORD", new SwordMaterial(Material.WOOD_SWORD, ItemFamily.ADMIN, "Admin MAD Sword", Rarity.SPECIAL, new Stats(10000, 10000, 10000, 10000, 10000,0 ,0, 10000, 0, 10000), ""));
+        items.put("ADMIN_MAD_SWORD", new SwordMaterial(Material.STONE_SWORD, ItemFamily.ADMIN, "Admin MAD Sword", Rarity.SPECIAL, new Stats(10000, 10000, 10000, 10000, 10000,0 ,0, 10000, 0, 10000), ""));
         items.put("ADMIN_PRO_SWORD", new SwordMaterial(Material.IRON_SWORD, ItemFamily.ADMIN, "Admin PRO Sword", Rarity.SPECIAL, new Stats(100000, 100000, 100000, 100000, 100000,0 ,0, 100000, 0, 100000), ""));
 
         items.put("WOOD_SWORD", new SwordMaterial(Material.WOOD_SWORD, ItemFamily.WOOD, "Wood Sword", Rarity.COMMON, new Stats(5, 0, 0, 0, 0,0 ,0, 0, 0, 0), ""));

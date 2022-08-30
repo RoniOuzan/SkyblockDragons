@@ -282,7 +282,7 @@ public class Damage implements Listener {
         EntityKnockbackEvent knockbackEvent = new EntityKnockbackEvent(e.getVictim(), e.getAttacker());
         Bukkit.getServer().getPluginManager().callEvent(knockbackEvent);
 
-        victim.type.onDamage(attacker, victim);
+        victim.type.onDamage(attacker, victim, damage);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

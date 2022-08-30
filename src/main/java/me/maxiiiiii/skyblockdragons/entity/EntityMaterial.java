@@ -71,7 +71,7 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         this(entityType, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, true, combatXp, coins, drops);
     }
 
-    public EntityMaterial(EntityType wither, String name, int level, int health, int defense, int damage, int trueDamage, int i, double speed, int knockbackResistance, int combatXp, Drop infinty_shard) {
+    public EntityMaterial(EntityType wither, String name, int level, int health, int defense, int damage, int trueDamage, int i, double speed, int knockbackResistance, int combatXp, Drop drop) {
     }
 
     public abstract void onSpawn(EntitySD entity);
@@ -80,7 +80,7 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
 
     }
 
-    public void onDamage(EntitySD attacker, EntitySD entity) {
+    public void onDamage(EntitySD attacker, EntitySD entity, Double damage) {
 
     }
 
