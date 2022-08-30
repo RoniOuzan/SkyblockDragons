@@ -42,11 +42,12 @@ public abstract class CommandSD implements CommandExecutor, TabCompleter {
         }
     }
 
-    public abstract List<Argument> tabComplete(List<Argument> tabs);
+    public abstract List<Argument> tabComplete(PlayerSD player, List<Argument> tabs);
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        List<Argument> arguments = this.tabComplete(new ArrayList<>());
+        if (!(sender instanceof Player)) return null;
+        List<Argument> arguments = this.tabComplete(SkyblockDragons.getPlayer((Player) sender), new ArrayList<>());
         if (arguments == null)
             return null;
         List<List<String>> tabs = arguments.stream()
