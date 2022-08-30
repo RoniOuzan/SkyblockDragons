@@ -75,5 +75,6 @@ public enum ItemFamily {
     MYTHOLOGS_SPADE,
     ERROR_SCYTHE,
     ADMIN,
+    ETERNITY,
     NULL
 }

@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.types.deepermines.Ghost;
 import me.maxiiiiii.skyblockdragons.entity.types.deepermines.IceMiner;
 import me.maxiiiiii.skyblockdragons.entity.types.deepmines.*;
+import me.maxiiiiii.skyblockdragons.entity.types.eternity.EternityBoss;
 import me.maxiiiiii.skyblockdragons.entity.types.other.Dummy;
 import me.maxiiiiii.skyblockdragons.entity.types.other.NullEntity;
 import me.maxiiiiii.skyblockdragons.entity.types.other.PlayerEntity;
@@ -70,6 +71,9 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         this(entityType, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, true, combatXp, coins, drops);
     }
 
+    public EntityMaterial(EntityType wither, String name, int level, int health, int defense, int damage, int trueDamage, int i, double speed, int knockbackResistance, int combatXp, Drop infinty_shard) {
+    }
+
     public abstract void onSpawn(EntitySD entity);
 
     public void onTick(EntitySD entity){
@@ -111,6 +115,8 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         entities.put("DUMMY", new Dummy());
 
         entities.put("PLAYER", new PlayerEntity());
+
+        entities.put("ETERNITYBOSS", new EternityBoss());
 
         NULL = new NullEntity();
     }
