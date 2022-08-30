@@ -28,7 +28,7 @@ public class Items {
         items.put("ADMIN_SWORD", new SwordMaterial(Material.DIAMOND_SWORD, ItemFamily.ADMIN, "Admin Sword", Rarity.SPECIAL, new Stats(10000000, 10000000, 10000000, 10000000, 10000000,0 ,0, 10000000, 0, 10000000), ""));
         items.put("ADMIN_NOOB_SWORD", new SwordMaterial(Material.WOOD_SWORD, ItemFamily.ADMIN, "Admin N00B Sword", Rarity.SPECIAL, new Stats(1000, 1000, 1000, 1000, 1000,0 ,0, 1000, 0, 1000), ""));
         items.put("ADMIN_MAD_SWORD", new SwordMaterial(Material.WOOD_SWORD, ItemFamily.ADMIN, "Admin MAD Sword", Rarity.SPECIAL, new Stats(10000, 10000, 10000, 10000, 10000,0 ,0, 10000, 0, 10000), ""));
-        items.put("ADMIN_PRO_SWORD", new SwordMaterial(Material.IRON_SWORD, ItemFamily.ADMIN, "Admin PRO Sword", Rarity.SPECIAL, new Stats(100000, 100000, 100000, 100000, 100000,0 ,0, 100000, 0, 1000), ""));
+        items.put("ADMIN_PRO_SWORD", new SwordMaterial(Material.IRON_SWORD, ItemFamily.ADMIN, "Admin PRO Sword", Rarity.SPECIAL, new Stats(100000, 100000, 100000, 100000, 100000,0 ,0, 100000, 0, 100000), ""));
 
         items.put("WOOD_SWORD", new SwordMaterial(Material.WOOD_SWORD, ItemFamily.WOOD, "Wood Sword", Rarity.COMMON, new Stats(5, 0, 0, 0, 0,0 ,0, 0, 0, 0), ""));
         items.put("STONE_SWORD", new SwordMaterial(Material.STONE_SWORD, ItemFamily.STONE, "Stone Sword", Rarity.COMMON, new Stats(5, 5, 0, 0, 0,0 ,0, 0, 0, 0), ""));
@@ -64,7 +64,6 @@ public class Items {
 
         items.put("ERROR_SCYTHE", new SwordMaterial(Material.DIAMOND_HOE, ItemFamily.ERROR_SCYTHE,"ERROR Scythe", Rarity.SPECIAL, new Stats(3500, 0, 0, 0, 0, 0, 0, 0, 0, 0), "", new ItemAbility(AbilityAction.RIGHT_CLICK, "Arrow", ChatColor.GRAY + "Shoots " + ChatColor.GREEN + "arrows" ), new ItemAbility(AbilityAction.RIGHT_SHIFT_CLICK, "Wither Skull", ChatColor.GRAY + "Shoots " + ChatColor.GOLD + "Wither Skull"), new SkillRequirement(SkillType.COMBAT, 0)));
 
-        items.put("ADMIN_SWORD", new SwordMaterial(Material.DIAMOND_SWORD, ItemFamily.ADMIN, "Admin Sword", Rarity.SPECIAL, new Stats(10000000, 10000000, 10000000, 10000000, 10000000,0 ,0, 10000000, 0, 10000000), ""));
         // Bows
         items.put("BOW", new BowMaterial(Material.BOW, ItemFamily.WOOD, "Bow", Rarity.COMMON, new Stats(5, 5, 0, 0, 0, 0, 0, 0, 0, 0), ""));
 
@@ -204,7 +203,7 @@ public class Items {
         items.put("ETERNITY_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.ETERNITY, "Enternity Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 40, 30, 0, 0, 0, 260, 140, 0, 10), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
         items.put("ETERNITY_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.ETERNITY, "Enternity Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 40, 30, 0, 0, 0, 260, 140, 0, 10), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
         items.put("INFINTY_SHARD", new SkinMaterial(Material.SKULL_ITEM, ItemFamily.ETERNITY, "INFINTY_SHARD", Rarity.EPIC, "7901865a-c657-41c6-bc97-31916f921d9e", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2IzMzI4ZDNlOWQ3MTA0MjAzMjI1NTViMTcyMzkzMDdmMTIyNzBhZGY4MWJmNjNhZmM1MGZhYTA0YjVjMDZlMSJ9fX0="));
-        3
+
     // Deeper Mines
         // Cobalt
         items.put("COBALT_HELMET", new ArmorMaterial(Material.DIAMOND_HELMET, ItemFamily.COBALT, "Cobalt Helmet", ItemType.HELMET, Rarity.COMMON, new Stats(35, 25, 0, 20, 75, 20, 0), "", ItemFullSet.COBALT));
