@@ -84,6 +84,10 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
 
     }
 
+    public void onDeath(EntitySD attacker, EntitySD entity) {
+
+    }
+
     public static void registerEntities() {
         entities.put("GOLDEN_SKELETON", new GoldenSkeleton());
         entities.put("LAPIS_ZOMBIE", new LapisZombie());

@@ -308,15 +308,23 @@ public abstract class Laser {
          * @see #executeEnd(Runnable) to add Runnable-s to execute when the laser will stop
          * @see #GuardianLaser(Location, LivingEntity, int, int) to create a laser which follows an entity
          */
-        public GuardianLaser(Location start, Location end, int duration, int distance) throws ReflectiveOperationException {
+        public GuardianLaser(Location start, Location end, int duration, int distance) {
             super(start, end, duration, distance);
 
-            initSquid();
+            try {
+                initSquid();
+            } catch (ReflectiveOperationException e) {
+                e.printStackTrace();
+            }
 
             targetID = squidID;
             targetUUID = squidUUID;
 
-            initLaser();
+            try {
+                initLaser();
+            } catch (ReflectiveOperationException e) {
+                e.printStackTrace();
+            }
         }
 
         /**
