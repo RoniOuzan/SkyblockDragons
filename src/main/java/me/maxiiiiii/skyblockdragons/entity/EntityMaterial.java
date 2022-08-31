@@ -5,7 +5,10 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.types.deepermines.Ghost;
 import me.maxiiiiii.skyblockdragons.entity.types.deepermines.IceMiner;
 import me.maxiiiiii.skyblockdragons.entity.types.deepmines.*;
+import me.maxiiiiii.skyblockdragons.entity.types.eternity.ERROR_Infinity;
 import me.maxiiiiii.skyblockdragons.entity.types.eternity.EternityBoss;
+import me.maxiiiiii.skyblockdragons.entity.types.eternity.Infinity;
+import me.maxiiiiii.skyblockdragons.entity.types.eternity.Super_Infinity;
 import me.maxiiiiii.skyblockdragons.entity.types.other.Dummy;
 import me.maxiiiiii.skyblockdragons.entity.types.other.NullEntity;
 import me.maxiiiiii.skyblockdragons.entity.types.other.PlayerEntity;
@@ -117,6 +120,9 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         entities.put("PLAYER", new PlayerEntity());
 
         entities.put("ETERNITYBOSS", new EternityBoss());
+        entities.put("INFINITY", new Infinity());
+        entities.put("SUPER_INFINITY", new Super_Infinity());
+        entities.put("ERROR_INFINITY", new ERROR_Infinity());
 
         NULL = new NullEntity();
     }
