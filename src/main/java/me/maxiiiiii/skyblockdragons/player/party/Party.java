@@ -16,7 +16,8 @@ import java.util.stream.StreamSupport;
 
 @Getter
 public class Party implements Iterable<PlayerSD> {
-    private static final String LINE = ChatColor.BLUE + "-----------------------------------------------";
+    public static final List<Party> parties = new ArrayList<>();
+    public static final String LINE = ChatColor.BLUE + "--------------------------------------------------------";
 
     private boolean isAlive;
 
@@ -30,6 +31,7 @@ public class Party implements Iterable<PlayerSD> {
     private final List<UUID> bannedPlayers;
 
     public Party(PlayerSD leader) {
+        parties.add(this);
         this.isAlive = true;
 
         this.players = new LinkedHashMap<>();
@@ -76,17 +78,17 @@ public class Party implements Iterable<PlayerSD> {
         this.invites.put(player, System.currentTimeMillis());
 
         this.sendLine();
-        this.sendCenteredMessage(ChatColor.YELLOW + inverter.getDisplayName() + " invited " + player.getDisplayName() + " to the party");
+        this.sendCenteredMessage(ChatColor.YELLOW + inverter.getDisplayName() + ChatColor.YELLOW + " invited " + player.getDisplayName() + ChatColor.YELLOW + " to the party");
         this.sendLine();
 
         player.sendMessage(LINE);
-        new TextMessage().append(ChatColor.YELLOW + inverter.getDisplayName() + " invited you to " + this.leader.getDisplayName() + "'s party").save().append(ChatColor.YELLOW + "" + ChatColor.BOLD + "CLICK HERE TO JOIN!").setClickAsExecuteCmd("/party accept " + leader.getName()).save().send(player);
+        new TextMessage().append(ChatColor.YELLOW + inverter.getDisplayName() + ChatColor.YELLOW + " invited you to " + this.leader.getDisplayName() + ChatColor.YELLOW + "'s party ").save().append(ChatColor.YELLOW + "" + ChatColor.BOLD + "CLICK HERE TO JOIN!").setClickAsExecuteCmd("/party accept " + leader.getName()).save().send(player);
         player.sendMessage(LINE);
 
         Functions.Wait(1200L, () -> {
             if (this.invites.containsKey(player)) {
                 player.sendMessage(LINE);
-                player.sendCenteredMessage(ChatColor.RED + "Your party invite from " + inverter.getDisplayName() + " expired!");
+                player.sendCenteredMessage(ChatColor.RED + "Your party invite from " + inverter.getDisplayName() + ChatColor.YELLOW + " expired!");
                 player.sendMessage(LINE);
             }
         });
@@ -110,12 +112,27 @@ public class Party implements Iterable<PlayerSD> {
             player.sendMessage(LINE);
             return;
         }
+        if (this.bannedPlayers.contains(player.getUniqueId())) {
+            player.sendMessage(LINE);
+            player.sendCenteredMessage(ChatColor.RED + "You have been banned from this party!");
+            player.sendMessage(LINE);
+            return;
+        }
+        this.add(player);
+    }
+
+    public void forceJoin(PlayerSD player) {
         this.add(player);
     }
 
     public void joinSilent(PlayerSD player) {
-        if (!player.hasPermission("skyblockdragons.party.silentjoin")) return;
+//        if (!player.hasPermission("skyblockdragons.party.silentjoin")) return;
         this.players.put(player, PlayerPartyType.SILENT);
+        player.setParty(this);
+
+        player.sendMessage(LINE);
+        player.sendMessage(ChatColor.YELLOW + "You have joined the party in silent");
+        player.sendMessage(LINE);
     }
 
     private void add(PlayerSD player) {
@@ -124,10 +141,11 @@ public class Party implements Iterable<PlayerSD> {
         }
 
         this.sendLine();
-        this.sendCenteredMessage(ChatColor.YELLOW + player.getName() + " joined the party");
+        this.sendCenteredMessage(ChatColor.YELLOW + player.getName() + ChatColor.YELLOW + " joined the party");
         this.sendLine();
 
         this.players.put(player, PlayerPartyType.MEMBER);
+        player.setParty(this);
         player.sendMessage(LINE);
         player.sendCenteredMessage(ChatColor.YELLOW + "You have joined the party");
         player.sendMessage(LINE);
@@ -141,8 +159,10 @@ public class Party implements Iterable<PlayerSD> {
             return;
         }
         this.sendLine();
-        this.sendCenteredMessage(ChatColor.YELLOW + this.leader.getDisplayName() + " transferred the leader to " + player.getDisplayName());
+        this.sendCenteredMessage(ChatColor.YELLOW + this.leader.getDisplayName() + ChatColor.YELLOW + " transferred the leader to " + player.getDisplayName());
         this.sendLine();
+        this.players.put(this.leader, PlayerPartyType.MODERATOR);
+        this.players.put(player, PlayerPartyType.LEADER);
         this.leader = player;
     }
 
@@ -151,7 +171,7 @@ public class Party implements Iterable<PlayerSD> {
             this.players.put(player, PlayerPartyType.MODERATOR);
 
             this.sendLine();
-            this.sendCenteredMessage(ChatColor.YELLOW + player.getDisplayName() + " has been promoted to Moderator");
+            this.sendCenteredMessage(ChatColor.YELLOW + player.getDisplayName() + ChatColor.YELLOW + " has been promoted to Moderator");
             this.sendLine();
         } else if (this.players.get(player) == PlayerPartyType.MODERATOR) {
             this.transferLeader(player);
@@ -166,43 +186,50 @@ public class Party implements Iterable<PlayerSD> {
 
     public void sendList(PlayerSD player) {
         player.sendMessage(LINE);
-        player.sendMessage(ChatColor.YELLOW + "Members your party are:");
 
-        player.sendMessage(ChatColor.YELLOW + "Leader:");
-        player.sendMessage("  " + ChatColor.YELLOW + this.leader.getDisplayName());
+        player.sendMessage(ChatColor.YELLOW + "  Leader:");
+        player.sendMessage("    " + ChatColor.YELLOW + this.leader.getDisplayName());
         player.sendMessage();
 
-        player.sendMessage(ChatColor.YELLOW + "Moderators:");
-        StringBuilder moderators = new StringBuilder();
-        int i = 0;
-        for (PlayerSD moderator : this.players.keySet().stream().filter(p -> this.players.get(p) == PlayerPartyType.MODERATOR).collect(Collectors.toList())) {
-            if (i != 0)
-                moderators.append(", ");
-            moderators.append(moderator.getDisplayName());
-            i++;
-        }
-        player.sendMessage("  " + ChatColor.YELLOW + moderators);
+        player.sendMessage(ChatColor.YELLOW + "  Moderators:");
+//        StringBuilder moderators = new StringBuilder();
+//        int i = 0;
+//        for (PlayerSD moderator : this.players.keySet().stream().filter(p -> this.players.get(p) == PlayerPartyType.MODERATOR).collect(Collectors.toList())) {
+//            if (i != 0)
+//                moderators.append(", ");
+//            moderators.append(moderator.getDisplayName());
+//            i++;
+//        }
+//        player.sendMessage("    " + ChatColor.YELLOW + moderators);
+        player.sendMessage("    " + ChatColor.YELLOW + this.players.keySet().stream().filter(p -> this.players.get(p) == PlayerPartyType.MODERATOR).collect(Collectors.toList()));
         player.sendMessage();
 
-        player.sendMessage(ChatColor.YELLOW + "Members:");
-        StringBuilder members = new StringBuilder();
-        i = 0;
-        for (PlayerSD moderator : this.players.keySet().stream().filter(p -> this.players.get(p) == PlayerPartyType.MEMBER).collect(Collectors.toList())) {
-            if (i != 0)
-                members.append(", ");
-            members.append(moderator.getDisplayName());
-            i++;
-        }
-        player.sendMessage("  " + ChatColor.YELLOW + members);
+        player.sendMessage(ChatColor.YELLOW + "  Members:");
+//        StringBuilder members = new StringBuilder();
+//        i = 0;
+//        for (PlayerSD moderator : this.players.keySet().stream().filter(p -> this.players.get(p) == PlayerPartyType.MEMBER).collect(Collectors.toList())) {
+//            if (i != 0)
+//                members.append(", ");
+//            members.append(moderator.getDisplayName());
+//            i++;
+//        }
+//        player.sendMessage("    " + ChatColor.YELLOW + members);
+        player.sendMessage("    " + ChatColor.YELLOW + this.players.keySet().stream().filter(p -> this.players.get(p) == PlayerPartyType.MEMBER).collect(Collectors.toList()));
         player.sendMessage(LINE);
     }
 
     public void delete() {
         this.isAlive = false;
 
+        this.sendLine();
+        this.sendCenteredMessage(ChatColor.RED + this.leader.getDisplayName() + ChatColor.YELLOW + " deleted the party!");
+        this.sendLine();
+
         for (PlayerSD player : this) {
             this.remove(player);
         }
+
+        parties.remove(this);
 
         this.players.clear();
         this.leader = null;
@@ -215,6 +242,9 @@ public class Party implements Iterable<PlayerSD> {
     public void leave(PlayerSD player) {
         if (!this.players.containsKey(player)) return;
         this.remove(player);
+
+        if (this.players.get(player) == PlayerPartyType.SILENT) return;
+
         player.sendMessage(LINE);
         player.sendCenteredMessage(ChatColor.RED + "You have left from the party!");
         player.sendMessage(LINE);
@@ -224,7 +254,7 @@ public class Party implements Iterable<PlayerSD> {
         }
 
         this.sendLine();
-        this.sendCenteredMessage(ChatColor.YELLOW + player.getDisplayName() + " has left from the party!");
+        this.sendCenteredMessage(ChatColor.YELLOW + player.getDisplayName() + ChatColor.YELLOW + " has left from the party!");
         this.sendLine();
 
         if (this.leader == player) {
@@ -235,7 +265,7 @@ public class Party implements Iterable<PlayerSD> {
                 this.leader = this.players.keySet().iterator().next();
             }
             this.sendLine();
-            this.sendCenteredMessage(ChatColor.YELLOW + this.leader.getDisplayName() + " has promoted to the leader");
+            this.sendCenteredMessage(ChatColor.YELLOW + this.leader.getDisplayName() + ChatColor.YELLOW + " has promoted to the leader");
             this.sendLine();
         }
     }
@@ -243,7 +273,7 @@ public class Party implements Iterable<PlayerSD> {
     public void kick(OfflinePlayer player) {
         PlayerSD toRemove = null;
         for (PlayerSD playerSD : this) {
-            if (playerSD.getUniqueId().equals(playerSD.getUniqueId())) {
+            if (playerSD.getUniqueId().equals(player.getUniqueId())) {
                 toRemove = playerSD;
                 break;
             }
@@ -254,9 +284,9 @@ public class Party implements Iterable<PlayerSD> {
 
         this.sendLine();
         if (player instanceof Player)
-            this.sendCenteredMessage(ChatColor.YELLOW + ((Player) player).getDisplayName() + " has been kicked from the party!");
+            this.sendCenteredMessage(ChatColor.YELLOW + ((Player) player).getDisplayName() + ChatColor.YELLOW + " has been kicked from the party!");
         else
-            this.sendCenteredMessage(ChatColor.YELLOW + player.getName() + " has been kicked from the party!");
+            this.sendCenteredMessage(ChatColor.YELLOW + player.getName() + ChatColor.YELLOW + " has been kicked from the party!");
         this.sendLine();
     }
 
@@ -283,11 +313,40 @@ public class Party implements Iterable<PlayerSD> {
         for (PlayerSD playerSD : players.keySet().stream().filter(p -> this.players.get(p) != PlayerPartyType.MEMBER).collect(Collectors.toList())) {
             playerSD.sendMessage(LINE);
             if (player instanceof Player)
-                playerSD.sendCenteredMessage(ChatColor.YELLOW + this.leader.getDisplayName() + " banned " + ((Player) player).getDisplayName() + " from the party");
+                playerSD.sendCenteredMessage(ChatColor.YELLOW + this.leader.getDisplayName() + ChatColor.YELLOW + " banned " + ((Player) player).getDisplayName() + ChatColor.YELLOW + " from the party");
             else
-                playerSD.sendCenteredMessage(ChatColor.YELLOW + this.leader.getDisplayName() + " banned " + player.getName() + " from the party");
+                playerSD.sendCenteredMessage(ChatColor.YELLOW + this.leader.getDisplayName() + ChatColor.YELLOW + " banned " + player.getName() + ChatColor.YELLOW + " from the party");
             playerSD.sendMessage(LINE);
         }
+    }
+
+    public void unban(OfflinePlayer player) {
+        if (!this.bannedPlayers.contains(player.getUniqueId())) {
+            this.leader.sendMessage(LINE);
+            this.leader.sendCenteredMessage(ChatColor.RED + "This player is not banned from this party!");
+            this.leader.sendMessage(LINE);
+            return;
+        }
+
+        this.bannedPlayers.remove(player.getUniqueId());
+
+        for (PlayerSD playerSD : players.keySet().stream().filter(p -> this.players.get(p) != PlayerPartyType.MEMBER).collect(Collectors.toList())) {
+            playerSD.sendMessage(LINE);
+            if (player instanceof Player)
+                playerSD.sendCenteredMessage(ChatColor.YELLOW + this.leader.getDisplayName() + ChatColor.YELLOW + " unbanned " + ((Player) player).getDisplayName() + ChatColor.YELLOW + " from the party");
+            else
+                playerSD.sendCenteredMessage(ChatColor.YELLOW + this.leader.getDisplayName() + ChatColor.YELLOW + " unbanned " + player.getName() + ChatColor.YELLOW + " from the party");
+            playerSD.sendMessage(LINE);
+        }
+    }
+
+    public static void sendParties(PlayerSD player) {
+        player.sendMessage(LINE);
+        player.sendMessage(ChatColor.YELLOW + "Parties:");
+        for (Party party : parties) {
+            player.sendMessage("  " + ChatColor.YELLOW + party.getLeader().getDisplayName() + " - " + party.getPlayers().size());
+        }
+        player.sendMessage(LINE);
     }
 
     public PlayerSD getLeader() {
@@ -330,5 +389,10 @@ public class Party implements Iterable<PlayerSD> {
 
     public Stream<PlayerSD> stream() {
         return StreamSupport.stream(spliterator(), false);
+    }
+
+    @Override
+    public String toString() {
+        return this.leader.getName();
     }
 }

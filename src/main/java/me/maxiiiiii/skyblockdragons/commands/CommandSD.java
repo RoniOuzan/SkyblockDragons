@@ -31,6 +31,7 @@ public abstract class CommandSD implements CommandExecutor, TabCompleter {
             this.index = index;
             this.text = string;
             this.tabs = tabs;
+            this.tabs.remove("");
         }
 
         public Argument(int index, String string, Set<String> tabs) {
@@ -39,6 +40,10 @@ public abstract class CommandSD implements CommandExecutor, TabCompleter {
 
         public Argument(int index, String string, String... tabs) {
             this(index, string, Arrays.asList(tabs));
+        }
+
+        public Argument(int index, String string, boolean sortTabs, String... tabs) {
+            this(index, string, sortTabs ? Arrays.stream(tabs).sorted().collect(Collectors.toList()) : Arrays.asList(tabs));
         }
     }
 

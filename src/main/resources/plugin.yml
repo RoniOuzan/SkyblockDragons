@@ -158,3 +158,8 @@ commands:
   ForgeMilestone:
     permission: skyblockdragons.forge.milestone
     usage: /<command> <text> [<amount>]
+  Party:
+    permission: skyblockdragons.party.command
+    usage: /<command> <text> [<player>]
+    aliases:
+      - p

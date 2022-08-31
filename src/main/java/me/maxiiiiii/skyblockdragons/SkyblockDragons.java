@@ -32,6 +32,7 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
 import me.maxiiiiii.skyblockdragons.player.bank.BankCommand;
 import me.maxiiiiii.skyblockdragons.player.coop.CoopCommand;
+import me.maxiiiiii.skyblockdragons.player.party.PartyCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillAdminCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillListener;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillMenu;
@@ -227,6 +228,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("EnderChest").setExecutor(new EnderChestMenu.Command());
         registerCommand("Forge", new Forge.Command());
         registerCommand("ForgeMilestone", new ForgeMilestoneCommand());
+        registerCommand("Party", new PartyCommand());
 
 //        Coop.load();
         EntitySD.loadLocations();
@@ -260,6 +262,12 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (PlayerSD player : players.values()) {
+                if (player.isDead()) {
+                    player.sendMessage("YOU DEAD VANILLA ERROR?");
+                    player.setHealth(0);
+                    player.spigot().respawn();
+                }
+
                 // pets
                 if (player.getPlayerPet().activePet >= 0) {
                     if (player.getPlayerPet().petArmorStand != null && player.getPlayerPet().petArmorStand.armorStand.getWorld() != player.getWorld()) {

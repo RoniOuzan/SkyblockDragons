@@ -493,7 +493,10 @@ public class PlayerSD extends PlayerClass {
 
             if (!isNotAir(itemStack)) continue;
 
-            ItemMaterial itemMaterial = getItemMaterial(itemStack);
+            ItemMaterial itemMaterial = Items.get(itemStack);
+            if (itemMaterial == Items.get("NULL")) {
+                return;
+            }
 
             Item item = new Item(this, itemMaterial, itemStack);
             copyNBTStack(item, itemStack);
