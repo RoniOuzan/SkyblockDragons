@@ -61,7 +61,7 @@ public class PetCommand extends CommandSD {
     }
 
     @Override
-    public List<Argument> tabComplete(List<Argument> tabs) {
+    public List<Argument> tabComplete(PlayerSD player, List<Argument> tabs) {
         tabs.add(new Argument(0, "", Items.pets.values().stream().map(ItemMaterial::name).collect(Collectors.toList())));
         return tabs;
     }

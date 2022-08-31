@@ -864,6 +864,11 @@ public class PlayerClass extends EntitySD implements Player {
     }
 
     public void sendMessage(Object... messages) {
+        if (messages.length == 0) {
+            this.player.sendMessage("");
+            return;
+        }
+
         StringBuilder message = new StringBuilder(",");
         for (Object value : messages) {
             message.append(", ").append(value);
@@ -875,6 +880,10 @@ public class PlayerClass extends EntitySD implements Player {
     @Override
     public void sendMessage(String[] messages) {
         this.player.sendMessage(messages);
+    }
+
+    public void sendCenteredMessage(String message) {
+        this.sendMessage(message);
     }
 
     @Override

@@ -24,7 +24,7 @@ public class ForgeMilestoneCommand extends CommandSD {
     }
 
     @Override
-    public List<Argument> tabComplete(List<Argument> tabs) {
+    public List<Argument> tabComplete(PlayerSD player, List<Argument> tabs) {
         return tabs;
     }
 }
