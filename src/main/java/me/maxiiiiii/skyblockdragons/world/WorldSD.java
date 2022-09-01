@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.world;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.mining.Mining;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.worlds.deepermines.DeeperMines;
 import me.maxiiiiii.skyblockdragons.worlds.deepmines.DeepMines;
@@ -85,5 +86,9 @@ public abstract class WorldSD implements Listener {
 
     public static WorldSD get(World world) {
         return get(world.getName());
+    }
+
+    public List<PlayerSD> getPlayers() {
+        return this.world.getPlayers().stream().map(SkyblockDragons::getPlayer).collect(Collectors.toList());
     }
 }

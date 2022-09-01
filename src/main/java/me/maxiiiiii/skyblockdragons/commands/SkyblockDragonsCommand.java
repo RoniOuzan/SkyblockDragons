@@ -5,10 +5,8 @@ import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.WorldEditAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -98,7 +96,7 @@ public class SkyblockDragonsCommand extends CommandSD {
                     } catch (NullPointerException ignored) {}
                 }
             } else if (args[0].equalsIgnoreCase("test")) {
-                WorldEditAPI.paste(new Location(Bukkit.getWorld("DungeonRooms"), 0, 64, 0), "plugins/WorldEdit/schematics/e914e099-f7e7-47a2-86d2-928a2248587a/test.schematic");
+
             }
         } else {
             player.sendMessage(ChatColor.RED + "Invalid arguments!");

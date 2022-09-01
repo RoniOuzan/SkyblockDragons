@@ -73,6 +73,17 @@ public class PartyCommand extends CommandSD {
                 } else if (args[0].equalsIgnoreCase("unban")) {
                     if (nullCheck(player, args, true))
                         player.getParty().unban(SkyblockDragons.getPlayer(args[1]));
+                } else if (args[0].equalsIgnoreCase("chat")) {
+                    if (args.length <= 1) {
+                        player.sendMessage("/party chat <message>");
+                        return;
+                    }
+
+                    StringBuilder message = new StringBuilder();
+                    for (int i = 1; i < args.length; i++) {
+                        message.append(args[i]).append(" ");
+                    }
+                    player.getParty().makePlayerSay(player, message.toString());
                 } else if (args[0].equalsIgnoreCase("parties")) {
                     // TODO add permission requirements
                     Party.sendParties(player);

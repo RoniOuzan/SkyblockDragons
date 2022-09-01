@@ -84,6 +84,14 @@ public class Variables {
         }
     }
 
+    public static <T> void set(String name, Collection<T> value) {
+        int i = 0;
+        for (T t : value) {
+            set(name, i, t);
+            i++;
+        }
+    }
+
     public static void delete(UUID uuid, String name, int data) {
         playerVariables.getOrDefault(uuid, new ArrayList<>()).removeIf(v -> v.name.equals(name) && v.data == data);
     }

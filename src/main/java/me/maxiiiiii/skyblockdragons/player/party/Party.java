@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.player.party;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.chat.ChatChannel;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.TextMessage;
 import org.bukkit.ChatColor;
@@ -351,6 +352,10 @@ public class Party implements Iterable<PlayerSD> {
 
     public PlayerSD getLeader() {
         return this.leader;
+    }
+
+    public void makePlayerSay(PlayerSD from, String message) {
+        ChatChannel.PARTY.send(from, message);
     }
 
     public void sendMessage(String message) {

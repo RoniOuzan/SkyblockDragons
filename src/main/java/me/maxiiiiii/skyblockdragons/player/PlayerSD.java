@@ -14,14 +14,12 @@ import me.maxiiiiii.skyblockdragons.item.abilities.Rogue_Sword;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
-import me.maxiiiiii.skyblockdragons.item.objects.Drop;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
-import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.pet.Pet;
 import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
+import me.maxiiiiii.skyblockdragons.player.chat.ChatChannel;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
 import me.maxiiiiii.skyblockdragons.player.party.Party;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
@@ -68,6 +66,10 @@ public class PlayerSD extends PlayerClass {
 
     private final ScoreboardSD scoreboardSD;
 
+    private ChatChannel chatChannel;
+
+    private Party party;
+
     public int playTime;
     public int bits;
 
@@ -87,8 +89,6 @@ public class PlayerSD extends PlayerClass {
     private double lastCoins;
 
     private final List<Menu> menuHistory = new ArrayList<>();
-
-    private Party party;
 
     public static final double HEALTH_REGEN = 1.05;
 
@@ -122,6 +122,10 @@ public class PlayerSD extends PlayerClass {
                 0
         );
 
+        this.chatChannel = Variables.get(player.getUniqueId(), "ChatChannel", 0, ChatChannel.ALL);
+
+        this.party = null;
+
         this.playTime = Variables.get(player.getUniqueId(), "PlayTime", 0, 0);
         this.bits = Variables.get(player.getUniqueId(), "Bits", 0, 0);
 
@@ -140,14 +144,14 @@ public class PlayerSD extends PlayerClass {
 
         this.scoreboardSD = new ScoreboardSD(this);
 
-        this.party = null;
-
         SkyblockDragons.players.put(player.getUniqueId(), this);
     }
 
     public void save() {
         Variables.set(player.getUniqueId(), "PlayTime", 0, this.playTime);
         Variables.set(player.getUniqueId(), "Bits", 0, this.bits);
+
+        Variables.set(player.getUniqueId(), "ChatChannel", 0, this.chatChannel);
 
         this.wardrobe.save();
         this.skill.save();
@@ -622,6 +626,10 @@ public class PlayerSD extends PlayerClass {
 
     public void makeDamage(Entity entity, Damage.DamageType damageType, double damage) {
         makeDamage(entity, damageType, damage, 0, 0);
+    }
+
+    public void makePlayerSay(String message) {
+        this.chatChannel.send(this, message);
     }
 
     public WorldSD getWorldSD() {
