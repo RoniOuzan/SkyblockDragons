@@ -59,7 +59,7 @@ public class SkillAdminCommand extends CommandSD {
     }
 
     @Override
-    public List<Argument> tabComplete(List<Argument> tabs) {
+    public List<Argument> tabComplete(PlayerSD player, List<Argument> tabs) {
         tabs.add(new Argument(0, "", "farming", "mining", "combat", "foraging", "fishing", "enchanting", "alchemy", "taming", "dungeoneering"));
         tabs.add(new Argument(1, "", "give", "set", "setLevel", "setLVL"));
 //        tabs.add(new Argument(2, "", "10", "100", "1000"));

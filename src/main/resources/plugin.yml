@@ -163,3 +163,8 @@ commands:
       - sdtest
       - testsd
     permission: skyblockdragons.test
+  Party:
+    permission: skyblockdragons.party.command
+    usage: /<command> <text> [<player>]
+    aliases:
+      - p

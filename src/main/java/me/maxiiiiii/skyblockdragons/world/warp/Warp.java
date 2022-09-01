@@ -17,7 +17,12 @@ public enum Warp {
     DEEP_MINES(WorldSD.DEEP_MINES.getSpawn()),
     DEEPER_MINES(WorldSD.DEEPER_MINES.getSpawn()),
 
-    THE_END(WorldSD.THE_END.getSpawn(), "END");
+    THE_END(WorldSD.THE_END.getSpawn(), "END"),
+
+    GRIFFIN_ISLAND(WorldSD.GRIFFIN_ISLAND.getSpawn(), "griffin"),
+
+    WITHER_ISLAND(WorldSD.WIHTER_ISLAND.getSpawn(), "wither"),
+    ;
 
     private final Location location;
     private final String alias;

@@ -23,6 +23,7 @@ import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
+import me.maxiiiiii.skyblockdragons.player.party.Party;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
@@ -87,6 +88,8 @@ public class PlayerSD extends PlayerClass {
 
     private final List<Menu> menuHistory = new ArrayList<>();
 
+    private Party party;
+
     public static final double HEALTH_REGEN = 1.05;
 
     public PlayerSD(Player player) {
@@ -136,6 +139,8 @@ public class PlayerSD extends PlayerClass {
         this.lastCoins = this.getCoins();
 
         this.scoreboardSD = new ScoreboardSD(this);
+
+        this.party = null;
 
         SkyblockDragons.players.put(player.getUniqueId(), this);
     }
@@ -488,7 +493,10 @@ public class PlayerSD extends PlayerClass {
 
             if (!isNotAir(itemStack)) continue;
 
-            ItemMaterial itemMaterial = getItemMaterial(itemStack);
+            ItemMaterial itemMaterial = Items.get(itemStack);
+            if (itemMaterial == Items.get("NULL")) {
+                return;
+            }
 
             Item item = new Item(this, itemMaterial, itemStack);
             copyNBTStack(item, itemStack);
