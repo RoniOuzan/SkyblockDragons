@@ -43,33 +43,45 @@ public class Damage implements Listener {
         }
     }
 
-    public double damage(EntitySD player, EntitySD entity, double activeFerocity, DamageType damageType, double baseAbilityDamage, double abilityScaling) {
-        if (player == null || entity == null) return 0;
+    public double damage(EntitySD attacker, EntitySD entity, double activeFerocity, DamageType damageType, double baseAbilityDamage, double abilityScaling) {
+        if (attacker == null || entity == null) return 0;
 
         entity.setNoDamageTicks(0);
         entity.setMaximumNoDamageTicks(0);
 
         long millisecondsCD = 500;
-        if (player instanceof PlayerSD) {
-            millisecondsCD -= ((PlayerSD) player).getStats().getAttackSpeed().amount * 2.5;
+        if (attacker instanceof PlayerSD) {
+            millisecondsCD -= ((PlayerSD) attacker).getStats().getAttackSpeed().amount * 2.5;
         }
         if (!damageType.isMagic())
-            if (cooldown(player, player.getDamageCooldown(damageType), millisecondsCD, false)) return -3;
+            if (cooldown(attacker, attacker.getDamageCooldown(damageType), millisecondsCD, false)) return -3;
 
-        DamageCalculator damageCalculator = this.getDamage(player, entity, damageType, baseAbilityDamage, abilityScaling);
+        if (damageType == DamageType.PROJECTILE) {
+            PlayerSD playerSD = null;
+            if (attacker instanceof PlayerSD) {
+                playerSD = (PlayerSD) attacker;
+            } else if (attacker instanceof Player) {
+                playerSD = SkyblockDragons.getPlayer(attacker.getUniqueId());
+            }
+            if (playerSD != null) {
+                playerSD.playSound(playerSD.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1f, 5f);
+            }
+        }
+
+        DamageCalculator damageCalculator = this.getDamage(attacker, entity, damageType, baseAbilityDamage, abilityScaling);
         double damage = damageCalculator.damage;
         boolean critHit = damageCalculator.critHit;
 
-        if (player.getEnchantLevel(EnchantType.LIFE_STEAL) > 0) {
-            player.setHealth(Math.min(player.getMaxHealth(), player.getHealth() + player.getHealth() * (player.getEnchantLevel(EnchantType.LIFE_STEAL) * 0.5)));
+        if (attacker.getEnchantLevel(EnchantType.LIFE_STEAL) > 0) {
+            attacker.setHealth(Math.min(attacker.getMaxHealth(), attacker.getHealth() + attacker.getHealth() * (attacker.getEnchantLevel(EnchantType.LIFE_STEAL) * 0.5)));
         }
-        if (player.getEnchantLevel(EnchantType.SYPHON) > 0) {
-            if (player instanceof PlayerSD)
-                player.setHealth(Math.min(player.getMaxHealth(), player.getHealth() + player.getHealth() * ((player.getEnchantLevel(EnchantType.SYPHON) * 0.1 + 0.1)) * Math.min(((PlayerSD) player).getStats().critDamage.amount / 100, 10)));
+        if (attacker.getEnchantLevel(EnchantType.SYPHON) > 0) {
+            if (attacker instanceof PlayerSD)
+                attacker.setHealth(Math.min(attacker.getMaxHealth(), attacker.getHealth() + attacker.getHealth() * ((attacker.getEnchantLevel(EnchantType.SYPHON) * 0.1 + 0.1)) * Math.min(((PlayerSD) attacker).getStats().critDamage.amount / 100, 10)));
         }
-        if (player.getEnchantLevel(EnchantType.MANA_STEAL) > 0) {
-            if (player instanceof PlayerSD)
-                ((PlayerSD) player).getStats().mana.amount += ((PlayerSD) player).getStats().mana.amount * player.getEnchantLevel(EnchantType.MANA_STEAL) * 0.25;
+        if (attacker.getEnchantLevel(EnchantType.MANA_STEAL) > 0) {
+            if (attacker instanceof PlayerSD)
+                ((PlayerSD) attacker).getStats().mana.amount += ((PlayerSD) attacker).getStats().mana.amount * attacker.getEnchantLevel(EnchantType.MANA_STEAL) * 0.25;
         }
 
         // hologram
@@ -87,17 +99,17 @@ public class Damage implements Listener {
         hologram.setY(entity.getLocation().getY() + random);
         createHologram(hologram, damageDisplay, 20);
 
-        if (player instanceof PlayerSD) {
-            PlayerSD playerSD = (PlayerSD) player;
+        if (attacker instanceof PlayerSD) {
+            PlayerSD playerSD = (PlayerSD) attacker;
             if (damageType.isNormal() && activeFerocity > 0 && !entity.isDead()) {
                 if (Functions.chanceOf(activeFerocity)) {
-                    playerSD.playSound(player.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1f, 1f);
+                    playerSD.playSound(attacker.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1f, 1f);
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            damage(player, entity, activeFerocity - 100, damageType, baseAbilityDamage, abilityScaling);
-                            playerSD.playSound(player.getLocation(), Sound.ENTITY_IRONGOLEM_ATTACK, 1f, 10f);
-                            playerSD.playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_DOOR_WOOD, 0.25f, 0.25f);
+                            damage(attacker, entity, activeFerocity - 100, damageType, baseAbilityDamage, abilityScaling);
+                            playerSD.playSound(attacker.getLocation(), Sound.ENTITY_IRONGOLEM_ATTACK, 1f, 10f);
+                            playerSD.playSound(attacker.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_DOOR_WOOD, 0.25f, 0.25f);
                             Location start = entity.getLocation().clone();
                             Location end = entity.getLocation().clone();
 
@@ -109,7 +121,7 @@ public class Damage implements Listener {
                                 end.add(1.5, -1.5, 0);
                             }
 
-                            EntityDamageEntityEvent playerDamageEntity = new EntityDamageEntityEvent(player, entity, DamageType.NORMAL, damage, true);
+                            EntityDamageEntityEvent playerDamageEntity = new EntityDamageEntityEvent(attacker, entity, DamageType.NORMAL, damage, true);
                             Bukkit.getServer().getPluginManager().callEvent(playerDamageEntity);
 
                             Particles.line(new ParticleUil(Particle.REDSTONE, 155, 0, 0, 0, 1), start, end, 0.05);
@@ -391,6 +403,7 @@ public class Damage implements Listener {
         double amount = player.getCoins() / 2;
         player.removeCoins(amount);
         player.sendMessage(ChatColor.RED + "You died and lost " + Functions.getNumberFormat(amount) + " coins.");
+        player.teleport(player.getWorldSD().getSpawn());
 
         Functions.Wait(1L, () -> player.spigot().respawn());
     }

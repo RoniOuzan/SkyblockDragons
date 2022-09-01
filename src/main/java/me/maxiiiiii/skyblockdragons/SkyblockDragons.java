@@ -65,22 +65,18 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public final class SkyblockDragons extends JavaPlugin implements Listener {
-    public static final HashMap<UUID, PlayerSD> players = new HashMap<>();
-    public static final HashMap<UUID, ArrayList<Inventory>> playerGoBack = new HashMap<>();
-    public static final ArrayList<Entity> entitiesToKill = new ArrayList<>();
+    public static final Map<UUID, PlayerSD> players = new HashMap<>();
+    public static final List<Entity> entitiesToKill = new ArrayList<>();
     public static boolean disablePlayTime = false;
 
     public static SkyblockDragons plugin;
@@ -413,6 +409,10 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         }
         economy = rsp.getProvider();
         return economy != null;
+    }
+
+    public static List<PlayerSD> getPlayers() {
+        return new ArrayList<>(players.values());
     }
 
     public static PlayerSD getPlayer(String name) {

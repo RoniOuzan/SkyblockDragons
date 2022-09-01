@@ -62,8 +62,8 @@ public class ScoreboardSD {
             DragonType dragonType = DragonType.getDragonType(TheEnd.dragon.type.getName());
             if (player.getWorldSD() == WorldSD.THE_END && dragonType != null) {
                 scores.add(dragonType + " Dragon");
-                scores.add("  " + ChatColor.WHITE + "Dragon's Health: " + ChatColor.GREEN + Functions.getNumberFormat(TheEnd.dragon.getHealth()) + StatType.HEALTH.getIcon());
-                scores.add("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getNumberFormat(TheEnd.dragonDamage.getOrDefault(this.player, 0d)));
+                scores.add("  " + ChatColor.WHITE + "Dragon's Health: " + ChatColor.GREEN + Functions.getShortNumber(TheEnd.dragon.getHealth()) + StatType.HEALTH.getIcon());
+                scores.add("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getShortNumber(TheEnd.dragonDamage.getOrDefault(this.player, 0d)));
                 scores.add("  ");
             }
         }
