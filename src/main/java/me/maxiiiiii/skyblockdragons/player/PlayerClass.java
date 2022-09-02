@@ -1519,7 +1519,7 @@ public class PlayerClass extends EntitySD implements Player {
 
     @Override
     public boolean hasPermission(String name) {
-        return this.player.hasMetadata(name);
+        return this.player.hasPermission(name);
     }
 
     @Override

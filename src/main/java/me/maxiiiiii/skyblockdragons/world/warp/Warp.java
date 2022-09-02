@@ -21,7 +21,7 @@ public enum Warp {
 
     GRIFFIN_ISLAND(WorldSD.GRIFFIN_ISLAND.getSpawn(), "griffin"),
 
-    WITHER_ISLAND(WorldSD.WIHTER_ISLAND.getSpawn(), "wither"),
+    WITHER_ISLAND(WorldSD.WITHER_ISLAND.getSpawn(), "wither"),
     ;
 
     private final Location location;
