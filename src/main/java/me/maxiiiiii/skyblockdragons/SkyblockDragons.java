@@ -36,7 +36,9 @@ import me.maxiiiiii.skyblockdragons.player.chat.listeners.ChatListener;
 import me.maxiiiiii.skyblockdragons.player.chat.listeners.PlayerGetMessageListener;
 import me.maxiiiiii.skyblockdragons.player.chat.listeners.PlayerSendMessageListener;
 import me.maxiiiiii.skyblockdragons.player.coop.CoopCommand;
+import me.maxiiiiii.skyblockdragons.player.party.PartyChatCommand;
 import me.maxiiiiii.skyblockdragons.player.party.PartyCommand;
+import me.maxiiiiii.skyblockdragons.player.party.PartyListCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillAdminCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillListener;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillMenu;
@@ -310,8 +312,10 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("EnderChest").setExecutor(new EnderChestMenu.Command());
         registerCommand("Forge", new Forge.Command());
         registerCommand("ForgeMilestone", new ForgeMilestoneCommand());
+        registerCommand("Party", new PartyCommand());
         registerCommand("Chat", new ChatCommand());
-        registerCommand("PartyChat", new PartyCommand());
+        registerCommand("PartyChat", new PartyChatCommand());
+        registerCommand("PartyList", new PartyListCommand());
     }
 
     private void registerAllEvents() {

@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.player.chat;
 
+import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.chat.events.PlayerGetMessageEvent;
@@ -21,8 +22,9 @@ public enum ChatChannel {
     ;
 
     private final String name;
-    public final ChatCondition condition;
-    public final String messageElse;
+    @Getter
+    private final ChatCondition condition;
+    @Getter private final String messageElse;
     private final ChatPlayers chatPlayers;
 
     ChatChannel(String name, ChatCondition condition, String messageElse, ChatPlayers chatPlayers) {
@@ -46,6 +48,11 @@ public enum ChatChannel {
 
     public void send(PlayerSD from, String message) {
         for (PlayerSD player : this.getPlayers(from)) {
+            if (this == PARTY && from.getParty().getMutedPlayers().getOrDefault(from, false)) {
+                from.sendMessage(ChatColor.RED + "This party is muted, you can't send any messages!");
+                return;
+            }
+
             final String finalMessage = this.getName() + ChatColor.WHITE + from.getDisplayName() + ": " + message;
             Bukkit.getPluginManager().callEvent(new PlayerGetMessageEvent(player, finalMessage, from.getChatChannel()));
         }

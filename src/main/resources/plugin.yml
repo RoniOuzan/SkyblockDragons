@@ -176,3 +176,11 @@ commands:
       - ChatParty
       - cparty
       - chatp
+  PartyList:
+    permission: skyblockdragons.party.list
+    usage: /<command>
+    aliases:
+      - pl
+      - plist
+      - playerl
+      - listplayer

@@ -30,8 +30,8 @@ public class ChatCommand extends CommandSD {
             return;
         }
 
-        if (!channel.condition.check(player)) {
-            player.sendMessage(channel.messageElse);
+        if (!channel.getCondition().check(player)) {
+            player.sendMessage(channel.getMessageElse());
             return;
         }
 
