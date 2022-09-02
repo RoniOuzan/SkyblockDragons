@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.player;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
+import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -37,12 +38,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 import java.util.*;
 
+@Setter
 public class PlayerClass extends EntitySD implements Player {
-    private final Player player;
+    protected Player player;
 
     public PlayerClass(Player player) {
         super(player);
         this.player = player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+        this.entity = player;
     }
 
     @Override

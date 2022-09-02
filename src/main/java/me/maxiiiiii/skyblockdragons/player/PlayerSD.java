@@ -14,7 +14,10 @@ import me.maxiiiiii.skyblockdragons.item.abilities.Rogue_Sword;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.Drop;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.pet.Pet;
 import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
@@ -59,12 +62,9 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 @Getter
 @Setter
 public class PlayerSD extends PlayerClass {
-    private final Player player;
-//    public Coop coop;
-
     public PlayerStats stats;
 
-    private final ScoreboardSD scoreboardSD;
+    private ScoreboardSD scoreboardSD;
 
     private ChatChannel chatChannel;
 
@@ -94,9 +94,7 @@ public class PlayerSD extends PlayerClass {
 
     public PlayerSD(Player player) {
         super(player);
-
-        player.setHealthScale(40d);
-        this.player = player;
+        this.update(player);
 
         this.stats = new PlayerStats(this,
                 0,
@@ -145,6 +143,11 @@ public class PlayerSD extends PlayerClass {
         this.scoreboardSD = new ScoreboardSD(this);
 
         SkyblockDragons.players.put(player.getUniqueId(), this);
+    }
+
+    public void update(Player player) {
+        this.setPlayer(player);
+        this.player.setHealthScale(40d);
     }
 
     public void save() {

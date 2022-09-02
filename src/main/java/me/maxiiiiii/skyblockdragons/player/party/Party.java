@@ -243,7 +243,7 @@ public class Party implements Iterable<PlayerSD> {
         this.sendLine();
 
         for (PlayerSD player : this) {
-            this.remove(player);
+            player.setParty(null);
         }
 
         parties.remove(this);
