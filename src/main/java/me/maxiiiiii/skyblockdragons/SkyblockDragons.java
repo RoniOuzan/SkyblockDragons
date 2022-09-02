@@ -429,6 +429,10 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         return new ArrayList<>(players.values());
     }
 
+    public static List<PlayerSD> getOnlinePlayers() {
+        return players.values().stream().filter(Player::isOnline).collect(Collectors.toList());
+    }
+
     public static PlayerSD getPlayer(String name) {
         return getPlayer(Bukkit.getPlayer(name).getUniqueId());
     }

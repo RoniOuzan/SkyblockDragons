@@ -8,17 +8,16 @@ import me.maxiiiiii.skyblockdragons.player.chat.interfaces.ChatCondition;
 import me.maxiiiiii.skyblockdragons.player.chat.interfaces.ChatPlayers;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.permissions.ServerOperator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public enum ChatChannel {
-    ALL("", p -> SkyblockDragons.getPlayers()),
+    ALL("", p -> SkyblockDragons.getOnlinePlayers()),
     WORLD(ChatColor.GREEN + "World > ", p -> p.getWorldSD().getPlayers()),
     PARTY(ChatColor.BLUE + "Party > ", p -> p.getParty() != null, ChatColor.RED + "You don't have a party!", p -> new ArrayList<>(p.getParty().getPlayers().keySet())),
-    ADMIN(ChatColor.RED + "Admin > ", p -> SkyblockDragons.getPlayers().stream().filter(ServerOperator::isOp).collect(Collectors.toList()))
+    ADMIN(ChatColor.RED + "Admin > ", p -> SkyblockDragons.getOnlinePlayers().stream().filter(pl -> pl.hasPermission("skyblockdragons.chat.admin")).collect(Collectors.toList()))
     ;
 
     private final String name;

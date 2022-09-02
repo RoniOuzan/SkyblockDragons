@@ -28,15 +28,15 @@ public class PartyCommand extends CommandSD {
                 if (nullCheck(player, args))
                     SkyblockDragons.getPlayer(args[1]).getParty().join(player);
             } else if (args[0].equalsIgnoreCase("forceJoin")) {
-                // TODO add permission requirement
+                if (!player.hasPermission("skyblockdragons.party.forcejoin")) player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
                 if (nullCheck(player, args))
                     SkyblockDragons.getPlayer(args[1]).getParty().forceJoin(player);
             } else if (args[0].equalsIgnoreCase("silentJoin") || args[0].equalsIgnoreCase("joinSilent") || args[0].equalsIgnoreCase("sneakyJoin")) {
-                // TODO add permission requirement
+                if (!player.hasPermission("skyblockdragons.party.silentjoin")) player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
                 if (nullCheck(player, args))
                     SkyblockDragons.getPlayer(args[1]).getParty().joinSilent(player);
             } else if (args[0].equalsIgnoreCase("list") && args.length > 1) {
-                // TODO add permission requirement
+                if (!player.hasPermission("skyblockdragons.party.adminlist")) player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
                 if (nullCheck(player, args))
                     SkyblockDragons.getPlayer(args[1]).getParty().sendList(player);
             } else {
@@ -94,7 +94,7 @@ public class PartyCommand extends CommandSD {
                     if (nullCheck(player, args, PlayerPartyType.LEADER, PlayerPartyType.MODERATOR))
                         player.getParty().mute(player, SkyblockDragons.getPlayer(args[1]));
                 } else if (args[0].equalsIgnoreCase("parties")) {
-                    // TODO add permission requirements
+                    if (!player.hasPermission("skyblockdragons.party.seeparties")) player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
                     Party.sendParties(player);
                 } else {
                     if (nullCheck(player, args, PlayerPartyType.LEADER, PlayerPartyType.MODERATOR)) {
@@ -132,8 +132,8 @@ public class PartyCommand extends CommandSD {
                 "invite",
                 "accept",
                 "join",
-                "forceJoin",
-                "silentJoin",
+                player.hasPermission("skyblockdragons.party.forcejoin") ? "forcejoin" : "",
+                player.hasPermission("skyblockdragons.party.silentjoin") ? "silentjoin" : "",
                 "transfer",
                 "promote",
                 "warp",
@@ -143,16 +143,16 @@ public class PartyCommand extends CommandSD {
                 "kick",
                 "kickOffline",
                 "ban",
-                "parties"
+                player.hasPermission("skyblockdragons.party.seeparties") ? "parties" : ""
         ));
 
         tabs.add(new Argument(1, "accept", SkyblockDragons.getPlayers().stream().filter(p -> p.getParty() != player.getParty()).map(PlayerSD::getName).collect(Collectors.toList())));
         tabs.add(new Argument(1, "join", SkyblockDragons.getPlayers().stream().filter(p -> p.getParty() != null && p.getParty() != player.getParty() && p.getParty().getType() == PartyType.PUBLIC).map(PlayerSD::getName).collect(Collectors.toList())));
-        tabs.add(new Argument(1, "forceJoin", Party.parties.stream().map(p -> p.getLeader().getName()).collect(Collectors.toList())));
-        tabs.add(new Argument(1, "silentJoin", Party.parties.stream().map(p -> p.getLeader().getName()).collect(Collectors.toList())));
+        if (player.hasPermission("skyblockdragons.party.forcejoin")) tabs.add(new Argument(1, "forceJoin", Party.parties.stream().map(p -> p.getLeader().getName()).collect(Collectors.toList())));
+        if (player.hasPermission("skyblockdragons.party.silentjoin")) tabs.add(new Argument(1, "silentJoin", Party.parties.stream().map(p -> p.getLeader().getName()).collect(Collectors.toList())));
 
         if (player.getParty() != null) {
-            tabs.add(new Argument(1, "invite", SkyblockDragons.getPlayers().stream().filter(p -> p.getParty() != player.getParty()).map(PlayerSD::getName).collect(Collectors.toList())));
+            tabs.add(new Argument(1, "invite", SkyblockDragons.getOnlinePlayers().stream().filter(p -> p.getParty() != player.getParty()).map(PlayerSD::getName).collect(Collectors.toList())));
             tabs.add(new Argument(1, "kick", player.getParty().getPlayers().keySet().stream().filter(p -> p != player).map(PlayerSD::getName).collect(Collectors.toList())));
             tabs.add(new Argument(1, "promote", player.getParty().getPlayers().keySet().stream().filter(p -> p != player).map(PlayerSD::getName).collect(Collectors.toList())));
             tabs.add(new Argument(1, "transfer", player.getParty().getPlayers().keySet().stream().filter(p -> p != player).map(PlayerSD::getName).collect(Collectors.toList())));

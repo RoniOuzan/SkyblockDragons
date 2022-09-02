@@ -6,7 +6,6 @@ import me.maxiiiiii.skyblockdragons.player.chat.ChatChannel;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.TextMessage;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -281,7 +280,7 @@ public class Party implements Iterable<PlayerSD> {
         this.remove(player);
     }
 
-    public void kick(OfflinePlayer player) {
+    public void kick(PlayerSD player) {
         PlayerSD toRemove = null;
         for (PlayerSD playerSD : this) {
             if (playerSD.getUniqueId().equals(player.getUniqueId())) {
@@ -294,44 +293,34 @@ public class Party implements Iterable<PlayerSD> {
         this.remove(toRemove);
 
         this.sendLine();
-        if (player instanceof Player)
-            this.sendCenteredMessage(ChatColor.YELLOW + ((Player) player).getDisplayName() + ChatColor.YELLOW + " has been kicked from the party!");
-        else
-            this.sendCenteredMessage(ChatColor.YELLOW + player.getName() + ChatColor.YELLOW + " has been kicked from the party!");
+        this.sendCenteredMessage(ChatColor.YELLOW + ((Player) player).getDisplayName() + ChatColor.YELLOW + " has been kicked from the party!");
         this.sendLine();
     }
 
-    private void remove(OfflinePlayer player) {
-        PlayerSD playerSD = null;
-        for (PlayerSD partyMember : this) {
-            if (partyMember.getUniqueId().equals(player.getUniqueId())) {
-                playerSD = partyMember;
-                break;
-            }
-        }
-        if (playerSD == null) return;
-        this.players.remove(playerSD);
-        playerSD.setParty(null);
+    private void remove(PlayerSD player) {
+        this.players.remove(player);
+        player.setParty(null);
     }
 
     public void kickOffline() {
-        // TODO
+        for (PlayerSD player : this) {
+            if (!player.isOnline()) {
+                this.kick(player);
+            }
+        }
     }
 
-    public void ban(OfflinePlayer player) {
+    public void ban(PlayerSD player) {
         this.bannedPlayers.add(player.getUniqueId());
 
         for (PlayerSD playerSD : players.keySet().stream().filter(p -> this.players.get(p) != PlayerPartyType.MEMBER).collect(Collectors.toList())) {
             playerSD.sendMessage(LINE);
-            if (player instanceof Player)
-                playerSD.sendCenteredMessage(ChatColor.YELLOW + this.leader.getDisplayName() + ChatColor.YELLOW + " banned " + ((Player) player).getDisplayName() + ChatColor.YELLOW + " from the party");
-            else
-                playerSD.sendCenteredMessage(ChatColor.YELLOW + this.leader.getDisplayName() + ChatColor.YELLOW + " banned " + player.getName() + ChatColor.YELLOW + " from the party");
+            playerSD.sendCenteredMessage(ChatColor.YELLOW + this.leader.getDisplayName() + ChatColor.YELLOW + " banned " + ((Player) player).getDisplayName() + ChatColor.YELLOW + " from the party");
             playerSD.sendMessage(LINE);
         }
     }
 
-    public void unban(OfflinePlayer player) {
+    public void unban(PlayerSD player) {
         if (!this.bannedPlayers.contains(player.getUniqueId())) {
             this.leader.sendMessage(LINE);
             this.leader.sendCenteredMessage(ChatColor.RED + "This player is not banned from this party!");
@@ -343,10 +332,7 @@ public class Party implements Iterable<PlayerSD> {
 
         for (PlayerSD playerSD : players.keySet().stream().filter(p -> this.players.get(p) != PlayerPartyType.MEMBER).collect(Collectors.toList())) {
             playerSD.sendMessage(LINE);
-            if (player instanceof Player)
-                playerSD.sendCenteredMessage(ChatColor.YELLOW + this.leader.getDisplayName() + ChatColor.YELLOW + " unbanned " + ((Player) player).getDisplayName() + ChatColor.YELLOW + " from the party");
-            else
-                playerSD.sendCenteredMessage(ChatColor.YELLOW + this.leader.getDisplayName() + ChatColor.YELLOW + " unbanned " + player.getName() + ChatColor.YELLOW + " from the party");
+            playerSD.sendCenteredMessage(ChatColor.YELLOW + this.leader.getDisplayName() + ChatColor.YELLOW + " unbanned " + ((Player) player).getDisplayName() + ChatColor.YELLOW + " from the party");
             playerSD.sendMessage(LINE);
         }
     }
