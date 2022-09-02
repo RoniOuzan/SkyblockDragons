@@ -294,7 +294,7 @@ public class Damage implements Listener {
         EntityKnockbackEvent knockbackEvent = new EntityKnockbackEvent(e.getVictim(), e.getAttacker());
         Bukkit.getServer().getPluginManager().callEvent(knockbackEvent);
 
-        victim.type.onDamage(attacker, victim);
+        victim.type.onDamage(attacker, victim, damage);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -359,8 +359,8 @@ public class Damage implements Listener {
             entity.hologram.remove();
             EntitySD.entities.remove(entity.getUniqueId());
             if (entity.getAttacker() == null) return;
-
             PlayerSD player = SkyblockDragons.getPlayer((PlayerSD) entity.getAttacker());
+            entity.type.onDeath(player, entity);
             player.giveSkill(SkillType.COMBAT, entity.type.combatXp);
             if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0) {
                 for (Drop drop : entity.type.getDrops()) {

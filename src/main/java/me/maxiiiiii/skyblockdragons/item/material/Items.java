@@ -25,6 +25,11 @@ public class Items {
 
     public static void registerItems() {
         // Swords
+        items.put("ADMIN_SWORD", new SwordMaterial(Material.DIAMOND_SWORD, ItemFamily.ADMIN, "Admin Sword", Rarity.SPECIAL, new Stats(10000000, 10000000, 10000000, 10000000, 10000000,0 ,0, 10000000, 0, 10000000), ""));
+        items.put("ADMIN_NOOB_SWORD", new SwordMaterial(Material.WOOD_SWORD, ItemFamily.ADMIN, "Admin N00B Sword", Rarity.SPECIAL, new Stats(1000, 1000, 1000, 1000, 1000,0 ,0, 1000, 0, 1000), ""));
+        items.put("ADMIN_MAD_SWORD", new SwordMaterial(Material.STONE_SWORD, ItemFamily.ADMIN, "Admin MAD Sword", Rarity.SPECIAL, new Stats(10000, 10000, 10000, 10000, 10000,0 ,0, 10000, 0, 10000), ""));
+        items.put("ADMIN_PRO_SWORD", new SwordMaterial(Material.IRON_SWORD, ItemFamily.ADMIN, "Admin PRO Sword", Rarity.SPECIAL, new Stats(100000, 100000, 100000, 100000, 100000,0 ,0, 100000, 0, 100000), ""));
+
         items.put("WOOD_SWORD", new SwordMaterial(Material.WOOD_SWORD, ItemFamily.WOOD, "Wood Sword", Rarity.COMMON, new Stats(5, 0, 0, 0, 0,0 ,0, 0, 0, 0), ""));
         items.put("STONE_SWORD", new SwordMaterial(Material.STONE_SWORD, ItemFamily.STONE, "Stone Sword", Rarity.COMMON, new Stats(5, 5, 0, 0, 0,0 ,0, 0, 0, 0), ""));
         items.put("IRON_SWORD", new SwordMaterial(Material.IRON_SWORD, ItemFamily.IRON, "Iron Sword", Rarity.COMMON, new Stats(10, 5, 0, 0, 0,0 ,0, 0, 0, 0), ""));
@@ -59,7 +64,6 @@ public class Items {
 
         items.put("ERROR_SCYTHE", new SwordMaterial(Material.DIAMOND_HOE, ItemFamily.ERROR_SCYTHE,"ERROR Scythe", Rarity.SPECIAL, new Stats(3500, 0, 0, 0, 0, 0, 0, 0, 0, 0), "", new ItemAbility(AbilityAction.RIGHT_CLICK, "Arrow", ChatColor.GRAY + "Shoots " + ChatColor.GREEN + "arrows" ), new ItemAbility(AbilityAction.RIGHT_SHIFT_CLICK, "Wither Skull", ChatColor.GRAY + "Shoots " + ChatColor.GOLD + "Wither Skull"), new SkillRequirement(SkillType.COMBAT, 0)));
 
-        items.put("ADMIN_SWORD", new SwordMaterial(Material.DIAMOND_SWORD, ItemFamily.ADMIN, "Admin Sword", Rarity.SPECIAL, new Stats(10000000, 10000000, 10000000, 10000000, 10000000,0 ,0, 10000000, 0, 10000000), ""));
         // Bows
         items.put("BOW", new BowMaterial(Material.BOW, ItemFamily.WOOD, "Bow", Rarity.COMMON, new Stats(5, 5, 0, 0, 0, 0, 0, 0, 0, 0), ""));
 
@@ -74,8 +78,9 @@ public class Items {
 
         // Armors
         // Admin
-
         items.put("ADMIN_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.ADMIN, "Admin Boots", ItemType.BOOTS, Rarity.SPECIAL, new Stats(10000000, 10000000, 10000000, 10000000, 10000000, 0, 10000000, 10000000, 5000, 10000000), "", ItemFullSet.NULL, (Color) null));
+        items.put("ADMIN_NOOB_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.ADMIN, "Admin N00B Boots", ItemType.BOOTS, Rarity.SPECIAL, new Stats(1000, 1000, 1000, 1000, 1000, 0, 1000, 1000, 100, 1000), "", ItemFullSet.NULL, (Color) null));
+        items.put("ADMIN_SURVIVAL_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.ADMIN, "Admin N00B Boots", ItemType.CHESTPLATE, Rarity.SPECIAL, new Stats(0, 0, 0, 0, 0, 0, 100000, 10000000, 100, 0), "", ItemFullSet.NULL, (Color) null));
         // Leather
         items.put("LEATHER_HELMET", new ArmorMaterial(Material.LEATHER_HELMET, ItemFamily.LEATHER, "Leather Helmet", ItemType.HELMET, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 5, 0, 0, 0), "", ItemFullSet.NULL, (Color) null));
         items.put("LEATHER_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.LEATHER, "Leather Chestplate", ItemType.CHESTPLATE, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 5, 0, 0, 0), "", ItemFullSet.NULL, (Color) null));

@@ -181,6 +181,11 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     private void playerEvery5Ticks() {
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (PlayerSD player : players.values()) {
+                if (player.isDead()){
+                    player.sendMessage("YOU DEAD VANILLA ERROR?");
+                    player.setHealth(0);
+                    player.spigot().respawn();
+                }
                 // pets
                 if (player.getPlayerPet().activePet >= 0) {
                     if (player.getPlayerPet().petArmorStand != null && player.getPlayerPet().petArmorStand.armorStand.getWorld() != player.getWorld()) {
@@ -303,6 +308,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("Profile").setExecutor(new ProfileMenu.Command());
         getCommand("Storage").setExecutor(new StorageMenu.Command());
         getCommand("EnderChest").setExecutor(new EnderChestMenu.Command());
+        getCommand("SkyblockDragonsTest").setExecutor(new SkyblockDragonsTestCommand());
         registerCommand("Forge", new Forge.Command());
         registerCommand("ForgeMilestone", new ForgeMilestoneCommand());
     }

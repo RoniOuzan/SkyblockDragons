@@ -8,6 +8,7 @@ import me.maxiiiiii.skyblockdragons.item.pet.Pet;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.objects.Killer;
 import me.maxiiiiii.skyblockdragons.util.objects.PickableItem;
 import me.maxiiiiii.skyblockdragons.worlds.end.DragonType;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
@@ -150,20 +151,5 @@ public class DragonKillListener implements Listener {
                 block.setType(Material.ENDER_STONE);
             }
         });
-    }
-
-    private static class Killer implements Comparable<Killer> {
-        private final PlayerSD player;
-        private final double damage;
-
-        private Killer(PlayerSD player, double damage) {
-            this.player = player;
-            this.damage = damage;
-        }
-
-        @Override
-        public int compareTo(Killer killer) {
-            return (int) (killer.damage - this.damage);
-        }
     }
 }
