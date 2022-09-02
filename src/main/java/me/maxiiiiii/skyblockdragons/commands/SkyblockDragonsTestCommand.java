@@ -20,6 +20,12 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
         addSubCommand(new QuickSubCommand("super-skull", (player, args) -> {
             wither.superSkull(wither.entitySD, player);
         }));
+        addSubCommand(new QuickSubCommand("skull-everywhere", (player, args) -> {
+            wither.skullEverywhere(wither.entitySD);
+        }));
+        addSubCommand(new QuickSubCommand("dash", (player, args) -> {
+            wither.dashToPlayer(wither.entitySD, player);
+        }));
         addSubCommand(new QuickSubCommand("set-phase", (player, args) -> {
             if (args.length < 2){
                 player.sendMessage("invalid number!");

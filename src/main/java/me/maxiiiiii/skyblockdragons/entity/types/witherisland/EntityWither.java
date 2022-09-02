@@ -13,36 +13,28 @@ import me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.*;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 public abstract class EntityWither extends EntityMaterial {
 
+    public static final int TICKS_TO_SECONDS = 20;
     public int phase = 0;
     public int i = 0;
     public UUID uuid = null;
     public EntitySD entitySD;
     public FlyToLocation flyToLocation;
     public String color = "§8";
+    private Location middleLoc;
 
     public EntityWither(String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance) {
         super(EntityType.WITHER, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, true, 0, 0);
-    }
-
-    public void strikeAbility(Entity entity) {
-        this.strikeAbility(entity, 0.3);
-    }
-
-    protected void strikeAbility(Entity entity, double percent) {
-        for (PlayerSD player : entity.getWorld().getPlayers().stream().map(SkyblockDragons::getPlayer).collect(Collectors.toList())) {
-            if (player.getGameMode() == GameMode.SURVIVAL) {
-                entity.getWorld().strikeLightningEffect(player.getLocation());
-                player.makeDamage(entity, Damage.DamageType.TRUE, player.getHealthStat() * percent);
-            }
-        }
     }
 
     @Override
@@ -54,58 +46,136 @@ public abstract class EntityWither extends EntityMaterial {
             entitySD = entity;
             entity.entity.setMaximumNoDamageTicks(0);
             entity.entity.setNoDamageTicks(0);
-            Wither witherBoss = (Wither) entity.entity;
             blueExplodeAbility(entity, 200);
         }
     }
 
     public void blueExplodeAbility(EntitySD entity, int value) {
         phase = 0;
-        NBTEntity nbtEntity = new NBTEntity(entity.entity);
-        nbtEntity.setInteger("Invul", value);
+        setInvul(entity, value);
         Functions.Wait(value, () -> {
             phase = 1;
-            entity.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, entity.getLocation(), 5, 7, 7, 7);
-            for (Entity nearbyEntity : entity.getNearbyEntities(10, 10, 10)) {
-                if (nearbyEntity instanceof Player){
-                    Player player = (Player) nearbyEntity;
-                    player.damage(1000000, entity.entity);
-                }
-            }
+            entity.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, entity.getLocation(), 1, 5, 5, 5);
+            damageEntitiesRadius(entity, 10, 1000000);
             i = 0;
         });
+    }
+
+    public void damageEntitiesRadius(EntitySD entity, int radius, double damage) {
+        for (Entity nearbyEntity : entity.getNearbyEntities(radius, radius, radius)) {
+            if (nearbyEntity instanceof Player){
+                Player player = (Player) nearbyEntity;
+                player.damage(damage, entity.entity);
+
+                pushAway(entity, player, 3);
+
+//                pushBackwards(player);
+            }
+        }
+    }
+
+    public void pushAway(EntitySD entity, Player player, int m) {
+        Vector vector = player.getLocation().subtract(entity.getLocation()).toVector().normalize();
+        vector.multiply(m);
+        vector.setY(1);
+        player.setVelocity(vector);
+    }
+
+    public void pushBackwards(Player player) {
+        Vector vector = player.getLocation().getDirection();
+        vector.multiply(-1);
+        vector.setY(1);
+        player.setVelocity(vector);
+    }
+
+    public void setInvul(EntitySD entity, int value) {
+        NBTEntity nbtEntity = new NBTEntity(entity.entity);
+        nbtEntity.setInteger("Invul", value);
     }
 
     @Override
     public void onTick(EntitySD entity) {
         if (phase >= 1){
+            try {
+                if (WitherIsland.getWitherTarget() != null){
+                    PlayerSD target = WitherIsland.getWitherTarget();
+                    if (i % (80 * TICKS_TO_SECONDS) == 0){
+                        dashToPlayer(entity, target);
+                    }
+                    else if (i % (60 * TICKS_TO_SECONDS) == 0){
+                        skullEverywhere(entity);
+                    }
+                    else if (i % (50 * TICKS_TO_SECONDS) == 0){
+                        superSkull(entity, target);
+                    }
+                    else if (i % (30 * TICKS_TO_SECONDS) == 0){
+                        skullRainAbility(entity, target);
+                    }
 
-            //TODO: call abilities
-            if (WitherIsland.getWitherTarget() != null){
-                PlayerSD target = WitherIsland.getWitherTarget();
-                if (i % (30 * 20) == 0){
-                    skullRainAbility(entity, target);
                 }
-                if (i % (50 * 20) == 0){
-                    superSkull(entity, target);
-//                    superSkull.setDirection(superSkull.getDirection().multiply(0.5));
-                }
-            }
 
-            if (phase == 1 && i % 80 == 0){
-                moveAround(entity);
+                if (phase == 1 && i % 80 == 0){
+                    moveAround(entity);
+                }
+            } catch (Exception e){
+                e.printStackTrace();
             }
         }
         i++;
     }
 
+    public void skullEverywhere(EntitySD entity) {
+        phase = 2;
+        flyToLocation.cancel();
+        middleLoc = new Location(entity.getWorld(), -64, 75, 63);
+        playSound(entity, Sound.ENTITY_WITHER_DEATH, 50F, 2F);
+        moveToLoc(entity, middleLoc, 20, 0);
+        Functions.Wait(20, () -> {
+            moveToLoc(entity, middleLoc, 80, 0);
+            skullEverywhereNow(entity);
+        });
+    }
+
+    public void skullEverywhereNow(EntitySD entity){
+        AtomicReference<Double> j = new AtomicReference<>((double) 0);
+        Functions.Loop(36 * 2, 1, amount -> {
+            double y = Math.sin(j.get() * 3);
+            shootSkullAtDirection(entity, new Vector(Math.sin(j.get()), y, Math.cos(j.get())));
+            j.updateAndGet(v -> (v + (Math.PI * 2) / 36));
+        }, amount -> phase = 1);
+    }
+
+    public void dashToPlayer(EntitySD entity, PlayerSD target) {
+        phase = 2;
+        flyToLocation.cancel();
+        Location current = entity.getLocation().clone();
+        moveToLoc(entity, current, 10 * 5, 0);
+        AtomicReference<Float> pitch = new AtomicReference<>(1F);
+        Functions.Loop(10, 5, amount -> {
+            playSound(entity, Sound.ENTITY_WITHER_DEATH, 50F, pitch.get());
+            pitch.updateAndGet(v -> v + 0.1F);
+        }, amount -> dashToPlayerNow(entity, target));
+    }
+
+    public void dashToPlayerNow(EntitySD entity, PlayerSD target){
+        Location targetLocation = target.getLocation();
+        moveToLoc(entity, targetLocation, 40, 0);
+        Functions.Loop(40, 1, amount -> {
+            entity.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, entity.getLocation(), 1, 2, 2, 2);
+            damageEntitiesRadius(entity, 5, damage * 4);
+            playSound(entity, Sound.ENTITY_WITHER_BREAK_BLOCK, 1F,1F);
+        }, amount -> phase = 1);
+    }
+
     public void superSkull(EntitySD entity, PlayerSD target) {
+        playSound(entity, Sound.ENTITY_WITHER_SHOOT, 50F, 0.6F);
         flyToLocation.cancel();
         WitherSkull superSkull = shootSkullAtTarget(entity, target.getLocation());
         superSkull.setCharged(true);
     }
 
     public void skullRainAbility(EntitySD entity, PlayerSD target) {
+        playSound(entity, Sound.ENTITY_WITHER_SPAWN, 50F, 2F);
         phase = 2;
         flyToLocation.cancel();
         entity.entity.setAI(false);
@@ -124,22 +194,40 @@ public abstract class EntityWither extends EntityMaterial {
         SkyblockDragons.logger.info(String.format("Shoot skull vel: %s", targetVector));
         targetVector = targetVector.multiply(0.1);
         SkyblockDragons.logger.info(String.format("Shoot skull NERFED vel: %s", targetVector));
+        WitherSkull witherSkull = shootSkullAtDirection(entity, targetVector);
+        SkyblockDragons.logger.info(String.format("Shot skull vel: %s", witherSkull.getDirection()));
+        return witherSkull;
+    }
+
+    @NotNull
+    public WitherSkull shootSkullAtDirection(EntitySD entity, Vector targetVector) {
         WitherSkull witherSkull = entity.launchProjectile(WitherSkull.class, targetVector);
         witherSkull.setDirection(targetVector);
-        SkyblockDragons.logger.info(String.format("Shot skull vel: %s", witherSkull.getDirection()));
         return witherSkull;
     }
 
     public void moveAround(EntitySD entity) {
         double x = Functions.randomDouble(-85, -40);
-        double y = 71;
+        double y;
         if (entity.getHealth() > entity.getMaxHealth()/2)
             y = Functions.randomDouble(75, 85);
         else
             y = Functions.randomDouble(71, 75);
         double z = Functions.randomDouble(40, 80);
+        moveToLoc(entity, x, y, z, 81, 1);
+    }
+
+    public void moveToLoc(EntitySD entity, double x, double y, double z, long ticks, double stopAt) {
         Location location = new Location(entity.getWorld(), x, y, z);
-        flyToLocation = new FlyToLocation(entity, location, 81, 1, true);
+        moveToLoc(entity, location, ticks, stopAt);
+    }
+
+    public void moveToLoc(EntitySD entity, Location location, long ticks, double stopAt) {
+        flyToLocation = new FlyToLocation(entity, location, ticks, stopAt, true);
+    }
+
+    public void playSound(EntitySD entity, Sound sound, float volume, float pitch){
+        entity.getWorld().playSound(entity.getLocation(), sound, volume, pitch);
     }
 
     @Override
