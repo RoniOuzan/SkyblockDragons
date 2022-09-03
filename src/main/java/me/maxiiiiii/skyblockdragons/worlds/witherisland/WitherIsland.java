@@ -88,7 +88,7 @@ public class WitherIsland extends WorldSD implements Listener {
     public void onWitherSkullHit(ProjectileHitEvent event){
         Projectile projectile = event.getEntity();
         LivingEntity shooter = (LivingEntity) projectile.getShooter();
-        if (wither.uuid != null && shooter.getUniqueId().equals(wither.uuid) && projectile instanceof WitherSkull){
+        if (shooter != null && wither.uuid != null && shooter.getUniqueId().equals(wither.uuid) && projectile instanceof WitherSkull){
             int radius = 3;
             double damage = wither.damage;
             WitherSkull witherSkull = (WitherSkull) projectile;
@@ -101,7 +101,6 @@ public class WitherIsland extends WorldSD implements Listener {
                 if (entity instanceof Player){
                     Player player = (Player) entity;
                     player.damage(damage, wither.entitySD.entity);
-//                    player.sendMessage(String.format("Wither hit you %s damage VEL: %s", damage, witherSkull.getDirection()));
                 }
             }
         }

@@ -370,7 +370,6 @@ public class Items {
         items.put("TROLL_EYE", new ToolMaterial(Material.EYE_OF_ENDER, ItemFamily.TROLL, "Troll Eye", ItemType.ITEM, Rarity.EPIC, ChatColor.ITALIC + "Eye of the ender lost ERROR", new ItemAbility(AbilityAction.RIGHT_CLICK, "Get Out From My Face", "Make your target entity shoot ender pearls to every direction", 100, false, 15)));
         items.put("GRAPPLING_HOOK", new ToolMaterial(Material.FISHING_ROD, ItemFamily.GRAPPLING_HOOK, "Grappling Hook", ItemType.ITEM , Rarity.UNCOMMON, ChatColor.GRAY + "Travel around in style using this " + ChatColor.GREEN + "Grappling Hook" + ChatColor.GRAY + "."));
 
-        // TODO add requires to the spades
         String mythologsSpadeDescription = "Hold in your hand to reveal and dig out " + ChatColor.YELLOW + "Griffin Burrows " + ChatColor.GRAY + "in the griffin's island, which hold both " + ChatColor.GOLD + "treasure " + ChatColor.GRAY + "and " + ChatColor.RED + "dangers" + ChatColor.GRAY + "." + " NEW_LINE " + "Each level of the " + ChatColor.DARK_GREEN + "Mytholog's Spade " + ChatColor.GRAY + "you can find better " + ChatColor.GOLD + "treasures " + ChatColor.GRAY + "and drops.";
         ItemAbility mythologicalSpadeAbility = new ItemAbility(AbilityAction.RIGHT_CLICK, "Echo", "Show the way to the next or nearby Griffin Burrow.", 50, false, 2);
         items.put("MYTHOLOGS_SPADE_RARE", new ToolMaterial(Material.STONE_SPADE, ItemFamily.MYTHOLOGS_SPADE, "Mytholog's Spade", ItemType.ITEM, Rarity.RARE, mythologsSpadeDescription, mythologicalSpadeAbility));
@@ -378,7 +377,8 @@ public class Items {
         items.put("MYTHOLOGS_SPADE_LEGENDARY", new ToolMaterial(Material.GOLD_SPADE, ItemFamily.MYTHOLOGS_SPADE, "Mytholog's Spade", ItemType.ITEM, Rarity.LEGENDARY, mythologsSpadeDescription, mythologicalSpadeAbility));
         items.put("MYTHOLOGS_SPADE_MYTHIC", new ToolMaterial(Material.DIAMOND_SPADE, ItemFamily.MYTHOLOGS_SPADE, "Mytholog's Spade", ItemType.ITEM, Rarity.MYTHIC, mythologsSpadeDescription, mythologicalSpadeAbility));
 
-
+        // wither stones
+        items.put("POWER_WITHER_STONE", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.ITEM, "Ares crystal", ItemType.ITEM, Rarity.LEGENDARY, "b83ce84d-5a82-4111-a1cf-7e797aeb4849", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY3MzZmZDk1ZDNhNmE0YWFhYzQ2NzA5YTA3YWVjN2YxYzM4ZjBhM2FhZTU3M2U2ZjQ4MzM4ODgxOTQxMmI2NSJ9fX0=", "Use in a " + ChatColor.GREEN + "Wither Chamber "+ ChatColor.GRAY + "to increase the " + StatType.STRENGTH.getIconAndText() + ChatColor.GRAY +  " of a piece of armor, weapon, tool or talisman.", false, true, true));
 
         // Normal Items
         items.put("RECOMBABULATOR", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.ITEM, "Recombobulator 3000", ItemType.ITEM, Rarity.LEGENDARY, "96538e7f-6b56-3557-9b7d-458afe4239e9", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTdjY2QzNmRjOGY3MmFkY2IxZjhjOGU2MWVlODJjZDk2ZWFkMTQwY2YyYTE2YTEzNjZiZTliNWE4ZTNjYzNmYyJ9fX0K", "Use in a " + ChatColor.GREEN + "Reforge Anvil "+ ChatColor.GRAY + "or at the Dungeon Blacksmith to permanently increase the rarity of a piece of armor, weapon, tool or talisman. An item's rarity can only be upgraded once!", false, false, false));
@@ -426,7 +426,6 @@ public class Items {
         items.put("NULL_OVOID", new NormalMaterial(Material.MONSTER_EGG, ItemFamily.NULL, "Null Ovoid", ItemType.ITEM, Rarity.RARE, "58", "", true, true));
 
         items.put("ENCHANTED_BOOK", new BookMaterial(Material.ENCHANTED_BOOK, ItemFamily.BOOK, "Enchanted Book", ItemType.BOOK, Rarity.COMMON, "", ""));
-
 
         // Pets
         pets.put("ENDER_DRAGON", new PetMaterial("Ender Dragon",
