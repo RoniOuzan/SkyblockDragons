@@ -5,10 +5,10 @@ import me.maxiiiiii.skyblockdragons.mining.PlayerBreakBlockEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
+import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.worlds.griffin.events.PlayerDigBurrowEvent;
 import me.maxiiiiii.skyblockdragons.worlds.griffin.listeners.PlayerDigBurrowListener;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,7 +18,7 @@ public class GriffinIsland extends WorldSD implements Listener {
     public static final World world = Bukkit.getWorld("GriffinIsland");
 
     public GriffinIsland(JavaPlugin plugin) { // TODO change the spawn location
-        super(world, "Griffin Island", new Location(world, 0, 100, 0), WorldType.COMBAT, WorldType.MINING);
+        super(world, "Griffin Island", Warp.GRIFFIN_ISLAND, WorldType.COMBAT, WorldType.MINING);
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         plugin.getServer().getPluginManager().registerEvents(new PlayerDigBurrowListener(), plugin);
     }

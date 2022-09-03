@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.worlds.deepermines;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
 import me.maxiiiiii.skyblockdragons.world.npc.ForgeNPC;
+import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -12,7 +13,7 @@ public class DeeperMines extends WorldSD {
     public static final World world = Bukkit.getWorld("DeeperMines");
 
     public DeeperMines(JavaPlugin plugin) {
-        super(world, "Deeper Mines", new Location(world, -58.5, 200, -121.5, -90, 0), WorldType.MINING, WorldType.COMBAT);
+        super(world, "Deeper Mines", Warp.DEEPER_MINES, WorldType.MINING, WorldType.COMBAT);
     }
 
     @Override

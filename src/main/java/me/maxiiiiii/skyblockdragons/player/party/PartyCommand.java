@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.player.party;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.commands.CommandSD;
+import me.maxiiiiii.skyblockdragons.player.Permissions;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,7 +15,29 @@ public class PartyCommand extends CommandSD {
     @Override
     public void command(PlayerSD player, String[] args) {
         if (args.length == 0) {
-            // TODO add list of the commands
+            player.sendMessage(Party.LINE);
+            player.sendMessage(ChatColor.YELLOW + "/party invite <player> - invites a player to your party (must be moderator or higher)");
+            player.sendMessage(ChatColor.YELLOW + "/party join <player> - joins a party of player if the party is on PUBLIC");
+            if (player.hasPermission(Permissions.Party.FORCE_JOIN))
+                player.sendMessage(ChatColor.YELLOW + "/party forcejoin <player> - joins a party of player");
+            if (player.hasPermission(Permissions.Party.SILENT_JOIN))
+                player.sendMessage(ChatColor.YELLOW + "/party silentjoin <player> - joins a party of player as silent");
+            if (player.hasPermission(Permissions.Party.ADMIN_LIST))
+                player.sendMessage(ChatColor.YELLOW + "/party list <player> - sends you the list of the party of the argument");
+            player.sendMessage(ChatColor.YELLOW + "/party list - sends you the list of players in your party");
+            player.sendMessage(ChatColor.YELLOW + "/party public/private - sets your party on PUBLIC/PRIVATE (must be the leader)");
+            player.sendMessage(ChatColor.YELLOW + "/party promote <player> - promote a member in your party to moderator and moderator to leader (must be the leader)");
+            player.sendMessage(ChatColor.YELLOW + "/party transfer <player> - transfers the leader to a player in your party (must be the leader)");
+            player.sendMessage(ChatColor.YELLOW + "/party warp - warps everyone to your world (must be the leader)");
+            player.sendMessage(ChatColor.YELLOW + "/party kick/kickOffline [<player>] - kick/s a offline/players from your party (must be the leader)");
+            player.sendMessage(ChatColor.YELLOW + "/party delete - deletes your party (must be the leader)");
+            player.sendMessage(ChatColor.YELLOW + "/party leave - leaves your current party");
+            player.sendMessage(ChatColor.YELLOW + "/party ban/unban <player> - un/ban someone from your party, banned players cannot join your party (must be the leader)");
+            player.sendMessage(ChatColor.YELLOW + "/party chat <message...> - sends a message to in the party chat");
+            player.sendMessage(ChatColor.YELLOW + "/party mute/muteall <player> - mute/s a player/all the players (except the moderators) from the party chat (must be moderator or higher) ");
+            if (player.hasPermission(Permissions.Party.SEE_PARTIES))
+                player.sendMessage(ChatColor.YELLOW + "/party parties - sends you every active party");
+            player.sendMessage(Party.LINE);
             return;
         }
 
@@ -28,15 +51,15 @@ public class PartyCommand extends CommandSD {
                 if (nullCheck(player, args))
                     SkyblockDragons.getPlayer(args[1]).getParty().join(player);
             } else if (args[0].equalsIgnoreCase("forceJoin")) {
-                if (!player.hasPermission("skyblockdragons.party.forcejoin")) player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
+                if (!player.hasPermission(Permissions.Party.FORCE_JOIN)) player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
                 if (nullCheck(player, args))
                     SkyblockDragons.getPlayer(args[1]).getParty().forceJoin(player);
             } else if (args[0].equalsIgnoreCase("silentJoin") || args[0].equalsIgnoreCase("joinSilent") || args[0].equalsIgnoreCase("sneakyJoin")) {
-                if (!player.hasPermission("skyblockdragons.party.silentjoin")) player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
+                if (!player.hasPermission(Permissions.Party.SILENT_JOIN)) player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
                 if (nullCheck(player, args))
                     SkyblockDragons.getPlayer(args[1]).getParty().joinSilent(player);
             } else if (args[0].equalsIgnoreCase("list") && args.length > 1) {
-                if (!player.hasPermission("skyblockdragons.party.adminlist")) player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
+                if (!player.hasPermission(Permissions.Party.ADMIN_LIST)) player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
                 if (nullCheck(player, args))
                     SkyblockDragons.getPlayer(args[1]).getParty().sendList(player);
             } else {
@@ -63,16 +86,16 @@ public class PartyCommand extends CommandSD {
                     player.getParty().warp();
                 } else if (args[0].equalsIgnoreCase("list")) {
                     player.getParty().sendList(player);
-                } else if (args[0].equalsIgnoreCase("delete")) {
-                    if (player.getParty().getLeader() == player) player.getParty().delete();
-                } else if (args[0].equalsIgnoreCase("leave")) {
-                    player.getParty().leave(player);
                 } else if (args[0].equalsIgnoreCase("kick")) {
                     if (nullCheck(player, args, PlayerPartyType.LEADER))
                         player.getParty().kick(SkyblockDragons.getPlayer(args[1]));
                 } else if (args[0].equalsIgnoreCase("kickOffline")) {
                     if (nullCheck(player, args, PlayerPartyType.LEADER))
                         player.getParty().kickOffline();
+                } else if (args[0].equalsIgnoreCase("delete")) {
+                    if (player.getParty().getLeader() == player) player.getParty().delete();
+                } else if (args[0].equalsIgnoreCase("leave")) {
+                    player.getParty().leave(player);
                 } else if (args[0].equalsIgnoreCase("ban")) {
                     if (nullCheck(player, args, PlayerPartyType.LEADER))
                         player.getParty().ban(SkyblockDragons.getPlayer(args[1]));
@@ -81,20 +104,33 @@ public class PartyCommand extends CommandSD {
                         player.getParty().unban(SkyblockDragons.getPlayer(args[1]));
                 } else if (args[0].equalsIgnoreCase("chat")) {
                     if (args.length <= 1) {
-                        player.sendMessage("/party chat <message>");
+                        player.sendMessage("/party chat <message...>");
                         return;
                     }
-
                     StringBuilder message = new StringBuilder();
                     for (int i = 1; i < args.length; i++) {
                         message.append(args[i]).append(" ");
                     }
                     player.getParty().makePlayerSay(player, message.toString());
                 } else if (args[0].equalsIgnoreCase("mute")) {
-                    if (nullCheck(player, args, PlayerPartyType.LEADER, PlayerPartyType.MODERATOR))
-                        player.getParty().mute(player, SkyblockDragons.getPlayer(args[1]));
+                    if (!nullCheck(player, args, PlayerPartyType.LEADER, PlayerPartyType.MODERATOR)) {
+                        player.sendMessage(Party.LINE);
+                        player.sendMessage(ChatColor.RED + "You must be the moderator at least of the party to use this command!");
+                        player.sendMessage(Party.LINE);
+                        return;
+                    }
+                    player.getParty().mute(player, SkyblockDragons.getPlayer(args[1]));
+                } else if (args[0].equalsIgnoreCase("muteall")) {
+                    if (player.getParty().getLeader() != player && player.getParty().getPlayers().get(player) != PlayerPartyType.SILENT) {
+                        player.sendMessage(Party.LINE);
+                        player.sendMessage(ChatColor.RED + "You must be the leader of the party to use this command!");
+                        player.sendMessage(Party.LINE);
+                        return;
+                    }
+                    player.getParty().muteAll();
                 } else if (args[0].equalsIgnoreCase("parties")) {
-                    if (!player.hasPermission("skyblockdragons.party.seeparties")) player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
+                    if (!player.hasPermission(Permissions.Party.SEE_PARTIES))
+                        player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
                     Party.sendParties(player);
                 } else {
                     if (nullCheck(player, args, PlayerPartyType.LEADER, PlayerPartyType.MODERATOR)) {

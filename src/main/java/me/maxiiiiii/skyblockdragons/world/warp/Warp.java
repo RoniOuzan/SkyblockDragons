@@ -2,8 +2,15 @@ package me.maxiiiiii.skyblockdragons.world.warp;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
-import me.maxiiiiii.skyblockdragons.world.WorldSD;
+import me.maxiiiiii.skyblockdragons.worlds.InfintyIsland.InfintyIsland;
+import me.maxiiiiii.skyblockdragons.worlds.deepermines.DeeperMines;
+import me.maxiiiiii.skyblockdragons.worlds.deepmines.DeepMines;
+import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
+import me.maxiiiiii.skyblockdragons.worlds.griffin.GriffinIsland;
+import me.maxiiiiii.skyblockdragons.worlds.hub.Hub;
+import me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -12,16 +19,20 @@ import java.util.List;
 
 @Getter
 public enum Warp {
-    HUB(WorldSD.HUB.getSpawn()),
+    HUB(new Location(Hub.world, -2.5, 70, -68.5, 180, 0)),
 
-    DEEP_MINES(WorldSD.DEEP_MINES.getSpawn()),
-    DEEPER_MINES(WorldSD.DEEPER_MINES.getSpawn()),
+    DEEP_MINES(new Location(DeepMines.world, 1158.5, 210, 71.5, 180, 0)),
+    DEEPER_MINES(new Location(DeeperMines.world, -58.5, 200, -121.5, -90, 0)),
 
-    THE_END(WorldSD.THE_END.getSpawn(), "END"),
+    THE_END(new Location(TheEnd.world, 119.5, 54, 1.5, 90, 0)),
 
-    GRIFFIN_ISLAND(WorldSD.GRIFFIN_ISLAND.getSpawn(), "griffin"),
+    GRIFFIN_ISLAND(new Location(GriffinIsland.world, 0, 100, 0), "griffin"),
 
-    WITHER_ISLAND(WorldSD.WIHTER_ISLAND.getSpawn(), "wither"),
+    WITHER_ISLAND(new Location(WitherIsland.world, -109.500,65.00000, 139.500), "wither"),
+
+    INFINTY_ISLAND(new Location(InfintyIsland.world, 0, 0, 0, 90, 0), "infinty"),
+
+    UNWARPABLE(HUB.getLocation())
     ;
 
     private final Location location;
@@ -39,7 +50,13 @@ public enum Warp {
     }
 
     public void warp(PlayerSD player) {
+        if (this == UNWARPABLE) return;
+
         PlayerWarpEvent event = new PlayerWarpEvent(player, this);
         Bukkit.getServer().getPluginManager().callEvent(event);
+    }
+
+    public String getName() {
+        return Functions.setTitleCase(this.name().replace("_", " "));
     }
 }

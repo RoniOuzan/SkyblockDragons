@@ -5,13 +5,13 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.mining.Mining;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.worlds.deepermines.DeeperMines;
 import me.maxiiiiii.skyblockdragons.worlds.deepmines.DeepMines;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.worlds.griffin.GriffinIsland;
 import me.maxiiiiii.skyblockdragons.worlds.hub.Hub;
 import me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,13 +34,13 @@ public abstract class WorldSD implements Listener {
 
     private final World world;
     private final String name;
-    private final Location spawn;
+    private final Warp warp;
     private final List<WorldType> worldType;
 
-    protected WorldSD(World world, String name, Location spawn, WorldType... worldType) {
+    protected WorldSD(World world, String name, Warp warp, WorldType... worldType) {
         this.world = world;
         this.name = name;
-        this.spawn = spawn;
+        this.warp = warp;
         this.worldType = Arrays.stream(worldType).collect(Collectors.toList());
 
         SkyblockDragons.plugin.getServer().getPluginManager().registerEvents(this, SkyblockDragons.plugin);

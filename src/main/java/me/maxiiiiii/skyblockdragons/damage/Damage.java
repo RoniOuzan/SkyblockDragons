@@ -403,7 +403,7 @@ public class Damage implements Listener {
         double amount = player.getCoins() / 2;
         player.removeCoins(amount);
         player.sendMessage(ChatColor.RED + "You died and lost " + Functions.getNumberFormat(amount) + " coins.");
-        player.teleport(player.getWorldSD().getSpawn());
+        player.teleport(player.getWorldSD().getWarp().getLocation());
 
         Functions.Wait(1L, () -> player.spigot().respawn());
     }

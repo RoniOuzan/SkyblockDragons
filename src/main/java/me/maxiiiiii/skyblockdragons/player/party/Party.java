@@ -31,6 +31,7 @@ public class Party implements Iterable<PlayerSD> {
     private final List<UUID> bannedPlayers;
 
     private final Map<PlayerSD, Boolean> mutedPlayers;
+    private boolean muteAll;
 
     public Party(PlayerSD leader) {
         parties.add(this);
@@ -47,6 +48,7 @@ public class Party implements Iterable<PlayerSD> {
         this.bannedPlayers = new ArrayList<>();
 
         this.mutedPlayers = new HashMap<>();
+        this.muteAll = false;
 
         this.sendLine();
         this.sendCenteredMessage(ChatColor.YELLOW + "Party has been created!");
@@ -197,7 +199,13 @@ public class Party implements Iterable<PlayerSD> {
     }
 
     public void warp() {
-        // TODO
+        this.sendLine();
+        this.sendMessage(ChatColor.YELLOW + this.leader.getDisplayName() + ChatColor.YELLOW + " warped everyone to " + this.leader.getWorldSD().getWarp().getName());
+        this.sendLine();
+
+        for (PlayerSD player : this) {
+            player.warp(this.leader.getWorldSD().getWarp());
+        }
     }
 
     public void sendList(PlayerSD player) {
@@ -338,6 +346,11 @@ public class Party implements Iterable<PlayerSD> {
     }
 
     public void mute(PlayerSD player, PlayerSD to) {
+        if (this.players.get(player) == PlayerPartyType.MODERATOR && this.players.get(to) == PlayerPartyType.MODERATOR) {
+            player.sendMessage(ChatColor.RED + "You can't mute moderator as moderator!");
+            return;
+        }
+
         if (this.mutedPlayers.getOrDefault(to, false)) {
             this.sendLine();
             this.sendMessage(ChatColor.YELLOW + player.getDisplayName() + ChatColor.YELLOW + " unmuted " + to.getDisplayName());
@@ -358,6 +371,22 @@ public class Party implements Iterable<PlayerSD> {
             player.sendMessage("  " + ChatColor.YELLOW + party.getLeader().getDisplayName() + " - " + party.getPlayers().size());
         }
         player.sendMessage(LINE);
+    }
+
+    public void muteAll() {
+        if (this.muteAll) {
+            this.sendLine();
+            this.sendMessage(ChatColor.YELLOW + this.leader.getDisplayName() + ChatColor.YELLOW + " has muted the chat");
+            this.sendLine();
+
+            this.muteAll = false;
+        } else {
+            this.sendLine();
+            this.sendMessage(ChatColor.YELLOW + this.leader.getDisplayName() + ChatColor.YELLOW + " has unmuted the chat");
+            this.sendLine();
+
+            this.muteAll = true;
+        }
     }
 
     public PlayerSD getLeader() {

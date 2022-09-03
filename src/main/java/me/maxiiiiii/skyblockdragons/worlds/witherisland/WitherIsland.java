@@ -1,10 +1,10 @@
 package me.maxiiiiii.skyblockdragons.worlds.witherisland;
 
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.types.witherisland.EntityWither;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
+import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -26,7 +26,7 @@ public class WitherIsland extends WorldSD implements Listener {
     public static final Map<PlayerSD, Double> witherDamage = new HashMap<>();
 
     public WitherIsland(JavaPlugin plugin) {
-        super(world, "Wither Island", new Location(world, -109.500,65.00000, 139.500), WorldType.COMBAT, WorldType.MINING);
+        super(world, "Wither Island", Warp.WITHER_ISLAND, WorldType.COMBAT, WorldType.MINING);
     }
 
     @EventHandler

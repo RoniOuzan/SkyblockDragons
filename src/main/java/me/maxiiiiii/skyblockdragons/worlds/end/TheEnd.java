@@ -11,6 +11,7 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.FlyToLocation;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
+import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.worlds.end.events.DragonKillEvent;
 import me.maxiiiiii.skyblockdragons.worlds.end.events.PlayerPlaceEyeEvent;
 import me.maxiiiiii.skyblockdragons.worlds.end.listeners.DragonKillListener;
@@ -45,7 +46,7 @@ public class TheEnd extends WorldSD implements Listener {
     public static EntitySD dragon = null;
 
     public TheEnd(JavaPlugin plugin) {
-        super(world, "The End", new Location(world, 119.5, 54, 1.5, 90, 0), WorldType.COMBAT, WorldType.MINING);
+        super(world, "The End", Warp.THE_END, WorldType.COMBAT, WorldType.MINING);
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         plugin.getServer().getPluginManager().registerEvents(new PlayerPlaceEyeListener(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new DragonKillListener(), plugin);

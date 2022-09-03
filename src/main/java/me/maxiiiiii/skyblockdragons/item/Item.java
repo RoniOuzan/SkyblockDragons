@@ -2,13 +2,13 @@ package me.maxiiiiii.skyblockdragons.item;
 
 import de.tr7zw.changeme.nbtapi.*;
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.*;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
-import me.maxiiiiii.skyblockdragons.item.modifiers.*;
+import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifier;
+import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
