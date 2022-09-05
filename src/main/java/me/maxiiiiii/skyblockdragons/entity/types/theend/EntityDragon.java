@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.entity.types.theend;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.GameMode;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 public abstract class EntityDragon extends EntityMaterial {
     public EntityDragon(String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance) {
-        super(EntityType.ENDER_DRAGON, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, false, 0, 0);
+        super(EntityType.ENDER_DRAGON, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, true, 0, 0);
     }
 
     public void strikeAbility(Entity entity) {
@@ -27,5 +28,16 @@ public abstract class EntityDragon extends EntityMaterial {
                 player.makeDamage(entity, Damage.DamageType.TRUE, player.getHealthStat() * percent);
             }
         }
+    }
+
+    @Override
+    public void onDamage(EntitySD attacker, EntitySD entity, Double damage) {
+        entity.entity.setNoDamageTicks(0);
+        entity.entity.setMaximumNoDamageTicks(0);
+    }
+
+    @Override
+    public void onDeath(EntitySD attacker, EntitySD entity) {
+        entity.entity.setAI(false);
     }
 }

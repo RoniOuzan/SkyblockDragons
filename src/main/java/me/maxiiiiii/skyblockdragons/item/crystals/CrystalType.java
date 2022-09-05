@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 public enum CrystalType {
     POWER(Items.get("POWER_WITHER_STONE"), StatType.STRENGTH, Lists.newArrayList(5d, 10d, 20d)),
-    SOUL(Items.get("POWER_WITHER_STONE"), StatType.STRENGTH, Lists.newArrayList(5d, 10d, 20d));
+    SOUL(Items.get("SOUL_WITHER_STONE"), StatType.STRENGTH, Lists.newArrayList(5d, 10d, 20d));
 //    MIND,
 //    DEMETER;
 

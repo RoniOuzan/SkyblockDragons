@@ -189,6 +189,9 @@ public class Item extends ItemStack {
             NormalMaterial material = (NormalMaterial) this.material;
 
             if (material.isShowRecipe()) {
+                if (!material.getDescription().equals("")) {
+                    lores.add("");
+                }
                 lores.add(ChatColor.YELLOW + "Right-click to view recipe!");
             }
         }

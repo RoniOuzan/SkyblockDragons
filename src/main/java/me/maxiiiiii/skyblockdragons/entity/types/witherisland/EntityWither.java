@@ -139,7 +139,10 @@ public abstract class EntityWither extends EntityMaterial {
     public void skullEverywhereNow(EntitySD entity){
         AtomicReference<Double> j = new AtomicReference<>((double) 0);
         Functions.Loop(36 * 2, 1, amount -> {
-            double y = Math.sin(j.get() * 3);
+            double y = -0.4;
+            if (amount >= 36){
+                y = -0.5;
+            }
             shootSkullAtDirection(entity, new Vector(Math.sin(j.get()), y, Math.cos(j.get())));
             j.updateAndGet(v -> (v + (Math.PI * 2) / 36));
         }, amount -> phase = 1);

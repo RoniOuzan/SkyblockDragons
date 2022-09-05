@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.worlds.end;
 
+import de.tr7zw.changeme.nbtapi.NBTEntity;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamageEntityEvent;
@@ -8,6 +9,7 @@ import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import me.maxiiiiii.skyblockdragons.util.objects.FlyToLocation;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
@@ -43,6 +45,7 @@ public class TheEnd extends WorldSD implements Listener {
     public static final Location MIDDLE = new Location(world, 0, 64, 0);
     public static final Map<PlayerSD, Double> dragonDamage = new HashMap<>();
     public static EntitySD dragon = null;
+    public static long time = 0;
 
     public TheEnd(JavaPlugin plugin) {
         super(world, "The End", new Location(world, 119.5, 54, 1.5, 90, 0), WorldType.COMBAT, WorldType.MINING);
@@ -80,6 +83,8 @@ public class TheEnd extends WorldSD implements Listener {
 
     public static void spawnDragon() {
         dragon = new EntitySD(DRAGON_SPAWN, getRandomDragon());
+        NBTEntity nbtEntity = new NBTEntity(dragon.entity);
+        nbtEntity.setInteger("DragonPhase", 1);
         for (Player player : Bukkit.getOnlinePlayers().stream().filter(p -> p.getWorld().getName().equals("TheEnd")).collect(Collectors.toList())) {
             if (player.getLocation().distance(MIDDLE) <= 50) {
                 player.setVelocity(new Vector(
@@ -90,15 +95,14 @@ public class TheEnd extends WorldSD implements Listener {
             }
         }
 
-        ((EnderDragon) dragon.entity).setPhase(EnderDragon.Phase.HOVER);
-        Functions.While(() -> !dragon.isDead(), 2L, i -> {
-            for (Entity entity : dragon.getNearbyEntities(1, 1, 1)) {
-                if (entity instanceof Arrow && ((Arrow) entity).getShooter() != null) {
-                    entity.remove();
-                    SkyblockDragons.getPlayer((Player) ((Arrow) entity).getShooter()).makeDamage(dragon, Damage.DamageType.PROJECTILE, 1);
-                }
-            }
-        });
+//        Functions.While(() -> !dragon.isDead(), 2L, i -> {
+//            for (Entity entity : dragon.getNearbyEntities(1, 1, 1)) {
+//                if (entity instanceof Arrow && ((Arrow) entity).getShooter() != null) {
+//                    entity.remove();
+//                    SkyblockDragons.getPlayer((Player) ((Arrow) entity).getShooter()).makeDamage(dragon, Damage.DamageType.PROJECTILE, 1);
+//                }
+//            }
+//        });
         Functions.While(() -> !dragon.isDead(), 80L, i -> {
             if (i % 6 == 4) {
                 return;
@@ -150,6 +154,12 @@ public class TheEnd extends WorldSD implements Listener {
         if (e.getEntity() instanceof EnderDragon) {
             EnderDragon dragon = (EnderDragon) e.getEntity();
             if (dragon.getWorld().getName().equals("TheEnd")) {
+                long diff = System.currentTimeMillis() - time;
+                if (diff <= 2000){
+                    SkyblockDragons.logger.warning("Dragon died too quick to count! " + diff);
+                    return;
+                }
+                time = System.currentTimeMillis();
                 Functions.Wait(1L, () -> {
                     DragonKillEvent event = new DragonKillEvent(EntitySD.get(e.getEntity()), dragonDamage);
                     Bukkit.getServer().getPluginManager().callEvent(event);

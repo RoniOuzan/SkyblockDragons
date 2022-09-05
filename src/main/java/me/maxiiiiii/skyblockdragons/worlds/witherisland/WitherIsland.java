@@ -45,15 +45,17 @@ public class WitherIsland extends WorldSD implements Listener {
 
     @EventHandler
     public void onWitherDeath(EntityDeathEvent e){
+        try {
         LivingEntity entity = e.getEntity();
         if (wither.uuid != null && entity.getUniqueId().equals(wither.uuid)){
 //            EntitySD entitySD = EntitySD.get(entity);
             Functions.Wait(20, () -> sendWitherDeadMessage(e.getEntity().getKiller()));
-
         }
+        } catch (NullPointerException ignored){}
     }
 
     public static void sendWitherDeadMessage(Player lastDamager){
+
         Map<UUID, Double> sortedWitherDamageMap = sortedWitherDamageMap();
         List<UUID> damageDealers = sortedWitherDamage();
         List<Killer> killers = new ArrayList<>();
@@ -82,28 +84,31 @@ public class WitherIsland extends WorldSD implements Listener {
             }
             player.sendMessage(ChatColor.RESET + "" + ChatColor.GREEN + "" + ChatColor.BOLD + "----------------------------------------");
         }
+
     }
 
     @EventHandler
     public void onWitherSkullHit(ProjectileHitEvent event){
         Projectile projectile = event.getEntity();
         LivingEntity shooter = (LivingEntity) projectile.getShooter();
-        if (shooter != null && wither.uuid != null && shooter.getUniqueId().equals(wither.uuid) && projectile instanceof WitherSkull){
-            int radius = 3;
-            double damage = wither.damage;
-            WitherSkull witherSkull = (WitherSkull) projectile;
-            if (witherSkull.isCharged()){
-                projectile.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, projectile.getLocation(), 1, 7, 7, 7);
-                radius = 7;
-                damage *= 4;
-            }
-            for (Entity entity : projectile.getNearbyEntities(radius, radius, radius)) {
-                if (entity instanceof Player){
-                    Player player = (Player) entity;
-                    player.damage(damage, wither.entitySD.entity);
+        try {
+            if (shooter != null && wither.uuid != null && shooter.getUniqueId().equals(wither.uuid) && projectile instanceof WitherSkull){
+                int radius = 3;
+                double damage = wither.damage;
+                WitherSkull witherSkull = (WitherSkull) projectile;
+                if (witherSkull.isCharged()){
+                    projectile.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, projectile.getLocation(), 1, 7, 7, 7);
+                    radius = 7;
+                    damage *= 4;
+                }
+                for (Entity entity : projectile.getNearbyEntities(radius, radius, radius)) {
+                    if (entity instanceof Player){
+                        Player player = (Player) entity;
+                        player.damage(damage, wither.entitySD.entity);
+                    }
                 }
             }
-        }
+        } catch (NullPointerException ignored){}
     }
 
     public static List<UUID> sortedWitherDamage(){
