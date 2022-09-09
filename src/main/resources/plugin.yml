@@ -158,6 +158,11 @@ commands:
   ForgeMilestone:
     permission: skyblockdragons.forge.milestone
     usage: /<command> <text> [<amount>]
+  SkyblockDragonsTest:
+    aliases:
+      - sdtest
+      - testsd
+    permission: skyblockdragons.test
   Party:
     permission: skyblockdragons.party.command
     usage: /<command> <text> [<arg>]
