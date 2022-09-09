@@ -5,7 +5,7 @@ import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 
 public class TestWither extends EntityWither {
     public TestWither() {
-        super("Wither Boss", -1, 50_000_000, 50, 50, 50, new Equipment(), 100, 1);
+        super("Test Wither Boss", -1, 5_000_000, 100, 500, 50, new Equipment(), 100, 1);
     }
 
 

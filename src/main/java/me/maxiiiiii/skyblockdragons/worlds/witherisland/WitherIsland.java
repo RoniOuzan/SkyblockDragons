@@ -49,15 +49,17 @@ public class WitherIsland extends WorldSD implements Listener {
 
     @EventHandler
     public void onWitherDeath(EntityDeathEvent e){
+        try {
         LivingEntity entity = e.getEntity();
         if (wither.uuid != null && entity.getUniqueId().equals(wither.uuid)){
 //            EntitySD entitySD = EntitySD.get(entity);
             Functions.Wait(20, () -> sendWitherDeadMessage(e.getEntity().getKiller()));
-
         }
+        } catch (NullPointerException ignored){}
     }
 
     public static void sendWitherDeadMessage(Player lastDamager){
+
         Map<UUID, Double> sortedWitherDamageMap = sortedWitherDamageMap();
         List<UUID> damageDealers = sortedWitherDamage();
         List<Killer> killers = new ArrayList<>();
@@ -67,7 +69,7 @@ public class WitherIsland extends WorldSD implements Listener {
         Collections.reverse(killers);
         for (Player player : Bukkit.getOnlinePlayers().stream().filter(p -> p.getWorld().getName().equals("WitherIsland")).collect(Collectors.toList())) {
             player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "----------------------------------------");
-            player.sendMessage("                      " + wither.color + "" + ChatColor.BOLD + Functions.setTitleCase(wither.name()) + " Dragon");
+            player.sendMessage("                      " + wither.color + "" + ChatColor.BOLD + Functions.setTitleCase(wither.name) + ChatColor.GOLD + ChatColor.BOLD + " DOWN!");
             player.sendMessage(ChatColor.RESET + " ");
             if (lastDamager != null)
                 player.sendMessage("           " + ChatColor.WHITE + lastDamager.getDisplayName() + ChatColor.GRAY + " dealt the final hit!");
@@ -86,29 +88,31 @@ public class WitherIsland extends WorldSD implements Listener {
             }
             player.sendMessage(ChatColor.RESET + "" + ChatColor.GREEN + "" + ChatColor.BOLD + "----------------------------------------");
         }
+
     }
 
     @EventHandler
     public void onWitherSkullHit(ProjectileHitEvent event){
         Projectile projectile = event.getEntity();
         LivingEntity shooter = (LivingEntity) projectile.getShooter();
-        if (wither.uuid != null && shooter.getUniqueId().equals(wither.uuid) && projectile instanceof WitherSkull){
-            int radius = 3;
-            int damage = 500;
-            WitherSkull witherSkull = (WitherSkull) projectile;
-            if (witherSkull.isCharged()){
-                projectile.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, projectile.getLocation(), 1, 7, 7, 7);
-                radius = 7;
-                damage = 2000;
-            }
-            for (Entity entity : projectile.getNearbyEntities(radius, radius, radius)) {
-                if (entity instanceof Player){
-                    Player player = (Player) entity;
-                    player.damage(damage, wither.entitySD.entity);
-                    player.sendMessage(String.format("Wither hit you %s damage VEL: %s", damage, witherSkull.getDirection()));
+        try {
+            if (shooter != null && wither.uuid != null && shooter.getUniqueId().equals(wither.uuid) && projectile instanceof WitherSkull){
+                int radius = 3;
+                double damage = wither.damage;
+                WitherSkull witherSkull = (WitherSkull) projectile;
+                if (witherSkull.isCharged()){
+                    projectile.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, projectile.getLocation(), 1, 7, 7, 7);
+                    radius = 7;
+                    damage *= 4;
+                }
+                for (Entity entity : projectile.getNearbyEntities(radius, radius, radius)) {
+                    if (entity instanceof Player){
+                        Player player = (Player) entity;
+                        player.damage(damage, wither.entitySD.entity);
+                    }
                 }
             }
-        }
+        } catch (NullPointerException ignored){}
     }
 
     public static List<UUID> sortedWitherDamage(){

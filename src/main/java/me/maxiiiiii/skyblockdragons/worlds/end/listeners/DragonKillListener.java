@@ -23,6 +23,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -47,6 +48,7 @@ public class DragonKillListener implements Listener {
         }
 
         Map<PlayerSD, Integer> positions = new HashMap<>();
+        Map<PlayerSD, Double> playerQuality = new LinkedHashMap<>();
 
         // 1 to make the place be easier to see
         for (int i = 1; i < killers.size() + 1; i++) {
@@ -74,37 +76,11 @@ public class DragonKillListener implements Listener {
             else
                 placeQuality = 30;
 
-            double quality = placeQuality + ((damage / killers.get(0).damage) * 100) + (eyes * 100);
+//            double quality = placeQuality + ((damage / killers.get(0).damage) * 100) + (eyes * 100);
+            double quality = placeQuality + (eyes * 100);
+            playerQuality.put(player, quality);
 
-            ItemStack uniqueDrop = null;
-            if (quality >= 450) {
-                if (Functions.chanceOf(0.05 * eyes)) {
-                    uniqueDrop = new Pet(PetMaterial.get("ENDER_DRAGON"), Rarity.EPIC, 1, 0, true);
-                } else if (Functions.chanceOf(0.01 * eyes)) {
-                    uniqueDrop = new Pet(PetMaterial.get("ENDER_DRAGON"), Rarity.LEGENDARY, 1, 0, true);
-                } else if (Functions.chanceOf(5 * eyes) && dragonType == DragonType.SUPERIOR) {
-                    uniqueDrop = new Item(Items.get("DRAGON_HORN"), 1);
-                } else if (Functions.chanceOf(2 * eyes)) {
-                    uniqueDrop = new Item(Items.get("DRAGON_CLAW"), 1);
-                } else if (Functions.chanceOf(3 * eyes)) {
-                    uniqueDrop = new Item(Items.get("ASPECT_OF_THE_DRAGON"), 1);
-                }
-            }
-            if (uniqueDrop == null && quality >= 420)
-                if (Functions.chanceOf(0.02 * eyes))
-                    uniqueDrop = new Item(Items.get(dragonType.name() + "_DRAGON_HELMET_SKIN"));
-            if (uniqueDrop == null && quality >= 410)
-                if (Functions.chanceOf(30))
-                    uniqueDrop = new Item(Items.get(dragonType.name() + "_DRAGON_CHESTPLATE"));
-            if (uniqueDrop == null && quality >= 360)
-                if (Functions.chanceOf(30))
-                    uniqueDrop = new Item(Items.get(dragonType.name() + "_DRAGON_LEGGINGS"));
-            if (uniqueDrop == null && quality >= 295)
-                if (Functions.chanceOf(30))
-                    uniqueDrop = new Item(Items.get(dragonType.name() + "_DRAGON_HELMET"));
-            if (uniqueDrop == null && quality >= 290)
-                if (Functions.chanceOf(30))
-                    uniqueDrop = new Item(Items.get(dragonType.name() + "_DRAGON_BOOTS"));
+            ItemStack uniqueDrop = getPlayerUniqueDrop(dragonType, eyes, quality);
 
             int normalAmount = Functions.randomInt((int) (eyes * 0.5), eyes * 2);
             if (uniqueDrop != null) {
@@ -151,5 +127,39 @@ public class DragonKillListener implements Listener {
                 block.setType(Material.ENDER_STONE);
             }
         });
+    }
+
+    @Nullable
+    public ItemStack getPlayerUniqueDrop(DragonType dragonType, int eyes, double quality) {
+        ItemStack uniqueDrop = null;
+        if (quality >= 450) {
+            if (Functions.chanceOf(0.05 * eyes)) {
+                uniqueDrop = new Pet(PetMaterial.get("ENDER_DRAGON"), Rarity.EPIC, 1, 0, true);
+            } else if (Functions.chanceOf(0.01 * eyes)) {
+                uniqueDrop = new Pet(PetMaterial.get("ENDER_DRAGON"), Rarity.LEGENDARY, 1, 0, true);
+            } else if (Functions.chanceOf(5 * eyes) && dragonType == DragonType.SUPERIOR) {
+                uniqueDrop = new Item(Items.get("DRAGON_HORN"), 1);
+            } else if (Functions.chanceOf(2 * eyes)) {
+                uniqueDrop = new Item(Items.get("DRAGON_CLAW"), 1);
+            } else if (Functions.chanceOf(3 * eyes)) {
+                uniqueDrop = new Item(Items.get("ASPECT_OF_THE_DRAGON"), 1);
+            }
+        }
+        if (uniqueDrop == null && quality >= 420)
+            if (Functions.chanceOf(0.02 * eyes))
+                uniqueDrop = new Item(Items.get(dragonType.name() + "_DRAGON_HELMET_SKIN"));
+        if (uniqueDrop == null && quality >= 410)
+            if (Functions.chanceOf(30))
+                uniqueDrop = new Item(Items.get(dragonType.name() + "_DRAGON_CHESTPLATE"));
+        if (uniqueDrop == null && quality >= 360)
+            if (Functions.chanceOf(30))
+                uniqueDrop = new Item(Items.get(dragonType.name() + "_DRAGON_LEGGINGS"));
+        if (uniqueDrop == null && quality >= 295)
+            if (Functions.chanceOf(30))
+                uniqueDrop = new Item(Items.get(dragonType.name() + "_DRAGON_HELMET"));
+        if (uniqueDrop == null && quality >= 290)
+            if (Functions.chanceOf(30))
+                uniqueDrop = new Item(Items.get(dragonType.name() + "_DRAGON_BOOTS"));
+        return uniqueDrop;
     }
 }

@@ -42,6 +42,8 @@ public class PickableItem implements Listener {
         this.armorStand.setGravity(false);
         this.armorStand.setInvulnerable(true);
         this.armorStand.setMarker(true);
+        this.armorStand.setCustomName(item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : "");
+        this.armorStand.setCustomNameVisible(true);
         if (item.getType().name().contains("CHESTPLATE"))
             this.armorStand.setChestplate(item);
         else if (item.getType().name().contains("LEGGINGS"))

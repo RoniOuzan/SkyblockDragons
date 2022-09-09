@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.modifiers;
 
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.item.crystals.CrystalType;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.NecronBladeMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.SkinMaterial;
@@ -20,14 +20,16 @@ public class ItemModifiers implements Iterable<ItemModifier> {
     private final RecombabulatorModifier recombabulator;
     private final ReforgeModifier reforge;
     private final SkinModifier skin;
+    private final CrystalModifier crystals;
 
-    public ItemModifiers(EnchantModifier enchants, HotPotatoModifier hotPotato, NecronBladeScrollsModifier necronBladeScrolls, RecombabulatorModifier recombabulator, ReforgeModifier reforge, SkinModifier skin) {
+    public ItemModifiers(EnchantModifier enchants, HotPotatoModifier hotPotato, NecronBladeScrollsModifier necronBladeScrolls, RecombabulatorModifier recombabulator, ReforgeModifier reforge, SkinModifier skin, CrystalModifier crystals) {
         this.enchants = enchants;
         this.hotPotato = hotPotato;
         this.necronBladeScrolls = necronBladeScrolls;
         this.recombabulator = recombabulator;
         this.reforge = reforge;
         this.skin = skin;
+        this.crystals = crystals;
     }
 
     public ItemModifiers(ItemModifier... modifiers) {
@@ -37,8 +39,8 @@ public class ItemModifiers implements Iterable<ItemModifier> {
                 (NecronBladeScrollsModifier) getOrDefault(modifiers, NecronBladeScrollsModifier.class, new NecronBladeScrollsModifier()),
                 (RecombabulatorModifier) getOrDefault(modifiers, RecombabulatorModifier.class, new RecombabulatorModifier()),
                 (ReforgeModifier) getOrDefault(modifiers, ReforgeModifier.class, new ReforgeModifier()),
-                (SkinModifier) getOrDefault(modifiers, SkinModifier.class, new SkinModifier())
-        );
+                (SkinModifier) getOrDefault(modifiers, SkinModifier.class, new SkinModifier()),
+                (CrystalModifier) getOrDefault(modifiers, CrystalModifier.class, new CrystalModifier()));
     }
 
     public static ItemModifier[] override(ItemModifier[] itemModifiers, ItemModifier... modifiers) {
@@ -58,6 +60,10 @@ public class ItemModifiers implements Iterable<ItemModifier> {
 
     public Map<EnchantType, Short> getEnchants() {
         return this.enchants.get();
+    }
+
+    public Map<CrystalType, Short> getCrystals() {
+        return this.crystals.get();
     }
 
     public int getHotPotato() {
