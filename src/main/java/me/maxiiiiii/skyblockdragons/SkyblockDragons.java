@@ -31,7 +31,14 @@ import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeCommand;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
 import me.maxiiiiii.skyblockdragons.player.bank.BankCommand;
+import me.maxiiiiii.skyblockdragons.player.chat.ChatCommand;
+import me.maxiiiiii.skyblockdragons.player.chat.listeners.ChatListener;
+import me.maxiiiiii.skyblockdragons.player.chat.listeners.PlayerGetMessageListener;
+import me.maxiiiiii.skyblockdragons.player.chat.listeners.PlayerSendMessageListener;
 import me.maxiiiiii.skyblockdragons.player.coop.CoopCommand;
+import me.maxiiiiii.skyblockdragons.player.party.PartyChatCommand;
+import me.maxiiiiii.skyblockdragons.player.party.PartyCommand;
+import me.maxiiiiii.skyblockdragons.player.party.PartyListCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillAdminCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillListener;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillMenu;
@@ -311,6 +318,10 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("SkyblockDragonsTest").setExecutor(new SkyblockDragonsTestCommand());
         registerCommand("Forge", new Forge.Command());
         registerCommand("ForgeMilestone", new ForgeMilestoneCommand());
+        registerCommand("Party", new PartyCommand());
+        registerCommand("Chat", new ChatCommand());
+        registerCommand("PartyChat", new PartyChatCommand());
+        registerCommand("PartyList", new PartyListCommand());
     }
 
     private void registerAllEvents() {
@@ -337,6 +348,9 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new ProfileMenu.Event(), this);
 
         getServer().getPluginManager().registerEvents(new PlayerWarpListener(), this);
+        getServer().getPluginManager().registerEvents(new ChatListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerSendMessageListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerGetMessageListener(), this);
 
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
 
@@ -419,6 +433,10 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
     public static List<PlayerSD> getPlayers() {
         return new ArrayList<>(players.values());
+    }
+
+    public static List<PlayerSD> getOnlinePlayers() {
+        return players.values().stream().filter(Player::isOnline).collect(Collectors.toList());
     }
 
     public static PlayerSD getPlayer(String name) {

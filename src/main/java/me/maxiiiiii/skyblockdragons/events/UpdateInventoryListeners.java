@@ -28,7 +28,7 @@ public class UpdateInventoryListeners implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        Functions.Wait(2L, () -> {
+        Functions.Wait(5L, () -> {
             PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
             player.updatePlayerInventory();
         });

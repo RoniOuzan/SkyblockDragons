@@ -22,6 +22,7 @@ import me.maxiiiiii.skyblockdragons.item.pet.Pet;
 import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
+import me.maxiiiiii.skyblockdragons.player.chat.ChatChannel;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
 import me.maxiiiiii.skyblockdragons.player.party.Party;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
@@ -61,12 +62,13 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 @Getter
 @Setter
 public class PlayerSD extends PlayerClass {
-    private final Player player;
-//    public Coop coop;
-
     public PlayerStats stats;
 
-    private final ScoreboardSD scoreboardSD;
+    private ScoreboardSD scoreboardSD;
+
+    private ChatChannel chatChannel;
+
+    private Party party;
 
     public int playTime;
     public int bits;
@@ -88,15 +90,11 @@ public class PlayerSD extends PlayerClass {
 
     private final List<Menu> menuHistory = new ArrayList<>();
 
-    private Party party;
-
     public static final double HEALTH_REGEN = 1.05;
 
     public PlayerSD(Player player) {
         super(player);
-
-        player.setHealthScale(40d);
-        this.player = player;
+        this.update(player);
 
         this.stats = new PlayerStats(this,
                 0,
@@ -122,6 +120,10 @@ public class PlayerSD extends PlayerClass {
                 0
         );
 
+        this.chatChannel = Variables.get(player.getUniqueId(), "ChatChannel", 0, ChatChannel.ALL);
+
+        this.party = null;
+
         this.playTime = Variables.get(player.getUniqueId(), "PlayTime", 0, 0);
         this.bits = Variables.get(player.getUniqueId(), "Bits", 0, 0);
 
@@ -140,14 +142,19 @@ public class PlayerSD extends PlayerClass {
 
         this.scoreboardSD = new ScoreboardSD(this);
 
-        this.party = null;
-
         SkyblockDragons.players.put(player.getUniqueId(), this);
+    }
+
+    public void update(Player player) {
+        this.setPlayer(player);
+        this.player.setHealthScale(40d);
     }
 
     public void save() {
         Variables.set(player.getUniqueId(), "PlayTime", 0, this.playTime);
         Variables.set(player.getUniqueId(), "Bits", 0, this.bits);
+
+        Variables.set(player.getUniqueId(), "ChatChannel", 0, this.chatChannel);
 
         this.wardrobe.save();
         this.skill.save();
@@ -622,6 +629,10 @@ public class PlayerSD extends PlayerClass {
 
     public void makeDamage(Entity entity, Damage.DamageType damageType, double damage) {
         makeDamage(entity, damageType, damage, 0, 0);
+    }
+
+    public void makePlayerSay(String message) {
+        this.chatChannel.send(this, message);
     }
 
     public WorldSD getWorldSD() {

@@ -165,6 +165,27 @@ commands:
     permission: skyblockdragons.test
   Party:
     permission: skyblockdragons.party.command
-    usage: /<command> <text> [<player>]
+    usage: /<command> <text> [<arg>]
     aliases:
       - p
+  Chat:
+    permission: skyblockdragons.chat.command
+    usage: /<command> <channel>
+  PartyChat:
+    permission: skyblockdragons.party.chat
+    usage: /<command> <message>
+    aliases:
+      - pc
+      - pchat
+      - partyc
+      - ChatParty
+      - cparty
+      - chatp
+  PartyList:
+    permission: skyblockdragons.party.list
+    usage: /<command>
+    aliases:
+      - pl
+      - plist
+      - playerl
+      - listplayer

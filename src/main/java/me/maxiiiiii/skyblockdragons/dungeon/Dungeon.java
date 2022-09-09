@@ -87,7 +87,7 @@ public class Dungeon implements Listener {
     }
 
     public void teleportPlayers() {
-        this.party.forEach(p -> p.teleport(this.world.getSpawn()));
+        this.party.forEach(p -> p.teleport(this.world.getWarp().getLocation()));
     }
 
     public void resetWorld() { // TODO @LidanTheGamer_ whatever you want to do here
