@@ -1,9 +1,15 @@
 package me.maxiiiiii.skyblockdragons.events;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
+import me.maxiiiiii.skyblockdragons.player.skill.Skill;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -12,15 +18,33 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class JoinQuitListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e)  {
-        SkyblockDragons.logger.info("scam " + e.getPlayer().getName());
+//        SkyblockDragons.logger.info("scam " + e.getPlayer().getName());
 
         Functions.Wait(1L, () -> {
-            if (SkyblockDragons.getPlayer(e.getPlayer()) == null) {
-                new PlayerSD(e.getPlayer());
+            Player playerBukkit = e.getPlayer();
+            if (SkyblockDragons.getPlayer(playerBukkit) == null) {
+                new PlayerSD(playerBukkit);
             } else {
-                SkyblockDragons.getPlayer(e.getPlayer()).update(e.getPlayer());
+                SkyblockDragons.getPlayer(playerBukkit).update(playerBukkit);
+            }
+
+            if (!playerBukkit.hasPlayedBefore()){
+                PlayerSD player = SkyblockDragons.getPlayer(playerBukkit);
+                starterKit(player);
             }
         });
+    }
+
+    public static void starterKit(PlayerSD player) {
+        player.getEquipment().setBoots(new Item(Items.get("ENDER_BOOTS")));
+        player.getEquipment().setLeggings(new Item(Items.get("ENDER_LEGGINGS")));
+        player.getEquipment().setChestplate(new Item(Items.get("ENDER_CHESTPLATE")));
+        player.getEquipment().setHelmet(new Item(Items.get("ENDER_HELMET")));
+        player.give(new Item(Items.get("ASPECT_OF_THE_END")));
+        player.give(new Item(Items.get("ENDER_BOW")));
+        player.give(new Item(Items.get("DIAMOND_PICKAXE")));
+        player.getSkill().get(SkillType.COMBAT).setLevel(12);
+
     }
 
     @EventHandler
@@ -33,4 +57,6 @@ public class JoinQuitListener implements Listener {
         player.save();
 //        SkyblockDragons.players.remove(e.getPlayer().getUniqueId());
     }
+
+
 }
