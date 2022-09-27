@@ -51,7 +51,7 @@ public class ScoreboardSD {
         String bitsAdder = "";
 
         if (player.getPlayTime() % 36000L >= 0L && player.getPlayTime() % 36000L < 20L) {
-            bitsAdder = ChatColor.AQUA + "(+250 PCoins)";
+            bitsAdder = ChatColor.AQUA + "(+250)";
             if (player.getPlayTime() % 36000L < 5L) {
                 player.addBits(250);
             }

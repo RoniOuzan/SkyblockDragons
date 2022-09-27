@@ -7,6 +7,7 @@ import me.maxiiiiii.skyblockdragons.commands.manager.QuickCommand;
 import me.maxiiiiii.skyblockdragons.commands.manager.QuickSubCommand;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
+import me.maxiiiiii.skyblockdragons.events.JoinQuitListener;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Laser;
 import me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland;
@@ -64,6 +65,9 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
             player.sendMessage("DragonSD scam scam spawn!");
             player.sendMessage(nbtEntity);
             SkyblockDragons.logger.info(nbtEntity.toString());
+        }));
+        addSubCommand(new QuickSubCommand("starter", (player, args) -> {
+            JoinQuitListener.starterKit(player);
         }));
     }
 }

@@ -25,6 +25,11 @@ public class PlayerBreakBlockListener implements Listener {
         e.setDropItems(false);
         e.setExpToDrop((int) Math.ceil(Math.sqrt(e.getMaterial().miningXp)));
         Material brokeMaterial = e.getBlock().getType();
+        if (player.getWorldSD() == WorldSD.THE_END && brokeMaterial != Material.ENDER_STONE){
+            e.setCancelled(true);
+            return;
+        }
+
         if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0)
             for (Drop drop : e.getMaterial().drops) {
                 ItemStack itemStack = drop.generate(player, block);
@@ -60,8 +65,9 @@ public class PlayerBreakBlockListener implements Listener {
         Functions.Wait(1L, () -> e.getBlock().setType(Material.BEDROCK));
         if (player.getWorldSD() == WorldSD.DEEP_MINES)
             Functions.Wait(60L, () -> e.getBlock().setType(getOre(e.getBlock())));
-        else if (player.getWorldSD() == WorldSD.THE_END)
+        else if (player.getWorldSD() == WorldSD.THE_END) {
             Functions.Wait(100L, () -> e.getBlock().setType(Material.ENDER_STONE));
+        }
         else if (player.getWorldSD() == WorldSD.DEEPER_MINES)
             Functions.Wait(100L, () -> e.getBlock().setType(brokeMaterial));
     }

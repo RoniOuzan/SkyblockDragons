@@ -32,8 +32,9 @@ public class WarpCommand extends CommandSD {
 
     @Override
     public List<Argument> tabComplete(PlayerSD player, List<Argument> tabs) {
-        if (player.hasPermission("skyblockdragons.warp"))
+        if (player.hasPermission("skyblockdragons.warp")) {
             tabs.add(new Argument(0, "", Arrays.stream(Warp.values()).map(Enum::name).collect(Collectors.toList())));
+        }
         return tabs;
     }
 }

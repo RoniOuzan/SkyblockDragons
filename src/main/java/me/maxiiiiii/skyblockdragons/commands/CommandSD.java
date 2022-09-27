@@ -56,7 +56,7 @@ public abstract class CommandSD implements CommandExecutor, TabCompleter {
         if (arguments == null)
             return null;
         List<List<String>> tabs = arguments.stream()
-                .filter(a -> a.index == args.length - 1 && (a.index <= 0 || args[a.index - 1].startsWith(a.text)))
+                .filter(a -> a.index == args.length - 1 && (a.index <= 0 || a.text.startsWith(args[a.index - 1])))
                 .map(a -> a.tabs)
                 .collect(Collectors.toList());
         if (tabs.size() > 0) {

@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.commands.manager;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import org.bukkit.entity.Player;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 
 public class QuickSubCommand extends SubCommand {
     public String name = "";
@@ -38,7 +38,7 @@ public class QuickSubCommand extends SubCommand {
     }
 
     @Override
-    public void perform(Player player, String[] args) {
+    public void perform(PlayerSD player, String[] args) {
         run.perform(SkyblockDragons.getPlayer(player), args);
     }
 }
