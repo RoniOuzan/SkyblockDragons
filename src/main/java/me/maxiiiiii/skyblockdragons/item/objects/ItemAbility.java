@@ -38,7 +38,21 @@ public class ItemAbility implements MaterialModifier {
         this(action, name, description, 0, customManaCost, 0, 0, 0);
     }
 
-//    @Override
+    @Override
+    public String toString() {
+        return "ItemAbility{" +
+                "action=" + action +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", manaCost=" + manaCost +
+                ", customManaCost=" + customManaCost +
+                ", cooldown=" + cooldown +
+                ", abilityDamage=" + abilityDamage +
+                ", abilityScaling=" + abilityScaling +
+                '}';
+    }
+
+    //    @Override
 //    public Map<String, Object> serialize() {
 //        Map<String, Object> map = new HashMap<>();
 //        map.put("action", action);

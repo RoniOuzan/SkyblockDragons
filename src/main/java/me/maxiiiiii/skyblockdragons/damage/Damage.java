@@ -31,6 +31,8 @@ import java.util.Arrays;
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class Damage implements Listener {
+    private static final boolean LOSE_COINS = false;
+
     public enum DamageType {
         NORMAL, PROJECTILE, MAGIC, CRITICAL_MAGIC, TRUE, FALL, FIRE;
 
@@ -399,10 +401,11 @@ public class Damage implements Listener {
                 e.setDeathMessage(ChatColor.GRAY + player.getDisplayName() + ChatColor.GRAY + " died by " + ((Player) player.getAttacker()).getDisplayName() + ChatColor.GRAY + "!");
             else
                 e.setDeathMessage(ChatColor.GRAY + player.getDisplayName() + ChatColor.GRAY + " died by " + player.getAttacker().type.getName() + ChatColor.GRAY + "!");
-
-        double amount = player.getCoins() / 2;
-        player.removeCoins(amount);
-        player.sendMessage(ChatColor.RED + "You died and lost " + Functions.getNumberFormat(amount) + " coins.");
+        if (LOSE_COINS) {
+            double amount = player.getCoins() / 2;
+            player.removeCoins(amount);
+            player.sendMessage(ChatColor.RED + "You died and lost " + Functions.getNumberFormat(amount) + " coins.");
+        }
         player.teleport(player.getWorldSD().getWarp().getLocation());
 
         Functions.Wait(1L, () -> player.spigot().respawn());

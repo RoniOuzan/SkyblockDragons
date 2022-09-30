@@ -8,7 +8,9 @@ import com.google.gson.stream.JsonReader;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.util.objects.CustomConfig;
 import me.maxiiiiii.skyblockdragons.util.serialization.Serializer;
+import org.bukkit.configuration.ConfigurationSection;
 
 import java.io.*;
 import java.util.*;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 
 public class Variables {
     public static final List<Variable> variables = new ArrayList<>();
+    public static final CustomConfig VARIABLES = new CustomConfig("variables");
     public static final Map<UUID, List<Variable>> playerVariables = new HashMap<>();
 
     public static List<Variable> getVariableAll(UUID uuid, String name) {
@@ -39,20 +42,18 @@ public class Variables {
     }
 
     public static <T> T get(String name, int data) {
-        List<Variable> output = variables.stream().filter(
-                v -> v.name.equals(name) && v.data == data
-        ).collect(Collectors.toList());
-        if (output.size() > 0)
-            return output.get(0).getValue();
-        return null;
+//        List<Variable> output = variables.stream()
+//                .filter(v -> v.name.equals(name) && v.data == data)
+//                .collect(Collectors.toList());
+//        if (output.size() > 0)
+//            return output.get(0).getValue();
+        return (T) VARIABLES.get().get(name + "." + data);
     }
 
     public static <T> T get(String name, int data, T defaultValue) {
-        List<Variable> output = variables.stream().filter(
-                v -> v.name.equals(name) && v.data == data
-        ).collect(Collectors.toList());
-        if (output.size() > 0)
-            return output.get(0).getValue();
+        T output = get(name, data);
+        if (output != null)
+            return output;
         return defaultValue;
     }
 
@@ -72,7 +73,7 @@ public class Variables {
     }
 
     public static <T> void set(String name, int data, T value) {
-        boolean did = false;
+        /*boolean did = false;
         for (int i = 0; i < variables.size(); i++) {
             if (variables.get(i).name.equals(name) && variables.get(i).data == data) {
                 did = true;
@@ -81,7 +82,8 @@ public class Variables {
         }
         if (!did) {
             variables.add(new Variable(name, data, Serializer.serialize(value)));
-        }
+        }*/
+        VARIABLES.get().set(name + "." + data, value);
     }
 
     public static <T> void set(String name, Collection<T> value) {
@@ -101,7 +103,8 @@ public class Variables {
     }
 
     public static void delete(String name, int data) {
-        variables.removeIf(v -> v.name.equals(name) && v.data == data);
+//        variables.removeIf(v -> v.name.equals(name) && v.data == data);
+        VARIABLES.get().set(name + "." + data, null);
     }
 
     public static long getSize(UUID uuid, String name) {
@@ -109,7 +112,9 @@ public class Variables {
     }
 
     public static long getSize(String name) {
-        return variables.stream().filter(v -> v.name.equals(name)).count();
+//        return variables.stream().filter(v -> v.name.equals(name)).count();
+        ConfigurationSection section = VARIABLES.get().getConfigurationSection(name);
+        return section != null ? section.getKeys(false).size() : 0;
     }
 
     public static boolean has(UUID uuid, String name, int data) {
@@ -128,7 +133,7 @@ public class Variables {
         for (PlayerSD player : SkyblockDragons.players.values()) {
             player.save();
         }
-
+        VARIABLES.save();
         try {
             Gson gson = new Gson();
             for (UUID uuid : playerVariables.keySet()) {
@@ -141,12 +146,14 @@ public class Variables {
             String json = gson.toJson(variables);
             fileWriter.write(json);
             fileWriter.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static void load() {
+        VARIABLES.reload();
         variables.clear();
         try {
             File file = new File(SkyblockDragons.plugin.getDataFolder().getAbsolutePath() + "/Players");
@@ -155,8 +162,7 @@ public class Variables {
                     BufferedReader reader = new BufferedReader(new FileReader(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/Players/" + path));
                     String json = reader.readLine();
                     JsonReader jsonReader = new JsonReader(new StringReader(json));
-                    JsonParser jsonParser = new JsonParser();
-                    JsonArray array = jsonParser.parse(jsonReader).getAsJsonArray();
+                    JsonArray array = new JsonParser().parse(jsonReader).getAsJsonArray();
 
                     String[] names = path.split("/");
                     UUID uuid = UUID.fromString(names[names.length - 1].replace(".json", ""));
@@ -174,8 +180,7 @@ public class Variables {
             BufferedReader reader = new BufferedReader(new FileReader(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/Variables.json"));
             String json = reader.readLine();
             JsonReader jsonReader = new JsonReader(new StringReader(json));
-            JsonParser jsonParser = new JsonParser();
-            JsonArray array = jsonParser.parse(jsonReader).getAsJsonArray();
+            JsonArray array = new JsonParser().parse(jsonReader).getAsJsonArray();
 
             for (JsonElement variable : array) {
                 String name = variable.getAsJsonObject().get("name").getAsString();

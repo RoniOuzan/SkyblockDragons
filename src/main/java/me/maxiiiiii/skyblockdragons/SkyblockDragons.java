@@ -8,6 +8,7 @@ import me.maxiiiiii.skyblockdragons.damage.KnockbackListener;
 import me.maxiiiiii.skyblockdragons.entity.EntityCommand;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
+import me.maxiiiiii.skyblockdragons.entity.EntitySpawn;
 import me.maxiiiiii.skyblockdragons.events.*;
 import me.maxiiiiii.skyblockdragons.inventory.MenuListener;
 import me.maxiiiiii.skyblockdragons.inventory.menus.ProfileMenu;
@@ -114,6 +115,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         Bukkit.getScheduler().runTask(this, TheEnd::resetEyes);
 
         ConfigurationSerialization.registerClass(EntityMaterial.class);
+        ConfigurationSerialization.registerClass(EntitySpawn.class);
 
         Variables.load();
 
@@ -311,6 +313,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerCommand("RecipesWith", new RecipesMenu.WithMenu.Command());
         getCommand("Variables").setExecutor(new VariableCommand());
         getCommand("Warp").setExecutor(new WarpCommand());
+        getCommand("Warp").setTabCompleter(new WarpCommand());
         getCommand("EnchantingTable").setExecutor(new EnchantingTableCommand());
         getCommand("Profile").setExecutor(new ProfileMenu.Command());
         getCommand("Storage").setExecutor(new StorageMenu.Command());
@@ -389,6 +392,10 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Magma_Cloak(), this);
         getServer().getPluginManager().registerEvents(new Mythologs_Spade(), this);
         getServer().getPluginManager().registerEvents(new ERROR_SCYTHE(), this);
+        getServer().getPluginManager().registerEvents(new CommandListener(), this);
+        getServer().getPluginManager().registerEvents(new TeleportListener(), this);
+        getServer().getPluginManager().registerEvents(new BlockListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerUseAbilitiesListener(), this);
         new PacketListeners(); // not really an event but works like them
     }
 

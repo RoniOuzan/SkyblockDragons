@@ -7,6 +7,9 @@ import me.maxiiiiii.skyblockdragons.commands.manager.QuickCommand;
 import me.maxiiiiii.skyblockdragons.commands.manager.QuickSubCommand;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
+import me.maxiiiiii.skyblockdragons.entity.EntitySpawn;
+import me.maxiiiiii.skyblockdragons.events.JoinQuitListener;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Laser;
 import me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland;
@@ -64,6 +67,24 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
             player.sendMessage("DragonSD scam scam spawn!");
             player.sendMessage(nbtEntity);
             SkyblockDragons.logger.info(nbtEntity.toString());
+        }));
+        addSubCommand(new QuickSubCommand("starter", (player, args) -> {
+            JoinQuitListener.starterKit(player);
+        }));
+        addSubCommand(new QuickSubCommand("new-spawn", (player, args) -> {
+            EntitySpawn spawn = new EntitySpawn(player.getLocation(), "NULL");
+            Variables.set("Spawns", 0, spawn);
+            EntitySpawn spawnAtFile = Variables.get("Spawns", 0);
+            player.sendMessage("Spawn at file: " + spawnAtFile);
+        }));
+        addSubCommand(new QuickSubCommand("vars-save", (player, args) -> {
+            Variables.save();
+        }));
+        addSubCommand(new QuickSubCommand("vars-load", (player, args) -> {
+            Variables.load();
+        }));
+        addSubCommand(new QuickSubCommand("log-login", (player, args) -> {
+            player.logLogin();
         }));
     }
 }

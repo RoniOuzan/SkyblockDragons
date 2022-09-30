@@ -51,7 +51,7 @@ public class ScoreboardSD {
         String bitsAdder = "";
 
         if (player.getPlayTime() % 36000L >= 0L && player.getPlayTime() % 36000L < 20L) {
-            bitsAdder = ChatColor.AQUA + "(+250 PCoins)";
+            bitsAdder = ChatColor.AQUA + "(+250)";
             if (player.getPlayTime() % 36000L < 5L) {
                 player.addBits(250);
             }
@@ -72,7 +72,7 @@ public class ScoreboardSD {
             scores.add("  " + player.getPetActive().getRarity().getColor() + player.getPetActive().getPetMaterial().getName());
             scores.add("   ");
         }
-        scores.add(ChatColor.YELLOW + "sbdragons.revivesmc.net");
+        scores.add(ChatColor.YELLOW + "sbdragons.ml");
 
         this.scoreboard.setLines(player, scores);
         this.scoreboard.updateScoreboard();

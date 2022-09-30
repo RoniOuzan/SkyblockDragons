@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.events;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -27,12 +28,14 @@ public class UpdateStatsListeners implements Listener {
         Functions.Wait(1L, () -> {
             ItemStack itemStack = player.getEquipment().getItemInMainHand();
             ItemMaterial itemMaterial = Functions.getItemMaterial(itemStack);
-            Item item = new Item(player, itemMaterial, itemStack);
-            copyNBTStack(item, itemStack);
-            if (!item.isSimilar(itemStack) && !getId(itemStack).contains("_PET") && !Functions.getId(item).equals("SKYBLOCK_MENU")) {
-                player.getEquipment().setItemInMainHand(item);
-            }
+            if (itemMaterial != Items.NULL) {
+                Item item = new Item(player, itemMaterial, itemStack);
+                copyNBTStack(item, itemStack);
+                if (!item.isSimilar(itemStack) && !getId(itemStack).contains("_PET") && !Functions.getId(item).equals("SKYBLOCK_MENU")) {
+                    player.getEquipment().setItemInMainHand(item);
+                }
 
+            }
             player.applyStats(false);
         });
     }

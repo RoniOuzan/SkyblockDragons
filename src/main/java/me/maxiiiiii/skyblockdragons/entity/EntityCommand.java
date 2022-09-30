@@ -63,6 +63,7 @@ public class EntityCommand implements CommandExecutor, TabCompleter {
                     }
                     EntitySD.entitiesLocations.remove(location);
                     EntitySD.saveLocations();
+                    player.sendMessage(ChatColor.GREEN + "You have removed the spawn at " + location + ".");
                 } else if (args[0].equalsIgnoreCase("send")) {
                     for (Location location : EntitySD.entitiesLocations.keySet()) {
                         player.sendMessage(EntitySD.entitiesLocations.get(location).name() + ": " + Functions.getLocation(location));

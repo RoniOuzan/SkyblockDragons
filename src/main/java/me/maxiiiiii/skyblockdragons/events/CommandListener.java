@@ -2,25 +2,20 @@ package me.maxiiiiii.skyblockdragons.events;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-public class DropListener implements Listener {
-    @EventHandler
-    public void onDrop(PlayerDropItemEvent e) {
-        if (Functions.getId(e.getItemDrop().getItemStack()).equals("SKYBLOCK_MENU")) e.setCancelled(true);
-    }
+public class CommandListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerDropItemTracker(PlayerDropItemEvent event) {
+    public void onPlayerCommandTracker(PlayerCommandPreprocessEvent event) {
         PlayerSD player = SkyblockDragons.getPlayer(event.getPlayer());
         if (player == null) {
             return;
         }
-        String msg = "DropItemTracker: " + String.format("Item: %s ", event.getItemDrop()) +
+        String msg = "PlayerCommandTracker: " + String.format("Command: %s ", event.getMessage()) +
                 String.format("cancelled? %s", event.isCancelled());
         player.getLogger().info(msg);
     }

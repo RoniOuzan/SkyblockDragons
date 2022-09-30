@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.commands.manager;
 
-import org.bukkit.entity.Player;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 
 public abstract class SubCommand {
 
@@ -10,6 +10,6 @@ public abstract class SubCommand {
 
     public abstract String getSyntax();
 
-    public abstract void perform(Player player, String[] args);
+    public abstract void perform(PlayerSD player, String[] args);
 
 }

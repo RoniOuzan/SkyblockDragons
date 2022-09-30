@@ -30,7 +30,7 @@ public class CustomConfig {
             try{
                 file.createNewFile();
             }catch (IOException e){
-                SkyblockDragons.logger.warning("Could not create bazaarData.yml");
+                SkyblockDragons.logger.warning(String.format("Could not create %s", file.getName()));
                 e.printStackTrace();
             }
         }

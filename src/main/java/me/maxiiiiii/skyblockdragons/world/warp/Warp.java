@@ -21,10 +21,10 @@ import java.util.List;
 public enum Warp {
     HUB(new Location(Hub.world, -2.5, 70, -68.5, 180, 0)),
 
-    DEEP_MINES(new Location(DeepMines.world, 1158.5, 210, 71.5, 180, 0)),
-    DEEPER_MINES(new Location(DeeperMines.world, -58.5, 200, -121.5, -90, 0)),
+    DEEP_MINES(new Location(DeepMines.world, 1158.5, 210, 71.5, 180, 0), "mines"),
+    DEEPER_MINES(new Location(DeeperMines.world, -58.5, 200, -121.5, -90, 0), "deeper"),
 
-    THE_END(new Location(TheEnd.world, 119.5, 54, 1.5, 90, 0)),
+    THE_END(new Location(TheEnd.world, 119.5, 54, 1.5, 90, 0), "end"),
 
     GRIFFIN_ISLAND(new Location(GriffinIsland.world, 0, 100, 0), "griffin"),
 
