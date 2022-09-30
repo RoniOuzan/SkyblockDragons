@@ -72,7 +72,7 @@ public class ScoreboardSD {
             scores.add("  " + player.getPetActive().getRarity().getColor() + player.getPetActive().getPetMaterial().getName());
             scores.add("   ");
         }
-        scores.add(ChatColor.YELLOW + "sbdragons.revivesmc.net");
+        scores.add(ChatColor.YELLOW + "sbdragons.ml");
 
         this.scoreboard.setLines(player, scores);
         this.scoreboard.updateScoreboard();

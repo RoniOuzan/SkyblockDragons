@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.item.Item;
@@ -117,21 +118,34 @@ public class EntitySD extends EntityClass {
 
     public static void saveLocations() {
         int i = 0;
+        Variables.VARIABLES.get().set("EntitiesSpawns", null);
         for (Location location : entitiesLocations.keySet()) {
-            Variables.set("EntitiesSpawnsLocations", i, location);
-            Variables.set("EntitiesSpawnsEntity", i, entitiesLocations.get(location));
+            /*Variables.set("EntitiesSpawnsLocations", i, location);
+            Variables.set("EntitiesSpawnsEntity", i, entitiesLocations.get(location));*/
+            Variables.set("EntitiesSpawns", i, new EntitySpawn(location, entitiesLocations.get(location).name()));
             i++;
         }
     }
 
     public static void loadLocations() {
-        for (int i = 0; i < Variables.getSize("EntitiesSpawnsLocations"); i++) {
-            if (Variables.get("EntitiesSpawnsLocations", i) == null)
+        long entitiesSpawnsLocations = Variables.getSize("EntitiesSpawns");
+        SkyblockDragons.logger.info(String.format("Loading Entity locations... %s", entitiesSpawnsLocations));
+        for (int i = 0; i < entitiesSpawnsLocations; i++) {
+//            if (Variables.get("EntitiesSpawnsLocations", i) == null) {
+//                SkyblockDragons.logger.info(String.format("Skip entity %s Location null", i));
+//                continue;
+//            }
+//            if (Variables.get("EntitiesSpawnsEntity", i) == null) {
+//                SkyblockDragons.logger.info(String.format("Skip entity %s Entity null", i));
+//                continue;
+//            }
+            EntitySpawn spawn = Variables.get("EntitiesSpawns", i);
+            if (spawn == null) {
+                SkyblockDragons.logger.info(String.format("Skip entity %s object NULL", i));
                 continue;
-            if (Variables.get("EntitiesSpawnsEntity", i) == null)
-                continue;
-            Location location = Variables.get("EntitiesSpawnsLocations", i, new Location(Bukkit.getWorld("Hub"), 0, 0, 0));
-            EntityMaterial material = Variables.get("EntitiesSpawnsEntity", i);
+            }
+            Location location = spawn.getLocation();
+            EntityMaterial material = spawn.getEntityMaterial();
             if (material == EntityMaterial.NULL) {
                 if (location.getWorld().getName().equals("DeepMines")) {
                     if (location.getY() >= 170) {
@@ -141,14 +155,20 @@ public class EntitySD extends EntityClass {
                     } else {
                         material = Functions.getRandom(EntityMaterial.get("DIAMOND_ZOMBIE"), EntityMaterial.get("DIAMOND_ZOMBIE"), EntityMaterial.get("OBSIDIAN_ZOMBIE"));
                     }
-                } else if (location.getWorld().getName().equals("TheEnd")) {
+                }
+            }
+            if (location.getWorld().getName().equals("TheEnd")) {
+                if (material.name().startsWith("ENDER") || material == EntityMaterial.NULL) {
                     if (location.distance(TheEnd.MIDDLE) <= 60) {
                         material = EntityMaterial.get("ENDER_GUARD");
-                    } else if (location.distance(TheEnd.MIDDLE) <= 120) {
+                    } else if (location.distance(TheEnd.MIDDLE) <= 100) {
                         material = EntityMaterial.get("ENDERMAN_TIER_2");
                     } else
                         material = EntityMaterial.get("ENDERMAN_TIER_1");
                 }
+            }
+            if (material != null) {
+                SkyblockDragons.logger.info(String.format("Entity at %s has material %s", location, material.getName()));
             }
             entitiesLocations.put(location, material);
         }

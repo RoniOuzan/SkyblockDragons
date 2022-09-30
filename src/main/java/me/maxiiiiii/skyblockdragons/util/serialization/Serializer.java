@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.util.serialization;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 
@@ -33,8 +34,9 @@ public class Serializer {
             BukkitObjectInputStream is = new BukkitObjectInputStream(in);
 
             return (T) is.readObject();
-        } catch (IOException | ClassNotFoundException ignored) {
-
+        } catch (IOException | ClassNotFoundException exception) {
+            SkyblockDragons.logger.info("Failed to read object: " + object);
+            exception.printStackTrace();
         }
         return null;
     }

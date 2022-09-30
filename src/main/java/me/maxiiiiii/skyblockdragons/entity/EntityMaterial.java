@@ -25,6 +25,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.Listener;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -128,7 +129,10 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         entities.put("SUPER_INFINITY", new Super_Infinity());
         entities.put("ERROR_INFINITY", new ERROR_Infinity());
 
-        NULL = new NullEntity();
+        NullEntity nullEntity = new NullEntity();
+        entities.put("NULL", nullEntity);
+
+        NULL = nullEntity;
     }
 
     public static EntityMaterial get(String name) {

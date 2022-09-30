@@ -49,7 +49,10 @@ public abstract class QuickCommand implements TabExecutor {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1){
-            completions = subCommands.stream().map(SubCommand::getName).collect(Collectors.toList());
+            completions = subCommands.stream()
+                    .map(SubCommand::getName)
+                    .filter(s -> s.startsWith(args[0]))
+                    .collect(Collectors.toList());
         }
         else if (args.length == 2){
             return null;
