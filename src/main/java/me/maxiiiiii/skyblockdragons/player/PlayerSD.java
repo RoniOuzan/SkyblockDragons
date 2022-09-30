@@ -52,10 +52,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
@@ -67,6 +71,9 @@ public class PlayerSD extends PlayerClass {
     private ScoreboardSD scoreboardSD;
 
     private ChatChannel chatChannel;
+
+    private boolean tracked;
+    private Logger logger;
 
     private Party party;
 
@@ -122,6 +129,9 @@ public class PlayerSD extends PlayerClass {
 
         this.chatChannel = Variables.get(player.getUniqueId(), "ChatChannel", 0, ChatChannel.ALL);
 
+        this.tracked = Variables.get(player.getUniqueId(), "Tracked", 0, true);
+        setupLogger();
+
         this.party = null;
 
         this.playTime = Variables.get(player.getUniqueId(), "PlayTime", 0, 0);
@@ -145,6 +155,39 @@ public class PlayerSD extends PlayerClass {
         SkyblockDragons.players.put(player.getUniqueId(), this);
     }
 
+    private void setupLogger() {
+        this.logger = Logger.getLogger("PlayerLogger");
+        FileHandler fh;
+        try {
+
+            // This block configure the logger with handler and formatter
+            fh = new FileHandler(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/PlayersLogs/" + getUniqueId() + ".log", 0,1, true);
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+
+            // don't log to console
+            logger.setUseParentHandlers(false);
+            // the following statement is used to log any messages
+            logger.info("Init Logger: " + getUniqueId());
+            logLogin();
+
+        } catch (SecurityException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void logLogin() {
+        logger.info("Player Login: " + getName());
+        logger.info("Display Player name: " + getDisplayName());
+        logger.info("Player location: " + getLocation());
+    }
+
+    public void logLogout() {
+        logger.info("Player Logout: " + getName());
+        logger.info("Player location: " + getLocation());
+    }
+
     public void update(Player player) {
         this.setPlayer(player);
         this.player.setHealthScale(40d);
@@ -155,6 +198,7 @@ public class PlayerSD extends PlayerClass {
         Variables.set(player.getUniqueId(), "Bits", 0, this.bits);
 
         Variables.set(player.getUniqueId(), "ChatChannel", 0, this.chatChannel);
+        Variables.set(player.getUniqueId(), "Tracked", 0, this.tracked);
 
         this.wardrobe.save();
         this.skill.save();

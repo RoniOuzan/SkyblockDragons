@@ -392,6 +392,10 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Magma_Cloak(), this);
         getServer().getPluginManager().registerEvents(new Mythologs_Spade(), this);
         getServer().getPluginManager().registerEvents(new ERROR_SCYTHE(), this);
+        getServer().getPluginManager().registerEvents(new CommandListener(), this);
+        getServer().getPluginManager().registerEvents(new TeleportListener(), this);
+        getServer().getPluginManager().registerEvents(new BlockListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerUseAbilitiesListener(), this);
         new PacketListeners(); // not really an event but works like them
     }
 

@@ -83,5 +83,8 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
         addSubCommand(new QuickSubCommand("vars-load", (player, args) -> {
             Variables.load();
         }));
+        addSubCommand(new QuickSubCommand("log-login", (player, args) -> {
+            player.logLogin();
+        }));
     }
 }

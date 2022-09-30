@@ -28,10 +28,12 @@ public class JoinQuitListener implements Listener {
                 SkyblockDragons.getPlayer(playerBukkit).update(playerBukkit);
             }
 
+            PlayerSD player = SkyblockDragons.getPlayer(playerBukkit);
+
             if (!playerBukkit.hasPlayedBefore()){
-                PlayerSD player = SkyblockDragons.getPlayer(playerBukkit);
                 starterKit(player);
             }
+            player.logLogin();
         });
     }
 
@@ -54,6 +56,7 @@ public class JoinQuitListener implements Listener {
             player.getPlayerPet().petArmorStand.armorStand.remove();
             player.getPlayerPet().petArmorStand.hologram.delete();
         }
+        player.logLogout();
         player.save();
 //        SkyblockDragons.players.remove(e.getPlayer().getUniqueId());
     }

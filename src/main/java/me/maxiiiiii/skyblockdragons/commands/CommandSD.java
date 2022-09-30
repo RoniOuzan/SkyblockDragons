@@ -2,13 +2,16 @@ package me.maxiiiiii.skyblockdragons.commands;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import org.bukkit.command.*;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
-
-import static sun.audio.AudioPlayer.player;
 
 public abstract class CommandSD implements TabExecutor {
     public abstract void command(PlayerSD player, String[] args);
@@ -61,7 +64,7 @@ public abstract class CommandSD implements TabExecutor {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (!(sender instanceof Player))
             return null;
-//        SkyblockDragons.logger.info("onTabComplete CommandSD called with player " + player.getName() + ", alias " + alias + ", args " + Arrays.toString(args));
+//        SkyblockDragons.logger.info("onTabComplete CommandSD called with player " + sender.getName() + ", alias " + alias + ", args " + Arrays.toString(args));
         List<Argument> arguments = this.tabComplete(SkyblockDragons.getPlayer((Player) sender), new ArrayList<>());
         if (arguments == null)
             return null;
