@@ -2,6 +2,8 @@ package me.maxiiiiii.skyblockdragons.events;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.RecipesMenu;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.NormalMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.event.EventHandler;
@@ -19,10 +21,14 @@ public class ClickCanceller implements Listener {
             ItemStack item = e.getItem();
             NormalMaterial material;
             try {
-                material = (NormalMaterial) getItemMaterial(item);
-                if (material.isEnchanted()) e.setCancelled(true);
-                if (material.isShowRecipe()){
-                    new RecipesMenu.WithMenu(player, item);
+                ItemMaterial itemMaterial = getItemMaterial(item);
+                if (itemMaterial instanceof NormalMaterial) {
+                    material = (NormalMaterial) itemMaterial;
+                    if (material.isEnchanted()) e.setCancelled(true);
+                    if (material.isShowRecipe() && item.getItemMeta().hasDisplayName()){
+                        player.sendMessage("showing recipe for " + item.getItemMeta().getDisplayName() + " material: " + material);
+                        new RecipesMenu.WithMenu(player, item);
+                    }
                 }
             } catch (ClassCastException ignored) {}
         } catch (NullPointerException ignored) {}

@@ -483,11 +483,11 @@ public class Items {
             if (Functions.isColorable(material)) {
                 if (material == Material.INK_SACK)
                     for (short i = 0; i < 16; i++) {
-                        vanillaMaterials.put(Functions.getColorName(15 - i).toUpperCase() + "_DYE", new NormalMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(15 - i) + " DYE"), ItemType.ITEM, rarity, i + "", "", false, true));
+                        vanillaMaterials.put(Functions.getColorName(15 - i).toUpperCase() + "_DYE", new NormalMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(15 - i) + " DYE"), ItemType.ITEM, rarity, i + "", "", false, false));
                     }
                 else
                     for (short i = 0; i < 16; i++) {
-                        vanillaMaterials.put(Functions.getColorName(i).toUpperCase() + "_" + name, new NormalMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(i) + " " +  name), ItemType.ITEM, rarity, i + "", "", false, true));
+                        vanillaMaterials.put(Functions.getColorName(i).toUpperCase() + "_" + name, new NormalMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(i) + " " +  name), ItemType.ITEM, rarity, i + "", "", false, false));
                     }
             } else {
                 short maxDurability = 16;
@@ -497,15 +497,15 @@ public class Items {
                     if (localName.equals(newLocalName)) {
                         break;
                     }
-                    vanillaMaterials.put(name + ":" + i, new NormalMaterial(material, ItemFamily.VANILLA, newLocalName, ItemType.ITEM, rarity, i + "", "", false, true));
+                    vanillaMaterials.put(name + ":" + i, new NormalMaterial(material, ItemFamily.VANILLA, newLocalName, ItemType.ITEM, rarity, i + "", "", false, false));
                 }
             }
 
             if (material == Material.NETHER_STAR || material == Material.BEDROCK)
                 rarity = Rarity.LEGENDARY;
-            vanillaMaterials.put(name, new NormalMaterial(material, ItemFamily.VANILLA, localName, ItemType.ITEM, rarity, "", "", false, true));
+            vanillaMaterials.put(name, new NormalMaterial(material, ItemFamily.VANILLA, localName, ItemType.ITEM, rarity, "", "", false, false));
         }
-        vanillaMaterials.put("LAPIS", new NormalMaterial(Material.INK_SACK, ItemFamily.VANILLA, "Lapis Lazuli", ItemType.ITEM, Rarity.COMMON, "4", "", false, true));
+        vanillaMaterials.put("LAPIS", new NormalMaterial(Material.INK_SACK, ItemFamily.VANILLA, "Lapis Lazuli", ItemType.ITEM, Rarity.COMMON, "4", "", false, false));
         vanillaMaterials.remove("BLUE_DYE");
 
         items.putAll(vanillaMaterials);
