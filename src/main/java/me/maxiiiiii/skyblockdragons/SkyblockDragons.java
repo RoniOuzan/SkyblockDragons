@@ -329,74 +329,87 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
     private void registerAllEvents() {
         // Listeners
-        getServer().getPluginManager().registerEvents(new Damage(), this);
-        getServer().getPluginManager().registerEvents(new JoinQuitListener(), this);
-        getServer().getPluginManager().registerEvents(new ClickCanceller(), this);
-        getServer().getPluginManager().registerEvents(new UpdateStatsListeners(), this);
-        getServer().getPluginManager().registerEvents(new PetListener(), this);
-        getServer().getPluginManager().registerEvents(new ClickListener(), this);
-        getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
-        getServer().getPluginManager().registerEvents(new DropListener(), this);
-        getServer().getPluginManager().registerEvents(new ArmorStandManipulateListener(), this);
-        getServer().getPluginManager().registerEvents(new PlaceHeadListener(), this);
-        getServer().getPluginManager().registerEvents(new PickUpListeners(), this);
-        getServer().getPluginManager().registerEvents(new KnockbackListener(), this);
-        getServer().getPluginManager().registerEvents(new PortalListener(), this);
-        getServer().getPluginManager().registerEvents(new ProjectileHitListener(), this);
-        getServer().getPluginManager().registerEvents(new EndermanTeleportListener(), this);
-        getServer().getPluginManager().registerEvents(new PickableItem(), this);
-        getServer().getPluginManager().registerEvents(new PlayerPickupItemListener(), this);
-        getServer().getPluginManager().registerEvents(new UpdateInventoryListeners(), this);
-        getServer().getPluginManager().registerEvents(new PlayerUseAbilityListener(), this);
-        getServer().getPluginManager().registerEvents(new ProfileMenu.Event(), this);
+        registerEvents(new Damage(), this);
+        registerEvents(new JoinQuitListener(), this);
+        registerEvents(new ClickCanceller(), this);
+        registerEvents(new UpdateStatsListeners(), this);
+        registerEvents(new PetListener(), this);
+        registerEvents(new ClickListener(), this);
+        registerEvents(new InventoryClickListener(), this);
+        registerEvents(new DropListener(), this);
+        registerEvents(new ArmorStandManipulateListener(), this);
+        registerEvents(new PlaceHeadListener(), this);
+        registerEvents(new PickUpListeners(), this);
+        registerEvents(new KnockbackListener(), this);
+        registerEvents(new PortalListener(), this);
+        registerEvents(new ProjectileHitListener(), this);
+        registerEvents(new EndermanTeleportListener(), this);
+        registerEvents(new PickableItem(), this);
+        registerEvents(new PlayerPickupItemListener(), this);
+        registerEvents(new UpdateInventoryListeners(), this);
+        registerEvents(new PlayerUseAbilityListener(), this);
+        registerEvents(new ProfileMenu.Event(), this);
 
-        getServer().getPluginManager().registerEvents(new PlayerWarpListener(), this);
-        getServer().getPluginManager().registerEvents(new ChatListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerSendMessageListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerGetMessageListener(), this);
+        registerEvents(new PlayerWarpListener(), this);
+        registerEvents(new ChatListener(), this);
+        registerEvents(new PlayerSendMessageListener(), this);
+        registerEvents(new PlayerGetMessageListener(), this);
 
-        getServer().getPluginManager().registerEvents(new MenuListener(), this);
+        registerEvents(new MenuListener(), this);
 
         // Abilities
-        getServer().getPluginManager().registerEvents(new Aspect_of_The_End(), this);
-        getServer().getPluginManager().registerEvents(new Aspect_of_The_Void(), this);
-        getServer().getPluginManager().registerEvents(new Atomsplit_Katana(), this);
-        getServer().getPluginManager().registerEvents(new Leaping_Sword(), this);
-        getServer().getPluginManager().registerEvents(new Bonzo_Staff(), this);
-        getServer().getPluginManager().registerEvents(new Grappling_Hook(), this);
-        getServer().getPluginManager().registerEvents(new Gyrokinetic_Wand(), this);
-        getServer().getPluginManager().registerEvents(new Terminator(), this);
-        getServer().getPluginManager().registerEvents(new Bonemerang(), this);
-        getServer().getPluginManager().registerEvents(new Shadow_Fury(), this);
-        getServer().getPluginManager().registerEvents(new Flower_of_Truth(), this);
-        getServer().getPluginManager().registerEvents(new Tree_Capitator(), this);
-        getServer().getPluginManager().registerEvents(new World_Eater(), this);
-        getServer().getPluginManager().registerEvents(new World_Eater(), this);
-        getServer().getPluginManager().registerEvents(new Tornado_Wand(), this);
-        getServer().getPluginManager().registerEvents(new Twister_Wand(), this);
-        getServer().getPluginManager().registerEvents(new Hurricane_Wand(), this);
-        getServer().getPluginManager().registerEvents(new Parabola_Wand(), this);
-        getServer().getPluginManager().registerEvents(new Soul_Whip(), this);
-        getServer().getPluginManager().registerEvents(new Troll_Eye(), this);
-        getServer().getPluginManager().registerEvents(new Wither_Impact(), this);
-        getServer().getPluginManager().registerEvents(new Spirit_Sceptre(), this);
-        getServer().getPluginManager().registerEvents(new Rogue_Sword(), this);
-        getServer().getPluginManager().registerEvents(new Power_Orb(), this);
-        getServer().getPluginManager().registerEvents(new Builders_Wand(), this);
-        getServer().getPluginManager().registerEvents(new Axe_of_The_Shredded(), this);
-        getServer().getPluginManager().registerEvents(new Midas_Staff(), this);
-        getServer().getPluginManager().registerEvents(new Pigman_Dagger(), this);
-        getServer().getPluginManager().registerEvents(new Aspect_Of_The_Dragons(), this);
-        getServer().getPluginManager().registerEvents(new Moody_Grappleshot(), this);
-        getServer().getPluginManager().registerEvents(new Wither_Cloak(), this);
-        getServer().getPluginManager().registerEvents(new Magma_Cloak(), this);
-        getServer().getPluginManager().registerEvents(new Mythologs_Spade(), this);
-        getServer().getPluginManager().registerEvents(new ERROR_SCYTHE(), this);
-        getServer().getPluginManager().registerEvents(new CommandListener(), this);
-        getServer().getPluginManager().registerEvents(new TeleportListener(), this);
-        getServer().getPluginManager().registerEvents(new BlockListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerUseAbilitiesListener(), this);
+        registerEvents(new Aspect_of_The_End(), this);
+        registerEvents(new Aspect_of_The_Void(), this);
+        registerEvents(new Atomsplit_Katana(), this);
+        registerEvents(new Leaping_Sword(), this);
+        registerEvents(new Bonzo_Staff(), this);
+        registerEvents(new Grappling_Hook(), this);
+        registerEvents(new Gyrokinetic_Wand(), this);
+        registerEvents(new Terminator(), this);
+        registerEvents(new Bonemerang(), this);
+        registerEvents(new Shadow_Fury(), this);
+        registerEvents(new Flower_of_Truth(), this);
+        registerEvents(new Tree_Capitator(), this);
+        registerEvents(new World_Eater(), this);
+        registerEvents(new World_Eater(), this);
+        registerEvents(new Tornado_Wand(), this);
+        registerEvents(new Twister_Wand(), this);
+        registerEvents(new Hurricane_Wand(), this);
+        registerEvents(new Parabola_Wand(), this);
+        registerEvents(new Soul_Whip(), this);
+        registerEvents(new Troll_Eye(), this);
+        registerEvents(new Wither_Impact(), this);
+        registerEvents(new Spirit_Sceptre(), this);
+        registerEvents(new Rogue_Sword(), this);
+        registerEvents(new Power_Orb(), this);
+        registerEvents(new Builders_Wand(), this);
+        registerEvents(new Axe_of_The_Shredded(), this);
+        registerEvents(new Midas_Staff(), this);
+        registerEvents(new Pigman_Dagger(), this);
+        registerEvents(new Aspect_Of_The_Dragons(), this);
+        registerEvents(new Moody_Grappleshot(), this);
+        registerEvents(new Wither_Cloak(), this);
+        registerEvents(new Magma_Cloak(), this);
+        registerEvents(new Mythologs_Spade(), this);
+        registerEvents(new ERROR_SCYTHE(), this);
+        registerEvents(new CommandListener(), this);
+        registerEvents(new TeleportListener(), this);
+        registerEvents(new BlockListener(), this);
+        registerEvents(new PlayerUseAbilitiesListener(), this);
+        registerEvents(new ProjectileShootListener(), this);
+        registerEvents(new MultiShot_Bow("YOUNG_BOW", 3, 200L), this);
+        registerEvents(new MultiShot_Bow("RUNAANS_BOW", 3), this);
+        registerEvents(new MultiShot_Bow("STRONG_BOW", 3), this);
+        registerEvents(new MultiShot_Bow("HURRICANE_BOW", 5), this);
         new PacketListeners(); // not really an event but works like them
+    }
+    
+    public void registerEvents(Listener listener){
+        getServer().getPluginManager().registerEvents(listener, this);
+    }
+
+    public void registerEvents(Listener listener, JavaPlugin plugin){
+        getServer().getPluginManager().registerEvents(listener, plugin);
     }
 
     @Override

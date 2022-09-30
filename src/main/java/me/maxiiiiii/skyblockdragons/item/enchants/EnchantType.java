@@ -17,6 +17,7 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.setTitleCase;
 
 @Getter
 public class EnchantType implements Comparable<EnchantType> {
+
     public static HashMap<String, EnchantType> enchants = new HashMap<>();
 
     // Ultimate Enchants
@@ -52,6 +53,7 @@ public class EnchantType implements Comparable<EnchantType> {
     public static EnchantType VENOMOUS = null;
 
     // Bows
+    public static EnchantType AIMING = null;
     public static EnchantType CHANCE = null;
     public static EnchantType DRAGON_TRACER = null;
     public static EnchantType FLAME = null;
@@ -276,6 +278,7 @@ public class EnchantType implements Comparable<EnchantType> {
         VAMPIRISM = enchants.get("VAMPIRISM");
         VENOMOUS = enchants.get("VENOMOUS");
 
+        AIMING = enchants.get("AIMING");
         CHANCE = enchants.get("CHANCE");
         DRAGON_TRACER = enchants.get("DRAGON_TRACER");
         FLAME = enchants.get("FLAME");

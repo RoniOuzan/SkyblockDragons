@@ -55,8 +55,6 @@ public class Damage implements Listener {
         if (attacker instanceof PlayerSD) {
             millisecondsCD -= ((PlayerSD) attacker).getStats().getAttackSpeed().amount * 2.5;
         }
-        if (!damageType.isMagic())
-            if (cooldown(attacker, attacker.getDamageCooldown(damageType), millisecondsCD, false)) return -3;
 
         if (damageType == DamageType.PROJECTILE) {
             PlayerSD playerSD = null;
@@ -69,6 +67,8 @@ public class Damage implements Listener {
                 playerSD.playSound(playerSD.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1f, 5f);
             }
         }
+        else if (!damageType.isMagic())
+            if (cooldown(attacker, attacker.getDamageCooldown(damageType), millisecondsCD, false)) return -3;
 
         DamageCalculator damageCalculator = this.getDamage(attacker, entity, damageType, baseAbilityDamage, abilityScaling);
         double damage = damageCalculator.damage;
@@ -272,7 +272,7 @@ public class Damage implements Listener {
         if (e.isFerocity()) {
             damage = e.getDamage();
         } else {
-            if (e.getDamager() instanceof Player || (e.getDamager() instanceof Arrow && ((Arrow) e.getDamager()).getShooter() instanceof Player))
+            if (e.getDamager() instanceof Player || (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player))
                 damage = damage(attacker, victim, SkyblockDragons.getPlayer(e.getDamager().getUniqueId()).getStats().getFerocity().amount, e.getDamageType(), e.getBaseAbilityDamage(), e.getAbilityScaling());
             else
                 damage = damage(attacker, victim, 0, e.getDamageType(), e.getBaseAbilityDamage(), e.getAbilityScaling());
@@ -305,8 +305,8 @@ public class Damage implements Listener {
 
         if (e.getEntity() instanceof LivingEntity && !(e.getEntity() instanceof ArmorStand) && !(e instanceof EntityDamageEntityEvent)) {
             EntityDamageEntityEvent playerDamageEntity;
-            if (e.getDamager() instanceof Arrow)
-                playerDamageEntity = new EntityDamageEntityEvent((Entity) ((Arrow) e.getDamager()).getShooter(), e.getEntity(), DamageType.PROJECTILE, 1, false);
+            if (e.getDamager() instanceof Projectile)
+                playerDamageEntity = new EntityDamageEntityEvent((Entity) ((Projectile) e.getDamager()).getShooter(), e.getEntity(), DamageType.PROJECTILE, 1, false);
             else
                 playerDamageEntity = new EntityDamageEntityEvent(e.getDamager(), e.getEntity(), DamageType.NORMAL, 1, false);
             Bukkit.getServer().getPluginManager().callEvent(playerDamageEntity);

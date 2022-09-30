@@ -28,7 +28,7 @@ public class ERROR_SCYTHE implements Listener {
 
         Player player = e.getPlayer();
 
-        if (cooldown(player, cooldown, 250, true)) return;
+        if (cooldown(player, cooldown, 100, true)) return;
 
         if (player.isSneaking()) {
             Vector vector2 = player.getLocation().getDirection().multiply(3);

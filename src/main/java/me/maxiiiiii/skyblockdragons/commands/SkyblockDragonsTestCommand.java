@@ -13,9 +13,12 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Laser;
 import me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.WitherSkull;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import static me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland.wither;
@@ -85,6 +88,17 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
         }));
         addSubCommand(new QuickSubCommand("log-login", (player, args) -> {
             player.logLogin();
+        }));
+        addSubCommand(new QuickSubCommand("mining-fatigue", (player, args) -> {
+            player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
+            if (args.length < 2){
+                player.sendMessage(ChatColor.RED + "Usage: /sdtest mining-fatigue <level>");
+                return;
+            }
+            int level = Integer.parseInt(args[1]);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 100000, level, true), true);
+
+            player.sendMessage(String.format("You got Mining fatigue %s", player.getPotionEffect(PotionEffectType.SLOW_DIGGING)));
         }));
     }
 }

@@ -74,6 +74,14 @@ public class ScoreboardSD {
         }
         scores.add(ChatColor.YELLOW + "sbdragons.ml");
 
+        for (int i = 0; i < scores.size(); i++) {
+            String score = scores.get(i);
+            if (score.length() > 32){
+                score = score.substring(0, 32);
+                scores.set(i, score);
+            }
+        }
+
         this.scoreboard.setLines(player, scores);
         this.scoreboard.updateScoreboard();
     }

@@ -104,7 +104,7 @@ public class TheEnd extends WorldSD implements Listener {
 //                }
 //            }
 //        });
-        Functions.While(() -> !dragon.isDead(), 80L, i -> {
+        Functions.While(() -> dragon != null && !dragon.isDead(), 80L, i -> {
             if (i % 6 == 4) {
                 return;
             } else if (i % 6 == 5) {
@@ -135,18 +135,6 @@ public class TheEnd extends WorldSD implements Listener {
                     Bukkit.getServer().getPluginManager().callEvent(event);
                 }
             }
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onDamage(EntityDamageEntityEvent e) {
-        try {
-            if (e.getVictim() != null && e.getVictim().type instanceof EntityDragon) {
-                if (e.getAttacker() instanceof PlayerSD)
-                    dragonDamage.put((PlayerSD) e.getAttacker(), dragonDamage.getOrDefault((PlayerSD) e.getAttacker(), 0d) + e.getDamage());
-            }
-        } catch (Exception error) {
-            error.printStackTrace();
         }
     }
 

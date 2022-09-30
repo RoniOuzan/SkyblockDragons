@@ -5,8 +5,12 @@ import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
+import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
@@ -32,12 +36,39 @@ public abstract class EntityDragon extends EntityMaterial {
 
     @Override
     public void onDamage(EntitySD attacker, EntitySD entity, Double damage) {
-        entity.entity.setNoDamageTicks(0);
-        entity.entity.setMaximumNoDamageTicks(0);
+        if (entity.getHealth() >= 50) {
+            entity.entity.setNoDamageTicks(0);
+            entity.entity.setMaximumNoDamageTicks(0);
+            if (attacker instanceof PlayerSD) {
+                PlayerSD player = (PlayerSD) attacker;
+                TheEnd.dragonDamage.put(player, TheEnd.dragonDamage.getOrDefault(player, 0d) + damage);
+            }
+        }
     }
 
     @Override
     public void onDeath(EntitySD attacker, EntitySD entity) {
-        entity.entity.setAI(false);
+        deadDragon(entity);
+    }
+
+    private void deadDragon(EntitySD entity) {
+        EnderDragon dragon = (EnderDragon) entity.entity;
+        dragon.setPhase(EnderDragon.Phase.DYING);
+        dragon.setAI(false);
+        dragon.remove();
+        entity.setHealth(0);
+        entity.setMaximumNoDamageTicks(Integer.MAX_VALUE);
+        entity.setNoDamageTicks(Integer.MAX_VALUE);
+    }
+
+    @Override
+    public void onTick(EntitySD entity) {
+        if (entity.getHealth() >= 10) {
+            EnderDragon dragon = (EnderDragon) entity.entity;
+            dragon.setPhase(EnderDragon.Phase.CIRCLING);
+        }
+        else{
+            deadDragon(entity);
+        }
     }
 }

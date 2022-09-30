@@ -1313,7 +1313,7 @@ public class Functions {
         return (slot % 9) + (peace * 9);
     }
 
-    public static Vector getVector(Player player, double yawDegrees, double pitchDegrees, double multiplayer) {
+    public static Vector getVector(Entity player, double yawDegrees, double pitchDegrees, double multiplayer) {
         Vector vector = new Vector();
 
         double rotX = player.getLocation().getYaw() + yawDegrees;

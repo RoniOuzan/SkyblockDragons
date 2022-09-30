@@ -114,6 +114,7 @@ public class DragonKillListener implements Listener {
         }
 
         TheEnd.dragonDamage.clear();
+        TheEnd.dragon = null;
         PlayerPlaceEyeListener.amountOfPlacedEyes.clear();
         PlayerPlaceEyeEvent.resetAmountOfEyes();
 
