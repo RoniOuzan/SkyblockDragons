@@ -8,6 +8,7 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.worlds.end.DragonType;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
+import me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland;
 import org.bukkit.ChatColor;
 
 import java.text.SimpleDateFormat;
@@ -64,6 +65,15 @@ public class ScoreboardSD {
                 scores.add(dragonType + " Dragon");
                 scores.add("  " + ChatColor.WHITE + "Dragon's Health: " + ChatColor.GREEN + Functions.getShortNumber(TheEnd.dragon.getHealth()) + StatType.HEALTH.getIcon());
                 scores.add("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getShortNumber(TheEnd.dragonDamage.getOrDefault(this.player, 0d)));
+                scores.add("  ");
+            }
+        }
+        if(WitherIsland.wither != null){
+            String name = WitherIsland.wither.type.name;
+            if (player.getWorldSD() == WorldSD.WITHER_ISLAND && name != null) {
+                scores.add(name);
+                scores.add("  " + ChatColor.WHITE + "Wither's Health: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.wither.getHealth()) + StatType.HEALTH.getIcon());
+                scores.add("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.witherDamage.getOrDefault(player.getUniqueId(), 0d)));
                 scores.add("  ");
             }
         }

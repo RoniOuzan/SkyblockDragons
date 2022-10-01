@@ -26,7 +26,7 @@ public class ClickCanceller implements Listener {
                     material = (NormalMaterial) itemMaterial;
                     if (material.isEnchanted()) e.setCancelled(true);
                     if (material.isShowRecipe() && item.getItemMeta().hasDisplayName()){
-                        player.sendMessage("showing recipe for " + item.getItemMeta().getDisplayName() + " material: " + material);
+//                        player.sendMessage("showing recipe for " + item.getItemMeta().getDisplayName() + " material: " + material);
                         new RecipesMenu.WithMenu(player, item);
                     }
                 }

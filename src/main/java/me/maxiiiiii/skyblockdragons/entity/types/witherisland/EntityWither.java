@@ -40,7 +40,7 @@ public abstract class EntityWither extends EntityMaterial {
     @Override
     public void onSpawn(EntitySD entity) {
         if (entity.entity instanceof Wither){
-            WitherIsland.wither = this;
+            WitherIsland.wither = entity;
             WitherIsland.witherDamage.clear();
             uuid = entity.entity.getUniqueId();
             entitySD = entity;
@@ -240,7 +240,7 @@ public abstract class EntityWither extends EntityMaterial {
             double oldDamage = WitherIsland.witherDamage.getOrDefault(attacker.getUniqueId(), 0d);
             double newDamage = oldDamage + damage;
             WitherIsland.witherDamage.put(attacker.getUniqueId(), newDamage);
-            playerSD.sendMessage(String.format("Damage to Wither: %s", Functions.getNumberFormat(newDamage)));
+//            playerSD.sendMessage(String.format("Damage to Wither: %s", Functions.getNumberFormat(newDamage)));
         }
     }
 }

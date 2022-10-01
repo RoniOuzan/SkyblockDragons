@@ -8,6 +8,7 @@ import me.maxiiiiii.skyblockdragons.commands.manager.QuickSubCommand;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.EntitySpawn;
+import me.maxiiiiii.skyblockdragons.entity.types.witherisland.EntityWither;
 import me.maxiiiiii.skyblockdragons.events.JoinQuitListener;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -26,16 +27,20 @@ import static me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland.with
 public class SkyblockDragonsTestCommand extends QuickCommand {
     public SkyblockDragonsTestCommand() {
         addSubCommand(new QuickSubCommand("skull-rain", (player, args) -> {
-            wither.skullRainAbility(wither.entitySD, player);
+            EntityWither type = (EntityWither) wither.type;
+            type.skullRainAbility(wither, player);
         }));
         addSubCommand(new QuickSubCommand("super-skull", (player, args) -> {
-            wither.superSkull(wither.entitySD, player);
+            EntityWither type = (EntityWither) wither.type;
+            type.superSkull(wither, player);
         }));
         addSubCommand(new QuickSubCommand("skull-everywhere", (player, args) -> {
-            wither.skullEverywhere(wither.entitySD);
+            EntityWither type = (EntityWither) wither.type;
+            type.skullEverywhere(wither);
         }));
         addSubCommand(new QuickSubCommand("dash", (player, args) -> {
-            wither.dashToPlayer(wither.entitySD, player);
+            EntityWither type = (EntityWither) wither.type;
+            type.dashToPlayer(wither, player);
         }));
         addSubCommand(new QuickSubCommand("set-phase", (player, args) -> {
             if (args.length < 2){
@@ -43,7 +48,8 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
                 return;
             }
             int phase = Integer.parseInt(args[1]);
-            wither.phase = phase;
+            EntityWither type = (EntityWither) wither.type;
+            type.phase = phase;
             player.sendMessage(String.format("set phase to %s", phase));
         }));
         addSubCommand(new QuickSubCommand("blue-explode", (player, args) -> {
@@ -52,7 +58,8 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
                 return;
             }
             int phase = Integer.parseInt(args[1]);
-            wither.blueExplodeAbility(wither.entitySD, phase);
+            EntityWither type = (EntityWither) wither.type;
+            type.blueExplodeAbility(wither, phase);
         }));
         addSubCommand(new QuickSubCommand("spawn-dragon", (player, args) -> {
             var dragon = player.getWorld().spawnEntity(player.getLocation(), EntityType.ENDER_DRAGON);

@@ -78,6 +78,7 @@ public class Items {
         items.put("YOUNG_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Young Bow", Rarity.LEGENDARY, new Stats(160, 50, 0, 0, 0, 0), "",new ItemAbility(AbilityAction.NONE, "Fast Triple Shot", "Shoots 3 fast arrows at a time! with automatic homing!"), new SkillRequirement(SkillType.COMBAT, 15)));
         items.put("STRONG_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Strong Bow", Rarity.LEGENDARY, new Stats(180, 80, 0, 0, 0, 0), "",new ItemAbility(AbilityAction.NONE, "Strong Triple Shot", "Shoots 3 strong arrows at a time! with automatic homing!"), new SkillRequirement(SkillType.COMBAT, 15)));
         items.put("HURRICANE_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Hurricane Bow", Rarity.EPIC, new Stats(120, 50, 0, 0, 0, 0), "",new ItemAbility(AbilityAction.NONE, "Hurricane Shot", "Shoots 5 arrows at a time! without homing!"), new SkillRequirement(SkillType.COMBAT, 15)));
+        items.put("EXPLOSIVE_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Explosive Bow", Rarity.EPIC, new Stats(100, 30, 0, 0, 0, 0), "",new ItemAbility(AbilityAction.NONE, "Explosive", "Arrows explode on impact"), new SkillRequirement(SkillType.COMBAT, 15)));
 
 
         // Armors
@@ -381,7 +382,10 @@ public class Items {
         items.put("MYTHOLOGS_SPADE_LEGENDARY", new ToolMaterial(Material.GOLD_SPADE, ItemFamily.MYTHOLOGS_SPADE, "Mytholog's Spade", ItemType.ITEM, Rarity.LEGENDARY, mythologsSpadeDescription, mythologicalSpadeAbility));
         items.put("MYTHOLOGS_SPADE_MYTHIC", new ToolMaterial(Material.DIAMOND_SPADE, ItemFamily.MYTHOLOGS_SPADE, "Mytholog's Spade", ItemType.ITEM, Rarity.MYTHIC, mythologsSpadeDescription, mythologicalSpadeAbility));
 
-        // wither stones
+        // wither island
+        items.put("WITHER_SHARD", new NormalMaterial(Material.FLINT, ItemFamily.ITEM, "Wither Shard", ItemType.ITEM, Rarity.EPIC, "", "", "", false, true, true));
+        items.put("WITHER_SKULL", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.ITEM, "Wither Skull", ItemType.ITEM, Rarity.EPIC, "d6e9ad20-9dc1-4e9e-b97f-fa663ece60a0", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWRhOTdjMDZjMDdhMDM1YmQ4NzQ2YjQ4ZDMyZGMwNGU4NDE2MGJkMTYxZjI2YmUxMjcyYjYyNzEyNTFhYWE3In19fQ==", "Used to spawn the wither boss", false, false, false));
+
         items.put("POWER_WITHER_STONE", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.ITEM, "Ares crystal", ItemType.ITEM, Rarity.LEGENDARY, "b83ce84d-5a82-4111-a1cf-7e797aeb4849", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY3MzZmZDk1ZDNhNmE0YWFhYzQ2NzA5YTA3YWVjN2YxYzM4ZjBhM2FhZTU3M2U2ZjQ4MzM4ODgxOTQxMmI2NSJ9fX0=", "Use in a " + ChatColor.GREEN + "Wither Chamber "+ ChatColor.GRAY + "to increase the " + StatType.STRENGTH.getIconAndText() + ChatColor.GRAY +  " of a piece of armor, weapon, tool or talisman.", false, true, true));
 
         items.put("SOUL_WITHER_STONE", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.ITEM, "Phanes crystal", ItemType.ITEM, Rarity.LEGENDARY, "eb2e049e-5563-4df7-be8a-1c89123a79a1", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWU0ODYxNWRmNmI3ZGRmM2FkNDk1MDQxODc2ZDkxNjliZGM5ODNhM2ZhNjlhMmFjYTEwN2U4ZjI1MWY3Njg3In19fQ==", "Use in a " + ChatColor.GREEN + "Wither Chamber "+ ChatColor.GRAY + "to increase the " + StatType.HEALTH.getIconAndText() + ChatColor.GRAY +  " of a piece of armor, weapon, tool or talisman.", false, true, true));
