@@ -42,7 +42,7 @@ public class Explosive_Bow implements Listener {
                 for (Entity entity : projectile.getNearbyEntities(radius, radius, radius)) {
                     if (entity instanceof Creature){
                         Creature creature = (Creature) entity;
-                        EntityDamageEntityEvent playerDamageEntity = new EntityDamageEntityEvent(player, creature, Damage.DamageType.NORMAL, 1, false);
+                        EntityDamageEntityEvent playerDamageEntity = new EntityDamageEntityEvent(player, creature, Damage.DamageType.PROJECTILE, 1, false);
                         Bukkit.getServer().getPluginManager().callEvent(playerDamageEntity);
                     }
                 }

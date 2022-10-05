@@ -97,7 +97,7 @@ public class MultiShot_Bow implements Listener {
     public void onProjectileHit(ProjectileHitEvent e) {
         if (e.getEntity().getShooter() instanceof Player) {
             if (e.getEntityType() == EntityType.ARROW) {
-                if (e.getEntity().getScoreboardTags().contains("Terminator")) {
+                if (e.getEntity().getScoreboardTags().contains(bow)) {
                     e.getEntity().remove();
                 }
             }

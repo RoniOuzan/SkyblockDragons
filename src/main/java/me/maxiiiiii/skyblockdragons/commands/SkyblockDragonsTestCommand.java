@@ -10,6 +10,12 @@ import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.EntitySpawn;
 import me.maxiiiiii.skyblockdragons.entity.types.witherisland.EntityWither;
 import me.maxiiiiii.skyblockdragons.events.JoinQuitListener;
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.crystals.CrystalType;
+import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.item.modifiers.CrystalModifier;
+import me.maxiiiiii.skyblockdragons.item.modifiers.HotPotatoModifier;
+import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Laser;
@@ -21,6 +27,8 @@ import org.bukkit.entity.WitherSkull;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+
+import java.util.Map;
 
 import static me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland.wither;
 
@@ -106,6 +114,23 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 100000, level, true), true);
 
             player.sendMessage(String.format("You got Mining fatigue %s", player.getPotionEffect(PotionEffectType.SLOW_DIGGING)));
+        }));
+        addSubCommand(new QuickSubCommand("test-crystals", (player, args) -> {
+            var item1 = player.getEquipment().getItemInMainHand();
+            ItemMaterial material1 = Functions.getItemMaterial(item1);
+            ItemModifiers modifiers = ItemModifiers.getModifiers(item1);
+            Map<CrystalType, Short> crystals = modifiers.getCrystals();
+            player.sendMessage("Crystals Before: " + crystals);
+            crystals.put(CrystalType.POWER, (short) 1);
+            player.sendMessage("Crystals Put: " + crystals);
+            var item = new Item(player, material1, modifiers, new CrystalModifier(crystals), new HotPotatoModifier(5));
+            player.getEquipment().setItemInMainHand(item);
+
+            modifiers = ItemModifiers.getModifiers(item);
+            crystals = modifiers.getCrystals();
+            int hotPotato = modifiers.getHotPotato();
+            player.sendMessage("Crystals After: " + crystals);
+            player.sendMessage("Hot Potato: " + hotPotato);
         }));
     }
 }

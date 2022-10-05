@@ -209,7 +209,7 @@ public class WitherIsland extends WorldSD implements Listener {
                 for (Entity entity : projectile.getNearbyEntities(radius, radius, radius)) {
                     if (entity instanceof Player){
                         Player player = (Player) entity;
-                        player.damage(damage, wither);
+                        player.damage(damage, wither.entity);
                     }
                 }
             }
