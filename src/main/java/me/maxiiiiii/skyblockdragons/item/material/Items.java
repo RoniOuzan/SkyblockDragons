@@ -74,6 +74,11 @@ public class Items {
         items.put("TERMINATOR", new BowMaterial(Material.BOW, ItemFamily.JUJU,"Terminator", Rarity.LEGENDARY, new Stats(335, 50, 250, 0, 40, 0, 0, 0, 0, 0), ChatColor.GOLD + "Shortbow: Instantly Shoots! NEW_LINE " + ChatColor.GRAY + "Shoots " + ChatColor.AQUA + "3 " + ChatColor.GRAY + "arrows at once. " + ChatColor.GRAY + "Can damage endermen. NEW_LINE NEW_LINE " + ChatColor.RED + "Divides your RESET_LENGTH " + StatType.CRIT_CHANCE.getIconAndText() + ChatColor.RED + " by 4!", new ItemAbility(AbilityAction.RIGHT_CLICK, "Salvation", ChatColor.GRAY + "Can be casted after landing RESET_LENGTH " + ChatColor.GOLD + "3 " + ChatColor.GRAY + "hits. NEW_LINE Shoot a beam, penetrating up NEW_LINE to " + ChatColor.YELLOW + "5 " + ChatColor.GRAY + "foes and dealing " + ChatColor.RED + "2x " + ChatColor.GRAY + "the damage an arrow would. NEW_LINE The beam always crits.", 0, false, 2)));
         items.put("BONEMERANG", new BowMaterial(Material.BONE, ItemFamily.BONEMERANG, "Bonemerang", Rarity.LEGENDARY, new Stats(270, 130, 0, 0, 0, 0, 0, 0, 0, 0), "Deals " + ChatColor.RED + "double damage " + ChatColor.GRAY + "when coming back. Pierces up to " + ChatColor.YELLOW + "10 " + ChatColor.GRAY + "foes.", new ItemAbility(AbilityAction.RIGHT_CLICK, "Swing", "Throw the bone a short distance, dealing the damage an arrow would.")));
 
+        items.put("RUNAANS_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Runaan's Bow", Rarity.LEGENDARY, new Stats(160, 50, 0, 0, 0, 0), "",new ItemAbility(AbilityAction.NONE, "Triple Shot", "Shoots 3 arrows at a time! with automatic homing!"), new SkillRequirement(SkillType.COMBAT, 15)));
+        items.put("YOUNG_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Young Bow", Rarity.LEGENDARY, new Stats(160, 50, 0, 0, 0, 0), "",new ItemAbility(AbilityAction.NONE, "Fast Triple Shot", "Shoots 3 fast arrows at a time! with automatic homing!"), new SkillRequirement(SkillType.COMBAT, 15)));
+        items.put("STRONG_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Strong Bow", Rarity.LEGENDARY, new Stats(180, 80, 0, 0, 0, 0), "",new ItemAbility(AbilityAction.NONE, "Strong Triple Shot", "Shoots 3 strong arrows at a time! with automatic homing!"), new SkillRequirement(SkillType.COMBAT, 15)));
+        items.put("HURRICANE_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Hurricane Bow", Rarity.EPIC, new Stats(120, 50, 0, 0, 0, 0), "",new ItemAbility(AbilityAction.NONE, "Hurricane Shot", "Shoots 5 arrows at a time! without homing!"), new SkillRequirement(SkillType.COMBAT, 15)));
+        items.put("EXPLOSIVE_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Explosive Bow", Rarity.EPIC, new Stats(100, 30, 0, 0, 0, 0), "",new ItemAbility(AbilityAction.NONE, "Explosive", "Arrows explode on impact"), new SkillRequirement(SkillType.COMBAT, 15)));
 
 
         // Armors
@@ -377,7 +382,10 @@ public class Items {
         items.put("MYTHOLOGS_SPADE_LEGENDARY", new ToolMaterial(Material.GOLD_SPADE, ItemFamily.MYTHOLOGS_SPADE, "Mytholog's Spade", ItemType.ITEM, Rarity.LEGENDARY, mythologsSpadeDescription, mythologicalSpadeAbility));
         items.put("MYTHOLOGS_SPADE_MYTHIC", new ToolMaterial(Material.DIAMOND_SPADE, ItemFamily.MYTHOLOGS_SPADE, "Mytholog's Spade", ItemType.ITEM, Rarity.MYTHIC, mythologsSpadeDescription, mythologicalSpadeAbility));
 
-        // wither stones
+        // wither island
+        items.put("WITHER_SHARD", new NormalMaterial(Material.FLINT, ItemFamily.ITEM, "Wither Shard", ItemType.ITEM, Rarity.EPIC, "", "", "", false, true, true));
+        items.put("WITHER_SKULL", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.ITEM, "Wither Skull", ItemType.ITEM, Rarity.EPIC, "d6e9ad20-9dc1-4e9e-b97f-fa663ece60a0", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWRhOTdjMDZjMDdhMDM1YmQ4NzQ2YjQ4ZDMyZGMwNGU4NDE2MGJkMTYxZjI2YmUxMjcyYjYyNzEyNTFhYWE3In19fQ==", "Used to spawn the wither boss", false, false, false));
+
         items.put("POWER_WITHER_STONE", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.ITEM, "Ares crystal", ItemType.ITEM, Rarity.LEGENDARY, "b83ce84d-5a82-4111-a1cf-7e797aeb4849", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY3MzZmZDk1ZDNhNmE0YWFhYzQ2NzA5YTA3YWVjN2YxYzM4ZjBhM2FhZTU3M2U2ZjQ4MzM4ODgxOTQxMmI2NSJ9fX0=", "Use in a " + ChatColor.GREEN + "Wither Chamber "+ ChatColor.GRAY + "to increase the " + StatType.STRENGTH.getIconAndText() + ChatColor.GRAY +  " of a piece of armor, weapon, tool or talisman.", false, true, true));
 
         items.put("SOUL_WITHER_STONE", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.ITEM, "Phanes crystal", ItemType.ITEM, Rarity.LEGENDARY, "eb2e049e-5563-4df7-be8a-1c89123a79a1", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWU0ODYxNWRmNmI3ZGRmM2FkNDk1MDQxODc2ZDkxNjliZGM5ODNhM2ZhNjlhMmFjYTEwN2U4ZjI1MWY3Njg3In19fQ==", "Use in a " + ChatColor.GREEN + "Wither Chamber "+ ChatColor.GRAY + "to increase the " + StatType.HEALTH.getIconAndText() + ChatColor.GRAY +  " of a piece of armor, weapon, tool or talisman.", false, true, true));
@@ -479,11 +487,11 @@ public class Items {
             if (Functions.isColorable(material)) {
                 if (material == Material.INK_SACK)
                     for (short i = 0; i < 16; i++) {
-                        vanillaMaterials.put(Functions.getColorName(15 - i).toUpperCase() + "_DYE", new NormalMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(15 - i) + " DYE"), ItemType.ITEM, rarity, i + "", "", false, true));
+                        vanillaMaterials.put(Functions.getColorName(15 - i).toUpperCase() + "_DYE", new NormalMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(15 - i) + " DYE"), ItemType.ITEM, rarity, i + "", "", false, false));
                     }
                 else
                     for (short i = 0; i < 16; i++) {
-                        vanillaMaterials.put(Functions.getColorName(i).toUpperCase() + "_" + name, new NormalMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(i) + " " +  name), ItemType.ITEM, rarity, i + "", "", false, true));
+                        vanillaMaterials.put(Functions.getColorName(i).toUpperCase() + "_" + name, new NormalMaterial(material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(i) + " " +  name), ItemType.ITEM, rarity, i + "", "", false, false));
                     }
             } else {
                 short maxDurability = 16;
@@ -493,15 +501,15 @@ public class Items {
                     if (localName.equals(newLocalName)) {
                         break;
                     }
-                    vanillaMaterials.put(name + ":" + i, new NormalMaterial(material, ItemFamily.VANILLA, newLocalName, ItemType.ITEM, rarity, i + "", "", false, true));
+                    vanillaMaterials.put(name + ":" + i, new NormalMaterial(material, ItemFamily.VANILLA, newLocalName, ItemType.ITEM, rarity, i + "", "", false, false));
                 }
             }
 
             if (material == Material.NETHER_STAR || material == Material.BEDROCK)
                 rarity = Rarity.LEGENDARY;
-            vanillaMaterials.put(name, new NormalMaterial(material, ItemFamily.VANILLA, localName, ItemType.ITEM, rarity, "", "", false, true));
+            vanillaMaterials.put(name, new NormalMaterial(material, ItemFamily.VANILLA, localName, ItemType.ITEM, rarity, "", "", false, false));
         }
-        vanillaMaterials.put("LAPIS", new NormalMaterial(Material.INK_SACK, ItemFamily.VANILLA, "Lapis Lazuli", ItemType.ITEM, Rarity.COMMON, "4", "", false, true));
+        vanillaMaterials.put("LAPIS", new NormalMaterial(Material.INK_SACK, ItemFamily.VANILLA, "Lapis Lazuli", ItemType.ITEM, Rarity.COMMON, "4", "", false, false));
         vanillaMaterials.remove("BLUE_DYE");
 
         items.putAll(vanillaMaterials);

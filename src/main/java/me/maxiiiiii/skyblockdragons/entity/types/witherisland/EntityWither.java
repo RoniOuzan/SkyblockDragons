@@ -40,7 +40,7 @@ public abstract class EntityWither extends EntityMaterial {
     @Override
     public void onSpawn(EntitySD entity) {
         if (entity.entity instanceof Wither){
-            WitherIsland.wither = this;
+            WitherIsland.wither = entity;
             WitherIsland.witherDamage.clear();
             uuid = entity.entity.getUniqueId();
             entitySD = entity;
@@ -99,25 +99,24 @@ public abstract class EntityWither extends EntityMaterial {
             try {
                 if (WitherIsland.getWitherTarget() != null){
                     PlayerSD target = WitherIsland.getWitherTarget();
-                    if (i % (80 * TICKS_TO_SECONDS) == 0){
-                        dashToPlayer(entity, target);
+                    if (target != null) {
+                        if (i % (80 * TICKS_TO_SECONDS) == 0) {
+                            dashToPlayer(entity, target);
+                        } else if (i % (60 * TICKS_TO_SECONDS) == 0) {
+                            skullEverywhere(entity);
+                        } else if (i % (50 * TICKS_TO_SECONDS) == 0) {
+                            superSkull(entity, target);
+                        } else if (i % (30 * TICKS_TO_SECONDS) == 0) {
+                            skullRainAbility(entity, target);
+                        }
                     }
-                    else if (i % (60 * TICKS_TO_SECONDS) == 0){
-                        skullEverywhere(entity);
-                    }
-                    else if (i % (50 * TICKS_TO_SECONDS) == 0){
-                        superSkull(entity, target);
-                    }
-                    else if (i % (30 * TICKS_TO_SECONDS) == 0){
-                        skullRainAbility(entity, target);
-                    }
-
                 }
 
                 if (phase == 1 && i % 80 == 0){
                     moveAround(entity);
                 }
             } catch (Exception e){
+                phase = 1;
                 e.printStackTrace();
             }
         }
@@ -204,7 +203,7 @@ public abstract class EntityWither extends EntityMaterial {
 
     @NotNull
     public WitherSkull shootSkullAtDirection(EntitySD entity, Vector targetVector) {
-        WitherSkull witherSkull = entity.launchProjectile(WitherSkull.class, targetVector);
+        WitherSkull witherSkull = entity.launchProjectile(WitherSkull.class);
         witherSkull.setDirection(targetVector);
         return witherSkull;
     }
@@ -240,7 +239,7 @@ public abstract class EntityWither extends EntityMaterial {
             double oldDamage = WitherIsland.witherDamage.getOrDefault(attacker.getUniqueId(), 0d);
             double newDamage = oldDamage + damage;
             WitherIsland.witherDamage.put(attacker.getUniqueId(), newDamage);
-            playerSD.sendMessage(String.format("Damage to Wither: %s", Functions.getNumberFormat(newDamage)));
+//            playerSD.sendMessage(String.format("Damage to Wither: %s", Functions.getNumberFormat(newDamage)));
         }
     }
 }

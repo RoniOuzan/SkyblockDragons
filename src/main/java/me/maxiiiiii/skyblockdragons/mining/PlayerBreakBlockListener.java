@@ -11,24 +11,24 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class PlayerBreakBlockListener implements Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onBreakBlock(PlayerBreakBlockEvent e) {
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
         Block block = e.getBlock();
         if (player.getGameMode() != GameMode.SURVIVAL) return;
+        onBlockBreak(e);
+        if (e.isCancelled()) return;
 
         e.setDropItems(false);
         e.setExpToDrop((int) Math.ceil(Math.sqrt(e.getMaterial().miningXp)));
         Material brokeMaterial = e.getBlock().getType();
-        if (player.getWorldSD() == WorldSD.THE_END && brokeMaterial != Material.ENDER_STONE){
-            e.setCancelled(true);
-            return;
-        }
 
         if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0)
             for (Drop drop : e.getMaterial().drops) {
@@ -84,5 +84,21 @@ public class PlayerBreakBlockListener implements Listener {
             return Functions.getRandom(Material.DIAMOND_ORE, Material.DIAMOND_BLOCK, Material.OBSIDIAN);
         }
         return Material.STONE;
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onBlockBreak(BlockBreakEvent event) {
+        PlayerSD player = SkyblockDragons.getPlayer(event.getPlayer());
+        if (player.getGameMode() != GameMode.SURVIVAL) return;
+        Material brokeMaterial = event.getBlock().getType();
+//        player.sendMessage(String.format("Break block anywhere %s", brokeMaterial));
+        if (player.getWorldSD() == WorldSD.THE_END){
+//            player.sendMessage(String.format("Break block at end %s", brokeMaterial));
+            if (brokeMaterial != Material.ENDER_STONE) {
+                player.sendMessage("§4You can't break this block!");
+                event.setCancelled(true);
+                return;
+            }
+        }
     }
 }

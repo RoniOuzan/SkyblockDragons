@@ -350,7 +350,7 @@ public class PlayerSD extends PlayerClass {
         String fullSet = equipment.getFullSet();
 
         if (this.getWorldSD().isType(WorldType.MINING)) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, -1, false, false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, -1, false, false), true);
         } else {
             player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
         }

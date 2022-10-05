@@ -11,9 +11,9 @@ import java.util.Map;
 public class CrystalModifier extends ItemModifier {
     private final Map<CrystalType, Short> crystals;
 
-    public CrystalModifier(Map<CrystalType, Short> enchants) {
+    public CrystalModifier(Map<CrystalType, Short> crystals) {
         super(CrystalModifier.class);
-        this.crystals = enchants;
+        this.crystals = crystals;
     }
 
     public CrystalModifier() {

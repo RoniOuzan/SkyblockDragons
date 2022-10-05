@@ -8,6 +8,7 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.worlds.end.DragonType;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
+import me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland;
 import org.bukkit.ChatColor;
 
 import java.text.SimpleDateFormat;
@@ -67,12 +68,29 @@ public class ScoreboardSD {
                 scores.add("  ");
             }
         }
+        if(WitherIsland.wither != null){
+            String name = WitherIsland.wither.type.name;
+            if (player.getWorldSD() == WorldSD.WITHER_ISLAND && name != null) {
+                scores.add(name);
+                scores.add("  " + ChatColor.WHITE + "Wither's Health: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.wither.getHealth()) + StatType.HEALTH.getIcon());
+                scores.add("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.witherDamage.getOrDefault(player.getUniqueId(), 0d)));
+                scores.add("  ");
+            }
+        }
         if (player.playerPet.activePet >= 0) {
             scores.add(ChatColor.WHITE + "Active Pet:");
             scores.add("  " + player.getPetActive().getRarity().getColor() + player.getPetActive().getPetMaterial().getName());
             scores.add("   ");
         }
         scores.add(ChatColor.YELLOW + "sbdragons.ml");
+
+        for (int i = 0; i < scores.size(); i++) {
+            String score = scores.get(i);
+            if (score.length() > 32){
+                score = score.substring(0, 32);
+                scores.set(i, score);
+            }
+        }
 
         this.scoreboard.setLines(player, scores);
         this.scoreboard.updateScoreboard();
