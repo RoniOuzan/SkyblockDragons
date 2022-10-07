@@ -6,7 +6,7 @@ import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.util.objects.SlotCooldown;
-import me.maxiiiiii.skyblockdragons.util.objects.aifly;
+import me.maxiiiiii.skyblockdragons.util.objects.AIFly;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -16,8 +16,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
@@ -70,7 +68,7 @@ public class Bonemerang implements Listener {
             public void run() {
                 if (stand.isDead()) cancel();
                 if (i > AMOUNT) {
-                    new aifly(stand, player, AMOUNT * 25).runTaskTimer(SkyblockDragons.plugin, 0L, 1L);
+                    new AIFly(stand, player, AMOUNT * 25).runTaskTimer(SkyblockDragons.plugin, 0L, 1L);
                     new BukkitRunnable() {
                         int i = 0;
                         @Override

@@ -173,7 +173,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             public void run() {
                 AddonUtils.enableAddons();
             }
-        }.runTaskLater(plugin, 5);
+        }.runTaskLater(plugin, 100);
     }
 
     private void spawnEntitiesTimer() {

@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.events;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.inventory.menus.SkyblockMenu;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,7 +17,7 @@ public class ClickListener implements Listener {
     public void onClick(PlayerInteractEvent e) {
         ItemStack item = e.getItem();
 
-        if (Functions.getId(item).equals("SKYBLOCK_MENU")) {
+        if (Functions.getId(item).contains("SKYBLOCK_MENU")) {
             e.setCancelled(true);
             new SkyblockMenu(SkyblockDragons.getPlayer(e.getPlayer()));
         }
@@ -26,11 +27,15 @@ public class ClickListener implements Listener {
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getCurrentItem() == null) return;
 
-        if (e.getInventory().getType() != InventoryType.PLAYER) return;
+//        if (e.getInventory().getType() != InventoryType.PLAYER) return;
+        Player player = (Player) e.getWhoClicked();
+        if (player.getGameMode() == GameMode.CREATIVE) return;
 
-        if (Functions.getId(e.getCurrentItem()).equals("SKYBLOCK_MENU")) {
+        if (Functions.getId(e.getCurrentItem()).contains("SKYBLOCK_MENU")) {
+            e.setCancelled(true);
             e.getWhoClicked().closeInventory();
-            new SkyblockMenu(SkyblockDragons.getPlayer((Player) e.getWhoClicked()));
+
+            new SkyblockMenu(SkyblockDragons.getPlayer(player));
         }
     }
 }

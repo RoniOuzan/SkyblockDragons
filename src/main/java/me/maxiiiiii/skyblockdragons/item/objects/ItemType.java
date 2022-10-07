@@ -33,7 +33,7 @@ public enum ItemType {
     }
 
     public boolean isTool() {
-        return this == ItemType.SWORD || this == ItemType.BOW || this == ItemType.WAND || this == ItemType.ITEM || this == ItemType.AXE || this == ItemType.PICKAXE || this == ItemType.ROD;
+        return this == ItemType.SWORD || this == ItemType.BOW || this == ItemType.WAND || this == ItemType.ITEM || this == ItemType.AXE || this == ItemType.PICKAXE || this == ItemType.ROD || this == ItemType.DRILL;
     }
 
     public boolean isReforgeable() {

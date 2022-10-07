@@ -261,6 +261,7 @@ public class Damage implements Listener {
     public void onDamageEntity(EntityDamageEntityEvent e) {
         EntitySD attacker = e.getAttacker();
         EntitySD victim = e.getVictim();
+        if (e.isCancelled()) return;
         if (attacker == null || victim == null){
             return;
         }
@@ -301,6 +302,7 @@ public class Damage implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageByEntityEvent e) {
+        if (e.isCancelled()) return;
         if (e.getDamager() == null) return;
 
         if (e.getEntity() instanceof LivingEntity && !(e.getEntity() instanceof ArmorStand) && !(e instanceof EntityDamageEntityEvent)) {
@@ -316,6 +318,7 @@ public class Damage implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByBlockEvent e) {
+        if (e.isCancelled()) return;
         if (e.getDamager() == null) {
             EntitySD entity = EntitySD.get(e.getEntity());
             if (entity != null) {
@@ -407,7 +410,6 @@ public class Damage implements Listener {
             player.sendMessage(ChatColor.RED + "You died and lost " + Functions.getNumberFormat(amount) + " coins.");
         }
         player.teleport(player.getWorldSD().getWarp().getLocation());
-
         Functions.Wait(1L, () -> player.spigot().respawn());
     }
 }

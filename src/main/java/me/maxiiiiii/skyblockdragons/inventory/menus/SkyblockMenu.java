@@ -69,13 +69,14 @@ public class SkyblockMenu extends Menu {
         } else if (this.getNBT(e.getCurrentItem()).equals("SHOP")) {
             player.performCommand("shop");
         } else if (this.getNBT(e.getCurrentItem()).equals("QUESTS")) {
-            player.performCommand("quests");
+//            player.performCommand("quests");
+            player.sendMessage("§cComing soon...");
         } else if (this.getNBT(e.getCurrentItem()).equals("DAILY")) {
             player.performCommand("dm open rewards");
         } else if (this.getNBT(e.getCurrentItem()).equals("STORAGE")) {
             new StorageMenu(this.player);
         } else if (this.getNBT(e.getCurrentItem()).equals("EFFECTS")) { //TODO LidanTheGamer
-
+            player.sendMessage("§cComing soon...");
         } else if (this.getNBT(e.getCurrentItem()).equals("PETS")) {
             new PetMenu(player);
         } else if (this.getNBT(e.getCurrentItem()).equals("CRAFTING_TABLE")) {
