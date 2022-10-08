@@ -27,7 +27,11 @@ public class WardrobeMenu extends Menu {
         super(player, "Wardrobe", 6, InventoryGlassType.ALL, false);
         this.page = page;
     }
-
+    @Override
+    public void open() {
+        player.sendMessage("§cDisabled!");
+        player.closeInventory();
+    }
     @Override
     public void update() {
         int startValue = (page > 1) ? 9 : 0;
@@ -234,5 +238,5 @@ public class WardrobeMenu extends Menu {
         public List<Argument> tabComplete(PlayerSD player, List<Argument> tabs) {
             return tabs;
         }
+        }
     }
-}

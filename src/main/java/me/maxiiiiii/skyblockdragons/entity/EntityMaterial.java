@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.entity;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.types.bearisland.Grizzly_Bear;
+import me.maxiiiiii.skyblockdragons.entity.types.bearisland.Polar_Bear;
 import me.maxiiiiii.skyblockdragons.entity.types.deepermines.Ghost;
 import me.maxiiiiii.skyblockdragons.entity.types.deepermines.IceMiner;
 import me.maxiiiiii.skyblockdragons.entity.types.deepmines.*;
@@ -133,6 +134,7 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         entities.put("ERROR_INFINITY", new ERROR_Infinity());
 
         entities.put("GRIZZLY_BEAR", new Grizzly_Bear());
+        entities.put("POLAR_BEAR", new Polar_Bear());
 
         NullEntity nullEntity = new NullEntity();
         entities.put("NULL", nullEntity);
