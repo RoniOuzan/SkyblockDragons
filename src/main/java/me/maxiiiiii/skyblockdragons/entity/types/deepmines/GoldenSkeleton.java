@@ -27,8 +27,9 @@ public class GoldenSkeleton extends EntityMaterial {
                 0.5,
                 new RareDrop(Items.get("GOLDEN_SKELETON_BOW"), 1, 2d),
                 new RareDrop(Items.get("GOLDEN_SKELETON_HELMET"), 1, 2d),
-                new Drop(Items.get("BONE"), 1, 4),
-                new Drop(Items.get("ARROW"), 2, 10)
+                new Drop(Items.get("BONE"), 1),
+                new Drop(Items.get("GOLD_INGOT"), 1, 50),
+                new Drop(Items.get("ARROW"), 2, 30)
         );
     }
 

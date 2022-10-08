@@ -417,6 +417,10 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(this);
 
+        for (PlayerSD playerSD : players.values()) {
+            playerSD.closeInventory();
+        }
+
         for (World world : Bukkit.getWorlds()) {
             for (Entity entity : world.getEntities()) {
                 if (entity.getType() == EntityType.ARMOR_STAND && entity.getScoreboardTags().contains("Pet")) {

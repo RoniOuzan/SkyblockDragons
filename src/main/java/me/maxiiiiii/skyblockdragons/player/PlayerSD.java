@@ -356,6 +356,7 @@ public class PlayerSD extends PlayerClass {
         }
 
         this.stats.reset();
+        this.stats.health.set(500); // no other way to have more base health so for now it will be that
 
         StatsMultiplayer statsMultiplayer = new StatsMultiplayer();
 
@@ -555,17 +556,30 @@ public class PlayerSD extends PlayerClass {
                 player.getInventory().setItem(i, item);
             }
         }
+        setSkyblockMenu();
+    }
 
-        if (!Functions.isNotAir(player.getInventory().getItem(8)) || !Functions.getId(player.getInventory().getItem(8)).equals("SKYBLOCK_MENU")) {
-            Item menu = new Item(Items.get("SKYBLOCK_MENU"), 1);
-            ItemMeta menuMeta = menu.getItemMeta();
-            List<String> lores = menuMeta.getLore();
-            lores.remove(lores.size() - 1);
-            lores.add(ChatColor.YELLOW + "Click to open!");
-            menuMeta.setLore(lores);
-            menu.setItemMeta(menuMeta);
+    public void setSkyblockMenu() {
+        ItemMaterial hand = Items.get(getEquipment().getItemInMainHand());
+        if (hand instanceof BowMaterial){
+            Item menu = new Item(Items.get("SKYBLOCK_MENU_ARROW"), 64);
+            menuLores(menu);
             player.getInventory().setItem(8, menu);
         }
+        else if (!Functions.isNotAir(player.getInventory().getItem(8)) || !Functions.getId(player.getInventory().getItem(8)).equals("SKYBLOCK_MENU")) {
+            Item menu = new Item(Items.get("SKYBLOCK_MENU"), 1);
+            menuLores(menu);
+            player.getInventory().setItem(8, menu);
+        }
+    }
+
+    private void menuLores(Item menu) {
+        ItemMeta menuMeta = menu.getItemMeta();
+        List<String> lores = menuMeta.getLore();
+        lores.remove(lores.size() - 1);
+        lores.add(ChatColor.YELLOW + "Click to open!");
+        menuMeta.setLore(lores);
+        menu.setItemMeta(menuMeta);
     }
 
     public void sendActionBar(String message, boolean ignoreCooldown) {
@@ -676,6 +690,7 @@ public class PlayerSD extends PlayerClass {
     }
 
     public void makePlayerSay(String message) {
+        SkyblockDragons.logger.info(String.format("%s [%s]: %s", getDisplayName(), getChatChannel(), message));
         this.chatChannel.send(this, message);
     }
 

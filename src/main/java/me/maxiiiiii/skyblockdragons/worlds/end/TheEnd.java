@@ -7,6 +7,7 @@ import me.maxiiiiii.skyblockdragons.damage.EntityDamageEntityEvent;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
+import me.maxiiiiii.skyblockdragons.inventory.menus.SkyblockMenu;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
@@ -115,6 +116,7 @@ public class TheEnd extends WorldSD implements Listener {
             double y = Functions.randomDouble(75, 120);
             double z = Functions.randomDouble(-40, 40);
             Location location = new Location(world, x, y, z);
+
             new FlyToLocation(dragon, location, 80, 10, true);
         });
     }

@@ -323,7 +323,7 @@ public class DeeperMinesRecipes extends RecipeRegister {
                 new Item(Items.get("ENCHANTED_DERNIC"), 16),
                 new Item(Items.get("ENCHANTED_DERNIC"), 16),
                 new Item(Items.get("ENCHANTED_DERNIC"), 16),
-                new Item(Items.get("LUMINATE_DRILL")),
+                new Item(Items.get("DERNIC_DRILL")),
                 new Item(Items.get("ENCHANTED_DERNIC"), 16),
                 new Item(Items.get("ENCHANTED_DERNIC"), 16),
                 new Item(Items.get("ENCHANTED_DERNIC"), 16),

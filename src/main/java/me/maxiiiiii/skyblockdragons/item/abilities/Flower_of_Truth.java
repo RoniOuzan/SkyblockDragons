@@ -5,17 +5,14 @@ import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import me.maxiiiiii.skyblockdragons.util.interfaces.LoopTask;
-import me.maxiiiiii.skyblockdragons.util.objects.aifly;
+import me.maxiiiiii.skyblockdragons.util.objects.AIFly;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -69,7 +66,7 @@ public class Flower_of_Truth implements Listener {
                         if (!damagedEntities.contains(entity)) {
                             damagedEntities.add(entity);
                             damagedAmount++;
-                            new aifly(stand, entity, 500).runTaskTimer(SkyblockDragons.plugin, 0L, 1L);
+                            new AIFly(stand, entity, 500).runTaskTimer(SkyblockDragons.plugin, 0L, 1L);
                             Wait(10L, () -> ((Creature) entity).damage(1, player));
                         }
                     }

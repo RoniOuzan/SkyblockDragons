@@ -42,7 +42,7 @@ public class AddonUtils {
         for (JavaPlugin plugin : getAddons()) {
             if (!plugin.isEnabled()) {
                 SkyblockDragons.logger.info("Enabling " + plugin.getName());
-                plugin.getPluginLoader().enablePlugin(plugin);
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "plugman reload " + plugin.getName());
             }
         }
     }
