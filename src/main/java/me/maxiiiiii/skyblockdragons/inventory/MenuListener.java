@@ -14,16 +14,20 @@ import org.bukkit.inventory.InventoryHolder;
 public class MenuListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (!Functions.isNotAir(e.getCurrentItem())) return;
-
-        InventoryHolder holder = e.getClickedInventory().getHolder();
-
+        InventoryHolder holder = e.getInventory().getHolder();
+        ClickType click = e.getClick();
         if (holder instanceof Menu) {
             e.setCancelled(true);
 
             Menu menu = (Menu) holder;
             PlayerSD player = SkyblockDragons.getPlayer((Player) e.getWhoClicked());
 
+            if (click.isKeyboardClick()){
+                player.sendMessage("§cYou cannot num key press!");
+                player.closeInventory();
+                return;
+            }
+            if (!Functions.isNotAir(e.getCurrentItem())) return;
 //            if (menu instanceof GroupMenu) {
 //                GroupMenu groupMenu = (GroupMenu) menu;
 //                if (e.getSlot() < 9) {
@@ -48,21 +52,20 @@ public class MenuListener implements Listener {
             if (menu instanceof PageMenu) {
                 final PageMenu pageMenu = (PageMenu) menu;
                 if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Next Page")) {
-                    if (e.getClick().isLeftClick())
+                    if (click.isLeftClick())
                         pageMenu.nextPage();
-                    else if (e.getClick().isRightClick())
+                    else if (click.isRightClick())
                         pageMenu.lastPage();
                     return;
                 }
                 if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Previous Page")) {
-                    if (e.getClick().isLeftClick())
+                    if (click.isLeftClick())
                         pageMenu.previousPage();
-                    else if (e.getClick().isRightClick())
+                    else if (click.isRightClick())
                         pageMenu.firstPage();
                     return;
                 }
             }
-
             menu.onInventoryClick(e);
         }
     }

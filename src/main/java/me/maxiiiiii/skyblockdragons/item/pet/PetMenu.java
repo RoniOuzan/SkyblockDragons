@@ -16,7 +16,18 @@ public class PetMenu extends PageMenu {
     private boolean isConvertToItem;
 
     public PetMenu(PlayerSD player) {
-        super(player, "Pet Menu", 6, InventoryGlassType.SURROUND, player.getPlayerPet().getPets().stream().sorted().map(pet -> player.getPlayerPet().getPetActive().equals(pet) ? Functions.addLine(pet, "", ChatColor.YELLOW + "Click to summon!") : Functions.addLine(addNBT(pet, "ACTIVE"), "", ChatColor.RED + "Click to despawn!")).collect(Collectors.toList()), true);
+        super(player,
+                "Pet Menu",
+                6,
+                InventoryGlassType.SURROUND,
+                player.getPlayerPet().getPets().stream().sorted().map(pet -> {
+                    Pet petActive = player.getPlayerPet().getPetActive();
+                    if (petActive == null) {
+                        return pet;
+                    }
+                    return petActive.equals(pet) ? Functions.addLine(pet, "", ChatColor.YELLOW + "Click to summon!") : Functions.addLine(addNBT(pet, "ACTIVE"), "", ChatColor.RED + "Click to despawn!");
+                }).collect(Collectors.toList()),
+                true);
         this.isConvertToItem = false;
     }
 

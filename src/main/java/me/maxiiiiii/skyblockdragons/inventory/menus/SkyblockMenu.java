@@ -67,7 +67,7 @@ public class SkyblockMenu extends Menu {
         } else if (this.getNBT(e.getCurrentItem()).equals("RECIPE_BOOK")) {
             new RecipesMenu(player);
         } else if (this.getNBT(e.getCurrentItem()).equals("SHOP")) {
-            player.performCommand("shop");
+            player.chat("/shop");
         } else if (this.getNBT(e.getCurrentItem()).equals("QUESTS")) {
 //            player.performCommand("quests");
             player.sendMessage("§cComing soon...");
@@ -92,7 +92,7 @@ public class SkyblockMenu extends Menu {
         } else if (this.getNBT(e.getCurrentItem()).equals("SETTINGS")) {
             player.performCommand("settings");
         } else if (this.getNBT(e.getCurrentItem()).equals("ISLAND_WARP")) {
-            player.performCommand("is go");
+            player.performCommand("askyblock:island");
         } else if (this.getNBT(e.getCurrentItem()).equals("HUB_WARP")) {
             player.performCommand("hub");
         } else if (this.getNBT(e.getCurrentItem()).equals("SELL")) {

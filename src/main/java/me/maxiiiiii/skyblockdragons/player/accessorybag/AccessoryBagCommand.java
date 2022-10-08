@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.player.accessorybag;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.item.material.types.AccessoryMaterial;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -36,8 +38,10 @@ public class AccessoryBagCommand implements CommandExecutor, Listener {
             if (title.length > 2) return;
             List<ItemStack> accessories = new ArrayList<>();
             for (int i = 0; i < 45; i++) {
-                if (Functions.isNotAir(e.getInventory().getItem(i)))
-                    accessories.add(e.getInventory().getItem(i));
+                ItemStack item = e.getInventory().getItem(i);
+                if (Functions.isNotAir(item) && Functions.getItemMaterial(item) instanceof AccessoryMaterial) {
+                    accessories.add(item);
+                }
             }
             SkyblockDragons.players.get(e.getPlayer().getUniqueId()).getAccessoryBag().setItems(accessories);
         }

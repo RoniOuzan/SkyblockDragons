@@ -81,6 +81,7 @@ public class Recipe extends RecipeRegister implements Comparable<Recipe> {
 
         @Override
         public void onInventoryClick(InventoryClickEvent e) {
+            e.setCancelled(true);
             if (e.getSlot() % 9 == 1 || e.getSlot() % 9 == 2 || e.getSlot() % 9 == 3 &&
                     e.getSlot() / 9 == 1 || e.getSlot() / 9 == 2 || e.getSlot() / 9 == 3) {
                 Recipe recipe = Recipe.get(Items.get(e.getCurrentItem()).name());
@@ -123,6 +124,7 @@ public class Recipe extends RecipeRegister implements Comparable<Recipe> {
         TheEndRecipes.registerRecipes();
         DragonRecipes.registerRecipes();
         DeeperMinesRecipes.registerRecipes();
+        BowsRecipes.registerRecipes();
 
         VanillaRecipes.registerRecipes();
 

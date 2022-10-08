@@ -1,7 +1,9 @@
 package me.maxiiiiii.skyblockdragons.player.accessorybag;
 
+import me.maxiiiiii.skyblockdragons.item.material.types.AccessoryMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -32,7 +34,10 @@ public class AccessoryBag {
     public void save() {
         Variables.delete(player.getUniqueId(), "AccessoryBag");
         for (int i = 0; i < items.size(); i++) {
-            Variables.set(player.getUniqueId(), "AccessoryBag", i, items.get(i));
+            ItemStack item = items.get(i);
+            if (Functions.getItemMaterial(item) instanceof AccessoryMaterial) {
+                Variables.set(player.getUniqueId(), "AccessoryBag", i, item);
+            }
         }
     }
 }
