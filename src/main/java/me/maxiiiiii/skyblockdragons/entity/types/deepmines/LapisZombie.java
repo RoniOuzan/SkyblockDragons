@@ -25,7 +25,8 @@ public class LapisZombie extends EntityMaterial {
                 0,
                 5,
                 1,
-                new Drop(Items.get("LAPIS"), 1, 6),
+                new Drop(Items.get("ROTTEN_FLESH"), 1),
+                new Drop(Items.get("LAPIS"), 1, 50),
                 new RareDrop(Items.get("ENCHANTED_LAPIS"), 1, 2, 2d),
                 new RareDrop(Items.get("LAPIS_TALISMAN"), 1, 0.5d)
         );

@@ -25,7 +25,7 @@ public class ScoreboardSD {
     public ScoreboardSD(PlayerSD player) {
         this.player = player;
 
-        this.scoreboard = new JPerPlayerMethodBasedScoreboard(new JScoreboardOptions(JScoreboardTabHealthStyle.NUMBER, true));
+        this.scoreboard = new JPerPlayerMethodBasedScoreboard();
         this.scoreboard.addPlayer(player.getPlayer());
         this.scoreboard.setTitle(player, ChatColor.YELLOW + "" + ChatColor.BOLD + "Skyblock Dragons");
 
@@ -91,7 +91,7 @@ public class ScoreboardSD {
                 scores.set(i, score);
             }
         }
-
+        this.scoreboard.setTitle(player, ChatColor.YELLOW + "" + ChatColor.BOLD + "Skyblock Dragons");
         this.scoreboard.setLines(player, scores);
         this.scoreboard.updateScoreboard();
     }

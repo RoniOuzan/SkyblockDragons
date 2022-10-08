@@ -194,7 +194,7 @@ public abstract class EntityWither extends EntityMaterial {
         if (target.getWorld() != entityLocation.getWorld()) return null;
         Vector targetVector = target.subtract(entityLocation).toVector().normalize();
         SkyblockDragons.logger.info(String.format("Shoot skull vel: %s", targetVector));
-        targetVector = targetVector.multiply(0.1);
+        targetVector = targetVector.multiply(0.1).clone();
         SkyblockDragons.logger.info(String.format("Shoot skull NERFED vel: %s", targetVector));
         WitherSkull witherSkull = shootSkullAtDirection(entity, targetVector);
         SkyblockDragons.logger.info(String.format("Shot skull vel: %s", witherSkull.getDirection()));
@@ -204,6 +204,7 @@ public abstract class EntityWither extends EntityMaterial {
     @NotNull
     public WitherSkull shootSkullAtDirection(EntitySD entity, Vector targetVector) {
         WitherSkull witherSkull = entity.launchProjectile(WitherSkull.class);
+        witherSkull.setVelocity(targetVector);
         witherSkull.setDirection(targetVector);
         return witherSkull;
     }
@@ -236,10 +237,19 @@ public abstract class EntityWither extends EntityMaterial {
     public void onDamage(EntitySD attacker, EntitySD entity, Double damage) {
         if (attacker instanceof PlayerSD){
             PlayerSD playerSD = (PlayerSD) attacker;
-            double oldDamage = WitherIsland.witherDamage.getOrDefault(attacker.getUniqueId(), 0d);
+            double oldDamage = WitherIsland.witherDamage.getOrDefault(playerSD.getUniqueId(), 0d);
             double newDamage = oldDamage + damage;
-            WitherIsland.witherDamage.put(attacker.getUniqueId(), newDamage);
+            WitherIsland.witherDamage.put(playerSD.getUniqueId(), newDamage);
 //            playerSD.sendMessage(String.format("Damage to Wither: %s", Functions.getNumberFormat(newDamage)));
         }
     }
+
+    /*
+    wither guide:
+    Athena = Intelligence = execute more abilities
+    Phanes = Health = more health
+    Hermes = Speed = moves faster
+    Demeter = Crit damage = deals more damage
+    Ares = Strength = deals more damage
+     */
 }

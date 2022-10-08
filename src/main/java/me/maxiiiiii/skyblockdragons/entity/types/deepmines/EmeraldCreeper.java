@@ -24,8 +24,8 @@ public class EmeraldCreeper extends EntityMaterial {
                 0,
                 15,
                 2,
-                new Drop(Items.get("GUNPOWDER"), 1, 10),
-                new Drop(Items.get("EMERALD"), 1, 6),
+                new Drop(Items.get("GUNPOWDER"), 1),
+                new Drop(Items.get("EMERALD"), 1, 50),
                 new RareDrop(Items.get("EMERALD_TALISMAN"), 1, 0.5d)
         );
     }

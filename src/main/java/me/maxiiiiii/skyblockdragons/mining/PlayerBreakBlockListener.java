@@ -68,8 +68,20 @@ public class PlayerBreakBlockListener implements Listener {
         else if (player.getWorldSD() == WorldSD.THE_END) {
             Functions.Wait(100L, () -> e.getBlock().setType(Material.ENDER_STONE));
         }
-        else if (player.getWorldSD() == WorldSD.DEEPER_MINES)
-            Functions.Wait(100L, () -> e.getBlock().setType(brokeMaterial));
+        else if (player.getWorldSD() == WorldSD.DEEPER_MINES) {
+            BlockMaterial blockMaterial = BlockMaterial.get(brokeMaterial);
+            if (blockMaterial != null) {
+                Functions.Wait(100L, () -> {
+                    e.getBlock().setType(blockMaterial.material);
+                    e.getBlock().setData((byte) blockMaterial.materialData);
+                });
+            }
+            else {
+                Functions.Wait(100L, () -> {
+                    e.getBlock().setType(brokeMaterial);
+                });
+            }
+        }
     }
 
     public static Material getOre(Block block) {

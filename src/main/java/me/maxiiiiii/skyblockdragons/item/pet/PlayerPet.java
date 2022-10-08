@@ -40,6 +40,8 @@ public class PlayerPet {
     }
 
     public Pet getPetActive() {
+        if (this.activePet == -1)
+            return null;
         return this.pets.get(this.activePet);
     }
 

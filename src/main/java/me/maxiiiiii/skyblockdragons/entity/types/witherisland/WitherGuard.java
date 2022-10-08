@@ -14,7 +14,7 @@ public class WitherGuard extends EntityMaterial {
     public WitherGuard() {
         super(
                 EntityType.WITHER_SKELETON,
-                ChatColor.DARK_PURPLE + "Ender Guard",
+                ChatColor.BLACK + "Wither Guard",
                 24,
                 9_000,
                 10,

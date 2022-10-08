@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +27,10 @@ public class SkyblockDragonsCommand extends CommandSD {
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
                 player.sendMessage(ChatColor.GREEN + "You have been reloaded SkyblockDragons plugin.");
+                for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                    onlinePlayer.sendMessage(ChatColor.RED + "Updating...");
+                    onlinePlayer.sendTitle(ChatColor.RED + "Updating...", "Game Updating...", 10, 60, 10);
+                }
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "plugman reload SkyblockDragons");
                 player.sendMessage(ChatColor.GREEN + "Successfully reloaded SkyblockDragons.");
             } else if (args[0].equalsIgnoreCase("sound")) {

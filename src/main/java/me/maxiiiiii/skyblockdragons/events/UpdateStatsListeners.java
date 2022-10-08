@@ -34,7 +34,7 @@ public class UpdateStatsListeners implements Listener {
                 if (!item.isSimilar(itemStack) && !getId(itemStack).contains("_PET") && !Functions.getId(item).equals("SKYBLOCK_MENU")) {
                     player.getEquipment().setItemInMainHand(item);
                 }
-
+                player.setSkyblockMenu();
             }
             player.applyStats(false);
         });
