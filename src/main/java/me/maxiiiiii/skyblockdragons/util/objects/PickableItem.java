@@ -105,14 +105,13 @@ public class PickableItem implements Listener {
             Entity entity = null;
             for (Entity loop : e.getPlayer().getNearbyEntities(1, 1, 1).stream().filter(e2 -> e2.getScoreboardTags().contains("PickableItem")).collect(Collectors.toList())) {
                 entity = loop;
-                break;
-            }
+                if (entity != null) {
+                    PickableItem pickableItem = pickableItems.get(entity.getUniqueId());
+                    if (pickableItem.getPlayer() != null && pickableItem.getPlayer().getPlayer() != e.getPlayer()) continue;
 
-            if (entity != null) {
-                PickableItem pickableItem = pickableItems.get(entity.getUniqueId());
-                if (pickableItem.getPlayer() != null && pickableItem.getPlayer().getPlayer() != e.getPlayer()) return;
-
-                pickableItem.give();
+                    pickableItem.give();
+                    break;
+                }
             }
         }
     }

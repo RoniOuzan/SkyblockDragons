@@ -61,8 +61,9 @@ public class ProfileMenu extends Menu {
     public static class Event implements Listener {
         @EventHandler
         public void onClickOnPlayer(PlayerInteractEntityEvent e) {
-            if (e.getRightClicked() instanceof Player && !e.getRightClicked().hasMetadata("NPC")) {
-                new ProfileMenu(SkyblockDragons.getPlayer(e.getPlayer()), SkyblockDragons.getPlayer((Player) e.getRightClicked()));
+            PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
+            if (e.getRightClicked() instanceof Player && !e.getRightClicked().hasMetadata("NPC") && player.getItems().getTool() == null) {
+                new ProfileMenu(player, SkyblockDragons.getPlayer((Player) e.getRightClicked()));
             }
         }
     }

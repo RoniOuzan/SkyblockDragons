@@ -65,20 +65,28 @@ public class Mining implements Listener {
         if (blockMaterial == null) return;
 
         double miningTime = ((blockMaterial.blockStrength * 30) / Math.max(player.getStats().getMiningSpeed().amount, 1)) * 50;
+//        player.sendMessage("Trying to break %s at speed %s", blockMaterial, miningTime);
 
         if (miningTime <= 50) {
-            BlockBreakEvent event = new BlockBreakEvent(e.getBlock(), player);
-            Bukkit.getServer().getPluginManager().callEvent(event);
+            breakBlock(player, block, blockMaterial);
             return;
         }
 
         if (player.getBreakingPower() >= blockMaterial.breakingPower) {
+//            player.sendMessage("Pro Breaking Power %s %s", player.getBreakingPower(), blockMaterial.breakingPower);
             playerDigging.put(player.getUniqueId(), block);
 
             new MiningThread(player, block, miningTime);
         } else {
             player.sendMessage(ChatColor.RED + "Your tool is not strong enough to mine this block!");
         }
+    }
+
+    public static void breakBlock(PlayerSD player, Block block, BlockMaterial blockMaterial) {
+        Bukkit.getScheduler().runTask(SkyblockDragons.plugin, () -> {
+            PlayerBreakBlockEvent event = new PlayerBreakBlockEvent(player, block, blockMaterial);
+            Bukkit.getServer().getPluginManager().callEvent(event);
+        });
     }
 
 
@@ -123,12 +131,13 @@ public class Mining implements Listener {
 
             stopMining(player, block);
 
-            Bukkit.getScheduler().runTask(SkyblockDragons.plugin, () -> {
-                PlayerBreakBlockEvent event = new PlayerBreakBlockEvent(player, block, blockMaterial);
-                Bukkit.getServer().getPluginManager().callEvent(event);
-            });
+            breakBlock();
 
             this.interrupt();
+        }
+
+        private void breakBlock() {
+            Mining.breakBlock(player, block, blockMaterial);
         }
 
         private boolean cancel() {

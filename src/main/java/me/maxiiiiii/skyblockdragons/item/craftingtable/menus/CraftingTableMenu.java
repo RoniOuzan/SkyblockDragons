@@ -103,7 +103,7 @@ public class CraftingTableMenu extends Menu {
                 }
             }
         }
-        if (this.getNBT(e.getCurrentItem()).equals("QUICK_CRAFT_RESULT")) {
+        if (e.getCurrentItem() != null && this.getNBT(e.getCurrentItem()).equals("QUICK_CRAFT_RESULT")) {
             int row = e.getSlot() / 9;
 
             Recipe recipe = Recipe.getRecipesCanCraft(player, 3).get(row - 1);
@@ -153,7 +153,7 @@ public class CraftingTableMenu extends Menu {
         } else {
             if (recipe.getItem() instanceof Item)
                 if (recipe.getSlotToUpgrade() >= 0) {
-                    ItemStack item = new Item(SkyblockDragons.getPlayer(player), ((Item) recipe.getItem()).getMaterial(), inventory.getItem(Functions.numToSlot(recipe.getSlotToUpgrade())));
+                    Item item = new Item(SkyblockDragons.getPlayer(player), ((Item) recipe.getItem()).getMaterial(), inventory.getItem(Functions.numToSlot(recipe.getSlotToUpgrade())));
                     inventory.setItem(23, addNBT(item, "RESULT"));
                 } else {
                     ItemStack item = recipe.getItem();

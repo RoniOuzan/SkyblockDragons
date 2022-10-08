@@ -307,10 +307,20 @@ public class Damage implements Listener {
 
         if (e.getEntity() instanceof LivingEntity && !(e.getEntity() instanceof ArmorStand) && !(e instanceof EntityDamageEntityEvent)) {
             EntityDamageEntityEvent playerDamageEntity;
-            if (e.getDamager() instanceof Projectile)
+            Entity victim = e.getEntity();
+            EntitySD entitySD = EntitySD.get(victim.getUniqueId());
+            if (entitySD == null) {
+                e.setDamage(100000000);
+                return;
+            }
+
+            if (e.getDamager() instanceof Projectile) {
                 playerDamageEntity = new EntityDamageEntityEvent((Entity) ((Projectile) e.getDamager()).getShooter(), e.getEntity(), DamageType.PROJECTILE, 1, false);
-            else
+
+            }
+            else {
                 playerDamageEntity = new EntityDamageEntityEvent(e.getDamager(), e.getEntity(), DamageType.NORMAL, 1, false);
+            }
             Bukkit.getServer().getPluginManager().callEvent(playerDamageEntity);
 //            e.setCancelled(true);
         }

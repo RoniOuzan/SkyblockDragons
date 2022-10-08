@@ -47,7 +47,7 @@ public class RareDrop extends Drop {
         chanceMultiplier += player.getEnchantLevel(EnchantType.LUCK) * 0.05;
         double[] multipliers = this.calculateMultiplayers(player, source);
 
-        ItemStack item = this.calculateChances(this.chance, multipliers[0] + chanceMultiplier, (int) multipliers[1]);
+        ItemStack item = this.calculateChances(this.chance, multipliers[0] + chanceMultiplier, 0);
         if (item == null)
             return null;
 
