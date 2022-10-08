@@ -358,6 +358,14 @@ public class PlayerSD extends PlayerClass {
         this.stats.reset();
         this.stats.health.set(500); // no other way to have more base health so for now it will be that
 
+        // ALPHA BASE SKILLS
+        if (getSkill().get(SkillType.COMBAT).getLevel() < 15){
+            getSkill().get(SkillType.COMBAT).setLevel(15);
+        }
+        if (getSkill().get(SkillType.ENCHANTING).getLevel() < 40){
+            getSkill().get(SkillType.ENCHANTING).setLevel(40);
+        }
+
         StatsMultiplayer statsMultiplayer = new StatsMultiplayer();
 
         for (AbstractSkill skill : this.getSkill()) {

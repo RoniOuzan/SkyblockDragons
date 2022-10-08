@@ -45,7 +45,6 @@ public class JoinQuitListener implements Listener {
         player.give(new Item(Items.get("ASPECT_OF_THE_END")));
         player.give(new Item(Items.get("GOLDEN_SKELETON_BOW")));
         player.give(new Item(Items.get("DIAMOND_PICKAXE")));
-        player.getSkill().get(SkillType.COMBAT).setLevel(12);
 
     }
 

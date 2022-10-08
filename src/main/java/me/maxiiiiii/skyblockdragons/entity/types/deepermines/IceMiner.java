@@ -4,6 +4,7 @@ import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.objects.Drop;
+import me.maxiiiiii.skyblockdragons.item.objects.RareDrop;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.ChatColor;
@@ -27,9 +28,9 @@ public class IceMiner extends EntityMaterial {
                 0.05,
                 80,
                 2,
-                new Drop(Items.get("COBALT_SHARD"), 1, 2),
-                new Drop(Items.get("CHLOROPHYTE_SHARD"), 1, 0.5),
-                new Drop(Items.get("LUMINATE_SHARD"), 1, 0.1)
+                new RareDrop(Items.get("COBALT_SHARD"), 1, 2),
+                new RareDrop(Items.get("CHLOROPHYTE_SHARD"), 1, 0.5),
+                new RareDrop(Items.get("LUMINATE_SHARD"), 1, 0.1)
         );
     }
 

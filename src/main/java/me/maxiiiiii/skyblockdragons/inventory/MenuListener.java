@@ -27,7 +27,12 @@ public class MenuListener implements Listener {
                 player.closeInventory();
                 return;
             }
-            if (!Functions.isNotAir(e.getCurrentItem())) return;
+            if (click == ClickType.DOUBLE_CLICK){
+                player.sendMessage("§cYou cannot double click!");
+                player.closeInventory();
+                return;
+            }
+            if (Functions.isNotAir(e.getCurrentItem())) {
 //            if (menu instanceof GroupMenu) {
 //                GroupMenu groupMenu = (GroupMenu) menu;
 //                if (e.getSlot() < 9) {
@@ -37,33 +42,34 @@ public class MenuListener implements Listener {
 //                    return;
 //                }
 //            }
-            NBTItem nbt = new NBTItem(e.getCurrentItem());
-            if (nbt.getString("GuiButton").equals("CLOSE")) {
-                menu.getPlayer().closeInventory();
-                return;
-            }
-            if (nbt.getString("GuiButton").equals("GO_BACK")) {
-                Menu.removeLastHistory(e.getWhoClicked().getUniqueId());
-                if (player.getMenuHistory().size() > 0) {
-                    player.getMenuHistory().get(player.getMenuHistory().size() - 1).open(false);
+                NBTItem nbt = new NBTItem(e.getCurrentItem());
+                if (nbt.getString("GuiButton").equals("CLOSE")) {
+                    menu.getPlayer().closeInventory();
+                    return;
                 }
-            }
+                if (nbt.getString("GuiButton").equals("GO_BACK")) {
+                    Menu.removeLastHistory(e.getWhoClicked().getUniqueId());
+                    if (player.getMenuHistory().size() > 0) {
+                        player.getMenuHistory().get(player.getMenuHistory().size() - 1).open(false);
+                    }
+                }
 
-            if (menu instanceof PageMenu) {
-                final PageMenu pageMenu = (PageMenu) menu;
-                if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Next Page")) {
-                    if (click.isLeftClick())
-                        pageMenu.nextPage();
-                    else if (click.isRightClick())
-                        pageMenu.lastPage();
-                    return;
-                }
-                if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Previous Page")) {
-                    if (click.isLeftClick())
-                        pageMenu.previousPage();
-                    else if (click.isRightClick())
-                        pageMenu.firstPage();
-                    return;
+                if (menu instanceof PageMenu) {
+                    final PageMenu pageMenu = (PageMenu) menu;
+                    if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Next Page")) {
+                        if (click.isLeftClick())
+                            pageMenu.nextPage();
+                        else if (click.isRightClick())
+                            pageMenu.lastPage();
+                        return;
+                    }
+                    if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Previous Page")) {
+                        if (click.isLeftClick())
+                            pageMenu.previousPage();
+                        else if (click.isRightClick())
+                            pageMenu.firstPage();
+                        return;
+                    }
                 }
             }
             menu.onInventoryClick(e);
