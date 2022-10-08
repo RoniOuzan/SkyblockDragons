@@ -209,9 +209,14 @@ public class Items {
         items.put("ETERNITY_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.ETERNITY, "Enternity Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 40, 30, 0, 0, 0, 260, 140, 0, 10), "", ItemFullSet.NULL, Color.fromRGB(67,143,167)));
         items.put("ETERNITY_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.ETERNITY, "Enternity Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 40, 30, 0, 0, 0, 260, 140, 0, 10), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
         items.put("ETERNITY_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.ETERNITY, "Enternity Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 40, 30, 0, 0, 0, 260, 140, 0, 10), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
-        items.put("INFINTY_SHARD", new SkinMaterial(Material.SKULL_ITEM, ItemFamily.ETERNITY, "INFINTY_SHARD", Rarity.EPIC, "7901865a-c657-41c6-bc97-31916f921d9e", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2IzMzI4ZDNlOWQ3MTA0MjAzMjI1NTViMTcyMzkzMDdmMTIyNzBhZGY4MWJmNjNhZmM1MGZhYTA0YjVjMDZlMSJ9fX0="));
 
-    // Deeper Mines
+        // Bear
+        items.put("GRIZZLY_BEAR_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.GRIZZLY_BEAR, "Grizzly Bear Helmet", ItemType.HELMET, Rarity.LEGENDARY, "16a37715-3d58-407c-87f8-c18c1198ea6d", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmRmZTcwOWRhMmNmMzJlMWUyNzNmNWQ3MmM2NmZjMzZkYzY0MzY2ZmVjZDk4MGFhNmIxNDgwZDc5YmM2NGNkNyJ9fX0=", new Stats(0, 20, 20, 15, 0, 20, 800, 300, 0, 50), "", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 15)));
+        items.put("GRIZZLY_BEAR_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.GRIZZLY_BEAR, "Grizzly Bear Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 20, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(67,143,167)));
+        items.put("GRIZZLY_BEAR_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.GRIZZLY_BEAR, "Grizzly Bear Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 20, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
+        items.put("GRIZZLY_BEAR_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.GRIZZLY_BEAR, "Grizzly Bear Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 20, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
+
+        // Deeper Mines
         // Cobalt
         items.put("COBALT_HELMET", new ArmorMaterial(Material.DIAMOND_HELMET, ItemFamily.COBALT, "Cobalt Helmet", ItemType.HELMET, Rarity.COMMON, new Stats(35, 25, 0, 20, 75, 20, 0), "", ItemFullSet.COBALT));
         items.put("COBALT_CHESTPLATE", new ArmorMaterial(Material.DIAMOND_CHESTPLATE, ItemFamily.COBALT, "Cobalt Chestplate", ItemType.CHESTPLATE, Rarity.COMMON, new Stats(50, 35, 0, 20, 90, 25, 0), "", ItemFullSet.COBALT));
@@ -459,16 +464,17 @@ public class Items {
                 EnumWrappers.Particle.SPELL_WITCH,
                 Sound.ENTITY_ENDERMEN_AMBIENT
         ));
-        pets.put("ETERNITY", new PetMaterial("Eternity",
-                "7f79f214-88af-4a34-b1ce-7321cff3d73f",
-                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjU3MzQ1Y2I4M2E4N2IzMTI0MTdkMzdmZjk3ZWYzZTYzMjhjMTFmOWRlZTYzMGJmZWQyMzhlYjcyZGI0MmMxIn19fQ==",
-                new Stats(0, 0.5, 0.5, 0.1, 0, 0),
+        pets.put("BEAR", new PetMaterial("Bear",
+                "877042bf-3a95-4a20-8c42-aaa234bfea69",
+                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWIxMjUwM2Q2MWM0OWY3MDFmZWU4NjdkNzkzZjFkY2M1MjJlNGQ3YzVjNDFhNjhmMjk1MTU3OWYyNGU3Y2IyYSJ9fX0=",
+                new Stats(0, 2, 1, 0.5, 0, 0.5),
                 new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY)),
-                new ArrayList<>(Arrays.asList(new PetAbility("Infitny Strike", "Deal " + ChatColor.GREEN + "LEVEL*0.35% " + ChatColor.GRAY + "more damage to infinty mobs", new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY))), new PetAbility("One with the Infinty", "Buffs the Infinty sword by " + ChatColor.GREEN + "LEVEL*0.5 " + StatType.DAMAGE.getIconAndText() + " " + ChatColor.GRAY + "and " + ChatColor.GREEN + "LEVEL*0.3 " + StatType.STRENGTH.getIconAndText(), new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY))), new PetAbility("Eternity", "Increases most stats by " + ChatColor.GREEN + "LEVEL*0.1%", new ArrayList<>(Arrays.asList(Rarity.LEGENDARY))))),
+                new ArrayList<>(Arrays.asList(new PetAbility("Furious Bear", "Increases " + ChatColor.RED + "⫽ Ferocity " + ChatColor.GRAY + "by" + ChatColor.GREEN + "0.5%", new ArrayList<>(Arrays.asList(Rarity.EPIC, Rarity.LEGENDARY))), new PetAbility("Ferocity is Stronger", "Ferocity Attacks deal " + ChatColor.GREEN + "LEVEL*0.5%" + ChatColor.GRAY + "more damage", new ArrayList<>(Arrays.asList(Rarity.LEGENDARY))))),
                 SkillType.COMBAT,
-                EnumWrappers.Particle.CLOUD, EnumWrappers.Particle.SNOWBALL,
-                Sound.ENTITY_ENDERDRAGON_FLAP
-        ));
+                EnumWrappers.Particle.SPELL_WITCH,
+                Sound.ENTITY_ENDERMEN_AMBIENT
+                ));
+        
         items.putAll(pets);
 
         itemMaterials = new HashMap<>(items);

@@ -32,6 +32,8 @@ public enum Warp {
 
     INFINTY_ISLAND(new Location(InfintyIsland.world, 0, 0, 0, 90, 0), "infinty"),
 
+    BEAR_ISLAND(new Location(InfintyIsland.world, 0, 0, 0), "bear"),
+
     UNWARPABLE(HUB.getLocation())
     ;
 
