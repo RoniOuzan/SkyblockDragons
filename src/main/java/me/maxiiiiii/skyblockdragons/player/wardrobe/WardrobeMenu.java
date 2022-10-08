@@ -25,6 +25,7 @@ public class WardrobeMenu extends Menu {
 
     public WardrobeMenu(PlayerSD player, int page) {
         super(player, "Wardrobe", 6, InventoryGlassType.ALL, false);
+        player.sendMessage("§cDisabled!");
         this.page = page;
     }
     @Override
@@ -211,6 +212,12 @@ public class WardrobeMenu extends Menu {
             } else if (!secondPage && slot <= 9) {
                 player.getOpenInventory().setItem(slot + 35, createItem(Material.INK_SACK, 10, ChatColor.GRAY + "Slot " + player.getWardrobe().getEquippedSlot() + ": " + ChatColor.GREEN + "Equipped", "SLOT_EQUIPPED", ChatColor.GRAY + "This wardrobe slot contains your", ChatColor.GRAY + "current armor set", "", ChatColor.YELLOW + "Click to unequip this armor set!"));
             }
+    }
+
+    @Override
+    public void open() {
+        player.sendMessage("§cDisabled!");
+        player.closeInventory();
     }
 
     public static String getPeaceString(int peace) {

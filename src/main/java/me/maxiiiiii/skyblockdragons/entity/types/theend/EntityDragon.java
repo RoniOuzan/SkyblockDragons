@@ -10,6 +10,7 @@ import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;

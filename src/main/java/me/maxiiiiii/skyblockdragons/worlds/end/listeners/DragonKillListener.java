@@ -88,6 +88,7 @@ public class DragonKillListener implements Listener {
             } else
                 normalAmount = Functions.randomInt(eyes, eyes * 2);
 
+            normalAmount = (normalAmount + 1) * 3;
             new PickableItem(player, NORMAL_DROP_LOCATION, new Item(Items.get(dragonType.name() + "_DRAGON_FRAGMENT"), normalAmount), false);
 
             positions.put(player, i);

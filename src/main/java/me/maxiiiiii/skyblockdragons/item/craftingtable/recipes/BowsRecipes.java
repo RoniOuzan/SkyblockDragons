@@ -53,7 +53,7 @@ public class BowsRecipes extends RecipeRegister {
                 null,
                 new Item(Items.get("ENCHANTED_GUNPOWDER")),
                 new Item(Items.get("STRING"), 1)
-        ), 4));
+        ), -1));
 
     }
 }

@@ -20,6 +20,7 @@ import me.maxiiiiii.skyblockdragons.worlds.end.events.PlayerPlaceEyeEvent;
 import me.maxiiiiii.skyblockdragons.worlds.end.listeners.DragonKillListener;
 import me.maxiiiiii.skyblockdragons.worlds.end.listeners.PlayerPlaceEyeListener;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EnderDragon;
@@ -34,6 +35,8 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
@@ -87,6 +90,7 @@ public class TheEnd extends WorldSD implements Listener {
         dragon = new EntitySD(DRAGON_SPAWN, getRandomDragon());
         NBTEntity nbtEntity = new NBTEntity(dragon.entity);
         nbtEntity.setInteger("DragonPhase", 1);
+        dragon.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
         for (Player player : Bukkit.getOnlinePlayers().stream().filter(p -> p.getWorld().getName().equals("TheEnd")).collect(Collectors.toList())) {
             if (player.getLocation().distance(MIDDLE) <= 50) {
                 player.setVelocity(new Vector(
@@ -105,7 +109,7 @@ public class TheEnd extends WorldSD implements Listener {
 //                }
 //            }
 //        });
-        Functions.While(() -> dragon != null && !dragon.isDead(), 80L, i -> {
+        Functions.While(() -> dragon != null && !dragon.isDead(), 40L, i -> {
             if (i % 6 == 4) {
                 return;
             } else if (i % 6 == 5) {
@@ -117,7 +121,7 @@ public class TheEnd extends WorldSD implements Listener {
             double z = Functions.randomDouble(-40, 40);
             Location location = new Location(world, x, y, z);
 
-            new FlyToLocation(dragon, location, 80, 10, true);
+            new FlyToLocation(dragon, location, 40, 10, true);
         });
     }
 
@@ -128,12 +132,27 @@ public class TheEnd extends WorldSD implements Listener {
 
         if (e.getClickedBlock().getType() == Material.ENDER_PORTAL_FRAME && e.getClickedBlock().getData() < 4) {
             ItemStack item = e.getItem();
-            if (Functions.getId(item).equals("SUMMONING_EYE")) {
+            String id = Functions.getId(item);
+            PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
+            if (id.equals("SUMMONING_EYE") || id.equals("ADMIN_SUMMONING_EYE")) {
                 if (e.getClickedBlock().getLocation().distance(MIDDLE) <= 5) {
-                    if (e.getPlayer().getGameMode() != GameMode.CREATIVE)
+                    if (e.getPlayer().getGameMode() != GameMode.CREATIVE && !id.equals("ADMIN_SUMMONING_EYE")) {
                         e.getPlayer().getEquipment().setItemInMainHand(null);
+                    }
+                    if (id.equals("ADMIN_SUMMONING_EYE")){
+                        if (e.getPlayer().getGameMode() != GameMode.CREATIVE){
+                            Integer amount = PlayerPlaceEyeListener.amountOfPlacedEyes.getOrDefault(player, 0);
+                            if (amount > 4){
+                                player.sendMessage("PLACE 4 OR BLIND!");
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 600, 1));
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 600, 4));
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 600, 4));
+                            }
+                        }
+                    }
+
                     e.setCancelled(true);
-                    PlayerPlaceEyeEvent event = new PlayerPlaceEyeEvent(SkyblockDragons.getPlayer(e.getPlayer()), e.getClickedBlock(), e.getItem());
+                    PlayerPlaceEyeEvent event = new PlayerPlaceEyeEvent(player, e.getClickedBlock(), e.getItem());
                     Bukkit.getServer().getPluginManager().callEvent(event);
                 }
             }

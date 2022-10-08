@@ -25,7 +25,7 @@ public class ObsidianZombie extends EntityMaterial {
                 0.2,
                 35,
                 4,
-                new Drop(Items.get("OBSIDIAN"), 1, 4),
+                new Drop(Items.get("OBSIDIAN"), 1, 50),
                 new RareDrop(Items.get("ENCHANTED_OBSIDIAN"), 1, 2d),
                 new RareDrop(Items.get("OBSIDIAN_HELMET"), 1, 1.5d),
                 new RareDrop(Items.get("OBSIDIAN_LEGGINGS"), 1, 1.5d),

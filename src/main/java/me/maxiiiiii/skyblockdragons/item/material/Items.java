@@ -421,6 +421,7 @@ public class Items {
         items.put("EYE_OF_ENDERMAN", new NormalMaterial(Material.ENDER_PEARL, ItemFamily.ENDERMAN, "Eye of Enderman", ItemType.ITEM, Rarity.RARE, "", "", "", true, true, true));
         items.put("EYE_OF_ENDER_GUARD", new NormalMaterial(Material.EYE_OF_ENDER, ItemFamily.ENDERMAN, "Eye of Ender Guard", ItemType.ITEM, Rarity.EPIC, "", "", "", true, true, true));
         items.put("SUMMONING_EYE", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.NULL, "Summoning Eye", ItemType.ITEM, Rarity.EPIC, "36122cdc-6c97-4b97-990a-ef4df57db922", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGFhOGZjOGRlNjQxN2I0OGQ0OGM4MGI0NDNjZjUzMjZlM2Q5ZGE0ZGJlOWIyNWZjZDQ5NTQ5ZDk2MTY4ZmMwIn19fQ", "Use this in " + ChatColor.DARK_PURPLE + "The End " + ChatColor.GRAY + "to summon Ender Dragons!", false, false, false));
+        items.put("ADMIN_SUMMONING_EYE", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.NULL, "ADMIN Summoning Eye", ItemType.ITEM, Rarity.MYTHIC, "36122cdc-6c97-4b97-990a-ef4df57db922", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGFhOGZjOGRlNjQxN2I0OGQ0OGM4MGI0NDNjZjUzMjZlM2Q5ZGE0ZGJlOWIyNWZjZDQ5NTQ5ZDk2MTY4ZmMwIn19fQ", "Use this in " + ChatColor.DARK_PURPLE + "The End " + ChatColor.GRAY + "to summon Ender Dragons! ADMIN ITEM!!!!", false, false, false));
         items.put("FROZEN_KEY", new NormalMaterial(Material.TRIPWIRE_HOOK, ItemFamily.NULL, "Frozen Key", ItemType.ITEM, Rarity.LEGENDARY, "", "", "Use that" + ChatColor.GRAY + "to summon" + ChatColor.AQUA + "Frozen Dragon!", true, false, false));
 
         items.put("SUPERIOR_DRAGON_FRAGMENT", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.SUPERIOR_DRAGON, "Superior Dragon Fragment", ItemType.ITEM, Rarity.EPIC, "7c3c5222-2aca-47c0-a1fc-493fec60f166", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmY4OWIxNTBiZTljNGM1MjQ5ZjM1NWY2OGVhMGM0MzkxMzAwYTliZTFmMjYwZDc1MGZjMzVhMTgxN2FkNzk2ZSJ9fX0=", false, true, true));
@@ -530,18 +531,23 @@ public class Items {
         items.putAll(vanillaMaterials);
 
         ArrayList<String> keys = new ArrayList<>();
-        for (String material : Items.items.keySet()) {
-            ItemMaterial item = Items.items.get(material);
-            if (item.getType() == ItemType.ITEM && !material.contains("ENCHANTED_") && !material.contains("BOOK") && !material.contains("BARDING") && !(item instanceof ItemAbilityAble)) {
-                keys.add(material);
+        try {
+            for (String material : Items.items.keySet()) {
+                ItemMaterial item = Items.items.get(material);
+                if (item.getType() == ItemType.ITEM && !material.contains("ENCHANTED_") && !material.contains("BOOK") && !material.contains("BARDING") && !(item instanceof ItemAbilityAble)) {
+                    keys.add(material);
+                }
+            }
+            for (String material : keys) {
+                ItemMaterial item = Items.get(material);
+                int rarityAdder = 0;
+                if (item.getMaterial().isBlock()) rarityAdder++;
+                NormalMaterial normalMaterial = new NormalMaterial(item.getMaterial(), ItemFamily.ENCHANTED_ITEM, "Enchanted " + item.getName(), ItemType.ITEM, Rarity.values()[item.getRarity().getLevel() + 1 + rarityAdder], item.getId(), item.getNbt(), true, true, true);
+                Items.items.put("ENCHANTED_" + material, normalMaterial);
             }
         }
-        for (String material : keys) {
-            ItemMaterial item = Items.get(material);
-            int rarityAdder = 0;
-            if (item.getMaterial().isBlock()) rarityAdder++;
-            NormalMaterial normalMaterial = new NormalMaterial(item.getMaterial(), ItemFamily.ENCHANTED_ITEM, "Enchanted " + item.getName(), ItemType.ITEM, Rarity.values()[item.getRarity().getLevel() + 1 + rarityAdder], item.getId(), item.getNbt(), true, true, true);
-            Items.items.put("ENCHANTED_" + material, normalMaterial);
+        catch (Exception e) {
+            e.printStackTrace();
         }
 
         NULL = new ToolMaterial(Material.BARRIER, ItemFamily.NULL,"Null", ItemType.NULL, Rarity.SPECIAL, "", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Null barrier that created by " + ChatColor.GRAY + "" + ChatColor.ITALIC + "ERROR with an item.");
