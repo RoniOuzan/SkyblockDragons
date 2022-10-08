@@ -215,6 +215,13 @@ public class Items {
         items.put("GRIZZLY_BEAR_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.GRIZZLY_BEAR, "Grizzly Bear Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 20, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(67,143,167)));
         items.put("GRIZZLY_BEAR_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.GRIZZLY_BEAR, "Grizzly Bear Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 20, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
         items.put("GRIZZLY_BEAR_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.GRIZZLY_BEAR, "Grizzly Bear Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 20, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
+        items.put("GRIZZLY_BEAR_FUR", new NormalMaterial(Material.COCOA, ItemFamily.ITEM, "Grizzly Bear Fur", ItemType.ITEM, Rarity.LEGENDARY, "", "", "Used to Summon a Bear at The Bear Island", false, true, true));
+
+        items.put("POLAR_BEAR_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.POLAR_BEAR, "Polar Bear Helmet", ItemType.HELMET, Rarity.LEGENDARY, "3fcab007-18aa-4730-b228-64712d40f105", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzRmZTkyNjkyMmZiYjQwNmYzNDNiMzRhMTBiYjk4OTkyY2VlNDQxMDEzN2QzZjg4MDk5NDI3YjIyZGUzYWI5MCJ9fX0=", new Stats(0, 20, 20, 15, 0, 10, 800, 500, 0, 50), "", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 15)));
+        items.put("POLAR_BEAR_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.POLAR_BEAR, "Polar Bear Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 500, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(67,143,167)));
+        items.put("POLAR_BEAR_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.POLAR_BEAR, "Polar Bear Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 500, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
+        items.put("POLAR_BEAR_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.POLAR_BEAR, "Polar Bear Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 500, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
+        items.put("POLAR_BEAR_FUR", new NormalMaterial(Material.COCOA, ItemFamily.ITEM, "Polar Bear Fur", ItemType.ITEM, Rarity.LEGENDARY, "", "", "Used to Summon a Bear at The Bear Island", false, true, true));
 
         // Deeper Mines
         // Cobalt
