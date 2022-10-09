@@ -106,8 +106,16 @@ public abstract class Menu implements InventoryHolder {
 
     public void open(boolean addToHistory) {
         player.openInventory(this.inventory);
+        List<Menu> menuHistory = player.getMenuHistory();
         if (addToHistory) {
-            player.getMenuHistory().add(this);
+            try {
+                Menu previousMenu = menuHistory.get(menuHistory.size() - 1);
+                if (!this.getClass().getName().equals(previousMenu.getClass().getName())) {
+                    menuHistory.add(this);
+                }
+            } catch (Exception e) {
+                menuHistory.add(this);
+            }
         }
     }
 

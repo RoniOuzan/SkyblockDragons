@@ -103,7 +103,7 @@ public class Functions {
             healthAdder += Wither_Impact.witherShieldHealth.get(player.getUniqueId());
         }
         message = "" + ChatColor.RED + (int) (player.getHealth() + healthAdder) + "/" + (int) player.getMaxHealth() + StatType.HEALTH.getIcon() + " " + ChatColor.GOLD + message + " " + ChatColor.AQUA + (int) player.getStats().getMana().amount + "/" + (int) player.getStats().getIntelligence().amount + StatType.INTELLIGENCE.getIcon();
-        player.sendActionBar(message);
+        player.sendActionBar(message, true);
     }
 
     public static void sendActionBar(PlayerSD player) {

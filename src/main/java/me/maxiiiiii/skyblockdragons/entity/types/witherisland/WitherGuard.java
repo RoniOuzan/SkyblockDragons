@@ -23,7 +23,7 @@ public class WitherGuard extends EntityMaterial {
                 new Equipment(),
                 100,
                 0,
-                250,
+                2500,
                 25,
                 new Drop(Items.get("COAL"), 1, 3),
                 new RareDrop(Items.get("WITHER_SKULL"), 1, 0.5)

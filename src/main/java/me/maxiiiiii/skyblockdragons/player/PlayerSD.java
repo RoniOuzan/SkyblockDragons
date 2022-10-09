@@ -212,7 +212,8 @@ public class PlayerSD extends PlayerClass {
 
     public void giveSkill(SkillType skillType, double amount) {
         this.skill.get(skillType.name()).giveXp(amount);
-        this.sendActionBar(ChatColor.DARK_AQUA + "+" + Functions.getInt(amount + "") + " " + skillType + " (" + Math.floor(this.getSkill().get(skillType).getCurrentXp() / this.getSkill().get(skillType).getCurrentNeedXp() * 1000d) / 10d + "%)", true);
+        String message = ChatColor.DARK_AQUA + "+" + getInt(amount + "") + " " + skillType + " (" + Math.floor(this.getSkill().get(skillType).getCurrentXp() / this.getSkill().get(skillType).getCurrentNeedXp() * 1000d) / 10d + "%)";
+        Functions.sendActionBar(this, message);
     }
 
     public void addPlayTime(int amount) {
