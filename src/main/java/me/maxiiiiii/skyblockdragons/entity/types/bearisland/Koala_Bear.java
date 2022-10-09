@@ -15,22 +15,22 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
-public class Grizzly_Bear extends EntityMaterial {
-    public Grizzly_Bear() {
+public class Koala_Bear extends EntityMaterial {
+    public Koala_Bear() {
         super(
                 EntityType.ZOMBIE,
-                ChatColor.GRAY + "Grizzly Bear",
+                ChatColor.GRAY + "Koala Bear",
                 100,
-                5_000_000,
+                5000000,
+                0,
                 500,
-                500,
-                50,
-                new Equipment(new Item(Items.get("GRIZZLY_BEAR_HELMET")), Functions.setArmorColor(new ItemStack(Material.LEATHER_CHESTPLATE), Color.fromBGR(45, 71, 106)), Functions.setArmorColor(new ItemStack(Material.LEATHER_LEGGINGS), Color.fromBGR(62, 75, 94)), Functions.setArmorColor(new ItemStack(Material.LEATHER_BOOTS), Color.fromBGR(43, 72, 117)), null, null),
-                120,
                 10,
+                new Equipment(new Item(Items.get("KOALA_BEAR_HELMET")), Functions.setArmorColor(new ItemStack(Material.LEATHER_CHESTPLATE), Color.fromBGR(45, 71, 106)), Functions.setArmorColor(new ItemStack(Material.LEATHER_LEGGINGS), Color.fromBGR(62, 75, 94)), Functions.setArmorColor(new ItemStack(Material.LEATHER_BOOTS), Color.fromBGR(43, 72, 117)), null, null),
+                120,
+                500,
                 250,
                 5,
-                new Drop(Items.get("BEAR"), 1, 0.05)
+                new Drop(Items.get("BEAR_PET"), 1, 0.05)
         );
     }
 
