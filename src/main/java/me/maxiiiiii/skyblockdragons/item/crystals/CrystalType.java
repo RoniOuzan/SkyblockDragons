@@ -10,8 +10,10 @@ import java.util.List;
 
 @Getter
 public enum CrystalType {
-    POWER(Items.get("POWER_WITHER_STONE"), StatType.STRENGTH, Lists.newArrayList(5d, 10d, 20d)),
-    SOUL(Items.get("SOUL_WITHER_STONE"), StatType.STRENGTH, Lists.newArrayList(5d, 10d, 20d));
+    STRENGTH(Items.get("WITHER_STONE_STRENGTH"), StatType.STRENGTH, Lists.newArrayList(5d, 10d, 20d)),
+    SPEED(Items.get("WITHER_STONE_SPEED"), StatType.SPEED, Lists.newArrayList(5d, 10d, 20d)),
+    CRIT(Items.get("WITHER_STONE_CRIT"), StatType.CRIT_DAMAGE, Lists.newArrayList(5d, 10d, 20d)),
+    HEALTH(Items.get("WITHER_STONE_HEALTH"), StatType.HEALTH, Lists.newArrayList(5d, 10d, 20d));
 //    MIND,
 //    DEMETER;
 

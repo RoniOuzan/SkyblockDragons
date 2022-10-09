@@ -420,6 +420,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         for (PlayerSD playerSD : players.values()) {
             playerSD.closeInventory();
+            playerSD.save();
         }
 
         for (World world : Bukkit.getWorlds()) {

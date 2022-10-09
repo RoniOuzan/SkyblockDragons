@@ -18,15 +18,11 @@ import me.maxiiiiii.skyblockdragons.item.modifiers.HotPotatoModifier;
 import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.Laser;
-import me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland;
+import me.maxiiiiii.skyblockdragons.util.objects.TextMessage;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.WitherSkull;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import java.util.Map;
 
@@ -121,7 +117,7 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
             ItemModifiers modifiers = ItemModifiers.getModifiers(item1);
             Map<CrystalType, Short> crystals = modifiers.getCrystals();
             player.sendMessage("Crystals Before: " + crystals);
-            crystals.put(CrystalType.POWER, (short) 1);
+            crystals.put(CrystalType.STRENGTH, (short) 1);
             player.sendMessage("Crystals Put: " + crystals);
             var item = new Item(player, material1, modifiers, new CrystalModifier(crystals), new HotPotatoModifier(5));
             player.getEquipment().setItemInMainHand(item);
@@ -131,6 +127,10 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
             int hotPotato = modifiers.getHotPotato();
             player.sendMessage("Crystals After: " + crystals);
             player.sendMessage("Hot Potato: " + hotPotato);
+        }));
+        addSubCommand(new QuickSubCommand("id", (player, args) -> {
+            Item item = player.getItems().getToolItem();
+            new TextMessage().append("Spigot Material: " + item.getType()).setClickAsSuggestCmd(item.getType().name()).save().append(" ItemMaterial: " + item.getMaterial().name()).setClickAsSuggestCmd(item.getMaterial().name()).save().send(player);
         }));
     }
 }

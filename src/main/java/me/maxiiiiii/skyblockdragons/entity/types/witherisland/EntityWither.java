@@ -5,6 +5,8 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
+import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
@@ -14,6 +16,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -25,13 +28,29 @@ import java.util.stream.Collectors;
 public abstract class EntityWither extends EntityMaterial {
 
     public static final int TICKS_TO_SECONDS = 20;
+    public int moveRate = 80;
     public int phase = 0;
     public int i = 0;
     public UUID uuid = null;
     public EntitySD entitySD;
     public FlyToLocation flyToLocation;
     public String color = "§8";
-    private Location middleLoc;
+    public ItemMaterial crystal = null;
+    public int tickRate = 1;
+
+    public Location middleLoc;
+
+    public EntityWither(String name, double health, double damage, double trueDamage, int moveRate, String color, int tickRate) {
+        super(EntityType.WITHER, name, -1, health, 100, damage, trueDamage, new Equipment(), 100, 1, true, 0, 0);
+        this.moveRate = moveRate;
+        this.color = color;
+        this.tickRate = tickRate;
+    }
+
+    public EntityWither(String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed) {
+        this(name, level, health, defense, damage, trueDamage, equipment, speed, 1);
+
+    }
 
     public EntityWither(String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance) {
         super(EntityType.WITHER, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, true, 0, 0);
@@ -46,6 +65,7 @@ public abstract class EntityWither extends EntityMaterial {
             entitySD = entity;
             entity.entity.setMaximumNoDamageTicks(0);
             entity.entity.setNoDamageTicks(0);
+            entity.entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
             blueExplodeAbility(entity, 200);
         }
     }
@@ -112,7 +132,7 @@ public abstract class EntityWither extends EntityMaterial {
                     }
                 }
 
-                if (phase == 1 && i % 80 == 0){
+                if (phase == 1 && i % moveRate == 0){
                     moveAround(entity);
                 }
             } catch (Exception e){
@@ -120,7 +140,7 @@ public abstract class EntityWither extends EntityMaterial {
                 e.printStackTrace();
             }
         }
-        i++;
+        i += tickRate;
     }
 
     public void skullEverywhere(EntitySD entity) {
@@ -217,7 +237,7 @@ public abstract class EntityWither extends EntityMaterial {
         else
             y = Functions.randomDouble(71, 75);
         double z = Functions.randomDouble(40, 80);
-        moveToLoc(entity, x, y, z, 81, 1);
+        moveToLoc(entity, x, y, z, moveRate + 1, 1);
     }
 
     public void moveToLoc(EntitySD entity, double x, double y, double z, long ticks, double stopAt) {

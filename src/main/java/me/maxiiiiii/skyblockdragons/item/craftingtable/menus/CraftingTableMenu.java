@@ -60,6 +60,14 @@ public class CraftingTableMenu extends Menu {
     }
 
     @Override
+    public void onInventoryClose(InventoryCloseEvent e) {
+        for (int i = 0; i < 8; i++) {
+            ItemStack item = inventory.getItem(Functions.numToSlot(i));
+            player.give(item);
+        }
+    }
+
+    @Override
     public void onInventoryDrag(InventoryDragEvent e) {
         Functions.Wait(1L, () -> updateInventory(player));
     }

@@ -109,7 +109,7 @@ public class ReforgeCommand implements CommandExecutor, Listener {
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent e) {
-        if (e.getInventory().getTitle().equals("Reforge Menu")) {
+        if (e.getInventory().getTitle().contains("Reforge Menu")) {
             if (Functions.isNotAir(e.getInventory().getItem(13)) && !e.getInventory().getItem(13).getItemMeta().getDisplayName().contains("Accessory Bag")) {
                 e.getPlayer().getInventory().addItem(e.getInventory().getItem(13));
             }
