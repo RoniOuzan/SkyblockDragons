@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.events;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,6 +25,11 @@ public class UpdateInventoryListeners implements Listener {
     public void onWorldChange(PlayerChangedWorldEvent e) {
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
         player.updatePlayerInventory();
+        Functions.Wait(20L, () -> {
+            if (player.getGameMode() != GameMode.CREATIVE){
+                player.setAllowFlight(false);
+            }
+        });
     }
 
     @EventHandler

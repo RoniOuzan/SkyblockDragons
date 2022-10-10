@@ -63,7 +63,8 @@ public class CraftingTableMenu extends Menu {
     public void onInventoryClose(InventoryCloseEvent e) {
         for (int i = 0; i < 8; i++) {
             ItemStack item = inventory.getItem(Functions.numToSlot(i));
-            player.give(item);
+            if (item != null)
+                player.give(item);
         }
     }
 
@@ -111,7 +112,7 @@ public class CraftingTableMenu extends Menu {
                 }
             }
         }
-        if (e.getCurrentItem() != null && this.getNBT(e.getCurrentItem()).equals("QUICK_CRAFT_RESULT")) {
+        if (Functions.isNotAir(e.getCurrentItem()) && this.getNBT(e.getCurrentItem()).equals("QUICK_CRAFT_RESULT")) {
             int row = e.getSlot() / 9;
 
             Recipe recipe = Recipe.getRecipesCanCraft(player, 3).get(row - 1);

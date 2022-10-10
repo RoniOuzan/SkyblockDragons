@@ -80,7 +80,7 @@ public abstract class Menu implements InventoryHolder {
 
         Functions.Wait(1, () -> {
             if (autoUpdate) {
-                Functions.While(() -> player.getOpenInventory().getTopInventory().getHolder().getClass() == this.getClass(), 1L, i -> this.update());
+                Functions.While(() -> player.getOpenInventory().getTopInventory().getHolder() == this, 1L, i -> this.update());
             } else
                 this.update();
             this.open();

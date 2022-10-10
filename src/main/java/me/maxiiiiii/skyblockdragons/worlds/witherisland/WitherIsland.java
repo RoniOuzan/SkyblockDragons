@@ -44,7 +44,7 @@ public class WitherIsland extends WorldSD implements Listener {
     public static final Map<UUID, Integer> amountOfPlacedEyes = new HashMap<>();
 
     public WitherIsland(JavaPlugin plugin) {
-        super(world, "Wither Island", Warp.WITHER_ISLAND, WorldType.COMBAT, WorldType.MINING);
+        super(world, "Wither Island", Warp.WITHER_ISLAND, WorldType.COMBAT);
         clearWitherArea();
         buildAllSoulSand();
     }

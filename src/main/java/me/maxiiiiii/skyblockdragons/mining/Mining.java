@@ -9,6 +9,8 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.item.material.types.DrillMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.MiningMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
@@ -77,7 +79,7 @@ public class Mining implements Listener {
             playerDigging.put(player.getUniqueId(), block);
 
             new MiningThread(player, block, miningTime);
-        } else {
+        } else if (player.getItems().getToolItem().getMaterial() instanceof MiningMaterial) {
             player.sendMessage(ChatColor.RED + "Your tool is not strong enough to mine this block!");
         }
     }
