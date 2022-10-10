@@ -309,7 +309,7 @@ public class Damage implements Listener {
             EntityDamageEntityEvent playerDamageEntity;
             Entity victim = e.getEntity();
             EntitySD entitySD = EntitySD.get(victim.getUniqueId());
-            if (entitySD == null) {
+            if (entitySD == null && !(victim instanceof Player)) {
                 e.setDamage(100000000);
                 return;
             }
@@ -384,6 +384,7 @@ public class Damage implements Listener {
             PlayerSD player = SkyblockDragons.getPlayer((PlayerSD) entity.getAttacker());
             entity.type.onDeath(player, entity);
             player.giveSkill(SkillType.COMBAT, entity.type.combatXp);
+            player.giveExp((int) (entity.type.combatXp/100));
             if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0) {
                 for (Drop drop : entity.type.getDrops()) {
                     player.give(drop, entity);

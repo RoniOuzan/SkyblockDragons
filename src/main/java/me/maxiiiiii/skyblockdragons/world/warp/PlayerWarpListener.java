@@ -8,6 +8,7 @@ public class PlayerWarpListener implements Listener {
     @EventHandler
     public void onPlayerWarp(PlayerWarpEvent e) {
         e.getPlayer().teleport(e.getWarp().getLocation());
+        e.getPlayer().setBedSpawnLocation(e.getWarp().getLocation(), true);
         e.getPlayer().sendMessage(ChatColor.GREEN + "Warped to " + e.getWarp().getName());
     }
 }

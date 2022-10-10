@@ -156,6 +156,7 @@ public class EntitySD extends EntityClass {
                         material = Functions.getRandom(EntityMaterial.get("DIAMOND_ZOMBIE"), EntityMaterial.get("DIAMOND_ZOMBIE"), EntityMaterial.get("OBSIDIAN_ZOMBIE"));
                     }
                 }
+                SkyblockDragons.logger.info(String.format("Set entity %s material NULL to %s", i, material.getName()));
             }
             if (location.getWorld().getName().equals("TheEnd")) {
                 if (material.name().startsWith("ENDER") || material == EntityMaterial.NULL) {
