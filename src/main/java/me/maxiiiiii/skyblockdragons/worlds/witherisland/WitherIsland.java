@@ -37,13 +37,14 @@ public class WitherIsland extends WorldSD implements Listener {
     public static final Location MIDDLE_OF_LOOT = new Location(world, -63.500, 72.50000, 63.500);
     public static final Location WITHER_SPAWN = new Location(world, -63.500, 72.50000, 63.500);
     public static final Location MIDDLE = new Location(world, -63.500, 72.50000, 63.500);
+    public static final int TIME_FOR_SOULSAND = 60;
     public static EntitySD wither = null;
 
     public static final Map<UUID, Double> witherDamage = new HashMap<>();
     public static final Map<UUID, Integer> amountOfPlacedEyes = new HashMap<>();
 
     public WitherIsland(JavaPlugin plugin) {
-        super(world, "Wither Island", Warp.WITHER_ISLAND, WorldType.COMBAT, WorldType.MINING);
+        super(world, "Wither Island", Warp.WITHER_ISLAND, WorldType.COMBAT);
         clearWitherArea();
         buildAllSoulSand();
     }
@@ -82,20 +83,18 @@ public class WitherIsland extends WorldSD implements Listener {
 
     public static EntityMaterial getRandomWither() {
         double random = Math.random() * 100;
-//        if (random >= 84)
-//            return EntityMaterial.get("OLD_DRAGON");
-//        if (random >= 68)
-//            return EntityMaterial.get("PROTECTOR_DRAGON");
-//        if (random >= 52)
-//            return EntityMaterial.get("WISE_DRAGON");
-//        if (random >= 36)
-//            return EntityMaterial.get("UNSTABLE_DRAGON");
-//        if (random >= 20)
-//            return EntityMaterial.get("YOUNG_DRAGON");
-//        if (random >= 4)
-//            return EntityMaterial.get("STRONG_DRAGON");
-//        if (random >= 1)
-//            return EntityMaterial.get("SUPERIOR_DRAGON");
+        if (random >= 84)
+            return EntityMaterial.get("PHANES_WITHER"); // old
+        if (random >= 68)
+            return EntityMaterial.get("ATHENA_WITHER"); // wise
+        if (random >= 52)
+            return EntityMaterial.get("DEMETER_WITHER"); // unstable
+        if (random >= 36)
+            return EntityMaterial.get("HERMES_WITHER"); // young
+        if (random >= 4)
+            return EntityMaterial.get("ARES_WITHER"); // strong
+        if (random >= 1)
+            return EntityMaterial.get("ERROR_WITHER");
         return EntityMaterial.get("TEST_WITHER");
     }
 
@@ -111,7 +110,7 @@ public class WitherIsland extends WorldSD implements Listener {
         }
 
         if (getAmountOfEyes() >= 3) {
-            Functions.Wait(20L, this::spawnWither);
+            this.spawnWither();
         }
     }
 
@@ -157,11 +156,12 @@ public class WitherIsland extends WorldSD implements Listener {
         return amountOfPlacedEyes.values().stream().mapToInt(Integer::intValue).sum();
     }
 
-    public static void sendWitherDeadMessage(Player lastDamager){
+    public void sendWitherDeadMessage(Player lastDamager){
         EntityWither type = (EntityWither) wither.type;
         Map<UUID, Double> sortedWitherDamageMap = sortedWitherDamageMap();
         List<UUID> damageDealers = sortedWitherDamage();
         List<Killer> killers = new ArrayList<>();
+        amountOfPlacedEyes.clear();
         for (UUID killer : damageDealers) {
             killers.add(new Killer(SkyblockDragons.getPlayer(killer), sortedWitherDamageMap.get(killer)));
         }
@@ -182,13 +182,20 @@ public class WitherIsland extends WorldSD implements Listener {
             player.sendMessage(ChatColor.RESET + " ");
 
             if (sortedWitherDamageMap.containsKey(player.getUniqueId())) {
-                player.sendMessage("                  " + ChatColor.YELLOW + "Your Damage: " + ChatColor.GREEN + Functions.getNumberFormat(sortedWitherDamageMap.get(player.getUniqueId())) + " " + ChatColor.GRAY + "(Position #" + (damageDealers.indexOf(player.getUniqueId()) + 1) + ")");
+                player.sendMessage("                  " + ChatColor.YELLOW + "Your Damage: " + ChatColor.GREEN + Functions.getNumberFormat(sortedWitherDamageMap.get(player.getUniqueId())) + " " + ChatColor.GRAY + "(Position #" + (damageDealers.size() - damageDealers.indexOf(player.getUniqueId())) + ")");
                 player.sendMessage(ChatColor.RESET + " ");
             }
             player.sendMessage(ChatColor.RESET + "" + ChatColor.GREEN + "" + ChatColor.BOLD + "----------------------------------------");
         }
         wither = null;
+        buildSoulSandSlowly();
 
+    }
+
+    public void buildSoulSandSlowly() {
+        Functions.Loop(4, 20 * TIME_FOR_SOULSAND, amount -> {
+            buildSoulSand(amount+1);
+        });
     }
 
     @EventHandler

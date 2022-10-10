@@ -9,6 +9,8 @@ import org.bukkit.Particle;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
@@ -42,8 +44,12 @@ public class Explosive_Bow implements Listener {
                 for (Entity entity : projectile.getNearbyEntities(radius, radius, radius)) {
                     if (entity instanceof Creature){
                         Creature creature = (Creature) entity;
-                        EntityDamageEntityEvent playerDamageEntity = new EntityDamageEntityEvent(player, creature, Damage.DamageType.PROJECTILE, 1, false);
-                        Bukkit.getServer().getPluginManager().callEvent(playerDamageEntity);
+                        creature.damage(1, projectile);
+                        EntityDamageByEntityEvent entityDamageByEntityEvent = new EntityDamageByEntityEvent(projectile, entity, EntityDamageEvent.DamageCause.PROJECTILE, 1);
+//
+//                        EntityDamageEntityEvent playerDamageEntity = new EntityDamageEntityEvent(player, creature, Damage.DamageType.PROJECTILE, 1, false);
+                        Bukkit.getServer().getPluginManager().callEvent(entityDamageByEntityEvent);
+
                     }
                 }
             }

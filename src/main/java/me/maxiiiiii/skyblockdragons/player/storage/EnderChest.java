@@ -36,8 +36,9 @@ public class EnderChest {
     }
 
     public void save() {
+        Variables.delete(this.player.getUniqueId(), "EnderChest");
         for (int key : this.items.keySet()) {
-            if (!Functions.isNotAir(this.items.get(key))) continue;
+//            if (!Functions.isNotAir(this.items.get(key))) continue;
             Variables.set(this.player.getUniqueId(), "EnderChest", key, this.items.get(key));
         }
     }

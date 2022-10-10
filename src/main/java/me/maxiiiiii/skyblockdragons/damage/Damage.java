@@ -309,7 +309,7 @@ public class Damage implements Listener {
             EntityDamageEntityEvent playerDamageEntity;
             Entity victim = e.getEntity();
             EntitySD entitySD = EntitySD.get(victim.getUniqueId());
-            if (entitySD == null) {
+            if (entitySD == null && !(victim instanceof Player)) {
                 e.setDamage(100000000);
                 return;
             }
@@ -365,7 +365,12 @@ public class Damage implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
         e.getDrops().clear();
-        if (e.getEntity().getKiller() == null) return;
+
+        Entity attacker = e.getEntity().getLastDamageCause().getEntity();
+        if (attacker == null) {
+            SkyblockDragons.logger.info("No killer");
+            return;
+        }
         if (e.getEntity() instanceof Creature && !(e.getEntity() instanceof Player)) {
             EntitySD entity = EntitySD.get(e.getEntity().getUniqueId());
             e.getDrops().clear();
@@ -373,10 +378,13 @@ public class Damage implements Listener {
 
             entity.hologram.remove();
             EntitySD.entities.remove(entity.getUniqueId());
-            if (entity.getAttacker() == null) return;
+            if (entity.getAttacker() == null) {
+                entity.setAttacker(EntitySD.get(attacker));
+            }
             PlayerSD player = SkyblockDragons.getPlayer((PlayerSD) entity.getAttacker());
             entity.type.onDeath(player, entity);
             player.giveSkill(SkillType.COMBAT, entity.type.combatXp);
+            player.giveExp((int) (entity.type.combatXp/100));
             if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0) {
                 for (Drop drop : entity.type.getDrops()) {
                     player.give(drop, entity);
@@ -400,6 +408,7 @@ public class Damage implements Listener {
             if (player.getEnchantLevel(EnchantType.SCAVENGER) > 0)
                 coins += (player.getEnchantLevel(EnchantType.SCAVENGER) * EnchantType.SCAVENGER.getMultiplayers().get(player.getEnchantLevel(EnchantType.SCAVENGER)));
             player.giveCoins(coins);
+
         }
     }
 
@@ -420,6 +429,8 @@ public class Damage implements Listener {
             player.sendMessage(ChatColor.RED + "You died and lost " + Functions.getNumberFormat(amount) + " coins.");
         }
         player.teleport(player.getWorldSD().getWarp().getLocation());
+        player.setInvulnerable(true);
         Functions.Wait(1L, () -> player.spigot().respawn());
+        Functions.Wait(100L, () -> player.setInvulnerable(false));
     }
 }

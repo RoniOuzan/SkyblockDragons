@@ -19,7 +19,7 @@ import me.maxiiiiii.skyblockdragons.entity.types.theend.EndermanTier1;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EndermanTier2;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.dragon.*;
 import me.maxiiiiii.skyblockdragons.entity.types.witherisland.WitherGuard;
-import me.maxiiiiii.skyblockdragons.entity.types.witherisland.wither.TestWither;
+import me.maxiiiiii.skyblockdragons.entity.types.witherisland.wither.*;
 import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
@@ -122,6 +122,12 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         entities.put("GHOST", new Ghost());
 
         entities.put("TEST_WITHER", new TestWither());
+        entities.put("ATHENA_WITHER", new AthenaWither()); // wise
+        entities.put("ARES_WITHER", new AresWither()); // strong
+        entities.put("PHANES_WITHER", new PhanesWither()); // old
+        entities.put("HERMES_WITHER", new HermesWither()); // young
+        entities.put("DEMETER_WITHER", new DemeterWither()); // unstable
+        entities.put("ERROR_WITHER", new ErrorWither()); // error
         entities.put("WITHER_GUARD", new WitherGuard());
 
         entities.put("DUMMY", new Dummy());

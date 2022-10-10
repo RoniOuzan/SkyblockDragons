@@ -22,7 +22,7 @@ public class EndermanTier2 extends EntityMaterial {
                 new Equipment(),
                 100,
                 0,
-                75,
+                750,
                 12,
                 new Drop(Items.get("ENDER_PEARL"), 1, 2),
                 new RareDrop(Items.get("ENDERMAN_TALISMAN_COMMON"), 1, 0.5),

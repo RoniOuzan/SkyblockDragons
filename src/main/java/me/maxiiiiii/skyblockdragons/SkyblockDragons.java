@@ -320,6 +320,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("Storage").setExecutor(new StorageMenu.Command());
         getCommand("EnderChest").setExecutor(new EnderChestMenu.Command());
         getCommand("SkyblockDragonsTest").setExecutor(new SkyblockDragonsTestCommand());
+        getCommand("Alpha").setExecutor(new SkyblockDragonsAlphaCommand());
         registerCommand("Forge", new Forge.Command());
         registerCommand("ForgeMilestone", new ForgeMilestoneCommand());
         registerCommand("Party", new PartyCommand());
@@ -420,6 +421,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         for (PlayerSD playerSD : players.values()) {
             playerSD.closeInventory();
+            playerSD.save();
         }
 
         for (World world : Bukkit.getWorlds()) {

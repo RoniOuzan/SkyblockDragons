@@ -189,3 +189,11 @@ commands:
       - plist
       - playerl
       - listplayer
+  Alpha:
+    permission: skyblockdragons.alpha.command
+    usage: /<command>
+    aliases:
+      - sdalpha
+      - alpha
+      - sbdalpha
+      - alphasd
