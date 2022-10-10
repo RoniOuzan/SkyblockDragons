@@ -80,5 +80,7 @@ public enum ItemFamily {
     POLAR_BEAR,
     KOALA_BEAR,
     PANDA_BEAR,
+    RED_PANDA_BEAR,
+
     NULL
 }

@@ -28,11 +28,7 @@ public class WardrobeMenu extends Menu {
         player.sendMessage("§cDisabled!");
         this.page = page;
     }
-    @Override
-    public void open() {
-        player.sendMessage("§cDisabled!");
-        player.closeInventory();
-    }
+
     @Override
     public void update() {
         int startValue = (page > 1) ? 9 : 0;

@@ -4,26 +4,27 @@ import de.tr7zw.changeme.nbtapi.NBTEntity;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.entity.types.witherisland.EntityWither;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Killer;
+
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
+import me.maxiiiiii.skyblockdragons.worlds.bearisland.events.BearKillEvent;
 import me.maxiiiiii.skyblockdragons.worlds.bearisland.events.PlayerPlaceFurEvent;
+
 import org.bukkit.*;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
+
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,6 +40,7 @@ public class BearIsland extends WorldSD implements Listener {
 
     public BearIsland(JavaPlugin plugin) {
         super(world, "Bear Island", Warp.BEAR_ISLAND, WorldType.COMBAT);
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     public static EntityMaterial getRandomBear() {
@@ -70,6 +72,21 @@ public class BearIsland extends WorldSD implements Listener {
             }
         }
     }
+    public static final Map<PlayerSD, Integer> amountOfPlacedFurs = new HashMap<>();
+
+    public void onPlaceFur(PlayerPlaceFurEvent e) {
+        e.getBlock().setData((byte) (e.getBlock().getData() + 4));
+        e.addToAmountOfFurs();
+        amountOfPlacedFurs.put(e.getPlayer(), amountOfPlacedFurs.getOrDefault(e.getPlayer(), 0) + 1);
+        for (Player player : Bukkit.getOnlinePlayers().stream().filter(p -> p.getWorld().getName().equals("BearIsland")).collect(Collectors.toList())) {
+            player.sendMessage( ChatColor.DARK_PURPLE + "☬ " + e.getPlayer().getDisplayName() + ChatColor.LIGHT_PURPLE + " placed an fur! (" + e.getAmountOfFurs() + "/8)");
+        }
+
+
+        if (e.getAmountOfFurs() >= 8) {
+            Functions.Wait(20L, BearIsland::spawnBear);
+        }
+    }
     @EventHandler
     public void onClickBlock(PlayerInteractEvent e) {
         if (e.getClickedBlock() == null) return;
@@ -84,71 +101,79 @@ public class BearIsland extends WorldSD implements Listener {
                     e.setCancelled(true);
                     PlayerPlaceFurEvent event = new PlayerPlaceFurEvent(SkyblockDragons.getPlayer(e.getPlayer()), e.getClickedBlock(), e.getItem());
                     Bukkit.getServer().getPluginManager().callEvent(event);
+                    onPlaceFur(event);
                 }
             }
         }
     }
-    @EventHandler
-    public void onBearDeath(EntityDeathEvent e){
-        try {
-            LivingEntity entity = e.getEntity();
-            if (bear.getUniqueId() != null && entity.getUniqueId().equals(bear.getUniqueId())){
-                Functions.Wait(20, () -> sendBearDeadMessage(e.getEntity().getKiller()));
-            }
-        } catch (NullPointerException ignored){}
-    }
-    public static void sendBearDeadMessage(Player lastDamager){
-        EntityWither type = (EntityWither) bear.type;
-        Map<UUID, Double> sortedBearDamageMap = sortedBearDamageMap();
-        List<UUID> damageDealers = sortedBearDamage();
-        List<Killer> killers = new ArrayList<>();
-        for (UUID killer : damageDealers) {
-            killers.add(new Killer(SkyblockDragons.getPlayer(killer), sortedBearDamageMap.get(killer)));
-        }
-        Collections.reverse(killers);
-        for (Player player : Bukkit.getOnlinePlayers().stream().filter(p -> p.getWorld().getName().equals("BearIsland")).collect(Collectors.toList())) {
-            player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "----------------------------------------");
-            player.sendMessage("                      " + type.color + "" + ChatColor.BOLD + Functions.setTitleCase(type.name) + ChatColor.GOLD + ChatColor.BOLD + " DOWN!");
-            player.sendMessage(ChatColor.RESET + " ");
-            if (lastDamager != null)
-                player.sendMessage("           " + ChatColor.WHITE + lastDamager.getDisplayName() + ChatColor.GRAY + " dealt the final hit!");
-            player.sendMessage(ChatColor.RESET + " ");
-            if (killers.size() > 0)
-                player.sendMessage("           " + ChatColor.YELLOW + "" + ChatColor.BOLD + "1st Damager " + ChatColor.GRAY + "- " + killers.get(0).player.getDisplayName() + " " + ChatColor.GRAY + "- " + ChatColor.YELLOW + Functions.getNumberFormat(killers.get(0).damage));
-            if (killers.size() > 1)
-                player.sendMessage("         " + ChatColor.GOLD + "" + ChatColor.BOLD + "2nd Damager " + ChatColor.GRAY + "- " + killers.get(1).player.getDisplayName() + " " + ChatColor.GRAY + "- " + ChatColor.YELLOW + Functions.getNumberFormat(killers.get(1).damage));
-            if (killers.size() > 2)
-                player.sendMessage("       " + ChatColor.RED + "" + ChatColor.BOLD + "3rd Damager " + ChatColor.GRAY + "- " + killers.get(2).player.getDisplayName() + " " + ChatColor.GRAY + "- " + ChatColor.YELLOW + Functions.getNumberFormat(killers.get(2).damage));
-            player.sendMessage(ChatColor.RESET + " ");
 
-            if (sortedBearDamageMap.containsKey(player.getUniqueId())) {
-                player.sendMessage("                  " + ChatColor.YELLOW + "Your Damage: " + ChatColor.GREEN + Functions.getNumberFormat(sortedBearDamageMap.get(player.getUniqueId())) + " " + ChatColor.GRAY + "(Position #" + (damageDealers.indexOf(player.getUniqueId()) + 1) + ")");
+    public static void resetFurs() {
+        for (Block block : Functions.loopBlocksHorizontally(MIDDLE, 10)) {
+            if (block.getType() == Material.ENDER_PORTAL_FRAME && block.getData() > 3) {
+                block.setData((byte) (block.getData() - 4));
+            }
+        }
+    }
+
+
+        @EventHandler
+        public void onBearKill(BearKillEvent e){
+            List<Killer> killers = new ArrayList<>();
+            for (PlayerSD player : e.getKillers().keySet()) {
+                killers.add(new Killer(player, e.getKillers().get(player)));
+            }
+            Collections.sort(killers);
+
+            BearType bearType = BearType.getBearType(e.getEntity().type.getName());
+
+            if (bearType == null) {
+                SkyblockDragons.logger.info(ChatColor.RED + "Cannot find the type of the bear!");
+                return;
+            }
+
+            Map<PlayerSD, Integer> positions = new HashMap<>();
+            // 1 to make the place be easier to see
+            for (int i = 1; i < killers.size() + 1; i++) {
+                PlayerSD player = killers.get(i - 1).player;
+                double damage = killers.get(i - 1).damage;
+
+                positions.put(player, i);
+            }
+
+            for (Player player : Bukkit.getOnlinePlayers().stream().filter(p -> p.getWorld().getName().equals("BearIsland")).collect(Collectors.toList())) {
+                player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "----------------------------------------");
+                player.sendMessage("                      " + bearType.color + "" + ChatColor.BOLD + Functions.setTitleCase(bearType.name()) + " Bear");
                 player.sendMessage(ChatColor.RESET + " ");
-            }
-            player.sendMessage(ChatColor.RESET + "" + ChatColor.GREEN + "" + ChatColor.BOLD + "----------------------------------------");
-        }
-        bear = null;
-
-    }
-    public static List<UUID> sortedBearDamage(){
-        return new ArrayList<>(sortedBearDamageMap().keySet());
-    }
-
-    @NotNull
-    public static Map<UUID, Double> sortedBearDamageMap() {
-        return Functions.sortByValue(bearDamage);
-    }
-    public static PlayerSD getBearTarget(){
-        List<UUID> sortedWitherDamage = sortedBearDamage();
-        for (UUID uuid : sortedWitherDamage) {
-            PlayerSD target = SkyblockDragons.getPlayer(uuid);
-            if (target != null && target.isOnline()) {
-                Location location = bear.entity.getLocation();
-                if (location.getWorld().equals(target.getWorld()) && location.distance(target.getLocation()) <= 70) {
-                    return target;
+                player.sendMessage("           " + ChatColor.WHITE + e.getKiller().getDisplayName() + ChatColor.GRAY + " dealt the final hit!");
+                player.sendMessage(ChatColor.RESET + " ");
+                if (killers.size() > 0)
+                    player.sendMessage("           " + ChatColor.YELLOW + "" + ChatColor.BOLD + "1st Damager " + ChatColor.GRAY + "- " + killers.get(0).player.getDisplayName() + " " + ChatColor.GRAY + "- " + ChatColor.YELLOW + Functions.getNumberFormat(killers.get(0).damage));
+                if (killers.size() > 1)
+                    player.sendMessage("         " + ChatColor.GOLD + "" + ChatColor.BOLD + "2nd Damager " + ChatColor.GRAY + "- " + killers.get(1).player.getDisplayName() + " " + ChatColor.GRAY + "- " + ChatColor.YELLOW + Functions.getNumberFormat(killers.get(1).damage));
+                if (killers.size() > 2)
+                    player.sendMessage("       " + ChatColor.RED + "" + ChatColor.BOLD + "3rd Damager " + ChatColor.GRAY + "- " + killers.get(2).player.getDisplayName() + " " + ChatColor.GRAY + "- " + ChatColor.YELLOW + Functions.getNumberFormat(killers.get(2).damage));
+                player.sendMessage(ChatColor.RESET + " ");
+                if (e.getKillers().containsKey(SkyblockDragons.getPlayer(player))) {
+                    player.sendMessage("                  " + ChatColor.YELLOW + "Your Damage: " + ChatColor.GREEN + Functions.getNumberFormat(e.getKillers().get(SkyblockDragons.getPlayer(player))) + " " + ChatColor.GRAY + "(Position #" + (positions.get(SkyblockDragons.getPlayer(player))) + ")");
+                    player.sendMessage(ChatColor.RESET + " ");
                 }
+                player.sendMessage(ChatColor.RESET + "" + ChatColor.GREEN + "" + ChatColor.BOLD + "----------------------------------------");
             }
+
+            BearIsland.bearDamage.clear();
+            BearIsland.bear = null;
+            amountOfPlacedFurs.clear();
+            PlayerPlaceFurEvent.resetAmountOfFurs();
+
+            Functions.Wait(100L, BearIsland::resetFurs);
+
+            for (Block block : Functions.loopBlocksHorizontally(BearIsland.MIDDLE_OF_LOOT, 5.5)) {
+                block.setType(Material.DIRT);
+            }
+            Functions.Wait(400L, () -> {
+                for (Block block : Functions.loopBlocksHorizontally(BearIsland.MIDDLE_OF_LOOT, 5.5)) {
+                    block.setType(Material.GRASS);
+                }
+            });
         }
-        return null;
     }
-        }

@@ -9,6 +9,7 @@ import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
+import net.minecraft.server.v1_12_R1.EntityZombie;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
