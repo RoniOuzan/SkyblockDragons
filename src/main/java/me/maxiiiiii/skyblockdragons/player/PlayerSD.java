@@ -555,7 +555,7 @@ public class PlayerSD extends PlayerClass {
             if (!isNotAir(itemStack)) continue;
 
             ItemMaterial itemMaterial = Items.get(itemStack);
-            if (itemMaterial == Items.get("NULL")) {
+            if (itemMaterial == Items.get("NULL") || Functions.nbtHasKey(itemStack, "NOTSD")) {
                 return;
             }
 

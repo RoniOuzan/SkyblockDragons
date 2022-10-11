@@ -18,6 +18,8 @@ public class DeepMinesRecipes extends RecipeRegister {
                 null
         ), -1));
 
+        registerEnchantedRecipe("ENCHANTED_COAL_BLOCK", "ENCHANTED_COAL");
+
         recipes.put("ENCHANTED_IRON_INGOT", new Recipe(new Item(Items.get("ENCHANTED_IRON_INGOT")), getItems(
                 new Item(Items.items.get("IRON_INGOT"), 64),
                 new Item(Items.items.get("IRON_INGOT"), 64),
