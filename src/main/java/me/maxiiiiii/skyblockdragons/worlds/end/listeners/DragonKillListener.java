@@ -141,6 +141,8 @@ public class DragonKillListener implements Listener {
                 uniqueDrop = new Pet(PetMaterial.get("ENDER_DRAGON"), Rarity.LEGENDARY, 1, 0, true);
             } else if (Functions.chanceOf(5 * eyes) && dragonType == DragonType.SUPERIOR) {
                 uniqueDrop = new Item(Items.get("DRAGON_HORN"), 1);
+//            } else if (Functions.chanceOf(2 * eyes) && dragonType == DragonType.ERROR) {
+//                uniqueDrop = new Item(Items.get("ERROR_SCYTHE"), 1);
             } else if (Functions.chanceOf(2 * eyes)) {
                 uniqueDrop = new Item(Items.get("DRAGON_CLAW"), 1);
             } else if (Functions.chanceOf(3 * eyes)) {

@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.entity.types.bearisland;
+package me.maxiiiiii.skyblockdragons.entity.types.bearisland.Normal;
 
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
@@ -9,7 +9,6 @@ import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
-import net.minecraft.server.v1_12_R1.EntityZombie;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -19,10 +18,10 @@ import org.bukkit.inventory.ItemStack;
 public class Grizzly_Bear extends EntityMaterial {
     public Grizzly_Bear() {
         super(
-                EntityType.ZOMBIE,
+                EntityType.IRON_GOLEM,
                 ChatColor.GRAY + "Grizzly Bear",
                 100,
-                5_000_000,
+                100_000,
                 500,
                 500,
                 50,
@@ -37,6 +36,6 @@ public class Grizzly_Bear extends EntityMaterial {
 
     @Override
     public void onSpawn(EntitySD entity) {
-        DisguiseAPI.disguiseToAll(entity.entity, new PlayerDisguise("LidanTheGamer_"));
+        DisguiseAPI.disguiseToAll(entity.entity, new PlayerDisguise("hypixel"));
     }
 }

@@ -94,7 +94,7 @@ public class BearIsland extends WorldSD implements Listener {
 
         if (e.getClickedBlock().getType() == Material.ENDER_PORTAL_FRAME && e.getClickedBlock().getData() < 4) {
             ItemStack item = e.getItem();
-            if (Functions.getId(item).equals("GRIZZLY_BEAR_FUR")) {
+            if (Functions.getId(item).equals("BEAR_EYE")) {
                 if (e.getClickedBlock().getLocation().distance(MIDDLE) <= 5) {
                     if (e.getPlayer().getGameMode() != GameMode.CREATIVE)
                         e.getPlayer().getEquipment().setItemInMainHand(null);

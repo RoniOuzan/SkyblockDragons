@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.entity.types.bearisland;
+package me.maxiiiiii.skyblockdragons.entity.types.bearisland.Boss;
 
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
@@ -15,27 +15,27 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
-public class Koala_Bear extends EntityMaterial {
-    public Koala_Bear() {
+public class Panda_Bear_Boss extends EntityMaterial {
+    public Panda_Bear_Boss() {
         super(
-                EntityType.ZOMBIE,
-                ChatColor.GRAY + "Koala Bear",
+                EntityType.IRON_GOLEM,
+                ChatColor.GRAY + "Panda Bear Boss",
                 100,
-                5000000,
-                0,
+                2_000_000,
                 500,
-                10,
-                new Equipment(new Item(Items.get("KOALA_BEAR_HELMET")), Functions.setArmorColor(new ItemStack(Material.LEATHER_CHESTPLATE), Color.fromBGR(45, 71, 106)), Functions.setArmorColor(new ItemStack(Material.LEATHER_LEGGINGS), Color.fromBGR(62, 75, 94)), Functions.setArmorColor(new ItemStack(Material.LEATHER_BOOTS), Color.fromBGR(43, 72, 117)), null, null),
+                500,
+                50,
+                new Equipment(new Item(Items.get("PANDA_BEAR_HELMET")), Functions.setArmorColor(new ItemStack(Material.LEATHER_CHESTPLATE), Color.fromBGR(45, 71, 106)), Functions.setArmorColor(new ItemStack(Material.LEATHER_LEGGINGS), Color.fromBGR(62, 75, 94)), Functions.setArmorColor(new ItemStack(Material.LEATHER_BOOTS), Color.fromBGR(43, 72, 117)), null, null),
                 120,
-                500,
+                10,
                 250,
                 5,
-                new Drop(Items.get("BEAR_PET"), 1, 0.05)
+                new Drop(Items.get("BEAR"), 1, 0.05)
         );
     }
 
     @Override
     public void onSpawn(EntitySD entity) {
-        DisguiseAPI.disguiseToAll(entity.entity, new PlayerDisguise("LidanTheGamer_"));
+        DisguiseAPI.disguiseToAll(entity.entity, new PlayerDisguise("hypixel"));
     }
 }

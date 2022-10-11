@@ -2,8 +2,8 @@ package me.maxiiiiii.skyblockdragons.entity;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.entity.types.bearisland.Grizzly_Bear;
-import me.maxiiiiii.skyblockdragons.entity.types.bearisland.Polar_Bear;
+import me.maxiiiiii.skyblockdragons.entity.types.bearisland.Boss.*;
+import me.maxiiiiii.skyblockdragons.entity.types.bearisland.Normal.*;
 import me.maxiiiiii.skyblockdragons.entity.types.deepermines.Ghost;
 import me.maxiiiiii.skyblockdragons.entity.types.deepermines.IceMiner;
 import me.maxiiiiii.skyblockdragons.entity.types.deepmines.*;
@@ -21,14 +21,12 @@ import me.maxiiiiii.skyblockdragons.entity.types.theend.dragon.*;
 import me.maxiiiiii.skyblockdragons.entity.types.witherisland.WitherGuard;
 import me.maxiiiiii.skyblockdragons.entity.types.witherisland.wither.*;
 import me.maxiiiiii.skyblockdragons.item.objects.Drop;
-import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.Utility;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.Listener;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -141,6 +139,15 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
 
         entities.put("GRIZZLY_BEAR", new Grizzly_Bear());
         entities.put("POLAR_BEAR", new Polar_Bear());
+        entities.put("PANDA_BEAR", new Panda_Bear());
+        entities.put("KOALA_BEAR", new Koala_Bear());
+        entities.put("RED_PANDA_BEAR", new Red_Panda_Bear());
+
+        entities.put("RED_PANDA_BEAR_BOSS", new Red_Panda_Bear_Boss());
+        entities.put("GRIZZLY_BEAR_BOSS", new Grizzly_Bear_Boss());
+        entities.put("POLAR__BEAR_BOSS", new Polar_Bear_Boss());
+        entities.put("KOALA_BEAR_BOSS", new Koala_Bear_Boss());
+        entities.put("PANDA_BOSS", new Panda_Bear_Boss());
 
         NullEntity nullEntity = new NullEntity();
         entities.put("NULL", nullEntity);
