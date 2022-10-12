@@ -84,6 +84,7 @@ public class CraftingTableMenu extends Menu {
         PlayerSD player = SkyblockDragons.getPlayer((Player) e.getWhoClicked());
         if ((e.getSlot() % 9 == 1 || e.getSlot() % 9 == 2 || e.getSlot() % 9 == 3) && (e.getSlot() / 9 == 1 || e.getSlot() / 9 == 2 || e.getSlot() / 9 == 3))
             e.setCancelled(false);
+        if (!Functions.isNotAir(e.getCurrentItem())) return;
 
         if (e.getSlot() == 23) {
             if (this.getNBT(e.getCurrentItem()).equals("RESULT")) {

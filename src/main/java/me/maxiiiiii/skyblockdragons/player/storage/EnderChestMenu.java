@@ -42,6 +42,7 @@ public class EnderChestMenu extends Menu {
     @Override
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getSlot() >= 9) e.setCancelled(false);
+        if (!Functions.isNotAir(e.getCurrentItem())) return;
 
         if (this.getNBT(e.getCurrentItem()).equals("NextPage")) {
             this.save();

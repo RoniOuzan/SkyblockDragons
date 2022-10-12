@@ -76,5 +76,6 @@ public enum ItemFamily {
     ERROR_SCYTHE,
     ADMIN,
     ETERNITY,
+    KING,
     NULL
 }
