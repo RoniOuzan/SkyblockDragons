@@ -8,6 +8,7 @@ plugins {
     id 'java'
     id 'maven-publish'
     id "io.freefair.lombok" version "6.5.1"
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 configurations.all {
@@ -75,6 +76,19 @@ dependencies {
     compileOnly 'com.sk89q.worldedit:worldedit-bukkit:6.1.4-SNAPSHOT'
     compileOnly 'com.sk89q.worldedit:worldedit-core:6.1.4-SNAPSHOT'
 }
+
+tasks.jar.configure {
+    classifier = 'default'
+}
+
+tasks.shadowJar.configure {
+    classifier = null
+}
+
+shadowJar {
+    relocate 'de.tr7zw:item-nbt-api', 'de.tr7zw.changeme:nbtapi'
+}
+
 
 group = 'me.maxiiiiii'
 version = '1.0'

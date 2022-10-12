@@ -298,6 +298,13 @@ public class PlayerSD extends PlayerClass {
     }
 
     public void give(ItemStack item, Object source) {
+        int amount = item.getAmount();
+
+        if (amount > 64){
+            throw new IllegalArgumentException("Amount must be less than 64");
+        }
+//        sendMessage("Give ITEMSD %s %s", item, source);
+
         if (item instanceof Drop) {
             ItemStack itemStack = ((Drop) item).generate(this, source);
             if (itemStack != null)
@@ -305,6 +312,7 @@ public class PlayerSD extends PlayerClass {
         } else {
             this.player.getInventory().addItem(item);
         }
+
         PlayerGetItemEvent event = new PlayerGetItemEvent(this, item);
         Bukkit.getServer().getPluginManager().callEvent(event);
     }

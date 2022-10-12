@@ -11,9 +11,7 @@ import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.EnderDragon;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.*;
 
 import java.util.stream.Collectors;
 
@@ -30,7 +28,7 @@ public abstract class EntityDragon extends EntityMaterial {
         for (PlayerSD player : entity.getWorld().getPlayers().stream().map(SkyblockDragons::getPlayer).collect(Collectors.toList())) {
             if (player.getGameMode() == GameMode.SURVIVAL) {
                 entity.getWorld().strikeLightningEffect(player.getLocation());
-                player.makeDamage(entity, Damage.DamageType.TRUE, player.getHealthStat() * percent);
+                player.getPlayer().damage((player.getHealthStat() * percent)*10, entity);
             }
         }
     }
