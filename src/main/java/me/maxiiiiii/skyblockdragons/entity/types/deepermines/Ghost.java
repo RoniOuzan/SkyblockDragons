@@ -18,7 +18,7 @@ public class Ghost extends EntityMaterial {
                 EntityType.CREEPER,
                 ChatColor.GRAY + "Ghost",
                 30,
-                120_000,
+                30_000,
                 0,
                 500,
                 10,

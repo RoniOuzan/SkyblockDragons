@@ -319,15 +319,15 @@ public class DeeperMinesRecipes extends RecipeRegister {
         ), -1));
 
         recipes.put("HEMATITE_DRILL", new Recipe(new Item(Items.get("HEMATITE_DRILL")), getItems(
-                new Item(Items.get("ENCHANTED_DERNIC"), 16),
-                new Item(Items.get("ENCHANTED_DERNIC"), 16),
-                new Item(Items.get("ENCHANTED_DERNIC"), 16),
-                new Item(Items.get("ENCHANTED_DERNIC"), 16),
+                new Item(Items.get("ENCHANTED_HEMATITE"), 16),
+                new Item(Items.get("ENCHANTED_HEMATITE"), 16),
+                new Item(Items.get("ENCHANTED_HEMATITE"), 16),
+                new Item(Items.get("ENCHANTED_HEMATITE"), 16),
                 new Item(Items.get("DERNIC_DRILL")),
-                new Item(Items.get("ENCHANTED_DERNIC"), 16),
-                new Item(Items.get("ENCHANTED_DERNIC"), 16),
-                new Item(Items.get("ENCHANTED_DERNIC"), 16),
-                new Item(Items.get("ENCHANTED_DERNIC"), 16)
+                new Item(Items.get("ENCHANTED_HEMATITE"), 16),
+                new Item(Items.get("ENCHANTED_HEMATITE"), 16),
+                new Item(Items.get("ENCHANTED_HEMATITE"), 16),
+                new Item(Items.get("ENCHANTED_HEMATITE"), 16)
         ), 4));
 
         recipes.put("HEMATITE_HELMET", new Recipe(new Item(Items.get("HEMATITE_HELMET")), getItems(
@@ -394,24 +394,24 @@ public class DeeperMinesRecipes extends RecipeRegister {
         ), -1));
 
         recipes.put("VOID_CRYSTAL_DRILL", new Recipe(new Item(Items.get("VOID_CRYSTAL_DRILL")), getItems(
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
                 new Item(Items.get("HEMATITE_DRILL")),
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1)
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16)
         ), 4));
 
         recipes.put("VOID_CRYSTAL_HELMET", new Recipe(new Item(Items.get("VOID_CRYSTAL_HELMET")), getItems(
                 new Item(Items.get("VOID_CRYSTAL_SHARD")),
                 new Item(Items.get("VOID_CRYSTAL_SHARD")),
                 new Item(Items.get("VOID_CRYSTAL_SHARD")),
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
                 new Item(Items.get("HEMATITE_HELMET")),
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
                 null,
                 null,
                 null
@@ -422,32 +422,32 @@ public class DeeperMinesRecipes extends RecipeRegister {
                 new Item(Items.get("HEMATITE_CHESTPLATE")),
                 new Item(Items.get("VOID_CRYSTAL_SHARD")),
                 new Item(Items.get("VOID_CRYSTAL_SHARD")),
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
                 new Item(Items.get("VOID_CRYSTAL_SHARD")),
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1)
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16)
         ), 1));
 
         recipes.put("VOID_CRYSTAL_LEGGINGS", new Recipe(new Item(Items.get("VOID_CRYSTAL_LEGGINGS")), getItems(
                 new Item(Items.get("VOID_CRYSTAL_SHARD")),
                 new Item(Items.get("VOID_CRYSTAL_SHARD")),
                 new Item(Items.get("VOID_CRYSTAL_SHARD")),
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
                 new Item(Items.get("HEMATITE_LEGGINGS")),
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
                 null,
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1)
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16)
         ), 4));
 
         recipes.put("VOID_CRYSTAL_BOOTS", new Recipe(new Item(Items.get("VOID_CRYSTAL_BOOTS")), getItems(
                 null,
                 null,
                 null,
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
                 null,
-                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 1),
+                new Item(Items.get("ENCHANTED_VOID_CRYSTAL"), 16),
                 new Item(Items.get("VOID_CRYSTAL_SHARD")),
                 new Item(Items.get("HEMATITE_BOOTS")),
                 new Item(Items.get("VOID_CRYSTAL_SHARD"))
