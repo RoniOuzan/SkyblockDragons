@@ -69,7 +69,13 @@ public class FlyTo extends BukkitRunnable {
     @Override
     public void run() {
         this.times++;
-        if (target.getLocation().distance(entity.getLocation()) <= stopAt) {
+        Location location = target.getLocation();
+        Location entityLocation = entity.getLocation();
+        if (location.getWorld() != entityLocation.getWorld()){
+            cancel();
+            return;
+        }
+        if (location.distance(entityLocation) <= stopAt) {
             if (this.onFinish != null) {
                 this.onFinish.run();
             }
@@ -91,9 +97,9 @@ public class FlyTo extends BukkitRunnable {
             entity.remove();
             return;
         }
-        double x = (target.getLocation().add(this.targetAdder).getX() - entity.getLocation().getX()) / denominator;
-        double y = (target.getLocation().add(this.targetAdder).getY() - entity.getLocation().getY()) / denominator;
-        double z = (target.getLocation().add(this.targetAdder).getZ() - entity.getLocation().getZ()) / denominator;
+        double x = (location.add(this.targetAdder).getX() - entityLocation.getX()) / denominator;
+        double y = (location.add(this.targetAdder).getY() - entityLocation.getY()) / denominator;
+        double z = (location.add(this.targetAdder).getZ() - entityLocation.getZ()) / denominator;
         if (this.started == null)
             this.started = new Vector(x, y, z);
         if (this.type == Type.TIMER) {
@@ -102,13 +108,12 @@ public class FlyTo extends BukkitRunnable {
             z = Math.max(Math.abs(z), Math.abs(started.getZ())) * Math.signum(z);
         }
 
-        Location targetLocation = entity.getLocation();
-        targetLocation.add(x, y, z);
+        entityLocation.add(x, y, z);
         if (lookAtTarget)
-            targetLocation.setDirection(new Vector(x, y, z));
-        entity.teleport(targetLocation);
+            entityLocation.setDirection(new Vector(x, y, z));
+        entity.teleport(entityLocation);
         if (this.hologram != null && !this.hologram.isDeleted()) {
-            this.hologram.teleport(entity.getLocation().add(this.hologramAdder));
+            this.hologram.teleport(entityLocation.add(this.hologramAdder));
         }
     }
 }

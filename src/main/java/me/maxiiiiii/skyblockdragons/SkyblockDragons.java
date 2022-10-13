@@ -210,7 +210,9 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                     if (player.getPlayerPet().getPetArmorStand().armorStand.getLocation().distance(player.getLocation()) > 3)
                         new FlyTo(player.getPlayerPet().getPetArmorStand().armorStand, player, 20, 1.5, true, player.getPlayerPet().petArmorStand.hologram, new Vector(0, 1.6, 0));
                     player.getPlayerPet().petArmorStand.armorStand.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.1 : -0.1), 0));
-                    player.getPlayerPet().petArmorStand.hologram.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 1.6, 0));
+                    Hologram hologram = player.getPlayerPet().petArmorStand.hologram;
+                    if (!hologram.isDeleted())
+                        hologram.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 1.6, 0));
                     for (ParticlePacketUtil particle : player.getPetActive().petMaterial.getParticles()) {
                         particle.spawn(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.8, 0), Functions.getPlayerShowedPets());
                     }

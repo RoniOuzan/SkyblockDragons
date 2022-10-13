@@ -27,12 +27,19 @@ public class SkyblockDragonsCommand extends CommandSD {
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
                 player.sendMessage(ChatColor.GREEN + "You have been reloaded SkyblockDragons plugin.");
-                for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                    onlinePlayer.sendMessage(ChatColor.RED + "Updating...");
-                    onlinePlayer.sendTitle(ChatColor.RED + "Updating...", "Game Updating...", 10, 60, 10);
-                }
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "plugman reload SkyblockDragons");
-                player.sendMessage(ChatColor.GREEN + "Successfully reloaded SkyblockDragons.");
+                Functions.Loop(5, 20L, amount -> {
+                    for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                        onlinePlayer.sendMessage(ChatColor.RED + String.format("Updating in %d...", 5-amount));
+                        onlinePlayer.sendTitle(ChatColor.RED + String.format("Updating in %d...", 5-amount), "Game Updating...", 10, 60, 10);
+                    }
+                }, amount -> {
+                    for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                        onlinePlayer.sendMessage(ChatColor.RED + "Updating...");
+                        onlinePlayer.sendTitle(ChatColor.RED + "Updating...", "Game Updating...", 10, 60, 10);
+                    }
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "plugman reload SkyblockDragons");
+                    player.sendMessage(ChatColor.GREEN + "Successfully reloaded SkyblockDragons.");
+                });
             } else if (args[0].equalsIgnoreCase("sound")) {
                 if (args.length > 1) {
                     float pitch = 1f;

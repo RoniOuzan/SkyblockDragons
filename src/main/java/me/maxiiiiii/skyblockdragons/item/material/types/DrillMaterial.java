@@ -5,7 +5,7 @@ import org.bukkit.Material;
 
 public class DrillMaterial extends MiningMaterial {
     public DrillMaterial(Material material, ItemFamily family, String name, Rarity rarity, String id, String nbt, Stats stats, int breakingPower, String description, MaterialModifier... modifiers) {
-        super(material, family, name, ItemType.DRILL, rarity, id, nbt, stats, breakingPower, description, modifiers);
+        super(material, family, name, ItemType.SWORD, rarity, id, nbt, stats, breakingPower, description, modifiers);
     }
 
     public DrillMaterial(Material material, ItemFamily family, String name, Rarity rarity, Stats stats, int breakingPower, String description, MaterialModifier... modifiers) {
