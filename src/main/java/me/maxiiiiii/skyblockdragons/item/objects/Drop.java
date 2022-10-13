@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.objects;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
@@ -46,15 +47,18 @@ public class Drop extends Item {
                 if (player.getPetActive().getPetMaterial() == PetMaterial.get("ENDERMAN") && this.getMaterial().getFamily() == ItemFamily.ENDERMAN)
                     chanceMultiplier *= (player.getPetActive().getLevel() / 200d);
             }
+            double magicFind = player.getStats().get(StatType.MAGIC_FIND).amount + 100;
+            chanceMultiplier *= (magicFind /100d); // chance = chance * (magic find + 100)/100
         } else if (source instanceof Block) {
             dropAdder += Math.floor(player.getStats().getMiningFortune().amount) / 100 + (Functions.chanceOf(player.getStats().getMiningFortune().amount % 100) ? 1 : 0);
         }
+
         return new double[]{chanceMultiplier, dropAdder};
     }
 
     protected ItemStack calculateChances(double chance, double chanceMultiplier, int dropAdder) {
         chance *= chanceMultiplier;
-
+//        SkyblockDragons.logger.info(String.format("Chance Generated: ITEM:%s CHANCE:%s BASE:%s", this.getMaterial().name(), chance, this.chance));
         if (Functions.randomDouble(0, 100) > chance)
             return null;
         int amount = Functions.randomInt(this.minAmount, this.maxAmount + dropAdder);

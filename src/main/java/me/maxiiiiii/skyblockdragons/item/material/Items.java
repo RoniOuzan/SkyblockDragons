@@ -84,6 +84,8 @@ public class Items {
         // Armors
         // Admin
         items.put("ADMIN_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.ADMIN, "Admin Boots", ItemType.BOOTS, Rarity.SPECIAL, new Stats(10000000, 10000000, 10000000, 10000000, 10000000, 0, 10000000, 10000000, 5000, 10000000), "", ItemFullSet.NULL, (Color) null));
+        items.put("ADMIN_LEGGINGS_SUPER_LUCKY", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.ADMIN, "Admin Leggings", ItemType.LEGGINGS, Rarity.SPECIAL, new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 100000, 0, 0, 0, 0, 0, 0, 0), "", ItemFullSet.NULL, (Color) null));
+        items.put("ADMIN_LEGGINGS_LUCKY", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.ADMIN, "Admin Leggings", ItemType.LEGGINGS, Rarity.SPECIAL, new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 100, 0, 0, 0, 0, 0, 0, 0), "", ItemFullSet.NULL, (Color) null));
         items.put("ADMIN_NOOB_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.ADMIN, "Admin N00B Boots", ItemType.BOOTS, Rarity.SPECIAL, new Stats(1000, 1000, 1000, 1000, 1000, 0, 1000, 1000, 100, 1000), "", ItemFullSet.NULL, (Color) null));
         items.put("ADMIN_SURVIVAL_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.ADMIN, "Admin N00B Boots", ItemType.CHESTPLATE, Rarity.SPECIAL, new Stats(0, 0, 0, 0, 0, 0, 100000, 10000000, 100, 0), "", ItemFullSet.NULL, (Color) null));
         // Leather
