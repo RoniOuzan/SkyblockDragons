@@ -8,6 +8,10 @@ import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.inventory.menus.SkyblockMenu;
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
+import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
@@ -59,6 +63,23 @@ public class TheEnd extends WorldSD implements Listener {
         plugin.getServer().getPluginManager().registerEvents(new DragonKillListener(), plugin);
     }
 
+    public static Item breakArmorPiece(Item item){
+        ItemMaterial itemMaterial = item.getMaterial();
+        if (itemMaterial.name().contains("_DRAGON_") && itemMaterial instanceof ArmorMaterial){
+            ItemStack[] items = Recipe.get(itemMaterial.name()).getItems();
+            ItemStack fragment = items[3];
+            ItemMaterial fragmentMaterial = Functions.getItemMaterial(fragment);
+            int amount = 0;
+            for (ItemStack itemStack : items) {
+                if (Functions.isNotAir(itemStack) && itemStack.isSimilar(fragment)){
+                    amount += itemStack.getAmount();
+                }
+            }
+            return new Item(fragmentMaterial, amount/2);
+        }
+        return item;
+    }
+
     public static void resetEyes() {
         for (Block block : Functions.loopBlocksHorizontally(MIDDLE, 10)) {
             if (block.getType() == Material.ENDER_PORTAL_FRAME && block.getData() > 3) {
@@ -99,6 +120,7 @@ public class TheEnd extends WorldSD implements Listener {
                         DRAGON_SPAWN.getZ() - player.getLocation().getZ()
                 ).normalize().multiply(2).setY(3));
             }
+            dragonDamage.put(SkyblockDragons.getPlayer(player), 10D);
         }
 
 //        Functions.While(() -> !dragon.isDead(), 2L, i -> {

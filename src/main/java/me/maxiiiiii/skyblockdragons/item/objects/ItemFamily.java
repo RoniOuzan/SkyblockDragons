@@ -76,11 +76,5 @@ public enum ItemFamily {
     ERROR_SCYTHE,
     ADMIN,
     ETERNITY,
-    GRIZZLY_BEAR,
-    POLAR_BEAR,
-    KOALA_BEAR,
-    PANDA_BEAR,
-    RED_PANDA_BEAR,
-
     NULL
 }

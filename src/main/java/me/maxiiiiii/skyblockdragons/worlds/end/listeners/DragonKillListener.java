@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 public class DragonKillListener implements Listener {
     public static final Location UNiQUE_DROP_LOCATION = new Location(TheEnd.world, 5, 62, 13);
     public static final Location NORMAL_DROP_LOCATION = new Location(TheEnd.world, 1.5, 62, 19.5);
+    public boolean veryUniqueDropGenerated = false;
 
     @EventHandler
     public void onDragonKill(DragonKillEvent e) {

@@ -426,7 +426,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         for (World world : Bukkit.getWorlds()) {
             for (Entity entity : world.getEntities()) {
-                if (entity.getType() == EntityType.ARMOR_STAND && entity.getScoreboardTags().contains("Pet")) {
+                if (entity.getType() == EntityType.ARMOR_STAND && (entity.getScoreboardTags().contains("Pet") || entity.getScoreboardTags().contains("EntityHealth"))) {
                     entity.remove();
                 }
             }
