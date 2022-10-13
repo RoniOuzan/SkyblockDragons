@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
 import me.maxiiiiii.skyblockdragons.worlds.InfintyIsland.InfintyIsland;
+import me.maxiiiiii.skyblockdragons.worlds.bearisland.BearIsland;
 import me.maxiiiiii.skyblockdragons.worlds.deepermines.DeeperMines;
 import me.maxiiiiii.skyblockdragons.worlds.deepmines.DeepMines;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
@@ -31,6 +32,8 @@ public enum Warp {
     WITHER_ISLAND(new Location(WitherIsland.world, -109.500,65.00000, 139.500), "wither"),
 
     INFINTY_ISLAND(new Location(InfintyIsland.world, 0, 0, 0, 90, 0), "infinty"),
+
+    BEAR_ISLAND(new Location(BearIsland.world, -51.614, 90.00000, 212.448), "bear"),
 
     UNWARPABLE(HUB.getLocation())
     ;

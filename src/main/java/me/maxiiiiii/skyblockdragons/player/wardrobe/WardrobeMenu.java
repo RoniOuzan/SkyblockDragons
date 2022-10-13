@@ -241,5 +241,5 @@ public class WardrobeMenu extends Menu {
         public List<Argument> tabComplete(PlayerSD player, List<Argument> tabs) {
             return tabs;
         }
+        }
     }
-}

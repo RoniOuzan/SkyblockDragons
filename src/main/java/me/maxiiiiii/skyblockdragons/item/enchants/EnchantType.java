@@ -249,7 +249,7 @@ public class EnchantType implements Comparable<EnchantType> {
         enchants.put("EFFICIENCY", new EnchantType(new Stats(25, 0), 3, "Grants " + ChatColor.GOLD + "+MULTIPLIER" + StatType.MINING_SPEED.getIconAndText() + ChatColor.GRAY + ".", new EnchantMultiplier(25, 50, 75, 100, 125, 150, 175, 200, 225, 250), SkillRequirement.NULL, ItemTypeGroup.MINING.toType()));
 
         // Not For Armors
-        enchants.put("TELEKINESIS", new EnchantType(1, "Block and mob drops go directly into your inventory.", new EnchantMultiplier(0), SkillRequirement.NULL, new ArrayList<>(Arrays.asList(ItemType.ACCESSORY, ItemType.SWORD, ItemType.AXE, ItemType.ITEM, ItemType.BOW, ItemType.PICKAXE, ItemType.ROD, ItemType.WAND, ItemType.HOE, ItemType.DRILL))));
+        enchants.put("TELEKINESIS", new EnchantType(1, "Block and mob drops go directly into your inventory.", new EnchantMultiplier(0), SkillRequirement.NULL, new ArrayList<>(Arrays.asList(ItemType.ACCESSORY, ItemType.SWORD, ItemType.AXE, ItemType.ITEM, ItemType.BOW, ItemType.PICKAXE, ItemType.DRILL, ItemType.ROD, ItemType.WAND, ItemType.HOE))));
 
         // Ultimate Enchants
         enchants.put("CHIMERA", new UltimateEnchantType(5, "Copies " + ChatColor.GREEN + "MULTIPLIER% " + ChatColor.GRAY + "of your active pet's stats.", new EnchantMultiplier(20, 40, 60, 80, 100), new SkillRequirement(SkillType.ENCHANTING, 31), new ArrayList<>(Arrays.asList(ItemType.SWORD)), "CHIMERA"));

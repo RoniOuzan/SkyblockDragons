@@ -43,7 +43,6 @@ public enum ItemType {
     public boolean isArmor() {
         return this == ItemType.HELMET || this == ItemType.CHESTPLATE || this == ItemType.LEGGINGS || this == ItemType.BOOTS;
     }
-
     public boolean isPickaxe() {
         return this == ItemType.PICKAXE || this == ItemType.DRILL;
     }

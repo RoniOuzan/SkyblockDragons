@@ -90,7 +90,8 @@ public class SkyblockMenu extends Menu {
         } else if (this.getNBT(e.getCurrentItem()).equals("PROFILE")) { // TODO LidanTheGamer_
             player.performCommand("profile");
         } else if (this.getNBT(e.getCurrentItem()).equals("SETTINGS")) {
-            player.performCommand("settings");
+//            player.performCommand("settings");
+            player.sendMessage("§cComing soon...");
         } else if (this.getNBT(e.getCurrentItem()).equals("ISLAND_WARP")) {
             player.performCommand("askyblock:island");
         } else if (this.getNBT(e.getCurrentItem()).equals("HUB_WARP")) {

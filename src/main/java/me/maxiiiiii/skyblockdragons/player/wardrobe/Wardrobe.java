@@ -32,7 +32,6 @@ public class Wardrobe {
         this.slots = slots;
         this.equippedSlot = Variables.get(player.getUniqueId(), "EquippedSlot", 0, 0);
     }
-
     public WardrobeSlot getSlot(int slot) {
         return this.slots.get(slot);
     }
