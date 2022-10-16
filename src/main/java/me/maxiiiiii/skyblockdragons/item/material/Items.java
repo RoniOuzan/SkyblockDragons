@@ -372,7 +372,7 @@ public class Items {
 
         items.put("KING_TALISMAN", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.KING, "King of the Kingdom", Rarity.RARE, "53ad9b08-b403-4241-ab0f-4323326bfb9d", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2ZkYTQ4OGNjZGViOTdjMzYxYTA4Mzc2MGUxZGUxMDIzMGQwMjQ4NDg1OTdjNWY3YzA3OTUyODYzZjk1YTA5NyJ9fX0=", new Stats(0, 8, 4, 1, 0, 0), "You pissed off the King"));
 
-        items.put("KING_TALISMAN_GOD", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.KING, "King of the Kingdom", Rarity.RARE, "ff3fc337-69e0-418e-8f44-aa1ef8fe42ac", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODgzZmJjODZhOGI2Y2E5MTJiM2E5ZDFkMjQwODc2ODA1Mjk5NTY0MWJhODllMjZhMWZmNjAwNjI3ZDgzYjIzOSJ9fX0=", new Stats(0, 10, 3, 2, 0, 0), "You pissed off GOD!"));
+        items.put("KING_TALISMAN_GOD", new AccessoryMaterial(Material.SKULL_ITEM, ItemFamily.KING, "God of the Earth", Rarity.EPIC, "ff3fc337-69e0-418e-8f44-aa1ef8fe42ac", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODgzZmJjODZhOGI2Y2E5MTJiM2E5ZDFkMjQwODc2ODA1Mjk5NTY0MWJhODllMjZhMWZmNjAwNjI3ZDgzYjIzOSJ9fX0=", new Stats(0, 10, 3, 2, 0, 0), "You pissed off GOD!"));
 
 
         // Wands

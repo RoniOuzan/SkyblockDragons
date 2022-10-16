@@ -95,6 +95,14 @@ public class DragonKillListener implements Listener {
             positions.put(player, i);
         }
 
+        playerQuality = Functions.sortByValue(playerQuality);
+        if (dragonType == DragonType.ERROR) {
+            for (PlayerSD playerSD : playerQuality.keySet()) {
+                new PickableItem(playerSD, NORMAL_DROP_LOCATION, new Item(Items.get("ERROR_SCYTHE"), 1), true);
+                break;
+            }
+        }
+
         for (Player player : Bukkit.getOnlinePlayers().stream().filter(p -> p.getWorld().getName().equals("TheEnd")).collect(Collectors.toList())) {
             player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "----------------------------------------");
             player.sendMessage("                      " + dragonType.color + "" + ChatColor.BOLD + Functions.setTitleCase(dragonType.name()) + " Dragon");
