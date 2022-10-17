@@ -13,18 +13,40 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EnderChestMenu extends Menu {
+
+    public static List<PlayerSD> blacklisted = new ArrayList<>();
     private int page;
+    private PlayerSD owner;
 
     public EnderChestMenu(PlayerSD player, int page) {
         super(player, "Ender Chest Page " + (page + 1), 6, InventoryGlassType.NOTHING, false, false);
         this.page = page;
+        this.owner = player;
+    }
+
+    public EnderChestMenu(PlayerSD player, PlayerSD owner , int page) {
+        super(player, "Ender Chest Page " + (page + 1), 6, InventoryGlassType.NOTHING, false, false);
+        this.page = page;
+        this.owner = owner;
+        Functions.Wait(5L, () -> {
+            Functions.While(() -> owner != player && player.getOpenInventory().getTopInventory().getHolder() instanceof EnderChestMenu, 1l, amount -> {
+//                player.sendMessage("while in pv!");
+                if (owner.getOpenInventory().getTopInventory().getHolder() instanceof EnderChestMenu) {
+                    player.sendMessage(owner.getName() + " tried to open the ender chest while you are in!");
+                    owner.closeInventory();
+                }
+            });
+        });
     }
 
     @Override
     public void update() {
         for (int i = 0; i < 45; i++) {
-            this.setItem(i + 9, this.player.getEnderChestSD().getItems().get(i + (this.page * 45)));
+            this.setItem(i + 9, this.owner.getEnderChestSD().getItems().get(i + (this.page * 45)));
         }
 
         for (int i = 2; i < 7; i++) {
@@ -41,7 +63,7 @@ public class EnderChestMenu extends Menu {
 
     @Override
     public void onInventoryClick(InventoryClickEvent e) {
-        if (e.getSlot() >= 9) e.setCancelled(false);
+        if (e.getRawSlot() >= 9) e.setCancelled(false);
         if (!Functions.isNotAir(e.getCurrentItem())) return;
 
         if (this.getNBT(e.getCurrentItem()).equals("NextPage")) {
@@ -71,9 +93,9 @@ public class EnderChestMenu extends Menu {
     private void save() {
         for (int i = 0; i < 45; i++) {
             if (Functions.isNotAir(this.getInventory().getItem(i + 9))) {
-                this.player.getEnderChestSD().setItem(i + (this.page * 45), this.getInventory().getItem(i + 9));
+                this.owner.getEnderChestSD().setItem(i + (this.page * 45), this.getInventory().getItem(i + 9));
             } else {
-                this.player.getEnderChestSD().removeItem(i + (this.page * 45));
+                this.owner.getEnderChestSD().removeItem(i + (this.page * 45));
             }
         }
     }
@@ -83,7 +105,16 @@ public class EnderChestMenu extends Menu {
         public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
             if (sender instanceof Player) {
                 PlayerSD player = SkyblockDragons.getPlayer((Player) sender);
-                if (args.length > 0 && Functions.isInt(args[0])) {
+                if (args.length > 1) {
+                    player.sendMessage("try to open someone else echest");
+                    PlayerSD owner = SkyblockDragons.getPlayer(args[0]);
+                    if (owner == null) {
+                        sender.sendMessage(ChatColor.RED + "Player not found!");
+                        return true;
+                    }
+                    new EnderChestMenu(player, owner, Math.min(Math.max(Integer.parseInt(args[1]), 0), 8));
+                }
+                else if (args.length > 0 && Functions.isInt(args[0])) {
                     new EnderChestMenu(player, Math.min(Math.max(Integer.parseInt(args[0]), 0), 8));
                 } else {
                     new EnderChestMenu(player, 0);

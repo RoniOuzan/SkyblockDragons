@@ -13,6 +13,7 @@ import me.maxiiiiii.skyblockdragons.events.*;
 import me.maxiiiiii.skyblockdragons.inventory.MenuListener;
 import me.maxiiiiii.skyblockdragons.inventory.menus.ProfileMenu;
 import me.maxiiiiii.skyblockdragons.inventory.menus.SkyblockMenu;
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.ItemCommand;
 import me.maxiiiiii.skyblockdragons.item.abilities.Terminator;
 import me.maxiiiiii.skyblockdragons.item.abilities.*;
@@ -63,6 +64,7 @@ import me.maxiiiiii.skyblockdragons.world.warp.WarpCommand;
 import me.maxiiiiii.skyblockdragons.worlds.deepermines.forge.Forge;
 import me.maxiiiiii.skyblockdragons.worlds.deepermines.forge.ForgeMilestoneCommand;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
+import me.maxiiiiii.skyblockdragons.worlds.end.listeners.PlayerPlaceEyeListener;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -420,6 +422,18 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(this);
+
+        if (!PlayerPlaceEyeListener.amountOfPlacedEyes.isEmpty()){
+            for (PlayerSD player : PlayerPlaceEyeListener.amountOfPlacedEyes.keySet()) {
+                int amount = PlayerPlaceEyeListener.amountOfPlacedEyes.getOrDefault(player, 0);
+                if (amount > 0) {
+                    for (int i = 0; i < amount; i++) {
+                        Item item = new Item(Items.get("SUMMONING_EYE"));
+                        player.give(item);
+                    }
+                }
+            }
+        }
 
         for (PlayerSD playerSD : players.values()) {
             playerSD.closeInventory();
