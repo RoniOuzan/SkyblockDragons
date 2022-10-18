@@ -135,7 +135,7 @@ public class TheEnd extends WorldSD implements Listener {
             if (i % 6 == 4) {
                 return;
             } else if (i % 6 == 5) {
-                ((EntityDragon) dragon.type).strikeAbility(dragon);
+                ((EntityDragon) dragon.type).strikeAbility(dragon.entity);
                 return;
             }
             double x = Functions.randomDouble(-40, 40);

@@ -31,6 +31,7 @@ import me.maxiiiiii.skyblockdragons.item.pet.PetListener;
 import me.maxiiiiii.skyblockdragons.item.pet.PetMenu;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeCommand;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagAdminCommand;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
 import me.maxiiiiii.skyblockdragons.player.bank.BankCommand;
 import me.maxiiiiii.skyblockdragons.player.chat.ChatCommand;
@@ -325,6 +326,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("EnderChest").setExecutor(new EnderChestMenu.Command());
         getCommand("SkyblockDragonsTest").setExecutor(new SkyblockDragonsTestCommand());
         getCommand("Alpha").setExecutor(new SkyblockDragonsAlphaCommand());
+        getCommand("AccessoryBagAdmin").setExecutor(new AccessoryBagAdminCommand());
         registerCommand("Forge", new Forge.Command());
         registerCommand("ForgeMilestone", new ForgeMilestoneCommand());
         registerCommand("Party", new PartyCommand());

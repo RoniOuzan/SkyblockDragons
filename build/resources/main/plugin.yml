@@ -1,5 +1,5 @@
 name: SkyblockDragons
-version: '${project.version}'
+version: '${version}'
 main: me.maxiiiiii.skyblockdragons.SkyblockDragons
 description: Skyblock Dragons but in java
 softdepend: [HolographicDisplays]
@@ -197,3 +197,9 @@ commands:
       - alpha
       - sbdalpha
       - alphasd
+  AccessoryBagAdmin:
+    permission: skyblockdragons.accessorybag.admin
+    usage: /<command>
+    aliases:
+      - acbagadmin
+      - acbagcopy

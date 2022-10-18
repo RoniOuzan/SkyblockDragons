@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BankAccount {
+
+    public static boolean DISABLE = true;
+
     public enum Type {
         PERSONAL, COOP;
 
@@ -51,6 +54,9 @@ public class BankAccount {
     }
 
     public void deposit(double amount, BankAccount.Type type) {
+        if (DISABLE){
+            return;
+        }
         if (type == Type.COOP) {
             this.coopDeposit(amount);
         } else {
@@ -76,6 +82,9 @@ public class BankAccount {
     }
 
     public void personalDeposit(double amount) {
+        if (DISABLE){
+            return;
+        }
         if (amount <= 0) {
             player.sendMessage(ChatColor.RED + "You can't deposit that amount!");
             return;
@@ -111,6 +120,9 @@ public class BankAccount {
     }
 
     public void coopDeposit(double amount) {
+        if (DISABLE){
+            return;
+        }
         if (amount <= 0) {
             player.sendMessage(ChatColor.RED + "You can't deposit that amount!");
             return;

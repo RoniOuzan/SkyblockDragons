@@ -1,18 +1,21 @@
 package me.maxiiiiii.skyblockdragons.player.storage;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variable;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
-import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.serialization.Serializer;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class EnderChest {
     private final Map<Integer, ItemStack> items;
     private final PlayerSD player;
+    private @Getter @Setter UUID opener = null;
 
     public EnderChest(PlayerSD player) {
         this.items = new HashMap<>();

@@ -62,7 +62,7 @@ public class Items {
         items.put("ASTRAEA", new NecronBladeMaterial(Material.IRON_SWORD, ItemFamily.NECRON_BLADE, "Astraea", Rarity.LEGENDARY, new Stats(270, 150, 0, 0, 0, 30, 0, 250, 0, 50), NecronBladeMaterial.NecronBladeType.ASTRAEA));
         items.put("NECRON_BLADE", new NecronBladeMaterial(Material.IRON_SWORD, ItemFamily.NECRON_BLADE, "Necron's Blade (Unrefined)", Rarity.LEGENDARY, new Stats(260, 110, 0, 0, 0, 30, 0, 0, 0, 50), NecronBladeMaterial.NecronBladeType.NECRON_BLADE));
 
-        items.put("ERROR_SCYTHE", new SwordMaterial(Material.DIAMOND_HOE, ItemFamily.ERROR_SCYTHE,"ERROR Scythe", Rarity.SPECIAL, new Stats(3500, 0, 0, 0, 0, 0, 0, 0, 0, 0), "", new ItemAbility(AbilityAction.RIGHT_CLICK, "Arrow", ChatColor.GRAY + "Shoots " + ChatColor.GREEN + "arrows" ), new ItemAbility(AbilityAction.RIGHT_SHIFT_CLICK, "Wither Skull", ChatColor.GRAY + "Shoots " + ChatColor.GOLD + "Wither Skull"), new SkillRequirement(SkillType.COMBAT, 0)));
+        items.put("ERROR_SCYTHE", new SwordMaterial(Material.DIAMOND_HOE, ItemFamily.ERROR_SCYTHE,"ERROR Scythe", Rarity.LEGENDARY, new Stats(1500, 0, 0, 5, 0, 0, 0, 0, 0, 0), "", new ItemAbility(AbilityAction.RIGHT_CLICK, "Arrow", ChatColor.GRAY + "Shoots " + ChatColor.GREEN + "arrows" ), new ItemAbility(AbilityAction.RIGHT_SHIFT_CLICK, "Wither Skull", ChatColor.GRAY + "Shoots " + ChatColor.GOLD + "Wither Skull"), new SkillRequirement(SkillType.COMBAT, 0)));
 
         // Bows
         items.put("BOW", new BowMaterial(Material.BOW, ItemFamily.WOOD, "Bow", Rarity.COMMON, new Stats(5, 5, 0, 0, 0, 0, 0, 0, 0, 0), ""));

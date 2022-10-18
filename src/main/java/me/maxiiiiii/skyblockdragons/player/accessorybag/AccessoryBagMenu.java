@@ -31,7 +31,7 @@ public class AccessoryBagMenu {
         ItemStack close = Functions.createItem(Material.BARRIER, ChatColor.RED + "Close", new ArrayList<>(Arrays.asList("", ChatColor.YELLOW + "Click to close!")));
         inv.setItem(49, close);
 
-        PlayerSD playerSD = SkyblockDragons.getPlayer(player);
+        PlayerSD playerSD = SkyblockDragons.getPlayer(arg);
         List<ItemStack> accessories = playerSD.getAccessoryBag().getItems();
         for (int i = 0; i < 45; i++) {
             if (i < accessories.size())
