@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.item.material.types;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemDescriptionAble;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemEnchantAble;
@@ -15,27 +16,27 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ToolMaterial extends ItemMaterial implements ItemDescriptionAble, ItemAbilityAble, ItemEnchantAble, ItemRequirementAble {
+public abstract class ToolMaterial extends ItemMaterial implements ItemDescriptionAble, ItemAbilityAble, ItemEnchantAble, ItemRequirementAble {
     public static final ToolMaterial NULL = new ToolMaterial(Material.BARRIER, ItemFamily.NULL,"Null", ItemType.NULL, Rarity.SPECIAL, "", "", "", new ItemAbility(AbilityAction.NONE, "", ""));
 
     private String description;
     private List<Requirement> requirements;
     private List<ItemAbility> abilities;
 
-    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, double sellPrice, String description, MaterialModifier... objects) {
-        super(material, family, name, type, rarity, id, nbt, sellPrice);
+    public ToolMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, double sellPrice, String description, MaterialModifier... objects) {
+        super(itemID, material, family, name, type, rarity, id, nbt, sellPrice);
         this.description = description;
         this.requirements = Functions.splitList("me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement", objects);
-        this.abilities = Functions.splitList("me.maxiiiiii.skyblockdragons.item.objects.ItemAbility", objects);
+        this.abilities = Functions.splitList("me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility", objects);
         if (this.abilities.size() == 0)
             this.abilities.add(new ItemAbility(AbilityAction.NULL, "", ""));
     }
 
-    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, String description, MaterialModifier... objects) {
+    public ToolMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, String description, MaterialModifier... objects) {
         this(material, family, name, type, rarity, id, nbt, 0, description, objects);
     }
 
-    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description, MaterialModifier... objects) {
+    public ToolMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description, MaterialModifier... objects) {
         this(material, family, name, type, rarity, "", "", 0, description, objects);
     }
 }

@@ -2,8 +2,13 @@ package me.maxiiiiii.skyblockdragons.item.material.types;
 
 import lombok.Getter;
 import lombok.ToString;
+import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.item.objects.MaterialSD;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -14,6 +19,8 @@ import java.util.Map;
 @Getter
 @ToString
 public abstract class ItemMaterial implements ConfigurationSerializable, MaterialSD, Comparable<ItemMaterial> {
+    protected final String itemID;
+    
     protected Material material;
     protected ItemFamily family;
     protected String name;
@@ -23,7 +30,8 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
     protected String nbt;
     protected double sellPrice;
 
-    public ItemMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, double sellPrice) {
+    public ItemMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, double sellPrice) {
+        this.itemID = itemID;
         this.material = material;
         this.family = family;
         this.name = name;
@@ -32,7 +40,13 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
         this.id = id;
         this.nbt = nbt;
         this.sellPrice = sellPrice;
+
+        // TODO: register item
     }
+
+    public abstract void updateStats(PlayerStats stats);
+
+    public abstract void updateDamage(EntityDamage<?, ?> entityDamage);
 
     public String getName() {
         return Functions.setTitleCase(this.name.replaceAll("_", " "));

@@ -10,27 +10,27 @@ import java.util.stream.StreamSupport;
 
 @Getter
 public class Stats implements Iterable<Stat> {
-    public final Stat damage;
-    public final Stat strength;
-    public final Stat critDamage;
-    public final Stat critChance;
-    public final Stat abilityDamage;
-    public final Stat abilityScaling;
-    public final Stat attackSpeed;
-    public final Stat ferocity;
-    public final Stat health;
-    public final Stat defense;
-    public final Stat trueDefense;
-    public final Stat speed;
-    public final Stat intelligence;
-    public final Stat magicFind;
-    public final Stat petLuck;
-    public final Stat miningSpeed;
-    public final Stat miningFortune;
-    public final Stat farmingFortune;
-    public final Stat foragingFortune;
-    public final Stat seaCreatureChance;
-    public final Stat absorption;
+    protected final Stat damage;
+    protected final Stat strength;
+    protected final Stat critDamage;
+    protected final Stat critChance;
+    protected final Stat abilityDamage;
+    protected final Stat abilityScaling;
+    protected final Stat attackSpeed;
+    protected final Stat ferocity;
+    protected final Stat health;
+    protected final Stat defense;
+    protected final Stat trueDefense;
+    protected final Stat speed;
+    protected final Stat intelligence;
+    protected final Stat magicFind;
+    protected final Stat petLuck;
+    protected final Stat miningSpeed;
+    protected final Stat miningFortune;
+    protected final Stat farmingFortune;
+    protected final Stat foragingFortune;
+    protected final Stat seaCreatureChance;
+    protected final Stat absorption;
 
     public Stats(double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double farmingFortune, double foragingFortune, double seaCreatureChance, double absorption) {
         this.damage = new Stat(damage, StatType.DAMAGE);

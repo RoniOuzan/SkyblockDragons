@@ -80,7 +80,7 @@ public class Damage implements Listener {
         }
         if (attacker.getEnchantLevel(EnchantType.SYPHON) > 0) {
             if (attacker instanceof PlayerSD)
-                attacker.setHealth(Math.min(attacker.getMaxHealth(), attacker.getHealth() + attacker.getHealth() * ((attacker.getEnchantLevel(EnchantType.SYPHON) * 0.1 + 0.1)) * Math.min(((PlayerSD) attacker).getStats().critDamage.amount / 100, 10)));
+                attacker.setHealth(Math.min(attacker.getMaxHealth(), attacker.getHealth() + attacker.getHealth() * ((attacker.getEnchantLevel(EnchantType.SYPHON) * 0.1 + 0.1)) * Math.min(((PlayerSD) attacker).getStats().getCritDamage().amount / 100, 10)));
         }
         if (attacker.getEnchantLevel(EnchantType.MANA_STEAL) > 0) {
             if (attacker instanceof PlayerSD)

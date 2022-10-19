@@ -11,11 +11,13 @@ import java.util.List;
 @Getter
 public class PlayerStats extends Stats {
     public Stat mana;
+    private final StatsMultiplayer multiplayer;
     private final PlayerSD player;
 
     public PlayerStats(PlayerSD player, double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double farmingFortune, double foragingFortune, double seaCreatureChance, double absorption) {
         super(damage, strength, critDamage, critChance, abilityDamage, abilityScaling, attackSpeed, ferocity, health, defense, trueDefense, speed, intelligence, magicFind, petLuck, miningSpeed, miningFortune, farmingFortune, foragingFortune, seaCreatureChance, absorption);
         this.mana = new Stat(this.intelligence.amount, StatType.MANA);
+        this.multiplayer = new StatsMultiplayer();
         this.player = player;
     }
 
@@ -51,5 +53,9 @@ public class PlayerStats extends Stats {
         List<Stat> list = super.toList();
         list.add(mana);
         return list;
+    }
+
+    public void applyMultipliers() {
+        this.multiplayer.apply(this);
     }
 }

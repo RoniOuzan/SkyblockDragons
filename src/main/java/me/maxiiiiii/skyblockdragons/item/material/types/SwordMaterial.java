@@ -7,16 +7,16 @@ import org.bukkit.Material;
 
 @Getter
 @Setter
-public class SwordMaterial extends WeaponMaterial {
-    public SwordMaterial(Material material, ItemFamily family, String name, Rarity rarity, String id, String nbt, double sellPrice, Stats stats, String description, MaterialModifier... modifiers) {
+public abstract  class SwordMaterial extends WeaponMaterial {
+    public SwordMaterial(String itemID, Material material, ItemFamily family, String name, Rarity rarity, String id, String nbt, double sellPrice, Stats stats, String description, MaterialModifier... modifiers) {
         super(material, family, name, ItemType.SWORD, rarity, id, nbt, sellPrice, stats, description, modifiers);
     }
 
-    public SwordMaterial(Material material, ItemFamily family, String name, Rarity rarity, String id, String nbt, Stats stats, String description, MaterialModifier... modifiers) {
+    public SwordMaterial(String itemID, Material material, ItemFamily family, String name, Rarity rarity, String id, String nbt, Stats stats, String description, MaterialModifier... modifiers) {
         this(material, family, name, rarity, id, nbt, 0, stats, description, modifiers);
     }
 
-    public SwordMaterial(Material material, ItemFamily family, String name, Rarity rarity, Stats stats, String description, MaterialModifier... modifiers) {
+    public SwordMaterial(String itemID, Material material, ItemFamily family, String name, Rarity rarity, Stats stats, String description, MaterialModifier... modifiers) {
         this(material, family, name, rarity, "", "", 0, stats, description, modifiers);
     }
 }

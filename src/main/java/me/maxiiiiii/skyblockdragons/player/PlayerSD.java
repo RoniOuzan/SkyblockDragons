@@ -25,7 +25,6 @@ import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
-import me.maxiiiiii.skyblockdragons.player.stats.StatsMultiplayer;
 import me.maxiiiiii.skyblockdragons.player.storage.EnderChest;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
@@ -42,6 +41,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -246,11 +246,11 @@ public class PlayerSD extends PlayerClass {
     }
 
     public double getHealthStat() {
-        return this.stats.health.amount;
+        return this.stats.getHealth().amount;
     }
 
     public void setHealthStat(double health) {
-        this.stats.health.amount = health;
+        this.stats.getHealth().amount = health;
     }
 
     public double getPurse() {
@@ -331,7 +331,7 @@ public class PlayerSD extends PlayerClass {
         }
 
         this.stats.reset();
-        this.stats.health.set(500); // no other way to have more base health so for now it will be that
+        this.stats.getHealth().set(500); // no other way to have more base health so for now it will be that
 
         // ALPHA BASE SKILLS
         if (getSkill().get(SkillType.COMBAT).getLevel() < 15){
@@ -340,8 +340,6 @@ public class PlayerSD extends PlayerClass {
         if (getSkill().get(SkillType.ENCHANTING).getLevel() < 40){
             getSkill().get(SkillType.ENCHANTING).setLevel(40);
         }
-
-        StatsMultiplayer statsMultiplayer = new StatsMultiplayer();
 
         for (AbstractSkill skill : this.getSkill()) {
             this.stats.add(skill.getRewards().getStat(), skill.getRewards().getStatAmount() * skill.getLevel());
@@ -378,7 +376,7 @@ public class PlayerSD extends PlayerClass {
 
 
         if (System.currentTimeMillis() - Atomsplit_Katana.atomsplitAbility.getOrDefault(player, 0L) <= 4000) {
-            this.stats.ferocity.amount += 400;
+            this.stats.getFerocity().amount += 400;
         }
 
         // TODO: change it to be automatically
@@ -387,7 +385,7 @@ public class PlayerSD extends PlayerClass {
 //        }
 
         if (System.currentTimeMillis() - Rogue_Sword.rogueSwordLastTimeUsed.getOrDefault(this.player, 0L) <= 30000) {
-            this.stats.speed.amount += (Rogue_Sword.rogueSwordAmountUsed.get(this.player) + 1) * 10;
+            this.stats.getSpeed().amount += (Rogue_Sword.rogueSwordAmountUsed.get(this.player) + 1) * 10;
         }
 
 
@@ -411,19 +409,19 @@ public class PlayerSD extends PlayerClass {
         if (this.getPlayerPet().getActivePet() >= 0) {
             if (this.getPetActive().getPetMaterial() == PetMaterial.get("ENDER_DRAGON")) {
                 double amount = this.getPetActive().getLevel() * 0.1;
-                statsMultiplayer.increase(0, amount, amount, amount, amount, 0, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, 0);
+                stats.getMultiplayer().increase(0, amount, amount, amount, amount, 0, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, 0);
             }
         }
 
-        statsMultiplayer.apply(this.stats);
+        stats.applyMultipliers();
 
         if (manaRegan) {
-            if (this.stats.mana.amount < this.stats.intelligence.amount) {
-                this.stats.mana.amount += this.stats.intelligence.amount / 50;
+            if (this.stats.mana.amount < this.stats.getIntelligence().amount) {
+                this.stats.mana.amount += this.stats.getIntelligence().amount / 50;
             }
         }
-        if (this.stats.mana.amount > this.stats.intelligence.amount) {
-            this.stats.mana.amount = this.stats.intelligence.amount;
+        if (this.stats.mana.amount > this.stats.getIntelligence().amount) {
+            this.stats.mana.amount = this.stats.getIntelligence().amount;
         }
 
         this.stats.normalize();
@@ -438,7 +436,7 @@ public class PlayerSD extends PlayerClass {
             this.setHealth(this.getHealth());
         }
 
-        this.setWalkSpeed((float) (this.stats.speed.amount / 500));
+        this.setWalkSpeed((float) (this.stats.getSpeed().amount / 500));
 
         Functions.sendActionBar(this);
     }
@@ -694,5 +692,13 @@ public class PlayerSD extends PlayerClass {
             list.add(this.pet);
             return list;
         }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Entity)) {
+            return false;
+        }
+        return this.getUniqueId().equals(((Entity) other).getUniqueId());
     }
 }

@@ -5,7 +5,7 @@ import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemAbility;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -70,9 +70,7 @@ public class PlayerUseAbilityListener implements Listener {
 
             if (Functions.cooldown(player, cooldowns.get(player).get(ability), ability.getCooldown() * 1000L, true)) return;
         }
-        if (!ability.isCustomManaCost()) {
-            if (player.manaCost(itemStack, finalI)) return;
-        }
+        if (player.manaCost(itemStack, finalI)) return; // TODO: change this to the new mana cost system
         if (item.getMaterial() instanceof ItemRequirementAble) {
             if (!((ItemRequirementAble) item.getMaterial()).getRequirements().stream().allMatch(r -> r.hasRequirement(player))) {
                 player.sendMessage(ChatColor.RED + "You don't have the requirements to use this item!");

@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-public class PetMaterial extends ItemMaterial implements ItemStatsAble, ItemRequirementAble {
+public abstract class PetMaterial extends ItemMaterial implements ItemStatsAble, ItemRequirementAble {
     public static final PetMaterial NULL = new PetMaterial("Null", "", "", new Stats(), Arrays.asList(Rarity.NONE), Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)))), SkillType.COMBAT, new ParticlePacketUtil(Particle.REDSTONE, 1, 0, 0, 1f, 5));
 
     private final Stats stats;
@@ -33,7 +33,7 @@ public class PetMaterial extends ItemMaterial implements ItemStatsAble, ItemRequ
     private final List<Requirement> requirements;
 
     public PetMaterial(String name, String id, String nbt, Stats stats, List<Rarity> rarities, List<PetAbility> abilities, SkillType skill, int maxLevel, Object... array) {
-        super(Material.SKULL_ITEM, ItemFamily.NULL, name, ItemType.PET, Rarity.NONE, id, nbt, 0);
+        super(itemID, Material.SKULL_ITEM, ItemFamily.NULL, name, ItemType.PET, Rarity.NONE, id, nbt, 0);
         this.stats = stats;
         this.rarities = rarities;
         this.abilities = abilities;

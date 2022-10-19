@@ -8,11 +8,11 @@ import org.bukkit.Material;
 
 @Getter
 @Setter
-public class WeaponMaterial extends ToolMaterial implements ItemStatsAble {
+public abstract class WeaponMaterial extends ToolMaterial implements ItemStatsAble {
     private Stats stats;
     private String description;
 
-    public WeaponMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, double sellPrice, Stats stats, String description, MaterialModifier... modifiers) {
+    public WeaponMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, double sellPrice, Stats stats, String description, MaterialModifier... modifiers) {
         super(material, family, name, type, rarity, id, nbt, sellPrice, description, modifiers);
         this.stats = stats;
         this.description = description;
