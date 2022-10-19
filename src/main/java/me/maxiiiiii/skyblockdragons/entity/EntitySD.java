@@ -7,24 +7,23 @@ import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
-import me.maxiiiiii.skyblockdragons.item.material.types.ToolMaterial;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFullSet;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class EntitySD extends EntityClass {
     public static final HashMap<UUID, EntitySD> entities = new HashMap<>();
@@ -35,6 +34,7 @@ public class EntitySD extends EntityClass {
     public EntityHologram hologram;
     public EntitySD attacker;
     public Location location;
+    protected Equipment equipment;
 
     public final Cooldown<Player> actionBarCooldown = new Cooldown<>();
     public final Map<Damage.DamageType, Cooldown<EntitySD>> damageCooldown = new HashMap<>();
@@ -93,6 +93,7 @@ public class EntitySD extends EntityClass {
         });
 
         this.location = location;
+        this.equipment = new Equipment();
 
         this.attacker = null;
 
@@ -112,6 +113,7 @@ public class EntitySD extends EntityClass {
 
         this.type = Functions.getEntityMaterial(entity);
         this.entity = entity;
+        this.equipment = new Equipment();
 
         entities.put(this.entity.getUniqueId(), this);
     }
@@ -254,89 +256,79 @@ public class EntitySD extends EntityClass {
     }
 
     @Getter
-    public class Equipment {
-        private final ItemStack tool;
-        private final ItemStack helmet;
-        private final ItemStack chestplate;
-        private final ItemStack leggings;
-        private final ItemStack boots;
-        private ToolMaterial toolMaterial;
-        private ArmorMaterial helmetMaterial;
-        private ArmorMaterial chestplateMaterial;
-        private ArmorMaterial leggingsMaterial;
-        private ArmorMaterial bootsMaterial;
-        private String fullSet;
+    public class Equipment implements Iterable<Item> {
+        private Item tool;
+        private Item helmet;
+        private Item chestplate;
+        private Item leggings;
+        private Item boots;
+        private ItemFullSet fullSet;
 
         public Equipment() {
-            tool = entity.getEquipment().getItemInMainHand();
-            toolMaterial = ToolMaterial.NULL;
-            if (Functions.getItemMaterial(tool) instanceof ToolMaterial) {
-                toolMaterial = (ToolMaterial) Functions.getItemMaterial(tool);
-            }
+            this.update();
+        }
 
-            helmet = entity.getEquipment().getHelmet();
-            helmetMaterial = ArmorMaterial.NULL;
-            if (Functions.getItemMaterial(helmet) instanceof ArmorMaterial) {
-                helmetMaterial = (ArmorMaterial) Functions.getItemMaterial(helmet);
-            }
+        public void save() {
+        }
 
-            chestplate = entity.getEquipment().getChestplate();
-            chestplateMaterial = ArmorMaterial.NULL;
-            if (Functions.getItemMaterial(chestplate) instanceof ArmorMaterial) {
-                chestplateMaterial = (ArmorMaterial) Functions.getItemMaterial(chestplate);
-            }
+        public void update() {
+            this.tool = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null, EntitySD.this.getEquipment().getItemInMainHand());
+            this.helmet = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null, EntitySD.this.getEquipment().getHelmet());
+            this.chestplate = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null, EntitySD.this.getEquipment().getChestplate());
+            this.leggings = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null, EntitySD.this.getEquipment().getLeggings());
+            this.boots = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null, EntitySD.this.getEquipment().getBoots());
 
-            leggings = entity.getEquipment().getLeggings();
-            leggingsMaterial = ArmorMaterial.NULL;
-            if (Functions.getItemMaterial(leggings) instanceof ArmorMaterial) {
-                leggingsMaterial = (ArmorMaterial) Functions.getItemMaterial(leggings);
+            this.fullSet = ItemFullSet.NULL;
+            Map<ItemFullSet, Integer> amount = new HashMap<>();
+            for (Item item : this.getArmor()) {
+                if (item.getMaterial() instanceof ArmorMaterial) {
+                    ArmorMaterial material = (ArmorMaterial) item.getMaterial();
+                    amount.put(material.getFullSet(), amount.getOrDefault(material.getFullSet(), 1));
+                }
             }
-
-            boots = entity.getEquipment().getBoots();
-            bootsMaterial = ArmorMaterial.NULL;
-            if (Functions.getItemMaterial(boots) instanceof ArmorMaterial) {
-                bootsMaterial = (ArmorMaterial) Functions.getItemMaterial(boots);
-            }
-
-            fullSet = "";
-            if (helmetMaterial.getFullSet().getName().equals(chestplateMaterial.getFullSet().getName()) && chestplateMaterial.getFullSet().getName().equals(leggingsMaterial.getFullSet().getName()) && leggingsMaterial.getFullSet().getName().equals(bootsMaterial.getFullSet().getName())) {
-                fullSet = helmetMaterial.getFullSet().getName();
+            for (ItemFullSet itemFullSet : amount.keySet()) {
+                if (itemFullSet.getAmountOfPieces() >= amount.get(itemFullSet)) {
+                    this.fullSet = itemFullSet;
+                    break;
+                }
             }
         }
 
-        public Item getToolItem() {
-            if (EntitySD.this instanceof PlayerSD)
-                return new Item((PlayerSD) EntitySD.this, this.tool);
-            return new Item(this.tool);
+        public List<Item> getArmor() {
+            return Arrays.asList(helmet, chestplate, leggings, boots);
         }
 
-        public Item getHelmetItem() {
-            if (EntitySD.this instanceof PlayerSD)
-                return new Item((PlayerSD) EntitySD.this, this.helmet);
-            return new Item(this.helmet);
+        public List<Item> toList() {
+            return new ArrayList<>(Arrays.asList(tool, helmet, chestplate, leggings, boots));
         }
 
-        public Item getChestplateItem() {
-            if (EntitySD.this instanceof PlayerSD)
-                return new Item((PlayerSD) EntitySD.this, this.chestplate);
-            return new Item(this.chestplate);
+        @Override
+        public Iterator<Item> iterator() {
+            return this.toList().iterator();
         }
 
-        public Item getLeggingsItem() {
-            if (EntitySD.this instanceof PlayerSD)
-                return new Item((PlayerSD) EntitySD.this, this.leggings);
-            return new Item(this.leggings);
+        @Override
+        public void forEach(Consumer<? super Item> action) {
+            Objects.requireNonNull(action);
+            for (Item e : this.toList()) {
+                action.accept(e);
+            }
         }
 
-        public Item getTBootsItem() {
-            if (EntitySD.this instanceof PlayerSD)
-                return new Item((PlayerSD) EntitySD.this, this.boots);
-            return new Item(this.boots);
+        @Override
+        public Spliterator<Item> spliterator() {
+            return Spliterators.spliterator(this.toList(), Spliterator.ORDERED);
+        }
+
+        public Stream<Item> stream() {
+            return StreamSupport.stream(spliterator(), false);
         }
     }
 
+
     public Equipment getItems() {
-        return new Equipment();
+        this.equipment.update();
+        return this.equipment;
     }
 
     public Cooldown<EntitySD> getDamageCooldown(Damage.DamageType type) {

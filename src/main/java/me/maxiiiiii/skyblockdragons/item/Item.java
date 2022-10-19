@@ -35,13 +35,16 @@ public class Item extends ItemStack {
     protected final int amount;
 
     protected final ItemModifiers modifiers;
+    protected final Stats stats;
 
     // int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities
     public Item(PlayerSD player, ItemMaterial material, int amount, ItemModifier... modifiers) {
         super(material.getMaterial(), amount, material.getMaterial() == Material.SKULL_ITEM ? (short) 3 : ((material.getNbt().equals("") && !material.getId().equals("")) ? Short.parseShort(material.getId()) : (short) 0));
-        this.modifiers = new ItemModifiers(modifiers);
         this.material = material;
         this.amount = amount;
+
+        this.modifiers = new ItemModifiers(modifiers);
+        this.stats = new Stats();
 
         this.toItem(player);
     }
@@ -104,10 +107,8 @@ public class Item extends ItemStack {
 
         ArrayList<String> lores = new ArrayList<>();
 
-        Stats stats = new Stats();
-
         if (this.material instanceof ItemStatsAble)
-            stats = applyStats(lores, player, rarity);
+            applyStats(lores, player, rarity);
 
         if (this.material instanceof ItemEnchantAble) {
             applyEnchants(lores);
@@ -380,8 +381,11 @@ public class Item extends ItemStack {
         }
     }
 
+    public boolean isReal() {
+        return this.material != Items.NULL && this.material != null;
+    }
+
     private Stats applyStats(ArrayList<String> lores, PlayerSD player, Rarity rarity) {
-        Stats stats = new Stats();
         for (Stat stat : stats.toList()) {
             String statReforge = "";
             String statPotato = "";

@@ -21,7 +21,7 @@ public class PetMenu extends PageMenu {
                 6,
                 InventoryGlassType.SURROUND,
                 player.getPlayerPet().getPets().stream().sorted().map(pet -> {
-                    Pet petActive = player.getPlayerPet().getPetActive();
+                    Pet petActive = player.getPlayerPet().getCurrentPet();
                     if (petActive == null) {
                         return pet;
                     }

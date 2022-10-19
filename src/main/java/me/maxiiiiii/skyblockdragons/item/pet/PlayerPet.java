@@ -36,10 +36,10 @@ public class PlayerPet {
         if (this.activePet < 0)
             this.petArmorStand = null;
         else
-            this.petArmorStand = new Pet.ArmorStand(player, this.getPetActive(), Pet.spawnPet(player, this.getPetActive()), this.activePet);
+            this.petArmorStand = new Pet.ArmorStand(player, this.getCurrentPet(), Pet.spawnPet(player, this.getCurrentPet()), this.activePet);
     }
 
-    public Pet getPetActive() {
+    public Pet getCurrentPet() {
         if (this.activePet == -1)
             return null;
         return this.pets.get(this.activePet);

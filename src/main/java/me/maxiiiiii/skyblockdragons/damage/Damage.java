@@ -4,18 +4,15 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
-import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
-import me.maxiiiiii.skyblockdragons.item.material.types.ToolMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.particle.Particles;
 import me.maxiiiiii.skyblockdragons.util.particle.ParticleUil;
+import me.maxiiiiii.skyblockdragons.util.particle.Particles;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -42,6 +39,10 @@ public class Damage implements Listener {
 
         public boolean isMagic() {
             return this == MAGIC || this == CRITICAL_MAGIC;
+        }
+
+        public boolean isCanBeCrit() {
+            return this == NORMAL || this == PROJECTILE || this == CRITICAL_MAGIC || this == TRUE;
         }
     }
 
@@ -146,7 +147,7 @@ public class Damage implements Listener {
     }
 
     public DamageCalculator getDamage(EntitySD attacker, EntitySD victim, DamageType damageType, double baseAbilityDamage, double abilityScaling) {
-        Item item = attacker.getItems().getToolItem();
+        Item item = attacker.getItems().getTool();
         double damage = 1;
         boolean critHit = false;
 
@@ -156,19 +157,6 @@ public class Damage implements Listener {
         double baseReducer = 1;
 
         EntitySD.Equipment equipment = attacker.getItems();
-        ItemStack tool = equipment.getTool();
-        ItemStack helmet = equipment.getHelmet();
-        ItemStack chestplate = equipment.getChestplate();
-        ItemStack leggings = equipment.getLeggings();
-        ItemStack boots = equipment.getBoots();
-
-        ToolMaterial toolMaterial = equipment.getToolMaterial();
-        ArmorMaterial helmetMaterial = equipment.getHelmetMaterial();
-        ArmorMaterial chestplateMaterial = equipment.getChestplateMaterial();
-        ArmorMaterial leggingsMaterial = equipment.getLeggingsMaterial();
-        ArmorMaterial bootsMaterial = equipment.getBootsMaterial();
-
-        String fullSet = equipment.getFullSet();
 
         if (attacker instanceof PlayerSD) {
             PlayerSD playerSD = (PlayerSD) attacker;
@@ -215,19 +203,20 @@ public class Damage implements Listener {
             baseMultiplayer += attacker.getEnchantLevel(EnchantType.IMPALING, victim::isImpaled) * 0.1;
         }
 
-        if (damageType == DamageType.PROJECTILE && helmetMaterial == Items.get("GOLDEN_SKELETON_HELMET") && toolMaterial == Items.get("GOLDEN_SKELETON_BOW")) {
-            baseMultiplayer += 0.2;
-        }
-        if (damageType == DamageType.MAGIC && fullSet.equals("Burning") && toolMaterial == Items.get("PIGMAN_DAGGER")) {
-            baseMultiplayer += 0.2;
-        }
-
-        if (toolMaterial == Items.get("ENDER_BOW") && victim.type.getEntityType() == EntityType.ENDER_DRAGON || victim.type.getEntityType() == EntityType.ENDERMAN) {
-            postMultiplayer += 1;
-        }
-
-        if (fullSet.equals("Strong Blood") && toolMaterial == Items.get("ASPECT_OF_THE_END"))
-            baseMultiplayer += 0.2;
+        // TODO: change it to be automatically
+//        if (damageType == DamageType.PROJECTILE && helmetMaterial == Items.get("GOLDEN_SKELETON_HELMET") && toolMaterial == Items.get("GOLDEN_SKELETON_BOW")) {
+//            baseMultiplayer += 0.2;
+//        }
+//        if (damageType == DamageType.MAGIC && fullSet.equals("Burning") && toolMaterial == Items.get("PIGMAN_DAGGER")) {
+//            baseMultiplayer += 0.2;
+//        }
+//
+//        if (toolMaterial == Items.get("ENDER_BOW") && victim.type.getEntityType() == EntityType.ENDER_DRAGON || victim.type.getEntityType() == EntityType.ENDERMAN) {
+//            postMultiplayer += 1;
+//        }
+//
+//        if (fullSet.equals("Strong Blood") && toolMaterial == Items.get("ASPECT_OF_THE_END"))
+//            baseMultiplayer += 0.2;
 
         if (attacker instanceof PlayerSD) {
             PlayerSD playerSD = (PlayerSD) attacker;

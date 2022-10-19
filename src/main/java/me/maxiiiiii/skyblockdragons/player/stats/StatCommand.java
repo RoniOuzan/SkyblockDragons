@@ -13,11 +13,7 @@ public class StatCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = ((Player) sender);
             if (args.length > 0) {
-                if (args[0].equals("add")) {
-                    players.get(player.getUniqueId()).addItemStat(player.getEquipment().getItemInMainHand());
-                } else {
-                    player.sendMessage(players.get(player.getUniqueId()).getStats().getDamage() + "");
-                }
+                player.sendMessage(players.get(player.getUniqueId()).getStats().getDamage() + "");
             }
         }
         return true;
