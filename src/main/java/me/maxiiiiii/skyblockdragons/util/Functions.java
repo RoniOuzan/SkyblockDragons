@@ -1709,4 +1709,12 @@ public class Functions {
 
         return result;
     }
+
+    public static Vector rotateVector(double degrees, Vector vector) {
+        degrees = Math.toRadians(degrees);
+        double x = vector.getX();
+        double y = vector.getY();
+        double z = vector.getZ();
+        return new Vector(x * Math.cos(degrees) - z * Math.sin(degrees), y, x * Math.sin(degrees) + y * Math.cos(degrees));
+    }
 }
