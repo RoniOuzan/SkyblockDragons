@@ -10,8 +10,7 @@ public class Multiplier {
     private double postMultiplier;
 
     public Multiplier() {
-        this.baseMultiplier = 1;
-        this.postMultiplier = 1;
+        this.reset();
     }
 
     public void addBaseMultiplier(double add) {
@@ -26,5 +25,10 @@ public class Multiplier {
         amount *= this.baseMultiplier;
         amount *= this.postMultiplier;
         return amount;
+    }
+
+    public void reset() {
+        this.baseMultiplier = 1;
+        this.postMultiplier = 1;
     }
 }

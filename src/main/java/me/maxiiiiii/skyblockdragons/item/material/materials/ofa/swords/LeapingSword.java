@@ -2,10 +2,13 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.ofa.swords;
 
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.*;
 import org.bukkit.entity.FallingBlock;
@@ -49,14 +52,13 @@ public class LeapingSword extends SwordMaterial {
                     "Leap",
                     "Leap into the air and deal " + ChatColor.GREEN + "400 " + ChatColor.GRAY + "base Magic Damage to nearby NEW_LINE enemies upon landing on the NEW_LINE ground. Damaged enemies will NEW_LINE also be frozen for " + ChatColor.GREEN + "1 second" + ChatColor.GRAY + ".",
                     50,
-                    false,
                     1
             );
         }
 
         @Override
-        public Runnable onAbilityUse(PlayerUseAbilityEvent e) {
-            return () -> {
+        public PlayerAbilityRunnable setupAbility() {
+            return e -> {
                 PlayerSD player = e.getPlayer();
 
                 Location l = player.getLocation();

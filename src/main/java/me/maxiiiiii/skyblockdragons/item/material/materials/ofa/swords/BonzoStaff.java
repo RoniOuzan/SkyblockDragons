@@ -3,10 +3,13 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.ofa.swords;
 import de.tr7zw.changeme.nbtapi.NBTEntity;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
@@ -67,14 +70,13 @@ public class BonzoStaff extends SwordMaterial {
                     "Showtime",
                     ChatColor.GRAY + "Shoots balloons that create a large explosion on impact",
                     50,
-                    false,
                     0
             );
         }
 
         @Override
-        public Runnable onAbilityUse(PlayerUseAbilityEvent e) {
-            return () -> {
+        public PlayerAbilityRunnable setupAbility() {
+            return e -> {
                 PlayerSD player = e.getPlayer();
 
                 Location location = player.getLocation().clone().subtract(0, 0.5, 0);

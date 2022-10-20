@@ -3,10 +3,13 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.swords;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.particle.ParticleUil;
@@ -27,7 +30,7 @@ public class PigmanDagger extends SwordMaterial {
                 Rarity.UNCOMMON,
                 new Stats(65, 25, 10, 0, 0, 0, 0, 0, 0, 20),
                 "",
-                new BurningAbility()
+                new Burning()
         );
     }
 
@@ -41,13 +44,12 @@ public class PigmanDagger extends SwordMaterial {
 
     }
 
-    public static class BurningAbility extends ItemAbility {
-        public BurningAbility() {
+    public static class Burning extends ItemAbility {
+        public Burning() {
             super(AbilityAction.RIGHT_CLICK,
                     "Burning",
                     "Cast vortex of " + ChatColor.RED + "flames " + ChatColor.GRAY + "towards enemies that deals " + ChatColor.RED + "ABILITY_DAMAGE " + ChatColor.GRAY + "damage.",
                     15,
-                    false,
                     5,
                     40,
                     0
@@ -55,8 +57,8 @@ public class PigmanDagger extends SwordMaterial {
         }
 
         @Override
-        public Runnable onAbilityUse(PlayerUseAbilityEvent e) {
-            return () -> {
+        public PlayerAbilityRunnable setupAbility() {
+            return e -> {
                 PlayerSD player = e.getPlayer();
                 Location location = player.getEyeLocation().subtract(0, 0.2, 0).add(player.getLocation().getDirection());
 

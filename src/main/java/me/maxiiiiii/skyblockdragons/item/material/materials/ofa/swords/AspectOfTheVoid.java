@@ -3,10 +3,13 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.ofa.swords;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.materials.theend.swords.AspectOfTheEnd;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -41,14 +44,13 @@ public class AspectOfTheVoid extends SwordMaterial {
                     "Ether Transmission",
                     ChatColor.GRAY + "Teleport to your targeted block up to " + ChatColor.GREEN + "61 blocks " + ChatColor.GRAY + "away.",
                     180,
-                    false,
                     0
             );
         }
 
         @Override
-        public Runnable onAbilityUse(PlayerUseAbilityEvent e) {
-            return () -> {
+        public PlayerAbilityRunnable setupAbility() {
+            return e -> {
                 PlayerSD player = e.getPlayer();
 
                 Block b = player.getTargetBlock(null, 61);

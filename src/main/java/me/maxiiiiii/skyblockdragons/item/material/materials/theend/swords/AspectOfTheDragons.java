@@ -3,10 +3,13 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.theend.swords;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -50,7 +53,6 @@ public class AspectOfTheDragons extends SwordMaterial {
                     "Dragon Rage",
                     "All monsters in front of you take " + ChatColor.RED + "ABILITY_DAMAGE " + ChatColor.GRAY + "damage.",
                     100,
-                    false,
                     2,
                     6000,
                     0.05
@@ -58,8 +60,8 @@ public class AspectOfTheDragons extends SwordMaterial {
         }
 
         @Override
-        public Runnable onAbilityUse(PlayerUseAbilityEvent e) {
-            return () -> {
+        public PlayerAbilityRunnable setupAbility() {
+            return e -> {
                 PlayerSD player = e.getPlayer();
 
                 Location location = player.getEyeLocation().subtract(0, 0.2, 0).add(player.getLocation().getDirection());

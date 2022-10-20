@@ -3,9 +3,12 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.ofa.swords;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
-import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
@@ -52,7 +55,6 @@ public class SoulWhip extends SwordMaterial {
                     "Flay",
                     "Flay your whip in an arc, dealing your melee damage to all enemies in its path."
             );
-            Bukkit.getPluginManager().registerEvents(this, SkyblockDragons.plugin);
         }
 
         @EventHandler
@@ -65,8 +67,8 @@ public class SoulWhip extends SwordMaterial {
         }
 
         @Override
-        public Runnable onAbilityUse(PlayerUseAbilityEvent e) {
-            return () -> {
+        public PlayerAbilityRunnable setupAbility() {
+            return e -> {
                 Player player = e.getPlayer();
                 Location location = player.getEyeLocation().add(0, -0.5, 0);
 

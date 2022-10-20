@@ -31,6 +31,7 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
+import me.maxiiiiii.skyblockdragons.util.objects.Multiplier;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
@@ -41,7 +42,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -81,6 +81,8 @@ public class PlayerSD extends PlayerClass {
     public BankAccount bank;
     public PlayerPet playerPet;
     public EnderChest enderChestSD;
+
+    public Multiplier manaCostMultiplier = new Multiplier(); // TODO: make items work with it
 
     public Forge forge;
 
@@ -414,6 +416,7 @@ public class PlayerSD extends PlayerClass {
         }
 
         stats.applyMultipliers();
+        manaCostMultiplier.reset();
 
         if (manaRegan) {
             if (this.stats.mana.amount < this.stats.getIntelligence().amount) {
@@ -470,7 +473,7 @@ public class PlayerSD extends PlayerClass {
         if (this.player.getGameMode() == GameMode.CREATIVE) return false;
 
         ToolMaterial material = (ToolMaterial) Functions.getItemMaterial(item);
-        int cost = manaCostCalculator(material.getAbilities().get(i).getManaCost(), this);
+        int cost = manaCostCalculator(material.getAbilities().get(i).isPlayerHasEnoughMana(), this);
         if (this.stats.mana.amount >= cost) {
             this.stats.mana.amount -= cost;
             Functions.sendActionBar(this, material.getAbilities().get(i).getName() + ChatColor.AQUA + "! (" + cost + " Mana)");
@@ -478,6 +481,14 @@ public class PlayerSD extends PlayerClass {
         }
         this.player.sendMessage(ChatColor.RED + "You don't have enough mana to use this item!");
         return true;
+    }
+
+    public double getManaCost(double baseManaCost) {
+        return this.manaCostMultiplier.multiply(baseManaCost);
+    }
+
+    public boolean hasEnoughMana(double baseManaCost) {
+        return this.getStats().getMana().get() >= this.getManaCost(baseManaCost);
     }
 
     public short getEnchantLevel(EnchantType enchant) {

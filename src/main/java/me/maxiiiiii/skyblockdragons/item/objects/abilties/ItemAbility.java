@@ -1,11 +1,17 @@
 package me.maxiiiiii.skyblockdragons.item.objects.abilties;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.MaterialModifier;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -13,10 +19,13 @@ public abstract class ItemAbility implements MaterialModifier {
     private AbilityAction action;
     private String name;
     private String description;
+    @Getter(AccessLevel.NONE)
     private int manaCost;
     private int cooldown;
     private double abilityDamage;
     private double abilityScaling;
+
+    private final Map<PlayerSD, PlayerAbilityRunnable> abilities = new HashMap<>();
 
     public ItemAbility(AbilityAction action, String name, String description, int manaCost, int cooldown, double abilityDamage, double abilityScaling) {
         this.action = action;
@@ -26,6 +35,10 @@ public abstract class ItemAbility implements MaterialModifier {
         this.cooldown = cooldown;
         this.abilityDamage = abilityDamage;
         this.abilityScaling = abilityScaling;
+
+        if (this instanceof Listener) {
+            Bukkit.getPluginManager().registerEvents((Listener) this, SkyblockDragons.plugin);
+        }
     }
 
     public ItemAbility(AbilityAction action, String name, String description, int manaCost, int cooldown) {
@@ -36,10 +49,21 @@ public abstract class ItemAbility implements MaterialModifier {
         this(action, name, description, 0, 0, 0, 0);
     }
 
-    public abstract Runnable onAbilityUse(PlayerUseAbilityEvent e);
+    public PlayerAbilityRunnable getAbilityForPlayer(PlayerSD player) {
+        return abilities.get(player);
+    }
 
-    public int getManaCost(PlayerSD player) { // TODO: change it to return boolean
-        return this.manaCost;
+    public abstract PlayerAbilityRunnable setupAbility();
+
+    public void onPlayerUse(PlayerAbilityUsage abilityUsage) {
+        if (!abilities.containsKey(abilityUsage.getPlayer())) {
+            abilities.put(abilityUsage.getPlayer(), setupAbility());
+        }
+        abilities.get(abilityUsage.getPlayer()).run(abilityUsage);
+    }
+
+    public boolean isPlayerHasEnoughMana(PlayerSD player) {
+        return player.getStats().getMana().get() >= this.manaCost;
     }
 
     @Override

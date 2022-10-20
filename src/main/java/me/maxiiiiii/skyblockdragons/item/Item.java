@@ -331,11 +331,11 @@ public class Item extends ItemStack {
 
             lores.addAll(loreBuilder(ability.getAbility().getDescription()));
 
-            if (ability.getAbility().getManaCost() != 0) {
-                if (ability.getAbility().getManaCost() >= 10000) {
-                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + manaCostCalculator((ability.getAbility().getManaCost() / 10000), player, modifiers) + "%");
+            if (ability.getAbility().isPlayerHasEnoughMana() != 0) {
+                if (ability.getAbility().isPlayerHasEnoughMana() >= 10000) {
+                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + manaCostCalculator((ability.getAbility().isPlayerHasEnoughMana() / 10000), player, modifiers) + "%");
                 } else {
-                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + manaCostCalculator(ability.getAbility().getManaCost(), player, modifiers));
+                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + manaCostCalculator(ability.getAbility().isPlayerHasEnoughMana(), player, modifiers));
                 }
             }
 
@@ -358,11 +358,11 @@ public class Item extends ItemStack {
 
                 lores.addAll(loreBuilder(ability.getDescription().replace("ABILITY_DAMAGE", Functions.getNumberFormat(ability.getAbilityDamage()))));
 
-                if (ability.getManaCost() != 0) {
-                    if (ability.getManaCost() >= 10000) {
-                        lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator((ability.getManaCost() / 10000), player, modifiers) + "%");
+                if (ability.isPlayerHasEnoughMana() != 0) {
+                    if (ability.isPlayerHasEnoughMana() >= 10000) {
+                        lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator((ability.isPlayerHasEnoughMana() / 10000), player, modifiers) + "%");
                     } else {
-                        lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(ability.getManaCost(), player, modifiers));
+                        lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(ability.isPlayerHasEnoughMana(), player, modifiers));
                     }
                 }
 
