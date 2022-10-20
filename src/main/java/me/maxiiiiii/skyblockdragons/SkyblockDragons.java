@@ -482,6 +482,10 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         return getPlayer(player.getUniqueId());
     }
 
+    public static double getCurrentTimeInSeconds() {
+        return System.currentTimeMillis() / 1000d;
+    }
+
     public void registerCommand(String name, CommandSD command) {
         getCommand(name).setExecutor(command);
         getCommand(name).setTabCompleter(command);

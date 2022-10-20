@@ -54,7 +54,7 @@ public class AxeOfTheShredded extends SwordMaterial {
 
         @Override
         public boolean isPlayerHasEnoughMana(PlayerSD player) {
-            return player.hasEnoughMana(((ThrowRunnable) this.getAbilityForPlayer(player)).manaCost);
+            return player.hasEnoughToUseAbility(((ThrowRunnable) this.getAbilityForPlayer(player)).manaCost);
         }
 
         @Override

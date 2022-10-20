@@ -1,8 +1,5 @@
 package me.maxiiiiii.skyblockdragons.util.objects;
 
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,11 +14,11 @@ public class Cooldown<T> {
         }
     }
 
-    public Long getCooldown(T player) {
+    public long getCooldown(T player) {
         return cooldowns.getOrDefault(player, 0L);
     }
 
-    public Long getCurrentCooldown(T player) {
+    public long getCurrentCooldown(T player) {
         return System.currentTimeMillis() - this.getCooldown(player);
     }
 }

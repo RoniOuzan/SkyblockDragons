@@ -82,7 +82,7 @@ public class PlayerSD extends PlayerClass {
     public PlayerPet playerPet;
     public EnderChest enderChestSD;
 
-    public Multiplier manaCostMultiplier = new Multiplier(); // TODO: make items work with it
+    public Multiplier abilityCostMultiplier = new Multiplier(); // TODO: make items work with it
 
     public Forge forge;
 
@@ -416,7 +416,7 @@ public class PlayerSD extends PlayerClass {
         }
 
         stats.applyMultipliers();
-        manaCostMultiplier.reset();
+        abilityCostMultiplier.reset();
 
         if (manaRegan) {
             if (this.stats.mana.amount < this.stats.getIntelligence().amount) {
@@ -483,12 +483,12 @@ public class PlayerSD extends PlayerClass {
         return true;
     }
 
-    public double getManaCost(double baseManaCost) {
-        return this.manaCostMultiplier.multiply(baseManaCost);
+    public double getAbilityCost(double baseCost) {
+        return this.abilityCostMultiplier.multiply(baseCost);
     }
 
-    public boolean hasEnoughMana(double baseManaCost) {
-        return this.getStats().getMana().get() >= this.getManaCost(baseManaCost);
+    public boolean hasEnoughToUseAbility(double baseManaCost) {
+        return this.getStats().getMana().get() >= this.getAbilityCost(baseManaCost);
     }
 
     public short getEnchantLevel(EnchantType enchant) {
