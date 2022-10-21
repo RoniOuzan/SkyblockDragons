@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.material;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
-import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
@@ -26,62 +26,13 @@ public class Items {
 
     public static void registerItems() {
         // Swords
-        items.put("WITHER_CLOAK", new SwordMaterial(Material.STONE_SWORD, ItemFamily.NULL, "Wither Cloak Sword", Rarity.EPIC, new Stats(190, 135, 0, 0, 0, 0, 0, 250, 0, 0), "", new ItemAbility(AbilityAction.RIGHT_CLICK, "Creeper Veil", "Spawns a veil around you that grants you immunity from damage. Costs " + ChatColor.RED + "10% " + ChatColor.GRAY + "of your maximum mana each time you block a hit. Click again to de-activate.")));
-        items.put("MAGMA_CLOAK", new SwordMaterial(Material.GOLD_SWORD, ItemFamily.NULL, "MAGMA Cloak Sword", Rarity.LEGENDARY, new Stats(245, 170, 0, 0, 0, 0, 0, 350, 0, 0), "", new ItemAbility(AbilityAction.RIGHT_CLICK, "Magma Veil", "Spawns a veil around you that grants you immunity from damage. Costs " + ChatColor.RED + "10% " + ChatColor.GRAY + "of your maximum mana each time you block a hit. Click again to de-activate.")));
-        items.put("SWORD_OF_THE_FLAME", new SwordMaterial(Material.GOLD_SWORD, ItemFamily.NULL, "Sword of the Flame", Rarity.SPECIAL, new Stats(), "", new ItemAbility(AbilityAction.RIGHT_CLICK, "Flamer", "Creates a line of flames that damage every mob that goes through, click left-click to shoot.", 150, false, 3, 10_000, 0.2)));
-
-        items.put("VALKYRIE", new NecronBladeMaterial(Material.IRON_SWORD, ItemFamily.NECRON_BLADE, "Valkyrie", Rarity.LEGENDARY, new Stats(270, 145, 0, 0, 0, 60, 0, 0, 0, 60), NecronBladeMaterial.NecronBladeType.VALKYRIE));
-        items.put("HYPERION", new NecronBladeMaterial(Material.IRON_SWORD, ItemFamily.NECRON_BLADE, "Hyperion", Rarity.LEGENDARY, new Stats(260, 150, 0, 0, 0, 30, 0, 0, 0, 350), NecronBladeMaterial.NecronBladeType.HYPERION));
-        items.put("SCYLLA", new NecronBladeMaterial(Material.IRON_SWORD, ItemFamily.NECRON_BLADE, "Scylla", Rarity.LEGENDARY, new Stats(270, 150, 35, 12, 0, 30, 0, 0, 0, 50), NecronBladeMaterial.NecronBladeType.SCYLLA));
-        items.put("ASTRAEA", new NecronBladeMaterial(Material.IRON_SWORD, ItemFamily.NECRON_BLADE, "Astraea", Rarity.LEGENDARY, new Stats(270, 150, 0, 0, 0, 30, 0, 250, 0, 50), NecronBladeMaterial.NecronBladeType.ASTRAEA));
-        items.put("NECRON_BLADE", new NecronBladeMaterial(Material.IRON_SWORD, ItemFamily.NECRON_BLADE, "Necron's Blade (Unrefined)", Rarity.LEGENDARY, new Stats(260, 110, 0, 0, 0, 30, 0, 0, 0, 50), NecronBladeMaterial.NecronBladeType.NECRON_BLADE));
-
-        items.put("ERROR_SCYTHE", new SwordMaterial(Material.DIAMOND_HOE, ItemFamily.ERROR_SCYTHE,"ERROR Scythe", Rarity.MYTHIC, new Stats(3500, 0, 0, 0, 0, 0, 0, 0, 0, 0), "", new ItemAbility(AbilityAction.RIGHT_CLICK, "Arrow", ChatColor.GRAY + "Shoots " + ChatColor.GREEN + "arrows" ), new ItemAbility(AbilityAction.RIGHT_SHIFT_CLICK, "Wither Skull", ChatColor.GRAY + "Shoots " + ChatColor.GOLD + "Wither Skull"), new SkillRequirement(SkillType.COMBAT, 0)));
-
         // Bows
-        items.put("BOW", new BowMaterial(Material.BOW, ItemFamily.WOOD, "Bow", Rarity.COMMON, new Stats(5, 5, 0, 0, 0, 0, 0, 0, 0, 0), ""));
-
-        items.put("GOLDEN_SKELETON_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Golden Skeleton Bow", Rarity.COMMON, new Stats(30, 0, 0, 0, 0, 0, 0, 0, 0, 0), ""));
-
-        items.put("ENDER_BOW", new BowMaterial(Material.BOW, ItemFamily.ENDER, "Ender Bow", Rarity.EPIC, new Stats(125, 80, 5, 10, 0, 0), "Deals double damage to Ender Dragons.", new SkillRequirement(SkillType.COMBAT, 15)));
-
-        items.put("TERMINATOR", new BowMaterial(Material.BOW, ItemFamily.JUJU,"Terminator", Rarity.LEGENDARY, new Stats(335, 50, 250, 0, 40, 0, 0, 0, 0, 0), ChatColor.GOLD + "Shortbow: Instantly Shoots! NEW_LINE " + ChatColor.GRAY + "Shoots " + ChatColor.AQUA + "3 " + ChatColor.GRAY + "arrows at once. " + ChatColor.GRAY + "Can damage endermen. NEW_LINE NEW_LINE " + ChatColor.RED + "Divides your RESET_LENGTH " + StatType.CRIT_CHANCE.getIconAndText() + ChatColor.RED + " by 4!", new ItemAbility(AbilityAction.RIGHT_CLICK, "Salvation", ChatColor.GRAY + "Can be casted after landing RESET_LENGTH " + ChatColor.GOLD + "3 " + ChatColor.GRAY + "hits. NEW_LINE Shoot a beam, penetrating up NEW_LINE to " + ChatColor.YELLOW + "5 " + ChatColor.GRAY + "foes and dealing " + ChatColor.RED + "2x " + ChatColor.GRAY + "the damage an arrow would. NEW_LINE The beam always crits.", 0, false, 2)));
-        items.put("BONEMERANG", new BowMaterial(Material.BONE, ItemFamily.BONEMERANG, "Bonemerang", Rarity.LEGENDARY, new Stats(270, 130, 0, 0, 0, 0, 0, 0, 0, 0), "Deals " + ChatColor.RED + "double damage " + ChatColor.GRAY + "when coming back. Pierces up to " + ChatColor.YELLOW + "10 " + ChatColor.GRAY + "foes.", new ItemAbility(AbilityAction.RIGHT_CLICK, "Swing", "Throw the bone a short distance, dealing the damage an arrow would.")));
-
-        items.put("RUNAANS_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Runaan's Bow", Rarity.LEGENDARY, new Stats(160, 50, 0, 0, 0, 0), "",new ItemAbility(AbilityAction.NONE, "Triple Shot", "Shoots 3 arrows at a time! with automatic homing!"), new SkillRequirement(SkillType.COMBAT, 15)));
-        items.put("YOUNG_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Young Bow", Rarity.LEGENDARY, new Stats(160, 50, 0, 0, 0, 0), "",new ItemAbility(AbilityAction.NONE, "Fast Triple Shot", "Shoots 3 fast arrows at a time! with automatic homing!"), new SkillRequirement(SkillType.COMBAT, 15)));
-        items.put("STRONG_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Strong Bow", Rarity.LEGENDARY, new Stats(180, 80, 0, 0, 0, 0), "",new ItemAbility(AbilityAction.NONE, "Strong Triple Shot", "Shoots 3 strong arrows at a time! with automatic homing!"), new SkillRequirement(SkillType.COMBAT, 15)));
-        items.put("HURRICANE_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Hurricane Bow", Rarity.EPIC, new Stats(120, 50, 0, 0, 0, 0), "",new ItemAbility(AbilityAction.NONE, "Hurricane Shot", "Shoots 5 arrows at a time! without homing!"), new SkillRequirement(SkillType.COMBAT, 15)));
-        items.put("EXPLOSIVE_BOW", new BowMaterial(Material.BOW, ItemFamily.NULL, "Explosive Bow", Rarity.EPIC, new Stats(100, 30, 0, 0, 0, 0), "",new ItemAbility(AbilityAction.NONE, "Explosive", "Arrows explode on impact"), new SkillRequirement(SkillType.COMBAT, 15)));
-
-
         // Armors
         // Admin
-        items.put("ADMIN_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.ADMIN, "Admin Boots", ItemType.BOOTS, Rarity.SPECIAL, new Stats(10000000, 10000000, 10000000, 10000000, 10000000, 0, 10000000, 10000000, 5000, 10000000), "", ItemFullSet.NULL, (Color) null));
-        items.put("ADMIN_LEGGINGS_SUPER_LUCKY", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.ADMIN, "Admin Leggings", ItemType.LEGGINGS, Rarity.SPECIAL, new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 100000, 0, 0, 0, 0, 0, 0, 0), "", ItemFullSet.NULL, (Color) null));
-        items.put("ADMIN_LEGGINGS_LUCKY", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.ADMIN, "Admin Leggings", ItemType.LEGGINGS, Rarity.SPECIAL, new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 100, 0, 0, 0, 0, 0, 0, 0), "", ItemFullSet.NULL, (Color) null));
-        items.put("ADMIN_NOOB_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.ADMIN, "Admin N00B Boots", ItemType.BOOTS, Rarity.SPECIAL, new Stats(1000, 1000, 1000, 1000, 1000, 0, 1000, 1000, 100, 1000), "", ItemFullSet.NULL, (Color) null));
-        items.put("ADMIN_SURVIVAL_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.ADMIN, "Admin N00B Boots", ItemType.CHESTPLATE, Rarity.SPECIAL, new Stats(0, 0, 0, 0, 0, 0, 100000, 10000000, 100, 0), "", ItemFullSet.NULL, (Color) null));
         // Leather
-        items.put("LEATHER_HELMET", new ArmorMaterial(Material.LEATHER_HELMET, ItemFamily.LEATHER, "Leather Helmet", ItemType.HELMET, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 5, 0, 0, 0), "", ItemFullSet.NULL, (Color) null));
-        items.put("LEATHER_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.LEATHER, "Leather Chestplate", ItemType.CHESTPLATE, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 5, 0, 0, 0), "", ItemFullSet.NULL, (Color) null));
-        items.put("LEATHER_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.LEATHER, "Leather Leggings", ItemType.LEGGINGS, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 5, 0, 0, 0), "", ItemFullSet.NULL, (Color) null));
-        items.put("LEATHER_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.LEATHER, "Leather Boots", ItemType.BOOTS, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 5, 0, 0, 0), "", ItemFullSet.NULL, (Color) null));
         // Chain
-        items.put("CHAIN_HELMET", new ArmorMaterial(Material.CHAINMAIL_HELMET, ItemFamily.CHAIN, "Chain Helmet", ItemType.HELMET, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 8, 5, 0, 0), "", ItemFullSet.NULL));
-        items.put("CHAIN_CHESTPLATE", new ArmorMaterial(Material.CHAINMAIL_CHESTPLATE, ItemFamily.CHAIN, "Chain Chestplate", ItemType.CHESTPLATE, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 8, 5, 0, 0), "", ItemFullSet.NULL));
-        items.put("CHAIN_LEGGINGS", new ArmorMaterial(Material.CHAINMAIL_LEGGINGS, ItemFamily.CHAIN, "Chain Leggings", ItemType.LEGGINGS, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 8, 5, 0, 0), "", ItemFullSet.NULL));
-        items.put("CHAIN_BOOTS", new ArmorMaterial(Material.CHAINMAIL_BOOTS, ItemFamily.CHAIN, "Chain Boots", ItemType.BOOTS, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 8, 0, 5, 0), "", ItemFullSet.NULL));
         // Iron
-        items.put("IRON_HELMET", new ArmorMaterial(Material.IRON_HELMET, ItemFamily.IRON, "Iron Helmet", ItemType.HELMET, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 10, 8, 0, 0), "", ItemFullSet.NULL));
-        items.put("IRON_CHESTPLATE", new ArmorMaterial(Material.IRON_CHESTPLATE, ItemFamily.IRON, "Iron Chestplate", ItemType.CHESTPLATE, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 10, 8, 0, 0), "", ItemFullSet.NULL));
-        items.put("IRON_LEGGINGS", new ArmorMaterial(Material.IRON_LEGGINGS, ItemFamily.IRON, "Iron Leggings", ItemType.LEGGINGS, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 10, 8, 0, 0), "", ItemFullSet.NULL));
-        items.put("IRON_BOOTS", new ArmorMaterial(Material.IRON_BOOTS, ItemFamily.IRON, "Iron Boots", ItemType.BOOTS, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 10, 8, 0, 0), "", ItemFullSet.NULL));
         // Gold
-        items.put("GOLD_HELMET", new ArmorMaterial(Material.GOLD_HELMET, ItemFamily.GOLD, "Gold Helmet", ItemType.HELMET, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 15, 10, 0, 0), "", ItemFullSet.NULL));
-        items.put("GOLD_CHESTPLATE", new ArmorMaterial(Material.GOLD_CHESTPLATE, ItemFamily.GOLD, "Gold Chestplate", ItemType.CHESTPLATE, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 15, 10, 0, 0), "", ItemFullSet.NULL));
-        items.put("GOLD_LEGGINGS", new ArmorMaterial(Material.GOLD_LEGGINGS, ItemFamily.GOLD, "Gold Leggings", ItemType.LEGGINGS, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 15, 10, 0, 0), "", ItemFullSet.NULL));
-        items.put("GOLD_BOOTS", new ArmorMaterial(Material.GOLD_BOOTS, ItemFamily.GOLD, "Gold Boots", ItemType.BOOTS, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 15, 10, 0, 0), "", ItemFullSet.NULL));
         // Lapis
         items.put("LAPIS_HELMET", new ArmorMaterial(Material.LEATHER_HELMET, ItemFamily.LAPIS, "Lapis Helmet", ItemType.HELMET, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 20, 12, 0, 0), "", ItemFullSet.NULL, Color.fromRGB(55, 55, 215)));
         items.put("LAPIS_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.LAPIS, "Lapis Chestplate", ItemType.CHESTPLATE, Rarity.COMMON, new Stats(0, 0, 0, 0, 0, 0, 20, 12, 0, 0), "", ItemFullSet.NULL, Color.fromRGB(55, 55, 215)));

@@ -4,11 +4,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.*;
 import org.bukkit.Material;
 
 public abstract class DrillMaterial extends MiningMaterial {
-    public DrillMaterial(String itemID, Material material, ItemFamily family, String name, Rarity rarity, String id, String nbt, Stats stats, int breakingPower, String description, MaterialModifier... modifiers) {
-        super(material, family, name, ItemType.SWORD, rarity, id, nbt, stats, breakingPower, description, modifiers);
-    }
-
     public DrillMaterial(String itemID, Material material, ItemFamily family, String name, Rarity rarity, Stats stats, int breakingPower, String description, MaterialModifier... modifiers) {
-        this(material, family, name, rarity, "", "", stats, breakingPower, description, modifiers);
+        super(itemID, material, family, name, ItemType.SWORD, rarity, stats, breakingPower, description, modifiers);
     }
 }

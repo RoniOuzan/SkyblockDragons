@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.material.interfaces;
 
-import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 
 import java.util.List;
 

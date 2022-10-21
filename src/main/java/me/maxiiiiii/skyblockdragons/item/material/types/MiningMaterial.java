@@ -11,17 +11,13 @@ public abstract class MiningMaterial extends ToolMaterial implements ItemStatsAb
     private final Stats stats;
     private final int breakingPower;
 
-    public MiningMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, Stats stats, int breakingPower, String description, MaterialModifier... modifiers) {
-        super(material, family, name, type, rarity, id, nbt, 0, description, modifiers);
+    public MiningMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, Stats stats, int breakingPower, String description, MaterialModifier... modifiers) {
+        super(itemID, material, family, name, type, rarity, description, modifiers);
         this.stats = stats;
         this.breakingPower = breakingPower;
     }
 
-    public MiningMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, Stats stats, int breakingPower, String description, MaterialModifier... modifiers) {
-        this(material, family, name, type, rarity, "", "", stats, breakingPower, description, modifiers);
-    }
-
     public MiningMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, int breakingPower, String description, MaterialModifier... modifiers) {
-        this(material, family, name, type, rarity, "", "", new Stats(), breakingPower, description, modifiers);
+        this(itemID, material, family, name, type, rarity, new Stats(), breakingPower, description, modifiers);
     }
 }

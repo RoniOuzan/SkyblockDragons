@@ -14,19 +14,19 @@ public abstract class NormalMaterial extends ItemMaterial implements ItemDescrip
     private final boolean showRecipe;
     private final boolean stackAble;
 
-    public NormalMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, String description, boolean isEnchanted, boolean showRecipe, boolean stackAble) {
-        super(itemID, material, family, name, type, rarity, id, nbt, 0);
+    public NormalMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description, boolean isEnchanted, boolean showRecipe, boolean stackAble) {
+        super(itemID, material, family, name, type, rarity);
         this.description = description;
         this.isEnchanted = isEnchanted;
         this.showRecipe = showRecipe;
         this.stackAble = stackAble;
     }
 
-    public NormalMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, boolean isEnchanted, boolean showRecipe) {
-        this(material, family, name, type, rarity, id, nbt, "", isEnchanted, showRecipe, true);
+    public NormalMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, boolean isEnchanted, boolean showRecipe) {
+        this(itemID, material, family, name, type, rarity, isEnchanted, showRecipe, true);
     }
 
-    public NormalMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, boolean isEnchanted, boolean showRecipe, boolean stackAble) {
-        this(material, family, name, type, rarity, id, nbt, "", isEnchanted, showRecipe, stackAble);
+    public NormalMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, boolean isEnchanted, boolean showRecipe, boolean stackAble) {
+        this(itemID, material, family, name, type, rarity, "", isEnchanted, showRecipe, stackAble);
     }
 }

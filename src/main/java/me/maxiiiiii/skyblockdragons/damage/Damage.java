@@ -31,7 +31,7 @@ public class Damage implements Listener {
     private static final boolean LOSE_COINS = false;
 
     public enum DamageType {
-        NORMAL, PROJECTILE, MAGIC, CRITICAL_MAGIC, TRUE, FALL, FIRE;
+        NORMAL, PROJECTILE, MAGIC, CRITICAL_MAGIC, TRUE, FALL, FIRE, EXPLOSION;
 
         public boolean isNormal() {
             return this == NORMAL || this == TRUE || this == PROJECTILE;
@@ -42,7 +42,7 @@ public class Damage implements Listener {
         }
 
         public boolean isCanBeCrit() {
-            return this == NORMAL || this == PROJECTILE || this == CRITICAL_MAGIC || this == TRUE;
+            return this == NORMAL || this == PROJECTILE || this == CRITICAL_MAGIC || this == TRUE || this == EXPLOSION;
         }
     }
 

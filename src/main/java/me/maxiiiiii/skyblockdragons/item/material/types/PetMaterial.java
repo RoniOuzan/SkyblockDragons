@@ -22,6 +22,7 @@ import java.util.List;
 @Getter
 public abstract class PetMaterial extends ItemMaterial implements ItemStatsAble, ItemRequirementAble {
     public static final PetMaterial NULL = new PetMaterial("Null", "", "", new Stats(), Arrays.asList(Rarity.NONE), Arrays.asList(new PetAbility("Null", "", new ArrayList<>(Arrays.asList(Rarity.SPECIAL)))), SkillType.COMBAT, new ParticlePacketUtil(Particle.REDSTONE, 1, 0, 0, 1f, 5));
+    // TODO: change this NULL
 
     private final Stats stats;
     private final List<Rarity> rarities;
@@ -32,8 +33,8 @@ public abstract class PetMaterial extends ItemMaterial implements ItemStatsAble,
     private final SoundUtil[] sounds;
     private final List<Requirement> requirements;
 
-    public PetMaterial(String name, String id, String nbt, Stats stats, List<Rarity> rarities, List<PetAbility> abilities, SkillType skill, int maxLevel, Object... array) {
-        super(itemID, Material.SKULL_ITEM, ItemFamily.NULL, name, ItemType.PET, Rarity.NONE, id, nbt, 0);
+    public PetMaterial(String itemID, String name, Stats stats, List<Rarity> rarities, List<PetAbility> abilities, SkillType skill, int maxLevel, Object... array) {
+        super(itemID, Material.SKULL_ITEM, ItemFamily.NULL, name, ItemType.PET, Rarity.NONE);
         this.stats = stats;
         this.rarities = rarities;
         this.abilities = abilities;
@@ -63,8 +64,8 @@ public abstract class PetMaterial extends ItemMaterial implements ItemStatsAble,
         this.requirements = requirements;
     }
 
-    public PetMaterial(String name, String id, String nbt, Stats stats, List<Rarity> rarities, List<PetAbility> abilities, SkillType skill, Object... array) {
-        this(name, id, nbt, stats, rarities, abilities, skill, 100, array);
+    public PetMaterial(String itemID, String name, Stats stats, List<Rarity> rarities, List<PetAbility> abilities, SkillType skill, Object... array) {
+        this(itemID, name, stats, rarities, abilities, skill, 100, array);
     }
 
     public static String stringWithMath(String string, int level) {

@@ -25,9 +25,9 @@ import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.interfaces.LoopTask;
 import me.maxiiiiii.skyblockdragons.util.interfaces.While;
-import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
+import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.util.objects.SignMenu;
-import me.maxiiiiii.skyblockdragons.util.objects.SlotCooldown;
+import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.SlotCooldown;
 import me.maxiiiiii.skyblockdragons.util.reflection.MinecraftReflectionProvider;
 import me.maxiiiiii.skyblockdragons.util.reflection.ReflectionUtil;
 import org.bukkit.*;
@@ -1659,7 +1659,7 @@ public class Functions {
         else return "th";
     }
 
-    public static <T> List<T> splitList(String example, Object... objects) {
+    public static <T> List<T> splitList(String example, Object[] objects) {
         List<T> list = new ArrayList<>();
         for (Object object : objects) {
             if (object.getClass().getName().equals(example) || object.getClass().getSuperclass().getName().equals(example)) {

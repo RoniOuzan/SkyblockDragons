@@ -3,13 +3,21 @@ package me.maxiiiiii.skyblockdragons.item.objects;
 import org.bukkit.ChatColor;
 
 public enum AbilityAction {
-    LEFT_CLICK,
-    RIGHT_CLICK,
-    LEFT_SHIFT_CLICK,
-    RIGHT_SHIFT_CLICK,
-    FULL_SET,
-    NONE,
-    NULL;
+    LEFT_CLICK("LEFT CLICK"),
+    RIGHT_CLICK("RIGHT CLICK"),
+    LEFT_SHIFT_CLICK("LEFT SHIFT CLICK"),
+    RIGHT_SHIFT_CLICK("RIGHT SHIFT CLICK"),
+    LEFT_NOT_SHIFT_CLICK("LEFT CLICK"),
+    RIGHT_NOT_SHIFT_CLICK("RIGHT CLICK"),
+    SHOOT(""), // TODO
+    NONE(""),
+    NULL("NULL");
+
+    private final String text;
+
+    AbilityAction(String text) {
+        this.text = text;
+    }
 
     public boolean isLeftClick() {
         return this == LEFT_CLICK || this == LEFT_SHIFT_CLICK;
@@ -25,9 +33,6 @@ public enum AbilityAction {
 
     @Override
     public String toString() {
-        if (this == AbilityAction.NONE) {
-            return "";
-        }
-        return ChatColor.YELLOW + "" + ChatColor.BOLD + this.name().replace("_", " ");
+        return ChatColor.YELLOW + "" + ChatColor.BOLD + this.text;
     }
 }

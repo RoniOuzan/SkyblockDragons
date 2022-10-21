@@ -12,13 +12,11 @@ import org.bukkit.Material;
 
 @Getter
 public abstract class AccessoryMaterial extends ItemMaterial implements ItemStatsAble, ItemDescriptionAble {
-    public static final AccessoryMaterial NULL = new AccessoryMaterial(Material.BARRIER, ItemFamily.NULL,"Null", Rarity.SPECIAL, "", "", new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), ChatColor.GRAY + "" + ChatColor.ITALIC + "Null barrier that created by " + ChatColor.GRAY + "" + ChatColor.ITALIC + "ERROR with an item.");
-
     private final Stats stats;
     private final String description;
 
-    public AccessoryMaterial(String itemID, Material material, ItemFamily family, String name, Rarity rarity, String id, String nbt, Stats stats, String description) {
-        super(itemID, material, family, name, ItemType.ACCESSORY, rarity, id, nbt, 0);
+    public AccessoryMaterial(String itemID, Material material, ItemFamily family, String name, Rarity rarity, Stats stats, String description) {
+        super(itemID, material, family, name, ItemType.ACCESSORY, rarity);
         this.stats = stats;
         this.description = description;
     }

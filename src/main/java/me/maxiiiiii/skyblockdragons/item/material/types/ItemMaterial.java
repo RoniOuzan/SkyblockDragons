@@ -30,16 +30,16 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
     protected String nbt;
     protected double sellPrice;
 
-    public ItemMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, double sellPrice) {
+    public ItemMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity) {
         this.itemID = itemID;
         this.material = material;
         this.family = family;
         this.name = name;
         this.type = type;
         this.rarity = rarity;
-        this.id = id;
-        this.nbt = nbt;
-        this.sellPrice = sellPrice;
+        this.id = "";
+        this.nbt = "";
+        this.sellPrice = 0;
 
         // TODO: register item
     }
@@ -53,12 +53,13 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
     }
 
     public String name() {
-        for (String key : Items.items.keySet()) {
-            if (Items.items.get(key) == this) {
-                return key;
-            }
-        }
-        return "";
+        return this.itemID;
+//        for (String key : Items.items.keySet()) {
+//            if (Items.items.get(key) == this) {
+//                return key;
+//            }
+//        }
+//        return "";
     }
 
     @Override

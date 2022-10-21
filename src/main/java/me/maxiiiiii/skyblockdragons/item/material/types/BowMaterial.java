@@ -7,12 +7,8 @@ import org.bukkit.Material;
 
 @Getter
 @Setter
-public abstract class BowMaterial extends WeaponMaterial {
-    public BowMaterial(String itemID, Material material, ItemFamily family, String name, Rarity rarity, String id, String nbt, double sellPrice, Stats stats, String description, MaterialModifier... modifiers) {
-        super(material, family, name, ItemType.BOW, rarity, id, nbt, sellPrice, stats, description, modifiers);
-    }
-
+public abstract class BowMaterial extends RangeWeaponMaterial {
     public BowMaterial(String itemID, Material material, ItemFamily family, String name, Rarity rarity, Stats stats, String description, MaterialModifier... modifiers) {
-        this(material, family, name, rarity, "", "", 0, stats, description, modifiers);
+        super(itemID, material, family, name, ItemType.BOW, rarity, stats, description, modifiers);
     }
 }

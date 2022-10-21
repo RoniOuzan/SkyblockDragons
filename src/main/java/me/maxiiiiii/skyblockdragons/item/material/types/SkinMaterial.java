@@ -11,8 +11,9 @@ import org.bukkit.Material;
 @Setter
 public abstract class SkinMaterial extends ItemMaterial {
     public static final SkinMaterial NULL = new SkinMaterial(Material.BARRIER, ItemFamily.NULL,"Null", Rarity.SPECIAL, "", "");
+    // TODO: change this NULL
 
-    public SkinMaterial(String itemID, Material material, ItemFamily family, String name, Rarity rarity, String id, String nbt) {
-        super(itemID, material, family, name, ItemType.SKIN, rarity, id, nbt, 0);
+    public SkinMaterial(String itemID, Material material, ItemFamily family, String name, Rarity rarity) {
+        super(itemID, material, family, name, ItemType.SKIN, rarity);
     }
 }

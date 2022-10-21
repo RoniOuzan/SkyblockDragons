@@ -2,7 +2,9 @@ package me.maxiiiiii.skyblockdragons.item.objects;
 
 public enum ItemType {
     SWORD,
+    RANGE_WEAPON,
     BOW,
+    SHORT_BOW,
     WAND,
     HELMET,
     CHESTPLATE,

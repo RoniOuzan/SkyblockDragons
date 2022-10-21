@@ -353,6 +353,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerEvents(new UpdateInventoryListeners(), this);
         registerEvents(new PlayerUseAbilityListener(), this);
         registerEvents(new ProfileMenu.Event(), this);
+        registerEvents(new ArrowHitCancellation(), this);
 
         registerEvents(new PlayerWarpListener(), this);
         registerEvents(new ChatListener(), this);

@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.player.events;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.entity.PlayerSDEvent;
 import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.event.HandlerList;
 
