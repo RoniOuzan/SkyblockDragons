@@ -9,6 +9,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.costs.ItemAbilityManaCost;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.*;
@@ -51,7 +52,7 @@ public class BonzoStaff extends SwordMaterial {
 
     }
 
-    public static class Showtime extends ItemAbility {
+    public static class Showtime extends ItemAbility implements ItemAbilityManaCost {
         private final ArrayList<ItemStack> balloons = new ArrayList<>(Arrays.asList(
                 applySkull(new ItemStack(Material.SKULL_ITEM, 1, (byte) 3), "b7685f9f-c378-41d8-a636-a07320b6c9ae", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTJkZDExZGEwNDI1MmY3NmI2OTM0YmMyNjYxMmY1NGYyNjRmMzBlZWQ3NGRmODk5NDEyMDllMTkxYmViYzBhMiJ9fX0="),
                 applySkull(new ItemStack(Material.SKULL_ITEM, 1, (byte) 3), "934a0bf5-884d-417a-bbb7-dcea0f933b0c", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWVmMTYyZGVmODQ1YWEzZGM3ZDQ2Y2QwOGE3YmY5NWJiZGZkMzJkMzgxMjE1YWE0MWJmZmFkNTIyNDI5ODcyOCJ9fX0="),
@@ -68,10 +69,13 @@ public class BonzoStaff extends SwordMaterial {
         public Showtime() {
             super(AbilityAction.RIGHT_CLICK,
                     "Showtime",
-                    ChatColor.GRAY + "Shoots balloons that create a large explosion on impact",
-                    50,
-                    0
+                    ChatColor.GRAY + "Shoots balloons that create a large explosion on impact"
             );
+        }
+
+        @Override
+        public double getBaseManaCost(PlayerSD player) {
+            return 50;
         }
 
         @Override

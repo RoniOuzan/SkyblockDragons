@@ -9,6 +9,9 @@ import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.costs.ItemAbilityManaCost;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.ItemAbilityCooldown;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.ItemAbilityMagicDamage;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
@@ -47,16 +50,32 @@ public class AspectOfTheDragons extends SwordMaterial {
 
     }
 
-    public static class DragonRage extends ItemAbility {
+    public static class DragonRage extends ItemAbility implements ItemAbilityManaCost, ItemAbilityCooldown, ItemAbilityMagicDamage {
         public DragonRage() {
             super(AbilityAction.RIGHT_CLICK,
                     "Dragon Rage",
-                    "All monsters in front of you take " + ChatColor.RED + "ABILITY_DAMAGE " + ChatColor.GRAY + "damage.",
-                    100,
-                    2,
-                    6000,
-                    0.05
+                    "All monsters in front of you take " + ChatColor.RED + "ABILITY_DAMAGE " + ChatColor.GRAY + "damage."
             );
+        }
+
+        @Override
+        public double getBaseManaCost(PlayerSD player) {
+            return 100;
+        }
+
+        @Override
+        public double getBaseCooldown(PlayerSD player) {
+            return 2;
+        }
+
+        @Override
+        public double getBaseAbilityDamage(PlayerSD player) {
+            return 6000;
+        }
+
+        @Override
+        public double getBaseAbilityScaling(PlayerSD player) {
+            return 0.05;
         }
 
         @Override
@@ -84,7 +103,7 @@ public class AspectOfTheDragons extends SwordMaterial {
 
                     for (Entity entity : Functions.loopEntities(newLocation, 2)) {
                         if (entity instanceof Creature && !damaged.contains(entity)) {
-                            player.makeDamage(entity, Damage.DamageType.MAGIC, 1, this.getAbilityDamage(), this.getAbilityScaling());
+                            player.makeDamage(entity, Damage.DamageType.MAGIC, 1, this.getFinalAbilityDamage(player), this.getFinalAbilityScaling(player));
                             damaged.add(entity);
                         }
                     }

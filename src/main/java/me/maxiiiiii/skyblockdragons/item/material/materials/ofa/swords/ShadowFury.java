@@ -8,6 +8,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.ItemAbilityCooldown;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.ChatColor;
@@ -45,14 +46,17 @@ public class ShadowFury extends SwordMaterial {
 
     }
 
-    public static class ShadowFuryAbility extends ItemAbility {
+    public static class ShadowFuryAbility extends ItemAbility implements ItemAbilityCooldown {
         public ShadowFuryAbility() {
             super(AbilityAction.RIGHT_CLICK,
                     "Shadow Fury",
-                    "Rapidly teleports you to up to " + ChatColor.AQUA + "5 " + ChatColor.GRAY + "enemies within " + ChatColor.YELLOW + "10 " + ChatColor.GRAY + "blocks, rooting each of them and allowing you to hit them.",
-                    0,
-                    15
+                    "Rapidly teleports you to up to " + ChatColor.AQUA + "5 " + ChatColor.GRAY + "enemies within " + ChatColor.YELLOW + "10 " + ChatColor.GRAY + "blocks, rooting each of them and allowing you to hit them."
             );
+        }
+
+        @Override
+        public double getBaseCooldown(PlayerSD player) {
+            return 15;
         }
 
         @Override

@@ -6,6 +6,7 @@ import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.costs.ItemAbilityManaCost;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.ChatColor;
@@ -40,17 +41,20 @@ public class RogueSword extends SwordMaterial {
 
     }
 
-    public static class SpeedBoost extends ItemAbility {
+    public static class SpeedBoost extends ItemAbility implements ItemAbilityManaCost {
         public static final Map<PlayerSD, Integer> rogueSwordAmountUsed = new HashMap<>();
         public static final Map<PlayerSD, Long> rogueSwordLastTimeUsed = new HashMap<>();
 
         public SpeedBoost() {
             super(AbilityAction.RIGHT_CLICK,
                     "Speed Boost",
-                    "Increases your movement " + StatType.SPEED.getIconAndText() + " " + ChatColor.GRAY + "by " + ChatColor.GREEN + "+20 " + ChatColor.GRAY + "for " + ChatColor.GREEN + "30 " + ChatColor.GRAY + "seconds. Only gives " + ChatColor.GREEN + "+10 " + StatType.SPEED.getIconAndText() + " " + ChatColor.GRAY + "if already in use.",
-                    50,
-                    0
+                    "Increases your movement " + StatType.SPEED.getIconAndText() + " " + ChatColor.GRAY + "by " + ChatColor.GREEN + "+20 " + ChatColor.GRAY + "for " + ChatColor.GREEN + "30 " + ChatColor.GRAY + "seconds. Only gives " + ChatColor.GREEN + "+10 " + StatType.SPEED.getIconAndText() + " " + ChatColor.GRAY + "if already in use."
             );
+        }
+
+        @Override
+        public double getBaseManaCost(PlayerSD player) {
+            return 50;
         }
 
         @Override

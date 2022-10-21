@@ -6,6 +6,8 @@ import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.costs.ItemAbilityManaCost;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.ItemAbilityCooldown;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -16,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class AtomsplitKatana extends SwordMaterial {
     public AtomsplitKatana() {
@@ -42,16 +45,24 @@ public class AtomsplitKatana extends SwordMaterial {
 
     }
 
-    public static class Soulcry extends ItemAbility {
-        private static final HashMap<Player, Long> atomsplitAbility = new HashMap<>();
+    public static class Soulcry extends ItemAbility implements ItemAbilityManaCost, ItemAbilityCooldown {
+        private static final Map<Player, Long> atomsplitAbility = new HashMap<>();
 
         public Soulcry() {
             super(AbilityAction.RIGHT_CLICK,
                     "Soulcry",
-                    "Gain " + ChatColor.RED + "+400" + StatType.FEROCITY.getIconAndText() + ChatColor.GRAY + " against Endermen for " + ChatColor.GREEN + "4 seconds" + ChatColor.GRAY + ".",
-                    200,
-                    4
+                    "Gain " + ChatColor.RED + "+400" + StatType.FEROCITY.getIconAndText() + ChatColor.GRAY + " against Endermen for " + ChatColor.GREEN + "4 seconds" + ChatColor.GRAY + "."
             );
+        }
+
+        @Override
+        public double getBaseManaCost(PlayerSD player) {
+            return 200;
+        }
+
+        @Override
+        public double getBaseCooldown(PlayerSD player) {
+            return 4;
         }
 
         @Override

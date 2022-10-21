@@ -8,6 +8,8 @@ import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.costs.ItemAbilityManaCost;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.ItemAbilityCooldown;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.ChatColor;
@@ -45,14 +47,22 @@ public class MidasStaff extends SwordMaterial {
 
     }
 
-    public static class MoltenWave extends ItemAbility implements Listener {
+    public static class MoltenWave extends ItemAbility implements ItemAbilityManaCost, ItemAbilityCooldown, Listener {
         public MoltenWave() {
             super(AbilityAction.RIGHT_CLICK,
                     "Molten Wave",
-                    "Cast a wave of molten gold in the direction you are facing! Deals up to " + ChatColor.RED + "6,000 " + ChatColor.GRAY + "damage.",
-                    500,
-                    1
+                    "Cast a wave of molten gold in the direction you are facing! Deals up to " + ChatColor.RED + "6,000 " + ChatColor.GRAY + "damage."
             );
+        }
+
+        @Override
+        public double getBaseManaCost(PlayerSD player) {
+            return 500;
+        }
+
+        @Override
+        public double getBaseCooldown(PlayerSD player) {
+            return 1;
         }
 
         @Override
@@ -91,7 +101,7 @@ public class MidasStaff extends SwordMaterial {
             }
         }
 
-        private static void spawnBlock(Location location) {
+        private void spawnBlock(Location location) {
             FallingBlock block = location.getWorld().spawnFallingBlock(location, new MaterialData(Material.GOLD_BLOCK));
             block.setInvulnerable(true);
             block.setDropItem(false);

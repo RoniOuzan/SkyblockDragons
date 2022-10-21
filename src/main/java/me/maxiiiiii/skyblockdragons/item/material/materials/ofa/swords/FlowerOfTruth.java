@@ -7,8 +7,11 @@ import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
-import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbilityPercentCost;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.costs.ItemAbilityManaCostPercentage;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.ItemAbilityCooldown;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.interfaces.LoopTask;
 import me.maxiiiiii.skyblockdragons.util.objects.AIFly;
@@ -46,19 +49,22 @@ public class FlowerOfTruth extends SwordMaterial {
 
     }
 
-    public static class HeatSeekingRose extends ItemAbilityPercentCost {
+    public static class HeatSeekingRose extends ItemAbility implements ItemAbilityManaCostPercentage, ItemAbilityCooldown {
         public HeatSeekingRose() {
             super(AbilityAction.RIGHT_CLICK,
                     "Heat-Seeking Rose",
-                    "Shoots a rose that ricochets between enemies, damaging up to " + ChatColor.GREEN + "3 " + ChatColor.GRAY + "of your foes! Damage multiplies as more enemies are hit.",
-                    10,
-                    1
+                    "Shoots a rose that ricochets between enemies, damaging up to " + ChatColor.GREEN + "3 " + ChatColor.GRAY + "of your foes! Damage multiplies as more enemies are hit."
             );
         }
 
         @Override
-        public double getPercentageOfMana() {
+        public double getBaseManaCostPercentage(PlayerSD player) {
             return 10;
+        }
+
+        @Override
+        public double getBaseCooldown(PlayerSD player) {
+            return 1;
         }
 
         @Override

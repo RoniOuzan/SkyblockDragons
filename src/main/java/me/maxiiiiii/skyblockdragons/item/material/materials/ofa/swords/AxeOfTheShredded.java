@@ -4,8 +4,10 @@ import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.costs.ItemAbilityManaCost;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityUsage;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.ItemAbilitySilentCooldown;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.ChatColor;
@@ -42,19 +44,22 @@ public class AxeOfTheShredded extends SwordMaterial {
 
     }
 
-    public static class Throw extends ItemAbility {
+    public static class Throw extends ItemAbility implements ItemAbilityManaCost, ItemAbilitySilentCooldown {
         public Throw() {
             super(AbilityAction.RIGHT_CLICK,
                     "Throw",
-                    "Throw your axe damaging all enemies in its path dealing " + ChatColor.RED + "10% " + ChatColor.GRAY + "melee damage. Consecutive throws stack " + ChatColor.RED + "2x " + ChatColor.GRAY + "damage but cost " + ChatColor.BLUE + "2x " + ChatColor.GRAY + "mana up to 16x",
-                    20,
-                    0
+                    "Throw your axe damaging all enemies in its path dealing " + ChatColor.RED + "10% " + ChatColor.GRAY + "melee damage. Consecutive throws stack " + ChatColor.RED + "2x " + ChatColor.GRAY + "damage but cost " + ChatColor.BLUE + "2x " + ChatColor.GRAY + "mana up to 16x"
             );
         }
 
         @Override
-        public boolean isPlayerHasEnoughMana(PlayerSD player) {
-            return player.hasEnoughToUseAbility(((ThrowRunnable) this.getAbilityForPlayer(player)).manaCost);
+        public double getBaseManaCost(PlayerSD player) {
+            return ((ThrowRunnable) getAbilityOfPlayer(player).getRunnable()).manaCost;
+        }
+
+        @Override
+        public double getBaseCooldown(PlayerSD player) {
+            return 0.2;
         }
 
         @Override

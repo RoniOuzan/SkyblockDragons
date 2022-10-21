@@ -8,6 +8,8 @@ import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.costs.ItemAbilityManaCost;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.ItemAbilityCooldown;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.*;
@@ -44,16 +46,24 @@ public class LeapingSword extends SwordMaterial {
 
     }
 
-    public static class Leap extends ItemAbility {
+    public static class Leap extends ItemAbility implements ItemAbilityManaCost, ItemAbilityCooldown {
         private final HashMap<UUID, Boolean> isEnabled = new HashMap<>();
 
         public Leap() {
             super(AbilityAction.RIGHT_CLICK,
                     "Leap",
-                    "Leap into the air and deal " + ChatColor.GREEN + "400 " + ChatColor.GRAY + "base Magic Damage to nearby NEW_LINE enemies upon landing on the NEW_LINE ground. Damaged enemies will NEW_LINE also be frozen for " + ChatColor.GREEN + "1 second" + ChatColor.GRAY + ".",
-                    50,
-                    1
+                    "Leap into the air and deal " + ChatColor.GREEN + "400 " + ChatColor.GRAY + "base Magic Damage to nearby NEW_LINE enemies upon landing on the NEW_LINE ground. Damaged enemies will NEW_LINE also be frozen for " + ChatColor.GREEN + "1 second" + ChatColor.GRAY + "."
             );
+        }
+
+        @Override
+        public double getBaseManaCost(PlayerSD player) {
+            return 50;
+        }
+
+        @Override
+        public double getBaseCooldown(PlayerSD player) {
+            return 1;
         }
 
         @Override

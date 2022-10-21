@@ -15,7 +15,7 @@ public class SingleCooldown {
         this.startedAt = SkyblockDragons.getCurrentTimeInSeconds();
     }
 
-    public boolean isNotOnCooldown() {
+    public boolean isExpired() {
         return SkyblockDragons.getCurrentTimeInSeconds() - this.startedAt >= this.seconds;
     }
 }

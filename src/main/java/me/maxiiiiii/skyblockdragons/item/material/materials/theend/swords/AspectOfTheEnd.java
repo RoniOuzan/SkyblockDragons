@@ -5,6 +5,8 @@ import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.costs.ItemAbilityManaCost;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -38,17 +40,20 @@ public class AspectOfTheEnd extends SwordMaterial {
 
     }
 
-    public static class Transmission extends ItemAbility {
+    public static class Transmission extends ItemAbility implements ItemAbilityManaCost {
         private final double blocks;
 
         public Transmission(double blocks) {
             super(AbilityAction.RIGHT_CLICK,
                     "Transmission",
-                    ChatColor.GRAY + "Teleport " + ChatColor.GREEN + "8 blocks " + ChatColor.GRAY + "ahead of you and gain " + ChatColor.GREEN + "+50 " + StatType.SPEED.getIconAndText() + " NEW_LINE for " + ChatColor.GREEN + "3 seconds" + ChatColor.GRAY + ".",
-                    50,
-                    0
+                    ChatColor.GRAY + "Teleport " + ChatColor.GREEN + "8 blocks " + ChatColor.GRAY + "ahead of you and gain " + ChatColor.GREEN + "+50 " + StatType.SPEED.getIconAndText() + " NEW_LINE for " + ChatColor.GREEN + "3 seconds" + ChatColor.GRAY + "."
             );
             this.blocks = blocks;
+        }
+
+        @Override
+        public double getBaseManaCost(PlayerSD player) {
+            return 50;
         }
 
         @Override

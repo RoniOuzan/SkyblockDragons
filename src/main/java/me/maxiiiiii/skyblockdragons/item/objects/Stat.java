@@ -21,6 +21,14 @@ public class Stat {
         this.amount *= 1 + (percent / 100);
     }
 
+    public void add(double amount) {
+        this.set(this.get() + amount);
+    }
+
+    public void remove(double amount) {
+        this.set(this.get() - amount);
+    }
+
     public void normalize() {
         this.amount = Math.floor(this.amount * 10d) / 10d;
         if (type == StatType.ATTACK_SPEED && this.amount > 100)

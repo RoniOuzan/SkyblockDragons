@@ -487,8 +487,16 @@ public class PlayerSD extends PlayerClass {
         return this.abilityCostMultiplier.multiply(baseCost);
     }
 
-    public boolean hasEnoughToUseAbility(double baseManaCost) {
-        return this.getStats().getMana().get() >= this.getAbilityCost(baseManaCost);
+    public double getItemAbilityDamage(double baseAbilityDamage) {
+        return baseAbilityDamage;
+    }
+
+    public double getItemAbilityScaling(double baseAbilityScaling) {
+        return baseAbilityScaling;
+    }
+
+    public double getItemAbilityCooldown(double baseCooldownInSeconds) {
+        return baseCooldownInSeconds;
     }
 
     public short getEnchantLevel(EnchantType enchant) {

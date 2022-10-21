@@ -9,6 +9,8 @@ import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.costs.ItemAbilityManaCost;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
@@ -45,14 +47,17 @@ public class SpiritSpectre extends SwordMaterial {
 
     }
 
-    public static class GuidedBat extends ItemAbility {
+    public static class GuidedBat extends ItemAbility implements ItemAbilityManaCost {
         public GuidedBat() {
             super(AbilityAction.RIGHT_CLICK,
                     "Guided Bat",
-                    "Shoots a guided spirit bat, following your aim and exploding for " + ChatColor.RED + "2,000 " + ChatColor.GRAY + "damage.",
-                    250,
-                    0
+                    "Shoots a guided spirit bat, following your aim and exploding for " + ChatColor.RED + "2,000 " + ChatColor.GRAY + "damage."
             );
+        }
+
+        @Override
+        public double getBaseManaCost(PlayerSD player) {
+            return 250;
         }
 
         @Override

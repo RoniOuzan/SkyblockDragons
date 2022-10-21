@@ -9,6 +9,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilties.PlayerAbilityRunnable;
+import me.maxiiiiii.skyblockdragons.item.objects.abilties.modifiers.costs.ItemAbilityManaCost;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.*;
@@ -38,14 +39,17 @@ public class AspectOfTheVoid extends SwordMaterial {
 
     }
 
-    public static class EtherTransmission extends ItemAbility {
+    public static class EtherTransmission extends ItemAbility implements ItemAbilityManaCost {
         public EtherTransmission() {
             super(AbilityAction.RIGHT_SHIFT_CLICK,
                     "Ether Transmission",
-                    ChatColor.GRAY + "Teleport to your targeted block up to " + ChatColor.GREEN + "61 blocks " + ChatColor.GRAY + "away.",
-                    180,
-                    0
+                    ChatColor.GRAY + "Teleport to your targeted block up to " + ChatColor.GREEN + "61 blocks " + ChatColor.GRAY + "away."
             );
+        }
+
+        @Override
+        public double getBaseManaCost(PlayerSD player) {
+            return 180;
         }
 
         @Override
