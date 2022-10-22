@@ -1,6 +1,7 @@
-package me.maxiiiiii.skyblockdragons.item.objects;
+package me.maxiiiiii.skyblockdragons.item.objects.fullset;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import org.bukkit.ChatColor;
 
 @Getter

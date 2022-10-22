@@ -7,7 +7,7 @@ import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemFullSet;
+import me.maxiiiiii.skyblockdragons.item.objects.fullset.ItemFullSet;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;

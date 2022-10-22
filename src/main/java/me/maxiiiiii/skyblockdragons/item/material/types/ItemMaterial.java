@@ -1,13 +1,9 @@
 package me.maxiiiiii.skyblockdragons.item.material.types;
 
-import lombok.Getter;
 import lombok.ToString;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
-import me.maxiiiiii.skyblockdragons.item.objects.MaterialSD;
-import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Material;
@@ -16,7 +12,6 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import java.util.HashMap;
 import java.util.Map;
 
-@Getter
 @ToString
 public abstract class ItemMaterial implements ConfigurationSerializable, MaterialSD, Comparable<ItemMaterial> {
     protected final String itemID;
@@ -26,9 +21,7 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
     protected String name;
     protected ItemType type;
     protected Rarity rarity;
-    protected String id;
-    protected String nbt;
-    protected double sellPrice;
+    protected int id;
 
     public ItemMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity) {
         this.itemID = itemID;
@@ -37,11 +30,13 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
         this.name = name;
         this.type = type;
         this.rarity = rarity;
-        this.id = "";
-        this.nbt = "";
-        this.sellPrice = 0;
+        this.id = 0;
 
         // TODO: register item
+    }
+
+    public ItemSkull getItemSkull() {
+        return null;
     }
 
     public abstract void updateStats(PlayerStats stats);

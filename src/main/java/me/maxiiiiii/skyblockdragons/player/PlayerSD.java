@@ -408,12 +408,12 @@ public class PlayerSD extends PlayerClass {
 
 
         // Pets
-        if (this.getPlayerPet().getActivePet() >= 0) {
-            if (this.getPetActive().getPetMaterial() == PetMaterial.get("ENDER_DRAGON")) {
-                double amount = this.getPetActive().getLevel() * 0.1;
-                stats.getMultiplayer().increase(0, amount, amount, amount, amount, 0, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, 0);
-            }
-        }
+//        if (this.getPlayerPet().getActivePet() >= 0) {
+//            if (this.getPetActive().getPetMaterial() == PetMaterial.get("ENDER_DRAGON")) {
+//                double amount = this.getPetActive().getLevel() * 0.1;
+//                stats.getMultiplayer().increase(0, amount, amount, amount, amount, 0, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, 0);
+//            }
+//        }
 
         stats.applyMultipliers();
         abilityCostMultiplier.reset();

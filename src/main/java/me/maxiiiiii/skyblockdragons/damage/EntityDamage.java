@@ -14,18 +14,28 @@ public class EntityDamage<A extends EntitySD, V extends EntitySD> {
     private final A attacker;
     private final V victim;
     private final Damage.DamageType damageType;
+    private final EntitySD.Equipment equipment;
     private final Multiplier multiplier;
     private boolean isCritHit = false;
 
-    public EntityDamage(A attacker, V victim, Damage.DamageType damageType) {
+    public EntityDamage(A attacker, V victim, Damage.DamageType damageType, EntitySD.Equipment equipment) {
         this.attacker = attacker;
         this.victim = victim;
         this.damageType = damageType;
+        this.equipment = equipment;
         this.multiplier = new Multiplier();
     }
 
+    public EntityDamage(A attacker, V victim, Damage.DamageType damageType) {
+        this(attacker, victim, damageType, attacker.getItems());
+    }
+
+    public EntityDamage(A attacker, V victim, EntitySD.Equipment equipment) {
+        this(attacker, victim, DEFAULT_DAMAGE_TYPE, equipment);
+    }
+
     public EntityDamage(A attacker, V victim) {
-        this(attacker, victim, DEFAULT_DAMAGE_TYPE);
+        this(attacker, victim, DEFAULT_DAMAGE_TYPE, attacker.getItems());
     }
 
     public int getFinalDamage() { // TODO:

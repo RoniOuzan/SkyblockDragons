@@ -10,6 +10,7 @@ public enum AbilityAction {
     LEFT_NOT_SHIFT_CLICK("LEFT CLICK"),
     RIGHT_NOT_SHIFT_CLICK("RIGHT CLICK"),
     SHOOT(""), // TODO
+    SNEAK("SNEAK"), // TODO
     NONE(""),
     NULL("NULL");
 

@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.admin.armor;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.fullset.ItemFullSet;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -16,9 +17,7 @@ public class AdminSurvivalChestplate extends ArmorMaterial {
                 ItemType.CHESTPLATE,
                 Rarity.SPECIAL,
                 new Stats(0, 0, 0, 0, 0, 0, 100000, 10000000, 100, 0),
-                "",
-                ItemFullSet.NULL,
-                (Color) null
+                ""
         );
     }
 

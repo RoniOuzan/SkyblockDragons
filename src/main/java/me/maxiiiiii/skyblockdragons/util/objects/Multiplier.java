@@ -22,13 +22,13 @@ public class Multiplier {
     }
 
     public double multiply(double amount) {
-        amount *= this.baseMultiplier;
-        amount *= this.postMultiplier;
+        amount *= this.baseMultiplier / 100;
+        amount *= this.postMultiplier / 100;
         return amount;
     }
 
     public void reset() {
-        this.baseMultiplier = 1;
-        this.postMultiplier = 1;
+        this.baseMultiplier = 100;
+        this.postMultiplier = 100;
     }
 }
