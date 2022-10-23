@@ -56,10 +56,6 @@ public class Items {
         // Old
 
         // Eternity
-        items.put("ETERNITY_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.ETERNITY, "Enternity Helmet", ItemType.HELMET, Rarity.LEGENDARY, "c9add4d5-2750-4246-ace7-1437f05154ec", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2MzZTU0YzE2NGY0NWY2ZmQ5ZWNmZmQ3NmIxYjYwZGUzNWU4OTZlODUxMDVmOGVkZDU1NTZmNmEzMDU3YjdmMyJ9fX0=", new Stats(0, 0, 0, 0, 0, 0, 90, 110, 0, 0), "", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 25)));
-        items.put("ETERNITY_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.ETERNITY, "Enternity Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 40, 30, 0, 0, 0, 260, 140, 0, 10), "", ItemFullSet.NULL, Color.fromRGB(67,143,167)));
-        items.put("ETERNITY_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.ETERNITY, "Enternity Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 40, 30, 0, 0, 0, 260, 140, 0, 10), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
-        items.put("ETERNITY_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.ETERNITY, "Enternity Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 40, 30, 0, 0, 0, 260, 140, 0, 10), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
 
         // Bear
         items.put("GRIZZLY_BEAR_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.GRIZZLY_BEAR, "Grizzly Bear Helmet", ItemType.HELMET, Rarity.LEGENDARY, "16a37715-3d58-407c-87f8-c18c1198ea6d", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmRmZTcwOWRhMmNmMzJlMWUyNzNmNWQ3MmM2NmZjMzZkYzY0MzY2ZmVjZDk4MGFhNmIxNDgwZDc5YmM2NGNkNyJ9fX0=", new Stats(0, 20, 20, 15, 0, 20, 800, 300, 0, 50), "", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 15)));
@@ -119,6 +115,7 @@ public class Items {
         items.put("VOID_CRYSTAL_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.VOID_CRYSTAL, "Void Crystal Chestplate", ItemType.CHESTPLATE, Rarity.MYTHIC, new Stats(145, 140, 120, 30, 310, 110, 20), "", ItemFullSet.VOID_CRYSTAL, Color.fromRGB(180, 40, 225)));
         items.put("VOID_CRYSTAL_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.VOID_CRYSTAL, "Void Crystal Leggings", ItemType.LEGGINGS, Rarity.MYTHIC, new Stats(140, 135, 80, 30, 290, 105, 20), "", ItemFullSet.VOID_CRYSTAL, Color.fromRGB(190, 60, 230)));
         items.put("VOID_CRYSTAL_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.VOID_CRYSTAL, "Void Crystal Boots", ItemType.BOOTS, Rarity.MYTHIC, new Stats(130, 120, 60, 30, 260, 90, 20), "", ItemFullSet.VOID_CRYSTAL, Color.fromRGB(200, 70, 235)));
+
         // Tools
         items.put("WOOD_PICKAXE", new MiningMaterial(Material.WOOD_PICKAXE, ItemFamily.WOOD, "Wood Pickaxe", ItemType.PICKAXE, Rarity.COMMON, new Stats(50, 0), 1, ""));
         items.put("STONE_PICKAXE", new MiningMaterial(Material.STONE_PICKAXE, ItemFamily.STONE, "Stone Pickaxe", ItemType.PICKAXE, Rarity.COMMON, new Stats(80, 0), 2, ""));
