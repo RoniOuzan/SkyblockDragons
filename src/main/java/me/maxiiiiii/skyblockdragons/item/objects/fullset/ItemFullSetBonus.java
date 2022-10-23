@@ -31,11 +31,11 @@ public abstract class ItemFullSetBonus extends ItemAbility {
         this(AbilityAction.NONE, name, description, 4);
     }
 
-    public void updateStats(PlayerStats stats) {
+    public void updateStats(PlayerStats stats) { // TODO
 
     }
 
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
+    public void updateDamage(EntityDamage<?, ?> entityDamage) { // TODO
 
     }
 
