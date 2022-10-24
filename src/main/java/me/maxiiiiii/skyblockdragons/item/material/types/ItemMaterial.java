@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.material.types;
 
+import lombok.Getter;
 import lombok.ToString;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ToString
+@Getter
 public abstract class ItemMaterial implements ConfigurationSerializable, MaterialSD, Comparable<ItemMaterial> {
     protected final String itemID;
     
