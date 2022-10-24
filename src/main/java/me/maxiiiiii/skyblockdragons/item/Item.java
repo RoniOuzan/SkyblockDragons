@@ -186,7 +186,7 @@ public class Item extends ItemStack {
             if (isNotLastEmpty(lores)) lores.add("");
 
             lores.add(material.getRarity().getColor() + "Orb Buff: " + material.getPowerOrbName());
-            lores.addAll(Functions.loreBuilder(material.getPowerOrbDescription(), ChatColor.GRAY, 50));
+            lores.addAll(Functions.loreBuilder(material.getDescription(), ChatColor.GRAY, 50));
         } else if (this.material instanceof NormalMaterial) {
             NormalMaterial material = (NormalMaterial) this.material;
 

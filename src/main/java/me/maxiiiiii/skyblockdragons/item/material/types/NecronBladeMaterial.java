@@ -36,7 +36,7 @@ public abstract class NecronBladeMaterial extends SwordMaterial {
         }
     }
 
-    public static class NecronBladeScroll extends ToolMaterial {
+    public static abstract class NecronBladeScroll extends ToolMaterial {
         public NecronBladeScroll(String itemID, Material material, String name, Rarity rarity, String description, MaterialModifier... modifiers) {
             super(itemID, material, ItemFamily.SCROLL, name, ItemType.ITEM, rarity, description, modifiers);
         }

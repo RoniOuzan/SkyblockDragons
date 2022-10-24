@@ -50,13 +50,16 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
     }
 
     public String name() {
+        if (this.itemID.equals(QuickMaterial.itemID)) {
+            for (String key : Items.items.keySet()) {
+                if (Items.items.get(key) == this) {
+                    return key;
+                }
+            }
+            return "NULL";
+        }
+
         return this.itemID;
-//        for (String key : Items.items.keySet()) {
-//            if (Items.items.get(key) == this) {
-//                return key;
-//            }
-//        }
-//        return "";
     }
 
     @Override
