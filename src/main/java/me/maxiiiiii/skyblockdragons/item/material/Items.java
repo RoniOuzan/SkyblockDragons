@@ -86,71 +86,15 @@ public class Items {
 
         // Deeper Mines
         // Cobalt
-        items.put("COBALT_HELMET", new ArmorMaterial(Material.DIAMOND_HELMET, ItemFamily.COBALT, "Cobalt Helmet", ItemType.HELMET, Rarity.COMMON, new Stats(35, 25, 0, 20, 75, 20, 0), "", ItemFullSet.COBALT));
-        items.put("COBALT_CHESTPLATE", new ArmorMaterial(Material.DIAMOND_CHESTPLATE, ItemFamily.COBALT, "Cobalt Chestplate", ItemType.CHESTPLATE, Rarity.COMMON, new Stats(50, 35, 0, 20, 90, 25, 0), "", ItemFullSet.COBALT));
-        items.put("COBALT_LEGGINGS", new ArmorMaterial(Material.DIAMOND_LEGGINGS, ItemFamily.COBALT, "Cobalt Leggings", ItemType.LEGGINGS, Rarity.COMMON, new Stats(40, 30, 0, 20, 80, 20, 0), "", ItemFullSet.COBALT));
-        items.put("COBALT_BOOTS", new ArmorMaterial(Material.DIAMOND_BOOTS, ItemFamily.COBALT, "Cobalt Boots", ItemType.BOOTS, Rarity.COMMON, new Stats(35, 20, 0, 20, 70, 15, 0), "", ItemFullSet.COBALT));
         // Chlorophyte
-        items.put("CHLOROPHYTE_HELMET", new ArmorMaterial(Material.LEATHER_HELMET, ItemFamily.CHLOROPHYTE, "Chlorophyte Helmet", ItemType.HELMET, Rarity.UNCOMMON, new Stats(50, 35, 0, 20, 115, 25, 0), "", ItemFullSet.CHLOROPHYTE, Color.fromRGB(27, 190, 0)));
-        items.put("CHLOROPHYTE_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.CHLOROPHYTE, "Chlorophyte Chestplate", ItemType.CHESTPLATE, Rarity.UNCOMMON, new Stats(65, 45, 0, 20, 125, 35, 0), "", ItemFullSet.CHLOROPHYTE, Color.fromRGB(20, 205, 0)));
-        items.put("CHLOROPHYTE_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.CHLOROPHYTE, "Chlorophyte Leggings", ItemType.LEGGINGS, Rarity.UNCOMMON, new Stats(60, 40, 0, 20, 120, 30, 0), "", ItemFullSet.CHLOROPHYTE, Color.fromRGB(23, 228, 0)));
-        items.put("CHLOROPHYTE_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.CHLOROPHYTE, "Chlorophyte Boots", ItemType.BOOTS, Rarity.UNCOMMON, new Stats(45, 35, 0, 20, 110, 25, 0), "", ItemFullSet.CHLOROPHYTE, Color.fromRGB(26, 255, 0)));
         // Luminate
-        items.put("LUMINATE_HELMET", new ArmorMaterial(Material.CHAINMAIL_HELMET, ItemFamily.LUMINATE, "Luminate Helmet", ItemType.HELMET, Rarity.RARE, new Stats(70, 60, 0, 20, 165, 40, 2), "", ItemFullSet.LUMINATE));
-        items.put("LUMINATE_CHESTPLATE", new ArmorMaterial(Material.IRON_CHESTPLATE, ItemFamily.LUMINATE, "Luminate Chestplate", ItemType.CHESTPLATE, Rarity.RARE, new Stats(85, 70, 0, 20, 125, 50, 2), "", ItemFullSet.LUMINATE));
-        items.put("LUMINATE_LEGGINGS", new ArmorMaterial(Material.CHAINMAIL_LEGGINGS, ItemFamily.LUMINATE, "Luminate Leggings", ItemType.LEGGINGS, Rarity.RARE, new Stats(80, 65, 0, 20, 120, 45, 2), "", ItemFullSet.LUMINATE));
-        items.put("LUMINATE_BOOTS", new ArmorMaterial(Material.IRON_BOOTS, ItemFamily.LUMINATE, "Luminate Boots", ItemType.BOOTS, Rarity.RARE, new Stats(65, 55, 0, 20, 150, 35, 2), "", ItemFullSet.LUMINATE));
         // Dernic
-        items.put("DERNIC_HELMET", new ArmorMaterial(Material.LEATHER_HELMET, ItemFamily.LUMINATE, "Dernic Helmet", ItemType.HELMET, Rarity.EPIC, new Stats(85, 90, 0, 30, 190, 65, 5), "", ItemFullSet.DERNIC, Color.fromRGB(200, 105, 40)));
-        items.put("DERNIC_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.LUMINATE, "Dernic Chestplate", ItemType.CHESTPLATE, Rarity.EPIC, new Stats(100, 105, 0, 30, 205, 80, 5), "", ItemFullSet.DERNIC, Color.fromRGB(190, 100, 35)));
-        items.put("DERNIC_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.LUMINATE, "Dernic Leggings", ItemType.LEGGINGS, Rarity.EPIC, new Stats(90, 100, 0, 30, 200, 75, 5), "", ItemFullSet.DERNIC, Color.fromRGB(140, 85, 25)));
-        items.put("DERNIC_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.LUMINATE, "Dernic Boots", ItemType.BOOTS, Rarity.EPIC, new Stats(80, 85, 0, 30, 180, 60, 5), "", ItemFullSet.DERNIC, Color.fromRGB(130, 85, 25)));
         // Hematite
-        items.put("HEMATITE_HELMET", new ArmorMaterial(Material.LEATHER_HELMET, ItemFamily.HEMATITE, "Hematite Helmet", ItemType.HELMET, Rarity.LEGENDARY, new Stats(115, 90, 50, 30, 275, 95, 10), "", ItemFullSet.HEMATITE, Color.fromRGB(120, 0, 0)));
-        items.put("HEMATITE_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.HEMATITE, "Hematite Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(130, 105, 80, 30, 310, 110, 10), "", ItemFullSet.HEMATITE, Color.fromRGB(100, 0, 0)));
-        items.put("HEMATITE_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.HEMATITE, "Hematite Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(125, 100, 60, 30, 290, 105, 10), "", ItemFullSet.HEMATITE, Color.fromRGB(70, 0, 0)));
-        items.put("HEMATITE_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.HEMATITE  , "Hematite Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(105, 85, 40, 30, 260, 90, 10), "", ItemFullSet.HEMATITE, Color.fromRGB(40, 0, 0)));
         // Void Crystal
-        items.put("VOID_CRYSTAL_HELMET", new ArmorMaterial(Material.LEATHER_HELMET, ItemFamily.VOID_CRYSTAL, "Void Crystal Helmet", ItemType.HELMET, Rarity.MYTHIC, new Stats(135, 125, 70, 30, 275, 95, 20), "", ItemFullSet.VOID_CRYSTAL, Color.fromRGB(160, 20, 210)));
-        items.put("VOID_CRYSTAL_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.VOID_CRYSTAL, "Void Crystal Chestplate", ItemType.CHESTPLATE, Rarity.MYTHIC, new Stats(145, 140, 120, 30, 310, 110, 20), "", ItemFullSet.VOID_CRYSTAL, Color.fromRGB(180, 40, 225)));
-        items.put("VOID_CRYSTAL_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.VOID_CRYSTAL, "Void Crystal Leggings", ItemType.LEGGINGS, Rarity.MYTHIC, new Stats(140, 135, 80, 30, 290, 105, 20), "", ItemFullSet.VOID_CRYSTAL, Color.fromRGB(190, 60, 230)));
-        items.put("VOID_CRYSTAL_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.VOID_CRYSTAL, "Void Crystal Boots", ItemType.BOOTS, Rarity.MYTHIC, new Stats(130, 120, 60, 30, 260, 90, 20), "", ItemFullSet.VOID_CRYSTAL, Color.fromRGB(200, 70, 235)));
 
         // Tools
-        items.put("WOOD_PICKAXE", new MiningMaterial(Material.WOOD_PICKAXE, ItemFamily.WOOD, "Wood Pickaxe", ItemType.PICKAXE, Rarity.COMMON, new Stats(50, 0), 1, ""));
-        items.put("STONE_PICKAXE", new MiningMaterial(Material.STONE_PICKAXE, ItemFamily.STONE, "Stone Pickaxe", ItemType.PICKAXE, Rarity.COMMON, new Stats(80, 0), 2, ""));
-        items.put("IRON_PICKAXE", new MiningMaterial(Material.IRON_PICKAXE, ItemFamily.IRON, "Iron Pickaxe", ItemType.PICKAXE, Rarity.COMMON, new Stats(120, 0), 3, ""));
-        items.put("GOLD_PICKAXE", new MiningMaterial(Material.GOLD_PICKAXE, ItemFamily.GOLD, "Gold Pickaxe", ItemType.PICKAXE, Rarity.COMMON, new Stats(300, 0), 1, ""));
-        items.put("DIAMOND_PICKAXE", new MiningMaterial(Material.DIAMOND_PICKAXE, ItemFamily.DIAMOND, "Diamond Pickaxe", ItemType.PICKAXE, Rarity.UNCOMMON, new Stats(230, 0), 4, ""));
-
-        items.put("WOOD_AXE", new MiningMaterial(Material.WOOD_AXE, ItemFamily.WOOD, "Wood Axe", ItemType.AXE, Rarity.COMMON, new Stats(50, 0), 1, ""));
-        items.put("STONE_AXE", new MiningMaterial(Material.STONE_AXE, ItemFamily.STONE, "Stone Axe", ItemType.AXE, Rarity.COMMON, new Stats(80, 5), 1, ""));
-        items.put("IRON_AXE", new MiningMaterial(Material.IRON_AXE, ItemFamily.IRON, "Iron Axe", ItemType.AXE, Rarity.COMMON, new Stats(120, 0), 1, ""));
-        items.put("GOLD_AXE", new MiningMaterial(Material.GOLD_AXE, ItemFamily.GOLD, "Gold Axe", ItemType.AXE, Rarity.COMMON, new Stats(300, 0), 1, ""));
-        items.put("DIAMOND_AXE", new MiningMaterial(Material.DIAMOND_AXE, ItemFamily.DIAMOND, "Diamond Axe", ItemType.AXE, Rarity.UNCOMMON, new Stats(230, 0), 1, ""));
-
-        items.put("WOOD_SPADE", new MiningMaterial(Material.WOOD_SPADE, ItemFamily.WOOD, "Wood Spade", ItemType.SPADE, Rarity.COMMON, new Stats(50, 0), 1, ""));
-        items.put("STONE_SPADE", new MiningMaterial(Material.STONE_SPADE, ItemFamily.STONE, "Stone Spade", ItemType.SPADE, Rarity.COMMON, new Stats(80, 0), 1, ""));
-        items.put("IRON_SPADE", new MiningMaterial(Material.IRON_SPADE, ItemFamily.IRON, "Iron Spade", ItemType.SPADE, Rarity.COMMON, new Stats(120, 0), 1, ""));
-        items.put("GOLD_SPADE", new MiningMaterial(Material.GOLD_SPADE, ItemFamily.GOLD, "Gold Spade", ItemType.SPADE, Rarity.COMMON, new Stats(300, 0), 1, ""));
-        items.put("DIAMOND_SPADE", new MiningMaterial(Material.DIAMOND_SPADE, ItemFamily.DIAMOND, "Diamond Spade", ItemType.SPADE, Rarity.UNCOMMON, new Stats(230, 0), 1, ""));
-
-        items.put("WOOD_HOE", new MiningMaterial(Material.WOOD_HOE, ItemFamily.WOOD, "Wood Hoe", ItemType.HOE, Rarity.COMMON, new Stats(50, 0), 1, ""));
-        items.put("STONE_HOE", new MiningMaterial(Material.STONE_HOE, ItemFamily.STONE, "Stone Hoe", ItemType.HOE, Rarity.COMMON, new Stats(80, 0), 1, ""));
-        items.put("IRON_HOE", new MiningMaterial(Material.IRON_HOE, ItemFamily.IRON, "Iron Hoe", ItemType.HOE, Rarity.COMMON, new Stats(120, 0), 1, ""));
-        items.put("GOLD_HOE", new MiningMaterial(Material.GOLD_HOE, ItemFamily.GOLD, "Gold Hoe", ItemType.HOE, Rarity.COMMON, new Stats(300, 0), 1, ""));
-        items.put("DIAMOND_HOE", new MiningMaterial(Material.DIAMOND_HOE, ItemFamily.DIAMOND, "Diamond Hoe", ItemType.HOE, Rarity.UNCOMMON, new Stats(230, 0), 1, ""));
-
-        items.put("TREE_CAPITATOR", new MiningMaterial(Material.GOLD_AXE, ItemFamily.JUNGLE_AXE, "Tree Capitator", ItemType.AXE, Rarity.EPIC, 1, "A forceful Gold Axe which can break a large amount of logs in a single hit!", new ItemAbility(AbilityAction.NULL, "", "")));
-        items.put("WORLD_EATER", new MiningMaterial(Material.DIAMOND_PICKAXE, ItemFamily.JUNGLE_AXE, "World Eater", ItemType.PICKAXE, Rarity.DIVINE, 10, ChatColor.ITALIC + "I became a world ERROR.", new ItemAbility(AbilityAction.NULL, "", "")));
 
         // Drills
-        items.put("COBALT_DRILL", new DrillMaterial(Material.PRISMARINE_SHARD, ItemFamily.COBALT, "Cobalt Drill", Rarity.COMMON, new Stats(70, 0, 0, 0, 0, 0, 420, 60), 5, ""));
-        items.put("CHLOROPHYTE_DRILL", new DrillMaterial(Material.PRISMARINE_SHARD, ItemFamily.CHLOROPHYTE, "Chlorophyte Drill", Rarity.UNCOMMON, new Stats(90, 0, 0, 0, 0, 0, 600, 110), 6, ""));
-        items.put("LUMINATE_DRILL", new DrillMaterial(Material.PRISMARINE_SHARD, ItemFamily.LUMINATE, "Luminate Drill", Rarity.RARE, new Stats(120, 20, 0, 0, 0, 0, 730, 160), 7, ""));
-        items.put("DERNIC_DRILL", new DrillMaterial(Material.PRISMARINE_SHARD, ItemFamily.DERNIC, "Dernic Drill", Rarity.EPIC, new Stats(155, 35, 0, 0, 0, 0, 910, 210), 8, ""));
-        items.put("HEMATITE_DRILL", new DrillMaterial(Material.PRISMARINE_SHARD, ItemFamily.HEMATITE, "Hematite Drill", Rarity.LEGENDARY, new Stats(190, 35, 0, 0, 0, 0, 1320, 290), 9, ""));
-        items.put("VOID_CRYSTAL_DRILL", new DrillMaterial(Material.PRISMARINE_SHARD, ItemFamily.VOID_CRYSTAL, "Void Crystal Drill", Rarity.MYTHIC, new Stats(265, 60, 0, 0, 0, 0, 1610, 410), 10, ""));
 
 
         // Reforges

@@ -10,15 +10,15 @@ import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.Material;
 
-public class CobaltBoots extends ArmorMaterial {
-    public CobaltBoots() {
-        super("COBALT_BOOTS",
-                Material.DIAMOND_BOOTS,
+public class CobaltLeggings extends ArmorMaterial {
+    public CobaltLeggings() {
+        super("COBALT_LEGGINGS",
+                Material.DIAMOND_LEGGINGS,
                 ItemFamily.COBALT,
-                "Cobalt Boots",
-                ItemType.BOOTS,
+                "Cobalt Leggings",
+                ItemType.LEGGINGS,
                 Rarity.COMMON,
-                new Stats(35, 20, 0, 20, 70, 15, 0),
+                new Stats(40, 30, 0, 20, 80, 20, 0),
                 "",
                 new DeeperMinesFullSet(5)
         );

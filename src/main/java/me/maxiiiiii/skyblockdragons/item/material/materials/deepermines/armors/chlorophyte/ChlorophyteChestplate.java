@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.item.material.materials.deepermines.armors.cobalt;
+package me.maxiiiiii.skyblockdragons.item.material.materials.deepermines.armors.chlorophyte;
 
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.materials.deepermines.armors.DeeperMinesFullSet;
@@ -8,20 +8,26 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
+import org.bukkit.Color;
 import org.bukkit.Material;
 
-public class CobaltBoots extends ArmorMaterial {
-    public CobaltBoots() {
-        super("COBALT_BOOTS",
-                Material.DIAMOND_BOOTS,
-                ItemFamily.COBALT,
-                "Cobalt Boots",
-                ItemType.BOOTS,
-                Rarity.COMMON,
-                new Stats(35, 20, 0, 20, 70, 15, 0),
+public class ChlorophyteChestplate extends ArmorMaterial {
+    public ChlorophyteChestplate() {
+        super("CHLOROPHYTE_CHESTPLATE",
+                Material.LEATHER_CHESTPLATE,
+                ItemFamily.CHLOROPHYTE,
+                "Chlorophyte Chestplate",
+                ItemType.CHESTPLATE,
+                Rarity.UNCOMMON,
+                new Stats(65, 45, 0, 20, 125, 35, 0),
                 "",
-                new DeeperMinesFullSet(5)
+                new DeeperMinesFullSet(10)
         );
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.fromRGB(20, 205, 0);
     }
 
     @Override
