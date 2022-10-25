@@ -38,6 +38,11 @@ public class QuickNormalMaterial extends NormalMaterial implements QuickMaterial
         this(material, family, name, type, rarity, "", "", "", false, false, true);
     }
 
+    public QuickNormalMaterial setData(int data) {
+        this.data = data;
+        return this;
+    }
+
     @Override
     public ItemSkull getItemSkull() {
         if (nbt.isEmpty())

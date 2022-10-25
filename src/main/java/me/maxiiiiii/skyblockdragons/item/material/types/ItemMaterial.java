@@ -23,7 +23,7 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
     protected String name;
     protected ItemType type;
     protected Rarity rarity;
-    protected int id;
+    protected int data;
 
     public ItemMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity) {
         this.itemID = itemID;
@@ -32,13 +32,15 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
         this.name = name;
         this.type = type;
         this.rarity = rarity;
-        this.id = 0;
-
-        // TODO: register item
+        this.data = 0;
     }
 
     public ItemSkull getItemSkull() {
         return null;
+    }
+
+    public int getData() {
+        return this.data;
     }
 
     public abstract void updateStats(PlayerStats stats);

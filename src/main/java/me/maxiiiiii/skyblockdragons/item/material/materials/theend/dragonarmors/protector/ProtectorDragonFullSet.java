@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.protector;
 
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.item.objects.fullset.ItemFullSetBonus;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.objects.Priority;
 import org.bukkit.ChatColor;

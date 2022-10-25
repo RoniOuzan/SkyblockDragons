@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.accessories.enderman;
+package me.maxiiiiii.skyblockdragons.item.material.materials.theend.accessories.enderman;
 
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.AccessoryMaterial;

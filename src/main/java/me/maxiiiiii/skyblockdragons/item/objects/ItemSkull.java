@@ -1,20 +1,25 @@
 package me.maxiiiiii.skyblockdragons.item.objects;
 
-import lombok.Getter;
-
 import java.util.function.Supplier;
 
-@Getter
 public class ItemSkull {
     private final Supplier<String> id;
-    private final Supplier<String> nbt;
+    private final Supplier<String> value;
 
-    public ItemSkull(Supplier<String> id, Supplier<String> nbt) {
+    public ItemSkull(Supplier<String> id, Supplier<String> value) {
         this.id = id;
-        this.nbt = nbt;
+        this.value = value;
     }
 
-    public ItemSkull(String id, String nbt) {
-        this(() -> id, () -> nbt);
+    public ItemSkull(String id, String value) {
+        this(() -> id, () -> value);
+    }
+
+    public String getValue() {
+        return value.get();
+    }
+
+    public String getId() {
+        return id.get();
     }
 }

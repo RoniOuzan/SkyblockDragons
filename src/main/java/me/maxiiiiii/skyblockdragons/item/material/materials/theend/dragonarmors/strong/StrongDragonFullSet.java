@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors
 
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.materials.theend.swords.AspectOfTheEnd;
-import me.maxiiiiii.skyblockdragons.item.objects.fullset.ItemFullSetBonus;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import org.bukkit.ChatColor;
 
 public class StrongDragonFullSet extends ItemFullSetBonus {

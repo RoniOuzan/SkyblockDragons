@@ -117,7 +117,7 @@ public class Pet extends Item implements Comparable<Pet> {
         NBTItem nbtItem = new NBTItem(item, true);
 
         NBTCompound skull = nbtItem.addCompound("SkullOwner");
-        skull.setString("Id", this.petMaterial.getId());
+        skull.setString("Id", this.petMaterial.getData()); // TODO
         NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
         texture.setString("Value", this.petMaterial.getNbt());
 
@@ -206,7 +206,7 @@ public class Pet extends Item implements Comparable<Pet> {
         NBTItem nbtItem = new NBTItem(this, true);
 
         NBTCompound skull = nbtItem.addCompound("SkullOwner");
-        skull.setString("Id", this.petMaterial.getId());
+        skull.setString("Id", this.petMaterial.getData());
         NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
         texture.setString("Value", this.petMaterial.getNbt());
 
@@ -266,7 +266,7 @@ public class Pet extends Item implements Comparable<Pet> {
             NBTCompound nbt = nbtItem.getCompound("Item");
             String petMaterial = nbt.getString("id");
             petMaterial = petMaterial.replaceAll("_PET", "");
-            Rarity rarity = Functions.getRarity(nbt.getInteger("Rarity"));
+            Rarity rarity = Rarity.getRarity(nbt.getInteger("Rarity"));
             int level = nbt.getInteger("Level");
             double currentXp = nbt.getDouble("CurrentXp");
             return new Pet(Items.pets.get(petMaterial), rarity, level, currentXp, rightClickToAdd);

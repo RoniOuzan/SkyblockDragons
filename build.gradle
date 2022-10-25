@@ -75,6 +75,7 @@ dependencies {
     compileOnly 'net.citizensnpcs:citizens-main:2.0.29-SNAPSHOT'
     compileOnly 'com.sk89q.worldedit:worldedit-bukkit:6.1.4-SNAPSHOT'
     compileOnly 'com.sk89q.worldedit:worldedit-core:6.1.4-SNAPSHOT'
+    implementation 'org.reflections:reflections:0.10.2'
 }
 
 tasks.jar.configure {

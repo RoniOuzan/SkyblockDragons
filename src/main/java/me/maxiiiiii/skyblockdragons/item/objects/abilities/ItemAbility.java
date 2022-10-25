@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.objects.abilities;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
@@ -8,7 +9,9 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbility
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.costs.ItemAbilityManaCost;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.costs.ItemAbilityManaCostPercentage;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
@@ -18,13 +21,15 @@ import java.util.Map;
 
 @Getter
 public abstract class ItemAbility implements MaterialModifier {
+    @Getter(AccessLevel.NONE) private final String abilityTitle;
     private final AbilityAction action;
     private final String name;
     private final String description;
 
-    protected final Map<PlayerSD, ItemAbilityPerPlayer> abilities = new HashMap<>();
+    protected final Map<PlayerSD, ItemAbilityPerPlayer> users = new HashMap<>();
 
-    protected ItemAbility(AbilityAction action, String name, String description) {
+    protected ItemAbility(String abilityTitle, AbilityAction action, String name, String description) {
+        this.abilityTitle = abilityTitle;
         this.action = action;
         this.name = name;
         this.description = description;
@@ -32,6 +37,10 @@ public abstract class ItemAbility implements MaterialModifier {
         if (this instanceof Listener) {
             Bukkit.getPluginManager().registerEvents((Listener) this, SkyblockDragons.plugin);
         }
+    }
+
+    protected ItemAbility(AbilityAction action, String name, String description) {
+        this("Item Ability:", action, name, description);
     }
 
     public boolean hasCosts(PlayerSD player) {
@@ -49,21 +58,24 @@ public abstract class ItemAbility implements MaterialModifier {
     public abstract PlayerAbilityRunnable setupAbility();
 
     public void onPlayerUse(PlayerAbilityUsage abilityUsage) {
-        if (!abilities.containsKey(abilityUsage.getPlayer())) {
-            abilities.put(abilityUsage.getPlayer(), new ItemAbilityPerPlayer(abilityUsage.getPlayer(), this, setupAbility()));
+        if (!users.containsKey(abilityUsage.getPlayer())) {
+            users.put(abilityUsage.getPlayer(), new ItemAbilityPerPlayer(abilityUsage.getPlayer(), this, setupAbility()));
         }
-        abilities.get(abilityUsage.getPlayer()).run(abilityUsage);
+        users.get(abilityUsage.getPlayer()).run(abilityUsage);
     }
 
-    public List<String> getModifiersLore(PlayerSD player) {
+    public List<String> getLore(PlayerSD player) {
         List<String> lores = new ArrayList<>();
+        lores.add(ChatColor.GOLD + abilityTitle + " " + name + " " + action.toString());
+        lores.addAll(Functions.loreBuilder(this.description));
+
         if (this instanceof ItemAbilityCooldown) ItemAbilityCooldown.getLine((ItemAbilityCooldown) this, player);
         if (this instanceof ItemAbilityManaCost) ItemAbilityManaCost.getLine((ItemAbilityManaCost) this, player);
         if (this instanceof ItemAbilityManaCostPercentage) ItemAbilityManaCostPercentage.getLine((ItemAbilityManaCostPercentage) this, player);
         return lores;
     }
 
-    public ItemAbilityPerPlayer getAbilityOfPlayer(PlayerSD player) {
-        return abilities.get(player);
+    protected ItemAbilityPerPlayer getAbilityOfPlayer(PlayerSD player) {
+        return users.get(player);
     }
 }

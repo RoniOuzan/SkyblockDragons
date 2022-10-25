@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.accessories.king;
+package me.maxiiiiii.skyblockdragons.item.material.materials.deepermines.accessories.king;
 
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.AccessoryMaterial;

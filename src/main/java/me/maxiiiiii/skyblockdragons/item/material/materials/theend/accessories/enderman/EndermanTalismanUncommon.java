@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.accessories.enderman;
+package me.maxiiiiii.skyblockdragons.item.material.materials.theend.accessories.enderman;
 
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.AccessoryMaterial;
@@ -9,22 +9,22 @@ import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.Material;
 
-public class EndermanTalismanCommon extends AccessoryMaterial {
-    public EndermanTalismanCommon() {
-        super("ENDERMAN_TALISMAN_COMMON",
+public class EndermanTalismanUncommon extends AccessoryMaterial {
+    public EndermanTalismanUncommon() {
+        super("ENDERMAN_TALISMAN_UNCOMMON",
                 Material.SKULL_ITEM,
                 ItemFamily.ENDERMAN,
                 "Enderman Talisman",
-                Rarity.COMMON,
-                new Stats(0, 2, 2, 0, 0, 0),
+                Rarity.UNCOMMON,
+                new Stats(0, 4, 2, 0, 0, 0),
                 ""
         );
     }
 
     @Override
     public ItemSkull getItemSkull() {
-        return new ItemSkull("0575cc58-309c-4598-9876-e3df5b8f4315",
-                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzA0ZWZlMTU1ZWNhMjFhZDhlZmNiYTlkMThmMTBhMjU5MTA2MTI2NDgwYWY0MzlkYjA4OTVhZjQyOWY5Zjc2NCJ9fX0="
+        return new ItemSkull("4cc3ce0e-15ac-4c8c-974d-149b4f0014b4",
+                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmM0NGRmY2QzNDM4OTg3MGNjZDRkZjEyYzZjODdjMzI1Nzg3OTdhZmQ0NmU2YzFkZTI4ZDY3YjFkZGY3YjllMSJ9fX0="
         );
     }
 

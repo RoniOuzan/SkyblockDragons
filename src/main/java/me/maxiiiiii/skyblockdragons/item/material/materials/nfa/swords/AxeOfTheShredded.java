@@ -55,7 +55,7 @@ public class AxeOfTheShredded extends SwordMaterial {
 
         @Override
         public double getBaseManaCost(PlayerSD player) {
-            return abilities.containsKey(player) ? ((ThrowRunnable) getAbilityOfPlayer(player).getRunnable()).manaCost : 20;
+            return users.containsKey(player) ? ((ThrowRunnable) getAbilityOfPlayer(player).getRunnable()).manaCost : 20;
         }
 
         @Override

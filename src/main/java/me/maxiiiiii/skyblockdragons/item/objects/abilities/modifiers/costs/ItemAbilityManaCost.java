@@ -7,6 +7,9 @@ public interface ItemAbilityManaCost {
     double getBaseManaCost(PlayerSD player);
 
     default double getFinalCost(PlayerSD player) {
+        if (player == null)
+            return this.getBaseManaCost(null);
+
         return player.getAbilityCost(this.getBaseManaCost(player));
     }
 

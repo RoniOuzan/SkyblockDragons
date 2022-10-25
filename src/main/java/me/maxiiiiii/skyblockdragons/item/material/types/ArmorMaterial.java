@@ -6,6 +6,7 @@ import me.maxiiiiii.skyblockdragons.item.material.interfaces.*;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.NullItemAbility;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
 import org.bukkit.Color;
@@ -33,5 +34,9 @@ public abstract class ArmorMaterial extends ItemMaterial implements ItemStatsAbl
 
     public Color getColor() {
         return null;
+    }
+
+    public ItemFullSetBonus getFullSet() {
+        return (ItemFullSetBonus) this.abilities.stream().filter(a -> a instanceof ItemFullSetBonus).findFirst().orElse(null);
     }
 }

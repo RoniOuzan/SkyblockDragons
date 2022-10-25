@@ -57,6 +57,10 @@ public class Bonemerang extends RangeWeaponMaterial {
 
         @Override
         public double getBaseCooldown(PlayerSD player) {
+            if (player == null) {
+                return 0;
+            }
+
             return ((SwingRunnable) this.getAbilityOfPlayer(player).getRunnable()).isOnCooldown.getOrDefault(player.getInventory().getHeldItemSlot(), false) ? Double.MAX_VALUE : 0;
         }
 

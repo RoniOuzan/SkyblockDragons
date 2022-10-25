@@ -32,6 +32,8 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 @Getter
 public class Item extends ItemStack {
+    private final PlayerSD player;
+
     protected final ItemMaterial material;
     protected final int amount;
 
@@ -40,7 +42,11 @@ public class Item extends ItemStack {
 
     // int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities
     public Item(PlayerSD player, ItemMaterial material, int amount, ItemModifier... modifiers) {
-        super(material.getMaterial(), amount, material.getMaterial() == Material.SKULL_ITEM ? (short) 3 : ((material.getNbt().equals("") && !material.getId().equals("")) ? Short.parseShort(material.getId()) : (short) 0));
+        super(material.getMaterial(),
+                amount,
+                material.getMaterial() == Material.SKULL_ITEM ? (short) 3 : (short) material.getData()
+        );
+        this.player = player;
         this.material = material;
         this.amount = amount;
 
@@ -101,19 +107,18 @@ public class Item extends ItemStack {
 
         Rarity rarity;
         if (this.material instanceof BookMaterial) {
-            rarity = Functions.getBookRarity(modifiers);
+            rarity = Rarity.getBookRarity(modifiers);
         } else {
-            rarity = Functions.getRarity(material.getRarity().getLevel() + recombed);
+            rarity = Rarity.getRarity(material.getRarity().getLevel() + recombed);
         }
 
-        ArrayList<String> lores = new ArrayList<>();
+        List<String> lores = new ArrayList<>();
 
         if (this.material instanceof ItemStatsAble)
             applyStats(lores, player, rarity);
 
-        if (this.material instanceof ItemEnchantAble) {
+        if (this.material instanceof ItemEnchantAble)
             applyEnchants(lores);
-        }
 
         if (this.material instanceof ItemDescriptionAble)
             applyDescription(lores);
@@ -122,7 +127,7 @@ public class Item extends ItemStack {
             applyFullSet(lores);
 
         if (this.material instanceof ItemAbilityAble)
-            applyAbilities(lores, player);
+            applyAbilities(lores);
 
 
         if (this.material instanceof NecronBladeMaterial) {
@@ -136,7 +141,7 @@ public class Item extends ItemStack {
                 lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(300, player, modifiers));
             } else if (modifiers.getNecronBladeScrolls().size() > 0) {
                 for (NecronBladeMaterial.NecronBladeAbility ability : modifiers.getNecronBladeScrolls()) {
-                    applyNecronAbility(lores, ability, player);
+                    applyNecronAbility(lores, ability);
                 }
             } else {
                 if (isNotLastEmpty(lores)) lores.add("");
@@ -252,18 +257,18 @@ public class Item extends ItemStack {
                 necronScrolls.setBoolean("SHADOW_WARP", modifiers.getNecronBladeScrolls().contains(NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP));
             }
 
-            if (!material.getNbt().equals("")) {
+            if (material.getItemSkull() != null) {
                 NBTCompound skull = nbtItem.addCompound("SkullOwner");
                 if (modifiers.getSkin() != null && modifiers.getSkin() != SkinMaterial.NULL) {
-                    skull.setString("Id", modifiers.getSkin().getId());
+                    skull.setString("Id", modifiers.getSkin().getItemSkull().getId());
                     NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
-                    texture.setString("Value", modifiers.getSkin().getNbt());
+                    texture.setString("Value", modifiers.getSkin().getItemSkull().getValue());
 
                     nbt.setString("Skin", modifiers.getSkin().name());
                 } else {
-                    skull.setString("Id", material.getId());
+                    skull.setString("Id", material.getItemSkull().getId());
                     NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
-                    texture.setString("Value", material.getNbt());
+                    texture.setString("Value", material.getItemSkull().getValue());
 
                     nbt.setString("Skin", "");
                 }
@@ -309,42 +314,24 @@ public class Item extends ItemStack {
             Functions.setArmorColor(this, ((ArmorMaterial) this.material).getColor());
     }
 
-    private void applyFullSet(ArrayList<String> lores) {
+    private void applyFullSet(List<String> lores) {
         if (this.material instanceof ArmorMaterial) {
             ArmorMaterial material = (ArmorMaterial) this.material;
-            if (!material.getFullSet().getName().isEmpty()) {
+            if (material.getFullSet() != null) {
                 if (!lores.get(lores.size() - 1).isEmpty()) lores.add("");
                 lores.add(ChatColor.GOLD + "Full Set Bonus: " + material.getFullSet().getName());
-
                 lores.addAll(loreBuilder(material.getFullSet().getDescription()));
-
-                if (material.getFullSet().getCooldown() != 0)
-                    lores.add(ChatColor.DARK_GRAY + "Cooldown: " + ChatColor.GREEN + material.getFullSet().getCooldown() + "s");
+                lores.addAll(material.getFullSet().getLore(player));
             }
         }
     }
 
-    private void applyNecronAbility(ArrayList<String> lores, NecronBladeMaterial.NecronBladeAbility ability, PlayerSD player) {
+    private void applyNecronAbility(List<String> lores, NecronBladeMaterial.NecronBladeAbility ability) {
         if (isNotLastEmpty(lores)) lores.add("");
-        if (this.material instanceof NecronBladeMaterial) {
-            lores.add(ChatColor.GOLD + "Item Ability: " + ability.getAbility().getName() + " " + ability.getAbility().getAction().toString());
-
-            lores.addAll(loreBuilder(ability.getAbility().getDescription()));
-
-            if (ability.getAbility().isPlayerHasEnoughMana() != 0) {
-                if (ability.getAbility().isPlayerHasEnoughMana() >= 10000) {
-                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + manaCostCalculator((ability.getAbility().isPlayerHasEnoughMana() / 10000), player, modifiers) + "%");
-                } else {
-                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + manaCostCalculator(ability.getAbility().isPlayerHasEnoughMana(), player, modifiers));
-                }
-            }
-
-            if (ability.getAbility().getCooldown() != 0)
-                lores.add(ChatColor.DARK_GRAY + "Cooldown: " + ChatColor.GREEN + ability.getAbility().getCooldown() + "s");
-        }
+        lores.addAll(ability.getAbility().getLore(player));
     }
 
-    private void applyAbilities(ArrayList<String> lores, PlayerSD player) {
+    private void applyAbilities(List<String> lores) {
         ItemAbilityAble material = (ItemAbilityAble) this.material;
 
         if (material.getAbilities().size() == 0 || material.getAbilities().get(0) == null)
@@ -353,31 +340,15 @@ public class Item extends ItemStack {
         if (material.getAbilities().get(0).getAction() != AbilityAction.NULL) {
             for (ItemAbility ability : material.getAbilities()) {
                 if (isNotLastEmpty(lores)) lores.add("");
-
-                lores.add(ChatColor.GOLD + "Item Ability: " + ability.getName() + " " + ChatColor.YELLOW + "" + ChatColor.BOLD + ability.getAction().toString());
-
-                lores.addAll(loreBuilder(ability.getDescription().replace("ABILITY_DAMAGE", Functions.getNumberFormat(ability.getAbilityDamage()))));
-
-                if (ability.isPlayerHasEnoughMana() != 0) {
-                    if (ability.isPlayerHasEnoughMana() >= 10000) {
-                        lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator((ability.isPlayerHasEnoughMana() / 10000), player, modifiers) + "%");
-                    } else {
-                        lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(ability.isPlayerHasEnoughMana(), player, modifiers));
-                    }
-                }
-
-                if (ability.getCooldown() != 0) {
-                    lores.add(ChatColor.DARK_GRAY + "Cooldown: " + ChatColor.GREEN + ability.getCooldown() + "s");
-                }
+                lores.addAll(ability.getLore(player));
             }
         }
     }
 
-    private void applyDescription(ArrayList<String> lores) {
+    private void applyDescription(List<String> lores) {
         ItemDescriptionAble material = (ItemDescriptionAble) this.material;
         if (!material.getDescription().isEmpty()) {
             if (isNotLastEmpty(lores)) lores.add("");
-
             lores.addAll(loreBuilder(material.getDescription()));
         }
     }
@@ -386,7 +357,7 @@ public class Item extends ItemStack {
         return this.material != Items.NULL && this.material != null;
     }
 
-    private Stats applyStats(ArrayList<String> lores, PlayerSD player, Rarity rarity) {
+    private void applyStats(List<String> lores, PlayerSD player, Rarity rarity) {
         for (Stat stat : stats.toList()) {
             String statReforge = "";
             String statPotato = "";
@@ -448,11 +419,9 @@ public class Item extends ItemStack {
             }
         }
 
-        if (lores.size() == 0) return stats;
+        if (lores.size() == 0) return;
 
         if (!modifiers.getEnchants().containsKey(EnchantType.NULL) && !lores.get(lores.size() - 1).equals("")) lores.add("");
-
-        return stats;
     }
 
     public int getBookCost() {
@@ -468,7 +437,7 @@ public class Item extends ItemStack {
         return cost;
     }
 
-    private void applyEnchants(ArrayList<String> lores) {
+    private void applyEnchants(List<String> lores) {
         List<EnchantType> enchantList = new ArrayList<>(modifiers.getEnchants().keySet());
         Collections.sort(enchantList);
 
@@ -522,7 +491,7 @@ public class Item extends ItemStack {
         return ChatColor.BLUE + "";
     }
 
-    private static boolean isNotLastEmpty(ArrayList<String> lores) {
+    private static boolean isNotLastEmpty(List<String> lores) {
         try {
             if (lores.get(lores.size() - 1).contains("Requires")) return false;
 

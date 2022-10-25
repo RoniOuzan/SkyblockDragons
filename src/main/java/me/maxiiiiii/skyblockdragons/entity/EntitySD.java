@@ -7,7 +7,7 @@ import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.fullset.ItemFullSet;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -262,7 +262,7 @@ public class EntitySD extends EntityClass {
         private Item chestplate;
         private Item leggings;
         private Item boots;
-        private ItemFullSet fullSet;
+        private ItemFullSetBonus fullSet;
 
         public Equipment() {
             this.update();
@@ -278,15 +278,15 @@ public class EntitySD extends EntityClass {
             this.leggings = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null, EntitySD.this.getEquipment().getLeggings());
             this.boots = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null, EntitySD.this.getEquipment().getBoots());
 
-            this.fullSet = ItemFullSet.NULL;
-            Map<ItemFullSet, Integer> amount = new HashMap<>();
+            this.fullSet = null;
+            Map<ItemFullSetBonus, Integer> amount = new HashMap<>();
             for (Item item : this.getArmor()) {
                 if (item.getMaterial() instanceof ArmorMaterial) {
                     ArmorMaterial material = (ArmorMaterial) item.getMaterial();
                     amount.put(material.getFullSet(), amount.getOrDefault(material.getFullSet(), 1));
                 }
             }
-            for (ItemFullSet itemFullSet : amount.keySet()) {
+            for (ItemFullSetBonus itemFullSet : amount.keySet()) {
                 if (itemFullSet.getAmountOfPieces() >= amount.get(itemFullSet)) {
                     this.fullSet = itemFullSet;
                     break;

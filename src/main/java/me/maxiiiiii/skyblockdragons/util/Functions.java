@@ -15,8 +15,8 @@ import me.maxiiiiii.skyblockdragons.events.EntityHealth;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
-import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.wise.WiseDragonFullSet;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.modifiers.*;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
@@ -595,7 +595,7 @@ public class Functions {
         } else {
             for (ItemMaterial material : vanillaMaterials.values()) {
                 if (material.getMaterial() == item.getType()) {
-                    if (material.getId().equals("") || material.getId().equals(item.getDurability() + ""))
+                    if (material.getData() == 0 || material.getData() == item.getDurability())
                         return material;
                 }
             }
@@ -774,24 +774,6 @@ public class Functions {
         return items.get("NULL");
     }
 
-    public static Rarity getRarity(int level) {
-        for (Rarity rarity : Rarity.values()) {
-            if (rarity.getLevel() == level) {
-                return rarity;
-            }
-        }
-        return Rarity.SPECIAL;
-    }
-
-    public static Rarity getRarity(ChatColor color) {
-        for (Rarity rarity : Rarity.values()) {
-            if (rarity.getColor().equals(color)) {
-                return rarity;
-            }
-        }
-        return Rarity.SPECIAL;
-    }
-
     public static String getLocation(Location location) {
         double x = Math.floor(location.getX() * 100) / 100;
         double y = Math.floor(location.getY() * 100) / 100;
@@ -827,35 +809,6 @@ public class Functions {
         return ChatColor.WHITE;
     }
 
-    public static Rarity getBookRarity(int level) {
-        if (level == 5) {
-            return Rarity.UNCOMMON;
-        } else if (level == 6) {
-            return Rarity.RARE;
-        } else if (level == 7) {
-            return Rarity.EPIC;
-        } else if (level == 8) {
-            return Rarity.LEGENDARY;
-        } else if (level == 9 || level == 10) {
-            return Rarity.MYTHIC;
-        }
-        return Rarity.COMMON;
-    }
-
-    public static Rarity getBookRarity(ItemModifiers modifiers) {
-        short highest = 0;
-        for (EnchantType enchant : EnchantType.enchants.values()) {
-            if (modifiers.getEnchants().containsKey(enchant)) {
-                if (enchant instanceof UltimateEnchantType) {
-                    highest = 10;
-                } else if (modifiers.getEnchants().get(enchant) > highest) {
-                    highest = modifiers.getEnchants().get(enchant);
-                }
-            }
-        }
-        return getBookRarity(highest);
-    }
-
     public static String getId(ItemStack item) {
         try {
             NBTItem nbtItem = new NBTItem(item);
@@ -870,9 +823,9 @@ public class Functions {
         NBTItem nbtItem = new NBTItem(item);
         NBTCompound nbt = nbtItem.getCompound("Item");
         if (nbt.getBoolean("RarityUpgraded")) {
-            return getRarity(itemMaterial.getRarity().getLevel() + 1);
+            return Rarity.getRarity(itemMaterial.getRarity().getLevel() + 1);
         }
-        return getRarity(itemMaterial.getRarity().getLevel());
+        return Rarity.getRarity(itemMaterial.getRarity().getLevel());
     }
 
     public static EnchantModifier getEnchants(ItemStack item) {
@@ -1244,7 +1197,7 @@ public class Functions {
             }
         }
         if (player != null) {
-            if (player.getItems().getFullSet().equals("Wise Blood")) {
+            if (player.getItems().getFullSet() instanceof WiseDragonFullSet) {
                 finalCost *= 0.6;
             }
         }

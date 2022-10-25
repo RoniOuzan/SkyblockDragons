@@ -1,21 +1,21 @@
 package me.maxiiiiii.skyblockdragons.item.material;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
-import me.maxiiiiii.skyblockdragons.item.objects.fullset.ItemFullSet;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
+import org.reflections.Reflections;
 
+import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Items {
     public static Map<String, ItemMaterial> items = new HashMap<>();
@@ -26,6 +26,16 @@ public class Items {
     public static ItemMaterial NULL = null;
 
     public static void registerItems() {
+        Set<Class<? extends ItemMaterial>> materials = new Reflections("me.maxiiiiii").getSubTypesOf(ItemMaterial.class).stream().filter(c -> !Modifier.isAbstract(c.getModifiers())).collect(Collectors.toSet());
+        for (Class<? extends ItemMaterial> materialClass : materials) {
+            try {
+                ItemMaterial material = materialClass.newInstance();
+                items.put(material.getItemID(), material);
+            } catch (InstantiationException | IllegalAccessException e) {
+                SkyblockDragons.logger.severe("Failed to register material " + e.getMessage());
+            }
+        }
+
         // Swords
         // Bows
         // Armors
@@ -58,31 +68,31 @@ public class Items {
         // Eternity
 
         // Bear
-        items.put("GRIZZLY_BEAR_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.GRIZZLY_BEAR, "Grizzly Bear Helmet", ItemType.HELMET, Rarity.LEGENDARY, "16a37715-3d58-407c-87f8-c18c1198ea6d", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmRmZTcwOWRhMmNmMzJlMWUyNzNmNWQ3MmM2NmZjMzZkYzY0MzY2ZmVjZDk4MGFhNmIxNDgwZDc5YmM2NGNkNyJ9fX0=", new Stats(0, 20, 20, 15, 0, 20, 800, 300, 0, 50), "", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 15)));
-        items.put("GRIZZLY_BEAR_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.GRIZZLY_BEAR, "Grizzly Bear Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 20, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(67,143,167)));
-        items.put("GRIZZLY_BEAR_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.GRIZZLY_BEAR, "Grizzly Bear Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 20, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
-        items.put("GRIZZLY_BEAR_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.GRIZZLY_BEAR, "Grizzly Bear Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 20, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
-        items.put("BEAR_EYE", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.ITEM, "Bear Eye", ItemType.ITEM, Rarity.EPIC, "3256c7a2-a510-4467-b1d2-fa2b35d00cd2", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzVjMmNhNDBhZDhhOWViYjljYWJiZTBkMWEwNTJiNWVlMjQzMDU5M2U1MmQ0NTI2M2ZjNGFhZjI5ZDUyNDY5MSJ9fX0=", "Used to spawn the Bear boss", false, false, false));
-
-        items.put("POLAR_BEAR_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.POLAR_BEAR, "Polar Bear Helmet", ItemType.HELMET, Rarity.LEGENDARY, "3fcab007-18aa-4730-b228-64712d40f105", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzRmZTkyNjkyMmZiYjQwNmYzNDNiMzRhMTBiYjk4OTkyY2VlNDQxMDEzN2QzZjg4MDk5NDI3YjIyZGUzYWI5MCJ9fX0=", new Stats(0, 20, 20, 15, 0, 10, 800, 500, 0, 50), "", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 15)));
-        items.put("POLAR_BEAR_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.POLAR_BEAR, "Polar Bear Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 500, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(67,143,167)));
-        items.put("POLAR_BEAR_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.POLAR_BEAR, "Polar Bear Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 500, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
-        items.put("POLAR_BEAR_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.POLAR_BEAR, "Polar Bear Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 500, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
-
-        items.put("PANDA_BEAR_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.PANDA_BEAR, "Panda Bear Helmet", ItemType.HELMET, Rarity.LEGENDARY, "3fcab007-18aa-4730-b228-64712d40f105", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzRmZTkyNjkyMmZiYjQwNmYzNDNiMzRhMTBiYjk4OTkyY2VlNDQxMDEzN2QzZjg4MDk5NDI3YjIyZGUzYWI5MCJ9fX0=", new Stats(0, 20, 20, 15, 0, 10, 800, 300, 0, 50), "", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 15)));
-        items.put("PANDA_BEAR_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.PANDA_BEAR, "Panda Bear Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(67,143,167)));
-        items.put("PANDA_BEAR_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.PANDA_BEAR, "Panda Bear Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
-        items.put("PANDA_BEAR_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.PANDA_BEAR, "Panda Bear Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
-
-        items.put("KOALA_BEAR_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.KOALA_BEAR, "Koala Bear Helmet", ItemType.HELMET, Rarity.LEGENDARY, "3fcab007-18aa-4730-b228-64712d40f105", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzRmZTkyNjkyMmZiYjQwNmYzNDNiMzRhMTBiYjk4OTkyY2VlNDQxMDEzN2QzZjg4MDk5NDI3YjIyZGUzYWI5MCJ9fX0=", new Stats(0, 20, 20, 15, 0, 10, 800, 500, 0, 50), "", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 15)));
-        items.put("KOALA_BEAR_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.KOALA_BEAR, "Koala Bear Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 300, 0, 300), "", ItemFullSet.NULL, Color.fromRGB(67,143,167)));
-        items.put("KOALA_BEAR_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.KOALA_BEAR, "Koala Bear Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 300, 0, 300), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
-        items.put("KOALA_BEAR_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.KOALA_BEAR, "Koala Bear Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 300, 0, 300), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
-
-        items.put("RED_PANDA_BEAR_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.RED_PANDA_BEAR, "Red Panda Bear Helmet", ItemType.HELMET, Rarity.LEGENDARY, "3fcab007-18aa-4730-b228-64712d40f105", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzRmZTkyNjkyMmZiYjQwNmYzNDNiMzRhMTBiYjk4OTkyY2VlNDQxMDEzN2QzZjg4MDk5NDI3YjIyZGUzYWI5MCJ9fX0=", new Stats(0, 20, 20, 15, 0, 15, 950, 500, 0, 70), "", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 15)));
-        items.put("RED_PANDA_BEAR_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.RED_PANDA_BEAR, "Red Panda Bear Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 15, 950, 500, 0, 70), "", ItemFullSet.NULL, Color.fromRGB(67,143,167)));
-        items.put("RED_PANDA_BEAR_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.RED_PANDA_BEAR, "Red Panda Bear Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 15, 950, 500, 0, 70), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
-        items.put("RED_PANDA_BEAR_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.RED_PANDA_BEAR, "Red Panda Bear Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 15, 950, 500, 0, 70), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
+//        items.put("GRIZZLY_BEAR_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.GRIZZLY_BEAR, "Grizzly Bear Helmet", ItemType.HELMET, Rarity.LEGENDARY, "16a37715-3d58-407c-87f8-c18c1198ea6d", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmRmZTcwOWRhMmNmMzJlMWUyNzNmNWQ3MmM2NmZjMzZkYzY0MzY2ZmVjZDk4MGFhNmIxNDgwZDc5YmM2NGNkNyJ9fX0=", new Stats(0, 20, 20, 15, 0, 20, 800, 300, 0, 50), "", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 15)));
+//        items.put("GRIZZLY_BEAR_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.GRIZZLY_BEAR, "Grizzly Bear Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 20, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(67,143,167)));
+//        items.put("GRIZZLY_BEAR_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.GRIZZLY_BEAR, "Grizzly Bear Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 20, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
+//        items.put("GRIZZLY_BEAR_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.GRIZZLY_BEAR, "Grizzly Bear Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 20, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
+//        items.put("BEAR_EYE", new NormalMaterial(Material.SKULL_ITEM, ItemFamily.ITEM, "Bear Eye", ItemType.ITEM, Rarity.EPIC, "3256c7a2-a510-4467-b1d2-fa2b35d00cd2", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzVjMmNhNDBhZDhhOWViYjljYWJiZTBkMWEwNTJiNWVlMjQzMDU5M2U1MmQ0NTI2M2ZjNGFhZjI5ZDUyNDY5MSJ9fX0=", "Used to spawn the Bear boss", false, false, false));
+//
+//        items.put("POLAR_BEAR_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.POLAR_BEAR, "Polar Bear Helmet", ItemType.HELMET, Rarity.LEGENDARY, "3fcab007-18aa-4730-b228-64712d40f105", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzRmZTkyNjkyMmZiYjQwNmYzNDNiMzRhMTBiYjk4OTkyY2VlNDQxMDEzN2QzZjg4MDk5NDI3YjIyZGUzYWI5MCJ9fX0=", new Stats(0, 20, 20, 15, 0, 10, 800, 500, 0, 50), "", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 15)));
+//        items.put("POLAR_BEAR_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.POLAR_BEAR, "Polar Bear Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 500, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(67,143,167)));
+//        items.put("POLAR_BEAR_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.POLAR_BEAR, "Polar Bear Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 500, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
+//        items.put("POLAR_BEAR_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.POLAR_BEAR, "Polar Bear Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 500, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
+//
+//        items.put("PANDA_BEAR_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.PANDA_BEAR, "Panda Bear Helmet", ItemType.HELMET, Rarity.LEGENDARY, "3fcab007-18aa-4730-b228-64712d40f105", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzRmZTkyNjkyMmZiYjQwNmYzNDNiMzRhMTBiYjk4OTkyY2VlNDQxMDEzN2QzZjg4MDk5NDI3YjIyZGUzYWI5MCJ9fX0=", new Stats(0, 20, 20, 15, 0, 10, 800, 300, 0, 50), "", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 15)));
+//        items.put("PANDA_BEAR_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.PANDA_BEAR, "Panda Bear Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(67,143,167)));
+//        items.put("PANDA_BEAR_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.PANDA_BEAR, "Panda Bear Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
+//        items.put("PANDA_BEAR_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.PANDA_BEAR, "Panda Bear Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 300, 0, 50), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
+//
+//        items.put("KOALA_BEAR_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.KOALA_BEAR, "Koala Bear Helmet", ItemType.HELMET, Rarity.LEGENDARY, "3fcab007-18aa-4730-b228-64712d40f105", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzRmZTkyNjkyMmZiYjQwNmYzNDNiMzRhMTBiYjk4OTkyY2VlNDQxMDEzN2QzZjg4MDk5NDI3YjIyZGUzYWI5MCJ9fX0=", new Stats(0, 20, 20, 15, 0, 10, 800, 500, 0, 50), "", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 15)));
+//        items.put("KOALA_BEAR_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.KOALA_BEAR, "Koala Bear Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 300, 0, 300), "", ItemFullSet.NULL, Color.fromRGB(67,143,167)));
+//        items.put("KOALA_BEAR_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.KOALA_BEAR, "Koala Bear Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 300, 0, 300), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
+//        items.put("KOALA_BEAR_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.KOALA_BEAR, "Koala Bear Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 10, 800, 300, 0, 300), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
+//
+//        items.put("RED_PANDA_BEAR_HELMET", new ArmorMaterial(Material.SKULL_ITEM, ItemFamily.RED_PANDA_BEAR, "Red Panda Bear Helmet", ItemType.HELMET, Rarity.LEGENDARY, "3fcab007-18aa-4730-b228-64712d40f105", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzRmZTkyNjkyMmZiYjQwNmYzNDNiMzRhMTBiYjk4OTkyY2VlNDQxMDEzN2QzZjg4MDk5NDI3YjIyZGUzYWI5MCJ9fX0=", new Stats(0, 20, 20, 15, 0, 15, 950, 500, 0, 70), "", ItemFullSet.NULL, new SkillRequirement(SkillType.COMBAT, 15)));
+//        items.put("RED_PANDA_BEAR_CHESTPLATE", new ArmorMaterial(Material.LEATHER_CHESTPLATE, ItemFamily.RED_PANDA_BEAR, "Red Panda Bear Chestplate", ItemType.CHESTPLATE, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 15, 950, 500, 0, 70), "", ItemFullSet.NULL, Color.fromRGB(67,143,167)));
+//        items.put("RED_PANDA_BEAR_LEGGINGS", new ArmorMaterial(Material.LEATHER_LEGGINGS, ItemFamily.RED_PANDA_BEAR, "Red Panda Bear Leggings", ItemType.LEGGINGS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 15, 950, 500, 0, 70), "", ItemFullSet.NULL, Color.fromRGB(191,95,194)));
+//        items.put("RED_PANDA_BEAR_BOOTS", new ArmorMaterial(Material.LEATHER_BOOTS, ItemFamily.RED_PANDA_BEAR, "Red Panda Bear Boots", ItemType.BOOTS, Rarity.LEGENDARY, new Stats(0, 20, 20, 15, 0, 15, 950, 500, 0, 70), "", ItemFullSet.NULL, Color.fromRGB(210,213,35)));
 
         // Deeper Mines
         // Cobalt
@@ -235,14 +245,14 @@ public class Items {
             if (items.containsKey(itemID) || itemID.contains("_NUGGET"))
                 continue;
             Rarity rarity = Rarity.COMMON;
-            if (Functions.isColorable(material)) { // TODO
+            if (Functions.isColorable(material)) {
                 if (material == Material.INK_SACK)
                     for (short i = 0; i < 16; i++) {
-                        vanillaMaterials.put(Functions.getColorName(15 - i).toUpperCase() + "_DYE", new VanillaMaterial(itemID, material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(15 - i) + " DYE"), ItemType.ITEM, rarity, i + "", "", false, false));
+                        vanillaMaterials.put(Functions.getColorName(15 - i).toUpperCase() + "_DYE", new VanillaMaterial(itemID, material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(15 - i) + " DYE"), ItemType.ITEM, rarity, false, false).setData(i));
                     }
                 else
                     for (short i = 0; i < 16; i++) {
-                        vanillaMaterials.put(Functions.getColorName(i).toUpperCase() + "_" + itemID, new VanillaMaterial(itemID, material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(i) + " " +  itemID), ItemType.ITEM, rarity, i + "", "", false, false));
+                        vanillaMaterials.put(Functions.getColorName(i).toUpperCase() + "_" + itemID, new VanillaMaterial(itemID, material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(i) + " " +  itemID), ItemType.ITEM, rarity, false, false).setData(i));
                     }
             } else {
                 short maxDurability = 16;
@@ -252,15 +262,15 @@ public class Items {
                     if (localName.equals(newLocalName)) {
                         break;
                     }
-                    vanillaMaterials.put(itemID + ":" + i, new VanillaMaterial(itemID, material, ItemFamily.VANILLA, newLocalName, ItemType.ITEM, rarity, i + "", "", false, false));
+                    vanillaMaterials.put(itemID + ":" + i, new VanillaMaterial(itemID, material, ItemFamily.VANILLA, newLocalName, ItemType.ITEM, rarity, false, false).setData(i));
                 }
             }
 
             if (material == Material.NETHER_STAR || material == Material.BEDROCK)
                 rarity = Rarity.LEGENDARY;
-            vanillaMaterials.put(itemID, new VanillaMaterial(itemID, material, ItemFamily.VANILLA, localName, ItemType.ITEM, rarity, "", "", false, false));
+            vanillaMaterials.put(itemID, new VanillaMaterial(itemID, material, ItemFamily.VANILLA, localName, ItemType.ITEM, rarity, false, false));
         }
-        vanillaMaterials.put("LAPIS", new VanillaMaterial("LAPIS", Material.INK_SACK, ItemFamily.VANILLA, "Lapis Lazuli", ItemType.ITEM, Rarity.COMMON, "4", "", false, false));
+        vanillaMaterials.put("LAPIS", new VanillaMaterial("LAPIS", Material.INK_SACK, ItemFamily.VANILLA, "Lapis Lazuli", ItemType.ITEM, Rarity.COMMON, false, false).setData(4));
         vanillaMaterials.remove("BLUE_DYE");
 
         items.putAll(vanillaMaterials);
@@ -277,7 +287,7 @@ public class Items {
                 ItemMaterial item = Items.get(material);
                 int rarityAdder = 0;
                 if (item.getMaterial().isBlock()) rarityAdder++;
-                NormalMaterial normalMaterial = new NormalMaterial(item.getMaterial(), ItemFamily.ENCHANTED_ITEM, "Enchanted " + item.getName(), ItemType.ITEM, Rarity.values()[item.getRarity().getLevel() + 1 + rarityAdder], item.getId(), item.getNbt(), true, true, true);
+                NormalMaterial normalMaterial = new QuickNormalMaterial(item.getMaterial(), ItemFamily.ENCHANTED_ITEM, "Enchanted " + item.getName(), ItemType.ITEM, Rarity.values()[item.getRarity().getLevel() + 1 + rarityAdder], item.getItemSkull().getId(), item.getItemSkull().getValue(), true, true, true);
                 Items.items.put("ENCHANTED_" + material, normalMaterial);
             }
         }

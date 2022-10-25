@@ -20,6 +20,11 @@ public class VanillaMaterial extends NormalMaterial {
         super(itemID, material, family, name, type, rarity, isEnchanted, showRecipe, stackAble);
     }
 
+    public VanillaMaterial setData(int data) {
+        this.data = data;
+        return this;
+    }
+
     @Override
     public void updateStats(PlayerStats stats) {
     }

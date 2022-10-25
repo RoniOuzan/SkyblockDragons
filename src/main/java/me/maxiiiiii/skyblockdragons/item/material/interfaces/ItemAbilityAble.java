@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.material.interfaces;
 
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
-import me.maxiiiiii.skyblockdragons.item.objects.fullset.ItemFullSetBonus;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 
 import java.util.List;
 

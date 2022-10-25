@@ -1,12 +1,10 @@
-package me.maxiiiiii.skyblockdragons.item.objects.fullset;
+package me.maxiiiiii.skyblockdragons.item.objects.abilities;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 
@@ -15,7 +13,7 @@ public abstract class ItemFullSetBonus extends ItemAbility {
     private final int amountOfPieces;
 
     protected ItemFullSetBonus(AbilityAction action, String name, String description, int amountOfPieces) {
-        super(action, name, description);
+        super("Full Set Bonus:", action, name, description);
         this.amountOfPieces = amountOfPieces;
     }
 
