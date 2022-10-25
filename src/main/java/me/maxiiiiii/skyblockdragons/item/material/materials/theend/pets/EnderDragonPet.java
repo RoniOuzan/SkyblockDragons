@@ -8,8 +8,8 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
-import me.maxiiiiii.skyblockdragons.item.objects.pet.PetAbilityNew;
-import me.maxiiiiii.skyblockdragons.item.objects.pet.PetRarity;
+import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
+import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import org.bukkit.ChatColor;
@@ -45,7 +45,7 @@ public class EnderDragonPet extends PetMaterial {
         );
     }
 
-    private static class EndStrike extends PetAbilityNew {
+    private static class EndStrike extends PetAbility {
         private static final int MULTIPLIER = 2;
 
         public EndStrike() {
@@ -65,7 +65,7 @@ public class EnderDragonPet extends PetMaterial {
         }
     }
 
-    private static class OneWithTheDragons extends PetAbilityNew {
+    private static class OneWithTheDragons extends PetAbility {
         private static final double DAMAGE_MULTIPLIER = 0.5;
         private static final double STRENGTH_MULTIPLIER = 0.3;
 
@@ -84,7 +84,7 @@ public class EnderDragonPet extends PetMaterial {
         }
     }
 
-    private static class Superior extends PetAbilityNew {
+    private static class Superior extends PetAbility {
         private static final double MULTIPLIER = 0.1;
 
         public Superior() {

@@ -1,10 +1,15 @@
 package me.maxiiiiii.skyblockdragons.item.objects;
 
+import de.tr7zw.changeme.nbtapi.NBTCompound;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
+import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
+import org.bukkit.inventory.ItemStack;
 
 @Getter
 public enum Rarity {
@@ -42,6 +47,16 @@ public enum Rarity {
             }
         }
         return SPECIAL;
+    }
+
+    public static Rarity getRarity(ItemStack item) {
+        ItemMaterial itemMaterial = Functions.getItemMaterial(item);
+        NBTItem nbtItem = new NBTItem(item);
+        NBTCompound nbt = nbtItem.getCompound("Item");
+        if (nbt.getBoolean("RarityUpgraded")) {
+            return getRarity(itemMaterial.getRarity().getLevel() + 1);
+        }
+        return getRarity(itemMaterial.getRarity().getLevel());
     }
 
     @Override

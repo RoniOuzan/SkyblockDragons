@@ -2,7 +2,6 @@ package me.maxiiiiii.skyblockdragons.item;
 
 import de.tr7zw.changeme.nbtapi.*;
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
@@ -11,6 +10,9 @@ import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifier;
 import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
+import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
+import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
@@ -38,6 +40,7 @@ public class Item extends ItemStack {
     protected final int amount;
 
     protected final ItemModifiers modifiers;
+    private final Rarity rarity;
     protected final Stats stats;
 
     // int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities
@@ -51,6 +54,11 @@ public class Item extends ItemStack {
         this.amount = amount;
 
         this.modifiers = new ItemModifiers(modifiers);
+        if (this.material instanceof BookMaterial) {
+            rarity = Rarity.getBookRarity(this.modifiers);
+        } else {
+            rarity = Rarity.getRarity(material.getRarity().getLevel() + (this.modifiers.getRecombabulated() ? 1 : 0));
+        }
         this.stats = new Stats();
 
         this.toItem(player);
@@ -103,103 +111,98 @@ public class Item extends ItemStack {
     }
 
     private void toItem(PlayerSD player) {
-        int recombed = modifiers.getRecombabulated() ? 1 : 0;
-
-        Rarity rarity;
-        if (this.material instanceof BookMaterial) {
-            rarity = Rarity.getBookRarity(modifiers);
-        } else {
-            rarity = Rarity.getRarity(material.getRarity().getLevel() + recombed);
-        }
-
         List<String> lores = new ArrayList<>();
 
-        if (this.material instanceof ItemStatsAble)
-            applyStats(lores, player, rarity);
+        if (modifiers.getPet().getRarity() != Rarity.NONE) {
+            applyPetLores(lores);
+        } else {
+            if (this.material instanceof ItemStatsAble)
+                applyStats(lores, player, rarity);
 
-        if (this.material instanceof ItemEnchantAble)
-            applyEnchants(lores);
+            if (this.material instanceof ItemEnchantAble)
+                applyEnchants(lores);
 
-        if (this.material instanceof ItemDescriptionAble)
-            applyDescription(lores);
+            if (this.material instanceof ItemDescriptionAble)
+                applyDescription(lores);
 
-        if (this.material instanceof ArmorMaterial)
-            applyFullSet(lores);
+            if (this.material instanceof ArmorMaterial)
+                applyFullSet(lores);
 
-        if (this.material instanceof ItemAbilityAble)
-            applyAbilities(lores);
+            if (this.material instanceof ItemAbilityAble)
+                applyAbilities(lores);
 
 
-        if (this.material instanceof NecronBladeMaterial) {
-            if (modifiers.getNecronBladeScrolls().size() >= 3) {
-                if (isNotLastEmpty(lores)) lores.add("");
-                lores.add(ChatColor.GOLD + "Item Ability: Wither Impact " + ChatColor.YELLOW + "" + ChatColor.BOLD + "RIGHT CLICK");
+            if (this.material instanceof NecronBladeMaterial) {
+                if (modifiers.getNecronBladeScrolls().size() >= 3) {
+                    if (isNotLastEmpty(lores)) lores.add("");
+                    lores.add(ChatColor.GOLD + "Item Ability: Wither Impact " + ChatColor.YELLOW + "" + ChatColor.BOLD + "RIGHT CLICK");
 
-                String description = ChatColor.GRAY + "Teleports " + ChatColor.GREEN + "10 blocks " + ChatColor.GRAY + "ahead of you. Then implode dealing " + ChatColor.RED + "10,000 " + ChatColor.GRAY + "damage to nearby enemies. Also applies the " + ChatColor.YELLOW + "wither shield " + ChatColor.GRAY + "scroll ability reducing damage taken and granting an " + ChatColor.GOLD + "❤ Absorption " + ChatColor.GRAY + "shield for " + ChatColor.YELLOW + "5 " + ChatColor.GRAY + "seconds.";
-                lores.addAll(Functions.loreBuilder(description));
+                    String description = ChatColor.GRAY + "Teleports " + ChatColor.GREEN + "10 blocks " + ChatColor.GRAY + "ahead of you. Then implode dealing " + ChatColor.RED + "10,000 " + ChatColor.GRAY + "damage to nearby enemies. Also applies the " + ChatColor.YELLOW + "wither shield " + ChatColor.GRAY + "scroll ability reducing damage taken and granting an " + ChatColor.GOLD + "❤ Absorption " + ChatColor.GRAY + "shield for " + ChatColor.YELLOW + "5 " + ChatColor.GRAY + "seconds.";
+                    lores.addAll(Functions.loreBuilder(description));
 
-                lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(300, player, modifiers));
-            } else if (modifiers.getNecronBladeScrolls().size() > 0) {
-                for (NecronBladeMaterial.NecronBladeAbility ability : modifiers.getNecronBladeScrolls()) {
-                    applyNecronAbility(lores, ability);
+                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(300, player, modifiers));
+                } else if (modifiers.getNecronBladeScrolls().size() > 0) {
+                    for (NecronBladeMaterial.NecronBladeAbility ability : modifiers.getNecronBladeScrolls()) {
+                        applyNecronAbility(lores, ability);
+                    }
+                } else {
+                    if (isNotLastEmpty(lores)) lores.add("");
+
+                    lores.add(ChatColor.YELLOW + "Right-click to use your class ability!");
                 }
-            } else {
-                if (isNotLastEmpty(lores)) lores.add("");
-
-                lores.add(ChatColor.YELLOW + "Right-click to use your class ability!");
-            }
-        } else if (this.material instanceof BookMaterial) {
-            int cost = getBookCost();
-            lores.add("");
-            lores.add(ChatColor.GRAY + "Apply Cost: " + ChatColor.DARK_AQUA + cost + " Exp Levels");
-            lores.add("");
-            lores.add(ChatColor.GRAY + "Use this item on an item in an Anvil");
-            lores.add(ChatColor.GRAY + "to apply it!");
-            int levelRequirement = 0;
-            for (EnchantType enchantType : modifiers.getEnchants().keySet()) {
-                if (enchantType.getRequirement().getLevel() >= levelRequirement)
-                    levelRequirement = enchantType.getRequirement().getLevel();
-            }
-            if (player == null || player.getSkill().getEnchantingSkill().getLevel() < levelRequirement) {
+            } else if (this.material instanceof BookMaterial) {
+                int cost = getBookCost();
                 lores.add("");
-                lores.add(SkillRequirement.toString(SkillType.ENCHANTING, levelRequirement));
-            }
-        } else if (this.material instanceof MiningMaterial) {
-            lores.add(0, ChatColor.DARK_GRAY + "Breaking Power " + ((MiningMaterial) material).getBreakingPower());
-            lores.add(1, "");
-        } else if (this.material instanceof ReforgeMaterial) {
-            ReforgeMaterial material = (ReforgeMaterial) this.material;
-
-            lores.add(ChatColor.DARK_GRAY + "Reforge Stone");
-            lores.add("");
-            lores.add(ChatColor.GRAY + "Can be used in a Reforge Anvil");
-            lores.add(ChatColor.GRAY + "or with the Dungeon Blacksmith");
-            lores.add(ChatColor.GRAY + "to apply the " + ChatColor.BLUE + material.getReforgeName() + ChatColor.GRAY + " reforge");
-            lores.add(ChatColor.GRAY + "to " + Functions.setTitleCase(Functions.getReforge(material.getReforgeName().toUpperCase()).getTypes().get(0).toString()) + ".");
-        } else if (this.material instanceof SkinMaterial) {
-            SkinMaterial material = (SkinMaterial) this.material;
-
-            lores.add(ChatColor.GRAY + "Skins give your gear fresh");
-            lores.add(ChatColor.GRAY + "new look! Apply them with an item");
-            lores.add(ChatColor.GRAY + "in a anvil.");
-            lores.add("");
-            lores.add(ChatColor.GRAY + "This skin can be applied to");
-            lores.add(Items.items.get(material.name().replaceAll("_SKIN", "")).getRarity().getColor() + Items.items.get(material.name().replaceAll("_SKIN", "")).getName());
-        } else if (this.material instanceof PowerOrbMaterial) {
-            PowerOrbMaterial material = (PowerOrbMaterial) this.material;
-
-            if (isNotLastEmpty(lores)) lores.add("");
-
-            lores.add(material.getRarity().getColor() + "Orb Buff: " + material.getPowerOrbName());
-            lores.addAll(Functions.loreBuilder(material.getDescription(), ChatColor.GRAY, 50));
-        } else if (this.material instanceof NormalMaterial) {
-            NormalMaterial material = (NormalMaterial) this.material;
-
-            if (material.isShowRecipe()) {
-                if (!material.getDescription().equals("")) {
-                    lores.add("");
+                lores.add(ChatColor.GRAY + "Apply Cost: " + ChatColor.DARK_AQUA + cost + " Exp Levels");
+                lores.add("");
+                lores.add(ChatColor.GRAY + "Use this item on an item in an Anvil");
+                lores.add(ChatColor.GRAY + "to apply it!");
+                int levelRequirement = 0;
+                for (EnchantType enchantType : modifiers.getEnchants().keySet()) {
+                    if (enchantType.getRequirement().getLevel() >= levelRequirement)
+                        levelRequirement = enchantType.getRequirement().getLevel();
                 }
-                lores.add(ChatColor.YELLOW + "Right-click to view recipe!");
+                if (player == null || player.getSkill().getEnchantingSkill().getLevel() < levelRequirement) {
+                    lores.add("");
+                    lores.add(SkillRequirement.toString(SkillType.ENCHANTING, levelRequirement));
+                }
+            } else if (this.material instanceof MiningMaterial) {
+                lores.add(0, ChatColor.DARK_GRAY + "Breaking Power " + ((MiningMaterial) material).getBreakingPower());
+                lores.add(1, "");
+            } else if (this.material instanceof ReforgeMaterial) {
+                ReforgeMaterial material = (ReforgeMaterial) this.material;
+
+                lores.add(ChatColor.DARK_GRAY + "Reforge Stone");
+                lores.add("");
+                lores.add(ChatColor.GRAY + "Can be used in a Reforge Anvil");
+                lores.add(ChatColor.GRAY + "or with the Dungeon Blacksmith");
+                lores.add(ChatColor.GRAY + "to apply the " + ChatColor.BLUE + material.getReforgeName() + ChatColor.GRAY + " reforge");
+                lores.add(ChatColor.GRAY + "to " + Functions.setTitleCase(Functions.getReforge(material.getReforgeName().toUpperCase()).getTypes().get(0).toString()) + ".");
+            } else if (this.material instanceof SkinMaterial) {
+                SkinMaterial material = (SkinMaterial) this.material;
+
+                lores.add(ChatColor.GRAY + "Skins give your gear fresh");
+                lores.add(ChatColor.GRAY + "new look! Apply them with an item");
+                lores.add(ChatColor.GRAY + "in a anvil.");
+                lores.add("");
+                lores.add(ChatColor.GRAY + "This skin can be applied to");
+                lores.add(Items.items.get(material.name().replaceAll("_SKIN", "")).getRarity().getColor() + Items.items.get(material.name().replaceAll("_SKIN", "")).getName());
+            } else if (this.material instanceof PowerOrbMaterial) {
+                PowerOrbMaterial material = (PowerOrbMaterial) this.material;
+
+                if (isNotLastEmpty(lores)) lores.add("");
+
+                lores.add(material.getRarity().getColor() + "Orb Buff: " + material.getPowerOrbName());
+                lores.addAll(Functions.loreBuilder(material.getDescription(), ChatColor.GRAY, 50));
+            } else if (this.material instanceof NormalMaterial) {
+                NormalMaterial material = (NormalMaterial) this.material;
+
+                if (material.isShowRecipe()) {
+                    if (!material.getDescription().equals("")) {
+                        lores.add("");
+                    }
+                    lores.add(ChatColor.YELLOW + "Right-click to view recipe!");
+                }
             }
         }
 
@@ -275,6 +278,12 @@ public class Item extends ItemStack {
             } else {
                 nbt.setString("Skin", "");
             }
+
+            if (modifiers.getPet().getRarity() != Rarity.NONE) {
+                NBTCompound petNBT = nbt.addCompound("Pet");
+                petNBT.setInteger("Level", modifiers.getPet().getLevel());
+                petNBT.setDouble("CurrentXp", modifiers.getPet().getCurrentXp());
+            }
         } catch (NbtApiException ignored) {}
 
         ItemMeta meta = this.getItemMeta();
@@ -312,6 +321,52 @@ public class Item extends ItemStack {
 
         if (this.material instanceof ArmorMaterial && ((ArmorMaterial) this.material).getColor() != null)
             Functions.setArmorColor(this, ((ArmorMaterial) this.material).getColor());
+    }
+
+    private void applyPetLores(List<String> lores) {
+        PetMaterial material = (PetMaterial) this.material;
+        int level = modifiers.getPet().getLevel();
+        double currentXp = modifiers.getPet().getCurrentXp();
+        double needXp = material.getNeedXp(level);
+
+        lores.add(ChatColor.DARK_GRAY + setTitleCase(material.getSkill().name()) + " Pet");
+        lores.add("");
+
+        for (Stat stat : stats) {
+            String statSymbol = "+";
+
+            String percent = "";
+            if (stat.type.isPercentage()) percent = "%";
+
+            double statDisplay = material.getStats().get(stat).amount * level;
+            stats.get(stat).amount = statDisplay;
+            if (material.getStats().get(stat).amount != 0d) {
+                if (material.getStats().get(stat).amount < 0)
+                    statSymbol = "-";
+
+                lores.add(ChatColor.GRAY + stat.type.toString() + " " + ChatColor.GREEN + statSymbol + Math.abs(statDisplay) + percent);
+            }
+        }
+
+
+        material.getAbilities().stream().filter(p -> p.getRarity() == rarity).map(PetRarity::getAbility).forEach(abilities -> {
+            for (PetAbility ability : abilities) {
+                if (isNotLastEmpty(lores)) lores.add("");
+
+                lores.addAll(ability.getLore(player, level));
+            }
+        });
+
+        if (level < material.getMaxLevel()) {
+            if (isNotLastEmpty(lores)) lores.add("");
+
+            lores.add(ChatColor.GRAY + "Progress to Level " + (level + 1) + ": " + ChatColor.YELLOW + Math.round((currentXp / needXp * 100) * 100d) / 100d + "%");
+            lores.add(Functions.progressBar(currentXp, needXp, 20) + " " + ChatColor.YELLOW + Functions.getNumberFormat(currentXp) + ChatColor.GOLD + "/" + ChatColor.YELLOW + Functions.getShortNumber(needXp));
+        } else {
+            if (isNotLastEmpty(lores)) lores.add("");
+
+            lores.add(ChatColor.GRAY + "Pet XP: " + ChatColor.GREEN + Functions.getNumberFormat(currentXp));
+        }
     }
 
     private void applyFullSet(List<String> lores) {
@@ -399,16 +454,7 @@ public class Item extends ItemStack {
             if (oneForAll && stat.type == StatType.DAMAGE)
                 statAdder += (material.getStats().get(stat).amount + statAdder * 6);
 
-            if (player != null) {
-                if (player.getPlayerPet().getActivePet() >= 0) {
-                    if (player.getPetActive().getPetMaterial() == Items.get("ENDER_DRAGON") && this.material == Items.get("ASPECT_OF_THE_DRAGON")) {
-                        if (stat.type == StatType.DAMAGE)
-                            statAdder += player.getPetActive().getLevel() * 0.5;
-                        else if (stat.type == StatType.STRENGTH)
-                            statAdder += player.getPetActive().getLevel() * 0.3;
-                    }
-                }
-            }
+            // TODO: add here from player fields
 
             double statDisplay = material.getStats().get(stat).amount + statAdder;
             stats.get(stat).amount = statDisplay;

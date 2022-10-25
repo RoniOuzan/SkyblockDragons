@@ -7,8 +7,8 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
-import me.maxiiiiii.skyblockdragons.item.objects.pet.PetAbilityNew;
-import me.maxiiiiii.skyblockdragons.item.objects.pet.PetRarity;
+import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
+import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.ChatColor;
@@ -41,7 +41,7 @@ public class BearPet extends PetMaterial {
         );
     }
 
-    private static class FuriousBear extends PetAbilityNew {
+    private static class FuriousBear extends PetAbility {
         private static final double MULTIPLIER = 0.5;
 
         public FuriousBear() {
@@ -56,7 +56,7 @@ public class BearPet extends PetMaterial {
         }
     }
 
-    private static class FerocityIsStronger extends PetAbilityNew {
+    private static class FerocityIsStronger extends PetAbility {
         private static final double MULTIPLIER = 0.5;
 
         public FerocityIsStronger() {

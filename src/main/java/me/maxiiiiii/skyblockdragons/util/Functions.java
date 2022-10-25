@@ -818,16 +818,6 @@ public class Functions {
         return "";
     }
 
-    public static Rarity getRarity(ItemStack item) {
-        ItemMaterial itemMaterial = getItemMaterial(item);
-        NBTItem nbtItem = new NBTItem(item);
-        NBTCompound nbt = nbtItem.getCompound("Item");
-        if (nbt.getBoolean("RarityUpgraded")) {
-            return Rarity.getRarity(itemMaterial.getRarity().getLevel() + 1);
-        }
-        return Rarity.getRarity(itemMaterial.getRarity().getLevel());
-    }
-
     public static EnchantModifier getEnchants(ItemStack item) {
         Map<EnchantType, Short> enchants = new HashMap<>();
         try {

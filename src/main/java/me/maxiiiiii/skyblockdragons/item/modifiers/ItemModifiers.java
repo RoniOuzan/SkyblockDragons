@@ -4,6 +4,7 @@ import me.maxiiiiii.skyblockdragons.item.crystals.CrystalType;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.NecronBladeMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.SkinMaterial;
+import me.maxiiiiii.skyblockdragons.item.pet.PetSupplier;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,8 +22,9 @@ public class ItemModifiers implements Iterable<ItemModifier> {
     private final ReforgeModifier reforge;
     private final SkinModifier skin;
     private final CrystalModifier crystals;
+    private final PetModifier pet;
 
-    public ItemModifiers(EnchantModifier enchants, HotPotatoModifier hotPotato, NecronBladeScrollsModifier necronBladeScrolls, RecombabulatorModifier recombabulator, ReforgeModifier reforge, SkinModifier skin, CrystalModifier crystals) {
+    public ItemModifiers(EnchantModifier enchants, HotPotatoModifier hotPotato, NecronBladeScrollsModifier necronBladeScrolls, RecombabulatorModifier recombabulator, ReforgeModifier reforge, SkinModifier skin, CrystalModifier crystals, PetModifier pet) {
         this.enchants = enchants;
         this.hotPotato = hotPotato;
         this.necronBladeScrolls = necronBladeScrolls;
@@ -30,6 +32,7 @@ public class ItemModifiers implements Iterable<ItemModifier> {
         this.reforge = reforge;
         this.skin = skin;
         this.crystals = crystals;
+        this.pet = pet;
     }
 
     public ItemModifiers(ItemModifier... modifiers) {
@@ -40,7 +43,8 @@ public class ItemModifiers implements Iterable<ItemModifier> {
                 (RecombabulatorModifier) getOrDefault(modifiers, RecombabulatorModifier.class, new RecombabulatorModifier()),
                 (ReforgeModifier) getOrDefault(modifiers, ReforgeModifier.class, new ReforgeModifier()),
                 (SkinModifier) getOrDefault(modifiers, SkinModifier.class, new SkinModifier()),
-                (CrystalModifier) getOrDefault(modifiers, CrystalModifier.class, new CrystalModifier()));
+                (CrystalModifier) getOrDefault(modifiers, CrystalModifier.class, new CrystalModifier()),
+                (PetModifier) getOrDefault(modifiers, PetModifier.class, new PetModifier()));
     }
 
     public static ItemModifier[] override(ItemModifier[] itemModifiers, ItemModifier... modifiers) {
@@ -84,6 +88,10 @@ public class ItemModifiers implements Iterable<ItemModifier> {
 
     public SkinMaterial getSkin() {
         return this.skin.get();
+    }
+
+    public PetSupplier getPet() {
+        return this.pet.get();
     }
 
     public ItemModifier[] toArray() {

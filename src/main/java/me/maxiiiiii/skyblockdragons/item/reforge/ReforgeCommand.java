@@ -2,7 +2,6 @@ package me.maxiiiiii.skyblockdragons.item.reforge;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
@@ -21,7 +20,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,12 +87,12 @@ public class ReforgeCommand implements CommandExecutor, Listener {
         int cost = 0;
         if (inventory.getItem(13).getItemMeta().getDisplayName().contains("Accessory Bag")) {
             for (ItemStack item : player.getAccessoryBag().getItems()) {
-                if (Functions.getRarity(item) == ReforgeMenu.raritySelected.get(player.getPlayer()) || ReforgeMenu.raritySelected.getOrDefault(player.getPlayer(), Rarity.NONE) == Rarity.NONE)
-                    cost += Functions.getRarity(item).getLevel() * 2000;
+                if (Rarity.getRarity(item) == ReforgeMenu.raritySelected.get(player.getPlayer()) || ReforgeMenu.raritySelected.getOrDefault(player.getPlayer(), Rarity.NONE) == Rarity.NONE)
+                    cost += Rarity.getRarity(item).getLevel() * 2000;
             }
             cost = (int) Math.pow(cost, 0.8);
         } else {
-            cost = Functions.getRarity(inventory.getItem(13)).getLevel() * 2000;
+            cost = Rarity.getRarity(inventory.getItem(13)).getLevel() * 2000;
         }
         return cost;
     }
@@ -182,7 +180,7 @@ public class ReforgeCommand implements CommandExecutor, Listener {
                                 reforgeType = getRandomReforge(Functions.getItemMaterial(e.getInventory().getItem(13)).getType());
                             }
                         }
-                        player.sendMessage(ChatColor.GREEN + "You have been reforged your " + e.getInventory().getItem(13).getItemMeta().getDisplayName() + ChatColor.GREEN + " to " + Functions.getRarity(e.getInventory().getItem(13)).getColor() + reforgeType.toString() + ChatColor.GREEN + ".");
+                        player.sendMessage(ChatColor.GREEN + "You have been reforged your " + e.getInventory().getItem(13).getItemMeta().getDisplayName() + ChatColor.GREEN + " to " + Rarity.getRarity(e.getInventory().getItem(13)).getColor() + reforgeType.toString() + ChatColor.GREEN + ".");
                         Reforge reforge = new Reforge(e.getInventory().getItem(13), reforgeType);
                         e.getInventory().setItem(13, reforge.apply(playerSD));
                         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.5f, 1f);

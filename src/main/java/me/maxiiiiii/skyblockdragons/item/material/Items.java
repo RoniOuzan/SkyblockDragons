@@ -28,6 +28,7 @@ public class Items {
     public static void registerItems() {
         Set<Class<? extends ItemMaterial>> materials = new Reflections("me.maxiiiiii").getSubTypesOf(ItemMaterial.class).stream().filter(c -> !Modifier.isAbstract(c.getModifiers())).collect(Collectors.toSet());
         for (Class<? extends ItemMaterial> materialClass : materials) {
+            if (materialClass.isAnnotationPresent(MaterialUnregisters.class)) continue;
             try {
                 ItemMaterial material = materialClass.newInstance();
                 items.put(material.getItemID(), material);
