@@ -1,11 +1,15 @@
 package me.maxiiiiii.skyblockdragons.item.material.types;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemStatsAble;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.pet.PetAbility;
+import me.maxiiiiii.skyblockdragons.item.objects.pet.PetRarity;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
+import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
@@ -25,18 +29,16 @@ public abstract class PetMaterial extends ItemMaterial implements ItemStatsAble,
     // TODO: change this NULL
 
     private final Stats stats;
-    private final List<Rarity> rarities;
-    private final List<PetAbility> abilities;
+    private final List<PetRarity> abilities;
     private final SkillType skill;
     private final int maxLevel;
     private final ParticlePacketUtil[] particles;
     private final SoundUtil[] sounds;
     private final List<Requirement> requirements;
 
-    public PetMaterial(String itemID, String name, Stats stats, List<Rarity> rarities, List<PetAbility> abilities, SkillType skill, int maxLevel, Object... array) {
+    public PetMaterial(String itemID, String name, Stats stats, List<PetRarity> abilities, SkillType skill, int maxLevel, Object... array) {
         super(itemID, Material.SKULL_ITEM, ItemFamily.NULL, name, ItemType.PET, Rarity.NONE);
         this.stats = stats;
-        this.rarities = rarities;
         this.abilities = abilities;
         this.skill = skill;
         this.maxLevel = maxLevel;
@@ -64,8 +66,18 @@ public abstract class PetMaterial extends ItemMaterial implements ItemStatsAble,
         this.requirements = requirements;
     }
 
-    public PetMaterial(String itemID, String name, Stats stats, List<Rarity> rarities, List<PetAbility> abilities, SkillType skill, Object... array) {
-        this(itemID, name, stats, rarities, abilities, skill, 100, array);
+    public PetMaterial(String itemID, String name, Stats stats, List<PetRarity> abilities, SkillType skill, Object... array) {
+        this(itemID, name, stats, abilities, skill, 100, array);
+    }
+
+    @Override
+    public void updateStats(PlayerStats stats) {
+
+    }
+
+    @Override
+    public void updateDamage(EntityDamage<?, ?> entityDamage) {
+
     }
 
     public static String stringWithMath(String string, int level) {

@@ -47,6 +47,9 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
 
     public abstract void updateDamage(EntityDamage<?, ?> entityDamage);
 
+    public void updateDamageHolder(EntityDamage<?, ?> entityDamage) {
+    }
+
     public String getName() {
         return Functions.setTitleCase(this.name.replaceAll("_", " "));
     }

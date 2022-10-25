@@ -8,8 +8,6 @@ import lombok.Setter;
 public class Multiplier {
     private double baseMultiplier;
     private double postMultiplier;
-    private double reducerAdditive;
-    private double reducerMultiplicative;
 
     public Multiplier() {
         this.reset();

@@ -10,7 +10,7 @@ import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.PetAbility;
+import me.maxiiiiii.skyblockdragons.item.objects.pet.PetAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stat;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
