@@ -19,14 +19,4 @@ public class GoldSword extends SwordMaterial {
                 ""
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

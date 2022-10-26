@@ -34,14 +34,4 @@ public class ObsidianHelmet extends ArmorMaterial {
     public Color getColor() {
         return super.getColor(); // TODO
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

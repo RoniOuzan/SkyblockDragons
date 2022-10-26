@@ -27,14 +27,4 @@ public class GoldTalisman extends AccessoryMaterial {
                 "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODViNGFiZDRmMDdiNjg5NDYwN2NiZDg3MDg2OGY2N2UwMjVjN2ZiNTUyYTFhNTdmNTZmNzdjMDQ0Y2NhNDFjZSJ9fX0="
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

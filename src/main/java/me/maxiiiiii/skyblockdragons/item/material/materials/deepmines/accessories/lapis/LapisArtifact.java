@@ -27,14 +27,4 @@ public class LapisArtifact extends AccessoryMaterial {
                 "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTUxODliMzc5YTc4ODBmZjlhNGJiZDU4OGFkYjRlMWI3YjljMzM0MWRlN2Q2ZDAwNmQzNjJhZTU0NTBkYTk4NiJ9fX0="
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

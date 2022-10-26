@@ -13,13 +13,25 @@ import java.util.List;
 @Getter
 @Setter
 public abstract class SkinMaterial extends ItemMaterial {
-    public static final SkinMaterial NULL = new SkinMaterial(Material.BARRIER, ItemFamily.NULL,"Null", Rarity.SPECIAL, "", "");
-    // TODO: change this NULL
+    public static final SkinMaterial NULL = new NullSkinMaterial();
 
     protected final List<String> canApplyTo; // TODO: make it actually work
 
     public SkinMaterial(String itemID, Material material, ItemFamily family, String name, Rarity rarity, String... canApplyTo) {
         super(itemID, material, family, name, ItemType.SKIN, rarity);
         this.canApplyTo = Arrays.asList(canApplyTo);
+    }
+
+    @MaterialUnregisters
+    private static class NullSkinMaterial extends SkinMaterial {
+        public NullSkinMaterial() {
+            super("NULL_SKIN",
+                    Material.BARRIER,
+                    ItemFamily.NULL,
+                    "Null",
+                    Rarity.SPECIAL,
+                    "NULL"
+            );
+        }
     }
 }

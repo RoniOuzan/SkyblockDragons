@@ -27,14 +27,4 @@ public class IronArtifact extends AccessoryMaterial {
                 "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWZjYTZmOWY4ZTZiMzE0Nzg0N2JiZGViMTBhNTI3NzM5NmI5YjA1ZDA3NjMyNjczNmY3ZjBiMmJmZDZkMWE2NCJ9fX0="
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

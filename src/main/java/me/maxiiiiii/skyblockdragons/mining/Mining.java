@@ -9,7 +9,6 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.item.material.types.DrillMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.MiningMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
@@ -21,7 +20,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -79,7 +77,7 @@ public class Mining implements Listener {
             playerDigging.put(player.getUniqueId(), block);
 
             new MiningThread(player, block, miningTime);
-        } else if (player.getItems().getToolItem().getMaterial() instanceof MiningMaterial) {
+        } else if (player.getItems().getTool().getMaterial() instanceof MiningMaterial) {
             player.sendMessage(ChatColor.RED + "Your tool is not strong enough to mine this block!");
         }
     }

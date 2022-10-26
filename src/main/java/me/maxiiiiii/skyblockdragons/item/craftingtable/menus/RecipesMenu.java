@@ -9,7 +9,7 @@ import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemStatsAble;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
-import me.maxiiiiii.skyblockdragons.item.pet.Pet;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
@@ -101,7 +101,7 @@ public class RecipesMenu extends Menu {
         WANDS(i -> i instanceof Item && ((Item) i).getMaterial().getType() == ItemType.WAND),
         ARMOR(i -> i instanceof Item && ((Item) i).getMaterial().getType().isArmor()),
         ACCESSORIES(i -> i instanceof Item && ((Item) i).getMaterial().getType() == ItemType.ACCESSORY),
-        PETS(i -> i instanceof Pet),
+        PETS(i -> i instanceof Item && ((Item) i).getModifiers().getPet().getRarity() != Rarity.NONE),
         ITEMS(i -> i instanceof Item && ((Item) i).getMaterial().getType() == ItemType.ITEM),
         ALL(i -> true),
         ;

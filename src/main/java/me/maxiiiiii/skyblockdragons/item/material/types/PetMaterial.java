@@ -1,14 +1,15 @@
 package me.maxiiiiii.skyblockdragons.item.material.types;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemStatsAble;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
 import me.maxiiiiii.skyblockdragons.util.particle.ParticlePacketUtil;
@@ -68,20 +69,10 @@ public abstract class PetMaterial extends ItemMaterial implements ItemStatsAble,
         this(itemID, name, stats, abilities, skill, 100, array);
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public double getNeedXp(int level) {
         int index = level + this.rarityToNeedXp();
         if (level >= this.getMaxLevel())
-            return 0;
+            return needXp[needXp.length - 1];
         return needXp[index];
     }
 

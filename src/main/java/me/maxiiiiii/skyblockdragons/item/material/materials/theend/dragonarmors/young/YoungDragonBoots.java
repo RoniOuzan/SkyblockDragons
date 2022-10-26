@@ -31,14 +31,4 @@ public class YoungDragonBoots extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(221,228,240);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

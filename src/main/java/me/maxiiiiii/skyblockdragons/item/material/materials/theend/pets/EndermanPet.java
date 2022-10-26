@@ -45,7 +45,7 @@ public class EndermanPet extends PetMaterial {
 
         public EnderianCommon() {
             super("Enderian",
-                    l -> "Take " + ChatColor.GREEN + (l * MULTIPLIER) + "% " + ChatColor.GRAY + "less damage from end monsters."
+                    (p, i) -> "Take " + ChatColor.GREEN + (i * MULTIPLIER) + "% " + ChatColor.GRAY + "less damage from end monsters."
             );
         }
 
@@ -60,7 +60,7 @@ public class EndermanPet extends PetMaterial {
 
         public EnderianUncommon() {
             super("Enderian",
-                    l -> "Take " + ChatColor.GREEN + (l * MULTIPLIER) + "% " + ChatColor.GRAY + "less damage from end monsters."
+                    (p, i) -> "Take " + ChatColor.GREEN + (i * MULTIPLIER) + "% " + ChatColor.GRAY + "less damage from end monsters."
             );
         }
 
@@ -75,7 +75,7 @@ public class EndermanPet extends PetMaterial {
 
         public Enderator() {
             super("Enderator",
-                    i -> "Increases the chance of enderman drops by " + ChatColor.GREEN + (i * MULTIPLIER) + "%" + ChatColor.GRAY + "."
+                    (p, i) -> "Increases the chance of enderman drops by " + ChatColor.GREEN + (i * MULTIPLIER) + "%" + ChatColor.GRAY + "."
             );
         }
 

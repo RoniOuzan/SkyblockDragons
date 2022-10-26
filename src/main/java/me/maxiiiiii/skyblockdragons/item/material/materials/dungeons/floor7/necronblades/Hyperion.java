@@ -19,14 +19,4 @@ public class Hyperion extends NecronBladeMaterial {
                 NecronBladeMaterial.NecronBladeType.HYPERION
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

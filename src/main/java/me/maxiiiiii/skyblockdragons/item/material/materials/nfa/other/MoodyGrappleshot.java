@@ -42,16 +42,6 @@ public class MoodyGrappleshot extends ToolMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class BigPull extends ItemAbility {
         public BigPull() {
             super(AbilityAction.RIGHT_CLICK,

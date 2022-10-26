@@ -50,7 +50,7 @@ public class EnderDragonPet extends PetMaterial {
 
         public EndStrike() {
             super("End Strike",
-                    i -> "Deal " + ChatColor.GREEN + (i * MULTIPLIER) + "% " + ChatColor.GRAY + "more damage to end mobs"
+                    (p, i) -> "Deal " + ChatColor.GREEN + (i * MULTIPLIER) + "% " + ChatColor.GRAY + "more damage to end mobs"
             );
         }
 
@@ -71,7 +71,7 @@ public class EnderDragonPet extends PetMaterial {
 
         public OneWithTheDragons() {
             super("One with the Dragons",
-                    i -> "Buffs the Aspect of the Dragons Sword by " + ChatColor.GREEN + (i * DAMAGE_MULTIPLIER) + " " + StatType.DAMAGE.getIconAndText() + " " + ChatColor.GRAY + "and " + ChatColor.GREEN + (i * STRENGTH_MULTIPLIER) + " " + StatType.STRENGTH.getIconAndText()
+                    (p, i) -> "Buffs the Aspect of the Dragons Sword by " + ChatColor.GREEN + (i * DAMAGE_MULTIPLIER) + " " + StatType.DAMAGE.getIconAndText() + " " + ChatColor.GRAY + "and " + ChatColor.GREEN + (i * STRENGTH_MULTIPLIER) + " " + StatType.STRENGTH.getIconAndText()
             );
         }
 
@@ -89,7 +89,7 @@ public class EnderDragonPet extends PetMaterial {
 
         public Superior() {
             super("Superior",
-                    i -> "Increases most stats by " + ChatColor.GREEN + (i * MULTIPLIER) + "%"
+                    (p, i) -> "Increases most stats by " + ChatColor.GREEN + (i * MULTIPLIER) + "%"
             );
         }
     }

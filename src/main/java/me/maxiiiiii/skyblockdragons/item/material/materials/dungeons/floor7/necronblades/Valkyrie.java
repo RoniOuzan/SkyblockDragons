@@ -19,14 +19,4 @@ public class Valkyrie extends NecronBladeMaterial {
                 NecronBladeMaterial.NecronBladeType.VALKYRIE
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

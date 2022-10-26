@@ -31,14 +31,4 @@ public class StrongDragonChestplate extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(217,30,65);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

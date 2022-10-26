@@ -36,16 +36,6 @@ public class LeapingSword extends SwordMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class Leap extends ItemAbility implements ItemAbilityManaCost, ItemAbilityCooldown {
         private final HashMap<UUID, Boolean> isEnabled = new HashMap<>();
 

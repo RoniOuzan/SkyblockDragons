@@ -23,14 +23,4 @@ public class CobaltChestplate extends ArmorMaterial {
                 new DeeperMinesFullSet(5)
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

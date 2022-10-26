@@ -22,14 +22,4 @@ public class ObsidianSword extends SwordMaterial {
                 new SkillRequirement(SkillType.COMBAT, 3)
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

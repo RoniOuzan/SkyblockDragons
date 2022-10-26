@@ -68,7 +68,7 @@ public class PlayerUseAbilityListener implements Listener {
                 cooldowns.put(player, map);
             }
 
-            if (Functions.cooldown(player, cooldowns.get(player).get(ability), ability.getCooldown() * 1000L, true)) return;
+//            if (Functions.cooldown(player, cooldowns.get(player).get(ability), ability.getCooldown() * 1000L, true)) return;
         }
         if (player.manaCost(itemStack, finalI)) return; // TODO: change this to the new mana cost system
         if (item.getMaterial() instanceof ItemRequirementAble) {

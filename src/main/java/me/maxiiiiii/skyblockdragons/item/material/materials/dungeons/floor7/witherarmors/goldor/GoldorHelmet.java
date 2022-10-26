@@ -28,14 +28,4 @@ public class GoldorHelmet extends ArmorMaterial {
                 "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjM5OGNmM2Y2MzEyNDJlZjNhOTgxODRkZDk0MjgzZjMxOGZiYzJkOGM4ZDNhNDI5NzM0MWIwM2ZkM2FmNmZlMCJ9fX0="
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

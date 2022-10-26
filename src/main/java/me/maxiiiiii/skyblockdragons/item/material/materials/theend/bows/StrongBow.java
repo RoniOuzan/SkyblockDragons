@@ -24,14 +24,4 @@ public class StrongBow extends BowMaterial {
                 new SkillRequirement(SkillType.COMBAT, 15)
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

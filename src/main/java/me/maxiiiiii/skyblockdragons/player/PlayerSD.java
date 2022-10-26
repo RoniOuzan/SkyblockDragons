@@ -7,14 +7,11 @@ import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamageEntityEvent;
 import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.item.abilities.Atomsplit_Katana;
-import me.maxiiiiii.skyblockdragons.item.abilities.Rogue_Sword;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.item.pet.Pet;
 import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
@@ -30,8 +27,8 @@ import me.maxiiiiii.skyblockdragons.player.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
-import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.util.objects.Multiplier;
+import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
@@ -98,6 +95,7 @@ public class PlayerSD extends PlayerClass {
 
     public PlayerSD(Player player) {
         super(player);
+        System.out.println("player " + player);
         this.update(player);
 
         this.stats = new PlayerStats(this,
@@ -226,17 +224,23 @@ public class PlayerSD extends PlayerClass {
         this.bits = amount;
     }
 
-    public void setActivePet(int activePet) {
-        this.playerPet.activePet = activePet;
-//        Variables.set(player.getUniqueId(), "ActivePet", activePet);
+    public void setActivePet(int activePetSlot) {
+        this.playerPet.setActivePetSlot(activePetSlot);
     }
 
-    public Pet getPetActive() {
-        return this.playerPet.getCurrentPet();
+    public Item getActivePet() {
+        return this.playerPet.getActivePet();
     }
 
-    public Pet getPet() {
-        return this.getPetActive();
+    public PetMaterial getActivePetMaterial() {
+        if (this.getActivePet().getMaterial() instanceof PetMaterial) {
+            return (PetMaterial) this.getActivePet().getMaterial();
+        }
+        return PetMaterial.NULL;
+    }
+
+    public Item getPet() {
+        return this.getActivePet();
     }
 
     public int getBreakingPower() {
@@ -376,19 +380,10 @@ public class PlayerSD extends PlayerClass {
 //        if (helmetMaterial == Items.get("ENDER_GuARD_BOOTS"))
 //            statsMultiplayer.increase(10, 10, 10, 10, 10, 10);
 
-
-        if (System.currentTimeMillis() - Atomsplit_Katana.atomsplitAbility.getOrDefault(player, 0L) <= 4000) {
-            this.stats.getFerocity().amount += 400;
-        }
-
         // TODO: change it to be automatically
 //        if (Functions.getId(tool).equals("TERMINATOR")) {
 //            this.stats.critChance.amount = this.stats.critChance.amount / 4;
 //        }
-
-        if (System.currentTimeMillis() - Rogue_Sword.rogueSwordLastTimeUsed.getOrDefault(this.player, 0L) <= 30000) {
-            this.stats.getSpeed().amount += (Rogue_Sword.rogueSwordAmountUsed.get(this.player) + 1) * 10;
-        }
 
 
         // TODO: change it to be automatically
@@ -469,11 +464,13 @@ public class PlayerSD extends PlayerClass {
         return true;
     }
 
+    // TODO: look
     public boolean manaCost(ItemStack item, int i) {
         if (this.player.getGameMode() == GameMode.CREATIVE) return false;
 
         ToolMaterial material = (ToolMaterial) Functions.getItemMaterial(item);
-        int cost = manaCostCalculator(material.getAbilities().get(i).isPlayerHasEnoughMana(), this);
+//        int cost = manaCostCalculator(material.getAbilities().get(i).isPlayerHasEnoughMana(), this);
+        int cost = 0;
         if (this.stats.mana.amount >= cost) {
             this.stats.mana.amount -= cost;
             Functions.sendActionBar(this, material.getAbilities().get(i).getName() + ChatColor.AQUA + "! (" + cost + " Mana)");
@@ -689,8 +686,16 @@ public class PlayerSD extends PlayerClass {
 
     @Getter
     public class PlayerEquipment extends Equipment {
-        private AccessoryBag accessoryBag;
-        private Pet pet;
+        private final AccessoryBag accessoryBag;
+        private Item pet;
+
+        public PlayerEquipment() {
+            this.accessoryBag = new AccessoryBag(PlayerSD.this);
+        }
+
+        public void setAccessoryBag(List<Item> items) {
+            accessoryBag.setItems(items);
+        }
 
         @Override
         public void save() {
@@ -700,8 +705,7 @@ public class PlayerSD extends PlayerClass {
         @Override
         public void update() {
             super.update();
-            this.accessoryBag = new AccessoryBag(PlayerSD.this);
-            this.pet = PlayerSD.this.getPlayerPet().getCurrentPet();
+            this.pet = PlayerSD.this.getPlayerPet().getActivePet() != null ? PlayerSD.this.getPlayerPet().getActivePet() : new Item(PlayerSD.this, PetMaterial.NULL);
         }
 
         @Override

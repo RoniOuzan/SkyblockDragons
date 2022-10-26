@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.theend.armors.ender
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
-import me.maxiiiiii.skyblockdragons.item.objects.fullset.ItemFullSet;
+
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;

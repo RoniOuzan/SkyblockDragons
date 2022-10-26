@@ -13,7 +13,7 @@ public class SkyblockDragonsAlphaCommand extends QuickCommand {
             JoinQuitListener.starterKit(player);
         }));
         addSubCommand(new QuickSubCommand("breakPiece", (player, args) -> {
-            Item toolItem = player.getItems().getToolItem();
+            Item toolItem = player.getItems().getTool();
             Item item = TheEnd.breakArmorPiece(toolItem);
             player.getInventory().setItemInMainHand(item);
             player.sendMessage("§c[SBD ALPHA] You BROKE %s -> %sx %s!", toolItem.getItemMeta().getDisplayName(), item.getAmount(), item.getItemMeta().getDisplayName());

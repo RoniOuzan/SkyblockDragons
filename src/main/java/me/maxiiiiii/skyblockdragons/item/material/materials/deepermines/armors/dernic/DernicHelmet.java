@@ -29,14 +29,4 @@ public class DernicHelmet extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(200, 105, 40);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

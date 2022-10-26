@@ -1,8 +1,6 @@
 package me.maxiiiiii.skyblockdragons.player;
 
 import dev.jcsoftware.jscoreboards.JPerPlayerMethodBasedScoreboard;
-import dev.jcsoftware.jscoreboards.JScoreboardOptions;
-import dev.jcsoftware.jscoreboards.JScoreboardTabHealthStyle;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
@@ -77,9 +75,9 @@ public class ScoreboardSD {
                 scores.add("  ");
             }
         }
-        if (player.playerPet.activePet >= 0) {
+        if (player.playerPet.getActivePetSlot() >= 0) {
             scores.add(ChatColor.WHITE + "Active Pet:");
-            scores.add("  " + player.getPetActive().getRarity().getColor() + player.getPetActive().getPetMaterial().getName());
+            scores.add("  " + player.getActivePet().getRarity().getColor() + player.getActivePetMaterial().getName());
             scores.add("   ");
         }
         scores.add(ChatColor.YELLOW + "sbdragons.ml");

@@ -3,9 +3,9 @@ package me.maxiiiiii.skyblockdragons.worlds.end.listeners;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.modifiers.PetModifier;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.pet.Pet;
-import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
+import me.maxiiiiii.skyblockdragons.item.pet.PetSupplier;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Killer;
@@ -137,9 +137,9 @@ public class DragonKillListener implements Listener {
         ItemStack uniqueDrop = null;
         if (quality >= 450) {
             if (Functions.chanceOf(0.05 * eyes)) {
-                uniqueDrop = new Pet(PetMaterial.get("ENDER_DRAGON"), Rarity.EPIC, 1, 0, true);
+                uniqueDrop = new Item(Items.get("ENDER_DRAGON"), new PetModifier(new PetSupplier(Rarity.EPIC, 1, 0)));
             } else if (Functions.chanceOf(0.01 * eyes)) {
-                uniqueDrop = new Pet(PetMaterial.get("ENDER_DRAGON"), Rarity.LEGENDARY, 1, 0, true);
+                uniqueDrop = new Item(Items.get("ENDER_DRAGON"), new PetModifier(new PetSupplier(Rarity.LEGENDARY, 1, 0)));
             } else if (Functions.chanceOf(5 * eyes) && dragonType == DragonType.SUPERIOR) {
                 uniqueDrop = new Item(Items.get("DRAGON_HORN"), 1);
 //            } else if (Functions.chanceOf(2 * eyes) && dragonType == DragonType.ERROR) {

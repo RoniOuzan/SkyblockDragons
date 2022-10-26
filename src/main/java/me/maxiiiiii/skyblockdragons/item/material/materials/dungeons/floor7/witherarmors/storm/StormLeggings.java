@@ -30,14 +30,4 @@ public class StormLeggings extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(23,168,196);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

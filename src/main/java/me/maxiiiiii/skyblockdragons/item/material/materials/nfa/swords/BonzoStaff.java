@@ -42,16 +42,6 @@ public class BonzoStaff extends SwordMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class Showtime extends ItemAbility implements ItemAbilityManaCost {
         private final ArrayList<ItemStack> balloons = new ArrayList<>(Arrays.asList(
                 applySkull(new ItemStack(Material.SKULL_ITEM, 1, (byte) 3), "b7685f9f-c378-41d8-a636-a07320b6c9ae", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTJkZDExZGEwNDI1MmY3NmI2OTM0YmMyNjYxMmY1NGYyNjRmMzBlZWQ3NGRmODk5NDEyMDllMTkxYmViYzBhMiJ9fX0="),

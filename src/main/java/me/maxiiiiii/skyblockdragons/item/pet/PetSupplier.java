@@ -10,8 +10,8 @@ import org.bukkit.inventory.ItemStack;
 @Getter
 public class PetSupplier {
     private final Rarity rarity;
-    private final int level;
-    private final double currentXp;
+    private int level;
+    private double currentXp;
 
     public PetSupplier(Rarity rarity, int level, double currentXp) {
         this.rarity = rarity;
@@ -21,6 +21,22 @@ public class PetSupplier {
 
     public PetSupplier() {
         this(Rarity.NONE, 0, 0);
+    }
+
+    public void levelUp() {
+        this.setLevel(this.level + 1);
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void giveXp(double amount) {
+        this.currentXp += amount;
+    }
+
+    public void setCurrentXp(double currentXp) {
+        this.currentXp = currentXp;
     }
 
     public static PetSupplier getPetSupplier(ItemStack item) {

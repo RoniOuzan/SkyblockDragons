@@ -1,7 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.swords;
 
 import me.maxiiiiii.skyblockdragons.damage.Damage;
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
@@ -9,12 +8,11 @@ import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.costs.ItemAbilityManaCost;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityCooldown;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityMagicDamage;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.costs.ItemAbilityManaCost;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import me.maxiiiiii.skyblockdragons.util.particle.ParticleUil;
@@ -40,21 +38,14 @@ public class AspectOfTheDragons extends SwordMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class DragonRage extends ItemAbility implements ItemAbilityManaCost, ItemAbilityCooldown, ItemAbilityMagicDamage {
+        private static final int BASE_AD_MULTIPLIER = 10_000;
+        private static final int BASE_AD = 5_000;
+
         public DragonRage() {
             super(AbilityAction.RIGHT_CLICK,
                     "Dragon Rage",
-                    "All monsters in front of you take " + ChatColor.RED + "ABILITY_DAMAGE " + ChatColor.GRAY + "damage."
+                    p -> "All monsters in front of you take " + ChatColor.RED + (p.getStats().getAbilityDamage().get() * BASE_AD_MULTIPLIER + BASE_AD) + " " + ChatColor.GRAY + "damage."
             );
         }
 

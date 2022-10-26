@@ -19,13 +19,13 @@ public abstract class PetAbility extends ItemAbility {
         super("Pet Ability:",
                 AbilityAction.PET,
                 name,
-                description.get(1)
+                p -> description.get(p, 1)
         );
         this.description = description;
     }
 
-    public String getDescription(int level) {
-        return this.description.get(level);
+    public String getDescription(PlayerSD player, int level) {
+        return this.description.get(player, level);
     }
     // TODO: make it work
     public void updateItemStats(PlayerSD player, Stats stats, int i) {
@@ -44,7 +44,7 @@ public abstract class PetAbility extends ItemAbility {
     public List<String> getLore(PlayerSD player, int level) {
         List<String> lores = new ArrayList<>();
         lores.add(getAbilityFullTitle());
-        lores.addAll(Functions.loreBuilder(this.description.get(level)));
+        lores.addAll(Functions.loreBuilder(this.description.get(player, level)));
         lores.addAll(getModifiersLore(player));
         return lores;
     }

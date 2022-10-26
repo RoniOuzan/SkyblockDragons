@@ -35,16 +35,6 @@ public class AxeOfTheShredded extends SwordMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class Throw extends ItemAbility implements ItemAbilityManaCost, ItemAbilitySilentCooldown {
         public Throw() {
             super(AbilityAction.RIGHT_CLICK,

@@ -30,16 +30,6 @@ public class AspectOfTheEnd extends SwordMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class Transmission extends ItemAbility implements ItemAbilityManaCost {
         private final double blocks;
 

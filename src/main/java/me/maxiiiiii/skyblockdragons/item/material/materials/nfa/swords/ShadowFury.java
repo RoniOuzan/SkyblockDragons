@@ -36,16 +36,6 @@ public class ShadowFury extends SwordMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class ShadowFuryAbility extends ItemAbility implements ItemAbilityCooldown {
         public ShadowFuryAbility() {
             super(AbilityAction.RIGHT_CLICK,

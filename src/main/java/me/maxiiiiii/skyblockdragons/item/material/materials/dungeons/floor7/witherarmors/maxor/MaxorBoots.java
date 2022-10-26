@@ -30,14 +30,4 @@ public class MaxorBoots extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(137,105,200);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

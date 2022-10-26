@@ -29,14 +29,4 @@ public class VoidCrystalLeggings extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(190, 60, 230);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

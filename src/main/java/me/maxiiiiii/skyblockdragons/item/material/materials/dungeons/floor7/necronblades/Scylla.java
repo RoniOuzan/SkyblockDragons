@@ -19,14 +19,4 @@ public class Scylla extends NecronBladeMaterial {
                 NecronBladeMaterial.NecronBladeType.SCYLLA
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

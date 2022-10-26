@@ -19,14 +19,13 @@ import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.wise.WiseDragonFullSet;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.modifiers.*;
-import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.interfaces.LoopTask;
 import me.maxiiiiii.skyblockdragons.util.interfaces.While;
-import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.util.objects.SignMenu;
+import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.SlotCooldown;
 import me.maxiiiiii.skyblockdragons.util.reflection.MinecraftReflectionProvider;
 import me.maxiiiiii.skyblockdragons.util.reflection.ReflectionUtil;
@@ -1486,7 +1485,7 @@ public class Functions {
     public static ArrayList<Player> getPlayerShowedPets() {
         ArrayList<Player> players = new ArrayList<>();
         for (PlayerSD player : SkyblockDragons.players.values()) {
-            if (!player.getPlayerPet().hidePets)
+            if (!player.getPlayerPet().isHidePets())
                 players.add(player);
         }
         return players;
@@ -1495,7 +1494,7 @@ public class Functions {
     public static ArrayList<Player> getPlayerShowedPets(Location location, double distance) {
         ArrayList<Player> players = new ArrayList<>();
         for (PlayerSD player : SkyblockDragons.players.values()) {
-            if (!player.getPlayerPet().hidePets && player.getLocation().distance(location) < distance)
+            if (!player.getPlayerPet().isHidePets() && player.getLocation().distance(location) < distance)
                 players.add(player);
         }
         return players;
@@ -1605,7 +1604,10 @@ public class Functions {
     public static <T> List<T> splitList(String example, Object[] objects) {
         List<T> list = new ArrayList<>();
         for (Object object : objects) {
-            if (object.getClass().getName().equals(example) || object.getClass().getSuperclass().getName().equals(example)) {
+            if (object.getClass().getName().equals(example) ||
+                    object.getClass().getSuperclass().getName().equals(example) ||
+                    object.getClass().getSuperclass().getSuperclass().getName().equals(example)
+            ) {
                 list.add((T) object);
             }
         }

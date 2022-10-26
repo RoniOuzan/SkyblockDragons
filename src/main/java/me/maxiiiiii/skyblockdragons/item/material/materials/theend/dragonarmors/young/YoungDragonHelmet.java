@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
-import me.maxiiiiii.skyblockdragons.item.objects.fullset.ItemFullSet;
+
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
@@ -30,15 +30,5 @@ public class YoungDragonHelmet extends ArmorMaterial {
         return new ItemSkull("12e3458b-42ba-49ba-bdee-0a746f16b143",
                 "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWNmNmFlNGQ4MjdiNzdlMzNlNDMxMGM3ZmJjODY4M2E4MWZlYjJiNTJhZDFmMjYwNGM2MWQzMzZjNTdhMTljMCJ9fX0="
         );
-    }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
     }
 }

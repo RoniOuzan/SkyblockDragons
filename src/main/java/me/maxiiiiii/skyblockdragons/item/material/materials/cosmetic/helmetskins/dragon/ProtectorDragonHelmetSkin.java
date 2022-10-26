@@ -25,14 +25,4 @@ public class ProtectorDragonHelmetSkin extends SkinMaterial {
                 "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTc5YzkxNDQ0OTZkMjFmMzMzNGIzMjQzN2RlZWI2MzM3OTc2NjM5OWQwYTkyYmMwNjcxMmJhNTkyYmMyMzdlNiJ9fX0="
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

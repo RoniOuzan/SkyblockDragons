@@ -37,16 +37,6 @@ public class TrollEye extends ToolMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class GetOutFromMyFace extends ItemAbility implements ItemAbilityManaCost, ItemAbilityCooldown {
         public GetOutFromMyFace() {
             super(AbilityAction.RIGHT_CLICK,

@@ -8,25 +8,45 @@ import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 
+import java.util.function.Function;
+
 @Getter
 public abstract class ItemFullSetBonus extends ItemAbility {
+    public static final ItemFullSetBonus NULL = new NullFullSetBonus();
+
     private final int amountOfPieces;
 
-    protected ItemFullSetBonus(AbilityAction action, String name, String description, int amountOfPieces) {
+    protected ItemFullSetBonus(AbilityAction action, String name, Function<PlayerSD, String> description, int amountOfPieces) {
         super("Full Set Bonus:", action, name, description);
         this.amountOfPieces = amountOfPieces;
     }
 
-    protected ItemFullSetBonus(String name, String description, int amountOfPieces) {
+    protected ItemFullSetBonus(AbilityAction action, String name, String description, int amountOfPieces) {
+        this(action, name, p -> description, amountOfPieces);
+    }
+
+    protected ItemFullSetBonus(String name, Function<PlayerSD, String> description, int amountOfPieces) {
         this(AbilityAction.NONE, name, description, amountOfPieces);
     }
 
-    protected ItemFullSetBonus(AbilityAction action, String name, String description) {
+    protected ItemFullSetBonus(String name, String description, int amountOfPieces) {
+        this(AbilityAction.NONE, name, p -> description, amountOfPieces);
+    }
+
+    protected ItemFullSetBonus(AbilityAction action, String name, Function<PlayerSD, String> description) {
         this(action, name, description, 4);
     }
 
-    protected ItemFullSetBonus(String name, String description) {
+    protected ItemFullSetBonus(AbilityAction action, String name, String description) {
+        this(action, name, p -> description, 4);
+    }
+
+    protected ItemFullSetBonus(String name, Function<PlayerSD, String> description) {
         this(AbilityAction.NONE, name, description, 4);
+    }
+
+    protected ItemFullSetBonus(String name, String description) {
+        this(AbilityAction.NONE, name, p -> description, 4);
     }
 
     public void updateStats(PlayerStats stats) { // TODO
@@ -65,5 +85,11 @@ public abstract class ItemFullSetBonus extends ItemAbility {
             }
         }
         return false;
+    }
+
+    private static class NullFullSetBonus extends ItemFullSetBonus {
+        public NullFullSetBonus() {
+            super(AbilityAction.NULL, "Null", "", Integer.MAX_VALUE);
+        }
     }
 }

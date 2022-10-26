@@ -29,14 +29,4 @@ public class HematiteHelmet extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(120, 0, 0);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

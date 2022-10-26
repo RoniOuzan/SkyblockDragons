@@ -19,14 +19,4 @@ public class Astraea extends NecronBladeMaterial {
                 NecronBladeMaterial.NecronBladeType.ASTRAEA
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

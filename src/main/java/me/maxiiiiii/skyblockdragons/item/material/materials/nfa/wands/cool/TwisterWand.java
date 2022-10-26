@@ -35,16 +35,6 @@ public class TwisterWand extends ToolMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class Tornado extends ItemAbility implements ItemAbilityManaCost, ItemAbilityCooldown {
         public Tornado() {
             super(AbilityAction.RIGHT_CLICK,

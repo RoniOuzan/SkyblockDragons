@@ -29,14 +29,4 @@ public class DernicLeggings extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(140, 85, 25);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

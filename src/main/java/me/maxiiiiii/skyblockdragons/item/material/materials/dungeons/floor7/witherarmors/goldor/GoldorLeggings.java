@@ -30,14 +30,4 @@ public class GoldorLeggings extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(101,96,90);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

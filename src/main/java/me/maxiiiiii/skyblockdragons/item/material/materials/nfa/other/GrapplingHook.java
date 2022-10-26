@@ -39,16 +39,6 @@ public class GrapplingHook extends ToolMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class TravelHook extends ItemAbility implements ItemAbilityCooldown, Listener {
         public TravelHook() {
             super(AbilityAction.NONE,

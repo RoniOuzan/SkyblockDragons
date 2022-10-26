@@ -24,16 +24,6 @@ public class Terminator extends ShortBowMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class Salvation extends ItemAbility implements ItemAbilityCooldown {
         public Salvation() {
             super(AbilityAction.RIGHT_CLICK,

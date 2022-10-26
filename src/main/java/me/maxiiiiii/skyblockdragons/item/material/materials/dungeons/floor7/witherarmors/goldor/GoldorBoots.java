@@ -30,14 +30,4 @@ public class GoldorBoots extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(136,131,126);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

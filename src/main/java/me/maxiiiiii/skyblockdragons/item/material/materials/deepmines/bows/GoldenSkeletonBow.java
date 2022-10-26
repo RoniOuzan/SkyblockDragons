@@ -19,14 +19,4 @@ public class GoldenSkeletonBow extends BowMaterial {
                 ""
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

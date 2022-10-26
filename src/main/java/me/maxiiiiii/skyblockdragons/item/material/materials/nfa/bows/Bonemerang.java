@@ -37,16 +37,6 @@ public class Bonemerang extends RangeWeaponMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class Swing extends ItemAbility implements ItemAbilitySilentCooldown {
         public Swing() {
             super(AbilityAction.RIGHT_CLICK,

@@ -22,14 +22,4 @@ public class IronAxe extends MiningMaterial {
                 ""
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

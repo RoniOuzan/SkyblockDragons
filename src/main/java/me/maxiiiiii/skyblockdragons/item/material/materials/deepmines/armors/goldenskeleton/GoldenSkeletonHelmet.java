@@ -18,8 +18,7 @@ public class GoldenSkeletonHelmet extends ArmorMaterial {
                 ItemType.HELMET,
                 Rarity.COMMON,
                 new Stats(0, 0, 0, 0, 0, 0, 25, 25, 0, 5),
-                "Deals " + ChatColor.GREEN + "+20% " + ChatColor.GRAY + "damage with " + ChatColor.WHITE + "Golden Skeleton Bow" + ChatColor.GRAY + ".",
-                null
+                "Deals " + ChatColor.GREEN + "+20% " + ChatColor.GRAY + "damage with " + ChatColor.WHITE + "Golden Skeleton Bow" + ChatColor.GRAY + "."
         );
     }
 

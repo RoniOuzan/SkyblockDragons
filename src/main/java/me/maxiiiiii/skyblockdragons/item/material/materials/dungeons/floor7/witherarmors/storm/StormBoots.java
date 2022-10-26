@@ -30,14 +30,4 @@ public class StormBoots extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(28,212,228);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

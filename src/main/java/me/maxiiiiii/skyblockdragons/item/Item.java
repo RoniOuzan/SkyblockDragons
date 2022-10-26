@@ -11,6 +11,7 @@ import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifier;
 import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
@@ -33,7 +34,7 @@ import java.util.stream.Collectors;
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 @Getter
-public class Item extends ItemStack {
+public class Item extends ItemStack implements Comparable<Item> {
     private final PlayerSD player;
 
     protected final ItemMaterial material;
@@ -56,6 +57,8 @@ public class Item extends ItemStack {
         this.modifiers = new ItemModifiers(modifiers);
         if (this.material instanceof BookMaterial) {
             rarity = Rarity.getBookRarity(this.modifiers);
+        } else if (this.modifiers.getPet().getRarity() != Rarity.NONE) {
+            rarity = this.modifiers.getPet().getRarity();
         } else {
             rarity = Rarity.getRarity(material.getRarity().getLevel() + (this.modifiers.getRecombabulated() ? 1 : 0));
         }
@@ -193,7 +196,7 @@ public class Item extends ItemStack {
                 if (isNotLastEmpty(lores)) lores.add("");
 
                 lores.add(material.getRarity().getColor() + "Orb Buff: " + material.getPowerOrbName());
-                lores.addAll(Functions.loreBuilder(material.getDescription(), ChatColor.GRAY, 50));
+                lores.addAll(Functions.loreBuilder(material.getDescription(player), ChatColor.GRAY, 50));
             } else if (this.material instanceof NormalMaterial) {
                 NormalMaterial material = (NormalMaterial) this.material;
 
@@ -372,10 +375,10 @@ public class Item extends ItemStack {
     private void applyFullSet(List<String> lores) {
         if (this.material instanceof ArmorMaterial) {
             ArmorMaterial material = (ArmorMaterial) this.material;
-            if (material.getFullSet() != null) {
+            if (material.getFullSet() != null && material.getFullSet() != ItemFullSetBonus.NULL) {
                 if (!lores.get(lores.size() - 1).isEmpty()) lores.add("");
                 lores.add(ChatColor.GOLD + "Full Set Bonus: " + material.getFullSet().getName());
-                lores.addAll(loreBuilder(material.getFullSet().getDescription()));
+                lores.addAll(loreBuilder(material.getFullSet().getDescription(player)));
                 lores.addAll(material.getFullSet().getLore(player));
             }
         }
@@ -392,19 +395,17 @@ public class Item extends ItemStack {
         if (material.getAbilities().size() == 0 || material.getAbilities().get(0) == null)
             return;
 
-        if (material.getAbilities().get(0).getAction() != AbilityAction.NULL) {
-            for (ItemAbility ability : material.getAbilities()) {
-                if (isNotLastEmpty(lores)) lores.add("");
-                lores.addAll(ability.getLore(player));
-            }
+        for (ItemAbility ability : material.getAbilities()) {
+            if (isNotLastEmpty(lores)) lores.add("");
+            lores.addAll(ability.getLore(player));
         }
     }
 
     private void applyDescription(List<String> lores) {
         ItemDescriptionAble material = (ItemDescriptionAble) this.material;
-        if (!material.getDescription().isEmpty()) {
+        if (!material.getDescription(player).isEmpty()) {
             if (isNotLastEmpty(lores)) lores.add("");
-            lores.addAll(loreBuilder(material.getDescription()));
+            lores.addAll(loreBuilder(material.getDescription(player)));
         }
     }
 
@@ -578,5 +579,16 @@ public class Item extends ItemStack {
 
     private static ItemModifier[] overrideModifiers(ItemModifiers itemModifiers, ItemModifier[] modifiers) {
         return itemModifiers.getOverrided(modifiers).toArray();
+    }
+
+    public int getPetLength() {
+        return (modifiers.getPet().getLevel() * 1_000_000) +
+                (this.rarity.getLevel() * 100_000_000) +
+                (int) this.modifiers.getPet().getCurrentXp();
+    }
+
+    @Override
+    public int compareTo(Item item) {
+        return item.getPetLength() - this.getPetLength();
     }
 }

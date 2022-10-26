@@ -14,8 +14,7 @@ import me.maxiiiiii.skyblockdragons.inventory.MenuListener;
 import me.maxiiiiii.skyblockdragons.inventory.menus.ProfileMenu;
 import me.maxiiiiii.skyblockdragons.inventory.menus.SkyblockMenu;
 import me.maxiiiiii.skyblockdragons.item.ItemCommand;
-import me.maxiiiiii.skyblockdragons.item.abilities.Terminator;
-import me.maxiiiiii.skyblockdragons.item.abilities.*;
+import me.maxiiiiii.skyblockdragons.item.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.item.anvil.AnvilCommand;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.CraftingTableMenu;
@@ -24,7 +23,6 @@ import me.maxiiiiii.skyblockdragons.item.enchants.BookCommand;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantingTableCommand;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.pet.Pet;
 import me.maxiiiiii.skyblockdragons.item.pet.PetCommand;
 import me.maxiiiiii.skyblockdragons.item.pet.PetListener;
 import me.maxiiiiii.skyblockdragons.item.pet.PetMenu;
@@ -130,7 +128,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         // Command Listeners
         getServer().getPluginManager().registerEvents(new AnvilCommand(), this);
         getServer().getPluginManager().registerEvents(new ReforgeCommand(), this);
-        getServer().getPluginManager().registerEvents(new AccessoryBagCommand(), this);
         getServer().getPluginManager().registerEvents(new SkillListener(), this);
         getServer().getPluginManager().registerEvents(new BankCommand(), this);
         getServer().getPluginManager().registerEvents(new EnchantingTableCommand(), this);
@@ -152,16 +149,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         spawnEntitiesTimer();
 
-//        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
-//            for (PlayerSD player : players.values()) {
-//                for (LivingEntity entity : player.getWorld().getLivingEntities()) {
-//                    if (entity instanceof Creature) {
-//                        player.getWorld().strikeLightningEffect(entity.getLocation());
-//                        player.makeDamage(entity, Damage.DamageType.MAGIC, 1, 50, 0.05);
-//                    }
-//                }
-//            }
-//        }, 3000L, 6000L);
         loadAddonsAfter();
 
         System.out.println("Skyblock Dragons plugin has been loaded!");
@@ -197,34 +184,31 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                     player.spigot().respawn();
                 }
                 // pets
-                if (player.getPlayerPet().activePet >= 0) {
-                    if (player.getPlayerPet().petArmorStand != null && player.getPlayerPet().petArmorStand.armorStand.getWorld() != player.getWorld()) {
-                        player.getPlayerPet().petArmorStand.armorStand.remove();
-                        player.getPlayerPet().petArmorStand.hologram.delete();
-                        player.getPlayerPet().petArmorStand = null;
+                if (player.getPlayerPet().getActivePetSlot() >= 0) {
+                    if (player.getPlayerPet().getVisual() != null && player.getPlayerPet().getVisual().getArmorStand().getWorld() != player.getWorld()) {
+                        player.getPlayerPet().getVisual().getArmorStand().remove();
+                        player.getPlayerPet().getVisual().getHologram().delete();
+                        player.getPlayerPet().setVisual(null);
                         return;
                     }
-                    if (player.getPlayerPet().getPetArmorStand() == null || player.getPlayerPet().getPetArmorStand().slot != player.getPlayerPet().activePet)
-                        player.getPlayerPet().petArmorStand = new Pet.ArmorStand(player, player.getPetActive(), Pet.spawnPet(player, player.getPetActive()), player.getPlayerPet().activePet);
-
-                    if (player.getPlayerPet().getPetArmorStand().armorStand.getLocation().distance(player.getLocation()) > 3)
-                        new FlyTo(player.getPlayerPet().getPetArmorStand().armorStand, player, 20, 1.5, true, player.getPlayerPet().petArmorStand.hologram, new Vector(0, 1.6, 0));
-                    player.getPlayerPet().petArmorStand.armorStand.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.1 : -0.1), 0));
-                    Hologram hologram = player.getPlayerPet().petArmorStand.hologram;
+                    if (player.getPlayerPet().getVisual() == null || player.getPlayerPet().getVisual().getSlot() != player.getPlayerPet().getActivePetSlot())
+                        player.getPlayerPet().updateVisual();
+                    if (player.getPlayerPet().getVisual().getArmorStand().getLocation().distance(player.getLocation()) > 3)
+                        new FlyTo(player.getPlayerPet().getVisual().getArmorStand(), player, 20, 1.5, true, player.getPlayerPet().getVisual().getHologram(), new Vector(0, 1.6, 0));
+                    player.getPlayerPet().getVisual().getArmorStand().teleport(player.getPlayerPet().getVisual().getArmorStand().getLocation().add(0, ((System.currentTimeMillis() / 1000) % 2 == 0 ? 0.1 : -0.1), 0));
+                    Hologram hologram = player.getPlayerPet().getVisual().getHologram();
                     if (!hologram.isDeleted())
-                        hologram.teleport(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 1.6, 0));
-                    for (ParticlePacketUtil particle : player.getPetActive().petMaterial.getParticles()) {
-                        particle.spawn(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.8, 0), Functions.getPlayerShowedPets());
+                        hologram.teleport(player.getPlayerPet().getVisual().getArmorStand().getLocation().add(0, 1.6, 0));
+                    for (ParticlePacketUtil particle : player.getActivePetMaterial().getParticles()) {
+                        particle.spawn(player.getPlayerPet().getVisual().getArmorStand().getLocation().add(0, 0.8, 0), Functions.getPlayerShowedPets());
                     }
                 }
 
-                if (player.getPlayerPet().activePet >= 0) {
-                    if (player.getPetActive().levelUp(player)) {
-                        player.getPlayerPet().pets.set(player.getPlayerPet().activePet, player.getPetActive());
-                    }
+                if (player.getPlayerPet().getActivePetSlot() >= 0) {
+                    player.getPlayerPet().levelUp();
                 }
 
-                if (player.getPlayerPet().hidePets) {
+                if (player.getPlayerPet().isHidePets()) {
                     for (Entity entity : player.getWorld().getEntities()) {
                         if (entity.getScoreboardTags().contains("Pet")) {
                             player.hideEntity(entity);
@@ -265,11 +249,11 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                 player.applyStats(true);
 
                 // pet sound
-                if (player.getPlayerPet().activePet >= 0)
-                    for (SoundUtil sound : player.getPetActive().petMaterial.getSounds()) {
+                if (player.getPlayerPet().getActivePetSlot() >= 0)
+                    for (SoundUtil sound : player.getActivePetMaterial().getSounds()) {
                         for (Player showed : Functions.getPlayerShowedPets()) {
-                            if (showed.getWorld() == player.getPlayerPet().petArmorStand.armorStand.getWorld())
-                                showed.playSound(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.5, 0), sound.sound, (2f - (float) showed.getEyeLocation().distance(player.getPlayerPet().petArmorStand.armorStand.getLocation().add(0, 0.5, 0))) / 4, sound.pitch);
+                            if (showed.getWorld() == player.getPlayerPet().getVisual().getArmorStand().getWorld())
+                                showed.playSound(player.getPlayerPet().getVisual().getArmorStand().getLocation().add(0, 0.5, 0), sound.sound, (2f - (float) showed.getEyeLocation().distance(player.getPlayerPet().getVisual().getArmorStand().getLocation().add(0, 0.5, 0))) / 4, sound.pitch);
                         }
                     }
             }
@@ -363,51 +347,12 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerEvents(new MenuListener(), this);
 
         // Abilities
-        registerEvents(new Aspect_of_The_End(), this);
-        registerEvents(new Aspect_of_The_Void(), this);
-        registerEvents(new Atomsplit_Katana(), this);
-        registerEvents(new Leaping_Sword(), this);
-        registerEvents(new Bonzo_Staff(), this);
-        registerEvents(new Grappling_Hook(), this);
-        registerEvents(new Gyrokinetic_Wand(), this);
-        registerEvents(new Terminator(), this);
-        registerEvents(new Bonemerang(), this);
-        registerEvents(new Shadow_Fury(), this);
-        registerEvents(new Flower_of_Truth(), this);
-        registerEvents(new Tree_Capitator(), this);
-        registerEvents(new World_Eater(), this);
-        registerEvents(new World_Eater(), this);
-        registerEvents(new Tornado_Wand(), this);
-        registerEvents(new Twister_Wand(), this);
-        registerEvents(new Hurricane_Wand(), this);
-        registerEvents(new Parabola_Wand(), this);
-        registerEvents(new Soul_Whip(), this);
-        registerEvents(new Troll_Eye(), this);
         registerEvents(new Wither_Impact(), this);
-        registerEvents(new Spirit_Sceptre(), this);
-        registerEvents(new Rogue_Sword(), this);
-        registerEvents(new Power_Orb(), this);
-        registerEvents(new Builders_Wand(), this);
-        registerEvents(new Axe_of_The_Shredded(), this);
-        registerEvents(new Midas_Staff(), this);
-        registerEvents(new Pigman_Dagger(), this);
-        registerEvents(new Aspect_Of_The_Dragons(), this);
-        registerEvents(new Moody_Grappleshot(), this);
-        registerEvents(new Wither_Cloak(), this);
-        registerEvents(new Magma_Cloak(), this);
-        registerEvents(new Mythologs_Spade(), this);
-        registerEvents(new ERROR_SCYTHE(), this);
         registerEvents(new CommandListener(), this);
         registerEvents(new TeleportListener(), this);
         registerEvents(new BlockListener(), this);
         registerEvents(new PlayerUseAbilitiesListener(), this);
         registerEvents(new ProjectileShootListener(), this);
-        registerEvents(new MultiShot_Bow("YOUNG_BOW", 3, 200L), this);
-        registerEvents(new MultiShot_Bow("RUNAANS_BOW", 3), this);
-        registerEvents(new MultiShot_Bow("STRONG_BOW", 3), this);
-        registerEvents(new MultiShot_Bow("HURRICANE_BOW", 5), this);
-        registerEvents(new Explosive_Bow(), this);
-        registerEvents(new Sword_Of_The_Flame(), this);
         new PacketListeners(); // not really an event but works like them
     }
     

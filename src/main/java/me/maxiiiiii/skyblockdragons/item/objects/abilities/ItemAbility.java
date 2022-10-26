@@ -18,17 +18,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 @Getter
 public abstract class ItemAbility implements MaterialModifier {
     @Getter(AccessLevel.NONE) private final String abilityTitle;
     private final AbilityAction action;
     private final String name;
-    private final String description;
+    private final Function<PlayerSD, String> description;
 
     protected final Map<PlayerSD, ItemAbilityPerPlayer> users = new HashMap<>();
 
-    protected ItemAbility(String abilityTitle, AbilityAction action, String name, String description) {
+    protected ItemAbility(String abilityTitle, AbilityAction action, String name, Function<PlayerSD, String> description) {
         this.abilityTitle = abilityTitle;
         this.action = action;
         this.name = name;
@@ -39,8 +40,16 @@ public abstract class ItemAbility implements MaterialModifier {
         }
     }
 
-    protected ItemAbility(AbilityAction action, String name, String description) {
+    protected ItemAbility(AbilityAction action, String name, Function<PlayerSD, String> description) {
         this("Item Ability:", action, name, description);
+    }
+
+    protected ItemAbility(AbilityAction action, String name, String description) {
+        this("Item Ability:", action, name, p -> description);
+    }
+
+    public String getDescription(PlayerSD player) {
+        return this.description.apply(player);
     }
 
     public boolean hasCosts(PlayerSD player) {
@@ -59,7 +68,9 @@ public abstract class ItemAbility implements MaterialModifier {
 
     public void onPlayerUse(PlayerAbilityUsage abilityUsage) {
         if (!users.containsKey(abilityUsage.getPlayer())) {
-            users.put(abilityUsage.getPlayer(), new ItemAbilityPerPlayer(abilityUsage.getPlayer(), this, setupAbility()));
+            PlayerAbilityRunnable runnable = setupAbility();
+            if (runnable == null) runnable = e -> {};
+            users.put(abilityUsage.getPlayer(), new ItemAbilityPerPlayer(abilityUsage.getPlayer(), this, runnable));
         }
         users.get(abilityUsage.getPlayer()).run(abilityUsage);
     }
@@ -67,7 +78,7 @@ public abstract class ItemAbility implements MaterialModifier {
     public List<String> getLore(PlayerSD player) {
         List<String> lores = new ArrayList<>();
         lores.add(getAbilityFullTitle());
-        lores.addAll(Functions.loreBuilder(this.description));
+        lores.addAll(Functions.loreBuilder(this.description.apply(player)));
         lores.addAll(getModifiersLore(player));
         return lores;
     }

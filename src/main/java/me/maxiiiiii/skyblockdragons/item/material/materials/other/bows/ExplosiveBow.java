@@ -37,16 +37,6 @@ public class ExplosiveBow extends BowMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class Explosive extends ItemAbility implements Listener {
         private final double radius;
 

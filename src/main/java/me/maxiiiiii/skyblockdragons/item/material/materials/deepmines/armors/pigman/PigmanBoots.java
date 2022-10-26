@@ -22,14 +22,4 @@ public class PigmanBoots extends ArmorMaterial {
                 new PigmanFullSetBonus()
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

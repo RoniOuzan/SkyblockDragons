@@ -27,14 +27,4 @@ public class EndermanTalismanEpic extends AccessoryMaterial {
                 "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzgxOTNkOWExOTY1ZjBkNGM5NDI2NzdmMWZjNjAwYjQxYzFkZmNjZGU1YmI2OGVlZGY2ODQ2NTA3MzFjY2RjNyJ9fX0="
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

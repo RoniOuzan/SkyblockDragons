@@ -1,10 +1,10 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.armors.emerald;
 
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
-import me.maxiiiiii.skyblockdragons.item.objects.fullset.ItemFullSet;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import org.bukkit.Color;
 import org.bukkit.Material;
 
@@ -24,15 +24,5 @@ public class EmeraldHelmet extends ArmorMaterial {
     @Override
     public Color getColor() {
         return Color.fromRGB(5, 240, 15);
-    }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
     }
 }

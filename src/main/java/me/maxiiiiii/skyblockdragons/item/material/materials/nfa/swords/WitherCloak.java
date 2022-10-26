@@ -35,16 +35,6 @@ public class WitherCloak extends SwordMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class CreeperVeil extends ItemAbility {
         public CreeperVeil() {
             super(AbilityAction.RIGHT_CLICK,

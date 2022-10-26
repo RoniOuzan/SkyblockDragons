@@ -46,7 +46,7 @@ public class BearPet extends PetMaterial {
 
         public FuriousBear() {
             super("Furious Bear",
-                    i -> "Increases " + ChatColor.RED + "⫽ Ferocity " + ChatColor.GRAY + "by" + ChatColor.GREEN + (i * MULTIPLIER) + "%"
+                    (p, i) -> "Increases " + ChatColor.RED + "⫽ Ferocity " + ChatColor.GRAY + "by" + ChatColor.GREEN + (i * MULTIPLIER) + "%"
             );
         }
 
@@ -61,7 +61,7 @@ public class BearPet extends PetMaterial {
 
         public FerocityIsStronger() {
             super("Ferocity is Stronger",
-                    i -> "Ferocity Attacks deal " + ChatColor.GREEN + (i * MULTIPLIER) + "%" + ChatColor.GRAY + "more damage"
+                    (p, i) -> "Ferocity Attacks deal " + ChatColor.GREEN + (i * MULTIPLIER) + "%" + ChatColor.GRAY + "more damage"
             );
         }
 

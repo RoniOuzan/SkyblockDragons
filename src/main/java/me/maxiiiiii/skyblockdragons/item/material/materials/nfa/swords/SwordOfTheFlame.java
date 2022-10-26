@@ -39,16 +39,6 @@ public class SwordOfTheFlame extends SwordMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class Flamer extends ItemAbility implements ItemAbilityManaCost, ItemAbilityMagicDamage, ItemAbilityCooldown, Listener {
         public Flamer() {
             super(AbilityAction.RIGHT_CLICK,

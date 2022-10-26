@@ -30,14 +30,4 @@ public class NecronChestplate extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(231,65,60);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

@@ -29,14 +29,4 @@ public class ChlorophyteBoots extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(26, 255, 0);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

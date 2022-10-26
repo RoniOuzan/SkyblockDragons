@@ -31,14 +31,4 @@ public class SuperiorDragonBoots extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(242,93,24);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

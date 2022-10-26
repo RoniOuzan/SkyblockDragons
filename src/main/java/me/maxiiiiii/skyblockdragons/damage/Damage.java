@@ -4,7 +4,6 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
-import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
@@ -217,24 +216,6 @@ public class Damage implements Listener {
 //
 //        if (fullSet.equals("Strong Blood") && toolMaterial == Items.get("ASPECT_OF_THE_END"))
 //            baseMultiplayer += 0.2;
-
-        if (attacker instanceof PlayerSD) {
-            PlayerSD playerSD = (PlayerSD) attacker;
-            if (playerSD.getPlayerPet().getActivePet() >= 0) {
-                if (playerSD.getPetActive().getPetMaterial() == PetMaterial.get("ENDER_DRAGON") && (victim.type.getEntityType() == EntityType.ENDERMAN || victim.type.getEntityType() == EntityType.ENDER_DRAGON || victim.type.getEntityType() == EntityType.ENDERMITE)) {
-                    baseMultiplayer += playerSD.getPetActive().getLevel() * 0.0025;
-                }
-            }
-        }
-
-        if (victim instanceof PlayerSD) {
-            PlayerSD victimSD = (PlayerSD) victim;
-            if (victimSD.getPlayerPet().getActivePet() >= 0) {
-                if (victimSD.getPetActive().getPetMaterial() == PetMaterial.get("ENDERMAN")) {
-                    baseReducer *= 1 - (victimSD.getPetActive().getLevel() * 0.003);
-                }
-            }
-        }
 
         // final damage
         damage *= baseMultiplayer;

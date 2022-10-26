@@ -37,16 +37,6 @@ public class MagmaCloak extends SwordMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class MagmaVeil extends ItemAbility {
         public MagmaVeil() {
             super(AbilityAction.RIGHT_CLICK,

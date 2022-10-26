@@ -49,7 +49,7 @@ public class PlayerClass extends EntitySD implements Player {
 
     public void setPlayer(Player player) {
         this.player = player;
-        this.entity = player;
+        super.entity = player;
     }
 
     @Override

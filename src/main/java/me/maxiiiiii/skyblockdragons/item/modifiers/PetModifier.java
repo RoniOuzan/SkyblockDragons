@@ -1,7 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.modifiers;
 
 import me.maxiiiiii.skyblockdragons.item.pet.PetSupplier;
-import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.inventory.ItemStack;
 
 public class PetModifier extends ItemModifier {
@@ -21,6 +20,6 @@ public class PetModifier extends ItemModifier {
     }
 
     public static ItemModifier getModifier(ItemStack item) {
-        return Functions.getEnchants(item);
+        return new PetModifier(PetSupplier.getPetSupplier(item));
     }
 }

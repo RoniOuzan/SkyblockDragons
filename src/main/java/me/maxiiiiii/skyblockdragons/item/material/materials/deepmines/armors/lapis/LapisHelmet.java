@@ -27,14 +27,4 @@ public class LapisHelmet extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(55, 55, 215);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

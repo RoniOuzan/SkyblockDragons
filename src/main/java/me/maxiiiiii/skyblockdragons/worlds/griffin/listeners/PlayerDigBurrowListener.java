@@ -16,7 +16,7 @@ public class PlayerDigBurrowListener implements Listener {
         player.getGriffin().next();
 
         Location dropLocation = e.getLocation().clone().add(0, 1, 0);
-        double mobChance = 10 + (e.getPlayer().getItems().getToolItem().getMaterial().getRarity().getLevel() * 10);
+        double mobChance = 10 + (e.getPlayer().getItems().getTool().getMaterial().getRarity().getLevel() * 10);
         if (Functions.chanceOf(mobChance)) {
 
         }

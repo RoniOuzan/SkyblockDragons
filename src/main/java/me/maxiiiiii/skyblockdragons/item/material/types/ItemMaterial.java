@@ -16,7 +16,7 @@ import java.util.Map;
 @ToString
 @Getter
 public abstract class ItemMaterial implements ConfigurationSerializable, MaterialSD, Comparable<ItemMaterial> {
-    protected final String itemID;
+    protected String itemID;
     
     protected Material material;
     protected ItemFamily family;
@@ -36,16 +36,18 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
     }
 
     public ItemSkull getItemSkull() {
-        return null;
+        return new ItemSkull("", "");
     }
 
     public int getData() {
         return this.data;
     }
 
-    public abstract void updateStats(PlayerStats stats);
+    public void updateStats(PlayerStats stats) {
+    }
 
-    public abstract void updateDamage(EntityDamage<?, ?> entityDamage);
+    public void updateDamage(EntityDamage<?, ?> entityDamage) {
+    }
 
     public void updateDamageHolder(EntityDamage<?, ?> entityDamage) {
     }
@@ -65,6 +67,10 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
         }
 
         return this.itemID;
+    }
+
+    public void setItemID(String itemID) {
+        this.itemID = itemID;
     }
 
     @Override

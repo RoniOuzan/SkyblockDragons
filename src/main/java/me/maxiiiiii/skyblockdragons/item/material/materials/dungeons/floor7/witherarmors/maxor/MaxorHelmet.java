@@ -28,14 +28,4 @@ public class MaxorHelmet extends ArmorMaterial {
                 "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQ1MGE4ZmQ3YTFkZDQ3MWU4ZjkyOTJmMTI4M2U5OWM1ZTUyYTUxODYzMDJiZmYzYTkzZjgwN2ZhOWI0NDJhNCJ9fX0="
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

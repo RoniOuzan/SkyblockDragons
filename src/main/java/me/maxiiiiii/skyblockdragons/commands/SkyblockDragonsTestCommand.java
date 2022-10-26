@@ -129,7 +129,7 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
             player.sendMessage("Hot Potato: " + hotPotato);
         }));
         addSubCommand(new QuickSubCommand("id", (player, args) -> {
-            Item item = player.getItems().getToolItem();
+            Item item = player.getItems().getTool();
             new TextMessage().append("Spigot Material: " + item.getType()).setClickAsSuggestCmd(item.getType().name()).save().append(" ItemMaterial: " + item.getMaterial().name()).setClickAsSuggestCmd(item.getMaterial().name()).save().send(player);
         }));
     }

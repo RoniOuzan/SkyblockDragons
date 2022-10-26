@@ -20,14 +20,4 @@ public class MythologsSpadeLegendary extends ToolMaterial {
                 new MythologicalEchoAbility()
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

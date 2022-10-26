@@ -30,14 +30,4 @@ public class NecronBoots extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(231,110,60);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

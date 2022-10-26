@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.entity;
+package me.maxiiiiii.skyblockdragons.events.events;
 
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.event.Event;

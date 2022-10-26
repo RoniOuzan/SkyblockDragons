@@ -29,14 +29,4 @@ public class ChlorophyteChestplate extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(20, 205, 0);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

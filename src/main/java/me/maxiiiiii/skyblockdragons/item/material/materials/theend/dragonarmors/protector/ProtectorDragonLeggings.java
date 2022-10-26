@@ -31,14 +31,4 @@ public class ProtectorDragonLeggings extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(153,151,139);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

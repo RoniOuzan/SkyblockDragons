@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.pet;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -31,7 +32,7 @@ public class PetListener implements Listener {
             return;
         }
 
-        player.getPlayerPet().getPets().add(Pet.getPet(item, false));
+        player.getPlayerPet().getPets().add(new Item(player, item));
         player.getEquipment().setItemInMainHand(null);
         player.sendMessage(ChatColor.GREEN + "You have added your " + item.getItemMeta().getDisplayName() + ChatColor.GREEN + " to your pet menu.");
     }

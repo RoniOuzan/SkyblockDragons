@@ -37,16 +37,6 @@ public class MidasStaff extends SwordMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class MoltenWave extends ItemAbility implements ItemAbilityManaCost, ItemAbilityCooldown, Listener {
         public MoltenWave() {
             super(AbilityAction.RIGHT_CLICK,

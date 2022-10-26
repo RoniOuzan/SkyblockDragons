@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Items {
-    public static Map<String, ItemMaterial> items = new HashMap<>();
+    public static Map<String, ItemMaterial> items = new LinkedHashMap<>();
     public static Map<String, ItemMaterial> itemMaterials = new HashMap<>();
     public static Map<String, PetMaterial> pets = new HashMap<>();
     public static Map<String, ItemMaterial> vanillaMaterials = new HashMap<>();
@@ -28,7 +28,11 @@ public class Items {
     public static void registerItems() {
         Set<Class<? extends ItemMaterial>> materials = new Reflections("me.maxiiiiii").getSubTypesOf(ItemMaterial.class).stream().filter(c -> !Modifier.isAbstract(c.getModifiers())).collect(Collectors.toSet());
         for (Class<? extends ItemMaterial> materialClass : materials) {
-            if (materialClass.isAnnotationPresent(MaterialUnregisters.class)) continue;
+            if (materialClass.isAnnotationPresent(MaterialUnregisters.class) ||
+                    QuickMaterial.class.isAssignableFrom(materialClass) ||
+                    VanillaMaterial.class.isAssignableFrom(materialClass)
+            ) continue;
+
             try {
                 ItemMaterial material = materialClass.newInstance();
                 items.put(material.getItemID(), material);
@@ -97,10 +101,10 @@ public class Items {
         items.putAll(pets);
 
         for (String itemID : items.keySet()) {
-            if (itemID.equals(QuickMaterial.itemID)) {
-                ItemMaterial material = items.get(itemID);
-                items.put(material.name(), material);
-                items.remove(itemID);
+            ItemMaterial material = items.get(itemID);
+            if (material.getItemID().equals(QuickMaterial.itemID)) {
+                material.setItemID(itemID);
+                items.put(itemID, material);
             }
         }
 
@@ -147,7 +151,7 @@ public class Items {
 
         items.putAll(vanillaMaterials);
 
-        ArrayList<String> keys = new ArrayList<>();
+        List<String> keys = new ArrayList<>();
         try {
             for (String material : Items.items.keySet()) {
                 ItemMaterial item = Items.items.get(material);
@@ -157,10 +161,22 @@ public class Items {
             }
             for (String material : keys) {
                 ItemMaterial item = Items.get(material);
-                int rarityAdder = 0;
+                int rarityAdder = 1;
                 if (item.getMaterial().isBlock()) rarityAdder++;
-                NormalMaterial normalMaterial = new QuickNormalMaterial(item.getMaterial(), ItemFamily.ENCHANTED_ITEM, "Enchanted " + item.getName(), ItemType.ITEM, Rarity.values()[item.getRarity().getLevel() + 1 + rarityAdder], item.getItemSkull().getId(), item.getItemSkull().getValue(), true, true, true);
-                Items.items.put("ENCHANTED_" + material, normalMaterial);
+                String itemID = "ENCHANTED_" + material;
+                items.put(itemID, new QuickNormalMaterial(
+                        itemID,
+                        item.getMaterial(),
+                        ItemFamily.ENCHANTED_ITEM,
+                        "Enchanted " + item.getName(),
+                        ItemType.ITEM,
+                        Rarity.values()[item.getRarity().getLevel() + rarityAdder],
+                        item.getItemSkull().getId(),
+                        item.getItemSkull().getValue(),
+                        true,
+                        true,
+                        true
+                ));
             }
         }
         catch (Exception e) {

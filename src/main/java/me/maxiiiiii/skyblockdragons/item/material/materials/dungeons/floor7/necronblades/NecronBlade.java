@@ -19,14 +19,4 @@ public class NecronBlade extends NecronBladeMaterial {
                 NecronBladeMaterial.NecronBladeType.NECRON_BLADE
         );
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

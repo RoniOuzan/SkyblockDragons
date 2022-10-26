@@ -39,16 +39,6 @@ public class FlowerOfTruth extends SwordMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class HeatSeekingRose extends ItemAbility implements ItemAbilityManaCostPercentage, ItemAbilityCooldown {
         public HeatSeekingRose() {
             super(AbilityAction.RIGHT_CLICK,

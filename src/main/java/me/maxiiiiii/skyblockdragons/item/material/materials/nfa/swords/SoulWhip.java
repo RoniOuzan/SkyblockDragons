@@ -36,16 +36,6 @@ public class SoulWhip extends SwordMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class Flay extends ItemAbility implements Listener {
         private final int AMOUNT = 15;
 

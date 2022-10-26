@@ -1,13 +1,9 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.strong;
 
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
-import me.maxiiiiii.skyblockdragons.item.objects.fullset.ItemFullSet;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
-import org.bukkit.Color;
 import org.bukkit.Material;
 
 public class StrongDragonHelmet extends ArmorMaterial {
@@ -30,15 +26,5 @@ public class StrongDragonHelmet extends ArmorMaterial {
         return new ItemSkull("007b09db-936a-4ee1-8e60-6f61172bfe4e",
                 "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWZkZTA5NjAzYjAyMjViOWQyNGE3M2EwZDNmM2UzYWYyOTA1OGQ0NDhjY2Q3Y2U1YzY3Y2QwMmZhYjBmZjY4MiJ9fX0="
         );
-    }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
     }
 }

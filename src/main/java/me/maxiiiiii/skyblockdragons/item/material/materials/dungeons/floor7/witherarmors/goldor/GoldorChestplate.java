@@ -30,14 +30,4 @@ public class GoldorChestplate extends ArmorMaterial {
     public Color getColor() {
         return Color.fromRGB(69,65,60);
     }
-
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
 }

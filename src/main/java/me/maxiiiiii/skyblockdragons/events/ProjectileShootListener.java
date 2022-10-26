@@ -18,7 +18,7 @@ public class ProjectileShootListener implements Listener {
         if (projectile.getShooter() instanceof Player) {
             PlayerSD player = SkyblockDragons.getPlayer((Player) projectile.getShooter());
             short enchantLevel = player.getEnchantLevel(EnchantType.AIMING);
-            Item tool = player.getItems().getToolItem();
+            Item tool = player.getItems().getTool();
             String name = tool.getMaterial().name();
             if (name.equals("RUNAANS_BOW") || name.equals("YOUNG_BOW") || name.equals("STRONG_BOW")) {
                 enchantLevel = 6;

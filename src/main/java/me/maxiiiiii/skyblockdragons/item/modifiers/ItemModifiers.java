@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.modifiers;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.crystals.CrystalType;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.NecronBladeMaterial;
@@ -143,7 +144,7 @@ public class ItemModifiers implements Iterable<ItemModifier> {
                 ItemModifier modifier = (ItemModifier) clazz.getDeclaredMethod("getModifier", ItemStack.class).invoke(null, item);
                 modifiers.add(modifier);
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                e.printStackTrace();
+                SkyblockDragons.logger.severe("Failed to get the modifier of " + clazz.getName() + ": " + e);
             }
         }
         return new ItemModifiers(modifiers.toArray(new ItemModifier[0]));

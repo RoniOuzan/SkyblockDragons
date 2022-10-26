@@ -34,16 +34,6 @@ public class ParabolaWand extends ToolMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
-    }
-
     public static class Parabola extends ItemAbility implements ItemAbilityManaCost, ItemAbilityCooldown {
         public Parabola() {
             super(AbilityAction.RIGHT_CLICK,

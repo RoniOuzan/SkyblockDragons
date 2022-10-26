@@ -1,7 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.swords;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
@@ -11,7 +10,6 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.costs.ItemAbilityManaCost;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -29,8 +27,6 @@ public class SpiritSpectre extends SwordMaterial {
                 ItemFamily.SPIRIT_SCEPTRE,
                 "Spirit Spectre",
                 Rarity.LEGENDARY,
-                "2",
-                "",
                 new Stats(180, 0, 0, 0, 0, 0, 0, 0, 0, 300),
                 "",
                 new GuidedBat()
@@ -38,13 +34,8 @@ public class SpiritSpectre extends SwordMaterial {
     }
 
     @Override
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
+    public int getData() {
+        return 2;
     }
 
     public static class GuidedBat extends ItemAbility implements ItemAbilityManaCost {
