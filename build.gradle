@@ -45,7 +45,8 @@ repositories {
     }
 
     maven {
-        url = uri('https://repo.citizensnpcs.co/')
+        name = 'citizens-repo'
+        url = 'https://maven.citizensnpcs.co/repo'
     }
 
     maven {
@@ -72,7 +73,7 @@ dependencies {
     compileOnly 'com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.9'
     compileOnly 'LibsDisguises:LibsDisguises:10.0.21'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
-    compileOnly 'net.citizensnpcs:citizens-main:2.0.29-SNAPSHOT'
+    compileOnly 'net.citizensnpcs:citizens-main:2.0.30-SNAPSHOT'
     compileOnly 'com.sk89q.worldedit:worldedit-bukkit:6.1.4-SNAPSHOT'
     compileOnly 'com.sk89q.worldedit:worldedit-core:6.1.4-SNAPSHOT'
 }

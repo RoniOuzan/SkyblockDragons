@@ -5,6 +5,10 @@
 *.ipr
 *.iws
 
+#Build Tools
+BuildTools/
+work/
+
 # IntelliJ
 out/
 
@@ -113,3 +117,4 @@ buildNumber.properties
 # Common working directory
 run/
 .gradle/
+/BuildTools/
