@@ -22,14 +22,22 @@ public class ItemAbilityPerPlayer {
     }
 
     public void run(PlayerAbilityUsage e) {
-        if (isCooldownExpired()) {
-            if (cooldown != null) cooldown.reset();
-            runnable.run(e);
-        }
+        runnable.run(e);
     }
 
-    private boolean isCooldownExpired() {
-        return this.cooldown == null || this.cooldown.isExpired(((ItemAbilitySilentCooldown) itemAbility).getFinalCooldown(player));
+    public boolean isCooldownExpired(double cooldown) {
+        return this.cooldown == null || this.cooldown.isExpired(cooldown);
+    }
+
+    public double getLastTimeUsed() {
+        if (cooldown == null) return 0;
+
+        return this.cooldown.getStartedAt();
+    }
+
+    public void resetCooldown() {
+        if (this.cooldown != null)
+            this.cooldown.reset();
     }
 
     public PlayerAbilityRunnable getRunnable() {

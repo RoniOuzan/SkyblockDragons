@@ -10,34 +10,34 @@ public class QuickNormalMaterial extends NormalMaterial implements QuickMaterial
     private String id = "";
     private String value = "";
 
-    public QuickNormalMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description, String id, String value, boolean isEnchanted, boolean showRecipe, boolean stackAble) {
+    public QuickNormalMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String value, String description, boolean isEnchanted, boolean showRecipe, boolean stackAble) {
         super(itemID, material, family, name, type, rarity, description, isEnchanted, showRecipe, stackAble);
         this.id = id;
         this.value = value;
     }
 
     public QuickNormalMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String value, boolean isEnchanted, boolean showRecipe, boolean stackAble) {
-        this(itemID, material, family, name, type, rarity, "", id, value, isEnchanted, showRecipe, stackAble);
+        this(itemID, material, family, name, type, rarity, id, value, "", isEnchanted, showRecipe, stackAble);
     }
 
-    public QuickNormalMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description, String id, String value, boolean isEnchanted, boolean showRecipe, boolean stackAble) {
-        this(QuickMaterial.itemID, material, family, name, type, rarity, description, id, value, isEnchanted, showRecipe, stackAble);
+    public QuickNormalMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String value, String description, boolean isEnchanted, boolean showRecipe, boolean stackAble) {
+        this(QuickMaterial.itemID, material, family, name, type, rarity, id, value, description, isEnchanted, showRecipe, stackAble);
     }
 
     public QuickNormalMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String value, boolean isEnchanted, boolean showRecipe, boolean stackAble) {
-        this(material, family, name, type, rarity, "", id, value, isEnchanted, showRecipe, stackAble);
+        this(material, family, name, type, rarity, id, value, "", isEnchanted, showRecipe, stackAble);
     }
 
     public QuickNormalMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description, boolean isEnchanted, boolean showRecipe, boolean stackAble) {
-        this(material, family, name, type, rarity, description, "", "", isEnchanted, showRecipe, stackAble);
+        this(material, family, name, type, rarity, "", "", description, isEnchanted, showRecipe, stackAble);
     }
 
     public QuickNormalMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String value, boolean isEnchanted, boolean showRecipe) {
-        this(material, family, name, type, rarity, "", id, value, isEnchanted, showRecipe, true);
+        this(material, family, name, type, rarity, id, value, "", isEnchanted, showRecipe, true);
     }
 
     public QuickNormalMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description) {
-        this(material, family, name, type, rarity, description, "", "", false, false, true);
+        this(material, family, name, type, rarity, "", "", description, false, false, true);
     }
 
     public QuickNormalMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity) {

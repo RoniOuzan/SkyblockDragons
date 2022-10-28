@@ -22,8 +22,8 @@ public class AspectOfTheVoid extends SwordMaterial {
                 Rarity.EPIC,
                 new Stats(120, 100, 0, 0, 0, 0, 0, 0, 0, 0),
                 "",
-                new AspectOfTheEnd.Transmission(12),
-                new EtherTransmission()
+                new EtherTransmission(),
+                new AspectOfTheEnd.Transmission(12)
         );
     }
 

@@ -128,9 +128,6 @@ public class Item extends ItemStack implements Comparable<Item> {
             if (this.material instanceof ItemDescriptionAble)
                 applyDescription(lores);
 
-            if (this.material instanceof ArmorMaterial)
-                applyFullSet(lores);
-
             if (this.material instanceof ItemAbilityAble)
                 applyAbilities(lores);
 

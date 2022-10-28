@@ -1564,6 +1564,7 @@ public class Functions {
         return tabs;
     }
 
+    @SafeVarargs
     public static <T> T getRandom(T... ts) {
         int random = randomInt(0, ts.length - 1);
         return ts[random];

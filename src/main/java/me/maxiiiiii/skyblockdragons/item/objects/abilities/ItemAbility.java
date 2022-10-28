@@ -6,6 +6,7 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.MaterialModifier;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityCooldown;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilitySilentCooldown;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.costs.ItemAbilityManaCost;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.costs.ItemAbilityManaCostPercentage;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -54,8 +55,9 @@ public abstract class ItemAbility implements MaterialModifier {
 
     public boolean hasCosts(PlayerSD player) {
         boolean output = true;
-        if (this instanceof ItemAbilityManaCost) output = ((ItemAbilityManaCost) this).get(player);
-        if (this instanceof ItemAbilityManaCostPercentage) output &= ((ItemAbilityManaCostPercentage) this).get(player);
+        if (this instanceof ItemAbilitySilentCooldown) output = ((ItemAbilitySilentCooldown) this).get(player, getAbilityOfPlayer(player));
+        if (output && this instanceof ItemAbilityManaCost) output = ((ItemAbilityManaCost) this).get(player);
+        if (output && this instanceof ItemAbilityManaCostPercentage) output = ((ItemAbilityManaCostPercentage) this).get(player);
         return output;
     }
 
@@ -64,15 +66,18 @@ public abstract class ItemAbility implements MaterialModifier {
         if (this instanceof ItemAbilityManaCostPercentage) ((ItemAbilityManaCostPercentage) this).applyCost(player);
     }
 
-    public abstract PlayerAbilityRunnable setupAbility();
+    protected abstract PlayerAbilityRunnable setupAbility();
 
     public void onPlayerUse(PlayerAbilityUsage abilityUsage) {
-        if (!users.containsKey(abilityUsage.getPlayer())) {
+        users.get(abilityUsage.getPlayer()).run(abilityUsage);
+    }
+
+    public void setupAbilityPerPlayer(PlayerSD player) {
+        if (!users.containsKey(player)) {
             PlayerAbilityRunnable runnable = setupAbility();
             if (runnable == null) runnable = e -> {};
-            users.put(abilityUsage.getPlayer(), new ItemAbilityPerPlayer(abilityUsage.getPlayer(), this, runnable));
+            users.put(player, new ItemAbilityPerPlayer(player, this, runnable));
         }
-        users.get(abilityUsage.getPlayer()).run(abilityUsage);
     }
 
     public List<String> getLore(PlayerSD player) {

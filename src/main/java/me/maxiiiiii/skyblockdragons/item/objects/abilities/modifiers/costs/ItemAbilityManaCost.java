@@ -14,7 +14,11 @@ public interface ItemAbilityManaCost {
     }
 
     default boolean get(PlayerSD player) {
-        return player.getStats().getMana().get() >= this.getFinalCost(player);
+        boolean output = player.getStats().getMana().get() >= this.getFinalCost(player);
+        if (!output) {
+            player.sendMessage(ChatColor.RED + "You don't have enough mana to use this ability!");
+        }
+        return output;
     }
 
     default void applyCost(PlayerSD player) {
@@ -22,6 +26,6 @@ public interface ItemAbilityManaCost {
     }
 
     static String getLine(ItemAbilityManaCost ability, PlayerSD player) {
-        return ChatColor.GRAY + "Mana Cost: " + ChatColor.AQUA + ability.getFinalCost(player);
+        return ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.AQUA + ability.getFinalCost(player);
     }
 }

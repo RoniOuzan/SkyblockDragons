@@ -1,7 +1,9 @@
 package me.maxiiiiii.skyblockdragons.util.objects.cooldowns;
 
+import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 
+@Getter
 public class SingleCooldown {
     private double startedAt;
 
