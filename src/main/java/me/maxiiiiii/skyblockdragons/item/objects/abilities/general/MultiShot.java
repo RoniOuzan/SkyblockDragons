@@ -11,6 +11,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
@@ -62,7 +63,6 @@ public class MultiShot extends ItemAbility implements Listener {
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
 
         ((AbilityRunnable) getAbilityOfPlayer(player).getRunnable()).lastTimeUsed = SkyblockDragons.getCurrentTimeInSeconds();
-        player.sendMessage("clicked " + SkyblockDragons.getCurrentTimeInSeconds());
     }
 
     @Override
@@ -79,32 +79,26 @@ public class MultiShot extends ItemAbility implements Listener {
 
         @Override
         public void run(PlayerAbilityUsage e) {
-            //            PlayerSD player = e.getPlayer();
-            //            for (double i = -this.spread; i <= this.spread; i += this.getAngleDifference()) {
-            //                Vector vector = Functions.rotateVector(i, player.getLocation().getDirection()).multiply(power);
-            //                player.launchProjectile(Arrow.class, vector);
-            //            }
             PlayerSD player = e.getPlayer();
-            double diff = SkyblockDragons.getCurrentTimeInSeconds() - lastTimeUsed;
-            if (diff > maxPowerTime) {
-                diff = maxPowerTime;
-            }
-            player.sendMessage(diff, maxPowerTime, lastTimeUsed);
+            double diff = Math.min(SkyblockDragons.getCurrentTimeInSeconds() - lastTimeUsed, maxPowerTime);
             if (diff >= 0.05) {
-                player.sendMessage("diff " + diff);
                 lastTimeUsed = SkyblockDragons.getCurrentTimeInSeconds();
-                double multiplier = diff / maxPowerTime * power * 1;
+                diff = Math.pow(diff, 2);
+                ((EntityShootBowEvent) e.getEvent()).getProjectile().remove();
+
+                double multiplier = diff / maxPowerTime * power * 2;
                 double angleDifference = getAngleDifference();
+
                 for (double i = -spread; i <= spread; i += angleDifference) {
                     Vector vector = getVector(player, i, 0, multiplier);
-                    player.launchProjectile(Arrow.class, vector);
-                    player.sendMessage("Shot " + i + ", " + SkyblockDragons.getCurrentTimeInSeconds());
+                    Arrow arrow = player.launchProjectile(Arrow.class, vector);
+                    arrow.addScoreboardTag("UNEVENTABLE");
                 }
             }
         }
     }
 
     private static double calculateSpread(double amountOfArrows) {
-        return Math.sqrt(3 * (amountOfArrows - 1));
+        return Math.sqrt(15 * (amountOfArrows - 1));
     }
 }

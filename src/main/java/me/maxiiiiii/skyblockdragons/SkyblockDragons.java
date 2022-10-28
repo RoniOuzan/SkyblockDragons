@@ -357,7 +357,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerEvents(new BlockListener(), this);
         registerEvents(new PlayerUseAbilitiesListener(), this);
         registerEvents(new ProjectileShootListener(), this);
-        registerEvents(new MultiShot_Bow("STRONG_BOW", 3));
         new PacketListeners(); // not really an event but works like them
     }
     

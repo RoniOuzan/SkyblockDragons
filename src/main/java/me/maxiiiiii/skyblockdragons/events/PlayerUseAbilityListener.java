@@ -8,14 +8,13 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityUsage;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerUseAbilityEvent;
-import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -45,14 +44,16 @@ public class PlayerUseAbilityListener implements Listener {
     }
 
     @EventHandler
-    public void onShoot(ProjectileLaunchEvent e) {
-        if (e.getEntity().getShooter() instanceof Player) {
-            PlayerSD player = SkyblockDragons.getPlayer((Player) e.getEntity().getShooter());
+    public void onShoot(EntityShootBowEvent e) {
+        if (e.getProjectile().getScoreboardTags().contains("UNEVENTABLE")) return;
+
+        if (e.getEntity() instanceof Player) {
+            PlayerSD player = SkyblockDragons.getPlayer((Player) e.getEntity());
 
             if (!(player.getItems().getTool().getMaterial() instanceof ItemAbilityAble)) return;
             ItemAbilityAble material = (ItemAbilityAble) player.getItems().getTool().getMaterial();
 
-            if (Functions.cooldown(player, shootCooldown, 300, false)) return;
+//            if (Functions.cooldown(player, shootCooldown, 300, false)) return;
 
             ItemAbility usedAbility = null;
             for (ItemAbility ability : material.getAbilities()) {
