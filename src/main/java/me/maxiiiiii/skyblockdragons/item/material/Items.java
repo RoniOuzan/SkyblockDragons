@@ -124,11 +124,11 @@ public class Items {
             if (Functions.isColorable(material)) {
                 if (material == Material.INK_SACK)
                     for (short i = 0; i < 16; i++) {
-                        vanillaMaterials.put(Functions.getColorName(15 - i).toUpperCase() + "_DYE", new VanillaMaterial(itemID, material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(15 - i) + " DYE"), ItemType.ITEM, rarity, false, false).setData(i));
+                        vanillaMaterials.put(Functions.getColorName(15 - i).toUpperCase() + "_DYE", new VanillaMaterial(Functions.getColorName(15 - i).toUpperCase() + "_DYE", material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(15 - i) + " DYE"), ItemType.ITEM, rarity, false, false).setData(i));
                     }
                 else
                     for (short i = 0; i < 16; i++) {
-                        vanillaMaterials.put(Functions.getColorName(i).toUpperCase() + "_" + itemID, new VanillaMaterial(itemID, material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(i) + " " +  itemID), ItemType.ITEM, rarity, false, false).setData(i));
+                        vanillaMaterials.put(Functions.getColorName(i).toUpperCase() + "_" + itemID, new VanillaMaterial(Functions.getColorName(i).toUpperCase() + "_" + itemID, material, ItemFamily.VANILLA, Functions.setTitleCase(Functions.getColorName(i) + " " +  itemID), ItemType.ITEM, rarity, false, false).setData(i));
                     }
             } else {
                 short maxDurability = 16;
@@ -138,7 +138,7 @@ public class Items {
                     if (localName.equals(newLocalName)) {
                         break;
                     }
-                    vanillaMaterials.put(itemID + ":" + i, new VanillaMaterial(itemID, material, ItemFamily.VANILLA, newLocalName, ItemType.ITEM, rarity, false, false).setData(i));
+                    vanillaMaterials.put(itemID + ":" + i, new VanillaMaterial(itemID + ":" + i, material, ItemFamily.VANILLA, newLocalName, ItemType.ITEM, rarity, false, false).setData(i));
                 }
             }
 

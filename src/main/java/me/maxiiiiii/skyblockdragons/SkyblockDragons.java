@@ -14,6 +14,7 @@ import me.maxiiiiii.skyblockdragons.inventory.MenuListener;
 import me.maxiiiiii.skyblockdragons.inventory.menus.ProfileMenu;
 import me.maxiiiiii.skyblockdragons.inventory.menus.SkyblockMenu;
 import me.maxiiiiii.skyblockdragons.item.ItemCommand;
+import me.maxiiiiii.skyblockdragons.item.abilities.MultiShot_Bow;
 import me.maxiiiiii.skyblockdragons.item.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.item.anvil.AnvilCommand;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
@@ -90,6 +91,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static Logger logger = null;
     public static EntityHider entityHider = null;
 
+    private static long pluginStartedAt = 0;
+
     @Override
     public void onEnable() {
         plugin = this;
@@ -151,6 +154,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         loadAddonsAfter();
 
+        pluginStartedAt = System.currentTimeMillis();
         System.out.println("Skyblock Dragons plugin has been loaded!");
     }
 
@@ -353,6 +357,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerEvents(new BlockListener(), this);
         registerEvents(new PlayerUseAbilitiesListener(), this);
         registerEvents(new ProjectileShootListener(), this);
+        registerEvents(new MultiShot_Bow("STRONG_BOW", 3));
         new PacketListeners(); // not really an event but works like them
     }
     
@@ -429,7 +434,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     }
 
     public static double getCurrentTimeInSeconds() {
-        return System.currentTimeMillis() / 1000d;
+        return (System.currentTimeMillis() - pluginStartedAt) / 1000d;
     }
 
     public void registerCommand(String name, CommandSD command) {

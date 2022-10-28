@@ -7,11 +7,7 @@ public interface ItemAbilitySilentCooldown {
     double getBaseCooldown(PlayerSD player);
 
     default boolean get(PlayerSD player, ItemAbilityPerPlayer ability) {
-        boolean output = ability.isCooldownExpired(this.getFinalCooldown(player));
-        if (output) {
-            ability.resetCooldown();
-        }
-        return output;
+        return ability.isCooldownExpired(this.getFinalCooldown(player));
     }
 
     default double getFinalCooldown(PlayerSD player) {
@@ -20,5 +16,9 @@ public interface ItemAbilitySilentCooldown {
         }
 
         return player.getItemAbilityCooldown(this.getBaseCooldown(player));
+    }
+
+    default void applyCost(ItemAbilityPerPlayer ability) {
+        ability.resetCooldown();
     }
 }

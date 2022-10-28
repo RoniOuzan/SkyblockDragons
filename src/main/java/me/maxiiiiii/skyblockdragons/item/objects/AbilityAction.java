@@ -11,8 +11,6 @@ public enum AbilityAction {
     RIGHT_CLICK("RIGHT CLICK", e -> e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK),
     LEFT_SHIFT_CLICK("LEFT SHIFT CLICK", e -> (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) && e.getPlayer().isSneaking()),
     RIGHT_SHIFT_CLICK("RIGHT SHIFT CLICK", e -> (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) && e.getPlayer().isSneaking()),
-    LEFT_NOT_SHIFT_CLICK("LEFT CLICK", e -> (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) && !e.getPlayer().isSneaking()),
-    RIGHT_NOT_SHIFT_CLICK("RIGHT CLICK", e -> (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) && !e.getPlayer().isSneaking()),
     SHOOT(""), // TODO
     SNEAK("SNEAK"), // TODO
     PET(""),
@@ -32,11 +30,11 @@ public enum AbilityAction {
     }
 
     public boolean isLeftClick() {
-        return this == LEFT_CLICK || this == LEFT_SHIFT_CLICK || this == LEFT_NOT_SHIFT_CLICK;
+        return this == LEFT_CLICK || this == LEFT_SHIFT_CLICK;
     }
 
     public boolean isRightClick() {
-        return this == RIGHT_CLICK || this == RIGHT_SHIFT_CLICK || this == RIGHT_NOT_SHIFT_CLICK;
+        return this == RIGHT_CLICK || this == RIGHT_SHIFT_CLICK;
     }
 
     public boolean isShiftClick() {

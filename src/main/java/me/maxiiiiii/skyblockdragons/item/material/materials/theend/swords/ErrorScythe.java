@@ -1,6 +1,5 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.swords;
 
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
@@ -10,7 +9,6 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -31,8 +29,8 @@ public class ErrorScythe extends SwordMaterial {
                 Rarity.LEGENDARY,
                 new Stats(1500, 0, 0, 0, 0, 0, 0, 0, 0, 0),
                 "",
-                new ArrowAbility(),
                 new WitherSkullAbility(),
+                new ArrowAbility(),
                 new SkillRequirement(SkillType.COMBAT, 0)
         );
     }

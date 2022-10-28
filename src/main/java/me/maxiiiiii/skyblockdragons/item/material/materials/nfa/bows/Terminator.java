@@ -7,7 +7,6 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityCooldown;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
-import me.maxiiiiii.skyblockdragons.util.objects.Priority;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
@@ -25,7 +24,6 @@ public class Terminator extends ShortBowMaterial {
     }
 
     @Override
-    @Priority(level = 1)
     public void updateStats(PlayerStats stats) {
         stats.addMultiplier(StatType.CRIT_CHANCE, -300, 0);
     }

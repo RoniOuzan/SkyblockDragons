@@ -20,7 +20,7 @@ public class YoungBow extends BowMaterial {
                 Rarity.LEGENDARY,
                 new Stats(160, 50, 0, 0, 0, 0),
                 "",
-                new MultiShot(3, 1.2),
+                new MultiShot("YOUNG_BOW", 3, 1.2),
                 new SkillRequirement(SkillType.COMBAT, 15)
         );
     }
