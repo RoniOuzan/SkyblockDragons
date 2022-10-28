@@ -13,6 +13,6 @@ public class WiseDragonFullSet extends ItemFullSetBonus {
 
     @Override
     public void updateStats(PlayerStats stats) {
-        stats.getPlayer().getAbilityCostMultiplier().addBaseMultiplier(-40);
+        stats.getPlayer().getAbilityCostMultiplier().addBase(-40);
     }
 }

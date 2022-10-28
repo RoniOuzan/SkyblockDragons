@@ -60,7 +60,7 @@ public class EnderDragonPet extends PetMaterial {
                     entityDamage.getVictim().getType() == EntityType.ENDERMITE ||
                     entityDamage.getVictim().getType() == EntityType.ENDERMAN
             ) {
-                entityDamage.getMultiplier().addBaseMultiplier(MULTIPLIER * i);
+                entityDamage.getMultiplier().addBase(MULTIPLIER * i);
             }
         }
     }

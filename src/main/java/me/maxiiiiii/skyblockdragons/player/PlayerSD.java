@@ -28,6 +28,7 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.Multiplier;
+import me.maxiiiiii.skyblockdragons.util.objects.Priority;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
@@ -361,46 +362,16 @@ public class PlayerSD extends PlayerClass {
             this.addItemStat(item);
         }
 
-        // TODO: change it to be automatically
-//        if (helmetMaterial == Items.get("ENDER_HELMET"))
-//            statsMultiplayer.increase(5, 5, 5, 5, 5, 5);
-//        if (helmetMaterial == Items.get("ENDER_CHESTPLATE"))
-//            statsMultiplayer.increase(5, 5, 5, 5, 5, 5);
-//        if (helmetMaterial == Items.get("ENDER_LEGGINGS"))
-//            statsMultiplayer.increase(5, 5, 5, 5, 5, 5);
-//        if (helmetMaterial == Items.get("ENDER_BOOTS"))
-//            statsMultiplayer.increase(5, 5, 5, 5, 5, 5);
-//
-//        if (helmetMaterial == Items.get("ENDER_GUARD_HELMET"))
-//            statsMultiplayer.increase(10, 10, 10, 10, 10, 10);
-//        if (helmetMaterial == Items.get("ENDER_GUARD_CHESTPLATE"))
-//            statsMultiplayer.increase(10, 10, 10, 10, 10, 10);
-//        if (helmetMaterial == Items.get("ENDER_GUARD_LEGGINGS"))
-//            statsMultiplayer.increase(10, 10, 10, 10, 10, 10);
-//        if (helmetMaterial == Items.get("ENDER_GuARD_BOOTS"))
-//            statsMultiplayer.increase(10, 10, 10, 10, 10, 10);
-
-        // TODO: change it to be automatically
-//        if (Functions.getId(tool).equals("TERMINATOR")) {
-//            this.stats.critChance.amount = this.stats.critChance.amount / 4;
-//        }
-
-
-        // TODO: change it to be automatically
-        // Full Set
-//        if (fullSet.equals("Old Blood")) {
-//            statsMultiplayer.increase(StatType.HEALTH, 20);
-//        }
-//        if (fullSet.equals("Protector Blood") && player.getHealth() >= player.getMaxHealth() / 2) {
-//            statsMultiplayer.increase(StatType.DEFENSE, 30);
-//        }
-//        if (fullSet.equals("Young Blood") && player.getHealth() >= player.getMaxHealth() / 2) {
-//            this.stats.speed.amount += 70;
-//        }
-//        if (fullSet.equals("Superior Blood")) {
-//            statsMultiplayer.increase(0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 5, 5, 0, 0);
-//        }
-
+        equipment.stream().map(Item::getMaterial).sorted((m1, m2) -> {
+            try {
+                int level1 = m1.getClass().getMethod("updateStats", PlayerStats.class).getAnnotation(Priority.class).level();
+                int level2 = m2.getClass().getMethod("updateStats", PlayerStats.class).getAnnotation(Priority.class).level();
+                return level1 - level2;
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            return 1;
+        }).forEach(m -> m.updateStats(stats));
 
         // Pets
 //        if (this.getPlayerPet().getActivePet() >= 0) {

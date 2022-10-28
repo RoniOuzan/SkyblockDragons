@@ -26,10 +26,17 @@ public class PlayerStats extends Stats {
         this.player = player;
     }
 
+    @Override
+    public void reset() {
+        super.reset();
+
+        multiplayer.clear();
+    }
+
     public void addMultiplier(StatType statType, double base, double post) {
         Multiplier multiplier = multiplayer.getOrDefault(statType, new Multiplier());
-        multiplier.addBaseMultiplier(base);
-        multiplier.addPostMultiplier(post);
+        multiplier.addBase(base);
+        multiplier.addPost(post);
         this.multiplayer.put(statType, multiplier);
     }
 

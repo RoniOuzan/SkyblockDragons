@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -50,15 +51,17 @@ public class BuildersWand extends ToolMaterial {
         @Override
         public PlayerAbilityRunnable setupAbility() {
             return e -> {
-                if (e.getEvent().getClickedBlock() == null) return;
+                PlayerInteractEvent event = (PlayerInteractEvent) e.getEvent();
 
-                int blockFaceX = e.getEvent().getBlockFace().getModX();
-                int blockFaceY = e.getEvent().getBlockFace().getModY();
-                int blockFaceZ = e.getEvent().getBlockFace().getModZ();
+                if (event.getClickedBlock() == null) return;
+
+                int blockFaceX = event.getBlockFace().getModX();
+                int blockFaceY = event.getBlockFace().getModY();
+                int blockFaceZ = event.getBlockFace().getModZ();
 
                 recursiveBlocks(e.getPlayer(),
-                        e.getEvent().getClickedBlock().getLocation(),
-                        e.getEvent().getClickedBlock().getType(),
+                        event.getClickedBlock().getLocation(),
+                        event.getClickedBlock().getType(),
                         blockFaceX,
                         blockFaceY,
                         blockFaceZ

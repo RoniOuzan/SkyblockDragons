@@ -51,7 +51,7 @@ public class EndermanPet extends PetMaterial {
 
         @Override
         public void updateDamageHolder(EntityDamage<?, ?> entityDamage, int i) {
-            entityDamage.getMultiplier().addBaseMultiplier(-i * MULTIPLIER);
+            entityDamage.getMultiplier().addBase(-i * MULTIPLIER);
         }
     }
 
@@ -66,7 +66,7 @@ public class EndermanPet extends PetMaterial {
 
         @Override
         public void updateDamageHolder(EntityDamage<?, ?> entityDamage, int i) {
-            entityDamage.getMultiplier().addBaseMultiplier(-i * MULTIPLIER);
+            entityDamage.getMultiplier().addBase(-i * MULTIPLIER);
         }
     }
 

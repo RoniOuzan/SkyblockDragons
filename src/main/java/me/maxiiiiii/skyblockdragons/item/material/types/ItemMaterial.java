@@ -7,6 +7,7 @@ import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.objects.Priority;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
@@ -43,12 +44,15 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
         return this.data;
     }
 
+    @Priority
     public void updateStats(PlayerStats stats) {
     }
 
+    @Priority
     public void updateDamage(EntityDamage<?, ?> entityDamage) {
     }
 
+    @Priority
     public void updateDamageHolder(EntityDamage<?, ?> entityDamage) {
     }
 

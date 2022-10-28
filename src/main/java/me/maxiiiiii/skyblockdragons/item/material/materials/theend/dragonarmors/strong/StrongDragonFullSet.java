@@ -15,7 +15,7 @@ public class StrongDragonFullSet extends ItemFullSetBonus {
     @Override
     public void updateDamage(EntityDamage<?, ?> entityDamage) {
         if (entityDamage.getEquipment().getTool().getMaterial() instanceof AspectOfTheEnd) {
-            entityDamage.getMultiplier().addBaseMultiplier(20);
+            entityDamage.getMultiplier().addBase(20);
         }
     }
 }

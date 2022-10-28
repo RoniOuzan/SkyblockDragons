@@ -1,6 +1,5 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.bows;
 
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.ShortBowMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
@@ -8,6 +7,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityCooldown;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
+import me.maxiiiiii.skyblockdragons.util.objects.Priority;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
@@ -22,6 +22,12 @@ public class Terminator extends ShortBowMaterial {
                 ChatColor.GOLD + "Shortbow: Instantly Shoots! NEW_LINE " + ChatColor.GRAY + "Shoots " + ChatColor.AQUA + "3 " + ChatColor.GRAY + "arrows at once. " + ChatColor.GRAY + "Can damage endermen. NEW_LINE NEW_LINE " + ChatColor.RED + "Divides your RESET_LENGTH " + StatType.CRIT_CHANCE.getIconAndText() + ChatColor.RED + " by 4!",
                 new Salvation()
         );
+    }
+
+    @Override
+    @Priority(level = 1)
+    public void updateStats(PlayerStats stats) {
+        stats.addMultiplier(StatType.CRIT_CHANCE, -300, 0);
     }
 
     public static class Salvation extends ItemAbility implements ItemAbilityCooldown {
