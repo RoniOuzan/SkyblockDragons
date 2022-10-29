@@ -19,6 +19,8 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.getVector;
 
 public class MultiShot extends ItemAbility implements Listener {
     private static final double DEFAULT_MAX_POWER_TIME = 1;
+    private static final double POW = 3;
+    private static final double MIN = 0.05;
 
     private final String itemID;
     private final int amountOfArrows;
@@ -35,7 +37,7 @@ public class MultiShot extends ItemAbility implements Listener {
         this.amountOfArrows = amountOfArrows;
         this.spread = Math.abs(spread);
         this.power = power;
-        this.maxPowerTime = maxPowerTime;
+        this.maxPowerTime = Math.pow(maxPowerTime, 1 / POW);
     }
 
     public MultiShot(String itemID, int amountOfArrows, double power, double maxPowerTime) {
@@ -71,6 +73,7 @@ public class MultiShot extends ItemAbility implements Listener {
     }
 
     private class AbilityRunnable implements PlayerAbilityRunnable {
+
         private double lastTimeUsed;
 
         public AbilityRunnable() {
@@ -81,12 +84,15 @@ public class MultiShot extends ItemAbility implements Listener {
         public void run(PlayerAbilityUsage e) {
             PlayerSD player = e.getPlayer();
             double diff = Math.min(SkyblockDragons.getCurrentTimeInSeconds() - lastTimeUsed, maxPowerTime);
-            if (diff >= 0.05) {
+//            if (maxPowerTime == 0) {
+//                diff = 1;
+//            }
+            if (diff >= MIN) {
                 lastTimeUsed = SkyblockDragons.getCurrentTimeInSeconds();
-                diff = Math.pow(diff, 2);
+                diff = Math.pow(diff, POW);
                 ((EntityShootBowEvent) e.getEvent()).getProjectile().remove();
 
-                double multiplier = diff / maxPowerTime * power * 2;
+                double multiplier = Math.max(diff / Math.pow(maxPowerTime, POW) * power * 3, 0.5);
                 double angleDifference = getAngleDifference();
 
                 for (double i = -spread; i <= spread; i += angleDifference) {

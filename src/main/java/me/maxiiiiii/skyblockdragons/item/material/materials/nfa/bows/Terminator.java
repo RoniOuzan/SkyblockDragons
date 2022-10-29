@@ -4,6 +4,7 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ShortBowMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.general.MultiShot;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityCooldown;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
@@ -19,6 +20,7 @@ public class Terminator extends ShortBowMaterial {
                 Rarity.LEGENDARY,
                 new Stats(335, 50, 250, 0, 40, 0, 0, 0, 0, 0),
                 ChatColor.GOLD + "Shortbow: Instantly Shoots! NEW_LINE " + ChatColor.GRAY + "Shoots " + ChatColor.AQUA + "3 " + ChatColor.GRAY + "arrows at once. " + ChatColor.GRAY + "Can damage endermen. NEW_LINE NEW_LINE " + ChatColor.RED + "Divides your RESET_LENGTH " + StatType.CRIT_CHANCE.getIconAndText() + ChatColor.RED + " by 4!",
+                new MultiShot("TERMINATOR", 3, 1.5, 0),
                 new Salvation()
         );
     }

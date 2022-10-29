@@ -18,7 +18,7 @@ public class StrongBow extends BowMaterial {
                 Rarity.LEGENDARY,
                 new Stats(180, 80, 0, 0, 0, 0),
                 "",
-                new MultiShot("STRONG_BOW", 3, 1.1),
+                new MultiShot("STRONG_BOW", 3, 1.3),
                 new SkillRequirement(SkillType.COMBAT, 15)
         );
     }
