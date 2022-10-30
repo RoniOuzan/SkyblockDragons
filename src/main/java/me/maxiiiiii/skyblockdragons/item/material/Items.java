@@ -96,7 +96,7 @@ public class Items {
         // Other Items
         items.put("NULL_OVOID", new QuickNormalMaterial(Material.MONSTER_EGG, ItemFamily.NULL, "Null Ovoid", ItemType.ITEM, Rarity.RARE, "58", "", true, true));
 
-        items.put("ENCHANTED_BOOK", new QuickNormalMaterial(Material.ENCHANTED_BOOK, ItemFamily.BOOK, "Enchanted Book", ItemType.BOOK, Rarity.COMMON));
+        items.put("ENCHANTED_BOOK", new BookMaterial("ENCHANTED_BOOK", Material.ENCHANTED_BOOK, ItemFamily.BOOK, "Enchanted Book", ItemType.BOOK, Rarity.COMMON));
 
         items.putAll(pets);
 

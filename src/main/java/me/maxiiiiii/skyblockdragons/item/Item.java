@@ -34,6 +34,14 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 @Getter
 public class Item extends ItemStack implements Comparable<Item> {
+    public static final Item SKYBLOCK_MENU = new Item(Items.get("SKYBLOCK_MENU"), 1);
+    public static final Item SKYBLOCK_MENU_ARROW = new Item(Items.get("SKYBLOCK_MENU_ARROW"), 64);
+
+    static {
+        updateSkyblockMenuLores(SKYBLOCK_MENU);
+        updateSkyblockMenuLores(SKYBLOCK_MENU_ARROW);
+    }
+
     private final PlayerSD player;
 
     protected final ItemMaterial material;
@@ -559,6 +567,15 @@ public class Item extends ItemStack implements Comparable<Item> {
 
     private static ItemModifier[] overrideModifiers(ItemModifiers itemModifiers, ItemModifier[] modifiers) {
         return itemModifiers.getOverrided(modifiers).toArray();
+    }
+
+    private static void updateSkyblockMenuLores(Item menu) {
+        ItemMeta menuMeta = menu.getItemMeta();
+        List<String> lores = menuMeta.getLore();
+        lores.remove(lores.size() - 1);
+        lores.add(ChatColor.YELLOW + "Click to open!");
+        menuMeta.setLore(lores);
+        menu.setItemMeta(menuMeta);
     }
 
     public int getPetLength() {

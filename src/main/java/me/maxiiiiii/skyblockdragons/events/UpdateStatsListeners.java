@@ -15,9 +15,6 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.copyNBTStack;
-import static me.maxiiiiii.skyblockdragons.util.Functions.getId;
-
 public class UpdateStatsListeners implements Listener {
     @EventHandler
     public void onSlotChange(PlayerItemHeldEvent e) {
@@ -30,8 +27,8 @@ public class UpdateStatsListeners implements Listener {
             ItemMaterial itemMaterial = Functions.getItemMaterial(itemStack);
             if (itemMaterial != Items.NULL && !Functions.nbtHasKey(itemStack, "NOTSD")) {
                 Item item = new Item(player, itemMaterial, itemStack);
-                copyNBTStack(item, itemStack);
-                if (!item.isSimilar(itemStack) && !getId(itemStack).contains("_PET") && !Functions.getId(item).equals("SKYBLOCK_MENU")) {
+                Functions.copyNBTStack(item, itemStack);
+                if (!item.isSimilar(itemStack) && !Functions.getId(itemStack).contains("_PET") && !Functions.getId(item).equals("SKYBLOCK_MENU")) {
                     player.getEquipment().setItemInMainHand(item);
                 }
                 player.setSkyblockMenu();

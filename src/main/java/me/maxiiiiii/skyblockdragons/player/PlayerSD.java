@@ -41,7 +41,6 @@ import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -55,7 +54,8 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getInt;
 
 @Getter
 @Setter
@@ -483,7 +483,7 @@ public class PlayerSD extends PlayerClass {
             if (i > 39) continue;
             ItemStack itemStack = player.getInventory().getContents()[i];
 
-            if (!isNotAir(itemStack)) continue;
+            if (!Functions.isNotAir(itemStack)) continue;
 
             ItemMaterial itemMaterial = Items.get(itemStack);
             if (itemMaterial == Items.get("NULL") || Functions.nbtHasKey(itemStack, "NOTSD")) {
@@ -491,8 +491,8 @@ public class PlayerSD extends PlayerClass {
             }
 
             Item item = new Item(this, itemMaterial, itemStack);
-            copyNBTStack(item, itemStack);
-            if (!item.isSimilar(itemStack) && !getId(itemStack).contains("_PET") && !Functions.getId(item).equals("SKYBLOCK_MENU")) {
+            Functions.copyNBTStack(item, itemStack);
+            if (!item.isSimilar(itemStack) && !Functions.getId(itemStack).contains("_PET") && !Functions.getId(item).equals("SKYBLOCK_MENU")) {
                 player.getInventory().setItem(i, item);
             }
         }
@@ -502,24 +502,11 @@ public class PlayerSD extends PlayerClass {
     public void setSkyblockMenu() {
         ItemMaterial hand = Items.get(getEquipment().getItemInMainHand());
         if (hand instanceof BowMaterial){
-            Item menu = new Item(Items.get("SKYBLOCK_MENU_ARROW"), 64);
-            menuLores(menu);
-            player.getInventory().setItem(8, menu);
+            player.getInventory().setItem(8, Item.SKYBLOCK_MENU_ARROW);
         }
         else if (!Functions.isNotAir(player.getInventory().getItem(8)) || !Functions.getId(player.getInventory().getItem(8)).equals("SKYBLOCK_MENU")) {
-            Item menu = new Item(Items.get("SKYBLOCK_MENU"), 1);
-            menuLores(menu);
-            player.getInventory().setItem(8, menu);
+            player.getInventory().setItem(8, Item.SKYBLOCK_MENU);
         }
-    }
-
-    private void menuLores(Item menu) {
-        ItemMeta menuMeta = menu.getItemMeta();
-        List<String> lores = menuMeta.getLore();
-        lores.remove(lores.size() - 1);
-        lores.add(ChatColor.YELLOW + "Click to open!");
-        menuMeta.setLore(lores);
-        menu.setItemMeta(menuMeta);
     }
 
     public void sendActionBar(String message, boolean ignoreCooldown) {
