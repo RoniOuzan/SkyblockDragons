@@ -306,7 +306,7 @@ public class Item extends ItemStack implements Comparable<Item> {
         if (lores.size() > 0 && isNotLastEmpty(lores)) lores.add("");
 
         if (material instanceof ItemRequirementAble) {
-            lores.addAll(((ItemRequirementAble) material).getRequirements().stream().filter(r -> player == null || !r.hasRequirement(player)).map(Requirement::toString).collect(Collectors.toList()));
+            lores.addAll(((ItemRequirementAble) material).getRequirements().getRequirements().stream().filter(r -> player == null || !r.hasRequirement(player)).map(Requirement::toString).collect(Collectors.toList()));
         }
 
         if (modifiers.getRecombabulated()) {

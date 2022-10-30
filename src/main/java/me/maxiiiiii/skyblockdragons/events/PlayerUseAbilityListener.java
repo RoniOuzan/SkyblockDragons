@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.events;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
 import me.maxiiiiii.skyblockdragons.item.material.types.ShortBowMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
@@ -38,8 +39,13 @@ public class PlayerUseAbilityListener implements Listener {
 
         if (!(Items.get(itemStack) instanceof ItemAbilityAble)) return;
         ItemAbilityAble material = (ItemAbilityAble) Items.get(itemStack);
-
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
+
+        if (material instanceof ItemRequirementAble && !((ItemRequirementAble) material).getRequirements().hasRequirements(player)) {
+            player.sendNoRequirementsMessage("ability");
+            return;
+        }
+
         ItemAbility usedAbility = null;
         for (ItemAbility ability : material.getAbilities()) {
             if (ability.getAction().isPlayerUsedAbility(e)) {

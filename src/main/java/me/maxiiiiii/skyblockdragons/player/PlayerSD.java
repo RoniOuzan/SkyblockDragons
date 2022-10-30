@@ -9,6 +9,7 @@ import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
@@ -357,7 +358,7 @@ public class PlayerSD extends PlayerClass {
             this.addItemStat(item);
         }
 
-        equipment.stream().map(Item::getMaterial).sorted((m1, m2) -> {
+        equipment.stream().map(Item::getMaterial).filter(m -> !(m instanceof ItemRequirementAble) || ((ItemRequirementAble) m).getRequirements().hasRequirements(this)).sorted((m1, m2) -> {
             try {
                 Method method1 = m1.getClass().getMethod("updateStats", PlayerStats.class);
                 Method method2 = m2.getClass().getMethod("updateStats", PlayerStats.class);
@@ -605,6 +606,18 @@ public class PlayerSD extends PlayerClass {
         double multiplier = 1;
         multiplier += this.getStats().getMagicFind().amount / 100;
         return Functions.chanceOf(percent * multiplier);
+    }
+
+    public boolean ignoreItemRequirements() {
+        return this.getGameMode() == GameMode.CREATIVE;
+    }
+
+    public void sendNoRequirementsMessage() {
+        this.sendNoRequirementsMessage("Item");
+    }
+
+    public void sendNoRequirementsMessage(String whatToUse) {
+        this.sendMessage(ChatColor.RED + "You don't have the requirements to use this " + whatToUse + "!");
     }
 
     public void makeDamage(Entity entity, Damage.DamageType damageType, double damage, double baseAbilityDamage, double abilityScaling) {

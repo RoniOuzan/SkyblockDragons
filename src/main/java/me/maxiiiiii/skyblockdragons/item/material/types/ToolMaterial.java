@@ -13,7 +13,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
+import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirements;
 import org.bukkit.Material;
 
 import java.util.List;
@@ -23,13 +23,13 @@ import java.util.function.Function;
 @Setter
 public abstract class ToolMaterial extends ItemMaterial implements ItemDescriptionAble, ItemAbilityAble, ItemEnchantAble, ItemRequirementAble {
     private Function<PlayerSD, String> description;
-    private List<Requirement> requirements;
+    private Requirements requirements;
     private List<ItemAbility> abilities;
 
     public ToolMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, Function<PlayerSD, String> description, MaterialModifier... objects) {
         super(itemID, material, family, name, type, rarity);
         this.description = description;
-        this.requirements = Functions.splitList("me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement", objects);
+        this.requirements = new Requirements(Functions.splitList("me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement", objects));
         this.abilities = Functions.splitList("me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility", objects);
     }
 

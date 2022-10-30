@@ -6,7 +6,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import org.bukkit.Material;
 
-public class BookMaterial extends ItemMaterial implements ItemEnchantAble {
+public abstract class BookMaterial extends ItemMaterial implements ItemEnchantAble {
     public BookMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity) {
         super(itemID, material, family, name, type, rarity);
     }

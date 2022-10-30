@@ -12,6 +12,7 @@ import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
+import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirements;
 import me.maxiiiiii.skyblockdragons.util.particle.ParticlePacketUtil;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -33,7 +34,7 @@ public abstract class PetMaterial extends ItemMaterial implements ItemStatsAble,
     private final int maxLevel;
     private final ParticlePacketUtil[] particles;
     private final SoundUtil[] sounds;
-    private final List<Requirement> requirements;
+    private final Requirements requirements;
 
     public PetMaterial(String itemID, String name, Stats stats, List<PetRarity> abilities, SkillType skill, int maxLevel, Object... array) {
         super(itemID, Material.SKULL_ITEM, ItemFamily.NULL, name, ItemType.PET, Rarity.NONE);
@@ -62,7 +63,7 @@ public abstract class PetMaterial extends ItemMaterial implements ItemStatsAble,
         this.particles = particles.toArray(new ParticlePacketUtil[0]);
         this.sounds = sounds.toArray(new SoundUtil[0]);
 
-        this.requirements = requirements;
+        this.requirements = new Requirements(requirements);
     }
 
     public PetMaterial(String itemID, String name, Stats stats, List<PetRarity> abilities, SkillType skill, Object... array) {

@@ -5,11 +5,11 @@ import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.*;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.NullItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.NullItemAbility;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
+import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirements;
 import org.bukkit.Color;
 import org.bukkit.Material;
 
@@ -22,13 +22,13 @@ public abstract class ArmorMaterial extends ItemMaterial implements ItemStatsAbl
     private Stats stats;
     private Function<PlayerSD, String> description;
     private List<ItemAbility> abilities;
-    private List<Requirement> requirements;
+    private Requirements requirements;
 
     public ArmorMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, Stats stats, Function<PlayerSD, String> description, MaterialModifier... modifiers) {
         super(itemID, material, family, name, type, rarity);
         this.stats = stats;
         this.description = description;
-        this.requirements = Functions.splitList("me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement", modifiers);
+        this.requirements = new Requirements(Functions.splitList("me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement", modifiers));
         this.abilities = Functions.splitList("me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility", modifiers);
         if (this.abilities.size() == 0)
             this.abilities.add(new NullItemAbility());
