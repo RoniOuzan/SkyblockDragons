@@ -7,6 +7,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityUsage;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,6 +22,7 @@ public class MultiShot extends ItemAbility implements Listener {
     private static final double DEFAULT_MAX_POWER_TIME = 1;
     private static final double POW = 3;
     private static final double MIN = 0.05;
+    private static final double POWER_MULTIPLIER = 3;
 
     private final String itemID;
     private final int amountOfArrows;
@@ -28,10 +30,10 @@ public class MultiShot extends ItemAbility implements Listener {
     private final double power;
     private final double maxPowerTime;
 
-    public MultiShot(String itemID, int amountOfArrows, double power, double spread, double maxPowerTime) {
+    public MultiShot(String itemID, String description, int amountOfArrows, double power, double spread, double maxPowerTime) {
         super(AbilityAction.SHOOT,
                 "MultiShot",
-                "Shoots " + amountOfArrows + " arrows at a time!"
+                "Shoots " + ChatColor.AQUA + amountOfArrows + ChatColor.GRAY + " arrows at once!" + (description.isEmpty() ? "" : " NEW_LINE " + description)
         );
         this.itemID = itemID;
         this.amountOfArrows = amountOfArrows;
@@ -41,7 +43,11 @@ public class MultiShot extends ItemAbility implements Listener {
     }
 
     public MultiShot(String itemID, int amountOfArrows, double power, double maxPowerTime) {
-        this(itemID, amountOfArrows, power, calculateSpread(amountOfArrows), maxPowerTime);
+        this(itemID, "", amountOfArrows, power, calculateSpread(amountOfArrows), maxPowerTime);
+    }
+
+    public MultiShot(String itemID, String description, int amountOfArrows, double power, double maxPowerTime) {
+        this(itemID, description, amountOfArrows, power, calculateSpread(amountOfArrows), maxPowerTime);
     }
 
     public MultiShot(String itemID, int amountOfArrows, double power) {
@@ -49,7 +55,7 @@ public class MultiShot extends ItemAbility implements Listener {
     }
 
     public MultiShot(String itemID, int amountOfArrows) {
-        this(itemID, amountOfArrows, 1, calculateSpread(amountOfArrows), DEFAULT_MAX_POWER_TIME);
+        this(itemID, "", amountOfArrows, 1, calculateSpread(amountOfArrows), DEFAULT_MAX_POWER_TIME);
     }
 
     public double getAngleDifference() {
@@ -83,18 +89,29 @@ public class MultiShot extends ItemAbility implements Listener {
         @Override
         public void run(PlayerAbilityUsage e) {
             PlayerSD player = e.getPlayer();
+            if (maxPowerTime == 0) {
+                ((EntityShootBowEvent) e.getEvent()).getProjectile().remove();
+                shoot(player, power * POWER_MULTIPLIER);
+                return;
+            }
+
             double diff = Math.min(SkyblockDragons.getCurrentTimeInSeconds() - lastTimeUsed, maxPowerTime);
-//            if (maxPowerTime == 0) {
-//                diff = 1;
-//            }
             if (diff >= MIN) {
                 lastTimeUsed = SkyblockDragons.getCurrentTimeInSeconds();
                 diff = Math.pow(diff, POW);
                 ((EntityShootBowEvent) e.getEvent()).getProjectile().remove();
+                double multiplier = Math.max(diff / Math.pow(maxPowerTime, POW) * power * POWER_MULTIPLIER, 0.5);
+                shoot(player, multiplier);
+            }
+        }
 
-                double multiplier = Math.max(diff / Math.pow(maxPowerTime, POW) * power * 3, 0.5);
+        private void shoot(PlayerSD player, double multiplier) {
+            if (amountOfArrows == 1) {
+                Vector vector = player.getLocation().getDirection().multiply(multiplier);
+                Arrow arrow = player.launchProjectile(Arrow.class, vector);
+                arrow.addScoreboardTag("UNEVENTABLE");
+            } else {
                 double angleDifference = getAngleDifference();
-
                 for (double i = -spread; i <= spread; i += angleDifference) {
                     Vector vector = getVector(player, i, 0, multiplier);
                     Arrow arrow = player.launchProjectile(Arrow.class, vector);

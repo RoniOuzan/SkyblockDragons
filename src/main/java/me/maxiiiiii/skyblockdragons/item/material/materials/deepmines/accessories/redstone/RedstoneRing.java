@@ -1,17 +1,15 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.accessories.redstone;
 
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.AccessoryMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.Material;
 
 public class RedstoneRing extends AccessoryMaterial {
     public RedstoneRing() {
-        super("REDSTONE_Ring",
+        super("REDSTONE_RING",
                 Material.SKULL_ITEM,
                 ItemFamily.REDSTONE,
                 "Redstone Ring",

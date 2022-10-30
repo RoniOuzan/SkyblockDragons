@@ -8,5 +8,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Priority {
-    int level() default 5;
+    int DEFAULT = 5;
+
+    int level() default DEFAULT;
 }

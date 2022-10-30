@@ -47,6 +47,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -364,8 +365,10 @@ public class PlayerSD extends PlayerClass {
 
         equipment.stream().map(Item::getMaterial).sorted((m1, m2) -> {
             try {
-                int level1 = m1.getClass().getMethod("updateStats", PlayerStats.class).getAnnotation(Priority.class).level();
-                int level2 = m2.getClass().getMethod("updateStats", PlayerStats.class).getAnnotation(Priority.class).level();
+                Method method1 = m1.getClass().getMethod("updateStats", PlayerStats.class);
+                Method method2 = m2.getClass().getMethod("updateStats", PlayerStats.class);
+                int level1 = method1.isAnnotationPresent(Priority.class) ? method1.getAnnotation(Priority.class).level() : Priority.DEFAULT;
+                int level2 = method2.isAnnotationPresent(Priority.class) ? method2.getAnnotation(Priority.class).level() : Priority.DEFAULT;
                 return level1 - level2;
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();

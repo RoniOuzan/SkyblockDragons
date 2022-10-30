@@ -5,7 +5,7 @@ import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.MaterialModifier;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityCooldown;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityNoMessageCooldown;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilitySilentCooldown;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.costs.ItemAbilityManaCost;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.costs.ItemAbilityManaCostPercentage;
@@ -95,7 +95,7 @@ public abstract class ItemAbility implements MaterialModifier {
 
     protected List<String> getModifiersLore(PlayerSD player) {
         List<String> lores = new ArrayList<>();
-        if (this instanceof ItemAbilityCooldown) lores.add(ItemAbilityCooldown.getLine((ItemAbilityCooldown) this, player));
+        if (this instanceof ItemAbilityNoMessageCooldown) lores.add(ItemAbilityNoMessageCooldown.getLine((ItemAbilityNoMessageCooldown) this, player));
         if (this instanceof ItemAbilityManaCost) lores.add(ItemAbilityManaCost.getLine((ItemAbilityManaCost) this, player));
         if (this instanceof ItemAbilityManaCostPercentage) lores.add(ItemAbilityManaCostPercentage.getLine((ItemAbilityManaCostPercentage) this, player));
         return lores;

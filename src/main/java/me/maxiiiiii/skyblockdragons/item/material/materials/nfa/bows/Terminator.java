@@ -4,8 +4,8 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ShortBowMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.general.MultiShot;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityCooldown;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityNoMessageCooldown;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilitySilentCooldown;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.ChatColor;
@@ -19,8 +19,8 @@ public class Terminator extends ShortBowMaterial {
                 "Terminator",
                 Rarity.LEGENDARY,
                 new Stats(335, 50, 250, 0, 40, 0, 0, 0, 0, 0),
-                ChatColor.GOLD + "Shortbow: Instantly Shoots! NEW_LINE " + ChatColor.GRAY + "Shoots " + ChatColor.AQUA + "3 " + ChatColor.GRAY + "arrows at once. " + ChatColor.GRAY + "Can damage endermen. NEW_LINE NEW_LINE " + ChatColor.RED + "Divides your RESET_LENGTH " + StatType.CRIT_CHANCE.getIconAndText() + ChatColor.RED + " by 4!",
-                new MultiShot("TERMINATOR", 3, 1.5, 0),
+                ChatColor.RED + "Divides your RESET_LENGTH " + StatType.CRIT_CHANCE.getIconAndText() + ChatColor.RED + " by 4!",
+                new MultiShot(),
                 new Salvation()
         );
     }
@@ -30,7 +30,7 @@ public class Terminator extends ShortBowMaterial {
         stats.addMultiplier(StatType.CRIT_CHANCE, -300, 0);
     }
 
-    public static class Salvation extends ItemAbility implements ItemAbilityCooldown {
+    private static class Salvation extends ItemAbility implements ItemAbilityNoMessageCooldown {
         public Salvation() {
             super(AbilityAction.RIGHT_CLICK,
                     "Salvation",
@@ -46,8 +46,22 @@ public class Terminator extends ShortBowMaterial {
         @Override
         public PlayerAbilityRunnable setupAbility() {
             return e -> {
-                // TODO: someday
+                // TODO: one day
             };
+        }
+    }
+
+    private static class MultiShot extends me.maxiiiiii.skyblockdragons.item.objects.abilities.general.MultiShot implements ItemAbilitySilentCooldown {
+        private static final double CD_100 = 0.2;
+        private static final double CD_0 = 0.45;
+
+        public MultiShot() {
+            super("TERMINATOR", "Can damage endermen.", 3, 1.5, 0);
+        }
+
+        @Override
+        public double getBaseCooldown(PlayerSD player) {
+            return (CD_0 - CD_100) * ((100 - player.getStats().getAttackSpeed().get()) / 100) + CD_100;
         }
     }
 }
