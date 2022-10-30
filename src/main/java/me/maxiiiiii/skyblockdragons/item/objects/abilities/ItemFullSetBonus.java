@@ -49,7 +49,7 @@ public abstract class ItemFullSetBonus extends ItemAbility {
         this(AbilityAction.NONE, name, p -> description, 4);
     }
 
-    public void updateStats(PlayerStats stats) { // TODO
+    public void updateStats(PlayerStats stats) {
 
     }
 
@@ -81,6 +81,7 @@ public abstract class ItemFullSetBonus extends ItemAbility {
             }
 
             if (amount >= this.amountOfPieces) {
+                player.sendMessage(amount);
                 return true;
             }
         }

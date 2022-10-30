@@ -9,9 +9,11 @@ import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
@@ -365,11 +367,20 @@ public class PlayerSD extends PlayerClass {
                 int level1 = method1.isAnnotationPresent(Priority.class) ? method1.getAnnotation(Priority.class).level() : Priority.DEFAULT;
                 int level2 = method2.isAnnotationPresent(Priority.class) ? method2.getAnnotation(Priority.class).level() : Priority.DEFAULT;
                 return level1 - level2;
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
+            } catch (NoSuchMethodException ignored) {
             }
             return 1;
-        }).forEach(m -> m.updateStats(stats));
+        }).forEach(m -> {
+            m.updateStats(stats);
+
+            if (m instanceof ItemAbilityAble) {
+                ((ItemAbilityAble) m).getAbilities().forEach(a -> {
+                    if (a instanceof ItemFullSetBonus && ((ItemFullSetBonus) a).isPlayerWearingFullSet(this)) {
+                        ((ItemFullSetBonus) a).updateStats(stats);
+                    }
+                });
+            }
+        });
 
         // Pets
 //        if (this.getPlayerPet().getActivePet() >= 0) {
