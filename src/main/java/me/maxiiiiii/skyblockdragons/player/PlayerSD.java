@@ -10,7 +10,6 @@ import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
-import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
@@ -302,20 +301,15 @@ public class PlayerSD extends PlayerClass {
     }
 
     public void give(ItemStack item, Object source) {
+        if (item == null) return;
+
         int amount = item.getAmount();
 
         if (amount > 64){
             throw new IllegalArgumentException("Amount must be less than 64");
         }
-//        sendMessage("Give ITEMSD %s %s", item, source);
 
-        if (item instanceof Drop) {
-            ItemStack itemStack = ((Drop) item).generate(this, source);
-            if (itemStack != null)
-                this.player.getInventory().addItem(itemStack);
-        } else {
-            this.player.getInventory().addItem(item);
-        }
+        this.player.getInventory().addItem(item);
 
         PlayerGetItemEvent event = new PlayerGetItemEvent(this, item);
         Bukkit.getServer().getPluginManager().callEvent(event);

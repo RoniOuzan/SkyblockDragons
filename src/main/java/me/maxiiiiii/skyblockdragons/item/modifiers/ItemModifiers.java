@@ -1,6 +1,5 @@
 package me.maxiiiiii.skyblockdragons.item.modifiers;
 
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.crystals.CrystalType;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.NecronBladeMaterial;
@@ -9,7 +8,6 @@ import me.maxiiiiii.skyblockdragons.item.pet.PetSupplier;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import org.bukkit.inventory.ItemStack;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -138,15 +136,14 @@ public class ItemModifiers implements Iterable<ItemModifier> {
     }
 
     public static ItemModifiers getModifiers(ItemStack item) {
-        List<ItemModifier> modifiers = new ArrayList<>();
-        for (Class<? extends ItemModifier> clazz : new ArrayList<>(ItemModifier.getClasses())) {
-            try {
-                ItemModifier modifier = (ItemModifier) clazz.getDeclaredMethod("getModifier", ItemStack.class).invoke(null, item);
-                modifiers.add(modifier);
-            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                SkyblockDragons.logger.severe("Failed to get the modifier of " + clazz.getName() + ": " + e);
-            }
-        }
-        return new ItemModifiers(modifiers.toArray(new ItemModifier[0]));
+        return new ItemModifiers(EnchantModifier.getModifier(item),
+                HotPotatoModifier.getModifier(item),
+                NecronBladeScrollsModifier.getModifier(item),
+                RecombabulatorModifier.getModifier(item),
+                ReforgeModifier.getModifier(item),
+                SkinModifier.getModifier(item),
+                CrystalModifier.getModifier(item),
+                PetModifier.getModifier(item)
+        );
     }
 }

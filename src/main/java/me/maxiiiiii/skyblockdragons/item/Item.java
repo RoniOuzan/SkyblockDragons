@@ -11,7 +11,6 @@ import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifier;
 import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
@@ -120,7 +119,7 @@ public class Item extends ItemStack implements Comparable<Item> {
             applyPetLores(lores);
         } else {
             if (this.material instanceof ItemStatsAble)
-                applyStats(lores, player, rarity);
+                applyStats(lores, rarity);
 
             if (this.material instanceof ItemEnchantAble)
                 applyEnchants(lores);
@@ -198,7 +197,7 @@ public class Item extends ItemStack implements Comparable<Item> {
                 NormalMaterial material = (NormalMaterial) this.material;
 
                 if (material.isShowRecipe()) {
-                    if (!material.getDescription().equals("")) {
+                    if (!material.getDescription(player).equals("")) {
                         lores.add("");
                     }
                     lores.add(ChatColor.YELLOW + "Right-click to view recipe!");
@@ -369,18 +368,6 @@ public class Item extends ItemStack implements Comparable<Item> {
         }
     }
 
-    private void applyFullSet(List<String> lores) {
-        if (this.material instanceof ArmorMaterial) {
-            ArmorMaterial material = (ArmorMaterial) this.material;
-            if (material.getFullSet() != null && material.getFullSet() != ItemFullSetBonus.NULL) {
-                if (!lores.get(lores.size() - 1).isEmpty()) lores.add("");
-                lores.add(ChatColor.GOLD + "Full Set Bonus: " + material.getFullSet().getName());
-                lores.addAll(loreBuilder(material.getFullSet().getDescription(player)));
-                lores.addAll(material.getFullSet().getLore(player));
-            }
-        }
-    }
-
     private void applyNecronAbility(List<String> lores, NecronBladeMaterial.NecronBladeAbility ability) {
         if (isNotLastEmpty(lores)) lores.add("");
         lores.addAll(ability.getAbility().getLore(player));
@@ -406,11 +393,7 @@ public class Item extends ItemStack implements Comparable<Item> {
         }
     }
 
-    public boolean isReal() {
-        return this.material != Items.NULL && this.material != null;
-    }
-
-    private void applyStats(List<String> lores, PlayerSD player, Rarity rarity) {
+    private void applyStats(List<String> lores, Rarity rarity) {
         for (Stat stat : stats.toList()) {
             String statReforge = "";
             String statPotato = "";

@@ -53,6 +53,9 @@ public enum Rarity {
         ItemMaterial itemMaterial = Functions.getItemMaterial(item);
         NBTItem nbtItem = new NBTItem(item);
         NBTCompound nbt = nbtItem.getCompound("Item");
+
+        if (nbt == null) return Rarity.NONE;
+
         if (nbt.getBoolean("RarityUpgraded")) {
             return getRarity(itemMaterial.getRarity().getLevel() + 1);
         }

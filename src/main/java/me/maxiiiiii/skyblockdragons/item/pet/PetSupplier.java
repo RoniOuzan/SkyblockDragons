@@ -3,6 +3,8 @@ package me.maxiiiiii.skyblockdragons.item.pet;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.inventory.ItemStack;
@@ -40,11 +42,14 @@ public class PetSupplier {
     }
 
     public static PetSupplier getPetSupplier(ItemStack item) {
-        return new PetSupplier(
-                Rarity.getRarity(item),
-                getLevel(item),
-                getCurrentXp(item)
-        );
+        if (Items.get(item) instanceof PetMaterial) {
+            return new PetSupplier(
+                    Rarity.getRarity(item),
+                    getLevel(item),
+                    getCurrentXp(item)
+            );
+        }
+        return new PetSupplier();
     }
 
     public static int getLevel(ItemStack item) {
