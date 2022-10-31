@@ -201,4 +201,14 @@ public class Items {
     public static ItemMaterial get(ItemStack item) {
         return Items.items.getOrDefault(Functions.getId(item), Items.NULL);
     }
+
+    public static ArmorMaterial getArmor(ItemStack item) {
+        ItemMaterial material = Items.items.getOrDefault(Functions.getId(item), Items.NULL);
+        return material instanceof ArmorMaterial ? (ArmorMaterial) material : ArmorMaterial.NULL;
+    }
+
+    public static PetMaterial getPet(ItemStack item) {
+        ItemMaterial material = Items.items.getOrDefault(Functions.getId(item), Items.NULL);
+        return material instanceof PetMaterial ? (PetMaterial) material : PetMaterial.NULL;
+    }
 }

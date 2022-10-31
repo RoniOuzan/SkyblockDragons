@@ -9,7 +9,7 @@ import me.maxiiiiii.skyblockdragons.entity.EntityCommand;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.EntitySpawn;
-import me.maxiiiiii.skyblockdragons.events.*;
+import me.maxiiiiii.skyblockdragons.events.listeners.*;
 import me.maxiiiiii.skyblockdragons.inventory.MenuListener;
 import me.maxiiiiii.skyblockdragons.inventory.menus.ProfileMenu;
 import me.maxiiiiii.skyblockdragons.inventory.menus.SkyblockMenu;

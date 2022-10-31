@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.player.events;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.events.events.PlayerSDEvent;
+import me.maxiiiiii.skyblockdragons.events.events.abstracts.playersd.PlayerSDEvent;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;

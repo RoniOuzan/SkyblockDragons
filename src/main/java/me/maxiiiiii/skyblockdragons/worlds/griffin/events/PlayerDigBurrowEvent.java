@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.worlds.griffin.events;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.events.events.PlayerSDEvent;
+import me.maxiiiiii.skyblockdragons.events.events.abstracts.playersd.PlayerSDEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.Location;
 import org.bukkit.event.Cancellable;

@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.events;
+package me.maxiiiiii.skyblockdragons.events.listeners;
 
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.util.Functions;

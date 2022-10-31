@@ -5,14 +5,13 @@ import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamageEntityEvent;
+import me.maxiiiiii.skyblockdragons.events.events.update.PlayerUpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
@@ -48,7 +47,10 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -356,15 +358,8 @@ public class PlayerSD extends PlayerClass {
             this.addItemStat(item);
         }
 
-        equipment.stream().map(Item::getMaterial)
-                .filter(m -> !(m instanceof ItemRequirementAble) || ((ItemRequirementAble) m).getRequirements().hasRequirements(this))
-                .sorted(PlayerSD::sortPriorities)
-                .forEach(m -> m.updateStats(stats));
-
-        ItemFullSetBonus.fullSets.stream()
-                .filter(m -> !(m instanceof ItemRequirementAble) || ((ItemRequirementAble) m).getRequirements().hasRequirements(this))
-                .sorted(PlayerSD::sortPriorities)
-                .forEach(f -> f.updateStats(stats));
+        PlayerUpdateStatsEvent event = new PlayerUpdateStatsEvent(this, stats);
+        Bukkit.getPluginManager().callEvent(event);
 
         // Pets
 //        if (this.getPlayerPet().getActivePet() >= 0) {
@@ -650,6 +645,7 @@ public class PlayerSD extends PlayerClass {
     @Getter
     public class PlayerEquipment extends Equipment {
         private final AccessoryBag accessoryBag;
+        private PetMaterial petMaterial;
         private Item pet;
 
         public PlayerEquipment() {
@@ -658,6 +654,10 @@ public class PlayerSD extends PlayerClass {
 
         public void setAccessoryBag(List<Item> items) {
             accessoryBag.setItems(items);
+        }
+
+        public PetMaterial getPetMaterial() {
+            return PlayerSD.this.getActivePetMaterial();
         }
 
         @Override

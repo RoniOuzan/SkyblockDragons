@@ -2,21 +2,21 @@ package me.maxiiiiii.skyblockdragons.item.material.types;
 
 import lombok.Getter;
 import lombok.ToString;
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.Priority;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.event.Listener;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @ToString
 @Getter
-public abstract class ItemMaterial implements ConfigurationSerializable, MaterialSD, Comparable<ItemMaterial> {
+public abstract class ItemMaterial implements ConfigurationSerializable, MaterialSD, Comparable<ItemMaterial>, Listener {
     protected String itemID;
     
     protected Material material;
@@ -34,6 +34,8 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
         this.type = type;
         this.rarity = rarity;
         this.data = 0;
+
+        Bukkit.getPluginManager().registerEvents(this, SkyblockDragons.plugin);
     }
 
     public ItemSkull getItemSkull() {
@@ -42,18 +44,6 @@ public abstract class ItemMaterial implements ConfigurationSerializable, Materia
 
     public int getData() {
         return this.data;
-    }
-
-    @Priority
-    public void updateStats(PlayerStats stats) {
-    }
-
-    @Priority
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-    }
-
-    @Priority
-    public void updateDamageHolder(EntityDamage<?, ?> entityDamage) {
     }
 
     public String getName() {

@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.events;
+package me.maxiiiiii.skyblockdragons.events.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

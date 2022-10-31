@@ -1,16 +1,16 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.swords;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
+import me.maxiiiiii.skyblockdragons.events.events.update.PlayerUpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.costs.ItemAbilityManaCost;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -29,16 +29,13 @@ public class RogueSword extends SwordMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-        if (System.currentTimeMillis() - SpeedBoost.rogueSwordLastTimeUsed.getOrDefault(stats.getPlayer(), 0L) <= 30000) {
-            stats.getSpeed().amount += (SpeedBoost.rogueSwordAmountUsed.get(stats.getPlayer()) + 1) * 10;
+    @EventHandler
+    public void updateStats(PlayerUpdateStatsEvent e) {
+        if (e.isNotThisItem(this)) return;
+        
+        if (System.currentTimeMillis() - SpeedBoost.rogueSwordLastTimeUsed.getOrDefault(e.getPlayer(), 0L) <= 30000) {
+            e.getStats().getSpeed().amount += (SpeedBoost.rogueSwordAmountUsed.get(e.getPlayer()) + 1) * 10;
         }
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
     }
 
     public static class SpeedBoost extends ItemAbility implements ItemAbilityManaCost {

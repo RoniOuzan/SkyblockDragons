@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.bows;
 
+import me.maxiiiiii.skyblockdragons.events.events.update.PlayerUpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.ShortBowMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
@@ -7,9 +8,9 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityNoMessageCooldown;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilitySilentCooldown;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
 
 public class Terminator extends ShortBowMaterial {
     public Terminator() {
@@ -25,9 +26,11 @@ public class Terminator extends ShortBowMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-        stats.addMultiplier(StatType.CRIT_CHANCE, -300, 0);
+    @EventHandler
+    public void updateStats(PlayerUpdateStatsEvent e) {
+        if (e.isNotThisItem(this)) return;
+        
+        e.getStats().addMultiplier(StatType.CRIT_CHANCE, -300, 0);
     }
 
     private static class Salvation extends ItemAbility implements ItemAbilityNoMessageCooldown {

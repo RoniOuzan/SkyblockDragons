@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.events;
+package me.maxiiiiii.skyblockdragons.events.listeners;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;

@@ -2,11 +2,9 @@ package me.maxiiiiii.skyblockdragons.item.material.types;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
@@ -54,16 +52,6 @@ public abstract class NecronBladeMaterial extends SwordMaterial {
     public static abstract class NecronBladeScroll extends ToolMaterial {
         public NecronBladeScroll(String itemID, Material material, String name, Rarity rarity, String description, MaterialModifier... modifiers) {
             super(itemID, material, ItemFamily.SCROLL, name, ItemType.ITEM, rarity, description, modifiers);
-        }
-
-        @Override
-        public void updateStats(PlayerStats stats) {
-
-        }
-
-        @Override
-        public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
         }
     }
 }

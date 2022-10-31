@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.events;
+package me.maxiiiiii.skyblockdragons.events.listeners;
 
 import org.bukkit.entity.Enderman;
 import org.bukkit.event.EventHandler;

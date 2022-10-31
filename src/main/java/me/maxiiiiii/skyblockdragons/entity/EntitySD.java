@@ -8,7 +8,7 @@ import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
+import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -256,12 +256,17 @@ public class EntitySD extends EntityClass {
 
     @Getter
     public class Equipment implements Iterable<Item> {
+        private ItemMaterial toolMaterial;
+        private ArmorMaterial helmetMaterial;
+        private ArmorMaterial chestplateMaterial;
+        private ArmorMaterial leggingsMaterial;
+        private ArmorMaterial bootsMaterial;
+
         private Item tool;
         private Item helmet;
         private Item chestplate;
         private Item leggings;
         private Item boots;
-        private ItemFullSetBonus fullSet;
 
         public Equipment() {
         }
@@ -270,31 +275,23 @@ public class EntitySD extends EntityClass {
         }
 
         public void update() {
-            this.tool = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null,
-                    Functions.isNotAir(EntitySD.this.getEquipment().getItemInMainHand()) ? EntitySD.this.getEquipment().getItemInMainHand() : new Item(Items.NULL));
-            this.helmet = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null,
-                    Functions.isNotAir(EntitySD.this.getEquipment().getHelmet()) ? EntitySD.this.getEquipment().getHelmet() : new Item(Items.NULL));
-            this.chestplate = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null,
-                    Functions.isNotAir(EntitySD.this.getEquipment().getChestplate()) ? EntitySD.this.getEquipment().getChestplate() : new Item(Items.NULL));
-            this.leggings = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null,
-                    Functions.isNotAir(EntitySD.this.getEquipment().getLeggings()) ? EntitySD.this.getEquipment().getLeggings() : new Item(Items.NULL));
-            this.boots = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null,
-                    Functions.isNotAir(EntitySD.this.getEquipment().getBoots()) ? EntitySD.this.getEquipment().getBoots() : new Item(Items.NULL));
+            EntityEquipment equipment = EntitySD.this.getEquipment();
+            this.toolMaterial = Items.get(equipment.getItemInMainHand());
+            this.helmetMaterial = Items.getArmor(equipment.getHelmet());
+            this.chestplateMaterial = Items.getArmor(equipment.getChestplate());
+            this.leggingsMaterial = Items.getArmor(equipment.getLeggings());
+            this.bootsMaterial = Items.getArmor(equipment.getBoots());
 
-            this.fullSet = ItemFullSetBonus.NULL;
-            Map<ItemFullSetBonus, Integer> amount = new HashMap<>();
-            for (Item item : this.getArmor()) {
-                if (item.getMaterial() instanceof ArmorMaterial) {
-                    ArmorMaterial material = (ArmorMaterial) item.getMaterial();
-                    amount.put(material.getFullSet(), amount.getOrDefault(material.getFullSet(), 0) + 1);
-                }
-            }
-            for (ItemFullSetBonus itemFullSet : amount.keySet()) {
-                if (itemFullSet.getAmountOfPieces() >= amount.get(itemFullSet)) {
-                    this.fullSet = itemFullSet;
-                    break;
-                }
-            }
+            this.tool = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null,
+                    Functions.isNotAir(equipment.getItemInMainHand()) ? equipment.getItemInMainHand() : new Item(Items.NULL));
+            this.helmet = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null,
+                    Functions.isNotAir(equipment.getHelmet()) ? equipment.getHelmet() : new Item(Items.NULL));
+            this.chestplate = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null,
+                    Functions.isNotAir(equipment.getChestplate()) ? equipment.getChestplate() : new Item(Items.NULL));
+            this.leggings = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null,
+                    Functions.isNotAir(equipment.getLeggings()) ? equipment.getLeggings() : new Item(Items.NULL));
+            this.boots = new Item((EntitySD.this instanceof PlayerSD) ? (PlayerSD) EntitySD.this : null,
+                    Functions.isNotAir(equipment.getBoots()) ? equipment.getBoots() : new Item(Items.NULL));
         }
 
         public List<Item> getArmor() {

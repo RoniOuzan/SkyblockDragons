@@ -9,7 +9,7 @@ import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.EntitySpawn;
 import me.maxiiiiii.skyblockdragons.entity.types.witherisland.EntityWither;
-import me.maxiiiiii.skyblockdragons.events.JoinQuitListener;
+import me.maxiiiiii.skyblockdragons.events.listeners.JoinQuitListener;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.crystals.CrystalType;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;

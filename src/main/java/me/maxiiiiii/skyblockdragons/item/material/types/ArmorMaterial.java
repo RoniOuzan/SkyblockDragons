@@ -19,6 +19,8 @@ import java.util.function.Function;
 @Getter
 @Setter
 public abstract class ArmorMaterial extends ItemMaterial implements ItemStatsAble, ItemDescriptionAble, ItemEnchantAble, ItemAbilityAble, ItemRequirementAble {
+    public static final ArmorMaterial NULL = new NullArmor();
+
     private Stats stats;
     private Function<PlayerSD, String> description;
     private List<ItemAbility> abilities;
@@ -49,5 +51,20 @@ public abstract class ArmorMaterial extends ItemMaterial implements ItemStatsAbl
     @Override
     public String getDescription(PlayerSD player) {
         return description.apply(player);
+    }
+
+    @MaterialUnregisters
+    private static class NullArmor extends ArmorMaterial {
+        public NullArmor() {
+            super("NULL_ARMOR",
+                    Material.BARRIER,
+                    ItemFamily.NULL,
+                    "Null",
+                    ItemType.NULL,
+                    Rarity.SPECIAL,
+                    new Stats(),
+                    ""
+            );
+        }
     }
 }

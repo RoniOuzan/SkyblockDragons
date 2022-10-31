@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.player.events;
 
-import me.maxiiiiii.skyblockdragons.events.events.PlayerSDEvent;
+import me.maxiiiiii.skyblockdragons.events.events.abstracts.playersd.PlayerSDEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.world.npc.NPC;
 import org.bukkit.event.HandlerList;

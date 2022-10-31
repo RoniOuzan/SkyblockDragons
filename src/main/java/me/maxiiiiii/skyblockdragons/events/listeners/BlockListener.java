@@ -1,8 +1,7 @@
-package me.maxiiiiii.skyblockdragons.events;
+package me.maxiiiiii.skyblockdragons.events.listeners;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.mining.BlockMaterial;
-import me.maxiiiiii.skyblockdragons.mining.PlayerBreakBlockEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.GameMode;
 import org.bukkit.Material;

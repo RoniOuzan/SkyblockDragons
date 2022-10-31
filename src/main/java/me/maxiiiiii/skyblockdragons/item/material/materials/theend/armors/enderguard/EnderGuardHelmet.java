@@ -1,15 +1,14 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.armors.enderguard;
 
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
+import me.maxiiiiii.skyblockdragons.events.events.update.PlayerUpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
-
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
 
 public class EnderGuardHelmet extends ArmorMaterial {
     public EnderGuardHelmet() {
@@ -32,15 +31,12 @@ public class EnderGuardHelmet extends ArmorMaterial {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-        if (stats.getPlayer().getWorldSD() instanceof TheEnd) {
-            stats.addDamageMultipliers(10, 0);
+    @EventHandler
+    public void updateStats(PlayerUpdateStatsEvent e) {
+        if (e.isNotThisItem(this)) return;
+        
+        if (e.getPlayer().getWorldSD() instanceof TheEnd) {
+            e.getStats().addDamageMultipliers(10, 0);
         }
-    }
-
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-
     }
 }

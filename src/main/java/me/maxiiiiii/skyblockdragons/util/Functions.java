@@ -11,7 +11,7 @@ import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
-import me.maxiiiiii.skyblockdragons.events.EntityHealth;
+import me.maxiiiiii.skyblockdragons.events.listeners.EntityHealth;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
@@ -1180,16 +1180,16 @@ public class Functions {
 
     public static int manaCostCalculator(int manaCost, PlayerSD player, ItemModifiers modifiers) {
         int finalCost = manaCost;
-        for (EnchantType enchantType : modifiers.getEnchants().keySet()) {
-            if (enchantType == EnchantType.ULTIMATE_WISE) {
-                finalCost *= 1 - (0.1 * modifiers.getEnchants().get(enchantType));
-            }
-        }
-        if (player != null) {
-            if (player.getItems().getFullSet() instanceof WiseDragonFullSet) {
-                finalCost *= 0.6;
-            }
-        }
+//        for (EnchantType enchantType : modifiers.getEnchants().keySet()) {
+//            if (enchantType == EnchantType.ULTIMATE_WISE) {
+//                finalCost *= 1 - (0.1 * modifiers.getEnchants().get(enchantType));
+//            }
+//        }
+//        if (player != null) {
+//            if (player.getItems().getFullSet() instanceof WiseDragonFullSet) {
+//                finalCost *= 0.6;
+//            }
+//        }
         return finalCost;
     }
 
