@@ -1,13 +1,10 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.young;
 
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
-
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
-import org.bukkit.Color;
 import org.bukkit.Material;
 
 public class YoungDragonHelmet extends ArmorMaterial {
@@ -20,7 +17,7 @@ public class YoungDragonHelmet extends ArmorMaterial {
                 Rarity.LEGENDARY,
                 new Stats(0, 0, 0, 0, 0, 0, 70, 110, 20, 0),
                 "",
-                new YoungDragonFullSet(),
+                ItemFullSetBonus.YOUNG_DRAGON_FULL_SET,
                 new SkillRequirement(SkillType.COMBAT, 15)
         );
     }

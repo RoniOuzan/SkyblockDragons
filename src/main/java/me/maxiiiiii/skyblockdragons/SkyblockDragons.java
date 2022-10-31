@@ -14,7 +14,6 @@ import me.maxiiiiii.skyblockdragons.inventory.MenuListener;
 import me.maxiiiiii.skyblockdragons.inventory.menus.ProfileMenu;
 import me.maxiiiiii.skyblockdragons.inventory.menus.SkyblockMenu;
 import me.maxiiiiii.skyblockdragons.item.ItemCommand;
-import me.maxiiiiii.skyblockdragons.item.abilities.MultiShot_Bow;
 import me.maxiiiiii.skyblockdragons.item.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.item.anvil.AnvilCommand;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
@@ -24,6 +23,7 @@ import me.maxiiiiii.skyblockdragons.item.enchants.BookCommand;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantingTableCommand;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import me.maxiiiiii.skyblockdragons.item.pet.PetCommand;
 import me.maxiiiiii.skyblockdragons.item.pet.PetListener;
 import me.maxiiiiii.skyblockdragons.item.pet.PetMenu;
@@ -120,6 +120,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         Variables.load();
 
+        ItemFullSetBonus.registerFullSets();
         Items.registerItems();
         EnchantType.registerEnchants();
         EntityMaterial.registerEntities();

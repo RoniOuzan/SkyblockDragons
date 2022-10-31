@@ -1,11 +1,11 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.deepermines.armors.voidcrystal;
 
-import me.maxiiiiii.skyblockdragons.item.material.materials.deepermines.armors.DeeperMinesFullSet;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import org.bukkit.Color;
 import org.bukkit.Material;
 
@@ -19,7 +19,7 @@ public class VoidCrystalBoots extends ArmorMaterial {
                 Rarity.MYTHIC,
                 new Stats(130, 120, 60, 30, 260, 90, 20),
                 "",
-                new DeeperMinesFullSet(50)
+                ItemFullSetBonus.VOID_CRYSTAL_FULL_SET
         );
     }
 

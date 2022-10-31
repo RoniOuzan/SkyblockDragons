@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.dungeons.floor7.witherarmors.storm;
 
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
-import me.maxiiiiii.skyblockdragons.item.material.materials.dungeons.floor7.witherarmors.WitherArmorFullSetBonus;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
@@ -18,7 +18,7 @@ public class StormHelmet extends ArmorMaterial {
                 Rarity.LEGENDARY,
                 new Stats(0, 0, 0, 0, 0, 0, 180, 80, 0, 400),
                 "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".",
-                new WitherArmorFullSetBonus()
+                ItemFullSetBonus.WITHER_ARMOR_FULL_SET
         );
     }
 

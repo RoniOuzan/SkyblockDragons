@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.Color;
@@ -20,7 +21,7 @@ public class StrongDragonLeggings extends ArmorMaterial {
                 Rarity.LEGENDARY,
                 new Stats(0, 25, 0, 0, 0, 0, 100, 140, 0, 0),
                 "",
-                new StrongDragonFullSet(),
+                ItemFullSetBonus.STRONG_DRAGON_FULL_SET,
                 new SkillRequirement(SkillType.COMBAT, 15)
         );
     }

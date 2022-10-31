@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors
 
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.Material;
@@ -16,7 +17,7 @@ public class StrongDragonHelmet extends ArmorMaterial {
                 Rarity.LEGENDARY,
                 new Stats(0, 25, 0, 0, 0, 0, 70, 110, 0, 0),
                 "",
-                new StrongDragonFullSet(),
+                ItemFullSetBonus.STRONG_DRAGON_FULL_SET,
                 new SkillRequirement(SkillType.COMBAT, 15)
         );
     }

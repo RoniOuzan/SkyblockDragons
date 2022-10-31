@@ -4,15 +4,47 @@ import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
+import me.maxiiiiii.skyblockdragons.item.material.materials.deepermines.armors.DeeperMinesFullSet;
+import me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.armors.pigman.PigmanFullSetBonus;
+import me.maxiiiiii.skyblockdragons.item.material.materials.dungeons.floor7.witherarmors.WitherArmorFullSetBonus;
+import me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.old.OldDragonFullSet;
+import me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.protector.ProtectorDragonFullSet;
+import me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.strong.StrongDragonFullSet;
+import me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.superior.SuperiorDragonFullSet;
+import me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.unstable.UnstableDragonFullSet;
+import me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.wise.WiseDragonFullSet;
+import me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.young.YoungDragonFullSet;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 @Getter
 public abstract class ItemFullSetBonus extends ItemAbility {
     public static final ItemFullSetBonus NULL = new NullFullSetBonus();
+
+    public static final List<ItemFullSetBonus> fullSets = new ArrayList<>();
+
+    public static ItemFullSetBonus SUPERIOR_DRAGON_FULL_SET;
+    public static ItemFullSetBonus STRONG_DRAGON_FULL_SET;
+    public static ItemFullSetBonus WISE_DRAGON_FULL_SET;
+    public static ItemFullSetBonus YOUNG_DRAGON_FULL_SET;
+    public static ItemFullSetBonus UNSTABLE_DRAGON_FULL_SET;
+    public static ItemFullSetBonus PROTECTOR_DRAGON_FULL_SET;
+    public static ItemFullSetBonus OLD_DRAGON_FULL_SET;
+    
+    public static ItemFullSetBonus COBALT_FULL_SET;
+    public static ItemFullSetBonus CHLOROPHYTE_FULL_SET;
+    public static ItemFullSetBonus LUMINATE_FULL_SET;
+    public static ItemFullSetBonus DERNIC_FULL_SET;
+    public static ItemFullSetBonus HEMATITE_FULL_SET;
+    public static ItemFullSetBonus VOID_CRYSTAL_FULL_SET;
+    
+    public static ItemFullSetBonus PIGMAN_FULL_SET;
+    public static ItemFullSetBonus WITHER_ARMOR_FULL_SET;
 
     private final int amountOfPieces;
 
@@ -86,6 +118,29 @@ public abstract class ItemFullSetBonus extends ItemAbility {
             }
         }
         return false;
+    }
+
+    public static void registerFullSets() {
+        // Dragons
+        SUPERIOR_DRAGON_FULL_SET = new SuperiorDragonFullSet(); fullSets.add(SUPERIOR_DRAGON_FULL_SET);
+        STRONG_DRAGON_FULL_SET = new StrongDragonFullSet(); fullSets.add(STRONG_DRAGON_FULL_SET);
+        YOUNG_DRAGON_FULL_SET = new YoungDragonFullSet(); fullSets.add(YOUNG_DRAGON_FULL_SET);
+        UNSTABLE_DRAGON_FULL_SET = new UnstableDragonFullSet(); fullSets.add(UNSTABLE_DRAGON_FULL_SET);
+        WISE_DRAGON_FULL_SET = new WiseDragonFullSet(); fullSets.add(WISE_DRAGON_FULL_SET);
+        PROTECTOR_DRAGON_FULL_SET = new ProtectorDragonFullSet(); fullSets.add(PROTECTOR_DRAGON_FULL_SET);
+        OLD_DRAGON_FULL_SET = new OldDragonFullSet(); fullSets.add(OLD_DRAGON_FULL_SET);
+        
+        // Deeper Mines
+        COBALT_FULL_SET = new DeeperMinesFullSet(5); fullSets.add(COBALT_FULL_SET);
+        CHLOROPHYTE_FULL_SET = new DeeperMinesFullSet(10); fullSets.add(CHLOROPHYTE_FULL_SET);
+        LUMINATE_FULL_SET = new DeeperMinesFullSet(15); fullSets.add(LUMINATE_FULL_SET);
+        DERNIC_FULL_SET = new DeeperMinesFullSet(20); fullSets.add(DERNIC_FULL_SET);
+        HEMATITE_FULL_SET = new DeeperMinesFullSet(30); fullSets.add(HEMATITE_FULL_SET);
+        VOID_CRYSTAL_FULL_SET = new DeeperMinesFullSet(50); fullSets.add(VOID_CRYSTAL_FULL_SET);
+        
+        // Other
+        PIGMAN_FULL_SET = new PigmanFullSetBonus(); fullSets.add(PIGMAN_FULL_SET);
+        WITHER_ARMOR_FULL_SET = new WitherArmorFullSetBonus(); fullSets.add(WITHER_ARMOR_FULL_SET);
     }
 
     private static class NullFullSetBonus extends ItemFullSetBonus {

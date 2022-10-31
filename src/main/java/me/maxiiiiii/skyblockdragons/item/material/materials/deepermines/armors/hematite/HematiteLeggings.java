@@ -1,13 +1,11 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.deepermines.armors.hematite;
 
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
-import me.maxiiiiii.skyblockdragons.item.material.materials.deepermines.armors.DeeperMinesFullSet;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import org.bukkit.Color;
 import org.bukkit.Material;
 
@@ -21,7 +19,7 @@ public class HematiteLeggings extends ArmorMaterial {
                 Rarity.LEGENDARY,
                 new Stats(125, 100, 60, 30, 290, 105, 10),
                 "",
-                new DeeperMinesFullSet(30)
+                ItemFullSetBonus.HEMATITE_FULL_SET
         );
     }
 

@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.dungeons.floor7.witherarmors.maxor;
 
 import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
-import me.maxiiiiii.skyblockdragons.item.material.materials.dungeons.floor7.witherarmors.WitherArmorFullSetBonus;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
@@ -22,7 +22,7 @@ public class MaxorChestplate extends ArmorMaterial {
                 Rarity.LEGENDARY,
                 new Stats(0, 0, 45, 0, 0, 0, 260, 110, 30, 15),
                 "Reduces the damage you take from withers by " + ChatColor.RED + "10%" + ChatColor.GRAY + ".",
-                new WitherArmorFullSetBonus()
+                ItemFullSetBonus.WITHER_ARMOR_FULL_SET
         );
     }
 

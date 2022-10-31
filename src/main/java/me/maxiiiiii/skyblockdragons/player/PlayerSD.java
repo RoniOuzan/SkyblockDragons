@@ -9,7 +9,6 @@ import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
@@ -49,10 +48,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -360,27 +356,15 @@ public class PlayerSD extends PlayerClass {
             this.addItemStat(item);
         }
 
-        equipment.stream().map(Item::getMaterial).filter(m -> !(m instanceof ItemRequirementAble) || ((ItemRequirementAble) m).getRequirements().hasRequirements(this)).sorted((m1, m2) -> {
-            try {
-                Method method1 = m1.getClass().getMethod("updateStats", PlayerStats.class);
-                Method method2 = m2.getClass().getMethod("updateStats", PlayerStats.class);
-                int level1 = method1.isAnnotationPresent(Priority.class) ? method1.getAnnotation(Priority.class).level() : Priority.DEFAULT;
-                int level2 = method2.isAnnotationPresent(Priority.class) ? method2.getAnnotation(Priority.class).level() : Priority.DEFAULT;
-                return level1 - level2;
-            } catch (NoSuchMethodException ignored) {
-            }
-            return 1;
-        }).forEach(m -> {
-            m.updateStats(stats);
+        equipment.stream().map(Item::getMaterial)
+                .filter(m -> !(m instanceof ItemRequirementAble) || ((ItemRequirementAble) m).getRequirements().hasRequirements(this))
+                .sorted(PlayerSD::sortPriorities)
+                .forEach(m -> m.updateStats(stats));
 
-            if (m instanceof ItemAbilityAble) {
-                ((ItemAbilityAble) m).getAbilities().forEach(a -> {
-                    if (a instanceof ItemFullSetBonus && ((ItemFullSetBonus) a).isPlayerWearingFullSet(this)) {
-                        ((ItemFullSetBonus) a).updateStats(stats);
-                    }
-                });
-            }
-        });
+        ItemFullSetBonus.fullSets.stream()
+                .filter(m -> !(m instanceof ItemRequirementAble) || ((ItemRequirementAble) m).getRequirements().hasRequirements(this))
+                .sorted(PlayerSD::sortPriorities)
+                .forEach(f -> f.updateStats(stats));
 
         // Pets
 //        if (this.getPlayerPet().getActivePet() >= 0) {
@@ -702,5 +686,18 @@ public class PlayerSD extends PlayerClass {
             return false;
         }
         return this.getUniqueId().equals(((Entity) other).getUniqueId());
+    }
+
+    private static <T> int sortPriorities(T t1, T t2) {
+        try {
+            Method method1 = t1.getClass().getMethod("updateStats", PlayerStats.class);
+            Method method2 = t2.getClass().getMethod("updateStats", PlayerStats.class);
+            int level1 = method1.isAnnotationPresent(Priority.class) ? method1.getAnnotation(Priority.class).level() : Priority.DEFAULT;
+            int level2 = method2.isAnnotationPresent(Priority.class) ? method2.getAnnotation(Priority.class).level() : Priority.DEFAULT;
+            return level1 - level2;
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return 1;
     }
 }
