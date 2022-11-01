@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.bows;
 
-import me.maxiiiiii.skyblockdragons.events.events.update.PlayerUpdateStatsEvent;
+import me.maxiiiiii.skyblockdragons.events.events.update.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.ShortBowMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
@@ -27,7 +27,7 @@ public class Terminator extends ShortBowMaterial {
     }
 
     @EventHandler
-    public void updateStats(PlayerUpdateStatsEvent e) {
+    public void updateStats(UpdateStatsEvent e) {
         if (e.isNotThisItem(this)) return;
         
         e.getStats().addMultiplier(StatType.CRIT_CHANCE, -300, 0);

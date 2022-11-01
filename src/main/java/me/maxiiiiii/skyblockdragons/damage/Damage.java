@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.damage;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
+import me.maxiiiiii.skyblockdragons.entity.Equipment;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.objects.Drop;
@@ -155,7 +156,7 @@ public class Damage implements Listener {
         double damageReduction = victim.getDefense() / (victim.getDefense() + 100);
         double baseReducer = 1;
 
-        EntitySD.Equipment equipment = attacker.getItems();
+        Equipment equipment = attacker.getItems();
 
         if (attacker instanceof PlayerSD) {
             PlayerSD playerSD = (PlayerSD) attacker;

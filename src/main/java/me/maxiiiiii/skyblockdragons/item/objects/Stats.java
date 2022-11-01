@@ -200,7 +200,7 @@ public class Stats implements Iterable<Stat> {
         this.critDamage.amount = 0;
         this.critChance.amount = 10;
         this.abilityDamage.amount = 0;
-        this.abilityScaling.amount = 0;
+        this.abilityScaling.amount = 1;
         this.attackSpeed.amount = 0;
         this.ferocity.amount = 0;
         this.health.amount = 100;

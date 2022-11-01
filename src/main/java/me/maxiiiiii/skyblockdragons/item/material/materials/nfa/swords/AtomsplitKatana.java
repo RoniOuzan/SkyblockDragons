@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.swords;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.events.events.update.PlayerUpdateStatsEvent;
+import me.maxiiiiii.skyblockdragons.events.events.update.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
@@ -31,7 +31,7 @@ public class AtomsplitKatana extends SwordMaterial {
     }
 
     @EventHandler
-    public void updateStats(PlayerUpdateStatsEvent e) {
+    public void updateStats(UpdateStatsEvent e) {
         if (e.isNotThisItem(this)) return;
         
         if (SkyblockDragons.getCurrentTimeInSeconds() - ((Soulcry) this.getAbilities().get(0)).getLastTimeUsed(e.getPlayer()) <= 4) {

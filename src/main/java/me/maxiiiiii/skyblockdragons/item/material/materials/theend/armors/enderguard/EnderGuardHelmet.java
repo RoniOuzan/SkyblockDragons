@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.armors.enderguard;
 
-import me.maxiiiiii.skyblockdragons.events.events.update.PlayerUpdateStatsEvent;
+import me.maxiiiiii.skyblockdragons.events.events.update.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
@@ -32,7 +32,7 @@ public class EnderGuardHelmet extends ArmorMaterial {
     }
 
     @EventHandler
-    public void updateStats(PlayerUpdateStatsEvent e) {
+    public void updateStats(UpdateStatsEvent e) {
         if (e.isNotThisItem(this)) return;
         
         if (e.getPlayer().getWorldSD() instanceof TheEnd) {

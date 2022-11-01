@@ -5,7 +5,8 @@ import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.damage.EntityDamageEntityEvent;
-import me.maxiiiiii.skyblockdragons.events.events.update.PlayerUpdateStatsEvent;
+import me.maxiiiiii.skyblockdragons.entity.Equipment;
+import me.maxiiiiii.skyblockdragons.events.events.update.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
@@ -358,7 +359,7 @@ public class PlayerSD extends PlayerClass {
             this.addItemStat(item);
         }
 
-        PlayerUpdateStatsEvent event = new PlayerUpdateStatsEvent(this, stats);
+        UpdateStatsEvent event = new UpdateStatsEvent(stats);
         Bukkit.getPluginManager().callEvent(event);
 
         // Pets
