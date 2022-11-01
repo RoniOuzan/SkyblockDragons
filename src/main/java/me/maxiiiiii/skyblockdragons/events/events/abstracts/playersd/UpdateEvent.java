@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.events.events.abstracts.playersd;
 
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.entity.EntitySDEvent;
+import me.maxiiiiii.skyblockdragons.entity.events.EntitySDEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 

@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.events.events.update;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.damagenew.EntityDamage;
+import me.maxiiiiii.skyblockdragons.damage.suppliers.EntityDamage;
 import me.maxiiiiii.skyblockdragons.events.events.abstracts.playersd.UpdateEvent;
 import org.bukkit.event.HandlerList;
 

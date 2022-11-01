@@ -3,8 +3,8 @@ package me.maxiiiiii.skyblockdragons;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.maxiiiiii.skyblockdragons.commands.*;
-import me.maxiiiiii.skyblockdragons.damage.Damage;
-import me.maxiiiiii.skyblockdragons.damage.KnockbackListener;
+import me.maxiiiiii.skyblockdragons.damage.listeners.Damage;
+import me.maxiiiiii.skyblockdragons.damage.listeners.VanillaDamageListener;
 import me.maxiiiiii.skyblockdragons.entity.EntityCommand;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
@@ -323,6 +323,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     private void registerAllEvents() {
         // Listeners
         registerEvents(new Damage(), this);
+        registerEvents(new VanillaDamageListener(), this);
         registerEvents(new JoinQuitListener(), this);
         registerEvents(new ClickCanceller(), this);
         registerEvents(new UpdateStatsListeners(), this);
@@ -333,7 +334,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerEvents(new ArmorStandManipulateListener(), this);
         registerEvents(new PlaceHeadListener(), this);
         registerEvents(new PickUpListeners(), this);
-        registerEvents(new KnockbackListener(), this);
         registerEvents(new PortalListener(), this);
         registerEvents(new ProjectileHitListener(), this);
         registerEvents(new EndermanTeleportListener(), this);

@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.worlds.end.events;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.entity.EntitySDEvent;
+import me.maxiiiiii.skyblockdragons.entity.events.EntitySDEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.event.HandlerList;
 

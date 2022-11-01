@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.entity;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.Damage;
+import me.maxiiiiii.skyblockdragons.entity.events.EntityDeathEvent;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
@@ -9,13 +10,16 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class EntitySD extends EntityClass {
     public static final HashMap<UUID, EntitySD> entities = new HashMap<>();
@@ -256,6 +260,14 @@ public class EntitySD extends EntityClass {
             this.damageCooldown.put(type, new Cooldown<>());
         }
         return this.damageCooldown.get(type);
+    }
+
+    public void removeHealth(double amount) {
+        if (this.getHealth() - amount <= 0) {
+            Bukkit.getPluginManager().callEvent(new EntityDeathEvent(this, EntityDeathEvent.DeathCause.ENTITY));
+        } else {
+            this.setHealth(this.getHealth() - amount);
+        }
     }
 
     public static class EntityAssociateException extends RuntimeException {
