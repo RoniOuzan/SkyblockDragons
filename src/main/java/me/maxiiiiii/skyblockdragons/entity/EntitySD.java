@@ -174,7 +174,7 @@ public class EntitySD extends EntityClass {
     public void kill() {
         this.entity.remove();
         if (this.type != EntityMaterial.get("PLAYER"))
-            this.hologram.getStand().remove();
+            this.hologram.remove();
         entities.remove(this.entity.getUniqueId());
     }
 
@@ -203,7 +203,7 @@ public class EntitySD extends EntityClass {
     }
 
     public boolean isBaneOfArthropods() {
-        return this.entity instanceof Spider || this.entity instanceof Silverfish;
+        return this.entity instanceof Spider || this.entity instanceof Silverfish | this.entity instanceof Endermite;
     }
 
     public boolean isEndMob() {
@@ -244,7 +244,7 @@ public class EntitySD extends EntityClass {
 
     public void removeHealth(double amount) {
         if (this.getHealth() - amount <= 0) {
-            Bukkit.getPluginManager().callEvent(new EntityDeathEvent(this, EntityDeathEvent.DeathCause.ENTITY));
+            Bukkit.getPluginManager().callEvent(new EntityDeathEvent(this, this.getAttacker(), EntityDeathEvent.DeathCause.ENTITY));
         } else {
             this.setHealth(this.getHealth() - amount);
         }

@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.bows;
 
-import me.maxiiiiii.skyblockdragons.events.events.update.UpdateStatsEvent;
+import me.maxiiiiii.skyblockdragons.item.events.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.ShortBowMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;

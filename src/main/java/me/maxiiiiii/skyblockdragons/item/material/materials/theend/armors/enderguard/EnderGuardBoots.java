@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.armors.enderguard;
 
-import me.maxiiiiii.skyblockdragons.events.events.update.UpdateStatsEvent;
+import me.maxiiiiii.skyblockdragons.item.events.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;

@@ -8,7 +8,7 @@ import me.maxiiiiii.skyblockdragons.damage.types.entitydamage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.EntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.Equipment;
-import me.maxiiiiii.skyblockdragons.events.events.update.UpdateStatsEvent;
+import me.maxiiiiii.skyblockdragons.item.events.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;

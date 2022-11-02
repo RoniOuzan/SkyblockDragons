@@ -1,12 +1,11 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.protector;
 
-import me.maxiiiiii.skyblockdragons.events.events.update.UpdateStatsEvent;
+import me.maxiiiiii.skyblockdragons.item.events.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 
 public class ProtectorDragonFullSet extends ItemFullSetBonus {
     public ProtectorDragonFullSet() {

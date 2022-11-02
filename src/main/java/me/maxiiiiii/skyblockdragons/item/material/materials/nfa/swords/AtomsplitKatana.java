@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.swords;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.events.events.update.UpdateStatsEvent;
+import me.maxiiiiii.skyblockdragons.item.events.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;

@@ -16,7 +16,7 @@ import org.bukkit.event.Listener;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
-public class Damage implements Listener {
+public class DamageListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageEvent e) {
         double damage = e.getDamage().getFinalDamage();

@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.events.events.update;
+package me.maxiiiiii.skyblockdragons.item.events;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.events.events.abstracts.playersd.UpdateEvent;

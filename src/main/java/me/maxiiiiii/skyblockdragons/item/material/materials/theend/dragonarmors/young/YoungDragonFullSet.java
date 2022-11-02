@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.young;
 
-import me.maxiiiiii.skyblockdragons.events.events.update.UpdateStatsEvent;
+import me.maxiiiiii.skyblockdragons.item.events.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import org.bukkit.ChatColor;
