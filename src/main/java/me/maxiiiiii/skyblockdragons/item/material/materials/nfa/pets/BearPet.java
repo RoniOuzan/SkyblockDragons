@@ -43,7 +43,7 @@ public class BearPet extends PetMaterial {
         );
     }
 
-    private static class FuriousBear extends PetAbility implements Listener {
+    private static class FuriousBear extends PetAbility {
         private static final double MULTIPLIER = 0.25;
 
         public FuriousBear() {
@@ -60,7 +60,7 @@ public class BearPet extends PetMaterial {
         }
     }
 
-    private static class FerocityIsStronger extends PetAbility implements Listener {
+    private static class FerocityIsStronger extends PetAbility {
         private static final double MULTIPLIER = 0.5;
 
         public FerocityIsStronger() {

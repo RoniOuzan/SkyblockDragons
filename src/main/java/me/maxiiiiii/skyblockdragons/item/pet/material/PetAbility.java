@@ -5,11 +5,12 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class PetAbility extends ItemAbility {
+public abstract class PetAbility extends ItemAbility implements Listener {
     private final PetAbilitySupplier description;
 
     public PetAbility(String name, PetAbilitySupplier description) {

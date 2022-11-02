@@ -14,7 +14,7 @@ import org.bukkit.util.Vector;
 public class PlayerGetDropListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerGetDrop(PlayerGetDropEvent e) {
-        UpdateDropChanceEvent event = new UpdateDropChanceEvent(e.getPlayer(), e.getDrop());
+        UpdateDropChanceEvent event = new UpdateDropChanceEvent(e.getPlayer(), e.getDrop(), e.getSource());
         Bukkit.getPluginManager().callEvent(event);
 
         double chances = event.getMultiplier().multiply(e.getDrop().getChances());

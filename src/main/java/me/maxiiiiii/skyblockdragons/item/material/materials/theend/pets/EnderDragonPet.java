@@ -46,7 +46,7 @@ public class EnderDragonPet extends PetMaterial {
         );
     }
 
-    private static class EndStrike extends PetAbility implements Listener {
+    private static class EndStrike extends PetAbility {
         private static final int MULTIPLIER = 2;
 
         public EndStrike() {
@@ -88,7 +88,7 @@ public class EnderDragonPet extends PetMaterial {
 //        }
     }
 
-    private static class Superior extends PetAbility implements Listener {
+    private static class Superior extends PetAbility {
         private static final double MULTIPLIER = 0.1;
 
         public Superior() {

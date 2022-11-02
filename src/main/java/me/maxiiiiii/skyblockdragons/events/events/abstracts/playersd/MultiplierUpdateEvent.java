@@ -8,8 +8,8 @@ import me.maxiiiiii.skyblockdragons.util.objects.Multiplier;
 public abstract class MultiplierUpdateEvent extends UpdateEvent {
     protected final Multiplier multiplier;
 
-    public MultiplierUpdateEvent(PlayerSD entity) {
-        super(entity);
+    public MultiplierUpdateEvent(PlayerSD player) {
+        super(player);
         this.multiplier = new Multiplier();
     }
 

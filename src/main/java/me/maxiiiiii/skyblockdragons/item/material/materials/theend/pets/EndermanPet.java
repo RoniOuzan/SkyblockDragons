@@ -2,6 +2,8 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.theend.pets;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
+import me.maxiiiiii.skyblockdragons.item.drops.UpdateDropChanceEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
@@ -13,7 +15,6 @@ import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 
 import java.util.Arrays;
 
@@ -42,7 +43,7 @@ public class EndermanPet extends PetMaterial {
         );
     }
 
-    private static class EnderianCommon extends PetAbility implements Listener {
+    private static class EnderianCommon extends PetAbility {
         private static final double MULTIPLIER = 0.1;
 
         public EnderianCommon() {
@@ -61,7 +62,7 @@ public class EndermanPet extends PetMaterial {
         }
     }
 
-    private static class EnderianUncommon extends PetAbility implements Listener {
+    private static class EnderianUncommon extends PetAbility {
         private static final double MULTIPLIER = 0.2;
 
         public EnderianUncommon() {
@@ -89,6 +90,13 @@ public class EndermanPet extends PetMaterial {
             );
         }
 
-        // TODO
+        @EventHandler
+        public void updateDrop(UpdateDropChanceEvent e) {
+            if (!(e.getPlayer().getActivePetMaterial() instanceof EndermanPet)) return;
+
+            if (e.getSource() instanceof EntitySD && ((EntitySD) e.getSource()).isEndMob()) {
+                e.getMultiplier().addBase(MULTIPLIER * e.getPlayer().getActivePet().getModifiers().getPet().getLevel());
+            }
+        }
     }
 }
