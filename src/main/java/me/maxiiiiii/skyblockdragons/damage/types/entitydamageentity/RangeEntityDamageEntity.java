@@ -1,14 +1,14 @@
 package me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity;
 
+import me.maxiiiiii.skyblockdragons.damage.suppliers.FerocitySupplier;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.entity.Equipment;
 
 public class RangeEntityDamageEntity extends NormalEntityDamageEntity {
-    public RangeEntityDamageEntity(EntitySD attacker, EntitySD victim, Equipment equipment, boolean isFerocity) {
-        super(attacker, victim, equipment, isFerocity);
+    public RangeEntityDamageEntity(EntitySD attacker, EntitySD victim, FerocitySupplier isFerocity) {
+        super(attacker, victim, isFerocity);
     }
 
-    public RangeEntityDamageEntity(EntitySD attacker, EntitySD victim, Equipment equipment) {
-        super(attacker, victim, equipment, false);
+    public RangeEntityDamageEntity(EntitySD attacker, EntitySD victim) {
+        super(attacker, victim);
     }
 }

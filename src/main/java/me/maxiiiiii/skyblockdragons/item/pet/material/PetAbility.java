@@ -1,12 +1,9 @@
 package me.maxiiiiii.skyblockdragons.item.pet.material;
 
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
-import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 
 import java.util.ArrayList;
@@ -27,19 +24,10 @@ public abstract class PetAbility extends ItemAbility {
     public String getDescription(PlayerSD player, int level) {
         return this.description.get(player, level);
     }
-    // TODO: make it work
-    public void updateItemStats(PlayerSD player, Stats stats, int i) {
-
-    }
-
-    public void updateStats(PlayerStats stats, int i) {
-    }
-
-    public void updateDamage(EntityDamage<?, ?> entityDamage, int i) {
-    }
-
-    public void updateDamageHolder(EntityDamage<?, ?> entityDamage, int i) {
-    }
+    // TODO: convert it to event system
+//    public void updateItemStats(PlayerSD player, Stats stats, int i) {
+//
+//    }
 
     public List<String> getLore(PlayerSD player, int level) {
         List<String> lores = new ArrayList<>();

@@ -40,6 +40,10 @@ public class PlayerStats extends Stats {
         this.multiplayer.put(statType, multiplier);
     }
 
+    public void addMultiplier(StatType statType, double base) {
+        this.addMultiplier(statType, base, 0);
+    }
+
     public void addAllStatsMultipliers(double base, double post) {
         this.addMultiplier(StatType.DAMAGE, base, post);
         this.addMultiplier(StatType.STRENGTH, base, post);

@@ -1,7 +1,9 @@
-package me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers;
+package me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown;
 
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbilityPerPlayer;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.UpdateManaCostEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import org.bukkit.Bukkit;
 
 public interface ItemAbilitySilentCooldown {
     double getBaseCooldown(PlayerSD player);
@@ -11,11 +13,10 @@ public interface ItemAbilitySilentCooldown {
     }
 
     default double getFinalCooldown(PlayerSD player) {
-        if (player == null) {
-            return this.getBaseCooldown(null);
-        }
+        UpdateCooldownEvent event = new UpdateCooldownEvent(player);
+        Bukkit.getPluginManager().callEvent(event);
 
-        return player.getItemAbilityCooldown(this.getBaseCooldown(player));
+        return event.getMultiplier().multiply(this.getBaseCooldown(player));
     }
 
     default void applyCost(ItemAbilityPerPlayer ability) {

@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.armors.goldenskeleton;
 
-import me.maxiiiiii.skyblockdragons.events.events.update.UpdateEntityDamageEvent;
+import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
 import me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.bows.GoldenSkeletonBow;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
@@ -31,9 +31,9 @@ public class GoldenSkeletonHelmet extends ArmorMaterial {
     }
 
     @EventHandler
-    public void updateDamage(UpdateEntityDamageEvent e) {
-        if (e.getEntityDamage().getEquipment().getTool().getMaterial() instanceof GoldenSkeletonBow) {
-            e.getEntityDamage().getMultiplier().addBase(20);
+    public void updateDamage(UpdateEntityDamageEntityEvent e) {
+        if (e.getDamage().getEquipment().getToolMaterial() instanceof GoldenSkeletonBow) {
+            e.getDamage().getMultiplier().addBase(20);
         }
     }
 }

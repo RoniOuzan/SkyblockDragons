@@ -1,32 +1,34 @@
-package me.maxiiiiii.skyblockdragons.damage.suppliers;
+package me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity;
 
 import lombok.Getter;
 import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.damage.interfaces.DamageCritable;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamage.EntityDamage;
+import me.maxiiiiii.skyblockdragons.damage.suppliers.FerocitySupplier;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.Equipment;
-import me.maxiiiiii.skyblockdragons.events.events.update.UpdateEntityDamageEvent;
+import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.Bukkit;
 
 @Getter
 @Setter
 public abstract class EntityDamageEntity extends EntityDamage {
-    protected final EntitySD attacker;
-    protected final Equipment equipment;
+    protected EntitySD attacker;
+    protected Equipment equipment;
     protected final FerocitySupplier ferocity;
     private boolean isCritHit;
 
-    public EntityDamageEntity(EntitySD attacker, EntitySD victim, Equipment equipment, FerocitySupplier ferocity) {
+    public EntityDamageEntity(EntitySD attacker, EntitySD victim, FerocitySupplier ferocity) {
         super(victim, 1);
         this.attacker = attacker;
-        this.equipment = equipment;
+        this.equipment = attacker.getItems();
         this.ferocity = ferocity;
         this.isCritHit = calculateIsCritHit();
     }
 
-    public EntityDamageEntity(EntitySD attacker, EntitySD victim, Equipment equipment) {
-        this(attacker, victim, equipment, new FerocitySupplier());
+    public EntityDamageEntity(EntitySD attacker, EntitySD victim) {
+        this(attacker, victim, new FerocitySupplier());
     }
 
     private boolean calculateIsCritHit() {

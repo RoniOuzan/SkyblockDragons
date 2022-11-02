@@ -1,6 +1,5 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.cosmetic.helmetskins.wither;
 
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.SkinMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;

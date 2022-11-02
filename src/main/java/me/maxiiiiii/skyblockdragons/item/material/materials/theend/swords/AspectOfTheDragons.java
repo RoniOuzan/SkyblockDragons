@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.swords;
 
-import me.maxiiiiii.skyblockdragons.damage.Damage;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.MagicEntityDamageEntity;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
@@ -8,14 +9,14 @@ import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityCooldown;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown.ItemAbilityCooldown;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityMagicDamage;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.costs.ItemAbilityManaCost;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.ItemAbilityManaCost;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
-import me.maxiiiiii.skyblockdragons.util.particle.ParticleUil;
+import me.maxiiiiii.skyblockdragons.util.particle.ParticleUtil;
 import me.maxiiiiii.skyblockdragons.util.particle.Particles;
 import org.bukkit.*;
 import org.bukkit.entity.Creature;
@@ -76,7 +77,7 @@ public class AspectOfTheDragons extends SwordMaterial {
 
                 Location location = player.getEyeLocation().subtract(0, 0.2, 0).add(player.getLocation().getDirection());
 
-                ParticleUil particle = new ParticleUil(Particle.FLAME, 0, 0, 0, 0.01f, 1);
+                ParticleUtil particle = new ParticleUtil(Particle.FLAME, 0, 0, 0, 0.01f, 1);
 
                 Particles.circle(particle, location, 0.4, 20);
                 player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1f, 1f);
@@ -92,9 +93,9 @@ public class AspectOfTheDragons extends SwordMaterial {
                     Location newLocation = location.clone().add(location.getDirection().multiply(i));
                     location.getWorld().spawnParticle(Particle.LAVA, newLocation, 3, 0, 0, 0, 1);
 
-                    for (Entity entity : Functions.loopEntities(newLocation, 2)) {
+                    for (EntitySD entity : Functions.loopEntities(newLocation, 2)) {
                         if (entity instanceof Creature && !damaged.contains(entity)) {
-                            player.makeDamage(entity, Damage.DamageType.MAGIC, 1, this.getFinalAbilityDamage(player), this.getFinalAbilityScaling(player));
+                            player.damage(new MagicEntityDamageEntity(player, entity, this));
                             damaged.add(entity);
                         }
                     }

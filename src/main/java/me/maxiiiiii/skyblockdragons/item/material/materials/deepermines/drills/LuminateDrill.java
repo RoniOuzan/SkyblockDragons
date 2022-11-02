@@ -1,6 +1,5 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.deepermines.drills;
 
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.DrillMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;

@@ -1,6 +1,5 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.accessories.coal;
 
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.AccessoryMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;

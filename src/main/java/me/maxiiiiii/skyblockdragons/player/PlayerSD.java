@@ -3,8 +3,10 @@ package me.maxiiiiii.skyblockdragons.player;
 import lombok.Getter;
 import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.damage.Damage;
-import me.maxiiiiii.skyblockdragons.damage.EntityDamageEntityEvent;
+import me.maxiiiiii.skyblockdragons.damage.events.EntityDamageEvent;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamage.EntityDamage;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.EntityDamageEntity;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.Equipment;
 import me.maxiiiiii.skyblockdragons.events.events.update.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.inventory.Menu;
@@ -55,6 +57,7 @@ import java.util.Map;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
 import static me.maxiiiiii.skyblockdragons.util.Functions.getInt;
@@ -611,13 +614,14 @@ public class PlayerSD extends PlayerClass {
         this.sendMessage(ChatColor.RED + "You don't have the requirements to use this " + whatToUse + "!");
     }
 
-    public void makeDamage(Entity entity, Damage.DamageType damageType, double damage, double baseAbilityDamage, double abilityScaling) {
-        EntityDamageEntityEvent event = new EntityDamageEntityEvent(this, entity, damageType, damage, false, baseAbilityDamage, abilityScaling);
-        Bukkit.getServer().getPluginManager().callEvent(event);
-    }
-
-    public void makeDamage(Entity entity, Damage.DamageType damageType, double damage) {
-        makeDamage(entity, damageType, damage, 0, 0);
+    public void damage(EntityDamage damage) {
+        if (damage instanceof EntityDamageEntity) {
+            ((EntityDamageEntity) damage).setAttacker(this);
+            ((EntityDamageEntity) damage).setEquipment(this.getPlayerItems());
+        } else {
+            damage.setVictim(this);
+        }
+        Bukkit.getPluginManager().callEvent(new EntityDamageEvent(damage));
     }
 
     public void makePlayerSay(String message) {
@@ -633,6 +637,10 @@ public class PlayerSD extends PlayerClass {
         warp.warp(this);
     }
 
+    public List<EntitySD> getEntities(double radius) {
+        return Functions.loopEntities(this.getLocation(), radius).stream().map(EntitySD::get).collect(Collectors.toList());
+    }
+
     @Override
     public void giveExp(int amount) {
         amount *= 1 + (this.getSkill().getEnchantingSkill().getLevel() * 4 / 100);
@@ -646,10 +654,10 @@ public class PlayerSD extends PlayerClass {
     @Getter
     public class PlayerEquipment extends Equipment {
         private final AccessoryBag accessoryBag;
-        private PetMaterial petMaterial;
         private Item pet;
 
         public PlayerEquipment() {
+            super(PlayerSD.this);
             this.accessoryBag = new AccessoryBag(PlayerSD.this);
         }
 

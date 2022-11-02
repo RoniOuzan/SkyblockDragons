@@ -2,12 +2,12 @@ package me.maxiiiiii.skyblockdragons.damage.listeners;
 
 import me.maxiiiiii.skyblockdragons.damage.events.EntityDamageEvent;
 import me.maxiiiiii.skyblockdragons.damage.interfaces.DamageCritable;
-import me.maxiiiiii.skyblockdragons.damage.suppliers.EntityDamageEntity;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.EntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.MagicEntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.particle.ParticleUil;
+import me.maxiiiiii.skyblockdragons.util.particle.ParticleUtil;
 import me.maxiiiiii.skyblockdragons.util.particle.Particles;
 import org.bukkit.*;
 import org.bukkit.event.EventHandler;
@@ -17,7 +17,7 @@ import org.bukkit.event.Listener;
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class Damage implements Listener {
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageEvent e) {
         double damage = e.getDamage().getFinalDamage();
 
@@ -62,7 +62,7 @@ public class Damage implements Listener {
                     end.add(1.5, -1.5, 0);
                 }
 
-                Particles.line(new ParticleUil(Particle.REDSTONE, 155, 0, 0, 0, 1), start, end, 0.05);
+                Particles.line(new ParticleUtil(Particle.REDSTONE, 155, 0, 0, 0, 1), start, end, 0.05);
 
                 EntityDamageEntity entityDamage = (EntityDamageEntity) e.getDamage();
                 entityDamage.getFerocity().setFerocityAttack(true);

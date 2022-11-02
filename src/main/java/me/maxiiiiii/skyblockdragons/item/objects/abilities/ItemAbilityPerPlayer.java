@@ -1,6 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.objects.abilities;
 
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilitySilentCooldown;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown.ItemAbilitySilentCooldown;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.SingleCooldown;
 

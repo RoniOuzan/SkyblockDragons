@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers;
+package me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbilityPerPlayer;

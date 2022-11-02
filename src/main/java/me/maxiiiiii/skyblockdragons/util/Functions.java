@@ -11,6 +11,7 @@ import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.events.listeners.EntityHealth;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.abilities.Wither_Impact;
@@ -161,12 +162,12 @@ public class Functions {
         return setLore(item, lores);
     }
 
-    public static ArrayList<Entity> loopEntities(Location center, double size) {
+    public static List<EntitySD> loopEntities(Location center, double size) {
         List<Entity> entities = center.getWorld().getEntities();
-        ArrayList<Entity> entity = new ArrayList<>();
+        List<EntitySD> entity = new ArrayList<>();
         for (Entity value : entities) {
             if (center.distance(value.getLocation()) <= size) {
-                entity.add(value);
+                entity.add(EntitySD.get(value));
             }
         }
         return entity;

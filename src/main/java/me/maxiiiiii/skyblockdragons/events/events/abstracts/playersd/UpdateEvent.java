@@ -10,14 +10,10 @@ public abstract class UpdateEvent extends EntitySDEvent {
         super(entity);
     }
 
-    public boolean isThisItemVictim(ItemMaterial material) {
-        if (material instanceof ArmorMaterial) {
-            return entity.getItems().getArmor().stream().anyMatch(i -> i.getMaterial() == material);
-        }
-        return entity.getItems().getToolMaterial() == material;
-    }
-
     public boolean isNotThisItem(ItemMaterial material) {
-        return !isThisItemVictim(material);
+        if (material instanceof ArmorMaterial) {
+            return entity.getItems().getArmor().stream().noneMatch(i -> i.getMaterial() == material);
+        }
+        return entity.getItems().getToolMaterial() != material;
     }
 }

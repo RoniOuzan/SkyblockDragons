@@ -1,16 +1,17 @@
-package me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.costs;
+package me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts;
 
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 public interface ItemAbilityManaCost {
     double getBaseManaCost(PlayerSD player);
 
     default double getFinalCost(PlayerSD player) {
-        if (player == null)
-            return this.getBaseManaCost(null);
+        UpdateManaCostEvent event = new UpdateManaCostEvent(player);
+        Bukkit.getPluginManager().callEvent(event);
 
-        return player.getAbilityCost(this.getBaseManaCost(player));
+        return event.getMultiplier().multiply(this.getBaseManaCost(player));
     }
 
     default boolean get(PlayerSD player) {

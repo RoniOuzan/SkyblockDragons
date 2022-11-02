@@ -1,17 +1,19 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.pets;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
+import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 import java.util.Arrays;
 
@@ -40,7 +42,7 @@ public class EndermanPet extends PetMaterial {
         );
     }
 
-    private static class EnderianCommon extends PetAbility {
+    private static class EnderianCommon extends PetAbility implements Listener {
         private static final double MULTIPLIER = 0.1;
 
         public EnderianCommon() {
@@ -49,13 +51,17 @@ public class EndermanPet extends PetMaterial {
             );
         }
 
-        @Override
-        public void updateDamageHolder(EntityDamage<?, ?> entityDamage, int i) {
-            entityDamage.getMultiplier().addBase(-i * MULTIPLIER);
+        @EventHandler
+        public void updateDamage(UpdateEntityDamageEntityEvent e) {
+            if (!(e.getVictim() instanceof PlayerSD) || !(((PlayerSD) e.getVictim()).getActivePetMaterial() instanceof EndermanPet)) return;
+
+            if (e.getDamage().getAttacker().isEndMob()) {
+                e.getDamage().getMultiplier().addBase(-MULTIPLIER * ((PlayerSD) e.getVictim()).getActivePet().getModifiers().getPet().getLevel());
+            }
         }
     }
 
-    private static class EnderianUncommon extends PetAbility {
+    private static class EnderianUncommon extends PetAbility implements Listener {
         private static final double MULTIPLIER = 0.2;
 
         public EnderianUncommon() {
@@ -64,9 +70,13 @@ public class EndermanPet extends PetMaterial {
             );
         }
 
-        @Override
-        public void updateDamageHolder(EntityDamage<?, ?> entityDamage, int i) {
-            entityDamage.getMultiplier().addBase(-i * MULTIPLIER);
+        @EventHandler
+        public void updateDamage(UpdateEntityDamageEntityEvent e) {
+            if (!(e.getVictim() instanceof PlayerSD) || !(((PlayerSD) e.getVictim()).getActivePetMaterial() instanceof EndermanPet)) return;
+
+            if (e.getDamage().getAttacker().isEndMob()) {
+                e.getDamage().getMultiplier().addBase(-MULTIPLIER * ((PlayerSD) e.getVictim()).getActivePet().getModifiers().getPet().getLevel());
+            }
         }
     }
 
@@ -79,9 +89,6 @@ public class EndermanPet extends PetMaterial {
             );
         }
 
-        @Override
-        public void updateStats(PlayerStats stats, int i) {
-            // TODO: increase drops
-        }
+        // TODO
     }
 }

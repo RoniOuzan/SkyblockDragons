@@ -1,9 +1,11 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.strong;
 
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
+import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
 import me.maxiiiiii.skyblockdragons.item.material.materials.theend.swords.AspectOfTheEnd;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import org.bukkit.ChatColor;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 public class StrongDragonFullSet extends ItemFullSetBonus {
     public StrongDragonFullSet() {
@@ -12,10 +14,12 @@ public class StrongDragonFullSet extends ItemFullSetBonus {
         );
     }
 
-    @Override
-    public void updateDamage(EntityDamage<?, ?> entityDamage) {
-        if (entityDamage.getEquipment().getTool().getMaterial() instanceof AspectOfTheEnd) {
-            entityDamage.getMultiplier().addBase(20);
+    @EventHandler
+    public void updateDamage(UpdateEntityDamageEntityEvent e) {
+        if (e.getAttacker() == null || !(e.getAttacker().getItems().getFullSet() instanceof StrongDragonFullSet)) return;
+
+        if (e.getAttacker().getItems().getToolMaterial() instanceof AspectOfTheEnd) {
+            e.getDamage().getMultiplier().addBase(20);
         }
     }
 }

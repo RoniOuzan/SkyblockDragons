@@ -1,6 +1,5 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.vanila.armors.leather;
 
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 

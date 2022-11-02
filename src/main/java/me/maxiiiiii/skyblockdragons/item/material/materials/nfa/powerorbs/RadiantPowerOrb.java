@@ -1,6 +1,5 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.powerorbs;
 
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.PowerOrbMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;

@@ -3,12 +3,12 @@ package me.maxiiiiii.skyblockdragons.util.particle;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 
-public class ParticleUil extends AbstractParticle {
-    public ParticleUil(Particle particle, double xOffset, double yOffset, double zOffset, double speed, int amount) {
+public class ParticleUtil extends AbstractParticle {
+    public ParticleUtil(Particle particle, double xOffset, double yOffset, double zOffset, double speed, int amount) {
         super(particle, xOffset, yOffset, zOffset, speed, amount);
     }
 
-    public ParticleUil(Particle particle) {
+    public ParticleUtil(Particle particle) {
         super(particle);
     }
 

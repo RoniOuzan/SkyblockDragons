@@ -1,8 +1,8 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.pets;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
-import me.maxiiiiii.skyblockdragons.item.material.materials.theend.swords.AspectOfTheDragons;
+import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
+import me.maxiiiiii.skyblockdragons.events.events.update.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
@@ -10,11 +10,12 @@ import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
-import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 import java.util.Arrays;
 
@@ -45,7 +46,7 @@ public class EnderDragonPet extends PetMaterial {
         );
     }
 
-    private static class EndStrike extends PetAbility {
+    private static class EndStrike extends PetAbility implements Listener {
         private static final int MULTIPLIER = 2;
 
         public EndStrike() {
@@ -54,13 +55,15 @@ public class EnderDragonPet extends PetMaterial {
             );
         }
 
-        @Override
-        public void updateDamage(EntityDamage<?, ?> entityDamage, int i) {
-            if (entityDamage.getVictim().getType() == EntityType.ENDER_DRAGON ||
-                    entityDamage.getVictim().getType() == EntityType.ENDERMITE ||
-                    entityDamage.getVictim().getType() == EntityType.ENDERMAN
+        @EventHandler
+        public void updateDamage(UpdateEntityDamageEntityEvent e) {
+            if (e.getAttacker() == null || !(e.getAttacker().getActivePetMaterial() instanceof EnderDragonPet)) return;
+
+            if (e.getDamage().getVictim().getType() == EntityType.ENDER_DRAGON ||
+                    e.getDamage().getVictim().getType() == EntityType.ENDERMITE ||
+                    e.getDamage().getVictim().getType() == EntityType.ENDERMAN
             ) {
-                entityDamage.getMultiplier().addBase(MULTIPLIER * i);
+                e.getDamage().getMultiplier().addBase(MULTIPLIER * e.getAttacker().getActivePet().getModifiers().getPet().getLevel());
             }
         }
     }
@@ -75,22 +78,28 @@ public class EnderDragonPet extends PetMaterial {
             );
         }
 
-        @Override
-        public void updateItemStats(PlayerSD player, Stats stats, int i) {
-            if (player.getItems().getTool().getMaterial() instanceof AspectOfTheDragons) {
-                stats.add(StatType.DAMAGE, i * DAMAGE_MULTIPLIER);
-                stats.add(StatType.STRENGTH, i * STRENGTH_MULTIPLIER);
-            }
-        }
+        // TODO
+//        @Override
+//        public void updateItemStats(PlayerSD player, Stats stats, int i) {
+//            if (player.getItems().getTool().getMaterial() instanceof AspectOfTheDragons) {
+//                stats.add(StatType.DAMAGE, i * DAMAGE_MULTIPLIER);
+//                stats.add(StatType.STRENGTH, i * STRENGTH_MULTIPLIER);
+//            }
+//        }
     }
 
-    private static class Superior extends PetAbility {
+    private static class Superior extends PetAbility implements Listener {
         private static final double MULTIPLIER = 0.1;
 
         public Superior() {
             super("Superior",
                     (p, i) -> "Increases most stats by " + ChatColor.GREEN + (i * MULTIPLIER) + "%"
             );
+        }
+
+        @EventHandler
+        public void updateStats(UpdateStatsEvent e) {
+            e.getStats().addAllStatsMultipliers(MULTIPLIER * e.getPlayer().getActivePet().getModifiers().getPet().getLevel(), 0);
         }
     }
 }

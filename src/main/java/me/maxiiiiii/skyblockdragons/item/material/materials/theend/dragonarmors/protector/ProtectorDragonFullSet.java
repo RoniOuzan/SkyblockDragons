@@ -1,10 +1,12 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.protector;
 
+import me.maxiiiiii.skyblockdragons.events.events.update.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
-import me.maxiiiiii.skyblockdragons.util.objects.Priority;
 import org.bukkit.ChatColor;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 
 public class ProtectorDragonFullSet extends ItemFullSetBonus {
     public ProtectorDragonFullSet() {
@@ -13,11 +15,10 @@ public class ProtectorDragonFullSet extends ItemFullSetBonus {
         );
     }
 
-    @Priority(level = 1)
-    @Override
-    public void updateStats(PlayerStats stats) {
-        if (stats.getPlayer().getHealth() >= stats.getHealth().get() / 2) {
-            stats.addMultiplier(StatType.DEFENSE, 30, 0);
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void updateStats(UpdateStatsEvent e) {
+        if (e.getPlayer().getItems().getFullSet() instanceof ProtectorDragonFullSet && e.getPlayer().getHealth() >= e.getStats().getHealth().get() / 2) {
+            e.getStats().addMultiplier(StatType.DEFENSE, 30, 0);
         }
     }
 }

@@ -1,7 +1,8 @@
-package me.maxiiiiii.skyblockdragons.events.events.update;
+package me.maxiiiiii.skyblockdragons.damage.events;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.damage.suppliers.EntityDamageEntity;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.EntityDamageEntity;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.event.HandlerList;
 
 @Getter
@@ -12,8 +13,15 @@ public class UpdateEntityDamageEntityEvent extends UpdateEntityDamageEvent { // 
         super(damage);
     }
 
+    public PlayerSD getAttacker() {
+        if (this.getDamage().getAttacker() instanceof PlayerSD)
+            return (PlayerSD) this.getDamage().getAttacker();
+        return null;
+    }
+
+    @Override
     public EntityDamageEntity getDamage() {
-        return (EntityDamageEntity) this.getEntityDamage();
+        return (EntityDamageEntity) super.getDamage();
     }
 
     @Override

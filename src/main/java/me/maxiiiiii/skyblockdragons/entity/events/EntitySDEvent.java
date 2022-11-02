@@ -10,7 +10,7 @@ public abstract class EntitySDEvent extends Event {
         this.entity = entity;
     }
 
-    public final EntitySD getEntity() {
+    public EntitySD getEntity() {
         return this.entity;
     }
 }

@@ -1,8 +1,8 @@
 package me.maxiiiiii.skyblockdragons.damage.events;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.damage.suppliers.EntityDamage;
-import me.maxiiiiii.skyblockdragons.damage.suppliers.EntityDamageEntity;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamage.EntityDamage;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.EntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

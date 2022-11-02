@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.damage.listeners;
 
 import me.maxiiiiii.skyblockdragons.damage.events.EntityDamageEvent;
-import me.maxiiiiii.skyblockdragons.damage.suppliers.EntityDamage;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamage.PreciseExplosionEntityDamage;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamage.PreciseFallEntityDamage;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamage.PreciseFireEntityDamage;
@@ -30,12 +30,12 @@ public class VanillaDamageListener implements Listener { // TODO: attack speed
             EntityDamage damage = null;
             if (e.getDamager() instanceof LivingEntity) {
                 EntitySD attacker = EntitySD.get(e.getDamager());
-                damage = new MeleeEntityDamageEntity(attacker, victim, attacker.getItems());
+                damage = new MeleeEntityDamageEntity(attacker, victim);
             } else {
                 if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player) {
                     Projectile projectile = (Projectile) e.getDamager();
                     EntitySD attacker = EntitySD.get((Entity) projectile.getShooter());
-                    damage = new ProjectileEntityDamageEntity(attacker, victim, attacker.getItems(), projectile);
+                    damage = new ProjectileEntityDamageEntity(attacker, victim, projectile);
                 }
             }
 

@@ -1,7 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.wise;
 
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.ChatColor;
 
 public class WiseDragonFullSet extends ItemFullSetBonus {
@@ -11,8 +10,9 @@ public class WiseDragonFullSet extends ItemFullSetBonus {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-        stats.getPlayer().getAbilityCostMultiplier().addBase(-40);
-    }
+    // TODO
+//    @Override
+//    public void updateStats(PlayerStats stats) {
+//        stats.getPlayer().getAbilityCostMultiplier().addBase(-40);
+//    }
 }

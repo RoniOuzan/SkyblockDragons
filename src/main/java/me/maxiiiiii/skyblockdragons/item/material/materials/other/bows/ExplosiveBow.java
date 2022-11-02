@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.other.bows;
 
-import me.maxiiiiii.skyblockdragons.damage.Damage;
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.ExplosionEntityDamageEntity;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.events.events.ProjectileHitEvent;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.BowMaterial;
@@ -13,12 +13,10 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -59,11 +57,8 @@ public class ExplosiveBow extends BowMaterial {
                 Projectile projectile = e.getEntity();
                 PlayerSD player = e.getShooter();
                 player.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, projectile.getLocation(), 1, radius, radius, radius);
-                for (Entity entity : projectile.getNearbyEntities(radius, radius, radius)) {
-                    if (entity instanceof Creature) {
-                        Creature creature = (Creature) entity;
-                        player.makeDamage(creature, Damage.DamageType.EXPLOSION, 1);
-                    }
+                for (EntitySD entity : Functions.loopEntities(projectile.getLocation(), radius)) {
+                    player.damage(new ExplosionEntityDamageEntity(player, entity));
                 }
             }
         }

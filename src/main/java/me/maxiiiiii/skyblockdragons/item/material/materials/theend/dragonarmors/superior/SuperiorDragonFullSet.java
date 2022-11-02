@@ -1,8 +1,10 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.superior;
 
+import me.maxiiiiii.skyblockdragons.events.events.update.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.ChatColor;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 public class SuperiorDragonFullSet extends ItemFullSetBonus {
     public SuperiorDragonFullSet() {
@@ -11,8 +13,10 @@ public class SuperiorDragonFullSet extends ItemFullSetBonus {
         );
     }
 
-    @Override
-    public void updateStats(PlayerStats stats) {
-        stats.addAllStatsMultipliers(5, 0);
+    @EventHandler()
+    public void updateStats(UpdateStatsEvent e) {
+        if (e.getPlayer().getItems().getFullSet() instanceof SuperiorDragonFullSet) {
+            e.getStats().addAllStatsMultipliers(5, 0);
+        }
     }
 }

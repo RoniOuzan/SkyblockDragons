@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.damage.suppliers.FerocitySupplier;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.Equipment;
 import org.bukkit.entity.Projectile;
@@ -9,12 +10,12 @@ import org.bukkit.entity.Projectile;
 public class ProjectileEntityDamageEntity extends RangeEntityDamageEntity {
     private final Projectile projectile;
 
-    public ProjectileEntityDamageEntity(EntitySD attacker, EntitySD victim, Equipment equipment, boolean isFerocity, Projectile projectile) {
-        super(attacker, victim, equipment, isFerocity);
+    public ProjectileEntityDamageEntity(EntitySD attacker, EntitySD victim, FerocitySupplier isFerocity, Projectile projectile) {
+        super(attacker, victim, isFerocity);
         this.projectile = projectile;
     }
 
-    public ProjectileEntityDamageEntity(EntitySD attacker, EntitySD victim, Equipment equipment, Projectile projectile) {
-        this(attacker, victim, equipment, false, projectile);
+    public ProjectileEntityDamageEntity(EntitySD attacker, EntitySD victim, Projectile projectile) {
+        this(attacker, victim, new FerocitySupplier(), projectile);
     }
 }

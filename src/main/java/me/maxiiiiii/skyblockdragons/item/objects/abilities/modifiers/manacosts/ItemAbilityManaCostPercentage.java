@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.costs;
+package me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts;
 
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 

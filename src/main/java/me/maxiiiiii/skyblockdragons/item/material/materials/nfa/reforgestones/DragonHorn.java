@@ -1,6 +1,5 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.reforgestones;
 
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.item.material.types.ReforgeMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;

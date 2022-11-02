@@ -1,7 +1,8 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.pets;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
+import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
+import me.maxiiiiii.skyblockdragons.events.events.update.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
@@ -10,9 +11,10 @@ import me.maxiiiiii.skyblockdragons.item.objects.Stats;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 import java.util.Arrays;
 
@@ -41,8 +43,8 @@ public class BearPet extends PetMaterial {
         );
     }
 
-    private static class FuriousBear extends PetAbility {
-        private static final double MULTIPLIER = 0.5;
+    private static class FuriousBear extends PetAbility implements Listener {
+        private static final double MULTIPLIER = 0.25;
 
         public FuriousBear() {
             super("Furious Bear",
@@ -50,13 +52,15 @@ public class BearPet extends PetMaterial {
             );
         }
 
-        @Override
-        public void updateStats(PlayerStats stats, int i) {
-            stats.addMultiplier(StatType.FEROCITY, 25, 0);
+        @EventHandler
+        public void updateStats(UpdateStatsEvent e) {
+            if (!(e.getPlayer().getActivePetMaterial() instanceof BearPet)) return;
+
+            e.getStats().addMultiplier(StatType.FEROCITY, MULTIPLIER * e.getPlayer().getActivePet().getModifiers().getPet().getLevel(), 0);
         }
     }
 
-    private static class FerocityIsStronger extends PetAbility {
+    private static class FerocityIsStronger extends PetAbility implements Listener {
         private static final double MULTIPLIER = 0.5;
 
         public FerocityIsStronger() {
@@ -65,9 +69,13 @@ public class BearPet extends PetMaterial {
             );
         }
 
-        @Override
-        public void updateDamage(EntityDamage<?, ?> entityDamage, int i) {
-            // TODO
+        @EventHandler
+        public void updateDamage(UpdateEntityDamageEntityEvent e) {
+            if (e.getAttacker() == null || !(e.getAttacker().getActivePetMaterial() instanceof BearPet)) return;
+
+            if (e.getDamage().getFerocity().isFerocityAttack()) {
+                e.getDamage().getMultiplier().addBase(MULTIPLIER * e.getAttacker().getActivePet().getModifiers().getPet().getLevel());
+            }
         }
     }
 }

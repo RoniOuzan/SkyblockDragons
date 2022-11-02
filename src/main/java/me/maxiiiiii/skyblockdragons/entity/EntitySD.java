@@ -1,7 +1,6 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.entity.events.EntityDeathEvent;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
@@ -18,7 +17,6 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class EntitySD extends EntityClass {
@@ -33,7 +31,6 @@ public class EntitySD extends EntityClass {
     protected Equipment equipment;
 
     public final Cooldown<Player> actionBarCooldown = new Cooldown<>();
-    public final Map<Damage.DamageType, Cooldown<EntitySD>> damageCooldown = new HashMap<>();
 
     public EntitySD(Location location, EntityMaterial type) {
         super((LivingEntity) location.getWorld().spawnEntity(location, type.entityType));
@@ -116,8 +113,6 @@ public class EntitySD extends EntityClass {
         int i = 0;
         Variables.VARIABLES.get().set("EntitiesSpawns", null);
         for (Location location : entitiesLocations.keySet()) {
-            /*Variables.set("EntitiesSpawnsLocations", i, location);
-            Variables.set("EntitiesSpawnsEntity", i, entitiesLocations.get(location));*/
             Variables.set("EntitiesSpawns", i, new EntitySpawn(location, entitiesLocations.get(location).name()));
             i++;
         }
@@ -127,14 +122,6 @@ public class EntitySD extends EntityClass {
         long entitiesSpawnsLocations = Variables.getSize("EntitiesSpawns");
         SkyblockDragons.logger.info(String.format("Loading Entity locations... %s", entitiesSpawnsLocations));
         for (int i = 0; i < entitiesSpawnsLocations; i++) {
-//            if (Variables.get("EntitiesSpawnsLocations", i) == null) {
-//                SkyblockDragons.logger.info(String.format("Skip entity %s Location null", i));
-//                continue;
-//            }
-//            if (Variables.get("EntitiesSpawnsEntity", i) == null) {
-//                SkyblockDragons.logger.info(String.format("Skip entity %s Entity null", i));
-//                continue;
-//            }
             EntitySpawn spawn = Variables.get("EntitiesSpawns", i);
             if (spawn == null) {
                 SkyblockDragons.logger.info(String.format("Skip entity %s object NULL", i));
@@ -219,7 +206,7 @@ public class EntitySD extends EntityClass {
         return this.entity instanceof Spider || this.entity instanceof Silverfish;
     }
 
-    public boolean isEnderMob() {
+    public boolean isEndMob() {
         return this.entity instanceof Enderman || this.entity instanceof EnderDragon || this.entity instanceof Endermite;
     }
 
@@ -253,13 +240,6 @@ public class EntitySD extends EntityClass {
     public Equipment getItems() {
         this.equipment.update();
         return this.equipment;
-    }
-
-    public Cooldown<EntitySD> getDamageCooldown(Damage.DamageType type) {
-        if (!this.damageCooldown.containsKey(type)) {
-            this.damageCooldown.put(type, new Cooldown<>());
-        }
-        return this.damageCooldown.get(type);
     }
 
     public void removeHealth(double amount) {

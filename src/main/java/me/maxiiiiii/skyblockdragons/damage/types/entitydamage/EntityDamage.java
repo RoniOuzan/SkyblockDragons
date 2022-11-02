@@ -1,9 +1,9 @@
-package me.maxiiiiii.skyblockdragons.damage.suppliers;
+package me.maxiiiiii.skyblockdragons.damage.types.entitydamage;
 
 import lombok.Getter;
 import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.events.events.update.UpdateEntityDamageEvent;
+import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.Multiplier;
 import org.bukkit.Bukkit;
@@ -11,8 +11,8 @@ import org.bukkit.Bukkit;
 @Getter
 @Setter
 public abstract class EntityDamage {
-    protected final EntitySD victim;
-    protected final double baseDamage;
+    protected EntitySD victim;
+    protected double baseDamage;
     protected final Multiplier multiplier;
 
     public EntityDamage(EntitySD victim, double baseDamage) {

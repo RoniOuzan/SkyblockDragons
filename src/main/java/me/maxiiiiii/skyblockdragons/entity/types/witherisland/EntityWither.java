@@ -2,7 +2,6 @@ package me.maxiiiiii.skyblockdragons.entity.types.witherisland;
 
 import de.tr7zw.changeme.nbtapi.NBTEntity;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.damage.Damage;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;

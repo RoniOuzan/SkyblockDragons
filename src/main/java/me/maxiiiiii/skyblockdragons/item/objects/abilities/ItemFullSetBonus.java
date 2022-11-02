@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.objects.abilities;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.damage.EntityDamage;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
 import me.maxiiiiii.skyblockdragons.item.material.materials.deepermines.armors.DeeperMinesFullSet;
@@ -16,14 +16,14 @@ import me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.
 import me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.young.YoungDragonFullSet;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
+import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 @Getter
-public abstract class ItemFullSetBonus extends ItemAbility {
+public abstract class ItemFullSetBonus extends ItemAbility implements Listener {
     public static final ItemFullSetBonus NULL = new NullFullSetBonus();
 
     public static final List<ItemFullSetBonus> fullSets = new ArrayList<>();
@@ -81,14 +81,6 @@ public abstract class ItemFullSetBonus extends ItemAbility {
         this(AbilityAction.NONE, name, p -> description, 4);
     }
 
-    public void updateStats(PlayerStats stats) {
-
-    }
-
-    public void updateDamage(EntityDamage<?, ?> entityDamage) { // TODO
-
-    }
-
     @Override
     public boolean hasCosts(PlayerSD player) {
         return super.hasCosts(player) && isPlayerWearingFullSet(player);
@@ -99,9 +91,9 @@ public abstract class ItemFullSetBonus extends ItemAbility {
         return e -> {};
     }
 
-    public boolean isPlayerWearingFullSet(PlayerSD player) {
+    public boolean isPlayerWearingFullSet(EntitySD entity) {
         int amount = 0;
-        for (Item item : player.getItems()) {
+        for (Item item : entity.getItems()) {
             if (item.getMaterial() instanceof ItemAbilityAble) {
                 ItemFullSetBonus fullSet = ((ItemAbilityAble) item.getMaterial()).getAbilities().stream()
                         .filter(a -> a instanceof ItemFullSetBonus)
@@ -113,7 +105,7 @@ public abstract class ItemFullSetBonus extends ItemAbility {
             }
 
             if (amount >= this.amountOfPieces) {
-                player.sendMessage(amount);
+                entity.sendMessage(amount + "");
                 return true;
             }
         }
