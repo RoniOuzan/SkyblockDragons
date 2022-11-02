@@ -3,8 +3,8 @@ package me.maxiiiiii.skyblockdragons.entity.types.deepmines;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.objects.Drop;
-import me.maxiiiiii.skyblockdragons.item.objects.RareDrop;
+import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemDrop;
+import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemRareDrop;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,10 +25,10 @@ public class LapisZombie extends EntityMaterial {
                 0,
                 5,
                 1,
-                new Drop(Items.get("ROTTEN_FLESH"), 1),
-                new Drop(Items.get("LAPIS"), 1, 50),
-                new RareDrop(Items.get("ENCHANTED_LAPIS"), 1, 2, 2d),
-                new RareDrop(Items.get("LAPIS_TALISMAN"), 1, 0.5d)
+                new EntityItemDrop(Items.get("ROTTEN_FLESH"), 1),
+                new EntityItemDrop(Items.get("LAPIS"), 1, 50),
+                new EntityItemRareDrop(Items.get("ENCHANTED_LAPIS"), 1, 2, 2d),
+                new EntityItemRareDrop(Items.get("LAPIS_TALISMAN"), 1, 0.5d)
         );
     }
 

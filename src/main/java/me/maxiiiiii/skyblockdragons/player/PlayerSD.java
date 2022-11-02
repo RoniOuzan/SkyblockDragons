@@ -305,7 +305,7 @@ public class PlayerSD extends PlayerClass {
         return this.getPersonalBank();
     }
 
-    public void give(ItemStack item, Object source) {
+    public void give(ItemStack item) {
         if (item == null) return;
 
         int amount = item.getAmount();
@@ -318,10 +318,6 @@ public class PlayerSD extends PlayerClass {
 
         PlayerGetItemEvent event = new PlayerGetItemEvent(this, item);
         Bukkit.getServer().getPluginManager().callEvent(event);
-    }
-
-    public void give(ItemStack item) {
-        this.give(item, null);
     }
 
     public void addItemStat(Item item) {

@@ -12,7 +12,7 @@ public class ItemReward implements Reward {
 
     @Override
     public void give(PlayerSD player) {
-        player.give(this.item, this);
+        player.give(this.item);
     }
 
     @Override

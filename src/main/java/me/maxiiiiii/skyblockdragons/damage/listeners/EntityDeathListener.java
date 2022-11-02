@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.damage.listeners;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.events.EntityDeathEvent;
+import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityDrop;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -25,6 +26,10 @@ public class EntityDeathListener implements Listener {
             PlayerSD killer = (PlayerSD) e.getKiller();
             killer.giveSkill(SkillType.COMBAT, entity.type.getCombatXp());
             killer.giveExp((int) (entity.type.getCoins() / 100));
+
+            for (EntityDrop drop : entity.type.getDrops()) {
+                drop.drop(killer, entity);
+            }
 
             // TODO: drops
 //            if (killer.getEnchantLevel(EnchantType.TELEKINESIS) > 0) {

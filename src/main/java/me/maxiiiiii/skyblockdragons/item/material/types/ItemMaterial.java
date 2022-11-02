@@ -16,7 +16,7 @@ import java.util.Map;
 
 @ToString
 @Getter
-public abstract class ItemMaterial implements ConfigurationSerializable, MaterialSD, Comparable<ItemMaterial>, Listener {
+public abstract class ItemMaterial implements ConfigurationSerializable, Comparable<ItemMaterial>, Listener {
     protected String itemID;
     
     protected Material material;

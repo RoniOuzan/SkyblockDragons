@@ -8,7 +8,7 @@ public interface ItemAbilityManaCost {
     double getBaseManaCost(PlayerSD player);
 
     default double getFinalCost(PlayerSD player) {
-        UpdateManaCostEvent event = new UpdateManaCostEvent(player);
+        UpdateManaCostEvent event = new UpdateManaCostEvent(player, this);
         Bukkit.getPluginManager().callEvent(event);
 
         return event.getMultiplier().multiply(this.getBaseManaCost(player));

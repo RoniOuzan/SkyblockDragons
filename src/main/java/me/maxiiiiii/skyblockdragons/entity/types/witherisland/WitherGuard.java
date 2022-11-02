@@ -3,8 +3,8 @@ package me.maxiiiiii.skyblockdragons.entity.types.witherisland;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.objects.Drop;
-import me.maxiiiiii.skyblockdragons.item.objects.RareDrop;
+import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemDrop;
+import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemRareDrop;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
@@ -25,8 +25,8 @@ public class WitherGuard extends EntityMaterial {
                 0,
                 2500,
                 25,
-                new Drop(Items.get("COAL"), 1, 3),
-                new RareDrop(Items.get("WITHER_SKULL"), 1, 0.5)
+                new EntityItemDrop(Items.get("COAL"), 1, 3),
+                new EntityItemRareDrop(Items.get("WITHER_SKULL"), 1, 0.5)
         );
     }
 

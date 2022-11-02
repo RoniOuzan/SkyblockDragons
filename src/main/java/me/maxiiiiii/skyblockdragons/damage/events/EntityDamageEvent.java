@@ -14,11 +14,13 @@ public class EntityDamageEvent extends Event {
     private final EntityDamage damage;
     private final EntitySD attacker;
     private final EntitySD victim;
+    private final double finalDamage;
 
     public EntityDamageEvent(EntityDamage damage) {
         this.damage = damage;
         this.attacker = damage instanceof EntityDamageEntity ? ((EntityDamageEntity) damage).getAttacker() : null;
         this.victim = damage.getVictim();
+        this.finalDamage = damage.getFinalDamage();
     }
 
     @Override

@@ -115,7 +115,7 @@ public class Forge {
         public void onInventoryClick(InventoryClickEvent e) {
             if (this.getNBT(e.getCurrentItem()).equals("FORGED")) {
                 int slot = e.getSlot() - 10;
-                this.player.give(forging.get(slot).getRecipe().getItem(), this);
+                this.player.give(forging.get(slot).getRecipe().getItem());
                 forging.remove(slot);
             } else if (this.getNBT(e.getCurrentItem()).equals("FORGE_SLOT")) {
                 int slot = e.getSlot() - 10;

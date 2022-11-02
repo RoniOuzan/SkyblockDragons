@@ -6,7 +6,7 @@ import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.objects.Drop;
+import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemDrop;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.ChatColor;
@@ -30,7 +30,7 @@ public class Grizzly_Bear extends EntityMaterial {
                 10,
                 250,
                 5,
-                new Drop(Items.get("BEAR"), 1, 0.05)
+                new EntityItemDrop(Items.get("BEAR"), 1, 0.05)
         );
     }
 

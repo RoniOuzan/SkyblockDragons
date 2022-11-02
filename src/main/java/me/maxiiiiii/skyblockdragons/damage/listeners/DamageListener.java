@@ -19,7 +19,7 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 public class DamageListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageEvent e) {
-        double damage = e.getDamage().getFinalDamage();
+        double damage = e.getFinalDamage();
 
         e.getVictim().removeHealth(damage);
 

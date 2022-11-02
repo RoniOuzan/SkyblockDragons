@@ -2,28 +2,29 @@ package me.maxiiiiii.skyblockdragons.entity.types.witherisland;
 
 import de.tr7zw.changeme.nbtapi.NBTEntity;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.damage.events.EntityDamageEvent;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import me.maxiiiiii.skyblockdragons.util.objects.FlyToLocation;
 import me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 
+// TODO: teach lidan how to write entities cuz this is not how u write entities
 public abstract class EntityWither extends EntityMaterial {
 
     public static final int TICKS_TO_SECONDS = 20;
@@ -252,14 +253,10 @@ public abstract class EntityWither extends EntityMaterial {
         entity.getWorld().playSound(entity.getLocation(), sound, volume, pitch);
     }
 
-    @Override
-    public void onDamage(EntitySD attacker, EntitySD entity, Double damage) {
-        if (attacker instanceof PlayerSD){
-            PlayerSD playerSD = (PlayerSD) attacker;
-            double oldDamage = WitherIsland.witherDamage.getOrDefault(playerSD.getUniqueId(), 0d);
-            double newDamage = oldDamage + damage;
-            WitherIsland.witherDamage.put(playerSD.getUniqueId(), newDamage);
-//            playerSD.sendMessage(String.format("Damage to Wither: %s", Functions.getNumberFormat(newDamage)));
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    public void onDamage(EntityDamageEvent e) {
+        if (e.getVictim().type instanceof EntityWither && e.getAttacker() instanceof PlayerSD) {
+            WitherIsland.witherDamage.put(e.getAttacker().getUniqueId(), WitherIsland.witherDamage.getOrDefault(e.getAttacker().getUniqueId(), 0d) + e.getFinalDamage());
         }
     }
 

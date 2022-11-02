@@ -1,8 +1,10 @@
 package me.maxiiiiii.skyblockdragons.entity.types.theend;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.damage.events.EntityDamageEvent;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
+import me.maxiiiiii.skyblockdragons.entity.events.EntityDeathEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
@@ -10,6 +12,8 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 
 import java.util.stream.Collectors;
 
@@ -31,21 +35,19 @@ public abstract class EntityDragon extends EntityMaterial {
         }
     }
 
-    @Override
-    public void onDamage(EntitySD attacker, EntitySD entity, Double damage) {
-        if (entity.getHealth() >= 50) {
-            entity.entity.setNoDamageTicks(0);
-            entity.entity.setMaximumNoDamageTicks(0);
-            if (attacker instanceof PlayerSD) {
-                PlayerSD player = (PlayerSD) attacker;
-                TheEnd.dragonDamage.put(player, TheEnd.dragonDamage.getOrDefault(player, 0d) + damage);
-            }
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    public void onDamage(EntityDamageEvent e) {
+        if (e.getVictim().type instanceof EntityDragon && e.getAttacker() instanceof PlayerSD) {
+            PlayerSD attacker = (PlayerSD) e.getAttacker();
+            TheEnd.dragonDamage.put(attacker, TheEnd.dragonDamage.getOrDefault(attacker, 0d) + e.getFinalDamage());
         }
     }
 
-    @Override
-    public void onDeath(EntitySD attacker, EntitySD entity) {
-        deadDragon(entity);
+    @EventHandler
+    public void onDeath(EntityDeathEvent e) {
+        if (e.getEntity().type instanceof EntityDragon) {
+            deadDragon(e.getEntity());
+        }
     }
 
     private void deadDragon(EntitySD entity) {
@@ -63,8 +65,7 @@ public abstract class EntityDragon extends EntityMaterial {
         if (entity.getHealth() >= 10) {
             EnderDragon dragon = (EnderDragon) entity.entity;
             dragon.setPhase(EnderDragon.Phase.CIRCLING);
-        }
-        else{
+        } else {
             deadDragon(entity);
         }
     }

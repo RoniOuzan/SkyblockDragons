@@ -20,6 +20,7 @@ import me.maxiiiiii.skyblockdragons.item.anvil.AnvilCommand;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.CraftingTableMenu;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.RecipesMenu;
+import me.maxiiiiii.skyblockdragons.item.drops.PlayerGetDropListener;
 import me.maxiiiiii.skyblockdragons.item.enchants.BookCommand;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantingTableCommand;
@@ -345,6 +346,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerEvents(new PlayerUseAbilityListener(), this);
         registerEvents(new ProfileMenu.Event(), this);
         registerEvents(new ArrowHitCancellation(), this);
+        registerEvents(new PlayerGetDropListener(), this);
 
         registerEvents(new PlayerWarpListener(), this);
         registerEvents(new ChatListener(), this);

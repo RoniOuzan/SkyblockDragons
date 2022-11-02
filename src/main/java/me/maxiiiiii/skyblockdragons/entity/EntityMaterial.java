@@ -20,7 +20,7 @@ import me.maxiiiiii.skyblockdragons.entity.types.theend.EndermanTier2;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.dragon.*;
 import me.maxiiiiii.skyblockdragons.entity.types.witherisland.WitherGuard;
 import me.maxiiiiii.skyblockdragons.entity.types.witherisland.wither.*;
-import me.maxiiiiii.skyblockdragons.item.objects.Drop;
+import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityDrop;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.Utility;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -51,9 +51,9 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
     public double combatXp;
     public double coins;
 
-    public Drop[] drops;
+    public EntityDrop[] drops;
 
-    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance, boolean ai, double combatXp, double coins, Drop... drops) {
+    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance, boolean ai, double combatXp, double coins, EntityDrop... drops) {
         this.entityType = entityType;
         this.name = name;
         this.level = level;
@@ -72,7 +72,7 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         SkyblockDragons.plugin.getServer().getPluginManager().registerEvents(this, SkyblockDragons.plugin);
     }
 
-    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance, double combatXp, double coins, Drop... drops) {
+    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance, double combatXp, double coins, EntityDrop... drops) {
         this(entityType, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, true, combatXp, coins, drops);
     }
 

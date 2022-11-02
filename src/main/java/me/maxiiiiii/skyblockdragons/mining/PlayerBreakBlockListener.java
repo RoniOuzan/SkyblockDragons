@@ -1,8 +1,8 @@
 package me.maxiiiiii.skyblockdragons.mining;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.item.drops.types.block.BlockDrop;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
-import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -14,8 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 
 public class PlayerBreakBlockListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
@@ -30,25 +28,9 @@ public class PlayerBreakBlockListener implements Listener {
         e.setExpToDrop((int) Math.ceil(Math.sqrt(e.getMaterial().miningXp)));
         Material brokeMaterial = e.getBlock().getType();
 
-        if (player.getEnchantLevel(EnchantType.TELEKINESIS) > 0)
-            for (Drop drop : e.getMaterial().drops) {
-                ItemStack itemStack = drop.generate(player, block);
-                if (itemStack != null) {
-                    player.give(itemStack);
-                }
-            }
-        else
-            for (Drop drop : e.getMaterial().drops) {
-                ItemStack itemStack = drop.generate(player, block);
-                if (itemStack != null) {
-                    org.bukkit.entity.Item dropped = block.getWorld().dropItem(block.getLocation().add(new Vector(
-                            player.getLocation().getX() - block.getLocation().getX(),
-                            player.getLocation().getY() - block.getLocation().getY(),
-                            player.getLocation().getZ() - block.getLocation().getZ()
-                    ).normalize()), itemStack);
-                    dropped.addScoreboardTag(player.getName());
-                }
-            }
+        for (BlockDrop drop : e.getMaterial().drops) {
+            drop.drop(player, block);
+        }
         player.giveExp(e.getMaterial().xp);
         if (player.getEnchantLevel(EnchantType.EXPERIENCE) > 0)
             if (Functions.chanceOf(12.5 * player.getEnchantLevel(EnchantType.EXPERIENCE)))
