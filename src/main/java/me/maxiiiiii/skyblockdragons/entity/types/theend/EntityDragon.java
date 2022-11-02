@@ -7,7 +7,7 @@ import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.events.EntityDeathEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
-import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
+import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 import org.bukkit.GameMode;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;

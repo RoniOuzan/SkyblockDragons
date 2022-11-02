@@ -8,7 +8,7 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
-import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
+import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

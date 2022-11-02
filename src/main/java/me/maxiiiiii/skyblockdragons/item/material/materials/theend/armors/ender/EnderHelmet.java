@@ -5,7 +5,7 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
-import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
+import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;

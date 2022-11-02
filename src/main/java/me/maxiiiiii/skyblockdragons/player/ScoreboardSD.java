@@ -4,9 +4,9 @@ import dev.jcsoftware.jscoreboards.JPerPlayerMethodBasedScoreboard;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
-import me.maxiiiiii.skyblockdragons.worlds.end.DragonType;
-import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
-import me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland;
+import me.maxiiiiii.skyblockdragons.world.worlds.end.DragonType;
+import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
+import me.maxiiiiii.skyblockdragons.world.worlds.witherisland.WitherIsland;
 import org.bukkit.ChatColor;
 
 import java.text.SimpleDateFormat;

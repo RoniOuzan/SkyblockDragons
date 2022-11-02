@@ -4,7 +4,7 @@ import me.maxiiiiii.skyblockdragons.commands.manager.QuickCommand;
 import me.maxiiiiii.skyblockdragons.commands.manager.QuickSubCommand;
 import me.maxiiiiii.skyblockdragons.events.listeners.JoinQuitListener;
 import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
+import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 
 public class SkyblockDragonsAlphaCommand extends QuickCommand {
     public SkyblockDragonsAlphaCommand() {

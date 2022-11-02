@@ -26,7 +26,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.Map;
 
-import static me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland.wither;
+import static me.maxiiiiii.skyblockdragons.world.worlds.witherisland.WitherIsland.wither;
 
 public class SkyblockDragonsTestCommand extends QuickCommand {
     public SkyblockDragonsTestCommand() {

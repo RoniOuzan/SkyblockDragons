@@ -5,10 +5,8 @@ import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import me.maxiiiiii.skyblockdragons.util.objects.FlyToLocation;
-import me.maxiiiiii.skyblockdragons.worlds.bearisland.BearIsland;
-import me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland;
+import me.maxiiiiii.skyblockdragons.world.worlds.bearisland.BearIsland;
 import org.bukkit.Location;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Wither;
 
