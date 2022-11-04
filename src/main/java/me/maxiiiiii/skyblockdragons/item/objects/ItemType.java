@@ -23,6 +23,7 @@ public enum ItemType {
     ACCESSORY,
     PET,
     POWER_ORB,
+    CRYSTAL,
     NULL;
 
     @Override

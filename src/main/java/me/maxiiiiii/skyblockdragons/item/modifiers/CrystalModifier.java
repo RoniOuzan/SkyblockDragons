@@ -1,26 +1,34 @@
 package me.maxiiiiii.skyblockdragons.item.modifiers;
 
-import me.maxiiiiii.skyblockdragons.item.crystals.CrystalType;
-import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
+import me.maxiiiiii.skyblockdragons.item.crystals.Crystal;
+import me.maxiiiiii.skyblockdragons.item.crystals.Crystals;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 public class CrystalModifier extends ItemModifier {
-    private final Map<CrystalType, Short> crystals;
+    private final Crystals crystals;
 
-    public CrystalModifier(Map<CrystalType, Short> crystals) {
+    public CrystalModifier(Crystals crystals) {
         super(CrystalModifier.class);
         this.crystals = crystals;
     }
 
-    public CrystalModifier() {
-        this(new HashMap<>());
+    public CrystalModifier(Crystals crystals, Crystal... crystalsToAdd) {
+        this(crystals);
+        Arrays.stream(crystalsToAdd).forEach(this.crystals::add);
     }
 
-    public Map<CrystalType, Short> get() {
+    public CrystalModifier(Crystal... crystals) {
+        this(new Crystals(crystals));
+    }
+
+    public CrystalModifier() {
+        this(new Crystals());
+    }
+
+    public Crystals get() {
         return crystals;
     }
 

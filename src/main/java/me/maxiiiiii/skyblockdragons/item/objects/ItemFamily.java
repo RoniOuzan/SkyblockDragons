@@ -82,5 +82,10 @@ public enum ItemFamily {
     KOALA_BEAR,
     RED_PANDA_BEAR,
     KING,
+    ATHENA,
+    PHANES,
+    HERMES,
+    DEMETER,
+    ARES,
     NULL
 }

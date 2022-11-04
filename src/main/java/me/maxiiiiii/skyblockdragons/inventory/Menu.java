@@ -24,15 +24,15 @@ import java.util.UUID;
 
 /**
  *  00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08
- * ----+----+----+----+----+----+----+----+----
+ * ---+---+---+---+---+---+---+---+------------
  *  09 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17
- * ----+----+----+----+----+----+----+----+----
+ * ---+---+---+---+---+---+---+---+------------
  *  18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26
- * ----+----+----+----+----+----+----+----+----
+ * ---+---+---+---+---+---+---+---+------------
  *  27 | 28 | 29 | 30 | 31 | 32 | 33 | 34 | 35
- * ----+----+----+----+----+----+----+----+----
+ * ---+---+---+---+---+---+---+---+------------
  *  36 | 37 | 38 | 39 | 40 | 41 | 42 | 43 | 44
- * ----+----+----+----+----+----+----+----+----
+ * ---+---+---+---+---+---+---+---+------------
  *  45 | 46 | 47 | 48 | 49 | 50 | 51 | 52 | 53
  */
 @Getter
@@ -204,7 +204,26 @@ public abstract class Menu implements InventoryHolder {
         SkyblockDragons.getPlayer(uuid).getMenuHistory().remove(SkyblockDragons.getPlayer(uuid).getMenuHistory().size() - 1);
     }
 
-    protected void putItems(List<ItemStack> items, int firstSlot) {
+    private static final int[][] itemsSlots = new int[][]{
+            {},
+            {4},
+            {3, 5},
+            {3, 4, 5},
+            {2, 3, 5, 6},
+            {2, 3, 4, 5, 6},
+            {1, 2, 3, 5, 6, 7},
+            {1, 2, 3, 4, 5, 6, 7},
+            {0, 1, 2, 3, 5, 6, 7, 8},
+            {0, 1, 2, 3, 4, 5, 6, 7, 8}
+    };
 
+    protected void putItemsOnCenter(int line, List<ItemStack> items) {
+        this.putItemsOnCenter(line, items.toArray(new ItemStack[0]));
+    }
+
+    protected void putItemsOnCenter(int line, ItemStack... items) {
+        for (int i = 0; i < items.length; i++) {
+            this.setItem(((line - 1) * 9) + itemsSlots[items.length][i], items[i]);
+        }
     }
 }

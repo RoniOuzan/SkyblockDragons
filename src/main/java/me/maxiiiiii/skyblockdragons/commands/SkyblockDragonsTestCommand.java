@@ -12,6 +12,7 @@ import me.maxiiiiii.skyblockdragons.entity.types.witherisland.EntityWither;
 import me.maxiiiiii.skyblockdragons.events.listeners.JoinQuitListener;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.crystals.CrystalType;
+import me.maxiiiiii.skyblockdragons.item.crystals.Crystals;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.modifiers.CrystalModifier;
 import me.maxiiiiii.skyblockdragons.item.modifiers.HotPotatoModifier;
@@ -23,8 +24,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import java.util.Map;
 
 import static me.maxiiiiii.skyblockdragons.world.worlds.witherisland.WitherIsland.wither;
 
@@ -115,9 +114,9 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
             var item1 = player.getEquipment().getItemInMainHand();
             ItemMaterial material1 = Functions.getItemMaterial(item1);
             ItemModifiers modifiers = ItemModifiers.getModifiers(item1);
-            Map<CrystalType, Short> crystals = modifiers.getCrystals();
+            Crystals crystals = modifiers.getCrystals();
             player.sendMessage("Crystals Before: " + crystals);
-            crystals.put(CrystalType.STRENGTH, (short) 1);
+            crystals.add(CrystalType.ARES, 1);
             player.sendMessage("Crystals Put: " + crystals);
             var item = new Item(player, material1, modifiers, new CrystalModifier(crystals), new HotPotatoModifier(5));
             player.getEquipment().setItemInMainHand(item);

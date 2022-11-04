@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.modifiers;
 
 import me.maxiiiiii.skyblockdragons.item.crystals.CrystalType;
+import me.maxiiiiii.skyblockdragons.item.crystals.Crystals;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.NecronBladeMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.SkinMaterial;
@@ -65,7 +66,7 @@ public class ItemModifiers implements Iterable<ItemModifier> {
         return this.enchants.get();
     }
 
-    public Map<CrystalType, Short> getCrystals() {
+    public Crystals getCrystals() {
         return this.crystals.get();
     }
 

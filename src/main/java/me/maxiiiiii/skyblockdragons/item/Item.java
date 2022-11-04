@@ -420,67 +420,6 @@ public class Item extends ItemStack implements Comparable<Item> {
                 lores.add(ChatColor.GRAY + s.getType().toString() + ": " + ChatColor.GREEN + s.get() + stats.getLoreModifiers(s.getType()))
         );
 
-//        Stats stats = ((ItemStatsAble) this.material).getStats();
-//
-//        if (player != null) {
-//            UpdateItemStatsEvent event = new UpdateItemStatsEvent(player, stats);
-//            Bukkit.getPluginManager().callEvent(event);
-//
-//            stats = event.getStats();
-//        }
-//
-//        for (Stat stat : stats) {
-//            String statReforge = "";
-//            String statPotato = "";
-//
-//            String statSymbol = "+";
-//
-//            ChatColor statColor = ChatColor.GREEN;
-//
-//            String percent = "";
-//            if (stat.type.isPercentage()) percent = "%";
-//
-//            double statAdder = 0;
-//            if (modifiers.getHotPotato() > 0) {
-//                if (stat.type == StatType.STRENGTH || stat.type == StatType.DAMAGE) {
-//                    statAdder += modifiers.getHotPotato() * 2;
-//                    statPotato = ChatColor.YELLOW + "(+" + modifiers.getHotPotato() * 2 + ") ";
-//                }
-//            }
-//            if (modifiers.getReforge() != ReforgeType.NULL && modifiers.getReforge() != null) {
-//                if (modifiers.getReforge().getStats().get(rarity.getLevel() - 1).get(stat).amount != 0) {
-//                    statAdder += modifiers.getReforge().getStats().get(rarity.getLevel() - 1).get(stat).amount;
-//                    statReforge = ChatColor.BLUE + "(" + modifiers.getReforge() + " SYMBOL" + Math.abs(modifiers.getReforge().getStats().get(rarity.getLevel() - 1).get(stat).amount) + percent + ")";
-//                }
-//            }
-//            boolean oneForAll = modifiers.getEnchants().keySet().stream().anyMatch(e -> e == EnchantType.ONE_FOR_ALL);
-//            if (!modifiers.getEnchants().containsKey(EnchantType.NULL)) {
-//                for (EnchantType enchantType : EnchantType.enchants.values()) {
-//                    if (modifiers.getEnchants().containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
-//                        if (enchantType.getStats().get(stat).amount != 0) {
-//                            if (enchantType.getStats().get(stat).amount != 0)
-//                                statAdder += enchantType.getMultiplayers().get(modifiers.getEnchants().get(enchantType));
-//                        }
-//                    }
-//                }
-//            }
-//
-//            ItemStatsAble material = (ItemStatsAble) this.material;
-//
-//            if (oneForAll && stat.type == StatType.DAMAGE)
-//                statAdder += (material.getStats().get(stat).amount + statAdder * 6);
-//
-//            // TODO: add here from player fields
-//
-//            double statDisplay = material.getStats().get(stat).amount + statAdder;
-//            stats.get(stat).amount = statDisplay;
-//            if (material.getStats().get(stat).amount + statAdder != 0) {
-//                if (material.getStats().get(stat).amount + statAdder < 0) statSymbol = "-";
-//                statReforge = statReforge.replace("SYMBOL", statSymbol);
-//                lores.add(ChatColor.GRAY + stat.type.toString() + ": " + statColor + statSymbol + Math.abs(statDisplay) + percent + " " + statPotato + statReforge);
-//            }
-//        }
-
         if (lores.size() == 0) return;
 
         if (!modifiers.getEnchants().containsKey(EnchantType.NULL) && !lores.get(lores.size() - 1).equals("")) lores.add("");
