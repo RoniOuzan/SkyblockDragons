@@ -1,19 +1,18 @@
-package me.maxiiiiii.skyblockdragons.item.events;
+package me.maxiiiiii.skyblockdragons.item.stats;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.events.events.abstracts.playersd.UpdateEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.event.HandlerList;
 
 @Getter
-public class UpdateStatsEvent extends UpdateEvent {
+public class UpdateItemStatsEvent extends UpdateEvent {
     public static final HandlerList handlers = new HandlerList();
 
-    private final PlayerStats stats;
+    private final ItemStats stats;
 
-    public UpdateStatsEvent(PlayerStats stats) {
-        super(stats.getPlayer());
+    public UpdateItemStatsEvent(PlayerSD player, ItemStats stats) {
+        super(player);
         this.stats = stats;
     }
 

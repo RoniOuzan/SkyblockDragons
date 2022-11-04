@@ -5,6 +5,7 @@ import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 

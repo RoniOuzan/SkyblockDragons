@@ -2,19 +2,18 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.pets;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
-import me.maxiiiiii.skyblockdragons.item.events.UpdateStatsEvent;
+import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.item.objects.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 
 import java.util.Arrays;
 

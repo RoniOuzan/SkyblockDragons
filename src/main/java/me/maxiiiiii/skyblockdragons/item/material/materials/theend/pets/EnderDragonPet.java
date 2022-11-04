@@ -2,12 +2,14 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.theend.pets;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
-import me.maxiiiiii.skyblockdragons.item.events.UpdateStatsEvent;
+import me.maxiiiiii.skyblockdragons.item.material.materials.theend.swords.AspectOfTheDragons;
+import me.maxiiiiii.skyblockdragons.item.stats.UpdateItemStatsEvent;
+import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.item.objects.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
@@ -15,7 +17,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 
 import java.util.Arrays;
 
@@ -78,14 +79,16 @@ public class EnderDragonPet extends PetMaterial {
             );
         }
 
-        // TODO
-//        @Override
-//        public void updateItemStats(PlayerSD player, Stats stats, int i) {
-//            if (player.getItems().getTool().getMaterial() instanceof AspectOfTheDragons) {
-//                stats.add(StatType.DAMAGE, i * DAMAGE_MULTIPLIER);
-//                stats.add(StatType.STRENGTH, i * STRENGTH_MULTIPLIER);
-//            }
-//        }
+        @EventHandler
+        public void updateItemStats(UpdateItemStatsEvent e) {
+            if (!(e.getPlayer().getActivePetMaterial() instanceof EnderDragonPet)) return;
+
+            if (e.getPlayer().getItems().getToolMaterial() instanceof AspectOfTheDragons) {
+                int level = e.getPlayer().getActivePet().getModifiers().getPet().getLevel();
+                e.getStats().addMultiplier(StatType.DAMAGE, level * DAMAGE_MULTIPLIER);
+                e.getStats().addMultiplier(StatType.STRENGTH, level * STRENGTH_MULTIPLIER);
+            }
+        }
     }
 
     private static class Superior extends PetAbility {

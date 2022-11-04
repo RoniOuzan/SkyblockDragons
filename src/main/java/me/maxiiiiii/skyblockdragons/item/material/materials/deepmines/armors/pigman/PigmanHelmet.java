@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.armors.pi
 
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import org.bukkit.Material;
 
 public class PigmanHelmet extends ArmorMaterial {

@@ -1,6 +1,12 @@
-package me.maxiiiiii.skyblockdragons.item.objects;
+package me.maxiiiiii.skyblockdragons.item.stats;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+
+@Getter
 public class Stat {
+    @Getter(AccessLevel.NONE)
     public double amount;
     public StatType type;
 
@@ -35,6 +41,10 @@ public class Stat {
             this.amount = 100;
         if (type == StatType.SPEED && this.amount > 500)
             this.amount = 500;
+    }
+
+    public boolean isEmpty() {
+        return this.amount == 0;
     }
 
     @Override

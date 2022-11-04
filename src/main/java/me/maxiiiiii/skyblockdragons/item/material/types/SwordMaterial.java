@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.material.types;
 import lombok.Getter;
 import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import org.bukkit.Material;
 
 @Getter

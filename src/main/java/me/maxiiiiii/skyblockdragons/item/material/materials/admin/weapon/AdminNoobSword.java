@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.admin.weapon;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.objects.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import org.bukkit.Material;
 
 public class AdminNoobSword extends SwordMaterial {

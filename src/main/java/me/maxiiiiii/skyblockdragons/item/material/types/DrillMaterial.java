@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.material.types;
 
 import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import org.bukkit.Material;
 
 public abstract class DrillMaterial extends MiningMaterial {

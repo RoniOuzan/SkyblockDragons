@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemStatsAble;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import org.bukkit.Material;
 
 @Getter

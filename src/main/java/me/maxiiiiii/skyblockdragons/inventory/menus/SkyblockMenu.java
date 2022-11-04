@@ -5,7 +5,7 @@ import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.CraftingTableMenu;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.RecipesMenu;
-import me.maxiiiiii.skyblockdragons.item.objects.Stat;
+import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.pet.PetMenu;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;

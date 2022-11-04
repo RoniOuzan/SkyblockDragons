@@ -3,8 +3,8 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.armors.ob
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.Color;
 import org.bukkit.Material;

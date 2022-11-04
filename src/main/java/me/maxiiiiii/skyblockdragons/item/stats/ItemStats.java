@@ -1,0 +1,97 @@
+package me.maxiiiiii.skyblockdragons.item.stats;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.util.objects.Multiplier;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Getter
+public class ItemStats extends Stats {
+    private final Item item;
+    @Getter(AccessLevel.NONE)
+    private final Map<StatType, Multiplier> multiplayer;
+    private final List<StatModifier> modifiers;
+
+    public ItemStats(Stats stats, Item item) {
+        super(stats);
+        this.item = item;
+        this.multiplayer = new HashMap<>();
+        this.modifiers = new ArrayList<>();
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+
+        multiplayer.clear();
+    }
+
+    public void addMultiplier(StatType statType, double base, double post) {
+        Multiplier multiplier = multiplayer.getOrDefault(statType, new Multiplier());
+        multiplier.addBase(base);
+        multiplier.addPost(post);
+        this.multiplayer.put(statType, multiplier);
+    }
+
+    public void addMultiplier(StatType statType, double base) {
+        this.addMultiplier(statType, base, 0);
+    }
+
+    public void addAllStatsMultipliers(double base, double post) {
+        this.addMultiplier(StatType.DAMAGE, base, post);
+        this.addMultiplier(StatType.STRENGTH, base, post);
+        this.addMultiplier(StatType.CRIT_DAMAGE, base, post);
+        this.addMultiplier(StatType.CRIT_CHANCE, base, post);
+        this.addMultiplier(StatType.ABILITY_DAMAGE, base, post);
+        this.addMultiplier(StatType.ABILITY_SCALING, base, post);
+        this.addMultiplier(StatType.ATTACK_SPEED, base, post);
+        this.addMultiplier(StatType.FEROCITY, base, post);
+        this.addMultiplier(StatType.HEALTH, base, post);
+        this.addMultiplier(StatType.DEFENSE, base, post);
+        this.addMultiplier(StatType.TRUE_DEFENSE, base, post);
+        this.addMultiplier(StatType.SPEED, base, post);
+        this.addMultiplier(StatType.INTELLIGENCE, base, post);
+        this.addMultiplier(StatType.MAGIC_FIND, base, post);
+        this.addMultiplier(StatType.PET_LUCK, base, post);
+        this.addMultiplier(StatType.MINING_SPEED, base, post);
+        this.addMultiplier(StatType.MINING_FORTUNE, base, post);
+        this.addMultiplier(StatType.FARMING_FORTUNE, base, post);
+        this.addMultiplier(StatType.FORAGING_FORTUNE, base, post);
+        this.addMultiplier(StatType.SEA_CREATURE_CHANCE, base, post);
+        this.addMultiplier(StatType.ABSORPTION, base, post);
+    }
+
+    public void addDamageMultipliers(double base, double post) {
+        this.addMultiplier(StatType.DAMAGE, base, post);
+        this.addMultiplier(StatType.STRENGTH, base, post);
+        this.addMultiplier(StatType.CRIT_DAMAGE, base, post);
+        this.addMultiplier(StatType.CRIT_CHANCE, base, post);
+        this.addMultiplier(StatType.ABILITY_DAMAGE, base, post);
+        this.addMultiplier(StatType.ABILITY_SCALING, base, post);
+        this.addMultiplier(StatType.ATTACK_SPEED, base, post);
+        this.addMultiplier(StatType.FEROCITY, base, post);
+        this.addMultiplier(StatType.MANA, base, post);
+    }
+
+    public void applyMultipliers() {
+        for (StatType statType : multiplayer.keySet()) {
+            this.get(statType).set(multiplayer.get(statType).multiply(this.get(statType).get()));
+        }
+    }
+
+    public String getLoreModifiers(StatType statType) {
+        StringBuilder string = new StringBuilder();
+        for (StatModifier modifier : modifiers) {
+            if (!modifier.getStat().isEmpty() && modifier.getStat().getType() == statType) {
+                string.append(" ").append(modifier.getType().getText().apply(modifier.getText(), modifier.getStat()));
+            }
+        }
+        return string.toString();
+    }
+}

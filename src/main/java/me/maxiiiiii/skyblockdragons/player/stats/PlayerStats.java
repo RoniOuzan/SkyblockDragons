@@ -2,9 +2,9 @@ package me.maxiiiiii.skyblockdragons.player.stats;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.item.objects.Stat;
+import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.item.objects.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.Multiplier;
 
@@ -21,9 +21,9 @@ public class PlayerStats extends Stats {
 
     public PlayerStats(PlayerSD player, double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double farmingFortune, double foragingFortune, double seaCreatureChance, double absorption) {
         super(damage, strength, critDamage, critChance, abilityDamage, abilityScaling, attackSpeed, ferocity, health, defense, trueDefense, speed, intelligence, magicFind, petLuck, miningSpeed, miningFortune, farmingFortune, foragingFortune, seaCreatureChance, absorption);
+        this.player = player;
         this.mana = new Stat(this.intelligence.amount, StatType.MANA);
         this.multiplayer = new HashMap<>();
-        this.player = player;
     }
 
     @Override

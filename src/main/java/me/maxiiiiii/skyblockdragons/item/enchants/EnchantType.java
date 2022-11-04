@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.item.enchants;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.item.objects.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemTypeGroup;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;

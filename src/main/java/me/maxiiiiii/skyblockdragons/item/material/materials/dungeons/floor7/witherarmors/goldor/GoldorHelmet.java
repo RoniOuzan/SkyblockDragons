@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.dungeons.floor7.wit
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 

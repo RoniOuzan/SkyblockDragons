@@ -1,6 +1,7 @@
-package me.maxiiiiii.skyblockdragons.item.objects;
+package me.maxiiiiii.skyblockdragons.item.stats;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -92,6 +93,32 @@ public class Stats implements Iterable<Stat> {
         for (int i = 0; i < stats.size(); i++) {
             this.add(stats.get(i), amounts.get(i));
         }
+    }
+
+    public Stats(Stats stats) {
+        this(
+                stats.damage.get(),
+                stats.strength.get(),
+                stats.critDamage.get(),
+                stats.critChance.get(),
+                stats.abilityDamage.get(),
+                stats.abilityScaling.get(),
+                stats.attackSpeed.get(),
+                stats.ferocity.get(),
+                stats.health.get(),
+                stats.defense.get(),
+                stats.trueDefense.get(),
+                stats.speed.get(),
+                stats.intelligence.get(),
+                stats.magicFind.get(),
+                stats.petLuck.get(),
+                stats.miningSpeed.get(),
+                stats.miningFortune.get(),
+                stats.farmingFortune.get(),
+                stats.foragingFortune.get(),
+                stats.seaCreatureChance.get(),
+                stats.absorption.get()
+        );
     }
 
     public Stats() {
