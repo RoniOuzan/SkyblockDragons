@@ -244,7 +244,7 @@ public class Stats implements Iterable<Stat> {
     }
 
     public void add(Stats stats) {
-        this.add(stats.toList().stream().map(s -> s.amount).collect(Collectors.toList()));
+        this.add(stats.stream().map(s -> s.amount).collect(Collectors.toList()));
     }
 
     public void add(List<Double> num) {

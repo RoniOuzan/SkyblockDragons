@@ -25,6 +25,8 @@ import me.maxiiiiii.skyblockdragons.item.enchants.BookCommand;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantingTableCommand;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.modifiers.HotPotatoModifier;
+import me.maxiiiiii.skyblockdragons.item.modifiers.ReforgeModifier;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import me.maxiiiiii.skyblockdragons.item.pet.PetCommand;
 import me.maxiiiiii.skyblockdragons.item.pet.PetListener;
@@ -347,6 +349,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerEvents(new ProfileMenu.Event(), this);
         registerEvents(new ArrowHitCancellation(), this);
         registerEvents(new PlayerGetDropListener(), this);
+        registerEvents(new HotPotatoModifier.Listener(), this);
+        registerEvents(new ReforgeModifier.Listener(), this);
 
         registerEvents(new PlayerWarpListener(), this);
         registerEvents(new ChatListener(), this);

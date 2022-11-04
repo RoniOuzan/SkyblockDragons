@@ -6,10 +6,7 @@ import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.util.objects.Multiplier;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 public class ItemStats extends Stats {
@@ -80,18 +77,22 @@ public class ItemStats extends Stats {
     }
 
     public void applyMultipliers() {
+        for (StatModifier modifier : modifiers) {
+            this.add(modifier.getStat().getType(), modifier.getStat().get());
+        }
+
         for (StatType statType : multiplayer.keySet()) {
             this.get(statType).set(multiplayer.get(statType).multiply(this.get(statType).get()));
         }
     }
 
     public String getLoreModifiers(StatType statType) {
+        this.modifiers.sort(Comparator.comparingInt(m -> m.getType().getPriority()));
+
         StringBuilder string = new StringBuilder();
-        for (StatModifier modifier : modifiers) {
-            if (!modifier.getStat().isEmpty() && modifier.getStat().getType() == statType) {
-                string.append(" ").append(modifier.getType().getText().apply(modifier.getText(), modifier.getStat()));
-            }
-        }
+        modifiers.stream().filter(m -> !m.getStat().isEmpty() && m.getStat().getType() == statType).forEach(m ->
+                string.append(" ").append(m.getType().getText().apply(m.getText(), m.getStat()))
+        );
         return string.toString();
     }
 }

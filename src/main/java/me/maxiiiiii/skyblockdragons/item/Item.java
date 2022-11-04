@@ -132,7 +132,7 @@ public class Item extends ItemStack implements Comparable<Item> {
             applyPetLores(lores);
         } else {
             if (this.material instanceof ItemStatsAble)
-                applyStats(lores, rarity);
+                applyStats(lores);
 
             if (this.material instanceof ItemEnchantAble)
                 applyEnchants(lores);
@@ -406,7 +406,7 @@ public class Item extends ItemStack implements Comparable<Item> {
         }
     }
 
-    private void applyStats(List<String> lores, Rarity rarity) {
+    private void applyStats(List<String> lores) {
         ItemStats stats = new ItemStats(((ItemStatsAble) this.material).getStats(), this);
 
         if (player != null) {
