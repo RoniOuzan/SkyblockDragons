@@ -22,6 +22,7 @@ import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.modifiers.*;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
+import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.interfaces.LoopTask;
 import me.maxiiiiii.skyblockdragons.util.interfaces.While;
@@ -718,6 +719,10 @@ public class Functions {
                 }
             }
         }.runTaskTimer(SkyblockDragons.plugin, 0L, 10L);
+    }
+
+    public static String getNumSymbol(Stat stat) {
+        return (stat.get() < 0 ? "-" : "+") + Math.abs(stat.get()) + (stat.getType().isPercentage() ? "%" : "");
     }
 
 //    public static EnchantType getEnchant(String name) {

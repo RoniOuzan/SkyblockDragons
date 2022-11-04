@@ -3,19 +3,18 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.theend.pets;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
 import me.maxiiiiii.skyblockdragons.item.material.materials.theend.swords.AspectOfTheDragons;
-import me.maxiiiiii.skyblockdragons.item.stats.UpdateItemStatsEvent;
-import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.UpdateItemStatsEvent;
+import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 
 import java.util.Arrays;
@@ -60,10 +59,7 @@ public class EnderDragonPet extends PetMaterial {
         public void updateDamage(UpdateEntityDamageEntityEvent e) {
             if (e.getAttacker() == null || !(e.getAttacker().getActivePetMaterial() instanceof EnderDragonPet)) return;
 
-            if (e.getDamage().getVictim().getType() == EntityType.ENDER_DRAGON ||
-                    e.getDamage().getVictim().getType() == EntityType.ENDERMITE ||
-                    e.getDamage().getVictim().getType() == EntityType.ENDERMAN
-            ) {
+            if (e.getDamage().getVictim().isEndMob()) {
                 e.getDamage().getMultiplier().addBase(MULTIPLIER * e.getAttacker().getActivePet().getModifiers().getPet().getLevel());
             }
         }

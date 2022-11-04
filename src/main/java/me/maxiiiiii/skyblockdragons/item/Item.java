@@ -417,7 +417,7 @@ public class Item extends ItemStack implements Comparable<Item> {
         }
 
         stats.stream().filter(s -> !s.isEmpty()).forEach(s ->
-                lores.add(ChatColor.GRAY + s.getType().toString() + ": " + ChatColor.GREEN + s.get() + stats.getLoreModifiers(s.getType()))
+                lores.add(ChatColor.GRAY + s.getType().toString() + ": " + ChatColor.GREEN + Functions.getNumSymbol(s) + stats.getLoreModifiers(s.getType()))
         );
 
         if (lores.size() == 0) return;
