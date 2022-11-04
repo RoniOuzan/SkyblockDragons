@@ -5,7 +5,6 @@ import me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.swords.Pig
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 
 public class PigmanFullSetBonus extends ItemFullSetBonus {
     public PigmanFullSetBonus() {

@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.armors.pi
 
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import org.bukkit.Material;
 
@@ -15,7 +16,7 @@ public class PigmanHelmet extends ArmorMaterial {
                 Rarity.UNCOMMON,
                 new Stats(0, 5, 5, 0, 0, 0, 70, 40, 0, 10),
                 "",
-                new PigmanFullSetBonus()
+                ItemFullSetBonus.PIGMAN_FULL_SET
         );
     }
 
