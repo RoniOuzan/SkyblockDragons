@@ -10,7 +10,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -71,8 +70,8 @@ public class EntityCommand implements CommandExecutor, TabCompleter {
                 }
             } else if (args.length > 0) {
                 if (args[0].toLowerCase().startsWith("k")) {
-                    Entity target = player.getTargetEntity(20);
-                    if (target != null && EntitySD.isEntitySD((LivingEntity) target))
+                    LivingEntity target = player.getTargetEntity(20);
+                    if (target != null && EntitySD.isEntitySD(target))
                         EntitySD.get(target).kill();
                 }
             }

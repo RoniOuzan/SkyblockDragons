@@ -16,7 +16,9 @@ public class ProtectorDragonFullSet extends ItemFullSetBonus {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void updateStats(UpdateStatsEvent e) {
-        if (e.getPlayer().getItems().getFullSet() instanceof ProtectorDragonFullSet && e.getPlayer().getHealth() >= e.getStats().getHealth().get() / 2) {
+        if (!(e.getPlayer().getItems().getFullSet() instanceof ProtectorDragonFullSet)) return;
+
+        if (e.getPlayer().getHealth() >= e.getStats().getHealth().get() / 2) {
             e.getStats().addMultiplier(StatType.DEFENSE, 30, 0);
         }
     }

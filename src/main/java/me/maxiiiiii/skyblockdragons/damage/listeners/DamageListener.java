@@ -19,9 +19,9 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 public class DamageListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageEvent e) {
-        double damage = e.getFinalDamage();
+        long damage = e.getFinalDamage();
 
-        e.getVictim().removeHealth(damage);
+//        e.getVictim().removeHealth(damage);
         e.getAttacker().sendMessage(damage + "");
 
         String damageDisplay = ChatColor.GRAY + "" + Functions.getNumberFormat(damage);

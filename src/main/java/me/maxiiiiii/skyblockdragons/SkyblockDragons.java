@@ -4,6 +4,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.maxiiiiii.skyblockdragons.commands.*;
 import me.maxiiiiii.skyblockdragons.damage.listeners.DamageListener;
+import me.maxiiiiii.skyblockdragons.damage.listeners.EntityDeathListener;
 import me.maxiiiiii.skyblockdragons.damage.listeners.OtherDamageListeners;
 import me.maxiiiiii.skyblockdragons.damage.listeners.VanillaDamageListener;
 import me.maxiiiiii.skyblockdragons.entity.EntityCommand;
@@ -328,6 +329,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         // Listeners
         registerEvents(new DamageListener(), this);
         registerEvents(new VanillaDamageListener(), this);
+        registerEvents(new EntityDeathListener(), this);
         registerEvents(new OtherDamageListeners(), this);
         registerEvents(new JoinQuitListener(), this);
         registerEvents(new ClickCanceller(), this);

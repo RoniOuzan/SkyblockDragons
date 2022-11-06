@@ -33,7 +33,7 @@ public abstract class EntityDamage {
         return 1;
     }
 
-    public double getFinalDamage() {
+    public long getFinalDamage() {
         double damage = calculateDamageFormula();
 
         UpdateEntityDamageEvent event = new UpdateEntityDamageEvent(this);
@@ -41,6 +41,6 @@ public abstract class EntityDamage {
 
         damage *= getDamageReduction();
 
-        return Math.ceil(damage);
+        return (long) damage;
     }
 }

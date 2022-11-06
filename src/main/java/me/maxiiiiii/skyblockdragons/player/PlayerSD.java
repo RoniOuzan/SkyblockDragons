@@ -12,6 +12,7 @@ import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
 import me.maxiiiiii.skyblockdragons.item.material.types.BowMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.MiningMaterial;
@@ -34,6 +35,7 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.Priority;
+import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
@@ -93,6 +95,8 @@ public class PlayerSD extends PlayerClass {
     private double lastCoins;
 
     private final List<Menu> menuHistory = new ArrayList<>();
+
+    private final Cooldown<EntitySD> hitTick = new Cooldown<>();
 
     public static final double HEALTH_REGEN = 1.05;
 
@@ -344,6 +348,8 @@ public class PlayerSD extends PlayerClass {
             player.setMaximumAir((getEnchantLevel(EnchantType.RESPIRATION) * 200) + 200);
 
         for (Item item : equipment) {
+            if (item.getMaterial() instanceof ItemRequirementAble && !((ItemRequirementAble) item.getMaterial()).getRequirements().hasRequirements(this)) continue;
+
             stats.add(item.getStats());
         }
 
@@ -352,11 +358,11 @@ public class PlayerSD extends PlayerClass {
 
         stats.applyMultipliers();
 
-        if (manaRegan && this.stats.mana.amount < this.stats.getIntelligence().get()) {
-            this.stats.mana.add(this.stats.getIntelligence().get() / 50);
+        if (manaRegan && this.stats.getMana().get() < this.stats.getIntelligence().get()) {
+            this.stats.getMana().add(this.stats.getIntelligence().get() / 50);
         }
-        if (this.stats.mana.get() > this.stats.getIntelligence().get()) {
-            this.stats.mana.set(this.stats.mana.get());
+        if (this.stats.getMana().get() > this.stats.getIntelligence().get()) {
+            this.stats.getMana().set(this.stats.getIntelligence().get());
         }
 
         this.stats.normalize();
@@ -577,6 +583,17 @@ public class PlayerSD extends PlayerClass {
 
     public List<EntitySD> getEntities(double radius) {
         return Functions.loopEntities(this.getLocation(), radius).stream().map(EntitySD::get).collect(Collectors.toList());
+    }
+
+    /**
+     * @return the hit tik with the attack speed calculations in milliseconds
+     */
+    public int getHitTik() {
+        return (int) (300 - (500 * (this.stats.getAttackSpeed().get() / (this.stats.getAttackSpeed().get() + 75))));
+    }
+
+    public boolean isOnHitTick(EntitySD victim) {
+        return Functions.cooldown(victim, this.hitTick, this.getHitTik(), false);
     }
 
     @Override

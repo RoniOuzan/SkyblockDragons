@@ -51,7 +51,7 @@ public abstract class EntityDamageEntity extends EntityDamage {
     }
 
     @Override
-    public double getFinalDamage() {
+    public long getFinalDamage() {
         double damage = calculateDamageFormula();
 
         UpdateEntityDamageEvent event = new UpdateEntityDamageEvent(this);
@@ -59,7 +59,7 @@ public abstract class EntityDamageEntity extends EntityDamage {
 
         damage *= getDamageReduction();
 
-        return Math.floor(damage * 100) / 100;
+        return (long) damage;
     }
 
     protected static double getDefaultDamageFormula(EntitySD attacker) {

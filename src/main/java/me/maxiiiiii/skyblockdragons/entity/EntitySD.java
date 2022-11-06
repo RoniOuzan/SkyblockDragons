@@ -172,7 +172,7 @@ public class EntitySD extends EntityClass {
     }
 
     public void kill() {
-        this.entity.remove();
+        this.entity.setHealth(0);
         if (this.type != EntityMaterial.get("PLAYER"))
             this.hologram.remove();
         entities.remove(this.entity.getUniqueId());
