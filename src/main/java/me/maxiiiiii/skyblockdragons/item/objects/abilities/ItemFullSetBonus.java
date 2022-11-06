@@ -94,6 +94,8 @@ public abstract class ItemFullSetBonus extends ItemAbility implements Listener {
     public boolean isPlayerWearingFullSet(EntitySD entity) {
         int amount = 0;
         for (Item item : entity.getItems()) {
+            if (item == null) continue;
+
             if (item.getMaterial() instanceof ItemAbilityAble) {
                 ItemFullSetBonus fullSet = ((ItemAbilityAble) item.getMaterial()).getAbilities().stream()
                         .filter(a -> a instanceof ItemFullSetBonus)

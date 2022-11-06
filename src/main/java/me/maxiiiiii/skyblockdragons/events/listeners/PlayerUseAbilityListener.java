@@ -43,6 +43,7 @@ public class PlayerUseAbilityListener implements Listener {
 
         if (material instanceof ItemRequirementAble && !((ItemRequirementAble) material).getRequirements().hasRequirements(player)) {
             player.sendNoRequirementsMessage("ability");
+            e.setCancelled(true);
             return;
         }
 
@@ -69,6 +70,12 @@ public class PlayerUseAbilityListener implements Listener {
 
             if (!(player.getItems().getTool().getMaterial() instanceof ItemAbilityAble)) return;
             ItemAbilityAble material = (ItemAbilityAble) player.getItems().getTool().getMaterial();
+
+            if (material instanceof ItemRequirementAble && !((ItemRequirementAble) material).getRequirements().hasRequirements(player)) {
+                player.sendNoRequirementsMessage("ability");
+                e.setCancelled(true);
+                return;
+            }
 
             ItemAbility usedAbility = null;
             for (ItemAbility ability : material.getAbilities()) {

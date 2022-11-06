@@ -8,14 +8,17 @@ import me.maxiiiiii.skyblockdragons.damage.types.entitydamage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.EntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.Equipment;
-import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.material.types.*;
+import me.maxiiiiii.skyblockdragons.item.material.types.BowMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.MiningMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
+import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.player.chat.ChatChannel;
@@ -30,9 +33,7 @@ import me.maxiiiiii.skyblockdragons.player.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
-import me.maxiiiiii.skyblockdragons.util.objects.Multiplier;
 import me.maxiiiiii.skyblockdragons.util.objects.Priority;
-import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
@@ -85,13 +86,9 @@ public class PlayerSD extends PlayerClass {
     public PlayerPet playerPet;
     public EnderChest enderChestSD;
 
-    public Multiplier abilityCostMultiplier = new Multiplier(); // TODO: make items work with it
-
     public Forge forge;
 
     public Griffin griffin;
-
-    public final Cooldown<PlayerSD> updateStatsCooldown = new Cooldown<>();
 
     private double lastCoins;
 
@@ -239,7 +236,7 @@ public class PlayerSD extends PlayerClass {
     }
 
     public PetMaterial getActivePetMaterial() {
-        if (this.getActivePet().getMaterial() instanceof PetMaterial) {
+        if (this.getActivePet() != null && this.getActivePet().getMaterial() instanceof PetMaterial) {
             return (PetMaterial) this.getActivePet().getMaterial();
         }
         return PetMaterial.NULL;
@@ -259,10 +256,6 @@ public class PlayerSD extends PlayerClass {
 
     public double getHealthStat() {
         return this.stats.getHealth().amount;
-    }
-
-    public void setHealthStat(double health) {
-        this.stats.getHealth().amount = health;
     }
 
     public double getPurse() {
@@ -320,10 +313,6 @@ public class PlayerSD extends PlayerClass {
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
 
-    public void addItemStat(Item item) {
-        this.stats.add(item.getStats());
-    }
-
     public void applyStats(boolean manaRegan) {
         PlayerEquipment equipment = getPlayerItems();
 
@@ -355,30 +344,19 @@ public class PlayerSD extends PlayerClass {
             player.setMaximumAir((getEnchantLevel(EnchantType.RESPIRATION) * 200) + 200);
 
         for (Item item : equipment) {
-            this.addItemStat(item);
+            stats.add(item.getStats());
         }
 
         UpdateStatsEvent event = new UpdateStatsEvent(stats);
         Bukkit.getPluginManager().callEvent(event);
 
-        // Pets
-//        if (this.getPlayerPet().getActivePet() >= 0) {
-//            if (this.getPetActive().getPetMaterial() == PetMaterial.get("ENDER_DRAGON")) {
-//                double amount = this.getPetActive().getLevel() * 0.1;
-//                stats.getMultiplayer().increase(0, amount, amount, amount, amount, 0, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, 0);
-//            }
-//        }
-
         stats.applyMultipliers();
-        abilityCostMultiplier.reset();
 
-        if (manaRegan) {
-            if (this.stats.mana.amount < this.stats.getIntelligence().amount) {
-                this.stats.mana.amount += this.stats.getIntelligence().amount / 50;
-            }
+        if (manaRegan && this.stats.mana.amount < this.stats.getIntelligence().get()) {
+            this.stats.mana.add(this.stats.getIntelligence().get() / 50);
         }
-        if (this.stats.mana.amount > this.stats.getIntelligence().amount) {
-            this.stats.mana.amount = this.stats.getIntelligence().amount;
+        if (this.stats.mana.get() > this.stats.getIntelligence().get()) {
+            this.stats.mana.set(this.stats.mana.get());
         }
 
         this.stats.normalize();
@@ -411,48 +389,12 @@ public class PlayerSD extends PlayerClass {
         return true;
     }
 
-    public boolean manaCost(int manaCost, ItemStack item, int i) {
-        if (this.player.getGameMode() == GameMode.CREATIVE) return false;
-
-        int cost = Functions.manaCostCalculator(manaCost, this);
-        if (this.stats.mana.amount >= cost) {
-            this.stats.mana.amount -= cost;
-            Functions.sendActionBar(this, ((WeaponMaterial) Functions.getItemMaterial(item)).getAbilities().get(i).getName() + ChatColor.AQUA + "! (" + cost + " Mana)");
-            return false;
-        }
-        return true;
-    }
-
-    // TODO: look
-    public boolean manaCost(ItemStack item, int i) {
-        if (this.player.getGameMode() == GameMode.CREATIVE) return false;
-
-        ToolMaterial material = (ToolMaterial) Functions.getItemMaterial(item);
-//        int cost = manaCostCalculator(material.getAbilities().get(i).isPlayerHasEnoughMana(), this);
-        int cost = 0;
-        if (this.stats.mana.amount >= cost) {
-            this.stats.mana.amount -= cost;
-            Functions.sendActionBar(this, material.getAbilities().get(i).getName() + ChatColor.AQUA + "! (" + cost + " Mana)");
-            return false;
-        }
-        this.player.sendMessage(ChatColor.RED + "You don't have enough mana to use this item!");
-        return true;
-    }
-
-    public double getAbilityCost(double baseCost) {
-        return this.abilityCostMultiplier.multiply(baseCost);
-    }
-
     public double getItemAbilityDamage(double baseAbilityDamage) {
         return baseAbilityDamage;
     }
 
     public double getItemAbilityScaling(double baseAbilityScaling) {
         return baseAbilityScaling;
-    }
-
-    public double getItemAbilityCooldown(double baseCooldownInSeconds) {
-        return baseCooldownInSeconds;
     }
 
     public short getEnchantLevel(EnchantType enchant) {
@@ -673,14 +615,14 @@ public class PlayerSD extends PlayerClass {
         @Override
         public void update() {
             super.update();
-            this.pet = PlayerSD.this.getPlayerPet().getActivePet() != null ? PlayerSD.this.getPlayerPet().getActivePet() : new Item(PlayerSD.this, PetMaterial.NULL);
+            this.pet = PlayerSD.this.getPlayerPet().getActivePet();
         }
 
         @Override
         public List<Item> toList() {
             List<Item> list = super.toList();
             list.addAll(this.accessoryBag.getItems());
-            list.add(this.pet);
+            if (this.pet != null) list.add(this.pet);
             return list;
         }
     }

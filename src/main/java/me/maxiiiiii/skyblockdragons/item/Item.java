@@ -360,7 +360,6 @@ public class Item extends ItemStack implements Comparable<Item> {
             }
         }
 
-
         material.getAbilities().stream().filter(p -> p.getRarity() == rarity).map(PetRarity::getAbility).forEach(abilities -> {
             for (PetAbility ability : abilities) {
                 if (isNotLastEmpty(lores)) lores.add("");
@@ -419,6 +418,7 @@ public class Item extends ItemStack implements Comparable<Item> {
         stats.stream().filter(s -> !s.isEmpty()).forEach(s ->
                 lores.add(ChatColor.GRAY + s.getType().toString() + ": " + ChatColor.GREEN + Functions.getNumSymbol(s) + stats.getLoreModifiers(s.getType()))
         );
+        this.stats.add(stats);
 
         if (lores.size() == 0) return;
 

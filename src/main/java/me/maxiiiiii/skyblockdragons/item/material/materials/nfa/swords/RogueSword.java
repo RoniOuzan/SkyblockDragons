@@ -60,8 +60,6 @@ public class RogueSword extends SwordMaterial {
             return e -> {
                 PlayerSD player = e.getPlayer();
 
-                if (player.manaCost(e.getItem(), 0)) return;
-
                 rogueSwordAmountUsed.put(player, rogueSwordAmountUsed.getOrDefault(player, 0) + 1);
                 rogueSwordLastTimeUsed.put(player, System.currentTimeMillis());
 

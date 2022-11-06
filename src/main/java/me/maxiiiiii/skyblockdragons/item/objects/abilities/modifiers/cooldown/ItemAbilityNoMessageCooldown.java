@@ -11,6 +11,6 @@ public interface ItemAbilityNoMessageCooldown extends ItemAbilitySilentCooldown 
     }
 
     static String getLine(ItemAbilityNoMessageCooldown ability, PlayerSD player) {
-        return ChatColor.DARK_GRAY + "Cooldown: " + ChatColor.GREEN + ability.getFinalCooldown(player);
+        return ChatColor.DARK_GRAY + "Cooldown: " + ChatColor.GREEN + ability.getFinalCooldown(player) + "s";
     }
 }

@@ -197,3 +197,9 @@ commands:
       - alpha
       - sbdalpha
       - alphasd
+  CrystalGrinder:
+    permission: skyblockdragons.crystal.menu
+    usage: /<command>
+    aliases:
+      - cg
+      - crystalmenu

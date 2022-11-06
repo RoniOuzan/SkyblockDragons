@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 
 public interface ItemAbilityManaCost {
     double getBaseManaCost(PlayerSD player);
@@ -23,6 +24,8 @@ public interface ItemAbilityManaCost {
     }
 
     default void applyCost(PlayerSD player) {
+        if (player.getGameMode() == GameMode.CREATIVE) return;
+
         player.getStats().getMana().remove(this.getFinalCost(player));
     }
 

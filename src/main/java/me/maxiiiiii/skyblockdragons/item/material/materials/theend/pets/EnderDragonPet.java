@@ -98,6 +98,8 @@ public class EnderDragonPet extends PetMaterial {
 
         @EventHandler
         public void updateStats(UpdateStatsEvent e) {
+            if (!(e.getPlayer().getActivePetMaterial() instanceof EnderDragonPet)) return;
+
             e.getStats().addAllStatsMultipliers(MULTIPLIER * e.getPlayer().getActivePet().getModifiers().getPet().getLevel(), 0);
         }
     }

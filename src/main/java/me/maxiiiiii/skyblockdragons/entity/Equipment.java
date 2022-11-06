@@ -12,6 +12,7 @@ import org.bukkit.inventory.EntityEquipment;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -29,8 +30,6 @@ public class Equipment implements Iterable<Item> {
     private Item chestplate;
     private Item leggings;
     private Item boots;
-
-    private ItemFullSetBonus fullSet;
 
     public Equipment(EntitySD entity) {
         this.entity = entity;
@@ -57,8 +56,10 @@ public class Equipment implements Iterable<Item> {
                 Functions.isNotAir(equipment.getLeggings()) ? equipment.getLeggings() : new Item(Items.NULL));
         this.boots = new Item((entity instanceof PlayerSD) ? (PlayerSD) entity : null,
                 Functions.isNotAir(equipment.getBoots()) ? equipment.getBoots() : new Item(Items.NULL));
+    }
 
-        this.fullSet = ItemFullSetBonus.fullSets.stream().filter(f -> f.isPlayerWearingFullSet(entity)).findFirst().orElse(ItemFullSetBonus.NULL);
+    public ItemFullSetBonus getFullSet() {
+        return ItemFullSetBonus.fullSets.stream().filter(f -> f.isPlayerWearingFullSet(entity)).findFirst().orElse(ItemFullSetBonus.NULL);
     }
 
     public List<Item> getArmor() {
@@ -66,7 +67,7 @@ public class Equipment implements Iterable<Item> {
     }
 
     public List<Item> toList() {
-        return new ArrayList<>(Arrays.asList(tool, helmet, chestplate, leggings, boots));
+        return Stream.of(tool, helmet, chestplate, leggings, boots).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     @Override

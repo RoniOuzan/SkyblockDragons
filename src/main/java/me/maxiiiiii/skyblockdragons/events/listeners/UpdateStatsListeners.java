@@ -6,6 +6,7 @@ import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,11 +17,13 @@ import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class UpdateStatsListeners implements Listener {
+    public final Cooldown<PlayerSD> updateStatsCooldown = new Cooldown<>();
+
     @EventHandler
     public void onSlotChange(PlayerItemHeldEvent e) {
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
 
-        if (Functions.cooldown(player, player.updateStatsCooldown, 100, false)) return;
+        if (Functions.cooldown(player, updateStatsCooldown, 100, false)) return;
 
         Functions.Wait(1L, () -> {
             ItemStack itemStack = player.getEquipment().getItemInMainHand();
@@ -43,7 +46,7 @@ public class UpdateStatsListeners implements Listener {
 
         PlayerSD player = SkyblockDragons.getPlayer((Player) e.getWhoClicked());
 
-        if (Functions.cooldown(player, player.updateStatsCooldown, 50, false)) return;
+        if (Functions.cooldown(player, updateStatsCooldown, 50, false)) return;
 
         Functions.Wait(1L, () -> player.applyStats(false));
     }

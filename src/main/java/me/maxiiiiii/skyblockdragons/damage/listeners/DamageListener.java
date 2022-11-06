@@ -22,6 +22,7 @@ public class DamageListener implements Listener {
         double damage = e.getFinalDamage();
 
         e.getVictim().removeHealth(damage);
+        e.getAttacker().sendMessage(damage + "");
 
         String damageDisplay = ChatColor.GRAY + "" + Functions.getNumberFormat(damage);
         if (e.getDamage() instanceof EntityDamageEntity && ((EntityDamageEntity) e.getDamage()).isCritHit()) {

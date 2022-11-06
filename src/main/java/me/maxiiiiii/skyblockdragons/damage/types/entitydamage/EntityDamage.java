@@ -41,6 +41,6 @@ public abstract class EntityDamage {
 
         damage *= getDamageReduction();
 
-        return Math.floor(damage * 100) / 100;
+        return Math.ceil(damage);
     }
 }

@@ -243,10 +243,11 @@ public class EntitySD extends EntityClass {
     }
 
     public void removeHealth(double amount) {
-        if (this.getHealth() - amount <= 0) {
+        if (this.getHealth() - amount <= 1) {
             Bukkit.getPluginManager().callEvent(new EntityDeathEvent(this, this.getAttacker(), EntityDeathEvent.DeathCause.ENTITY));
         } else {
-            this.setHealth(this.getHealth() - amount);
+            this.damage(0);
+            this.setHealth(Math.max(this.getHealth() - amount, 0));
         }
     }
 
