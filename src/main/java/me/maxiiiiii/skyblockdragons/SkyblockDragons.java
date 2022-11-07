@@ -201,6 +201,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                         player.getPlayerPet().setVisual(null);
                         return;
                     }
+
                     if (player.getPlayerPet().getVisual() == null || player.getPlayerPet().getVisual().getSlot() != player.getPlayerPet().getActivePetSlot())
                         player.getPlayerPet().updateVisual();
                     if (player.getPlayerPet().getVisual().getArmorStand().getLocation().distance(player.getLocation()) > 3)

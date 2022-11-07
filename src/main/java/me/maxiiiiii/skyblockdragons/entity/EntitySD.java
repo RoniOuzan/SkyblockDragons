@@ -238,7 +238,6 @@ public class EntitySD extends EntityClass {
 
 
     public Equipment getItems() {
-        this.equipment.update();
         return this.equipment;
     }
 

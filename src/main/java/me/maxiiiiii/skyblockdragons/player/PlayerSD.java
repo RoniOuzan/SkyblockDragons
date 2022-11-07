@@ -318,6 +318,7 @@ public class PlayerSD extends PlayerClass {
     }
 
     public void applyStats(boolean manaRegan) {
+        this.equipment.update();
         PlayerEquipment equipment = getPlayerItems();
 
         if (this.getWorldSD().isType(WorldType.MINING)) {
