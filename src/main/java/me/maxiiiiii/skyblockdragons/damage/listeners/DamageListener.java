@@ -17,6 +17,8 @@ import org.bukkit.event.Listener;
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class DamageListener implements Listener {
+    private static final long FEROCITY_DELAY = 5L;
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageEvent e) {
         long damage = e.getFinalDamage();
@@ -47,14 +49,14 @@ public class DamageListener implements Listener {
             EntitySD victim = e.getVictim();
             double ferocity = ((EntityDamageEntity) e.getDamage()).getFerocity().isFerocityAttack() ?
                     ((EntityDamageEntity) e.getDamage()).getFerocity().getActiveFerocity() :
-                    attacker.getStats().getFerocity().get() / 100;
+                    3;
 
             if (Math.random() <= ferocity) {
                 attacker.playSound(attacker.getLocation(), Sound.ENTITY_IRONGOLEM_ATTACK, 1f, 10f);
                 attacker.playSound(attacker.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_DOOR_WOOD, 0.25f, 0.25f);
-                Location start = victim.getLocation();
-                Location end = victim.getLocation();
 
+                Location start = victim.getEyeLocation();
+                Location end = victim.getEyeLocation();
                 if (Math.random() < 0.5) {
                     start.add(1.5, 0.5, 0);
                     end.add(-1.5, -1.5, 0);
@@ -67,8 +69,8 @@ public class DamageListener implements Listener {
 
                 EntityDamageEntity entityDamage = (EntityDamageEntity) e.getDamage();
                 entityDamage.getFerocity().setFerocityAttack(true);
-                entityDamage.getFerocity().setActiveFerocity(ferocity - 100);
-                Bukkit.getPluginManager().callEvent(new EntityDamageEvent(entityDamage));
+                entityDamage.getFerocity().setActiveFerocity(ferocity - 1);
+                Functions.Wait(FEROCITY_DELAY, () -> Bukkit.getPluginManager().callEvent(new EntityDamageEvent(entityDamage)));
             }
         }
     }

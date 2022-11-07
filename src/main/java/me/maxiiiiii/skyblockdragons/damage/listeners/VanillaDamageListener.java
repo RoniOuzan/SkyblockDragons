@@ -21,7 +21,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import static org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
-public class VanillaDamageListener implements Listener { // TODO: attack speed
+public class VanillaDamageListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof LivingEntity) {
@@ -30,7 +30,7 @@ public class VanillaDamageListener implements Listener { // TODO: attack speed
             victim.setMaximumNoDamageTicks(0);
 
             if (e.getDamager() instanceof Player && SkyblockDragons.getPlayer((Player) e.getDamager()).isOnHitTick(victim)) {
-                e.getDamager().sendMessage("attack speed stopped");
+                e.setCancelled(true);
                 return;
             }
 

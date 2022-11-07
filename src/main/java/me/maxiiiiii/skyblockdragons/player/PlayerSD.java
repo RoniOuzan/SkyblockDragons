@@ -590,7 +590,7 @@ public class PlayerSD extends PlayerClass {
      * @return the hit tik with the attack speed calculations in milliseconds
      */
     public int getHitTik() {
-        return (int) (300 - (500 * (this.stats.getAttackSpeed().get() / (this.stats.getAttackSpeed().get() + 75))));
+        return (int) (500 - (500 * (this.stats.getAttackSpeed().get() / (this.stats.getAttackSpeed().get() + 100))));
     }
 
     public boolean isOnHitTick(EntitySD victim) {
