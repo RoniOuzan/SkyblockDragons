@@ -259,13 +259,13 @@ public abstract class EntityWither extends EntityMaterial {
             WitherIsland.witherDamage.put(e.getAttacker().getUniqueId(), WitherIsland.witherDamage.getOrDefault(e.getAttacker().getUniqueId(), 0d) + e.getFinalDamage());
         }
     }
+}
 
-    /*
+/*
     wither guide:
     Athena = Intelligence = execute more abilities
     Phanes = Health = more health
     Hermes = Speed = moves faster
     Demeter = Crit damage = deals more damage
     Ares = Strength = deals more damage
-     */
-}
+ */

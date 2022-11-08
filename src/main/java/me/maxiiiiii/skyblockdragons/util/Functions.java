@@ -165,13 +165,13 @@ public class Functions {
 
     public static List<EntitySD> loopEntities(Location center, double size) {
         List<Entity> entities = center.getWorld().getEntities();
-        List<EntitySD> entity = new ArrayList<>();
+        List<EntitySD> output = new ArrayList<>();
         for (Entity value : entities) {
             if (center.distance(value.getLocation()) <= size) {
-                entity.add(EntitySD.get(value));
+                output.add(EntitySD.get(value));
             }
         }
-        return entity;
+        return output;
     }
 
     public static ArrayList<Entity> loopEntitiesScope(Location center, int size, int size2, int size3) {

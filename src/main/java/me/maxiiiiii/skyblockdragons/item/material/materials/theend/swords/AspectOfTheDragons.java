@@ -1,17 +1,16 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.swords;
 
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.MagicEntityDamageEntity;
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown.ItemAbilityCooldown;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityMagicDamage;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown.ItemAbilityCooldown;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.ItemAbilityManaCost;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -19,7 +18,6 @@ import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import me.maxiiiiii.skyblockdragons.util.particle.ParticleUtil;
 import me.maxiiiiii.skyblockdragons.util.particle.Particles;
 import org.bukkit.*;
-import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 
 import java.util.ArrayList;
@@ -40,13 +38,10 @@ public class AspectOfTheDragons extends SwordMaterial {
     }
 
     public static class DragonRage extends ItemAbility implements ItemAbilityManaCost, ItemAbilityCooldown, ItemAbilityMagicDamage {
-        private static final int BASE_AD_MULTIPLIER = 10_000;
-        private static final int BASE_AD = 5_000;
-
         public DragonRage() {
             super(AbilityAction.RIGHT_CLICK,
                     "Dragon Rage",
-                    p -> "All monsters in front of you take " + ChatColor.RED + (p.getStats().getAbilityDamage().get() * BASE_AD_MULTIPLIER + BASE_AD) + " " + ChatColor.GRAY + "damage."
+                    (p, d) -> "All monsters in front of you take " + ChatColor.RED + d + " " + ChatColor.GRAY + "damage."
             );
         }
 
@@ -74,6 +69,7 @@ public class AspectOfTheDragons extends SwordMaterial {
         public PlayerAbilityRunnable setupAbility() {
             return e -> {
                 PlayerSD player = e.getPlayer();
+                player.sendMessage("used");
 
                 Location location = player.getEyeLocation().subtract(0, 0.2, 0).add(player.getLocation().getDirection());
 
@@ -93,12 +89,12 @@ public class AspectOfTheDragons extends SwordMaterial {
                     Location newLocation = location.clone().add(location.getDirection().multiply(i));
                     location.getWorld().spawnParticle(Particle.LAVA, newLocation, 3, 0, 0, 0, 1);
 
-                    for (EntitySD entity : Functions.loopEntities(newLocation, 2)) {
-                        if (entity instanceof Creature && !damaged.contains(entity)) {
+                    Functions.loopEntities(newLocation, 2).stream().filter(entity -> !(entity instanceof PlayerSD)).forEach(entity -> {
+                        if (!damaged.contains(entity)) {
                             player.damage(new MagicEntityDamageEntity(player, entity, this));
                             damaged.add(entity);
                         }
-                    }
+                    });
                 });
             };
         }

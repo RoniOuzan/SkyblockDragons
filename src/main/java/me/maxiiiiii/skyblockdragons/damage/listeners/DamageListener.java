@@ -24,8 +24,7 @@ public class DamageListener implements Listener {
     public void onDamage(EntityDamageEvent e) {
         long damage = e.getFinalDamage();
 
-//        e.getVictim().removeHealth(damage);
-        e.getAttacker().sendMessage(damage + "");
+        e.getVictim().removeHealth(damage);
 
         String damageDisplay = ChatColor.GRAY + "" + Functions.getNumberFormat(damage);
         if (e.getDamage() instanceof EntityDamageEntity && ((EntityDamageEntity) e.getDamage()).isCritHit()) {
@@ -50,7 +49,7 @@ public class DamageListener implements Listener {
             EntitySD victim = e.getVictim();
             double ferocity = ((EntityDamageEntity) e.getDamage()).getFerocity().isFerocityAttack() ?
                     ((EntityDamageEntity) e.getDamage()).getFerocity().getActiveFerocity() :
-                    3;
+                    attacker.getStats().getFerocity().get() / 100;
 
             if (Math.random() <= ferocity) {
                 attacker.playSound(attacker.getLocation(), Sound.ENTITY_IRONGOLEM_ATTACK, 1f, 10f);

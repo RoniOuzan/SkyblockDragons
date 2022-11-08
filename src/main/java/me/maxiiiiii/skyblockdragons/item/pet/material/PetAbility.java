@@ -17,7 +17,7 @@ public abstract class PetAbility extends ItemAbility implements Listener {
         super("Pet Ability:",
                 AbilityAction.PET,
                 name,
-                p -> description.get(p, 1)
+                (p, d) -> description.get(p, 1)
         );
         this.description = description;
     }
@@ -25,10 +25,6 @@ public abstract class PetAbility extends ItemAbility implements Listener {
     public String getDescription(PlayerSD player, int level) {
         return this.description.get(player, level);
     }
-    // TODO: convert it to event system
-//    public void updateItemStats(PlayerSD player, Stats stats, int i) {
-//
-//    }
 
     public List<String> getLore(PlayerSD player, int level) {
         List<String> lores = new ArrayList<>();

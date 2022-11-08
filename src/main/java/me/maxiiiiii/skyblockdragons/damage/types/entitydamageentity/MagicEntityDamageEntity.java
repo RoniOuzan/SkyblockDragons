@@ -23,12 +23,11 @@ public class MagicEntityDamageEntity extends EntityDamageEntity {
     protected double calculateDamageFormula() {
         if (attacker instanceof PlayerSD) {
             PlayerSD player = (PlayerSD) attacker;
-            multiplier.addPost(player.getStats().getAbilityDamage().get());
+            multiplier.addPost(player.getStats().getAbilityDamage().get() / 2);
 
             double baseAbilityDamage = ability instanceof ItemAbilityMagicDamage ? ((ItemAbilityMagicDamage) ability).getFinalAbilityDamage(player) : 1;
-            double abilityScaling = player.getStats().getAbilityScaling().get() +  (ability instanceof ItemAbilityMagicDamage ? ((ItemAbilityMagicDamage) ability).getFinalAbilityDamage(player) : 0);
 
-            return baseAbilityDamage * (1 + (player.getStats().getIntelligence().amount / 100) * (player.getStats().getAbilityScaling().amount + abilityScaling));
+            return baseAbilityDamage * (1 + (player.getStats().getIntelligence().amount / 100));
         }
         return 1;
     }

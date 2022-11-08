@@ -5,6 +5,7 @@ import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.MaterialModifier;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityMagicDamage;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown.ItemAbilityNoMessageCooldown;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown.ItemAbilitySilentCooldown;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.ItemAbilityManaCost;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 @Getter
@@ -26,11 +28,11 @@ public abstract class ItemAbility implements MaterialModifier {
     @Getter(AccessLevel.NONE) private final String abilityTitle;
     private final AbilityAction action;
     private final String name;
-    private final Function<PlayerSD, String> description;
+    private final BiFunction<PlayerSD, String, String> description;
 
     protected final Map<PlayerSD, ItemAbilityPerPlayer> users = new HashMap<>();
 
-    protected ItemAbility(String abilityTitle, AbilityAction action, String name, Function<PlayerSD, String> description) {
+    protected ItemAbility(String abilityTitle, AbilityAction action, String name, BiFunction<PlayerSD, String, String> description) {
         this.abilityTitle = abilityTitle;
         this.action = action;
         this.name = name;
@@ -41,16 +43,22 @@ public abstract class ItemAbility implements MaterialModifier {
         }
     }
 
-    protected ItemAbility(AbilityAction action, String name, Function<PlayerSD, String> description) {
+    protected ItemAbility(AbilityAction action, String name, BiFunction<PlayerSD, String, String> description) {
         this("Item Ability:", action, name, description);
     }
 
+    protected ItemAbility(AbilityAction action, String name, Function<PlayerSD, String> description) {
+        this("Item Ability:", action, name, (p, d) -> description.apply(p));
+    }
+
     protected ItemAbility(AbilityAction action, String name, String description) {
-        this("Item Ability:", action, name, p -> description);
+        this("Item Ability:", action, name, (p, d) -> description);
     }
 
     public String getDescription(PlayerSD player) {
-        return this.description.apply(player);
+        double damage = this instanceof ItemAbilityMagicDamage ? ((ItemAbilityMagicDamage) this).getFinalAbilityDamage(player) : 0;
+
+        return this.description.apply(player, Functions.getNumberFormat(damage));
     }
 
     public boolean hasCosts(PlayerSD player) {
@@ -84,7 +92,7 @@ public abstract class ItemAbility implements MaterialModifier {
     public List<String> getLore(PlayerSD player) {
         List<String> lores = new ArrayList<>();
         lores.add(getAbilityFullTitle());
-        lores.addAll(Functions.loreBuilder(this.description.apply(player)));
+        lores.addAll(Functions.loreBuilder(this.getDescription(player)));
         lores.addAll(getModifiersLore(player));
         return lores;
     }

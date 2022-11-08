@@ -49,7 +49,7 @@ public abstract class ItemFullSetBonus extends ItemAbility implements Listener {
     private final int amountOfPieces;
 
     protected ItemFullSetBonus(AbilityAction action, String name, Function<PlayerSD, String> description, int amountOfPieces) {
-        super("Full Set Bonus:", action, name, description);
+        super("Full Set Bonus:", action, name, (p, d) -> description.apply(p));
         this.amountOfPieces = amountOfPieces;
     }
 
