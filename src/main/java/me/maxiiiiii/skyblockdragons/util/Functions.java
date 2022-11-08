@@ -136,9 +136,9 @@ public class Functions {
         } else if (num >= 1_000d) {
             output = Math.round(num * signum / 1000d * 100d) / 100d + "k";
         } else {
-            output = getInt((num * signum) + "");
+            output = num + "";
         }
-        return output;
+        return output.replace(".0", "");
     }
 
     public static <T> String getNumberFormat(Number num) {

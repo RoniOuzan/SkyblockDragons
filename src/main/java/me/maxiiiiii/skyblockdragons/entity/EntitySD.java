@@ -190,6 +190,7 @@ public class EntitySD extends EntityClass {
         return Math.round(this.entity.getHealth() * 100d) / 100d;
     }
 
+    @Override
     public double getMaxHealth() {
         return this.entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
     }
@@ -246,8 +247,10 @@ public class EntitySD extends EntityClass {
             Bukkit.getPluginManager().callEvent(new EntityDeathEvent(this, this.getAttacker(), EntityDeathEvent.DeathCause.ENTITY));
         } else {
             this.damage(0);
-            this.setHealth(Math.max(this.getHealth() - amount, 0));
+            this.setHealth(this.getHealth() - amount);
         }
+
+        this.hologram.update();
     }
 
     public static class EntityAssociateException extends RuntimeException {

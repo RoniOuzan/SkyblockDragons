@@ -24,12 +24,16 @@ public class EntityHologram {
         this.stand.setGravity(false);
         this.stand.setInvulnerable(true);
         this.stand.addScoreboardTag("EntityHealth");
-        this.stand.setCustomName(this.entity.getCustomName() + " " + ChatColor.GREEN + Functions.getShortNumber(this.entity.type.getHealth()) + StatType.HEALTH.getIcon());
         this.stand.setCustomNameVisible(true);
+        this.update();
 
         SkyblockDragons.entitiesToKill.add(this.stand);
 
         Functions.While(() -> !this.entity.isDead(), 1L, i -> this.stand.teleport(this.entity.getEyeLocation().add(adder)));
+    }
+
+    public void update() {
+        this.stand.setCustomName(this.entity.getCustomName() + " " + ChatColor.GREEN + Functions.getShortNumber(this.entity.type.getHealth()) + StatType.HEALTH.getIcon());
     }
 
     public void remove() {
