@@ -1,6 +1,5 @@
 package me.maxiiiiii.skyblockdragons.item.modifiers;
 
-import me.maxiiiiii.skyblockdragons.item.crystals.CrystalType;
 import me.maxiiiiii.skyblockdragons.item.crystals.Crystals;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.NecronBladeMaterial;
@@ -14,6 +13,11 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+/**
+ * To add a modifier create a class and extend ItemModifier
+ * Then add public static ItemModifier getModifier(ItemStack item) method
+ * And then create an instance in ItemModifiers of the class and add it to the method toArray() and to getModifiers()
+ */
 public class ItemModifiers implements Iterable<ItemModifier> {
     private final EnchantModifier enchants;
     private final HotPotatoModifier hotPotato;
@@ -101,6 +105,7 @@ public class ItemModifiers implements Iterable<ItemModifier> {
                 this.necronBladeScrolls,
                 this.recombabulator,
                 this.reforge,
+                this.crystals,
                 this.skin
         };
     }

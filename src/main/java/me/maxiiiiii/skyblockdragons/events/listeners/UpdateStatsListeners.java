@@ -23,20 +23,21 @@ public class UpdateStatsListeners implements Listener {
     public void onSlotChange(PlayerItemHeldEvent e) {
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
 
-        if (Functions.cooldown(player, updateStatsCooldown, 100, false)) return;
+        if (Functions.cooldown(player, updateStatsCooldown, 200, false)) return;
 
         Functions.Wait(1L, () -> {
+            player.applyStats(false);
+
             ItemStack itemStack = player.getEquipment().getItemInMainHand();
-            ItemMaterial itemMaterial = Functions.getItemMaterial(itemStack);
+            ItemMaterial itemMaterial = Items.get(itemStack);
             if (itemMaterial != Items.NULL && !Functions.nbtHasKey(itemStack, "NOTSD")) {
-                Item item = new Item(player, itemMaterial, itemStack);
+                Item item = player.getItems().getTool();
                 Functions.copyNBTStack(item, itemStack);
                 if (!item.isSimilar(itemStack) && !Functions.getId(itemStack).contains("_PET") && !Functions.getId(item).equals("SKYBLOCK_MENU")) {
                     player.getEquipment().setItemInMainHand(item);
                 }
                 player.setSkyblockMenu();
             }
-            player.applyStats(false);
         });
     }
 
@@ -46,7 +47,7 @@ public class UpdateStatsListeners implements Listener {
 
         PlayerSD player = SkyblockDragons.getPlayer((Player) e.getWhoClicked());
 
-        if (Functions.cooldown(player, updateStatsCooldown, 50, false)) return;
+        if (Functions.cooldown(player, updateStatsCooldown, 200, false)) return;
 
         Functions.Wait(1L, () -> player.applyStats(false));
     }

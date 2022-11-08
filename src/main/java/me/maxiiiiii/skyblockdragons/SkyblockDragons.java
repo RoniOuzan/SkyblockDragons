@@ -21,6 +21,7 @@ import me.maxiiiiii.skyblockdragons.item.anvil.AnvilCommand;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.CraftingTableMenu;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.RecipesMenu;
+import me.maxiiiiii.skyblockdragons.item.crystals.CrystalGrinderMenu;
 import me.maxiiiiii.skyblockdragons.item.drops.PlayerGetDropListener;
 import me.maxiiiiii.skyblockdragons.item.enchants.BookCommand;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
@@ -326,6 +327,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerCommand("PartyChat", new PartyChatCommand());
         registerCommand("PartyList", new PartyListCommand());
         registerCommand("Kill", new KillCommand());
+        registerCommand("CrystalGrinder", new CrystalGrinderMenu.Command());
     }
 
     private void registerAllEvents() {

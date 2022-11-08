@@ -17,7 +17,6 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CrystalGrinderMenu extends Menu {
@@ -32,33 +31,33 @@ public class CrystalGrinderMenu extends Menu {
         ItemMaterial itemMaterial = Items.get(this.getItem(ITEM_SLOT));
         if (itemMaterial == Items.NULL) {
             this.setItem(ITEM_SLOT, new ItemStack(Material.AIR));
-        } else {
-            if (itemMaterial instanceof ItemStatsAble) {
-                ItemStatsAble material = (ItemStatsAble) itemMaterial;
-                Item item = new Item(player, itemMaterial);
 
-                List<ItemStack> items = item.getModifiers().getCrystals().getCrystalsAsItems(player);
-                for (int i = 0; i < material.getMaxCrystals(); i++) {
-                    if (i >= items.size()) {
-                        items.add(getEmptyCrystalSlot(i));
-                    } else {
-                        addNBT(items.get(i), "FILLED_CRYSTAL_SLOT_" + i);
-                    }
-                }
-
-                this.putItemsOnCenter(4, items);
+            for (int i = 27; i < 45; i++) {
+                this.setItem(i, GLASS);
             }
+        } else if (itemMaterial instanceof ItemStatsAble) {
+            ItemStatsAble material = (ItemStatsAble) itemMaterial;
+            Item item = new Item(player, itemMaterial);
+
+            List<ItemStack> items = item.getModifiers().getCrystals().getCrystalsAsItems(player);
+            for (int i = 0; i < material.getMaxCrystals(); i++) {
+                if (i >= items.size()) {
+                    items.add(getEmptyCrystalSlot(i));
+                } else {
+                    addNBT(items.get(i), "FILLED_CRYSTAL_SLOT_" + i);
+                }
+            }
+
+            this.putItemsOnCenter(4, items);
         }
     }
 
     private ItemStack getEmptyCrystalSlot(int slot) {
-        return createItem(Material.SKULL_ITEM, ChatColor.DARK_GRAY + "None!", "EMPTY_CRYSTAL_SLOT_" + slot, ChatColor.GRAY + "This item doesn't have any crystal on", ChatColor.GRAY + "this slot. Click on a crystal in your", ChatColor.GRAY + "inventory to add to this item.");
+        return createItem(Material.STONE_BUTTON, ChatColor.DARK_GRAY + "None!", "EMPTY_CRYSTAL_SLOT_" + slot, ChatColor.GRAY + "This item doesn't have any crystal on", ChatColor.GRAY + "this slot. Click on a crystal in your", ChatColor.GRAY + "inventory to add to this item.");
     }
 
     @Override
     public void onInventoryClick(InventoryClickEvent e) {
-        if (Items.get(this.getItem(ITEM_SLOT)) instanceof ItemStatsAble) return;
-
         ItemMaterial material = Items.get(e.getCurrentItem());
         if (this.getNBT(e.getCurrentItem()).equals("FILLED_CRYSTAL_SLOT") && e.getClickedInventory().getType() == InventoryType.CHEST) {
             int slot = Integer.parseInt(this.getNBT(e.getCurrentItem()).split("SLOT_")[1]);
@@ -70,18 +69,20 @@ public class CrystalGrinderMenu extends Menu {
 
             this.setItem(ITEM_SLOT, new Item(player, item, new CrystalModifier(crystals)));
             this.update();
-        } else if (material instanceof CrystalMaterial && e.getClickedInventory() instanceof PlayerInventory) {
+        } else if (material instanceof CrystalMaterial && e.getClickedInventory().getType() == InventoryType.PLAYER) {
             Item item = new Item(player, this.getItem(ITEM_SLOT));
 
+            player.sendMessage(item.getModifiers().getCrystals().size(), ((ItemStatsAble) item.getMaterial()).getMaxCrystals());
             if (item.getModifiers().getCrystals().size() >= ((ItemStatsAble) item.getMaterial()).getMaxCrystals()) return;
 
-            CrystalMaterial crystalMaterial = (CrystalMaterial) Items.get(e.getCurrentItem());
+            CrystalMaterial crystalMaterial = (CrystalMaterial) item.getMaterial();
             Crystal crystal = crystalMaterial.getCrystal();
             this.setItem(ITEM_SLOT, new Item(player, this.getItem(ITEM_SLOT), new CrystalModifier(item.getModifiers().getCrystals(), crystal)));
             this.update();
         } else if (e.getSlot() == ITEM_SLOT && material instanceof ItemStatsAble && e.getClickedInventory().getType() == InventoryType.CHEST) {
             player.give(this.getItem(ITEM_SLOT));
             this.setItem(ITEM_SLOT, new ItemStack(Material.AIR));
+            this.update();
         } else if (material instanceof ItemStatsAble && e.getClickedInventory() instanceof PlayerInventory && e.getCurrentItem().getAmount() == 1) {
             if (Items.get(this.getItem(ITEM_SLOT)) instanceof ItemStatsAble) {
                 player.give(this.getItem(ITEM_SLOT));
@@ -89,6 +90,7 @@ public class CrystalGrinderMenu extends Menu {
 
             this.setItem(ITEM_SLOT, e.getCurrentItem());
             e.setCurrentItem(new ItemStack(Material.AIR));
+            this.update();
         }
     }
 
@@ -100,7 +102,7 @@ public class CrystalGrinderMenu extends Menu {
 
         @Override
         public List<Argument> tabComplete(PlayerSD player, List<Argument> tabs) {
-            return new ArrayList<>();
+            return tabs;
         }
     }
 }

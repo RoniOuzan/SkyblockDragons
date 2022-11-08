@@ -5,13 +5,14 @@ import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Getter
-public class Crystals {
+public class Crystals implements Iterable<Crystal> {
     private final List<Crystal> crystals;
 
     public Crystals(List<Crystal> crystals) {
@@ -48,5 +49,27 @@ public class Crystals {
 
     public List<ItemStack> getCrystalsAsItems(PlayerSD player) {
         return crystals.stream().map(c -> new Item(player, c.getCrystal().getMaterial(c.getLevel()))).collect(Collectors.toList());
+    }
+
+    @Override
+    public Iterator<Crystal> iterator() {
+        return this.crystals.iterator();
+    }
+
+    @Override
+    public void forEach(Consumer<? super Crystal> action) {
+        Objects.requireNonNull(action);
+        for (Crystal e : this.crystals) {
+            action.accept(e);
+        }
+    }
+
+    @Override
+    public Spliterator<Crystal> spliterator() {
+        return Spliterators.spliterator(this.crystals, Spliterator.ORDERED);
+    }
+
+    public Stream<Crystal> stream() {
+        return StreamSupport.stream(spliterator(), false);
     }
 }

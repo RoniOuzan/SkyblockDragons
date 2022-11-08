@@ -2,15 +2,17 @@ package me.maxiiiiii.skyblockdragons.item;
 
 import de.tr7zw.changeme.nbtapi.*;
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.item.crystals.Crystal;
+import me.maxiiiiii.skyblockdragons.item.crystals.Crystals;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
-import me.maxiiiiii.skyblockdragons.item.stats.UpdateItemStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.*;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifier;
 import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
@@ -18,6 +20,7 @@ import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.item.stats.ItemStats;
 import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.UpdateItemStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -272,6 +275,15 @@ public class Item extends ItemStack implements Comparable<Item> {
                 necronScrolls.setBoolean("SHADOW_WARP", modifiers.getNecronBladeScrolls().contains(NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP));
             }
 
+            if (this.material instanceof ItemStatsAble && this.modifiers.getCrystals().size() > 0) {
+                NBTCompound compound = nbt.addCompound("Crystals");
+                for (int i = 0; i < this.modifiers.getCrystals().size(); i++) {
+                    Crystal crystal = this.modifiers.getCrystals().get(i);
+
+                    compound.setString(i + "", crystal.getCrystal().name() + "::" + crystal.getLevel());
+                }
+            }
+
             if (material.getItemSkull() != null) {
                 NBTCompound skull = nbtItem.addCompound("SkullOwner");
                 if (modifiers.getSkin() != null && modifiers.getSkin() != SkinMaterial.NULL) {
@@ -406,7 +418,8 @@ public class Item extends ItemStack implements Comparable<Item> {
     }
 
     private void applyStats(List<String> lores) {
-        ItemStats stats = new ItemStats(((ItemStatsAble) this.material).getStats(), this);
+        ItemStatsAble statsAble = (ItemStatsAble) this.material;
+        ItemStats stats = new ItemStats(statsAble.getStats(), this);
 
         if (player != null) {
             UpdateItemStatsEvent event = new UpdateItemStatsEvent(player, stats);
@@ -420,7 +433,17 @@ public class Item extends ItemStack implements Comparable<Item> {
         );
         this.stats.add(stats);
 
-        if (lores.size() == 0) return;
+        StringBuilder crystalLore = new StringBuilder();
+        Crystals crystals = this.modifiers.getCrystals();
+        for (int i = 0; i < statsAble.getMaxCrystals(); i++) {
+            if (i >= crystals.size()) {
+                crystalLore.append(ChatColor.GRAY).append("[ ] ");
+            } else {
+                Crystal crystal = crystals.get(i);
+                crystalLore.append(Rarity.getRarity(crystal.getLevel()).getColor()).append("[").append(ChatColor.LIGHT_PURPLE).append(crystal.getCrystal().getStatType().getIcon()).append(Rarity.getRarity(crystal.getLevel()).getColor()).append("] ");
+            }
+        }
+        lores.add(crystalLore.toString());
 
         if (!modifiers.getEnchants().containsKey(EnchantType.NULL) && !lores.get(lores.size() - 1).equals("")) lores.add("");
     }

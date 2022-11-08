@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.crystals;
 
+import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
@@ -9,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 public enum CrystalType {
     ATHENA("Athena", 3, StatType.INTELLIGENCE, 5.0, 10.0, 20.0),
     PHANES("Phanes", 3, StatType.HEALTH, 5.0, 10.0, 20.0),
@@ -18,13 +20,13 @@ public enum CrystalType {
 
     private final String name;
     private final int maxLevel;
-    private final StatType stat;
+    private final StatType statType;
     private final List<Double> amount;
 
-    CrystalType(String name, int maxLevel, StatType stat, List<Double> amount) {
+    CrystalType(String name, int maxLevel, StatType statType, List<Double> amount) {
         this.name = name;
         this.maxLevel = maxLevel;
-        this.stat = stat;
+        this.statType = statType;
         this.amount = amount;
     }
 
@@ -44,9 +46,9 @@ public enum CrystalType {
         return this.maxLevel;
     }
 
-    public Stat getStat(int level) {
+    public Stat getStatType(int level) {
         if (level > this.maxLevel) return new Stat(0, StatType.DAMAGE);
 
-        return new Stat(amount.get(level - 1), stat);
+        return new Stat(amount.get(level - 1), statType);
     }
 }
