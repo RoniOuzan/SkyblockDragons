@@ -13,6 +13,7 @@ import org.bukkit.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.util.Vector;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
@@ -55,15 +56,11 @@ public class DamageListener implements Listener {
                 attacker.playSound(attacker.getLocation(), Sound.ENTITY_IRONGOLEM_ATTACK, 1f, 10f);
                 attacker.playSound(attacker.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_DOOR_WOOD, 0.25f, 0.25f);
 
-                Location start = victim.getEyeLocation();
-                Location end = victim.getEyeLocation();
-                if (Math.random() < 0.5) {
-                    start.add(1.5, 0.5, 0);
-                    end.add(-1.5, -1.5, 0);
-                } else {
-                    start.add(-1.5, 0.5, 0);
-                    end.add(1.5, -1.5, 0);
-                }
+                double ferocityAngle = Functions.randomDouble(0, Math.PI * 2);
+                Location start = victim.getEyeLocation()
+                        .add(new Vector(Math.cos(ferocityAngle) * 1.2, 0, Math.sin(ferocityAngle) * 1.2));
+                Location end = victim.getEyeLocation()
+                        .add(new Vector(Math.cos(ferocityAngle + Math.PI) * 1.2, -1.5, Math.sin(ferocityAngle + Math.PI) * 1.2));
 
                 Particles.line(new ParticleUtil(Particle.REDSTONE, 155, 0, 0, 0, 1), start, end, 0.05);
 

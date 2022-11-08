@@ -15,6 +15,7 @@ import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
@@ -41,12 +42,6 @@ public class PlayerUseAbilityListener implements Listener {
         ItemAbilityAble material = (ItemAbilityAble) Items.get(itemStack);
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
 
-        if (material instanceof ItemRequirementAble && !((ItemRequirementAble) material).getRequirements().hasRequirements(player)) {
-            player.sendNoRequirementsMessage("ability");
-            e.setCancelled(true);
-            return;
-        }
-
         ItemAbility usedAbility = null;
         for (ItemAbility ability : material.getAbilities()) {
             if (ability.getAction().isPlayerUsedAbility(e)) {
@@ -58,7 +53,7 @@ public class PlayerUseAbilityListener implements Listener {
         if (usedAbility == null) return;
 
         e.setCancelled(true);
-        useAbility(player, usedAbility, e);
+        useAbility(player, usedAbility, material, e);
     }
 
     @EventHandler
@@ -71,12 +66,6 @@ public class PlayerUseAbilityListener implements Listener {
             if (!(player.getItems().getTool().getMaterial() instanceof ItemAbilityAble)) return;
             ItemAbilityAble material = (ItemAbilityAble) player.getItems().getTool().getMaterial();
 
-            if (material instanceof ItemRequirementAble && !((ItemRequirementAble) material).getRequirements().hasRequirements(player)) {
-                player.sendNoRequirementsMessage("ability");
-                e.setCancelled(true);
-                return;
-            }
-
             ItemAbility usedAbility = null;
             for (ItemAbility ability : material.getAbilities()) {
                 if (ability.getAction() == AbilityAction.SHOOT) {
@@ -88,11 +77,16 @@ public class PlayerUseAbilityListener implements Listener {
             if (usedAbility == null) return;
 
             e.setCancelled(true);
-            useAbility(player, usedAbility, e);
+            useAbility(player, usedAbility, material, e);
         }
     }
 
-    public void useAbility(PlayerSD player, ItemAbility usedAbility, Event e) {
+    public void useAbility(PlayerSD player, ItemAbility usedAbility, ItemAbilityAble material, Event e) {
+        if (material instanceof ItemRequirementAble && !((ItemRequirementAble) material).getRequirements().hasRequirements(player)) {
+            player.sendNoRequirementsMessage("ability");
+            return;
+        }
+
         usedAbility.setupAbilityPerPlayer(player);
         if (usedAbility.hasCosts(player)) {
             usedAbility.applyCosts(player);
