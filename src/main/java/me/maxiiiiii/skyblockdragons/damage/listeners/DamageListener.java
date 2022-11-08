@@ -24,6 +24,7 @@ public class DamageListener implements Listener {
     public void onDamage(EntityDamageEvent e) {
         long damage = e.getFinalDamage();
 
+        e.getVictim().sendMessage(damage + ", damage");
         e.getVictim().removeHealth(damage);
 
         String damageDisplay = ChatColor.GRAY + "" + Functions.getNumberFormat(damage);

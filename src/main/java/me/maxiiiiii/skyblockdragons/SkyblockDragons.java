@@ -41,6 +41,7 @@ import me.maxiiiiii.skyblockdragons.player.chat.listeners.ChatListener;
 import me.maxiiiiii.skyblockdragons.player.chat.listeners.PlayerGetMessageListener;
 import me.maxiiiiii.skyblockdragons.player.chat.listeners.PlayerSendMessageListener;
 import me.maxiiiiii.skyblockdragons.player.coop.CoopCommand;
+import me.maxiiiiii.skyblockdragons.player.listeners.PlayerDeathListener;
 import me.maxiiiiii.skyblockdragons.player.party.PartyChatCommand;
 import me.maxiiiiii.skyblockdragons.player.party.PartyCommand;
 import me.maxiiiiii.skyblockdragons.player.party.PartyListCommand;
@@ -324,6 +325,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerCommand("Chat", new ChatCommand());
         registerCommand("PartyChat", new PartyChatCommand());
         registerCommand("PartyList", new PartyListCommand());
+        registerCommand("Kill", new KillCommand());
     }
 
     private void registerAllEvents() {
@@ -352,6 +354,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerEvents(new ProfileMenu.Event(), this);
         registerEvents(new ArrowHitCancellation(), this);
         registerEvents(new PlayerGetDropListener(), this);
+        registerEvents(new PlayerRegenCanceller(), this);
         registerEvents(new HotPotatoModifier.Listener(), this);
         registerEvents(new ReforgeModifier.Listener(), this);
 
@@ -359,6 +362,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerEvents(new ChatListener(), this);
         registerEvents(new PlayerSendMessageListener(), this);
         registerEvents(new PlayerGetMessageListener(), this);
+        registerEvents(new PlayerDeathListener(), this);
 
         registerEvents(new MenuListener(), this);
 

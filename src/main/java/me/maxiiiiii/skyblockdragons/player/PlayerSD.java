@@ -23,6 +23,7 @@ import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.player.chat.ChatChannel;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerDeathEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
 import me.maxiiiiii.skyblockdragons.player.party.Party;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
@@ -372,11 +373,11 @@ public class PlayerSD extends PlayerClass {
             this.setMaxHealth(this.getHealthStat());
         }
 
-        if (this.getHealth() * HEALTH_REGEN < this.getMaxHealth()) {
-            this.setHealth(this.getHealth() * HEALTH_REGEN);
-        } else if (this.getHealth() * HEALTH_REGEN > this.getMaxHealth()) {
-            this.setHealth(this.getHealth());
-        }
+//        if (this.getHealth() * HEALTH_REGEN < this.getMaxHealth()) {
+//            this.setHealth(this.getHealth() * HEALTH_REGEN);
+//        } else if (this.getHealth() * HEALTH_REGEN > this.getMaxHealth()) {
+//            this.setHealth(this.getHealth());
+//        }
 
         this.setWalkSpeed((float) (this.stats.getSpeed().amount / 500));
 
@@ -396,12 +397,9 @@ public class PlayerSD extends PlayerClass {
         return true;
     }
 
-    public double getItemAbilityDamage(double baseAbilityDamage) {
-        return baseAbilityDamage;
-    }
-
-    public double getItemAbilityScaling(double baseAbilityScaling) {
-        return baseAbilityScaling;
+    @Override
+    public void kill() {
+        Bukkit.getPluginManager().callEvent(new PlayerDeathEvent(this));
     }
 
     public short getEnchantLevel(EnchantType enchant) {

@@ -76,6 +76,12 @@ public abstract class WorldSD implements Listener {
         });
     }
 
+    public void sendMessage(Object... messages) {
+        for (PlayerSD player : this.getPlayers()) {
+            player.sendMessage(messages);
+        }
+    }
+
     public static WorldSD get(String worldName) {
         for (WorldSD world : worlds) {
             if (world.getWorld().getName().equals(worldName))

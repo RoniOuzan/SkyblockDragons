@@ -4,6 +4,8 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.events.EntityDeathEvent;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerDeathEvent;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
@@ -89,6 +91,14 @@ public class EntitySD extends EntityClass {
         this.attacker = null;
 
         entities.put(this.entity.getUniqueId(), this);
+    }
+
+    @Override
+    public String getName() {
+        if (this instanceof PlayerSD) {
+            return ((PlayerSD) this).getDisplayName();
+        }
+        return this.type.name;
     }
 
     @Override
@@ -243,14 +253,21 @@ public class EntitySD extends EntityClass {
     }
 
     public void removeHealth(double amount) {
+        this.sendMessage("damaging " + amount);
         if (this.getHealth() - amount <= 1) {
-            Bukkit.getPluginManager().callEvent(new EntityDeathEvent(this, this.getAttacker(), EntityDeathEvent.DeathCause.ENTITY));
+            this.sendMessage("under 1");
+            if (this instanceof PlayerSD)
+                Bukkit.getPluginManager().callEvent(new PlayerDeathEvent((PlayerSD) this));
+            else
+                Bukkit.getPluginManager().callEvent(new EntityDeathEvent(this, this.getAttacker(), EntityDeathEvent.DeathCause.ENTITY));
         } else {
+            this.sendMessage("normal " + (this.getHealth() - amount));
             this.damage(0);
             this.setHealth(this.getHealth() - amount);
         }
 
-        this.hologram.update();
+        if (this.hologram != null)
+            this.hologram.update();
     }
 
     public static class EntityAssociateException extends RuntimeException {

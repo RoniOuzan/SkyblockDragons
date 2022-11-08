@@ -203,3 +203,6 @@ commands:
     aliases:
       - cg
       - crystalmenu
+  kill:
+    permission: skyblockdragons.kill
+    usage: /<command> <player>

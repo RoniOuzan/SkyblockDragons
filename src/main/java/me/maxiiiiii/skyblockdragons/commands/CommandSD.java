@@ -29,10 +29,10 @@ public abstract class CommandSD implements TabExecutor {
         private final String text;
         private final List<String> tabs;
 
-        public Argument(int index, String string, List<String> tabs) {
+        public Argument(int index, String string, List<?> tabs) {
             this.index = index;
             this.text = string;
-            this.tabs = tabs;
+            this.tabs = tabs.stream().map(Object::toString).collect(Collectors.toList());
             this.tabs.remove("");
         }
 
