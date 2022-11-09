@@ -11,7 +11,7 @@ public enum AbilityAction {
     RIGHT_CLICK("RIGHT CLICK", e -> e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK),
     LEFT_SHIFT_CLICK("LEFT SHIFT CLICK", e -> (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) && e.getPlayer().isSneaking()),
     RIGHT_SHIFT_CLICK("RIGHT SHIFT CLICK", e -> (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) && e.getPlayer().isSneaking()),
-    SHOOT(""), // TODO
+    SHOOT(""),
     SNEAK("SNEAK"), // TODO
     PET(""),
     NONE(""),

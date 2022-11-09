@@ -74,7 +74,6 @@ public class Dungeon implements Listener {
 
     public void startDungeon() {
         this.floor.spawnEntities();
-        // TODO open the door
 
         this.startedAt = System.currentTimeMillis();
     }
@@ -90,8 +89,7 @@ public class Dungeon implements Listener {
         this.party.forEach(p -> p.teleport(this.world.getWarp().getLocation()));
     }
 
-    public void resetWorld() { // TODO @LidanTheGamer_ whatever you want to do here
-
+    public void resetWorld() {
     }
 
     public void killAllEntities() {
@@ -120,7 +118,7 @@ public class Dungeon implements Listener {
                 this.secrets++;
                 PlayerOpenSecretEvent event = new PlayerOpenSecretEvent(this, this.getPlayer(e.getPlayer().getUniqueId()), e.getClickedBlock().getLocation());
                 Bukkit.getServer().getPluginManager().callEvent(event);
-                this.party.send(ChatColor.GREEN + e.getPlayer().getName() + " Found Secret"); // TODO send message that someone found secret
+                this.party.send(ChatColor.GREEN + e.getPlayer().getName() + " Found Secret"); // send message that someone found secret
             }
         }
     }

@@ -6,7 +6,7 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.event.HandlerList;
 
 @Getter
-public class UpdateEntityDamageEntityEvent extends UpdateEntityDamageEvent { // TODO
+public class UpdateEntityDamageEntityEvent extends UpdateEntityDamageEvent {
     public static final HandlerList handlers = new HandlerList();
 
     public UpdateEntityDamageEntityEvent(EntityDamageEntity damage) {

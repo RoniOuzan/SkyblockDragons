@@ -5,14 +5,17 @@ import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.CraftingTableMenu;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.RecipesMenu;
-import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.pet.PetMenu;
+import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
+import me.maxiiiiii.skyblockdragons.player.bank.BankMenu;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillMenu;
 import me.maxiiiiii.skyblockdragons.player.storage.StorageMenu;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeMenu;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -75,7 +78,7 @@ public class SkyblockMenu extends Menu {
             player.performCommand("dm open rewards");
         } else if (this.getNBT(e.getCurrentItem()).equals("STORAGE")) {
             new StorageMenu(this.player);
-        } else if (this.getNBT(e.getCurrentItem()).equals("EFFECTS")) { //TODO LidanTheGamer
+        } else if (this.getNBT(e.getCurrentItem()).equals("EFFECTS")) {
             player.sendMessage("§cComing soon...");
         } else if (this.getNBT(e.getCurrentItem()).equals("PETS")) {
             new PetMenu(player);
@@ -84,22 +87,22 @@ public class SkyblockMenu extends Menu {
         } else if (this.getNBT(e.getCurrentItem()).equals("WARDROBE")) {
             new WardrobeMenu(player, 1);
         } else if (this.getNBT(e.getCurrentItem()).equals("BANK")) {
-            player.performCommand("bank open");
+            BankMenu.openBank(player);
         } else if (this.getNBT(e.getCurrentItem()).equals("FAST_TRAVEL")) {
-            player.performCommand("warps");
-        } else if (this.getNBT(e.getCurrentItem()).equals("PROFILE")) { // TODO LidanTheGamer_
-            player.performCommand("profile");
+            // TODO
+        } else if (this.getNBT(e.getCurrentItem()).equals("PROFILE")) {
+            new ProfileMenu(player, player);
         } else if (this.getNBT(e.getCurrentItem()).equals("SETTINGS")) {
 //            player.performCommand("settings");
             player.sendMessage("§cComing soon...");
         } else if (this.getNBT(e.getCurrentItem()).equals("ISLAND_WARP")) {
             player.performCommand("askyblock:island");
         } else if (this.getNBT(e.getCurrentItem()).equals("HUB_WARP")) {
-            player.performCommand("hub");
+            player.warp(Warp.HUB);
         } else if (this.getNBT(e.getCurrentItem()).equals("SELL")) {
-            player.performCommand("sell");
+            // TODO
         } else if (this.getNBT(e.getCurrentItem()).equals("ACCESSORY")) {
-            player.performCommand("acbag");
+            new AccessoryBag(player);
         }
     }
 

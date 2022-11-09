@@ -25,6 +25,6 @@ public class ObsidianLeggings extends ArmorMaterial {
 
     @Override
     public Color getColor() {
-        return super.getColor(); // TODO
+        return Color.fromRGB(30, 0, 30);
     }
 }

@@ -3,10 +3,12 @@ package me.maxiiiiii.skyblockdragons.item.material.types;
 import lombok.Getter;
 import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.*;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.item.objects.MaterialModifier;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.NullItemAbility;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -33,8 +35,6 @@ public abstract class ArmorMaterial extends ItemMaterial implements ItemStatsAbl
         this.description = description;
         this.requirements = new Requirements(Functions.splitList("me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement", modifiers));
         this.abilities = Functions.splitList("me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility", modifiers);
-        if (this.abilities.size() == 0)
-            this.abilities.add(new NullItemAbility());
     }
 
     public ArmorMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, Stats stats, String description, MaterialModifier... modifiers) {
