@@ -437,7 +437,7 @@ public class Item extends ItemStack implements Comparable<Item> {
         Crystals crystals = this.modifiers.getCrystals();
         for (int i = 0; i < statsAble.getMaxCrystals(); i++) {
             if (i >= crystals.size()) {
-                crystalLore.append(ChatColor.GRAY).append("[ ] ");
+                crystalLore.append(ChatColor.GRAY).append("[  ] ");
             } else {
                 Crystal crystal = crystals.get(i);
                 crystalLore.append(Rarity.getRarity(crystal.getLevel()).getColor()).append("[").append(ChatColor.LIGHT_PURPLE).append(crystal.getCrystal().getStatType().getIcon()).append(Rarity.getRarity(crystal.getLevel()).getColor()).append("] ");
