@@ -62,7 +62,7 @@ public class Bonemerang extends RangeWeaponMaterial {
             private final int AMOUNT = 12;
             private final int ROTATE = 40;
 
-            private Map<Integer, Boolean> isOnCooldown = new HashMap<>();
+            private final Map<Integer, Boolean> isOnCooldown = new HashMap<>();
 
             @Override
             public void run(PlayerAbilityUsage e) {
@@ -156,7 +156,7 @@ public class Bonemerang extends RangeWeaponMaterial {
             }
 
             private void updateItem(Player player, int slot, ItemStack item) {
-                isOnCooldown.put(slot, true);
+                isOnCooldown.put(slot, false);
                 for (int i = 0; i < 36; i++) {
                     try {
                         if (player.getInventory().getItem(i).isSimilar(item)) {

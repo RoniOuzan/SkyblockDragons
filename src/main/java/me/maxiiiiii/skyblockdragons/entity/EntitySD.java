@@ -182,8 +182,11 @@ public class EntitySD extends EntityClass {
     }
 
     public void kill() {
-        this.entity.setHealth(0);
-        if (this.type != EntityMaterial.get("PLAYER"))
+        // TODO: configure why set health to 0 doesn't work
+        this.entity.remove();
+//        this.entity.setHealth(0);
+        SkyblockDragons.getPlayer("LidanTheGamer").sendMessage(this.entity.getHealth());
+        if (this.hologram != null)
             this.hologram.remove();
         entities.remove(this.entity.getUniqueId());
     }
@@ -253,15 +256,12 @@ public class EntitySD extends EntityClass {
     }
 
     public void removeHealth(double amount) {
-        this.sendMessage("damaging " + amount);
         if (this.getHealth() - amount <= 1) {
-            this.sendMessage("under 1");
             if (this instanceof PlayerSD)
                 Bukkit.getPluginManager().callEvent(new PlayerDeathEvent((PlayerSD) this));
             else
                 Bukkit.getPluginManager().callEvent(new EntityDeathEvent(this, this.getAttacker(), EntityDeathEvent.DeathCause.ENTITY));
         } else {
-            this.sendMessage("normal " + (this.getHealth() - amount));
             this.damage(0);
             this.setHealth(this.getHealth() - amount);
         }

@@ -43,11 +43,13 @@ public class EntityDeathListener implements Listener {
     public void onDeath(org.bukkit.event.entity.EntityDeathEvent e) {
         e.getDrops().clear();
 
-        if (e.getEntity().getLastDamageCause().getEntity() == null) return;
 
         if (e.getEntity() instanceof Creature) {
             EntitySD entity = EntitySD.get(e.getEntity().getUniqueId());
-            EntitySD killer = EntitySD.get(e.getEntity().getLastDamageCause().getEntity());
+
+            if (entity.getAttacker() == null) return;
+
+            EntitySD killer = entity.getAttacker();
             e.setDroppedExp(0);
 
             Bukkit.getPluginManager().callEvent(new EntityDeathEvent(entity, killer, EntityDeathEvent.DeathCause.ENTITY));
