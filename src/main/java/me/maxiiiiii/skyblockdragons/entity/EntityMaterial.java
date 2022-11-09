@@ -118,8 +118,6 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
 
         entities.put("DUMMY", new Dummy());
 
-        entities.put("PLAYER", new PlayerEntity());
-
         entities.put("ETERNITYBOSS", new EternityBoss());
         entities.put("INFINITY", new Infinity());
         entities.put("SUPER_INFINITY", new Super_Infinity());
@@ -136,6 +134,8 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         entities.put("POLAR__BEAR_BOSS", new Polar_Bear_Boss());
         entities.put("KOALA_BEAR_BOSS", new Koala_Bear_Boss());
         entities.put("PANDA_BOSS", new Panda_Bear_Boss());
+
+        entities.put("PLAYER", new PlayerEntity());
 
         NullEntity nullEntity = new NullEntity();
         entities.put("NULL", nullEntity);
