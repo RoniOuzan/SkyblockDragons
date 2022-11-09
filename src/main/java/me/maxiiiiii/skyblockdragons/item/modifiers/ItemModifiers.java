@@ -48,7 +48,8 @@ public class ItemModifiers implements Iterable<ItemModifier> {
                 (ReforgeModifier) getOrDefault(modifiers, ReforgeModifier.class, new ReforgeModifier()),
                 (SkinModifier) getOrDefault(modifiers, SkinModifier.class, new SkinModifier()),
                 (CrystalModifier) getOrDefault(modifiers, CrystalModifier.class, new CrystalModifier()),
-                (PetModifier) getOrDefault(modifiers, PetModifier.class, new PetModifier()));
+                (PetModifier) getOrDefault(modifiers, PetModifier.class, new PetModifier())
+        );
     }
 
     public static ItemModifier[] override(ItemModifier[] itemModifiers, ItemModifier... modifiers) {

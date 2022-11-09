@@ -25,7 +25,7 @@ public class ReforgeModifier extends ItemModifier {
         return this.reforge;
     }
 
-    public static ItemModifier getModifier(ItemStack item) {
+    public static ReforgeModifier getModifier(ItemStack item) {
         return new ReforgeModifier(Functions.getReforge(item));
     }
 

@@ -20,7 +20,7 @@ public class SkinModifier extends ItemModifier {
         return this.skin;
     }
 
-    public static ItemModifier getModifier(ItemStack item) {
+    public static SkinModifier getModifier(ItemStack item) {
         return new SkinModifier(Functions.getSkin(item));
     }
 }

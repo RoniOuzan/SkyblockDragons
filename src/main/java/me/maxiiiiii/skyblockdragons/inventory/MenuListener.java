@@ -22,26 +22,7 @@ public class MenuListener implements Listener {
             Menu menu = (Menu) holder;
             PlayerSD player = SkyblockDragons.getPlayer((Player) e.getWhoClicked());
 
-            if (click.isKeyboardClick()){
-                player.sendMessage("§cYou cannot num key press!");
-                player.closeInventory();
-                return;
-            }
-            if (click == ClickType.DOUBLE_CLICK){
-                player.sendMessage("§cYou cannot double click!");
-                player.closeInventory();
-                return;
-            }
             if (Functions.isNotAir(e.getCurrentItem())) {
-//            if (menu instanceof GroupMenu) {
-//                GroupMenu groupMenu = (GroupMenu) menu;
-//                if (e.getSlot() < 9) {
-//                    NBTItem nbt = new NBTItem(e.getCurrentItem(), true);
-//                    int slot = nbt.getInteger("CategorySlot");
-//                    groupMenu.setMenu(slot);
-//                    return;
-//                }
-//            }
                 NBTItem nbt = new NBTItem(e.getCurrentItem());
                 if (nbt.getString("GuiButton").equals("CLOSE")) {
                     menu.getPlayer().closeInventory();

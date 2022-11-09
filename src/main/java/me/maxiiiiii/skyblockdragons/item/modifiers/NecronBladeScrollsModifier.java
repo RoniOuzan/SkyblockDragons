@@ -23,7 +23,7 @@ public class NecronBladeScrollsModifier extends ItemModifier {
         return this.abilities;
     }
 
-    public static ItemModifier getModifier(ItemStack item) {
+    public static NecronBladeScrollsModifier getModifier(ItemStack item) {
         return Functions.getNecronScrolls(item);
     }
 }

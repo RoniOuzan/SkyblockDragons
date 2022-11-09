@@ -6,6 +6,6 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 
 public abstract class DemeterCrystal extends CrystalMaterial {
     public DemeterCrystal(int level) {
-        super(CrystalType.DENETER, ItemFamily.DERNIC, level);
+        super(CrystalType.DEMETER, ItemFamily.DERNIC, level);
     }
 }

@@ -10,6 +10,7 @@ import java.util.function.BiFunction;
 public enum StatModifierType {
     HOT_POTATO(1, (t, s) -> ChatColor.YELLOW + "(" + Functions.getNumSymbol(s) + ")"),
     REFORGE(2, (t, s) -> ChatColor.BLUE + "(" + t + " " + Functions.getNumSymbol(s) + ")"),
+    CRYSTAL(3, (t, s) -> ChatColor.LIGHT_PURPLE + "(" + Functions.getNumSymbol(s) + ")"),
     ;
 
     private final int priority;

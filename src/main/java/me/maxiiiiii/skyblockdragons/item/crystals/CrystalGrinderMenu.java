@@ -13,10 +13,12 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CrystalGrinderMenu extends Menu {
@@ -37,14 +39,15 @@ public class CrystalGrinderMenu extends Menu {
             }
         } else if (itemMaterial instanceof ItemStatsAble) {
             ItemStatsAble material = (ItemStatsAble) itemMaterial;
-            Item item = new Item(player, itemMaterial);
+            Item item = new Item(player, this.getItem(ITEM_SLOT));
 
-            List<ItemStack> items = item.getModifiers().getCrystals().getCrystalsAsItems(player);
+            Crystals crystals = item.getModifiers().getCrystals();
+            List<ItemStack> items = new ArrayList<>();
             for (int i = 0; i < material.getMaxCrystals(); i++) {
-                if (i >= items.size()) {
+                if (i >= crystals.size()) {
                     items.add(getEmptyCrystalSlot(i));
                 } else {
-                    addNBT(items.get(i), "FILLED_CRYSTAL_SLOT_" + i);
+                    items.add(addNBT(crystals.getCrystalsAsItems(player).get(i), "FILLED_CRYSTAL_SLOT_" + i));
                 }
             }
 
@@ -59,7 +62,8 @@ public class CrystalGrinderMenu extends Menu {
     @Override
     public void onInventoryClick(InventoryClickEvent e) {
         ItemMaterial material = Items.get(e.getCurrentItem());
-        if (this.getNBT(e.getCurrentItem()).equals("FILLED_CRYSTAL_SLOT") && e.getClickedInventory().getType() == InventoryType.CHEST) {
+
+        if (this.getNBT(e.getCurrentItem()).contains("FILLED_CRYSTAL_SLOT") && e.getClickedInventory().getType() == InventoryType.CHEST) {
             int slot = Integer.parseInt(this.getNBT(e.getCurrentItem()).split("SLOT_")[1]);
             Item item = new Item(player, this.getItem(ITEM_SLOT));
             Crystals crystals = item.getModifiers().getCrystals();
@@ -69,15 +73,18 @@ public class CrystalGrinderMenu extends Menu {
 
             this.setItem(ITEM_SLOT, new Item(player, item, new CrystalModifier(crystals)));
             this.update();
-        } else if (material instanceof CrystalMaterial && e.getClickedInventory().getType() == InventoryType.PLAYER) {
+        } else if (Items.get(this.getItem(ITEM_SLOT)) instanceof ItemStatsAble && material instanceof CrystalMaterial && e.getClickedInventory().getType() == InventoryType.PLAYER) {
             Item item = new Item(player, this.getItem(ITEM_SLOT));
 
-            player.sendMessage(item.getModifiers().getCrystals().size(), ((ItemStatsAble) item.getMaterial()).getMaxCrystals());
-            if (item.getModifiers().getCrystals().size() >= ((ItemStatsAble) item.getMaterial()).getMaxCrystals()) return;
+            if (item.getModifiers().getCrystals().size() >= ((ItemStatsAble) item.getMaterial()).getMaxCrystals()) {
+                player.sendMessage(ChatColor.RED + "This item is full of crystals. you have to remove one to put this crystal!");
+                return;
+            }
 
-            CrystalMaterial crystalMaterial = (CrystalMaterial) item.getMaterial();
+            CrystalMaterial crystalMaterial = (CrystalMaterial) material;
             Crystal crystal = crystalMaterial.getCrystal();
             this.setItem(ITEM_SLOT, new Item(player, this.getItem(ITEM_SLOT), new CrystalModifier(item.getModifiers().getCrystals(), crystal)));
+            e.setCurrentItem(new ItemStack(Material.AIR));
             this.update();
         } else if (e.getSlot() == ITEM_SLOT && material instanceof ItemStatsAble && e.getClickedInventory().getType() == InventoryType.CHEST) {
             player.give(this.getItem(ITEM_SLOT));
@@ -92,6 +99,11 @@ public class CrystalGrinderMenu extends Menu {
             e.setCurrentItem(new ItemStack(Material.AIR));
             this.update();
         }
+    }
+
+    @Override
+    public void onInventoryClose(InventoryCloseEvent e) {
+        player.give(this.getItem(ITEM_SLOT));
     }
 
     public static class Command extends CommandSD {

@@ -26,7 +26,7 @@ public class HotPotatoModifier extends ItemModifier implements Listener {
         return amount;
     }
 
-    public static ItemModifier getModifier(ItemStack item) {
+    public static HotPotatoModifier getModifier(ItemStack item) {
         return Functions.getHotPotato(item);
     }
 

@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 @Getter
 public enum CrystalType {
     ATHENA("Athena", 3, StatType.INTELLIGENCE, 5.0, 10.0, 20.0),
-    PHANES("Phanes", 3, StatType.HEALTH, 5.0, 10.0, 20.0),
+    PHANES("Phanes", 3, StatType.DEFENSE, 5.0, 10.0, 20.0),
     HERMES("Hermes", 3, StatType.SPEED, 5.0, 10.0, 20.0),
-    DENETER("Demeter", 3, StatType.CRIT_DAMAGE, 5.0, 10.0, 20.0),
+    DEMETER("Demeter", 3, StatType.CRIT_DAMAGE, 5.0, 10.0, 20.0),
     ARES("Ares", 3, StatType.STRENGTH, 5.0, 10.0, 20.0);
 
     private final String name;

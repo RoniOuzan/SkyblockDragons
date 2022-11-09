@@ -19,7 +19,7 @@ public class PetModifier extends ItemModifier {
         return pet;
     }
 
-    public static ItemModifier getModifier(ItemStack item) {
+    public static PetModifier getModifier(ItemStack item) {
         return new PetModifier(PetSupplier.getPetSupplier(item));
     }
 }

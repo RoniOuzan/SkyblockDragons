@@ -23,7 +23,7 @@ public class EnchantModifier extends ItemModifier {
         return enchants;
     }
 
-    public static ItemModifier getModifier(ItemStack item) {
+    public static EnchantModifier getModifier(ItemStack item) {
         return Functions.getEnchants(item);
     }
 }

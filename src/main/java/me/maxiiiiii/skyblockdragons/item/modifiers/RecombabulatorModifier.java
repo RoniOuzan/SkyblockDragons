@@ -19,7 +19,7 @@ public class RecombabulatorModifier extends ItemModifier {
         return this.isRecombabulated;
     }
 
-    public static ItemModifier getModifier(ItemStack item) {
+    public static RecombabulatorModifier getModifier(ItemStack item) {
         return Functions.isRecombed(item);
     }
 }

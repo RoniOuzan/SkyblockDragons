@@ -72,4 +72,9 @@ public class Crystals implements Iterable<Crystal> {
     public Stream<Crystal> stream() {
         return StreamSupport.stream(spliterator(), false);
     }
+
+    @Override
+    public String toString() {
+        return this.crystals.toString();
+    }
 }

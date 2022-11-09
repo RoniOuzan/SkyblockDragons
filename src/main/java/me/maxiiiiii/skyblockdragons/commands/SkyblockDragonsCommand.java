@@ -119,6 +119,8 @@ public class SkyblockDragonsCommand extends CommandSD {
                 Crystal crystal = new Crystal(CrystalType.ATHENA, 2);
                 Item item = player.getItems().getTool();
                 player.getEquipment().setItemInMainHand(new Item(player, item, new CrystalModifier(crystal)));
+            } else if (args[0].equalsIgnoreCase("test2")) {
+                player.sendMessage(player.getItems().getTool().getModifiers().getCrystals());
             }
         } else {
             player.sendMessage(ChatColor.RED + "Invalid arguments!");
