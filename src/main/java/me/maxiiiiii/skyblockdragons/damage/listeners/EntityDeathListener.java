@@ -46,7 +46,7 @@ public class EntityDeathListener implements Listener {
         if (e.getEntity() instanceof Creature) {
             EntitySD entity = EntitySD.get(e.getEntity().getUniqueId());
 
-            if (entity.getAttacker() == null) return;
+            if (entity == null || entity.getAttacker() == null) return;
 
             EntitySD killer = entity.getAttacker();
             e.setDroppedExp(0);
