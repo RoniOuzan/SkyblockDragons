@@ -28,6 +28,7 @@ import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -146,7 +147,6 @@ public class Item extends ItemStack implements Comparable<Item> {
             if (this.material instanceof ItemAbilityAble)
                 applyAbilities(lores);
 
-
             if (this.material instanceof NecronBladeMaterial) {
                 if (modifiers.getNecronBladeScrolls().size() >= 3) {
                     if (isNotLastEmpty(lores)) lores.add("");
@@ -225,13 +225,8 @@ public class Item extends ItemStack implements Comparable<Item> {
         try {
             NBTCompound nbt = nbtItem.addCompound("Item");
             NBTCompound extra = nbtItem.addCompound("ExtraAttributes");
-            if (this.material instanceof BookMaterial) {
-                nbt.setString("id", "ENCHANTED_BOOK");
-                extra.setString("id", "ENCHANTED_BOOK");
-            } else {
-                nbt.setString("id", this.material.name());
-                extra.setString("id", this.material.name());
-            }
+            nbt.setString("id", this.material.name());
+            extra.setString("id", this.material.name());
             NBTList<Double> statList = nbt.getDoubleList("Stats");
             for (Stat stat : stats) {
                 statList.add(stat.amount);
@@ -242,46 +237,13 @@ public class Item extends ItemStack implements Comparable<Item> {
                 nbt.setString("Date", format.format(new Date()));
             }
             nbt.setInteger("Rarity", rarity.getLevel());
-            nbt.setString("Reforge", modifiers.getReforge().name());
-            nbt.setInteger("HotPotato", modifiers.getHotPotato());
-            nbt.setBoolean("RarityUpgraded", modifiers.getRecombabulated());
 
-            NBTCompound nbtEnchants = nbt.addCompound("Enchants");
-            NBTCompound nbtUltimateEnchant = nbt.addCompound("UltimateEnchant");
-            if (modifiers.getEnchants().containsKey(EnchantType.ONE_FOR_ALL)) {
-                if (modifiers.getEnchants().containsKey(EnchantType.TELEKINESIS)) {
-                    nbtEnchants.setShort("TELEKINESIS", (short) 1);
-                }
-                nbtEnchants.setShort("ONE_FOR_ALL", (short) 1);
-            } else {
-                for (EnchantType enchantType : EnchantType.enchants.values()) {
-                    if (modifiers.getEnchants().containsKey(enchantType) && enchantType.getTypes().contains(this.material.getType())) {
-                        if (enchantType instanceof UltimateEnchantType) {
-                            nbtUltimateEnchant.setShort(enchantType.name(), modifiers.getEnchants().get(enchantType));
-                        }
-                        nbtEnchants.setShort(enchantType.name(), modifiers.getEnchants().get(enchantType));
-                    }
-                }
+            for (ItemModifier modifier : modifiers) {
+                modifier.applyNBT(this, nbt);
             }
 
             if (this.material instanceof BookMaterial) {
                 nbt.setInteger("BookCost", getBookCost());
-            }
-
-            if (this.material instanceof NecronBladeMaterial) {
-                NBTCompound necronScrolls = nbt.addCompound("NecronScrolls");
-                necronScrolls.setBoolean("IMPLOSION", modifiers.getNecronBladeScrolls().contains(NecronBladeMaterial.NecronBladeAbility.IMPLOSION));
-                necronScrolls.setBoolean("WITHER_SHIELD", modifiers.getNecronBladeScrolls().contains(NecronBladeMaterial.NecronBladeAbility.WITHER_SHIELD));
-                necronScrolls.setBoolean("SHADOW_WARP", modifiers.getNecronBladeScrolls().contains(NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP));
-            }
-
-            if (this.material instanceof ItemStatsAble && this.modifiers.getCrystals().size() > 0) {
-                NBTCompound compound = nbt.addCompound("Crystals");
-                for (int i = 0; i < this.modifiers.getCrystals().size(); i++) {
-                    Crystal crystal = this.modifiers.getCrystals().get(i);
-
-                    compound.setString(i + "", crystal.getCrystal().name() + "::" + crystal.getLevel());
-                }
             }
 
             if (material.getItemSkull() != null) {
@@ -290,23 +252,11 @@ public class Item extends ItemStack implements Comparable<Item> {
                     skull.setString("Id", modifiers.getSkin().getItemSkull().getId());
                     NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
                     texture.setString("Value", modifiers.getSkin().getItemSkull().getValue());
-
-                    nbt.setString("Skin", modifiers.getSkin().name());
                 } else {
                     skull.setString("Id", material.getItemSkull().getId());
                     NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
                     texture.setString("Value", material.getItemSkull().getValue());
-
-                    nbt.setString("Skin", "");
                 }
-            } else {
-                nbt.setString("Skin", "");
-            }
-
-            if (modifiers.getPet().getRarity() != Rarity.NONE) {
-                NBTCompound petNBT = nbt.addCompound("Pet");
-                petNBT.setInteger("Level", modifiers.getPet().getLevel());
-                petNBT.setDouble("CurrentXp", modifiers.getPet().getCurrentXp());
             }
         } catch (NbtApiException ignored) {}
 
@@ -323,7 +273,7 @@ public class Item extends ItemStack implements Comparable<Item> {
         if (lores.size() > 0 && isNotLastEmpty(lores)) lores.add("");
 
         if (material instanceof ItemRequirementAble) {
-            lores.addAll(((ItemRequirementAble) material).getRequirements().getRequirements().stream().filter(r -> player == null || !r.hasRequirement(player)).map(Requirement::toString).collect(Collectors.toList()));
+            lores.addAll(((ItemRequirementAble) material).getRequirements().getRequirements().stream().filter(r -> player == null || !r.hasRequirement(player) || player.getGameMode() == GameMode.CREATIVE).map(Requirement::toString).collect(Collectors.toList()));
         }
 
         if (modifiers.getRecombabulated()) {

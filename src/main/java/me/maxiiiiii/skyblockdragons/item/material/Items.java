@@ -35,7 +35,11 @@ public class Items {
 
             try {
                 ItemMaterial material = materialClass.newInstance();
-                items.put(material.getItemID(), material);
+
+                if (material instanceof PetMaterial)
+                    pets.put(material.getItemID(), (PetMaterial) material);
+                else
+                    items.put(material.getItemID(), material);
             } catch (InstantiationException | IllegalAccessException e) {
                 SkyblockDragons.logger.severe("Failed to register material " + e.getMessage());
             }

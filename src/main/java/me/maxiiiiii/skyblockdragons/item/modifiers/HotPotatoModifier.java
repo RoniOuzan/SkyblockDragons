@@ -1,5 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.modifiers;
 
+import de.tr7zw.changeme.nbtapi.NBTCompound;
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.item.stats.StatModifier;
@@ -24,6 +26,11 @@ public class HotPotatoModifier extends ItemModifier implements Listener {
 
     public int get() {
         return amount;
+    }
+
+    @Override
+    public void applyNBT(Item item, NBTCompound nbt) {
+        nbt.setInteger("HotPotato", this.amount);
     }
 
     public static HotPotatoModifier getModifier(ItemStack item) {

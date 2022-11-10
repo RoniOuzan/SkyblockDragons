@@ -1,5 +1,9 @@
 package me.maxiiiiii.skyblockdragons.item.modifiers;
 //
+
+import de.tr7zw.changeme.nbtapi.NBTCompound;
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.pet.PetSupplier;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,6 +21,15 @@ public class PetModifier extends ItemModifier {
 
     public PetSupplier get() {
         return pet;
+    }
+
+    @Override
+    public void applyNBT(Item item, NBTCompound nbt) {
+        if (pet.getRarity() != Rarity.NONE) {
+            NBTCompound petNBT = nbt.addCompound("Pet");
+            petNBT.setInteger("Level", pet.getLevel());
+            petNBT.setDouble("CurrentXp", pet.getCurrentXp());
+        }
     }
 
     public static PetModifier getModifier(ItemStack item) {

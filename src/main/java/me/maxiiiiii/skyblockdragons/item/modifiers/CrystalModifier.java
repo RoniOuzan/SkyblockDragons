@@ -6,6 +6,7 @@ import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.crystals.Crystal;
 import me.maxiiiiii.skyblockdragons.item.crystals.CrystalType;
 import me.maxiiiiii.skyblockdragons.item.crystals.Crystals;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemStatsAble;
 import me.maxiiiiii.skyblockdragons.item.stats.StatModifier;
 import me.maxiiiiii.skyblockdragons.item.stats.StatModifierType;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateItemStatsEvent;
@@ -37,6 +38,18 @@ public class CrystalModifier extends ItemModifier {
 
     public Crystals get() {
         return crystals;
+    }
+
+    @Override
+    public void applyNBT(Item item, NBTCompound nbt) {
+        if (item.getMaterial() instanceof ItemStatsAble && this.crystals.size() > 0) {
+            NBTCompound compound = nbt.addCompound("Crystals");
+            for (int i = 0; i < this.crystals.size(); i++) {
+                Crystal crystal = this.crystals.get(i);
+
+                compound.setString(i + "", crystal.getCrystal().name() + "::" + crystal.getLevel());
+            }
+        }
     }
 
     public static CrystalModifier getModifier(ItemStack item) {

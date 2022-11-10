@@ -17,7 +17,6 @@ import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.wise.WiseDragonFullSet;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.modifiers.*;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
@@ -871,11 +870,11 @@ public class Functions {
         try {
             NBTItem nbtItem = new NBTItem(item);
             NBTCompound nbt = nbtItem.getCompound("Item");
-            SkinMaterial skin = SkinMaterial.NULL;
+            ItemMaterial skin = SkinMaterial.NULL;
             if (!nbt.getString("Skin").equals("")) {
-                skin = (SkinMaterial) Items.get(nbt.getString("Skin"));
+                skin = Items.get(nbt.getString("Skin"));
             }
-            return skin;
+            return skin instanceof SkinMaterial ? (SkinMaterial) skin : SkinMaterial.NULL;
         } catch (NullPointerException ignored) {}
         return SkinMaterial.NULL;
     }

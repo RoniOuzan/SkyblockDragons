@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.modifiers;
 
+import de.tr7zw.changeme.nbtapi.NBTCompound;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatModifier;
@@ -23,6 +24,11 @@ public class ReforgeModifier extends ItemModifier {
 
     public ReforgeType get() {
         return this.reforge;
+    }
+
+    @Override
+    public void applyNBT(Item item, NBTCompound nbt) {
+        nbt.setString("Reforge", this.reforge.name());
     }
 
     public static ReforgeModifier getModifier(ItemStack item) {

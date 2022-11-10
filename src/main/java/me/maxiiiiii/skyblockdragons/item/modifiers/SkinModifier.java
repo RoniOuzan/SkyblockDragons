@@ -1,5 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.modifiers;
 
+import de.tr7zw.changeme.nbtapi.NBTCompound;
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.types.SkinMaterial;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.inventory.ItemStack;
@@ -18,6 +20,13 @@ public class SkinModifier extends ItemModifier {
 
     public SkinMaterial get() {
         return this.skin;
+    }
+
+    @Override
+    public void applyNBT(Item item, NBTCompound nbt) {
+        if (this.skin instanceof SkinMaterial) {
+            nbt.setString("Skin", this.skin.name());
+        }
     }
 
     public static SkinModifier getModifier(ItemStack item) {
