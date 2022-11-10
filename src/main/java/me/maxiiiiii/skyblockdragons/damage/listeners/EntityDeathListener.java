@@ -43,7 +43,6 @@ public class EntityDeathListener implements Listener {
     public void onDeath(org.bukkit.event.entity.EntityDeathEvent e) {
         e.getDrops().clear();
 
-
         if (e.getEntity() instanceof Creature) {
             EntitySD entity = EntitySD.get(e.getEntity().getUniqueId());
 

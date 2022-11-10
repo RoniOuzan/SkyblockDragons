@@ -69,7 +69,6 @@ public class AspectOfTheDragons extends SwordMaterial {
         public PlayerAbilityRunnable setupAbility() {
             return e -> {
                 PlayerSD player = e.getPlayer();
-                player.sendMessage("used");
 
                 Location location = player.getEyeLocation().subtract(0, 0.2, 0).add(player.getLocation().getDirection());
 

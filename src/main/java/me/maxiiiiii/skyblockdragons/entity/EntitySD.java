@@ -25,7 +25,6 @@ public class EntitySD extends EntityClass {
     public static final HashMap<UUID, EntitySD> entities = new HashMap<>();
     public static HashMap<Location, EntityMaterial> entitiesLocations = new HashMap<>();
 
-    public LivingEntity entity;
     public EntityMaterial type;
     public EntityHologram hologram;
     public EntitySD attacker;
@@ -37,7 +36,6 @@ public class EntitySD extends EntityClass {
     public EntitySD(Location location, EntityMaterial type) {
         super((LivingEntity) location.getWorld().spawnEntity(location, type.entityType));
         this.type = type;
-        this.entity = super.entity;
 
         if (this.type.equipment.helmet != null)
             this.entity.getEquipment().setHelmet(this.type.equipment.helmet);
@@ -113,7 +111,6 @@ public class EntitySD extends EntityClass {
         if (!isEntitySD(entity)) throw new EntityAssociateException("Tried to associate entity " + Functions.getEntityName(entity));
 
         this.type = Functions.getEntityMaterial(entity);
-        this.entity = entity;
         this.equipment = new Equipment(this);
 
         entities.put(this.entity.getUniqueId(), this);
@@ -182,13 +179,10 @@ public class EntitySD extends EntityClass {
     }
 
     public void kill() {
-        // TODO: configure why set health to 0 doesn't work
-        this.entity.remove();
-//        this.entity.setHealth(0);
-        SkyblockDragons.getPlayer("LidanTheGamer").sendMessage(this.entity.getHealth());
         if (this.hologram != null)
             this.hologram.remove();
         entities.remove(this.entity.getUniqueId());
+        Functions.Wait(1L, () -> this.entity.setHealth(0));
     }
 
     public void setAttacker(EntitySD attacker) {
@@ -256,7 +250,7 @@ public class EntitySD extends EntityClass {
     }
 
     public void removeHealth(double amount) {
-        if (this.getHealth() - amount <= 1) {
+        if (this.getHealth() - amount <= 0) {
             if (this instanceof PlayerSD)
                 Bukkit.getPluginManager().callEvent(new PlayerDeathEvent((PlayerSD) this));
             else
