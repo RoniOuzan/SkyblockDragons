@@ -2,7 +2,6 @@ package me.maxiiiiii.skyblockdragons.item.material.types;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.crystals.Crystal;
-import me.maxiiiiii.skyblockdragons.item.crystals.CrystalType;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
@@ -10,23 +9,17 @@ import org.bukkit.Material;
 
 @Getter
 public class CrystalMaterial extends ToolMaterial {
-    private final CrystalType crystalType;
-    private final int level;
+    private final Crystal crystal;
 
-    public CrystalMaterial(CrystalType crystalType, ItemFamily family, int level) {
-        super(crystalType.getName().toUpperCase() + "_CRYSTAL_LEVEL_" + level,
+    public CrystalMaterial(Crystal crystal, ItemFamily family) {
+        super(crystal.getCrystal().getName().toUpperCase() + "_CRYSTAL_LEVEL_" + crystal.getLevel(),
                 Material.SKULL_ITEM,
                 family,
-                crystalType.getName() + " Crystal Level " + level,
+                crystal.getCrystal().getName() + " Crystal Level " + crystal.getLevel(),
                 ItemType.CRYSTAL,
-                Rarity.getRarity(level),
-                p -> "Apply on items in the Crystal Grinder. Adds "
+                Rarity.getRarity(crystal.getLevel()),
+                p -> "Apply on items in the Crystal Grinder to add additional stats. Adds " + crystal.getStat().getStatDisplay() + " to your stats."
         );
-        this.crystalType = crystalType;
-        this.level = level;
-    }
-
-    public Crystal getCrystal() {
-        return new Crystal(crystalType, level);
+        this.crystal = crystal;
     }
 }

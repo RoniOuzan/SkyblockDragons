@@ -15,6 +15,10 @@ public class Stat {
         this.type = type;
     }
 
+    public String getStatDisplay() {
+        return this.type.getStatDisplay(this.amount);
+    }
+
     public void set(double amount) {
         this.amount = amount;
     }
