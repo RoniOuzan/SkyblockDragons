@@ -5,9 +5,9 @@ import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
-import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
@@ -37,7 +37,7 @@ public enum Rarity {
                 return rarity;
             }
         }
-        return SPECIAL;
+        return NONE;
     }
 
     public static Rarity getRarity(ChatColor color) {
@@ -46,20 +46,16 @@ public enum Rarity {
                 return rarity;
             }
         }
-        return SPECIAL;
+        return NONE;
     }
 
     public static Rarity getRarity(ItemStack item) {
-        ItemMaterial itemMaterial = Functions.getItemMaterial(item);
         NBTItem nbtItem = new NBTItem(item);
         NBTCompound nbt = nbtItem.getCompound("Item");
 
         if (nbt == null) return Rarity.NONE;
 
-        if (nbt.getBoolean("RarityUpgraded")) {
-            return getRarity(itemMaterial.getRarity().getLevel() + 1);
-        }
-        return getRarity(itemMaterial.getRarity().getLevel());
+        return getRarity(nbt.getInteger("Rarity"));
     }
 
     @Override

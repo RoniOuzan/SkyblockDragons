@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.item.modifiers;
 //
 
 import de.tr7zw.changeme.nbtapi.NBTCompound;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.pet.PetSupplier;

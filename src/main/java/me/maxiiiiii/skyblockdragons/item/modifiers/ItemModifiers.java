@@ -106,8 +106,9 @@ public class ItemModifiers implements Iterable<ItemModifier> {
                 this.necronBladeScrolls,
                 this.recombabulator,
                 this.reforge,
+                this.skin,
                 this.crystals,
-                this.skin
+                this.pet
         };
     }
 

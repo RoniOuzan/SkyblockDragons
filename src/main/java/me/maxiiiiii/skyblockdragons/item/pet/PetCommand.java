@@ -18,13 +18,12 @@ public class PetCommand extends CommandSD {
     @Override
     public void command(PlayerSD player, String[] args) {
         if (args.length > 0) {
-            PetMaterial petMaterial = player.getActivePetMaterial();
             if (args[0].equalsIgnoreCase("xp")) {
+                PetMaterial petMaterial = player.getActivePetMaterial();
                 Item pet = player.getActivePet();
                 if (args.length > 1) {
                     if (args[1].equalsIgnoreCase("give") && args.length > 2) {
                         pet.getModifiers().getPet().giveXp(Double.parseDouble(args[2]));
-                        player.updatePlayerInventory();
                         player.getPlayerPet().updateActivePet();
                     } else if (args[1].equalsIgnoreCase("set") && args.length > 2) {
                         pet.getModifiers().getPet().setCurrentXp(Double.parseDouble(args[2]));
@@ -46,15 +45,12 @@ public class PetCommand extends CommandSD {
                     player.sendMessage(ChatColor.RED + "Can't understand this pet!");
                     return;
                 }
-                int rarity = args.length > 1 ? Integer.parseInt(args[1]) : 0;
-                rarity = Math.max(Math.min(rarity, petMaterial.getAbilities().size()) - 1, 0);
+                PetMaterial material = Items.pets.get(args[0].toUpperCase());
+                Rarity rarity = args.length > 1 ? Rarity.getRarity(Integer.parseInt(args[1])) : material.getAbilities().get(0).getRarity();
                 int level = args.length > 2 ? Integer.parseInt(args[2]) : 1;
-                level = Math.max(Math.min(level, petMaterial.getMaxLevel()), 1);
                 double currentXp = args.length > 3 ? Double.parseDouble(args[3]) : 0;
 
-                Item pet = new Item(player, petMaterial, new PetModifier(new PetSupplier(Rarity.getRarity(rarity), level, currentXp)));
-
-                player.getInventory().addItem(pet);
+                player.getInventory().addItem(new Item(player, material, new PetModifier(new PetSupplier(rarity, level, currentXp))));
             }
         }
     }

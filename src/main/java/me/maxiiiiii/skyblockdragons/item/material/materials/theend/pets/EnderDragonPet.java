@@ -47,7 +47,7 @@ public class EnderDragonPet extends PetMaterial {
     }
 
     private static class EndStrike extends PetAbility {
-        private static final int MULTIPLIER = 2;
+        private static final double MULTIPLIER = 0.2;
 
         public EndStrike() {
             super("End Strike",

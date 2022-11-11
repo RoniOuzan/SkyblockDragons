@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.pet;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
+import lombok.ToString;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
@@ -10,6 +11,7 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.inventory.ItemStack;
 
 @Getter
+@ToString
 public class PetSupplier {
     private final Rarity rarity;
     private int level;

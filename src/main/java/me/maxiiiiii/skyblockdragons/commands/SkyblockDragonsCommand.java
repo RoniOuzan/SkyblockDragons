@@ -3,10 +3,6 @@ package me.maxiiiiii.skyblockdragons.commands;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
-import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.item.crystals.Crystal;
-import me.maxiiiiii.skyblockdragons.item.crystals.CrystalType;
-import me.maxiiiiii.skyblockdragons.item.modifiers.CrystalModifier;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
@@ -116,11 +112,7 @@ public class SkyblockDragonsCommand extends CommandSD {
                     } catch (NullPointerException ignored) {}
                 }
             } else if (args[0].equalsIgnoreCase("test")) {
-                Crystal crystal = new Crystal(CrystalType.ATHENA, 2);
-                Item item = player.getItems().getTool();
-                player.getEquipment().setItemInMainHand(new Item(player, item, new CrystalModifier(crystal)));
-            } else if (args[0].equalsIgnoreCase("test2")) {
-                player.sendMessage(player.getItems().getTool().getModifiers().getCrystals());
+                player.sendMessage(player.getPlayerPet().getPets());
             }
         } else {
             player.sendMessage(ChatColor.RED + "Invalid arguments!");
