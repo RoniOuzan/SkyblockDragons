@@ -188,7 +188,8 @@ public abstract class Menu implements InventoryHolder {
         return "";
     }
 
-    public static ItemStack addNBT(ItemStack item, String nbt) {
+    public static ItemStack addNBT(ItemStack itemStack, String nbt) {
+        ItemStack item = itemStack.clone();
         NBTItem nbtItem = new NBTItem(item, true);
         nbtItem.setString("GuiButton", nbt);
         return item;

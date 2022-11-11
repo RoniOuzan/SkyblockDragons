@@ -35,11 +35,11 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.loreBuilder;
+import static me.maxiiiiii.skyblockdragons.util.Functions.setTitleCase;
 
 @Getter
 public class Item extends ItemStack implements Comparable<Item> {
@@ -53,15 +53,16 @@ public class Item extends ItemStack implements Comparable<Item> {
 
     private final PlayerSD player;
 
-    protected final ItemMaterial material;
-    protected final int amount;
+    private final ItemMaterial material;
+    private final int amount;
+    private final UUID uuid;
 
-    protected final ItemModifiers modifiers;
+    private final ItemModifiers modifiers;
     private final Rarity rarity;
-    protected final Stats stats;
+    private final Stats stats;
 
     // int hotPotato, ReforgeType reforge, boolean recombabulated, SkinMaterial skin, Map<EnchantType, Short> enchants, ArrayList<NecronBladeMaterial.NecronBladeAbility> necronBladeAbilities
-    public Item(PlayerSD player, ItemMaterial material, int amount, ItemModifier... modifiers) {
+    public Item(PlayerSD player, ItemMaterial material, int amount, UUID uuid, ItemModifier... modifiers) {
         super(material.getMaterial(),
                 amount,
                 material.getMaterial() == Material.SKULL_ITEM ? (short) 3 : (short) material.getData()
@@ -69,6 +70,7 @@ public class Item extends ItemStack implements Comparable<Item> {
         this.player = player;
         this.material = material;
         this.amount = amount;
+        this.uuid = isNotStackable() ? uuid : null;
 
         this.modifiers = new ItemModifiers(modifiers);
         if (this.material instanceof BookMaterial) {
@@ -84,11 +86,15 @@ public class Item extends ItemStack implements Comparable<Item> {
     }
 
     public Item(PlayerSD player, ItemMaterial material, ItemModifier... modifiers) {
-        this(player, material, 1, modifiers);
+        this(player, material, 1, UUID.randomUUID(), modifiers);
+    }
+
+    public Item(ItemMaterial material, int amount, UUID uuid, ItemModifier... modifiers) {
+        this(null, material, amount, uuid, modifiers);
     }
 
     public Item(ItemMaterial material, int amount, ItemModifier... modifiers) {
-        this(null, material, amount, modifiers);
+        this(null, material, amount, UUID.randomUUID(), modifiers);
     }
 
     public Item(ItemMaterial material, ItemModifier... modifiers) {
@@ -96,7 +102,7 @@ public class Item extends ItemStack implements Comparable<Item> {
     }
 
     public Item(ItemStack itemStack) {
-        this(Functions.getItemMaterial(itemStack), itemStack);
+        this(Items.get(itemStack), itemStack);
     }
 
     public Item(ItemMaterial material, ItemStack fromItem, ItemModifier... modifiers) {
@@ -104,22 +110,21 @@ public class Item extends ItemStack implements Comparable<Item> {
     }
 
     public Item(PlayerSD player, ItemStack itemStack, ItemModifier... modifiers) {
-        this(player, Functions.getItemMaterial(itemStack), itemStack, modifiers);
+        this(player, Items.get(itemStack), itemStack, modifiers);
     }
 
     public Item(PlayerSD player, ItemMaterial material, ItemModifiers itemModifiers, ItemModifier... modifiers) {
-        this(
-                player,
+        this(player,
                 material,
                 overrideModifiers(itemModifiers, modifiers)
         );
     }
 
     public Item(PlayerSD player, ItemMaterial material, ItemStack fromItem, ItemModifier... modifiers) {
-        this(
-                player,
+        this(player,
                 material,
-                isStackable(fromItem) ? fromItem.getAmount() : 1,
+                Functions.isStackable(fromItem) ? fromItem.getAmount() : 1,
+                getUUID(fromItem),
                 convertModifiersFromItem(modifiers, fromItem)
         );
         Functions.copyNBTStack(this, fromItem);
@@ -227,15 +232,19 @@ public class Item extends ItemStack implements Comparable<Item> {
             NBTCompound extra = nbtItem.addCompound("ExtraAttributes");
             nbt.setString("id", this.material.name());
             extra.setString("id", this.material.name());
+
+            if (isNotStackable())
+                nbt.setString("uuid", this.uuid.toString());
+
             NBTList<Double> statList = nbt.getDoubleList("Stats");
             for (Stat stat : stats) {
                 statList.add(stat.amount);
             }
-            if (material.getType() != ItemType.ITEM || (material instanceof NormalMaterial && !((NormalMaterial) material).isStackAble())) {
-                nbt.setInteger("Stack", Functions.randomInt(1, 10000));
-                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                nbt.setString("Date", format.format(new Date()));
-            }
+//            if (isStackable()) {
+//                nbt.setInteger("Stack", Functions.randomInt(1, 10000));
+//                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+//                nbt.setString("Date", format.format(new Date()));
+//            }
             nbt.setInteger("Rarity", rarity.getLevel());
 
             for (ItemModifier modifier : modifiers) {
@@ -265,7 +274,10 @@ public class Item extends ItemStack implements Comparable<Item> {
         if (modifiers.getReforge() != ReforgeType.NULL) {
             reforgeText = modifiers.getReforge() + " ";
         }
-        meta.setDisplayName(rarity.getColor() + reforgeText + this.material.getName());
+        if (modifiers.getPet().getRarity() != Rarity.NONE)
+            meta.setDisplayName(rarity.getColor() + reforgeText + this.material.getName() + " " + ChatColor.GRAY + "[Level " + modifiers.getPet().getLevel() + "]");
+        else
+            meta.setDisplayName(rarity.getColor() + reforgeText + this.material.getName());
         meta.setUnbreakable(true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -306,21 +318,23 @@ public class Item extends ItemStack implements Comparable<Item> {
         lores.add(ChatColor.DARK_GRAY + setTitleCase(material.getSkill().name()) + " Pet");
         lores.add("");
 
+        ItemStatsAble statsAble = (ItemStatsAble) this.material;
+        ItemStats stats = new ItemStats(statsAble.getStats(), this);
         for (Stat stat : stats) {
-            String statSymbol = "+";
-
-            String percent = "";
-            if (stat.type.isPercentage()) percent = "%";
-
-            double statDisplay = material.getStats().get(stat).amount * level;
-            stats.get(stat).amount = statDisplay;
-            if (material.getStats().get(stat).amount != 0d) {
-                if (material.getStats().get(stat).amount < 0)
-                    statSymbol = "-";
-
-                lores.add(ChatColor.GRAY + stat.type.toString() + " " + ChatColor.GREEN + statSymbol + Math.abs(statDisplay) + percent);
-            }
+            stat.multiply(level);
         }
+
+        if (player != null) {
+            UpdateItemStatsEvent event = new UpdateItemStatsEvent(player, stats);
+            Bukkit.getPluginManager().callEvent(event);
+
+            stats.applyMultipliers();
+        }
+
+        stats.stream().filter(s -> !s.isEmpty()).forEach(s ->
+                lores.add(ChatColor.GRAY + s.getType().toString() + ": " + ChatColor.GREEN + Functions.getNumSymbol(s) + stats.getLoreModifiers(s.getType()))
+        );
+        this.stats.add(stats);
 
         material.getAbilities().stream().filter(p -> p.getRarity() == rarity).map(PetRarity::getAbility).forEach(abilities -> {
             for (PetAbility ability : abilities) {
@@ -453,6 +467,10 @@ public class Item extends ItemStack implements Comparable<Item> {
         }
     }
 
+    public boolean isNotStackable() {
+        return material.getType() != ItemType.ITEM || (material instanceof NormalMaterial && !((NormalMaterial) material).isStackAble());
+    }
+
     public static String getEnchantLoreColor(EnchantType enchantType, int level) {
         if (enchantType instanceof UltimateEnchantType)
             return ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD;
@@ -493,6 +511,31 @@ public class Item extends ItemStack implements Comparable<Item> {
         return enchants;
     }
 
+    public UUID getUUID() {
+        return this.uuid;
+    }
+
+    public int getPetLength() {
+        return (modifiers.getPet().getLevel() * 1_000_000) +
+                (this.rarity.getLevel() * 100_000_000) +
+                (int) this.modifiers.getPet().getCurrentXp();
+    }
+
+    @Override
+    public int compareTo(Item item) {
+        return item.getPetLength() - this.getPetLength();
+    }
+
+    @Override
+    public boolean equals(Object item) {
+        if (item == null) return false;
+
+        if (item instanceof Item) {
+            return this.uuid.equals(((Item) item).getUUID());
+        }
+        return super.equals(item);
+    }
+
     private static ItemModifier[] convertModifiersFromItem(ItemModifier[] modifiers, ItemStack item) {
         Map<Class<? extends ItemModifier>, ItemModifier> newModifiers = new HashMap<>();
         for (ItemModifier modifier : ItemModifiers.getModifiers(item)) {
@@ -517,14 +560,14 @@ public class Item extends ItemStack implements Comparable<Item> {
         menu.setItemMeta(menuMeta);
     }
 
-    public int getPetLength() {
-        return (modifiers.getPet().getLevel() * 1_000_000) +
-                (this.rarity.getLevel() * 100_000_000) +
-                (int) this.modifiers.getPet().getCurrentXp();
-    }
+    public static UUID getUUID(ItemStack item) {
+        if (!Functions.isNotAir(item)) return UUID.randomUUID();
 
-    @Override
-    public int compareTo(Item item) {
-        return item.getPetLength() - this.getPetLength();
+        NBTItem nbtItem = new NBTItem(item);
+        NBTCompound nbt = nbtItem.getCompound("Item");
+        if (nbt != null && nbt.hasKey("uuid")) {
+            return UUID.fromString(nbt.getString("uuid"));
+        }
+        return UUID.randomUUID();
     }
 }

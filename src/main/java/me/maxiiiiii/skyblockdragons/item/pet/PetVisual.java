@@ -24,6 +24,8 @@ public class PetVisual {
     }
 
     public void clear() {
+        if (this.slot < 0) return;
+
         this.remove();
         this.slot = -1;
     }

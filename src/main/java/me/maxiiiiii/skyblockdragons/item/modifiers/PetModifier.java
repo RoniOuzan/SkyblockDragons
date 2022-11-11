@@ -2,7 +2,6 @@ package me.maxiiiiii.skyblockdragons.item.modifiers;
 //
 
 import de.tr7zw.changeme.nbtapi.NBTCompound;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.pet.PetSupplier;
@@ -14,6 +13,10 @@ public class PetModifier extends ItemModifier {
     public PetModifier(PetSupplier pet) {
         super(PetModifier.class);
         this.pet = pet;
+    }
+
+    public PetModifier(Rarity rarity, int level, double currentXp) {
+        this(new PetSupplier(rarity, level, currentXp));
     }
 
     public PetModifier() {

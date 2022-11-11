@@ -19,6 +19,10 @@ public class Stat {
         return this.type.getStatDisplay(this.amount);
     }
 
+    public void multiply(double multiplier) {
+        this.amount *= multiplier;
+    }
+
     public void set(double amount) {
         this.amount = amount;
     }

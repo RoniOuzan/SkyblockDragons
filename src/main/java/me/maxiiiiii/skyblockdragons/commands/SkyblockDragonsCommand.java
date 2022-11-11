@@ -3,6 +3,10 @@ package me.maxiiiiii.skyblockdragons.commands;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
+import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.modifiers.PetModifier;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
@@ -113,6 +117,8 @@ public class SkyblockDragonsCommand extends CommandSD {
                 }
             } else if (args[0].equalsIgnoreCase("test")) {
                 player.sendMessage(player.getPlayerPet().getPets());
+            } else if (args[0].equalsIgnoreCase("test2")) {
+                player.getPlayerPet().addPet(new Item(player, Items.get("ENDER_DRAGON"), new PetModifier(Rarity.LEGENDARY, 3, 2)));
             }
         } else {
             player.sendMessage(ChatColor.RED + "Invalid arguments!");

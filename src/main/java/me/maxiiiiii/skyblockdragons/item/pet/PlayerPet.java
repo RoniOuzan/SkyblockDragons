@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.item.pet;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
@@ -30,12 +31,26 @@ public class PlayerPet {
             if (itemStack == null) {
                 break;
             }
-            this.pets.add(new Item(player, itemStack));
+            this.addPet(new Item(player, itemStack));
         }
         Collections.sort(this.pets);
         this.hidePets = Variables.get(player.getUniqueId(), "HidePets", 0, 0) == 1;
         
         this.updateVisual();
+    }
+
+    public void addPet(Item item) {
+        this.pets.add(item);
+        this.sort();
+    }
+
+    public void removePet(Item item) {
+        this.pets.remove(item);
+        this.sort();
+    }
+
+    private void sort() {
+        Collections.sort(this.pets);
     }
 
     public void updateActivePet() {
@@ -44,7 +59,7 @@ public class PlayerPet {
     }
 
     public void updateVisual() {
-        if (this.activePetSlot < 0)
+        if (this.activePetSlot < 0 || isActivePetFake())
             this.visual = null;
         else
             this.visual = new PetVisual(player, this.getActivePet(), this.activePetSlot);
@@ -73,9 +88,19 @@ public class PlayerPet {
     }
 
     public Item getActivePet() {
-        if (this.activePetSlot == -1)
+        if (this.activePetSlot == -1 || isActivePetFake())
             return null;
+
         return this.pets.get(this.activePetSlot);
+    }
+
+    private boolean isActivePetFake() {
+        if (this.activePetSlot >= this.pets.size()) {
+            SkyblockDragons.logger.severe("Active Pet doesn't exist");
+            this.activePetSlot = -1;
+            return true;
+        }
+        return false;
     }
 
     public void save() {
