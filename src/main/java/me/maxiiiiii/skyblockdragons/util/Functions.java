@@ -1668,4 +1668,12 @@ public class Functions {
         double z = vector.getZ();
         return new Vector(x * Math.cos(degrees) - z * Math.sin(degrees), y, x * Math.sin(degrees) + y * Math.cos(degrees));
     }
+
+    public static double range(double value, double min, double max) {
+        return Math.max(Math.min(value, max), min);
+    }
+
+    public static int range(int value, int min, int max) {
+        return Math.max(Math.min(value, max), min);
+    }
 }

@@ -20,7 +20,7 @@ public class ForagingSkill extends AbstractSkill {
                 new ItemStack(Material.SAPLING, 1, (short) 3),
                 new SkillRewards(
                         "Logger,",
-                        ChatColor.WHITE + "Grants " + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + (level * 4) + "➡" + ChatColor.GREEN + ((level + 1) * 4) + " " + ChatColor.GOLD + "Foraging Fortune " + ChatColor.WHITE + ", which increase your chance for multiple logs.",
+                        l -> ChatColor.WHITE + "Grants " + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + (l * 4) + "➡" + ChatColor.GREEN + ((l + 1) * 4) + " " + ChatColor.GOLD + "Foraging Fortune " + ChatColor.WHITE + ", which increase your chance for multiple logs.",
                         StatType.STRENGTH,
                         2,
                         coinsAmount

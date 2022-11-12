@@ -333,23 +333,12 @@ public class PlayerSD extends PlayerClass {
         this.stats.reset();
         this.stats.getHealth().set(500); // no other way to have more base health so for now it will be that
 
-        // ALPHA BASE SKILLS
-        if (getSkill().get(SkillType.COMBAT).getLevel() < 15){
-            getSkill().get(SkillType.COMBAT).setLevel(15);
-        }
-        if (getSkill().get(SkillType.ENCHANTING).getLevel() < 40){
-            getSkill().get(SkillType.ENCHANTING).setLevel(40);
-        }
-
         for (AbstractSkill skill : this.getSkill()) {
             this.stats.add(skill.getRewards().getStat(), skill.getRewards().getStatAmount() * skill.getLevel());
         }
         this.stats.add(StatType.MINING_FORTUNE, this.getSkill().getMiningSkill().getLevel() * 4);
         this.stats.add(StatType.FARMING_FORTUNE, this.getSkill().getFarmingSkill().getLevel() * 4);
         this.stats.add(StatType.FORAGING_FORTUNE, this.getSkill().getForagingSkill().getLevel() * 4);
-
-        if (getEnchantLevel(EnchantType.RESPIRATION) > 0)
-            player.setMaximumAir((getEnchantLevel(EnchantType.RESPIRATION) * 200) + 200);
 
         for (Item item : equipment) {
             if (item.getMaterial() instanceof ItemRequirementAble && !((ItemRequirementAble) item.getMaterial()).getRequirements().hasRequirements(this)) continue;
@@ -361,6 +350,9 @@ public class PlayerSD extends PlayerClass {
         Bukkit.getPluginManager().callEvent(event);
 
         stats.applyMultipliers();
+
+        if (getEnchantLevel(EnchantType.RESPIRATION) > 0)
+            player.setMaximumAir((getEnchantLevel(EnchantType.RESPIRATION) * 200) + 200);
 
         if (manaRegan && this.stats.getMana().get() < this.stats.getIntelligence().get()) {
             this.stats.getMana().add(this.stats.getIntelligence().get() / 50);

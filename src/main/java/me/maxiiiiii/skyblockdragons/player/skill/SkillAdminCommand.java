@@ -1,16 +1,11 @@
 package me.maxiiiiii.skyblockdragons.player.skill;
 
-import me.maxiiiiii.skyblockdragons.commands.CommandSD;
-import me.maxiiiiii.skyblockdragons.commands.manager.QuickCommand;
-import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
-import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.commands.CommandSD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -35,17 +30,16 @@ public class SkillAdminCommand extends CommandSD {
                     }
                 } else if (args[1].equalsIgnoreCase("set") || args[1].equalsIgnoreCase("setXp")) {
                     try {
-                        double amount = Double.parseDouble(args[2]);
-                        player.getSkill().get(args[0]).setXp(amount);
-                        player.sendMessage(ChatColor.GREEN + "Setted " + args[2] + " " + Functions.setTitleCase(args[0]) + " xp to " + player.getName() + ".");
+                        player.getSkill().get(args[0]).setXp(Math.max(Double.parseDouble(args[2]), 0));
+                        player.sendMessage(ChatColor.GREEN + "Set " + args[2] + " " + Functions.setTitleCase(args[0]) + " xp to " + player.getName() + ".");
                     } catch (NumberFormatException ex) {
                         player.sendMessage(ChatColor.RED + "Can't understand this number!");
                     }
                 } else if (args[1].equalsIgnoreCase("setLevel") || args[1].equalsIgnoreCase("setLVL")) {
                     try {
-                        int level = Integer.parseInt(args[2]);
+                        int level = Functions.range(Integer.parseInt(args[2]), 0, player.getSkill().get(args[0]).getMaxLevel());
                         player.getSkill().get(args[0]).setLevel(level);
-                        player.sendMessage(ChatColor.GREEN + "Setted " + args[2] + " " + Functions.setTitleCase(args[0]) + " level to " + player.getName() + ".");
+                        player.sendMessage(ChatColor.GREEN + "Set " + args[2] + " " + Functions.setTitleCase(args[0]) + " level to " + player.getName() + ".");
                     } catch (NumberFormatException ex) {
                         player.sendMessage(ChatColor.RED + "Can't understand this number!");
                     }

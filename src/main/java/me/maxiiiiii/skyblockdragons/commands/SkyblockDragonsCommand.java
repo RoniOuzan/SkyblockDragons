@@ -11,11 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.entity.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -117,7 +113,7 @@ public class SkyblockDragonsCommand extends CommandSD {
                 String serialized = Serializer.serialize(player.getItems().getTool());
                 player.sendMessage(serialized);
                 player.sendMessage("---------------");
-                player.sendMessage((ItemStack) Serializer.deserialize(serialized));
+                player.sendMessage((Item) Serializer.deserialize(serialized));
             } else if (args[0].equalsIgnoreCase("test2")) {
                 String serialized = Serializer.serialize(32);
                 player.sendMessage(serialized);

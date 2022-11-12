@@ -19,7 +19,7 @@ public class FishingSkill extends AbstractSkill {
                 Material.FISHING_ROD,
                 new SkillRewards(
                         "Treasure Hunter",
-                        ChatColor.WHITE + "Increases the chance to find treasure when fishing by " + ChatColor.DARK_GRAY + (level * 0.2) + "➡" + ChatColor.GREEN + ((level + 1) * 0.2) + "%" + ChatColor.WHITE + ".",
+                        l -> ChatColor.WHITE + "Increases the chance to find treasure when fishing by " + ChatColor.DARK_GRAY + (l * 0.2) + "➡" + ChatColor.GREEN + ((l + 1) * 0.2) + "%" + ChatColor.WHITE + ".",
                         StatType.HEALTH,
                         2,
                         coinsAmount

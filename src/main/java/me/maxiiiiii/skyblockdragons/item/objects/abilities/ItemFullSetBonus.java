@@ -107,7 +107,6 @@ public abstract class ItemFullSetBonus extends ItemAbility implements Listener {
             }
 
             if (amount >= this.amountOfPieces) {
-                entity.sendMessage(amount + "");
                 return true;
             }
         }

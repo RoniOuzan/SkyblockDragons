@@ -9,12 +9,14 @@ import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.Equipment;
 import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.Bukkit;
 
 @Getter
 @Setter
 public abstract class EntityDamageEntity extends EntityDamage {
     protected EntitySD attacker;
+    protected PlayerStats stats;
     protected Equipment equipment;
     protected final FerocitySupplier ferocity;
     private boolean isCritHit;
@@ -22,6 +24,7 @@ public abstract class EntityDamageEntity extends EntityDamage {
     public EntityDamageEntity(EntitySD attacker, EntitySD victim, FerocitySupplier ferocity) {
         super(victim, 1);
         this.attacker = attacker;
+        this.stats = attacker instanceof PlayerSD ? ((PlayerSD) attacker).getStats() : null;
         this.equipment = attacker.getItems();
         this.ferocity = ferocity;
         this.isCritHit = calculateIsCritHit();
@@ -33,7 +36,7 @@ public abstract class EntityDamageEntity extends EntityDamage {
 
     private boolean calculateIsCritHit() {
         if (attacker instanceof PlayerSD && this instanceof DamageCritable) {
-            return Math.random() <= ((PlayerSD) attacker).getStats().getCritChance().get() / 100;
+            return Math.random() <= this.stats.getCritChance().get() / 100;
         }
         return false;
     }
@@ -54,6 +57,10 @@ public abstract class EntityDamageEntity extends EntityDamage {
     public long getFinalDamage() {
         double damage = calculateDamageFormula();
 
+        if (this.isCritHit()) {
+            damage *= 1 + (this.stats.getCritDamage().get() / 100);
+        }
+
         UpdateEntityDamageEvent event = new UpdateEntityDamageEvent(this);
         Bukkit.getPluginManager().callEvent(event);
 
@@ -62,9 +69,9 @@ public abstract class EntityDamageEntity extends EntityDamage {
         return (long) damage;
     }
 
-    protected static double getDefaultDamageFormula(EntitySD attacker) {
+    protected double getDefaultDamageFormula() {
         if (attacker instanceof PlayerSD) {
-            return 5 + (((PlayerSD) attacker).getStats().getDamage().amount) * (1 + (((PlayerSD) attacker).getStats().getStrength().amount / 100));
+            return 5 + (stats.getDamage().get()) * (1 + (stats.getStrength().get() / 100));
         }
         return attacker.type.getDamage();
     }

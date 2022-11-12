@@ -19,7 +19,7 @@ public class FarmingSkill extends AbstractSkill {
                 Material.GOLD_HOE,
                 new SkillRewards(
                         "Farmhand",
-                        ChatColor.WHITE + "Grants " + ChatColor.DARK_GRAY + (level * 4) + "➡" + ChatColor.GREEN + ((level + 1) * 4) + " " + ChatColor.GOLD + "Farming Fortune" + ChatColor.WHITE + ", which increase your chance for multiple crops.",
+                        l -> ChatColor.WHITE + "Grants " + ChatColor.DARK_GRAY + (l * 4) + "➡" + ChatColor.GREEN + ((l + 1) * 4) + " " + ChatColor.GOLD + "Farming Fortune" + ChatColor.WHITE + ", which increase your chance for multiple crops.",
                         StatType.HEALTH,
                         2,
                         coinsAmount

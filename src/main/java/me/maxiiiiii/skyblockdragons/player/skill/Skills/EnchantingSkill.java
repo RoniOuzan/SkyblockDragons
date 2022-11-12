@@ -17,7 +17,7 @@ public class EnchantingSkill extends AbstractSkill {
                 Material.ENCHANTMENT_TABLE,
                 new SkillRewards(
                         "Conjurer",
-                        ChatColor.WHITE + "Gain " + ChatColor.DARK_GRAY + (level * 4) + "➡" + ChatColor.GREEN + ((level + 1) * 4) + " " + ChatColor.WHITE + "more experience orbs from any source.",
+                        l -> ChatColor.WHITE + "Gain " + ChatColor.DARK_GRAY + (l * 4) + "➡" + ChatColor.GREEN + ((l + 1) * 4) + " " + ChatColor.WHITE + "more experience orbs from any source.",
                         StatType.INTELLIGENCE,
                         2,
                         coinsAmount

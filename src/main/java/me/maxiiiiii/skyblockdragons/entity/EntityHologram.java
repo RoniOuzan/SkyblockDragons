@@ -33,7 +33,7 @@ public class EntityHologram {
     }
 
     public void update() {
-        this.stand.setCustomName(this.entity.getCustomName() + " " + ChatColor.GREEN + Functions.getShortNumber(this.entity.type.getHealth()) + StatType.HEALTH.getIcon());
+        this.stand.setCustomName(this.entity.getCustomName() + " " + ChatColor.GREEN + Functions.getShortNumber(this.entity.getHealth()) + ChatColor.RED + StatType.HEALTH.getIcon());
     }
 
     public void remove() {

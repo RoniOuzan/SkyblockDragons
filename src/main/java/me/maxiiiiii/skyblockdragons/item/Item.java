@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.item;
 
 import de.tr7zw.changeme.nbtapi.*;
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.crystals.Crystal;
 import me.maxiiiiii.skyblockdragons.item.crystals.Crystals;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
@@ -541,22 +542,16 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
     public Map<String, Object> serialize() {
         Map<String, Object> result = new LinkedHashMap<String, Object>();
 
-        result.put("type", getType().name());
-
-        if (getDurability() != 0) {
-            result.put("damage", getDurability());
-        }
-
-        if (getAmount() != 1) {
-            result.put("amount", getAmount());
-        }
-
-        ItemMeta meta = getItemMeta();
-        if (!Bukkit.getItemFactory().equals(meta, null)) {
-            result.put("meta", meta);
-        }
+        result.put("Player", player.getUniqueId());
+        result.put("Material", material.getItemID());
 
         return result;
+    }
+
+    public static Item deserialize(Map<String, Object> args) {
+        PlayerSD player = SkyblockDragons.getPlayer((UUID) args.get("Player"));
+        ItemMaterial material = Items.get((String) args.get("Material"));
+        return new Item(player, material);
     }
 
     private static ItemModifier[] convertModifiersFromItem(ItemModifier[] modifiers, ItemStack item) {

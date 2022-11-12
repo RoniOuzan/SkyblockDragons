@@ -15,6 +15,6 @@ public abstract class NormalEntityDamageEntity extends EntityDamageEntity implem
 
     @Override
     protected double calculateDamageFormula() {
-        return getDefaultDamageFormula(attacker);
+        return getDefaultDamageFormula();
     }
 }

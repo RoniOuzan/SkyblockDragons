@@ -15,7 +15,7 @@ public class TamingSkill extends AbstractSkill {
                 Material.MONSTER_EGG,
                 new SkillRewards(
                         "Zoologist",
-                        ChatColor.WHITE + "Gain " + ChatColor.DARK_GRAY + level + "➡" + ChatColor.GREEN + (level + 1) + "% " + ChatColor.WHITE + "extra pet exp.",
+                        l -> ChatColor.WHITE + "Gain " + ChatColor.DARK_GRAY + l + "➡" + ChatColor.GREEN + (l + 1) + "% " + ChatColor.WHITE + "extra pet exp.",
                         StatType.SPEED,
                         1,
                         coinsAmount
