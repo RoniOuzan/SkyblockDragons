@@ -45,6 +45,7 @@ import me.maxiiiiii.skyblockdragons.world.worlds.griffin.Griffin;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -99,7 +100,7 @@ public class PlayerSD extends PlayerClass {
 
     private final Cooldown<EntitySD> hitTick = new Cooldown<>();
 
-    public static final double HEALTH_REGEN = 1.05;
+    public static final double HEALTH_REGEN = 0.05;
 
     public PlayerSD(Player player) {
         super(player);
@@ -259,8 +260,9 @@ public class PlayerSD extends PlayerClass {
         return 0;
     }
 
-    public double getHealthStat() {
-        return this.stats.getHealth().amount;
+    @Override
+    public double getMaxHealth() {
+        return this.stats.getHealth().get();
     }
 
     public double getPurse() {
@@ -369,15 +371,16 @@ public class PlayerSD extends PlayerClass {
 
         this.stats.normalize();
 
-        if (this.getMaxHealth() != this.getHealthStat()) {
-            this.setMaxHealth(this.getHealthStat());
+        if (this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() != this.getMaxHealth()) {
+            this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers().clear();
+            this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(this.getMaxHealth());
         }
 
-//        if (this.getHealth() * HEALTH_REGEN < this.getMaxHealth()) {
-//            this.setHealth(this.getHealth() * HEALTH_REGEN);
-//        } else if (this.getHealth() * HEALTH_REGEN > this.getMaxHealth()) {
-//            this.setHealth(this.getHealth());
-//        }
+        if (this.getHealth() + (this.getMaxHealth() * HEALTH_REGEN) <= this.getMaxHealth()) {
+            this.setHealth(this.getHealth() + (this.getMaxHealth() * HEALTH_REGEN));
+        } else if (this.getHealth() != this.getMaxHealth()) {
+            this.setHealth(this.getMaxHealth());
+        }
 
         this.setWalkSpeed((float) (this.stats.getSpeed().amount / 500));
 

@@ -30,6 +30,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -42,7 +43,7 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.loreBuilder;
 import static me.maxiiiiii.skyblockdragons.util.Functions.setTitleCase;
 
 @Getter
-public class Item extends ItemStack implements Comparable<Item> {
+public class Item extends ItemStack implements Comparable<Item>, ConfigurationSerializable {
     public static final Item SKYBLOCK_MENU = new Item(Items.get("SKYBLOCK_MENU"), 1);
     public static final Item SKYBLOCK_MENU_ARROW = new Item(Items.get("SKYBLOCK_MENU_ARROW"), 64);
 
@@ -401,7 +402,7 @@ public class Item extends ItemStack implements Comparable<Item> {
         Crystals crystals = this.modifiers.getCrystals();
         for (int i = 0; i < statsAble.getMaxCrystals(); i++) {
             if (i >= crystals.size()) {
-                crystalLore.append(ChatColor.GRAY).append("[  ] ");
+                crystalLore.append(ChatColor.GRAY).append("[✧] ");
             } else {
                 Crystal crystal = crystals.get(i);
                 crystalLore.append(Rarity.getRarity(crystal.getLevel()).getColor()).append("[").append(ChatColor.LIGHT_PURPLE).append(crystal.getCrystal().getStatType().getIcon()).append(Rarity.getRarity(crystal.getLevel()).getColor()).append("] ");
@@ -534,6 +535,28 @@ public class Item extends ItemStack implements Comparable<Item> {
             return this.uuid.equals(((Item) item).getUUID());
         }
         return super.equals(item);
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> result = new LinkedHashMap<String, Object>();
+
+        result.put("type", getType().name());
+
+        if (getDurability() != 0) {
+            result.put("damage", getDurability());
+        }
+
+        if (getAmount() != 1) {
+            result.put("amount", getAmount());
+        }
+
+        ItemMeta meta = getItemMeta();
+        if (!Bukkit.getItemFactory().equals(meta, null)) {
+            result.put("meta", meta);
+        }
+
+        return result;
     }
 
     private static ItemModifier[] convertModifiersFromItem(ItemModifier[] modifiers, ItemStack item) {

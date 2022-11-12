@@ -34,9 +34,9 @@ public class Serializer {
             BukkitObjectInputStream is = new BukkitObjectInputStream(in);
 
             return (T) is.readObject();
-        } catch (IOException | ClassNotFoundException exception) {
+        } catch (IOException | ClassNotFoundException ex) {
             SkyblockDragons.logger.info("Failed to read object: " + object);
-            exception.printStackTrace();
+            ex.printStackTrace();
         }
         return null;
     }

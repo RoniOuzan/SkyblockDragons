@@ -30,7 +30,7 @@ public abstract class EntityDragon extends EntityMaterial {
         for (PlayerSD player : entity.getWorld().getPlayers().stream().map(SkyblockDragons::getPlayer).collect(Collectors.toList())) {
             if (player.getGameMode() == GameMode.SURVIVAL) {
                 entity.getWorld().strikeLightningEffect(player.getLocation());
-                player.getPlayer().damage((player.getHealthStat() * percent)*10, entity);
+                player.getPlayer().damage((player.getMaxHealth() * percent)*10, entity);
             }
         }
     }

@@ -3,12 +3,9 @@ package me.maxiiiiii.skyblockdragons.commands;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
-import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.modifiers.PetModifier;
-import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.serialization.Serializer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -18,6 +15,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -116,9 +114,15 @@ public class SkyblockDragonsCommand extends CommandSD {
                     } catch (NullPointerException ignored) {}
                 }
             } else if (args[0].equalsIgnoreCase("test")) {
-                player.sendMessage(player.getPlayerPet().getPets());
+                String serialized = Serializer.serialize(player.getItems().getTool());
+                player.sendMessage(serialized);
+                player.sendMessage("---------------");
+                player.sendMessage((ItemStack) Serializer.deserialize(serialized));
             } else if (args[0].equalsIgnoreCase("test2")) {
-                player.getPlayerPet().addPet(new Item(player, Items.get("ENDER_DRAGON"), new PetModifier(Rarity.LEGENDARY, 3, 2)));
+                String serialized = Serializer.serialize(32);
+                player.sendMessage(serialized);
+                player.sendMessage("---------------");
+                player.sendMessage((Integer) Serializer.deserialize(serialized));
             }
         } else {
             player.sendMessage(ChatColor.RED + "Invalid arguments!");

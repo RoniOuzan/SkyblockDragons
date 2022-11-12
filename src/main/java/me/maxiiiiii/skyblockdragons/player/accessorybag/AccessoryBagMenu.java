@@ -36,11 +36,12 @@ public class AccessoryBagMenu extends Menu {
         if (e.getSlot() < 45) e.setCancelled(false);
     }
 
-
     @Override
     public void onInventoryClose(InventoryCloseEvent e) {
         List<Item> accessories = new ArrayList<>();
         for (int i = 0; i < 45; i++) {
+            if (!Functions.isNotAir(this.getItem(i))) continue;
+
             Item item = new Item(e.getInventory().getItem(i));
             if (Functions.isNotAir(item) && Functions.getItemMaterial(item) instanceof AccessoryMaterial) {
                 accessories.add(item);
