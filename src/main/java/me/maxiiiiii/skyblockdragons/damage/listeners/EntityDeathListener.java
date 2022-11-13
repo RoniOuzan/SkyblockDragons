@@ -26,15 +26,15 @@ public class EntityDeathListener implements Listener {
         if (e.getKiller() instanceof PlayerSD) {
             EntitySD entity = e.getEntity();
             PlayerSD killer = (PlayerSD) e.getKiller();
-            killer.giveSkill(SkillType.COMBAT, entity.type.getCombatXp());
-            killer.giveExp((int) (entity.type.getCoins() / 100));
+            killer.giveSkill(SkillType.COMBAT, entity.material.getCombatXp());
+            killer.giveExp((int) (entity.material.getCoins() / 100));
 
-            for (EntityDrop drop : entity.type.getDrops()) {
+            for (EntityDrop drop : entity.material.getDrops()) {
                 drop.drop(killer, entity);
             }
 
-            Functions.createHologram(entity.getLocation().add(0, 3, 0), new ArrayList<>(Arrays.asList(ChatColor.GOLD + killer.getName(), ChatColor.GOLD + "+" + Functions.getNumberFormat(entity.type.getCoins()))), 40);
-            double coins = entity.type.getCoins();
+            Functions.createHologram(entity.getLocation().add(0, 3, 0), new ArrayList<>(Arrays.asList(ChatColor.GOLD + killer.getName(), ChatColor.GOLD + "+" + Functions.getNumberFormat(entity.material.getCoins()))), 40);
+            double coins = entity.material.getCoins();
             killer.giveCoins(coins);
         }
     }
@@ -51,7 +51,7 @@ public class EntityDeathListener implements Listener {
             EntitySD killer = entity.getAttacker();
             e.setDroppedExp(0);
 
-            Bukkit.getPluginManager().callEvent(new EntityDeathEvent(entity, killer, EntityDeathEvent.DeathCause.ENTITY));
+            Bukkit.getPluginManager().callEvent(new EntityDeathEvent(entity, killer));
         }
     }
 

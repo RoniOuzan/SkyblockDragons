@@ -600,6 +600,10 @@ public class PlayerSD extends PlayerClass {
         return (PlayerEquipment) this.getItems();
     }
 
+    public void heal(double amount) {
+        this.setHealth(this.getHealth() + amount);
+    }
+
     @Getter
     public class PlayerEquipment extends Equipment {
         private final AccessoryBag accessoryBag;

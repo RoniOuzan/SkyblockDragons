@@ -76,6 +76,6 @@ public abstract class EntityDamageEntity extends EntityDamage {
         if (attacker instanceof PlayerSD) {
             return 5 + (stats.getDamage().get()) * (1 + (stats.getStrength().get() / 100));
         }
-        return attacker.type.getDamage();
+        return attacker.material.getDamage();
     }
 }

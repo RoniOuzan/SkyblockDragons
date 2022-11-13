@@ -255,7 +255,7 @@ public abstract class EntityWither extends EntityMaterial {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
     public void onDamage(EntityDamageEvent e) {
-        if (e.getVictim().type instanceof EntityWither && e.getAttacker() instanceof PlayerSD) {
+        if (e.getVictim().material instanceof EntityWither && e.getAttacker() instanceof PlayerSD) {
             WitherIsland.witherDamage.put(e.getAttacker().getUniqueId(), WitherIsland.witherDamage.getOrDefault(e.getAttacker().getUniqueId(), 0d) + e.getFinalDamage());
         }
     }

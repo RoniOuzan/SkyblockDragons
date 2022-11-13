@@ -157,7 +157,7 @@ public class WitherIsland extends WorldSD implements Listener {
     }
 
     public void sendWitherDeadMessage(Player lastDamager){
-        EntityWither type = (EntityWither) wither.type;
+        EntityWither type = (EntityWither) wither.material;
         Map<UUID, Double> sortedWitherDamageMap = sortedWitherDamageMap();
         List<UUID> damageDealers = sortedWitherDamage();
         List<Killer> killers = new ArrayList<>();
@@ -204,7 +204,7 @@ public class WitherIsland extends WorldSD implements Listener {
         LivingEntity shooter = (LivingEntity) projectile.getShooter();
         try {
             if (shooter != null && wither.getUniqueId() != null && shooter.getUniqueId().equals(wither.getUniqueId()) && projectile instanceof WitherSkull){
-                EntityWither type = (EntityWither) wither.type;
+                EntityWither type = (EntityWither) wither.material;
                 int radius = 3;
                 double damage = type.damage;
                 WitherSkull witherSkull = (WitherSkull) projectile;

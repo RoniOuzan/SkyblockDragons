@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.entity;
 
+import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.events.EntityDeathEvent;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
@@ -21,11 +22,12 @@ import org.bukkit.inventory.EntityEquipment;
 import java.util.HashMap;
 import java.util.UUID;
 
+@Getter
 public class EntitySD extends EntityClass {
     public static final HashMap<UUID, EntitySD> entities = new HashMap<>();
     public static HashMap<Location, EntityMaterial> entitiesLocations = new HashMap<>();
 
-    public EntityMaterial type;
+    public EntityMaterial material;
     public EntityHologram hologram;
     public EntitySD attacker;
     public Location location;
@@ -33,37 +35,37 @@ public class EntitySD extends EntityClass {
 
     public final Cooldown<Player> actionBarCooldown = new Cooldown<>();
 
-    public EntitySD(Location location, EntityMaterial type) {
-        super((LivingEntity) location.getWorld().spawnEntity(location, type.entityType));
-        this.type = type;
+    public EntitySD(Location location, EntityMaterial material) {
+        super((LivingEntity) location.getWorld().spawnEntity(location, material.entityType));
+        this.material = material;
 
-        if (this.type.equipment.helmet != null)
-            this.entity.getEquipment().setHelmet(this.type.equipment.helmet);
+        if (this.material.equipment.helmet != null)
+            this.entity.getEquipment().setHelmet(this.material.equipment.helmet);
         this.entity.getEquipment().setHelmetDropChance(0);
-        if (this.type.equipment.chestplate != null)
-            this.entity.getEquipment().setChestplate(this.type.equipment.chestplate);
+        if (this.material.equipment.chestplate != null)
+            this.entity.getEquipment().setChestplate(this.material.equipment.chestplate);
         this.entity.getEquipment().setChestplateDropChance(0);
-        if (this.type.equipment.leggings != null)
-            this.entity.getEquipment().setLeggings(this.type.equipment.leggings);
+        if (this.material.equipment.leggings != null)
+            this.entity.getEquipment().setLeggings(this.material.equipment.leggings);
         this.entity.getEquipment().setLeggingsDropChance(0);
-        if (this.type.equipment.boots != null)
-            this.entity.getEquipment().setBoots(this.type.equipment.boots);
+        if (this.material.equipment.boots != null)
+            this.entity.getEquipment().setBoots(this.material.equipment.boots);
         this.entity.getEquipment().setBootsDropChance(0);
-        if (this.type.equipment.hand != null)
-            this.entity.getEquipment().setItemInMainHand(this.type.equipment.hand);
+        if (this.material.equipment.hand != null)
+            this.entity.getEquipment().setItemInMainHand(this.material.equipment.hand);
         this.entity.getEquipment().setLeggingsDropChance(0);
-        if (this.type.equipment.offHand != null)
-            this.entity.getEquipment().setItemInOffHand(this.type.equipment.offHand);
+        if (this.material.equipment.offHand != null)
+            this.entity.getEquipment().setItemInOffHand(this.material.equipment.offHand);
         this.entity.getEquipment().setBootsDropChance(0);
 
-        this.entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(this.type.speed / 500);
-        this.entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(this.type.health);
-        this.entity.setHealth(this.type.health);
-        this.entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(this.type.knockbackResistance);
-        if (this.type instanceof EntityDragon)
+        this.entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(this.material.speed / 500);
+        this.entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(this.material.health);
+        this.entity.setHealth(this.material.health);
+        this.entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(this.material.knockbackResistance);
+        if (this.material instanceof EntityDragon)
             this.entity.setCustomName(this.getCustomName());
         this.entity.setCustomNameVisible(false);
-        this.entity.setAI(this.type.ai);
+        this.entity.setAI(this.material.ai);
         this.entity.setCanPickupItems(false);
         this.entity.addScoreboardTag("EntitySD");
 
@@ -76,8 +78,8 @@ public class EntitySD extends EntityClass {
         if (this.entity.getVehicle() != null)
             this.entity.getVehicle().remove();
 
-        this.type.onSpawn(this);
-        Functions.While(() -> !this.entity.isDead(), 1, i -> this.type.onTick(this), i -> {
+        this.material.onSpawn(this);
+        Functions.While(() -> !this.entity.isDead(), 1, i -> this.material.onTick(this), i -> {
             if (!this.hologram.getStand().isDead()){
                 this.hologram.remove();
             }
@@ -96,21 +98,21 @@ public class EntitySD extends EntityClass {
         if (this instanceof PlayerSD) {
             return ((PlayerSD) this).getDisplayName();
         }
-        return this.type.name;
+        return this.material.name;
     }
 
     @Override
     public String getCustomName() {
-        if (this.type.level < 0)
-            return ChatColor.WHITE + this.type.name;
-        return ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv " + this.type.level + ChatColor.DARK_GRAY + "] " + ChatColor.WHITE + this.type.name;
+        if (this.material.level < 0)
+            return ChatColor.WHITE + this.material.name;
+        return ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv " + this.material.level + ChatColor.DARK_GRAY + "] " + ChatColor.WHITE + this.material.name;
     }
 
     public EntitySD(LivingEntity entity) {
         super(entity);
         if (!isEntitySD(entity)) throw new EntityAssociateException("Tried to associate entity " + Functions.getEntityName(entity));
 
-        this.type = Functions.getEntityMaterial(entity);
+        this.material = Functions.getEntityMaterial(entity);
         this.equipment = new Equipment(this);
 
         entities.put(this.entity.getUniqueId(), this);
@@ -197,13 +199,17 @@ public class EntitySD extends EntityClass {
         return Math.round(this.entity.getHealth() * 100d) / 100d;
     }
 
+    public double getHealthPercentage() {
+        return this.getHealth() / this.getMaxHealth();
+    }
+
     @Override
     public double getMaxHealth() {
         return this.entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
     }
 
     public double getDefense() {
-        return this.type.defense;
+        return this.material.defense;
     }
 
     public boolean isUndead() {
@@ -254,7 +260,7 @@ public class EntitySD extends EntityClass {
             if (this instanceof PlayerSD)
                 Bukkit.getPluginManager().callEvent(new PlayerDeathEvent((PlayerSD) this));
             else
-                Bukkit.getPluginManager().callEvent(new EntityDeathEvent(this, this.getAttacker(), EntityDeathEvent.DeathCause.ENTITY));
+                Bukkit.getPluginManager().callEvent(new EntityDeathEvent(this, this.getAttacker()));
         } else {
             this.damage(0);
             this.setHealth(this.getHealth() - amount);

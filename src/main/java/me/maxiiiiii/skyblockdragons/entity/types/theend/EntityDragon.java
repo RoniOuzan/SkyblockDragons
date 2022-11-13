@@ -37,7 +37,7 @@ public abstract class EntityDragon extends EntityMaterial {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
     public void onDamage(EntityDamageEvent e) {
-        if (e.getVictim().type instanceof EntityDragon && e.getAttacker() instanceof PlayerSD) {
+        if (e.getVictim().material instanceof EntityDragon && e.getAttacker() instanceof PlayerSD) {
             PlayerSD attacker = (PlayerSD) e.getAttacker();
             TheEnd.dragonDamage.put(attacker, TheEnd.dragonDamage.getOrDefault(attacker, 0d) + e.getFinalDamage());
         }
@@ -45,7 +45,7 @@ public abstract class EntityDragon extends EntityMaterial {
 
     @EventHandler
     public void onDeath(EntityDeathEvent e) {
-        if (e.getEntity().type instanceof EntityDragon) {
+        if (e.getEntity().material instanceof EntityDragon) {
             deadDragon(e.getEntity());
         }
     }

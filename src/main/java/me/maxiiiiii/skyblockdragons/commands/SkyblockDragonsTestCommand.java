@@ -30,19 +30,19 @@ import static me.maxiiiiii.skyblockdragons.world.worlds.witherisland.WitherIslan
 public class SkyblockDragonsTestCommand extends QuickCommand {
     public SkyblockDragonsTestCommand() {
         addSubCommand(new QuickSubCommand("skull-rain", (player, args) -> {
-            EntityWither type = (EntityWither) wither.type;
+            EntityWither type = (EntityWither) wither.material;
             type.skullRainAbility(wither, player);
         }));
         addSubCommand(new QuickSubCommand("super-skull", (player, args) -> {
-            EntityWither type = (EntityWither) wither.type;
+            EntityWither type = (EntityWither) wither.material;
             type.superSkull(wither, player);
         }));
         addSubCommand(new QuickSubCommand("skull-everywhere", (player, args) -> {
-            EntityWither type = (EntityWither) wither.type;
+            EntityWither type = (EntityWither) wither.material;
             type.skullEverywhere(wither);
         }));
         addSubCommand(new QuickSubCommand("dash", (player, args) -> {
-            EntityWither type = (EntityWither) wither.type;
+            EntityWither type = (EntityWither) wither.material;
             type.dashToPlayer(wither, player);
         }));
         addSubCommand(new QuickSubCommand("set-phase", (player, args) -> {
@@ -51,7 +51,7 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
                 return;
             }
             int phase = Integer.parseInt(args[1]);
-            EntityWither type = (EntityWither) wither.type;
+            EntityWither type = (EntityWither) wither.material;
             type.phase = phase;
             player.sendMessage(String.format("set phase to %s", phase));
         }));
@@ -61,7 +61,7 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
                 return;
             }
             int phase = Integer.parseInt(args[1]);
-            EntityWither type = (EntityWither) wither.type;
+            EntityWither type = (EntityWither) wither.material;
             type.blueExplodeAbility(wither, phase);
         }));
         addSubCommand(new QuickSubCommand("spawn-dragon", (player, args) -> {

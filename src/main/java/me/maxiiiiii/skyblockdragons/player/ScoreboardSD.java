@@ -58,7 +58,7 @@ public class ScoreboardSD {
         scores.add(ChatColor.WHITE + "PCoin: " + ChatColor.DARK_GREEN + getNumberFormat(player.getBits()) + " " + bitsAdder);
         scores.add(" ");
         if (TheEnd.dragon != null) {
-            DragonType dragonType = DragonType.getDragonType(TheEnd.dragon.type.getName());
+            DragonType dragonType = DragonType.getDragonType(TheEnd.dragon.material.getName());
             if (player.getWorldSD() == WorldSD.THE_END && dragonType != null) {
                 scores.add(dragonType + " Dragon");
                 scores.add("  " + ChatColor.WHITE + "Dragon's Health: " + ChatColor.GREEN + Functions.getShortNumber(TheEnd.dragon.getHealth()) + StatType.HEALTH.getIcon());
@@ -67,7 +67,7 @@ public class ScoreboardSD {
             }
         }
         if(WitherIsland.wither != null){
-            String name = WitherIsland.wither.type.name;
+            String name = WitherIsland.wither.material.name;
             if (player.getWorldSD() == WorldSD.WITHER_ISLAND && name != null) {
                 scores.add(name);
                 scores.add("  " + ChatColor.WHITE + "Wither's Health: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.wither.getHealth()) + StatType.HEALTH.getIcon());

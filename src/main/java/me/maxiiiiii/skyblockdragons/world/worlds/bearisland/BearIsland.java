@@ -146,7 +146,7 @@ public class BearIsland extends WorldSD implements Listener {
 
 
     public void sendBearDeadMessage(Player lastDamager) {
-        EntityBear type = (EntityBear) iron_golem.type;
+        EntityBear type = (EntityBear) iron_golem.material;
         Map<UUID, Double> sortedBearDamageMap = sortedBearDamageMap();
         List<UUID> damageDealers = sortedBearDamage();
         List<Killer> killers = new ArrayList<>();

@@ -41,7 +41,7 @@ public class DragonKillListener implements Listener {
         }
         Collections.sort(killers);
 
-        DragonType dragonType = DragonType.getDragonType(e.getEntity().type.getName());
+        DragonType dragonType = DragonType.getDragonType(e.getEntity().material.getName());
 
         if (dragonType == null) {
             SkyblockDragons.logger.info(ChatColor.RED + "Cannot find the type of the dragon!");

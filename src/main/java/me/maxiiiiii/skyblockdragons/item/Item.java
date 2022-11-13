@@ -498,21 +498,6 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
         return true;
     }
 
-    public Map<EnchantType, Short> getEnchants() {
-        Map<EnchantType, Short> enchants = new HashMap<>();
-        NBTItem nbtItem = new NBTItem(this);
-        NBTCompound nbt = nbtItem.getCompound("Item");
-        NBTCompound compound1 = nbt.getCompound("Enchants");
-        NBTCompound compound2 = nbt.getCompound("UltimateEnchant");
-        for (EnchantType enchant : EnchantType.enchants.values()) {
-            if (compound1.hasKey(enchant.name()))
-                enchants.put(enchant, Short.parseShort(compound1.getInteger(enchant.name()) + ""));
-            else if (compound2.hasKey(enchant.name()))
-                enchants.put(enchant, Short.parseShort(compound1.getInteger(enchant.name()) + ""));
-        }
-        return enchants;
-    }
-
     public UUID getUUID() {
         return this.uuid;
     }

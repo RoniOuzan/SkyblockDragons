@@ -37,10 +37,10 @@ public class EntityHealth implements Listener {
     }
 
     public static String getName(EntitySD entity) {
-        String name = Functions.setTitleCase(entity.type.getName());
+        String name = Functions.setTitleCase(entity.material.getName());
         try {
-            if (!entity.type.getName().equals("")) {
-                String [] customName = entity.type.getName().split(SPLITTER);
+            if (!entity.material.getName().equals("")) {
+                String [] customName = entity.material.getName().split(SPLITTER);
                 name = customName[0];
             }
         } catch (NullPointerException ignored) {

@@ -24,6 +24,7 @@ import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.RecipesMenu;
 import me.maxiiiiii.skyblockdragons.item.crystals.CrystalGrinderMenu;
 import me.maxiiiiii.skyblockdragons.item.drops.PlayerGetDropListener;
 import me.maxiiiiii.skyblockdragons.item.enchants.BookCommand;
+import me.maxiiiiii.skyblockdragons.item.enchants.EnchantListeners;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantingTableCommand;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
@@ -181,7 +182,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             for (Location location : EntitySD.entitiesLocations.keySet()) {
                 if (Bukkit.getOnlinePlayers().stream().map(Entity::getWorld).noneMatch(w -> w == location.getWorld())) continue;
                 EntityMaterial entityMaterial = EntitySD.entitiesLocations.get(location);
-                if (!EntitySD.entities.values().stream().filter(e -> !e.isDead() && e.type == entityMaterial).map(e -> e.location).collect(Collectors.toList()).contains(location)) {
+                if (!EntitySD.entities.values().stream().filter(e -> !e.isDead() && e.material == entityMaterial).map(e -> e.location).collect(Collectors.toList()).contains(location)) {
                     new EntitySD(location, entityMaterial);
                 }
             }
@@ -361,6 +362,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerEvents(new HotPotatoModifier.Listener(), this);
         registerEvents(new ReforgeModifier.Listener(), this);
         registerEvents(new CrystalModifier.Listener(), this);
+        registerEvents(new EnchantListeners(), this);
 
         registerEvents(new PlayerWarpListener(), this);
         registerEvents(new ChatListener(), this);
