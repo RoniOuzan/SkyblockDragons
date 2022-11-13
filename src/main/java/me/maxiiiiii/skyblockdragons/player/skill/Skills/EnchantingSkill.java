@@ -27,4 +27,6 @@ public class EnchantingSkill extends AbstractSkill {
                 totalXp
         );
     }
+
+    // TODO: passive
 }

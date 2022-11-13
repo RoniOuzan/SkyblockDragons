@@ -25,4 +25,6 @@ public class TamingSkill extends AbstractSkill {
                 totalXp
         );
     }
+
+    // TODO: passive
 }

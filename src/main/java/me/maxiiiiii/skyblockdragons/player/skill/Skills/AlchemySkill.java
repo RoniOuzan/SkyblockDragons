@@ -27,4 +27,6 @@ public class AlchemySkill extends AbstractSkill {
                 totalXp
         );
     }
+
+    // TODO: passive
 }

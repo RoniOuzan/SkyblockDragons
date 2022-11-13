@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
 import me.maxiiiiii.skyblockdragons.damage.interfaces.DamageCritable;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamage.EntityDamage;
 import me.maxiiiiii.skyblockdragons.damage.suppliers.FerocitySupplier;
@@ -61,8 +62,10 @@ public abstract class EntityDamageEntity extends EntityDamage {
             damage *= 1 + (this.stats.getCritDamage().get() / 100);
         }
 
-        UpdateEntityDamageEvent event = new UpdateEntityDamageEvent(this);
+        UpdateEntityDamageEvent event = new UpdateEntityDamageEntityEvent(this);
         Bukkit.getPluginManager().callEvent(event);
+
+        damage = event.getDamage().getMultiplier().multiply(damage);
 
         damage *= getDamageReduction();
 

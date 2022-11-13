@@ -1,12 +1,14 @@
 package me.maxiiiiii.skyblockdragons.player.skill.Skills;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
 
 @Getter
 public class CombatSkill extends AbstractSkill {
@@ -25,5 +27,12 @@ public class CombatSkill extends AbstractSkill {
                 level,
                 60,
                 totalXp);
+    }
+
+    @EventHandler
+    public void updateDamage(UpdateEntityDamageEntityEvent e) {
+        if (e.getAttacker() != this.getPlayer()) return;
+
+        e.getDamage().getMultiplier().addPost(this.getLevel() * 4);
     }
 }

@@ -39,6 +39,8 @@ public abstract class EntityDamage {
         UpdateEntityDamageEvent event = new UpdateEntityDamageEvent(this);
         Bukkit.getPluginManager().callEvent(event);
 
+        damage = event.getDamage().getMultiplier().multiply(damage);
+
         damage *= getDamageReduction();
 
         return (long) damage;

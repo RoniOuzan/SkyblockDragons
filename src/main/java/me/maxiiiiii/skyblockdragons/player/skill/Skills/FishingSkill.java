@@ -29,4 +29,6 @@ public class FishingSkill extends AbstractSkill {
                 totalXp
         );
     }
+
+    // TODO: passive
 }

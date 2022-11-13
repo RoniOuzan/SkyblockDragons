@@ -2,11 +2,13 @@ package me.maxiiiiii.skyblockdragons.player.skill.Skills;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
 
 @Getter
 public class FarmingSkill extends AbstractSkill {
@@ -28,5 +30,12 @@ public class FarmingSkill extends AbstractSkill {
                 60,
                 totalXp
         );
+    }
+
+    @EventHandler
+    public void updateStats(UpdateStatsEvent e) {
+        if (e.getPlayer() != this.getPlayer()) return;
+
+        e.getStats().add(StatType.FARMING_FORTUNE, this.getLevel() * 4);
     }
 }
