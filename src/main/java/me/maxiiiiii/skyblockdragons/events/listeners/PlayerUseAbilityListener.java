@@ -23,6 +23,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerUseAbilityListener implements Listener {
@@ -79,6 +80,29 @@ public class PlayerUseAbilityListener implements Listener {
             e.setCancelled(true);
             useAbility(player, player.getItems().getTool(), usedAbility, material, e);
         }
+    }
+
+    @EventHandler
+    public void onSneak(PlayerToggleSneakEvent e) {
+        if (!e.isSneaking()) return;
+
+        PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
+
+        if (!(player.getItems().getTool().getMaterial() instanceof ItemAbilityAble)) return;
+        ItemAbilityAble material = (ItemAbilityAble) player.getItems().getTool().getMaterial();
+
+        ItemAbility usedAbility = null;
+        for (ItemAbility ability : material.getAbilities()) {
+            if (ability.getAction() == AbilityAction.SNEAK) {
+                usedAbility = ability;
+                break;
+            }
+        }
+
+        if (usedAbility == null) return;
+
+        e.setCancelled(true);
+        useAbility(player, player.getItems().getTool(), usedAbility, material, e);
     }
 
     public void useAbility(PlayerSD player, Item item, ItemAbility usedAbility, ItemAbilityAble material, Event e) {

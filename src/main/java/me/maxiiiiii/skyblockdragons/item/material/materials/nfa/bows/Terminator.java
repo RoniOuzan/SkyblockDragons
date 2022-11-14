@@ -49,9 +49,7 @@ public class Terminator extends ShortBowMaterial {
 
         @Override
         public PlayerAbilityRunnable setupAbility() {
-            return e -> {
-                // TODO: one day
-            };
+            return e -> {};
         }
     }
 

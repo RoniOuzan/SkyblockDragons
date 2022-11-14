@@ -17,7 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class GriffinIsland extends WorldSD implements Listener {
     public static final World world = Bukkit.getWorld("GriffinIsland");
 
-    public GriffinIsland(JavaPlugin plugin) { // TODO change the spawn location
+    public GriffinIsland(JavaPlugin plugin) {
         super(world, "Griffin Island", Warp.GRIFFIN_ISLAND, WorldType.COMBAT, WorldType.MINING);
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         plugin.getServer().getPluginManager().registerEvents(new PlayerDigBurrowListener(), plugin);
