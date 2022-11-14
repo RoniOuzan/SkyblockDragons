@@ -30,7 +30,7 @@ public class Koala_Bear_Boss extends EntityMaterial {
                 500,
                 250,
                 5,
-                new EntityItemDrop(Items.get("BEAR_PET"), 1, 0.05)
+                new EntityItemDrop(Items.get("BEAR"), 1, 0.05)
         );
     }
 

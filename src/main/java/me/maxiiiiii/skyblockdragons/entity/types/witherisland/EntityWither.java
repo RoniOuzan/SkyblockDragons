@@ -24,7 +24,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
-// TODO: teach lidan how to write entities cuz this is not how u write entities
 public abstract class EntityWither extends EntityMaterial {
 
     public static final int TICKS_TO_SECONDS = 20;

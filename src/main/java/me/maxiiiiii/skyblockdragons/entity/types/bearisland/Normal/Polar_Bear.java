@@ -30,7 +30,7 @@ public class Polar_Bear extends EntityMaterial {
                 0,
                 250,
                 5,
-                new EntityItemDrop(Items.get("BEAR_PET"), 1, 0.05)
+                new EntityItemDrop(Items.get("BEAR"), 1, 0.05)
         );
     }
 

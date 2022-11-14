@@ -15,6 +15,7 @@ import me.maxiiiiii.skyblockdragons.player.skill.SkillMenu;
 import me.maxiiiiii.skyblockdragons.player.storage.StorageMenu;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeMenu;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.world.warp.FastTravelMenu;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -89,7 +90,7 @@ public class SkyblockMenu extends Menu {
         } else if (this.getNBT(e.getCurrentItem()).equals("BANK")) {
             BankMenu.openBank(player);
         } else if (this.getNBT(e.getCurrentItem()).equals("FAST_TRAVEL")) {
-            // TODO
+            new FastTravelMenu(player);
         } else if (this.getNBT(e.getCurrentItem()).equals("PROFILE")) {
             new ProfileMenu(player, player);
         } else if (this.getNBT(e.getCurrentItem()).equals("SETTINGS")) {
