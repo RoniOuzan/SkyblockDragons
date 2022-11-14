@@ -64,7 +64,7 @@ public abstract class ItemAbility implements MaterialModifier {
 
     public boolean hasCosts(PlayerSD player, Item item) {
         boolean output = true;
-        if (this instanceof ItemAbilitySilentCooldown) output = ((ItemAbilitySilentCooldown) this).get(player, getAbilityOfPlayer(player));
+        if (this instanceof ItemAbilitySilentCooldown) output = ((ItemAbilitySilentCooldown) this).get(player, item, getAbilityOfPlayer(player));
         if (output && this instanceof ItemAbilityManaCost) output = ((ItemAbilityManaCost) this).get(player, item);
         if (output && this instanceof ItemAbilityManaCostPercentage) output = ((ItemAbilityManaCostPercentage) this).get(player, item);
         return output;
@@ -104,7 +104,7 @@ public abstract class ItemAbility implements MaterialModifier {
 
     protected List<String> getModifiersLore(PlayerSD player, Item item) {
         List<String> lores = new ArrayList<>();
-        if (this instanceof ItemAbilityNoMessageCooldown) lores.add(ItemAbilityNoMessageCooldown.getLine((ItemAbilityNoMessageCooldown) this, player));
+        if (this instanceof ItemAbilityNoMessageCooldown) lores.add(ItemAbilityNoMessageCooldown.getLine((ItemAbilityNoMessageCooldown) this, item, player));
         if (this instanceof ItemAbilityManaCost) lores.add(ItemAbilityManaCost.getLine((ItemAbilityManaCost) this, player, item));
         if (this instanceof ItemAbilityManaCostPercentage) lores.add(ItemAbilityManaCostPercentage.getLine((ItemAbilityManaCostPercentage) this, player, item));
         return lores;

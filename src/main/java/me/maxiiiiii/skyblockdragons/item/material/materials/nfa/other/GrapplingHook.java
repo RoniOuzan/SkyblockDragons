@@ -67,7 +67,7 @@ public class GrapplingHook extends ToolMaterial {
 
             PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
 
-            if (cooldown(player, cooldown, (long) (this.getFinalCooldown(player) * 1000), true)) return;
+            if (cooldown(player, cooldown, (long) (this.getFinalCooldown(player, player.getItems().getTool()) * 1000), true)) return;
 
             Location l1 = player.getLocation();
             Location l2 = e.getHook().getLocation();
