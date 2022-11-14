@@ -555,7 +555,7 @@ public class PlayerSD extends PlayerClass {
     public void damage(EntityDamage damage) {
         if (damage instanceof EntityDamageEntity) {
             ((EntityDamageEntity) damage).setAttacker(this);
-            ((EntityDamageEntity) damage).setEquipment(this.getPlayerItems());
+            ((EntityDamageEntity) damage).setAttackerEquipment(this.getPlayerItems());
         } else {
             damage.setVictim(this);
         }

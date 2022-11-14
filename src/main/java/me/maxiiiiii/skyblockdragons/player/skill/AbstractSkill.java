@@ -46,7 +46,6 @@ public abstract class AbstractSkill implements Listener {
         this.totalXp = totalXp;
         this.needXp = needXps;
 
-        Bukkit.getPlayer("LidanTheGamer").sendMessage("registering " + this);
         Bukkit.getPluginManager().registerEvents(this, SkyblockDragons.plugin);
     }
 

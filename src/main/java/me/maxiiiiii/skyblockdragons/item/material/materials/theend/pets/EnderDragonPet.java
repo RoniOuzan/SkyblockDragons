@@ -57,10 +57,10 @@ public class EnderDragonPet extends PetMaterial {
 
         @EventHandler
         public void updateDamage(UpdateEntityDamageEntityEvent e) {
-            if (e.getAttacker() == null || !(e.getAttacker().getActivePetMaterial() instanceof EnderDragonPet)) return;
+            if (e.getPlayerAttacker() == null || !(e.getPlayerAttacker().getActivePetMaterial() instanceof EnderDragonPet)) return;
 
             if (e.getDamage().getVictim().isEndMob()) {
-                e.getDamage().getMultiplier().addBase(MULTIPLIER * e.getAttacker().getActivePet().getModifiers().getPet().getLevel());
+                e.getDamage().getMultiplier().addBase(MULTIPLIER * e.getPlayerAttacker().getActivePet().getModifiers().getPet().getLevel());
             }
         }
     }

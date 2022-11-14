@@ -82,8 +82,8 @@ public abstract class ItemFullSetBonus extends ItemAbility implements Listener {
     }
 
     @Override
-    public boolean hasCosts(PlayerSD player) {
-        return super.hasCosts(player) && isPlayerWearingFullSet(player);
+    public boolean hasCosts(PlayerSD player, Item item) {
+        return super.hasCosts(player, item) && isPlayerWearingFullSet(player);
     }
 
     @Override

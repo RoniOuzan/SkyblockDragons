@@ -342,7 +342,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
             for (PetAbility ability : abilities) {
                 if (isNotLastEmpty(lores)) lores.add("");
 
-                lores.addAll(ability.getLore(player, level));
+                lores.addAll(ability.getLore(player, level, this));
             }
         });
 
@@ -360,7 +360,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
 
     private void applyNecronAbility(List<String> lores, NecronBladeMaterial.NecronBladeAbility ability) {
         if (isNotLastEmpty(lores)) lores.add("");
-        lores.addAll(ability.getAbility().getLore(player));
+        lores.addAll(ability.getAbility().getLore(player, this));
     }
 
     private void applyAbilities(List<String> lores) {
@@ -371,7 +371,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
 
         for (ItemAbility ability : material.getAbilities()) {
             if (isNotLastEmpty(lores)) lores.add("");
-            lores.addAll(ability.getLore(player));
+            lores.addAll(ability.getLore(player, this));
         }
     }
 

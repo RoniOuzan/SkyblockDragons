@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.events.listeners;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
@@ -15,7 +16,6 @@ import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
@@ -53,7 +53,7 @@ public class PlayerUseAbilityListener implements Listener {
         if (usedAbility == null) return;
 
         e.setCancelled(true);
-        useAbility(player, usedAbility, material, e);
+        useAbility(player, player.getItems().getTool(), usedAbility, material, e);
     }
 
     @EventHandler
@@ -77,19 +77,19 @@ public class PlayerUseAbilityListener implements Listener {
             if (usedAbility == null) return;
 
             e.setCancelled(true);
-            useAbility(player, usedAbility, material, e);
+            useAbility(player, player.getItems().getTool(), usedAbility, material, e);
         }
     }
 
-    public void useAbility(PlayerSD player, ItemAbility usedAbility, ItemAbilityAble material, Event e) {
+    public void useAbility(PlayerSD player, Item item, ItemAbility usedAbility, ItemAbilityAble material, Event e) {
         if (material instanceof ItemRequirementAble && !((ItemRequirementAble) material).getRequirements().hasRequirements(player)) {
             player.sendNoRequirementsMessage("ability");
             return;
         }
 
         usedAbility.setupAbilityPerPlayer(player);
-        if (usedAbility.hasCosts(player)) {
-            usedAbility.applyCosts(player);
+        if (usedAbility.hasCosts(player, item)) {
+            usedAbility.applyCosts(player, item);
             usedAbility.onPlayerUse(new PlayerAbilityUsage(player, player.getItems().getTool(), usedAbility, e));
         }
 

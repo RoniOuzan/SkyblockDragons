@@ -19,7 +19,7 @@ public class Multiplier {
 
     public void addBase(double add) {
         if (add < 0) {
-            this.baseReducer -= add; // - cuz the add is on -
+            this.baseReducer *= 1 - (add / -100); // - cuz the variable is on -
         } else {
             this.baseMultiplier += add;
         }
@@ -27,7 +27,7 @@ public class Multiplier {
 
     public void addPost(double add) {
         if (add < 0) {
-            this.postReducer -= add; // - cuz the add is on -
+            this.postReducer *= 1 - (add / -100); // - cuz the variable is on -
         } else {
             this.postMultiplier += add;
         }
@@ -36,8 +36,8 @@ public class Multiplier {
     public double multiply(double amount) {
         amount *= this.baseMultiplier / 100;
         amount *= this.postMultiplier / 100;
-        amount *= 1 / (this.baseReducer / 100);
-        amount *= 1 / (this.postReducer / 100);
+        amount *= this.baseReducer / 100;
+        amount *= this.postReducer / 100;
         return amount;
     }
 

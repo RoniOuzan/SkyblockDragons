@@ -18,8 +18,8 @@ public class EntityDeathEvent extends EntitySDEvent {
     public EntityDeathEvent(EntitySD entity, EntitySD killer) {
         super(entity);
         this.killer = killer;
-        this.killerStats = entity instanceof PlayerSD ? ((PlayerSD) entity).getStats() : null;
-        this.killerEquipment = killer.getItems();
+        this.killerStats = killer instanceof PlayerSD ? ((PlayerSD) entity).getStats() : null;
+        this.killerEquipment = killer != null ? killer.getItems() : null;
     }
 
     @Override

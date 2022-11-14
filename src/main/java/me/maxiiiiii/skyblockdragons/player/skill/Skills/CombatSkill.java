@@ -31,7 +31,7 @@ public class CombatSkill extends AbstractSkill {
 
     @EventHandler
     public void updateDamage(UpdateEntityDamageEntityEvent e) {
-        if (e.getAttacker() != this.getPlayer()) return;
+        if (e.getPlayerAttacker() != this.getPlayer()) return;
 
         e.getDamage().getMultiplier().addPost(this.getLevel() * 4);
     }

@@ -17,16 +17,16 @@ import org.bukkit.Bukkit;
 @Setter
 public abstract class EntityDamageEntity extends EntityDamage {
     protected EntitySD attacker;
-    protected PlayerStats stats;
-    protected Equipment equipment;
+    protected PlayerStats attackerStats;
+    protected Equipment attackerEquipment;
     protected final FerocitySupplier ferocity;
     private boolean isCritHit;
 
     public EntityDamageEntity(EntitySD attacker, EntitySD victim, FerocitySupplier ferocity) {
         super(victim, 1);
         this.attacker = attacker;
-        this.stats = attacker instanceof PlayerSD ? ((PlayerSD) attacker).getStats() : null;
-        this.equipment = attacker.getItems();
+        this.attackerStats = attacker instanceof PlayerSD ? ((PlayerSD) attacker).getStats() : null;
+        this.attackerEquipment = attacker.getItems();
         this.ferocity = ferocity;
         this.isCritHit = calculateIsCritHit();
     }
@@ -37,7 +37,7 @@ public abstract class EntityDamageEntity extends EntityDamage {
 
     private boolean calculateIsCritHit() {
         if (attacker instanceof PlayerSD && this instanceof DamageCritable) {
-            return Math.random() <= this.stats.getCritChance().get() / 100;
+            return Math.random() <= this.attackerStats.getCritChance().get() / 100;
         }
         return false;
     }
@@ -46,20 +46,11 @@ public abstract class EntityDamageEntity extends EntityDamage {
     protected abstract double calculateDamageFormula();
 
     @Override
-    protected double getDamageReduction() {
-        if (victim instanceof PlayerSD) {
-            double defense = ((PlayerSD) victim).getStats().getDefense().get();
-            return 1 - (defense / (defense + 100));
-        }
-        return 1;
-    }
-
-    @Override
     public long getFinalDamage() {
         double damage = calculateDamageFormula();
 
         if (this.isCritHit()) {
-            damage *= 1 + (this.stats.getCritDamage().get() / 100);
+            damage *= 1 + (this.attackerStats.getCritDamage().get() / 100);
         }
 
         UpdateEntityDamageEvent event = new UpdateEntityDamageEntityEvent(this);
@@ -74,7 +65,7 @@ public abstract class EntityDamageEntity extends EntityDamage {
 
     protected double getDefaultDamageFormula() {
         if (attacker instanceof PlayerSD) {
-            return 5 + (stats.getDamage().get()) * (1 + (stats.getStrength().get() / 100));
+            return 5 + (attackerStats.getDamage().get()) * (1 + (attackerStats.getStrength().get() / 100));
         }
         return attacker.material.getDamage();
     }

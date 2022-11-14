@@ -5,7 +5,6 @@ import me.maxiiiiii.skyblockdragons.item.material.materials.theend.swords.Aspect
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 
 public class StrongDragonFullSet extends ItemFullSetBonus {
     public StrongDragonFullSet() {
@@ -16,9 +15,9 @@ public class StrongDragonFullSet extends ItemFullSetBonus {
 
     @EventHandler
     public void updateDamage(UpdateEntityDamageEntityEvent e) {
-        if (e.getAttacker() == null || !(e.getAttacker().getItems().getFullSet() instanceof StrongDragonFullSet)) return;
+        if (e.getPlayerAttacker() == null || !(e.getPlayerAttacker().getItems().getFullSet() instanceof StrongDragonFullSet)) return;
 
-        if (e.getAttacker().getItems().getToolMaterial() instanceof AspectOfTheEnd) {
+        if (e.getPlayerAttacker().getItems().getToolMaterial() instanceof AspectOfTheEnd) {
             e.getDamage().getMultiplier().addBase(20);
         }
     }

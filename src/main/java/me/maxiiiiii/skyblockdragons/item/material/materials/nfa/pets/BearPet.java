@@ -70,10 +70,10 @@ public class BearPet extends PetMaterial {
 
         @EventHandler
         public void updateDamage(UpdateEntityDamageEntityEvent e) {
-            if (e.getAttacker() == null || !(e.getAttacker().getActivePetMaterial() instanceof BearPet)) return;
+            if (e.getPlayerAttacker() == null || !(e.getPlayerAttacker().getActivePetMaterial() instanceof BearPet)) return;
 
             if (e.getDamage().getFerocity().isFerocityAttack()) {
-                e.getDamage().getMultiplier().addBase(MULTIPLIER * e.getAttacker().getActivePet().getModifiers().getPet().getLevel());
+                e.getDamage().getMultiplier().addBase(MULTIPLIER * e.getPlayerAttacker().getActivePet().getModifiers().getPet().getLevel());
             }
         }
     }

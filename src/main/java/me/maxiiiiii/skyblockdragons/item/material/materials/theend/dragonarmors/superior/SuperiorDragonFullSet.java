@@ -24,9 +24,9 @@ public class SuperiorDragonFullSet extends ItemFullSetBonus {
 
     @EventHandler
     public void updateDamage(UpdateEntityDamageEntityEvent e) {
-        if (!(e.getAttacker().getItems().getFullSet() instanceof SuperiorDragonFullSet)) return;
+        if (!(e.getPlayerAttacker().getItems().getFullSet() instanceof SuperiorDragonFullSet)) return;
 
-        if (e.getAttacker().getItems().getToolMaterial() instanceof AspectOfTheDragons && e.getDamage() instanceof MagicEntityDamageEntity) {
+        if (e.getPlayerAttacker().getItems().getToolMaterial() instanceof AspectOfTheDragons && e.getDamage() instanceof MagicEntityDamageEntity) {
             e.getDamage().getMultiplier().addBase(50);
         }
     }

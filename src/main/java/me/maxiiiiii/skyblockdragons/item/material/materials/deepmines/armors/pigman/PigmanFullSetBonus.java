@@ -15,9 +15,9 @@ public class PigmanFullSetBonus extends ItemFullSetBonus {
 
     @EventHandler
     public void updateDamage(UpdateEntityDamageEntityEvent e) {
-        if (e.getAttacker() == null || e.getAttacker().getItems().getFullSet() != this) return;
+        if (e.getPlayerAttacker() == null || e.getPlayerAttacker().getItems().getFullSet() != this) return;
 
-        if (e.getAttacker().getItems().getToolMaterial() instanceof PigmanDagger) {
+        if (e.getPlayerAttacker().getItems().getToolMaterial() instanceof PigmanDagger) {
             e.getDamage().getMultiplier().addBase(20);
         }
     }

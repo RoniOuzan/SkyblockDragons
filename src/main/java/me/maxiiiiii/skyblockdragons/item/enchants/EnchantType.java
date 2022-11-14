@@ -254,7 +254,7 @@ public class EnchantType implements Comparable<EnchantType> {
         // Ultimate Enchants
         enchants.put("CHIMERA", new UltimateEnchantType(5, "Copies " + ChatColor.GREEN + "MULTIPLIER% " + ChatColor.GRAY + "of your active pet's stats.", new EnchantMultiplier(20, 40, 60, 80, 100), new SkillRequirement(SkillType.ENCHANTING, 31), new ArrayList<>(Arrays.asList(ItemType.SWORD)), "CHIMERA"));
         enchants.put("ONE_FOR_ALL", new UltimateEnchantType(1, "Removes all other enchants but increases your weapon damage by " + ChatColor.GREEN + "MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(500), new SkillRequirement(SkillType.ENCHANTING, 37), new ArrayList<>(Arrays.asList(ItemType.SWORD)), "ONE_FOR_ALL"));
-        enchants.put("ULTIMATE_WISE", new UltimateEnchantType(5, "Reduces the abiliy mana cost of this item by " + ChatColor.GREEN + "MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(10, 20, 30, 40, 50), new SkillRequirement(SkillType.ENCHANTING, 20), new ArrayList<>(Arrays.asList(ItemType.SWORD)), "ULTIMATE_WISE"));
+        enchants.put("ULTIMATE_WISE", new UltimateEnchantType(5, "Reduces the ability mana cost of this item by " + ChatColor.GREEN + "MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(10, 20, 30, 40, 50), new SkillRequirement(SkillType.ENCHANTING, 20), new ArrayList<>(Arrays.asList(ItemType.SWORD)), "ULTIMATE_WISE"));
 
         BANE_OF_ARTHROPODS = enchants.get("BANE_OF_ARTHROPODS");
         CRITICAL = enchants.get("CRITICAL");

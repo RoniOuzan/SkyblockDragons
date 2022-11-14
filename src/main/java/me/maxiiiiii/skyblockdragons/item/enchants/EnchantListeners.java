@@ -2,6 +2,9 @@ package me.maxiiiiii.skyblockdragons.item.enchants;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
+import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEvent;
+import me.maxiiiiii.skyblockdragons.damage.interfaces.ExplosionDamage;
+import me.maxiiiiii.skyblockdragons.damage.interfaces.FireDamage;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.MeleeEntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.ProjectileEntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
@@ -12,7 +15,9 @@ import me.maxiiiiii.skyblockdragons.item.drops.UpdateDropChanceEvent;
 import me.maxiiiiii.skyblockdragons.item.drops.types.ItemDrop;
 import me.maxiiiiii.skyblockdragons.item.drops.types.ItemRareDrop;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.UpdateManaCostEvent;
 import me.maxiiiiii.skyblockdragons.item.stats.ItemStats;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateItemStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -33,16 +38,15 @@ public class EnchantListeners implements Listener {
 
     private final Map<PlayerSD, CounterStrike> counterStrikes = new HashMap<>();
 
-    // TODO: experience, looting, scavenger, chance, aiming, quiver, respiration, feather falling
+    // TODO: experience, looting, scavenger, chance, aiming, quiver, respiration, feather falling, rejuvenate, respite
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void updateDamage(UpdateEntityDamageEntityEvent e) {
-        PlayerSD attacker = e.getAttacker();
+        PlayerSD attacker = e.getPlayerAttacker();
         Item tool = attacker.getItems().getTool();
         Map<EnchantType, Short> enchants = tool.getModifiers().getEnchants();
 
         enchant(attacker, enchants, SHARPNESS, s -> e.getDamage().getMultiplier().addBase(s));
-
 
         if (e.getDamage() instanceof MeleeEntityDamageEntity || e.getDamage() instanceof ProjectileEntityDamageEntity) {
             enchant(attacker, enchants, CUBISM, s -> {
@@ -107,9 +111,24 @@ public class EnchantListeners implements Listener {
         }
     }
 
+    @EventHandler
+    public void updateDamage(UpdateEntityDamageEvent e) {
+        if (e.getVictim() instanceof PlayerSD) return;
+
+        PlayerSD victim = (PlayerSD) e.getVictim();
+
+        if (e.getDamage() instanceof ExplosionDamage) {
+            enchantArmor(victim, BLAST_PROTECTION, s -> e.getDamage().getVictimStats().add(StatType.DEFENSE, s));
+        } else if (e.getDamage() instanceof FireDamage) {
+            enchantArmor(victim, FIRE_PROTECTION, s -> e.getDamage().getVictimStats().add(StatType.DEFENSE, s));
+        } else if (e.getDamage() instanceof ProjectileEntityDamageEntity) {
+            enchantArmor(victim, PROJECTILE_PROTECTION, s -> e.getDamage().getVictimStats().add(StatType.DEFENSE, s));
+        }
+    }
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onDamage(UpdateEntityDamageEntityEvent e) {
-        PlayerSD player = e.getAttacker();
+        PlayerSD player = e.getPlayerAttacker();
         Item tool = player.getItems().getTool();
         Map<EnchantType, Short> enchants = tool.getModifiers().getEnchants();
 
@@ -135,7 +154,6 @@ public class EnchantListeners implements Listener {
                 counterStrikes.remove(player);
             else
                 e.getStats().add(StatType.DEFENSE, 10);
-
         }
     }
 
@@ -149,7 +167,7 @@ public class EnchantListeners implements Listener {
         enchant(player, enchants, VAMPIRISM, s -> player.heal(player.getMaxHealth() * s));
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void updateItemStats(UpdateItemStatsEvent e) {
         PlayerSD player = e.getPlayer();
         ItemStats stats = e.getStats();
@@ -166,6 +184,20 @@ public class EnchantListeners implements Listener {
         enchant(player, enchants, SMARTY_PANTS, s -> stats.add(StatType.INTELLIGENCE, s));
 
         enchant(player, enchants, SUGAR_RUSH, s -> stats.add(StatType.SPEED, s));
+
+        enchant(player, enchants, GROWTH, s -> stats.add(StatType.HEALTH, s));
+
+        enchant(player, enchants, PROTECTION, s -> stats.add(StatType.DEFENSE, s));
+
+        enchant(player, enchants, FORTUNE, s -> stats.add(StatType.MINING_FORTUNE, s));
+
+        enchant(player, enchants, EFFICIENCY, s -> stats.add(StatType.MINING_SPEED, s));
+
+        enchant(player, enchants, CHIMERA, s -> {
+            Stats petStats = new Stats(player.getActivePet().getStats());
+            petStats.multiply(s);
+            stats.add(petStats);
+        });
     }
     
     @EventHandler
@@ -179,11 +211,27 @@ public class EnchantListeners implements Listener {
         });
     }
 
+    @EventHandler
+    public void updateManaCost(UpdateManaCostEvent e) {
+        if (e.getPlayer() == null) return;
+
+        PlayerSD player = e.getPlayer();
+        Map<EnchantType, Short> enchants = e.getItem().getModifiers().getEnchants();
+
+        enchant(player, enchants, ULTIMATE_WISE, s -> e.getMultiplier().addPost(-s));
+    }
+
     private void enchant(PlayerSD player, Map<EnchantType, Short> enchants, EnchantType enchant, Consumer<Double> runnable) {
         if (!enchant.getRequirement().hasRequirement(player)) return;
 
         if (enchants.getOrDefault(enchant, (short) 0) > 0)
             runnable.accept(enchant.getMultipliers().get(enchants.get(enchant)));
+    }
+
+    private void enchantArmor(PlayerSD player, EnchantType enchant, Consumer<Double> runnable) {
+        for (Item item : player.getItems().getArmor()) {
+            enchant(player, item.getModifiers().getEnchants(), enchant, runnable);
+        }
     }
 
     private static class CounterStrike {

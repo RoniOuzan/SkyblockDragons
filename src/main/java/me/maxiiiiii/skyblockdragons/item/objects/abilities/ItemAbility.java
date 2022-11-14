@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.objects.abilities;
 import lombok.AccessLevel;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.MaterialModifier;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityMagicDamage;
@@ -61,18 +62,18 @@ public abstract class ItemAbility implements MaterialModifier {
         return this.description.apply(player, Functions.getNumberFormat(damage));
     }
 
-    public boolean hasCosts(PlayerSD player) {
+    public boolean hasCosts(PlayerSD player, Item item) {
         boolean output = true;
         if (this instanceof ItemAbilitySilentCooldown) output = ((ItemAbilitySilentCooldown) this).get(player, getAbilityOfPlayer(player));
-        if (output && this instanceof ItemAbilityManaCost) output = ((ItemAbilityManaCost) this).get(player);
-        if (output && this instanceof ItemAbilityManaCostPercentage) output = ((ItemAbilityManaCostPercentage) this).get(player);
+        if (output && this instanceof ItemAbilityManaCost) output = ((ItemAbilityManaCost) this).get(player, item);
+        if (output && this instanceof ItemAbilityManaCostPercentage) output = ((ItemAbilityManaCostPercentage) this).get(player, item);
         return output;
     }
 
-    public void applyCosts(PlayerSD player) {
+    public void applyCosts(PlayerSD player, Item item) {
         if (this instanceof ItemAbilitySilentCooldown) ((ItemAbilitySilentCooldown) this).applyCost(getAbilityOfPlayer(player));
-        if (this instanceof ItemAbilityManaCost) ((ItemAbilityManaCost) this).applyCost(player);
-        if (this instanceof ItemAbilityManaCostPercentage) ((ItemAbilityManaCostPercentage) this).applyCost(player);
+        if (this instanceof ItemAbilityManaCost) ((ItemAbilityManaCost) this).applyCost(player, item);
+        if (this instanceof ItemAbilityManaCostPercentage) ((ItemAbilityManaCostPercentage) this).applyCost(player, item);
     }
 
     protected abstract PlayerAbilityRunnable setupAbility();
@@ -89,11 +90,11 @@ public abstract class ItemAbility implements MaterialModifier {
         }
     }
 
-    public List<String> getLore(PlayerSD player) {
+    public List<String> getLore(PlayerSD player, Item item) {
         List<String> lores = new ArrayList<>();
         lores.add(getAbilityFullTitle());
         lores.addAll(Functions.loreBuilder(this.getDescription(player)));
-        lores.addAll(getModifiersLore(player));
+        lores.addAll(getModifiersLore(player, item));
         return lores;
     }
 
@@ -101,11 +102,11 @@ public abstract class ItemAbility implements MaterialModifier {
         return ChatColor.GOLD + abilityTitle + " " + name + " " + action.toString();
     }
 
-    protected List<String> getModifiersLore(PlayerSD player) {
+    protected List<String> getModifiersLore(PlayerSD player, Item item) {
         List<String> lores = new ArrayList<>();
         if (this instanceof ItemAbilityNoMessageCooldown) lores.add(ItemAbilityNoMessageCooldown.getLine((ItemAbilityNoMessageCooldown) this, player));
-        if (this instanceof ItemAbilityManaCost) lores.add(ItemAbilityManaCost.getLine((ItemAbilityManaCost) this, player));
-        if (this instanceof ItemAbilityManaCostPercentage) lores.add(ItemAbilityManaCostPercentage.getLine((ItemAbilityManaCostPercentage) this, player));
+        if (this instanceof ItemAbilityManaCost) lores.add(ItemAbilityManaCost.getLine((ItemAbilityManaCost) this, player, item));
+        if (this instanceof ItemAbilityManaCostPercentage) lores.add(ItemAbilityManaCostPercentage.getLine((ItemAbilityManaCostPercentage) this, player, item));
         return lores;
     }
 

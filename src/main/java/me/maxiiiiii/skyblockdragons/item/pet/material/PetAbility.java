@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.pet.material;
 
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
@@ -26,11 +27,11 @@ public abstract class PetAbility extends ItemAbility implements Listener {
         return this.description.get(player, level);
     }
 
-    public List<String> getLore(PlayerSD player, int level) {
+    public List<String> getLore(PlayerSD player, int level, Item item) {
         List<String> lores = new ArrayList<>();
         lores.add(getAbilityFullTitle());
         lores.addAll(Functions.loreBuilder(this.description.get(player, level)));
-        lores.addAll(getModifiersLore(player));
+        lores.addAll(getModifiersLore(player, item));
         return lores;
     }
 
