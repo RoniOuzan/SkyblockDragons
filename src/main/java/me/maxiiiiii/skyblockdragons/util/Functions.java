@@ -97,19 +97,6 @@ public class Functions {
         return num;
     }
 
-    public static void sendActionBar(PlayerSD player, String message) {
-        int healthAdder = 0;
-        if (Wither_Impact.witherShieldHealth.containsKey(player.getUniqueId()) && System.currentTimeMillis() - Wither_Impact.witherShield.getOrDefault(player.getUniqueId(), 0L) <= 5000) {
-            healthAdder += Wither_Impact.witherShieldHealth.get(player.getUniqueId());
-        }
-        message = "" + ChatColor.RED + (int) (player.getHealth() + healthAdder) + "/" + (int) player.getMaxHealth() + StatType.HEALTH.getIcon() + " " + ChatColor.GOLD + message + " " + ChatColor.AQUA + (int) player.getStats().getMana().amount + "/" + (int) player.getStats().getIntelligence().amount + StatType.INTELLIGENCE.getIcon();
-        player.sendActionBar(message, true);
-    }
-
-    public static void sendActionBar(PlayerSD player) {
-        sendActionBar(player, "" + ChatColor.GREEN + (int) player.getStats().getDefense().amount + StatType.DEFENSE.getIcon());
-    }
-
     public static ItemStack setArmorColor(ItemStack item, Color color) {
         if (!(item.getType() == Material.LEATHER_HELMET || item.getType() == Material.LEATHER_CHESTPLATE || item.getType() == Material.LEATHER_LEGGINGS || item.getType() == Material.LEATHER_BOOTS)) {
             return item;

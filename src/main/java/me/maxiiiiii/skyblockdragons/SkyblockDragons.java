@@ -192,6 +192,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     private void playerEvery5Ticks() {
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (PlayerSD player : players.values()) {
+                player.sendActionBar();
                 if (player.isDead()){
                     player.sendMessage("YOU DEAD VANILLA ERROR?");
                     player.setHealth(0);

@@ -72,8 +72,8 @@ public abstract class ItemAbility implements MaterialModifier {
 
     public void applyCosts(PlayerSD player, Item item) {
         if (this instanceof ItemAbilitySilentCooldown) ((ItemAbilitySilentCooldown) this).applyCost(getAbilityOfPlayer(player));
-        if (this instanceof ItemAbilityManaCost) ((ItemAbilityManaCost) this).applyCost(player, item);
-        if (this instanceof ItemAbilityManaCostPercentage) ((ItemAbilityManaCostPercentage) this).applyCost(player, item);
+        if (this instanceof ItemAbilityManaCost) ((ItemAbilityManaCost) this).applyCost(player, this, item);
+        if (this instanceof ItemAbilityManaCostPercentage) ((ItemAbilityManaCostPercentage) this).applyCost(player, this, item);
     }
 
     protected abstract PlayerAbilityRunnable setupAbility();

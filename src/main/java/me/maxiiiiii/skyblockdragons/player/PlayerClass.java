@@ -1463,11 +1463,6 @@ public class PlayerClass extends EntitySD implements Player {
     }
 
     @Override
-    public double getHealth() {
-        return this.player.getHealth();
-    }
-
-    @Override
     public void setHealth(double health) {
         this.player.setHealth(health);
     }

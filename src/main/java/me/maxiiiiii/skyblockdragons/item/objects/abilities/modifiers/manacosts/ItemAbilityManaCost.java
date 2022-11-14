@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts;
 
 import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,7 +14,7 @@ public interface ItemAbilityManaCost {
         UpdateManaCostEvent event = new UpdateManaCostEvent(player, this, item);
         Bukkit.getPluginManager().callEvent(event);
 
-        return event.getMultiplier().multiply(this.getBaseManaCost(player));
+        return Math.round(event.getMultiplier().multiply(this.getBaseManaCost(player)));
     }
 
     default boolean get(PlayerSD player, Item item) {
@@ -24,10 +25,12 @@ public interface ItemAbilityManaCost {
         return output;
     }
 
-    default void applyCost(PlayerSD player, Item item) {
+    default void applyCost(PlayerSD player, ItemAbility ability, Item item) {
         if (player.getGameMode() == GameMode.CREATIVE) return;
 
-        player.getStats().getMana().remove(this.getFinalCost(player, item));
+        double cost = this.getFinalCost(player, item);
+        player.addActionBar(ChatColor.AQUA.toString() + cost + " Mana (" + ChatColor.GOLD + ability.getName() + ChatColor.AQUA + ")", 1.5);
+        player.getStats().getMana().remove(cost);
     }
 
     static String getLine(ItemAbilityManaCost ability, PlayerSD player, Item item) {

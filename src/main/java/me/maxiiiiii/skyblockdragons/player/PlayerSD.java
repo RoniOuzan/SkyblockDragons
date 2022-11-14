@@ -25,6 +25,7 @@ import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.player.chat.ChatChannel;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerDeathEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
+import me.maxiiiiii.skyblockdragons.player.objects.ActionBarSupplier;
 import me.maxiiiiii.skyblockdragons.player.party.Party;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.Skill;
@@ -36,6 +37,7 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.Priority;
+import me.maxiiiiii.skyblockdragons.util.objects.Queue;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
@@ -99,6 +101,8 @@ public class PlayerSD extends PlayerClass {
     private final List<Menu> menuHistory = new ArrayList<>();
 
     private final Cooldown<EntitySD> hitTick = new Cooldown<>();
+
+    private final Queue<ActionBarSupplier> actionBarQueue = new Queue<>();
 
     public static final double HEALTH_REGEN = 0.05;
 
@@ -218,7 +222,7 @@ public class PlayerSD extends PlayerClass {
     public void giveSkill(SkillType skillType, double amount) {
         this.skill.get(skillType.name()).giveXp(amount);
         String message = ChatColor.DARK_AQUA + "+" + getInt(amount + "") + " " + skillType + " (" + Math.floor(this.getSkill().get(skillType).getCurrentXp() / this.getSkill().get(skillType).getCurrentNeedXp() * 1000d) / 10d + "%)";
-        Functions.sendActionBar(this, message);
+        this.actionBarQueue.add(new ActionBarSupplier(message, 2));
     }
 
     public void addPlayTime(int amount) {
@@ -374,9 +378,26 @@ public class PlayerSD extends PlayerClass {
             this.setHealth(this.getMaxHealth());
         }
 
-        this.setWalkSpeed((float) (this.stats.getSpeed().amount / 500));
+        this.setWalkSpeed((float) (this.stats.getSpeed().get() / 500));
+    }
 
-        Functions.sendActionBar(this);
+    public void sendActionBar() {
+        ActionBarSupplier defense = new ActionBarSupplier(ChatColor.GREEN.toString() + this.getStats().getDefense().get() + StatType.DEFENSE.getIcon(), 0);
+
+        ActionBarSupplier actionBar = this.actionBarQueue.getOrDefault(defense);
+        if (actionBar != null && SkyblockDragons.getCurrentTimeInSeconds() - actionBar.getStartedAt() > actionBar.getDuration()) {
+            this.actionBarQueue.remove();
+            actionBar = this.actionBarQueue.getOrDefault(defense);
+        }
+
+        this.sendActionBar(ChatColor.RED.toString() + (int) this.getHealth() + "/" + (int) this.getMaxHealth() + " " +
+                actionBar + " " +
+                ChatColor.AQUA + (int) this.getStats().getMana().get() + "/" + (int) this.getStats().getIntelligence().get()
+        );
+    }
+
+    public void addActionBar(String text, double duration) {
+        this.actionBarQueue.add(new ActionBarSupplier(text, duration));
     }
 
     public boolean manaCost(int manaCost, ItemStack item, String abilityName) {
@@ -385,7 +406,7 @@ public class PlayerSD extends PlayerClass {
         int cost = Functions.manaCostCalculator(manaCost, this);
         if (this.stats.mana.amount >= cost) {
             this.stats.mana.amount -= cost;
-            Functions.sendActionBar(this, abilityName + ChatColor.AQUA + "! (" + cost + " Mana)");
+//            Functions.sendActionBar(this, abilityName + ChatColor.AQUA + "! (" + cost + " Mana)");
             return false;
         }
         this.player.sendMessage(ChatColor.RED + "You don't have enough mana to use this item!");

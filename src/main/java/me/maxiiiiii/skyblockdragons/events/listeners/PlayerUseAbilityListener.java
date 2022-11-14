@@ -91,6 +91,7 @@ public class PlayerUseAbilityListener implements Listener {
         if (usedAbility.hasCosts(player, item)) {
             usedAbility.applyCosts(player, item);
             usedAbility.onPlayerUse(new PlayerAbilityUsage(player, player.getItems().getTool(), usedAbility, e));
+            player.applyStats(false);
         }
 
         PlayerUseAbilityEvent event = new PlayerUseAbilityEvent(player, player.getItems().getTool(), usedAbility);
