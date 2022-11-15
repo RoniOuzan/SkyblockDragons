@@ -368,6 +368,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         if (getEnchantLevel(EnchantType.RESPIRATION) > 0)
             player.setMaximumAir((getEnchantLevel(EnchantType.RESPIRATION) * 200) + 200);
 
+        // TODO: convert it to event
         if (manaRegan && this.stats.getMana().get() < this.stats.getIntelligence().get()) {
             this.stats.getMana().add(this.stats.getIntelligence().get() / 50);
         }
@@ -382,8 +383,11 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
             this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(this.getMaxHealth());
         }
 
-        if (this.getHealth() + (this.getMaxHealth() * HEALTH_REGEN) <= this.getMaxHealth()) {
-            this.setHealth(this.getHealth() + (this.getMaxHealth() * HEALTH_REGEN));
+        double amountToRegain = this.getMaxHealth() * HEALTH_REGEN;
+        if (this.getActivePowerOrb() != null) amountToRegain += this.getMaxHealth() * this.getActivePowerOrb().getHealthRegenPercent();
+
+        if (this.getHealth() + amountToRegain <= this.getMaxHealth()) {
+            this.setHealth(this.getHealth() + amountToRegain);
         } else if (this.getHealth() != this.getMaxHealth()) {
             this.setHealth(this.getMaxHealth());
         }

@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.powerorbs;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
+import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
@@ -25,6 +26,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.UUID;
 
 public class PowerOrbDeployAbility extends ItemAbility implements ItemAbilityManaCostPercentage {
+    @Getter
     public enum PowerOrbType {
         RADIANT(new ParticleUtil(Particle.REDSTONE, 0.1f, 1f, 0.1f, 1f, 1), ChatColor.GREEN, 30, 5, 18, 1, 0, 0),
         MANA_FLUX(new ParticleUtil(Particle.REDSTONE, 0.2f, 0.2f, 1, 1f, 1), ChatColor.AQUA, 30, 5, 20, 2, 50, 10),
@@ -127,6 +129,15 @@ public class PowerOrbDeployAbility extends ItemAbility implements ItemAbilityMan
                 Location particleLocation = stand.getLocation().add(0, 1.7, 0);
                 particleLocation.add(stand.getLocation().getDirection().multiply(0.4));
                 type.particle.spawn(particleLocation);
+
+                for (PlayerSD player : e.getPlayer().getWorldSD().getPlayers()) {
+                    Location playerLocation = player.getLocation();
+                    playerLocation.setY(location.getY());
+                    if (playerLocation.distance(location) <= type.range)
+                        player.setActivePowerOrb(type);
+                    else
+                        player.setActivePowerOrb(null);
+                }
             }, i -> {
                 stand.remove();
                 hologram.delete();
