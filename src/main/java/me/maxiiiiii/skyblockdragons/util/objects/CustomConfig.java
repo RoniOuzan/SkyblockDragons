@@ -1,7 +1,6 @@
 package me.maxiiiiii.skyblockdragons.util.objects;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -13,6 +12,7 @@ public class CustomConfig extends YamlConfiguration {
 
     public CustomConfig(File file) {
         this.file = file;
+        this.setup();
         this.load();
     }
 
@@ -20,10 +20,8 @@ public class CustomConfig extends YamlConfiguration {
         this(new File(SkyblockDragons.plugin.getDataFolder(), name + (name.contains(".yml") ? "" : ".yml")));
     }
 
-    //Finds or generates the custom config file
     public void setup(){
         if (!file.exists()) {
-            Bukkit.getPlayer("LidanTheGamer").sendMessage("non exist");
             try {
                 file.createNewFile();
             } catch (IOException e) {

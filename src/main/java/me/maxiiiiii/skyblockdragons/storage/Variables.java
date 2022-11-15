@@ -20,6 +20,7 @@ public class Variables {
         for (PlayerSD player : SkyblockDragons.getPlayers()) {
             player.save();
         }
+
         variables.save();
         for (CustomConfig customConfig : playerVariables.values()) {
             customConfig.save();
