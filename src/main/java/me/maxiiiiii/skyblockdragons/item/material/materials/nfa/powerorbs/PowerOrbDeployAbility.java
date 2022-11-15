@@ -133,9 +133,12 @@ public class PowerOrbDeployAbility extends ItemAbility implements ItemAbilityMan
                 for (PlayerSD player : e.getPlayer().getWorldSD().getPlayers()) {
                     Location playerLocation = player.getLocation();
                     playerLocation.setY(location.getY());
-                    if (playerLocation.distance(location) <= type.range)
+                    if (playerLocation.distance(location) <= type.range) {
+                        if (player.getActivePowerOrb() != null && player.getActivePowerOrb().ordinal() > type.ordinal())
+                            continue;
+
                         player.setActivePowerOrb(type);
-                    else
+                    } else
                         player.setActivePowerOrb(null);
                 }
             }, i -> {
