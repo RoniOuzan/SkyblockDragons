@@ -205,13 +205,6 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
                 lores.add("");
                 lores.add(ChatColor.GRAY + "This skin can be applied to");
                 lores.add(Items.items.get(material.name().replaceAll("_SKIN", "")).getRarity().getColor() + Items.items.get(material.name().replaceAll("_SKIN", "")).getName());
-            } else if (this.material instanceof PowerOrbMaterial) {
-                PowerOrbMaterial material = (PowerOrbMaterial) this.material;
-
-                if (isNotLastEmpty(lores)) lores.add("");
-
-                lores.add(material.getRarity().getColor() + "Orb Buff: " + material.getPowerOrbName());
-                lores.addAll(Functions.loreBuilder(material.getDescription(player), ChatColor.GRAY, 50));
             } else if (this.material instanceof NormalMaterial) {
                 NormalMaterial material = (NormalMaterial) this.material;
 

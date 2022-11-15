@@ -1,9 +1,10 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.powerorbs;
 
 import me.maxiiiiii.skyblockdragons.item.material.types.PowerOrbMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
-import org.bukkit.ChatColor;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import org.bukkit.Material;
 
 public class PlasmaPowerOrb extends PowerOrbMaterial {
@@ -14,9 +15,7 @@ public class PlasmaPowerOrb extends PowerOrbMaterial {
                 "Plasma Power Orb",
                 ItemType.POWER_ORB,
                 Rarity.LEGENDARY,
-                "Grants " + ChatColor.AQUA + "+125% " + ChatColor.GRAY + "base mana regen." + " NEW_LINE " + "Heals " + ChatColor.RED + "3% " + ChatColor.GRAY + "of max " + StatType.HEALTH.getIcon() + " " + ChatColor.GRAY + "per second." + " NEW_LINE " + "Increases all heals by " + ChatColor.GREEN + "+7.5%" + ChatColor.GRAY + "." + " NEW_LINE " + ChatColor.GRAY + "Grants " + ChatColor.RED + "+35 Strength" + ChatColor.GRAY + ".",
-                "Plasma",
-                new PowerOrbDeployAbility(PowerOrbDeployAbility.PowerOrb.PLASMA)
+                new PowerOrbDeployAbility(PowerOrbDeployAbility.PowerOrbType.PLASMA)
         );
     }
 

@@ -13,6 +13,7 @@ import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
+import me.maxiiiiii.skyblockdragons.item.material.materials.nfa.powerorbs.PowerOrbDeployAbility;
 import me.maxiiiiii.skyblockdragons.item.material.types.BowMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.MiningMaterial;
@@ -93,6 +94,8 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     public Forge forge;
 
     public Griffin griffin;
+
+    private PowerOrbDeployAbility.PowerOrbType activePowerOrb = null;
 
     private double lastCoins;
 
@@ -214,6 +217,14 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.enderChestSD.save();
 
         this.forge.save();
+    }
+
+    public void setActivePowerOrb(PowerOrbDeployAbility.PowerOrbType activePowerOrb) {
+        this.activePowerOrb = activePowerOrb;
+    }
+
+    public PowerOrbDeployAbility.PowerOrbType getActivePowerOrb() {
+        return activePowerOrb;
     }
 
     public void giveSkill(SkillType skillType, double amount) {

@@ -1,8 +1,10 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.powerorbs;
 
 import me.maxiiiiii.skyblockdragons.item.material.types.PowerOrbMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
-import org.bukkit.ChatColor;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import org.bukkit.Material;
 
 public class ManaFluxPowerOrb extends PowerOrbMaterial {
@@ -13,9 +15,7 @@ public class ManaFluxPowerOrb extends PowerOrbMaterial {
                 "Mana Flux Power Orb",
                 ItemType.POWER_ORB,
                 Rarity.RARE,
-                "Grants " + ChatColor.AQUA + "+50% " + ChatColor.GRAY + "base mana regen." + " NEW_LINE " + "Heals " + ChatColor.RED + "2% " + ChatColor.GRAY + "of max " + StatType.HEALTH.getIcon() + " " + ChatColor.GRAY + "per second." + " NEW_LINE " + ChatColor.GRAY + "Grants " + ChatColor.RED + "+10 Strength" + ChatColor.GRAY + ".",
-                "Mana Flux",
-                new PowerOrbDeployAbility(PowerOrbDeployAbility.PowerOrb.MANA_FLUX)
+                new PowerOrbDeployAbility(PowerOrbDeployAbility.PowerOrbType.MANA_FLUX)
         );
     }
 

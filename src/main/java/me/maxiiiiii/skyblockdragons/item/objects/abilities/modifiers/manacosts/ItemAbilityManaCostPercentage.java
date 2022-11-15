@@ -11,6 +11,8 @@ public interface ItemAbilityManaCostPercentage extends ItemAbilityManaCost {
 
     @Override
     default double getBaseManaCost(PlayerSD player) {
+        if (player == null) return getBaseManaCostPercentage(null);
+
         return player.getStats().getIntelligence().get() * (getBaseManaCostPercentage(player) / 100);
     }
 
