@@ -108,6 +108,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         super(player);
         System.out.println("player " + player);
         this.update(player);
+        SkyblockDragons.players.put(player.getUniqueId(), this);
 
         this.stats = new PlayerStats(this,
                 0,
@@ -158,8 +159,6 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.scoreboardSD = new ScoreboardSD(this);
 
         this.equipment = new PlayerEquipment();
-
-        SkyblockDragons.players.put(player.getUniqueId(), this);
     }
 
     private void setupLogger() {

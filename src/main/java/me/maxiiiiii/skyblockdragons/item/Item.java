@@ -518,8 +518,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
     public static Item deserialize(Map<String, Object> args) {
         if (!args.containsKey("Player") || !args.containsKey("Item")) return new Item(null, Items.NULL);
 
-        Object player = args.get("Player");
-        return new Item(player == null ? null : (PlayerSD) player, ItemStack.deserialize((Map<String, Object>) args.get("Item")));
+        return new Item((PlayerSD) args.get("Player"), ItemStack.deserialize((Map<String, Object>) args.get("Item")));
     }
 
     @Override
