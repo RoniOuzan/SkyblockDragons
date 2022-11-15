@@ -15,7 +15,7 @@ import java.util.List;
 public abstract class SkinMaterial extends ItemMaterial {
     public static final SkinMaterial NULL = new NullSkinMaterial();
 
-    protected final List<String> canApplyTo; // TODO: make it actually work
+    protected final List<String> canApplyTo;
 
     public SkinMaterial(String itemID, Material material, ItemFamily family, String name, Rarity rarity, String... canApplyTo) {
         super(itemID, material, family, name, ItemType.SKIN, rarity);
