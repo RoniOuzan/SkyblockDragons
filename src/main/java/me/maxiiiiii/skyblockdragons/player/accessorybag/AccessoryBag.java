@@ -23,7 +23,7 @@ public class AccessoryBag implements Iterable<Item> {
         if (player == null) return;
 
         for (int i = 0; i < 45; i++) {
-            ItemStack itemStack = Variables.get(player.getUniqueId(), "AccessoryBag", i);
+            ItemStack itemStack = Variables.getItemStack(player.getUniqueId(), "AccessoryBag", i);
             if (itemStack == null) break;
             this.items.add(new Item(player, itemStack));
         }

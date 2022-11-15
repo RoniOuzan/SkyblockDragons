@@ -2,7 +2,6 @@ package me.maxiiiiii.skyblockdragons.item;
 
 import de.tr7zw.changeme.nbtapi.*;
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.crystals.Crystal;
 import me.maxiiiiii.skyblockdragons.item.crystals.Crystals;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
@@ -27,10 +26,7 @@ import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -509,6 +505,23 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
     }
 
     @Override
+    @Utility
+    public Map<String, Object> serialize() {
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("Player", player);
+        result.put("Item", super.serialize());
+
+        return result;
+    }
+
+    public static Item deserialize(Map<String, Object> args) {
+        if (!args.containsKey("Player") || !args.containsKey("Item") || args.get("Player") == null) return new Item(null, Items.NULL);
+
+        return new Item((PlayerSD) args.get("Player"), ItemStack.deserialize((Map<String, Object>) args.get("Item")));
+    }
+
+    @Override
     public int compareTo(Item item) {
         return item.getPetLength() - this.getPetLength();
     }
@@ -521,22 +534,6 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
             return this.uuid.equals(((Item) item).getUUID());
         }
         return super.equals(item);
-    }
-
-    @Override
-    public Map<String, Object> serialize() {
-        Map<String, Object> result = new LinkedHashMap<String, Object>();
-
-        result.put("Player", player.getUniqueId());
-        result.put("Material", material.getItemID());
-
-        return result;
-    }
-
-    public static Item deserialize(Map<String, Object> args) {
-        PlayerSD player = SkyblockDragons.getPlayer((UUID) args.get("Player"));
-        ItemMaterial material = Items.get((String) args.get("Material"));
-        return new Item(player, material);
     }
 
     private static ItemModifier[] convertModifiersFromItem(ItemModifier[] modifiers, ItemStack item) {

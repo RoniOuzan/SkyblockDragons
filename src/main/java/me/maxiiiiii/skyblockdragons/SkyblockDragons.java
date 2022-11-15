@@ -147,7 +147,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         registerAllCommands();
 
-//        Coop.load();
         EntitySD.loadLocations();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -375,10 +374,10 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         // Abilities
         registerEvents(new Wither_Impact(), this);
-        registerEvents(new CommandListener(), this);
-        registerEvents(new TeleportListener(), this);
+//        registerEvents(new CommandListener(), this);
+//        registerEvents(new TeleportListener(), this);
         registerEvents(new BlockListener(), this);
-        registerEvents(new PlayerAbilityLogger(), this);
+//        registerEvents(new PlayerAbilityLogger(), this);
         registerEvents(new ProjectileShootListener(), this);
         new PacketListeners(); // not really an event but works like them
     }

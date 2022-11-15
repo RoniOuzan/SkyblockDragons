@@ -36,23 +36,23 @@ public class BlockListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerBreakBlockTracker(BlockBreakEvent event) {
-        PlayerSD player = SkyblockDragons.getPlayer(event.getPlayer());
-        if (player == null)
-            return;
-        String msg = "BreakBlockTracker: " + String.format("block: %s ", event.getBlock()) +
-                String.format("cancelled? %s", event.isCancelled());
-        player.getLogger().info(msg);
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerPlaceBlockTracker(BlockPlaceEvent event) {
-        PlayerSD player = SkyblockDragons.getPlayer(event.getPlayer());
-        if (player == null)
-            return;
-        String msg = "BreakBlockTracker: " + String.format("block: %s ", event.getBlock()) +
-                String.format("cancelled? %s", event.isCancelled());
-        player.getLogger().info(msg);
-    }
+//    @EventHandler(priority = EventPriority.MONITOR)
+//    public void onPlayerBreakBlockTracker(BlockBreakEvent event) {
+//        PlayerSD player = SkyblockDragons.getPlayer(event.getPlayer());
+//        if (player == null)
+//            return;
+//        String msg = "BreakBlockTracker: " + String.format("block: %s ", event.getBlock()) +
+//                String.format("cancelled? %s", event.isCancelled());
+//        player.getLogger().info(msg);
+//    }
+//
+//    @EventHandler(priority = EventPriority.MONITOR)
+//    public void onPlayerPlaceBlockTracker(BlockPlaceEvent event) {
+//        PlayerSD player = SkyblockDragons.getPlayer(event.getPlayer());
+//        if (player == null)
+//            return;
+//        String msg = "BreakBlockTracker: " + String.format("block: %s ", event.getBlock()) +
+//                String.format("cancelled? %s", event.isCancelled());
+//        player.getLogger().info(msg);
+//    }
 }

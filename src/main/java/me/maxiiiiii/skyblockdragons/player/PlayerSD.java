@@ -48,6 +48,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -57,10 +58,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -71,7 +69,7 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.getInt;
 
 @Getter
 @Setter
-public class PlayerSD extends PlayerClass {
+public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     public PlayerStats stats;
 
     private ScoreboardSD scoreboardSD;
@@ -135,15 +133,15 @@ public class PlayerSD extends PlayerClass {
                 0
         );
 
-        this.chatChannel = Variables.get(player.getUniqueId(), "ChatChannel", 0, ChatChannel.ALL);
+        this.chatChannel = (ChatChannel) Variables.get(player.getUniqueId(), "ChatChannel", 0, ChatChannel.ALL);
 
-        this.tracked = Variables.get(player.getUniqueId(), "Tracked", 0, true);
-        setupLogger();
+        this.tracked = Variables.getBoolean(player.getUniqueId(), "Tracked", 0, true);
+//        setupLogger();
 
         this.party = null;
 
-        this.playTime = Variables.get(player.getUniqueId(), "PlayTime", 0, 0);
-        this.bits = Variables.get(player.getUniqueId(), "Bits", 0, 0);
+        this.playTime = Variables.getInt(player.getUniqueId(), "PlayTime", 0, 0);
+        this.bits = Variables.getInt(player.getUniqueId(), "Bits", 0, 0);
 
         this.wardrobe = new Wardrobe(this);
         this.skill = new Skill(this);
@@ -206,7 +204,7 @@ public class PlayerSD extends PlayerClass {
         Variables.set(player.getUniqueId(), "PlayTime", 0, this.playTime);
         Variables.set(player.getUniqueId(), "Bits", 0, this.bits);
 
-        Variables.set(player.getUniqueId(), "ChatChannel", 0, this.chatChannel);
+//        Variables.set(player.getUniqueId(), "ChatChannel", 0, this.chatChannel);
         Variables.set(player.getUniqueId(), "Tracked", 0, this.tracked);
 
         this.wardrobe.save();
@@ -242,6 +240,8 @@ public class PlayerSD extends PlayerClass {
     }
 
     public Item getActivePet() {
+        if (this.playerPet == null) return null;
+
         return this.playerPet.getActivePet();
     }
 
@@ -326,7 +326,7 @@ public class PlayerSD extends PlayerClass {
 
     public void applyStats(boolean manaRegan) {
         this.equipment.update();
-        PlayerEquipment equipment = getPlayerItems();
+        PlayerEquipment equipment = getItems();
 
         if (this.getWorldSD().isType(WorldType.MINING)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, -1, false, false), true);
@@ -576,7 +576,7 @@ public class PlayerSD extends PlayerClass {
     public void damage(EntityDamage damage) {
         if (damage instanceof EntityDamageEntity) {
             ((EntityDamageEntity) damage).setAttacker(this);
-            ((EntityDamageEntity) damage).setAttackerEquipment(this.getPlayerItems());
+            ((EntityDamageEntity) damage).setAttackerEquipment(this.getItems());
         } else {
             damage.setVictim(this);
         }
@@ -617,12 +617,13 @@ public class PlayerSD extends PlayerClass {
         super.giveExp(amount);
     }
 
-    public PlayerEquipment getPlayerItems() {
-        return (PlayerEquipment) this.getItems();
-    }
-
     public void heal(double amount) {
         this.setHealth(this.getHealth() + amount);
+    }
+
+    @Override
+    public PlayerEquipment getItems() {
+        return (PlayerEquipment) super.getItems();
     }
 
     @Getter
@@ -633,6 +634,8 @@ public class PlayerSD extends PlayerClass {
         public PlayerEquipment() {
             super(PlayerSD.this);
             this.accessoryBag = new AccessoryBag(PlayerSD.this);
+
+            this.update();
         }
 
         public void setAccessoryBag(List<Item> items) {
@@ -640,7 +643,7 @@ public class PlayerSD extends PlayerClass {
         }
 
         public PetMaterial getPetMaterial() {
-            return PlayerSD.this.getActivePetMaterial();
+            return (PetMaterial) pet.getMaterial();
         }
 
         @Override
@@ -669,6 +672,21 @@ public class PlayerSD extends PlayerClass {
             return false;
         }
         return this.getUniqueId().equals(((Entity) other).getUniqueId());
+    }
+
+    @Override
+    @Utility
+    public Map<String, Object> serialize() {
+        Map<String, Object> result = new HashMap<>();
+        result.put("UUID", this.getUniqueId().toString());
+        return result;
+    }
+
+    public static PlayerSD deserialize(Map<String, Object> args) {
+        if (!args.containsKey("UUID") || args.get("UUID") == null)
+            return null;
+
+        return SkyblockDragons.getPlayer(UUID.fromString((String) args.get("UUID")));
     }
 
     private static <T> int sortPriorities(T t1, T t2) {

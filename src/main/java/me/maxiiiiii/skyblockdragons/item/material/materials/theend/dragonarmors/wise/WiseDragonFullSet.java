@@ -14,7 +14,7 @@ public class WiseDragonFullSet extends ItemFullSetBonus {
 
     @EventHandler
     public void updateManaCost(UpdateManaCostEvent e) {
-        if (!(e.getPlayer().getItems().getFullSet() instanceof WiseDragonFullSet)) return;
+        if (e.getPlayer() == null || !(e.getPlayer().getItems().getFullSet() instanceof WiseDragonFullSet)) return;
 
         e.getMultiplier().addBase(-40);
     }

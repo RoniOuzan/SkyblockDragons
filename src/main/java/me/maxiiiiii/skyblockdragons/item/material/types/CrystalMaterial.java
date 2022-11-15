@@ -9,7 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 @Getter
-public class CrystalMaterial extends ToolMaterial {
+public abstract class CrystalMaterial extends ToolMaterial {
     private final Crystal crystal;
 
     public CrystalMaterial(Crystal crystal, ItemFamily family) {

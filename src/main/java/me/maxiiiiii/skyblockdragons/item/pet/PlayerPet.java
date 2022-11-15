@@ -24,17 +24,17 @@ public class PlayerPet {
 
     public PlayerPet(PlayerSD player) {
         this.player = player;
-        this.activePetSlot = Variables.get(player.getUniqueId(), "ActivePet", 0, -1);
+        this.activePetSlot = Variables.getInt(player.getUniqueId(), "ActivePet", 0, -1);
         this.pets = new ArrayList<>();
         for (int i = 0; i < 112; i++) {
-            ItemStack itemStack = Variables.get(player.getUniqueId(), "Pets", i);
+            ItemStack itemStack = Variables.getItemStack(player.getUniqueId(), "Pets", i);
             if (itemStack == null) {
                 continue;
             }
             this.addPet(new Item(player, itemStack));
         }
         Collections.sort(this.pets);
-        this.hidePets = Variables.get(player.getUniqueId(), "HidePets", 0, 0) == 1;
+        this.hidePets = Variables.getBoolean(player.getUniqueId(), "HidePets", 0, false);
         
         this.updateVisual();
     }
@@ -59,7 +59,7 @@ public class PlayerPet {
     }
 
     public void updateVisual() {
-        if (this.activePetSlot < 0 || isActiveDoesntExist())
+        if (this.activePetSlot < 0 || isActiveDoesNotExist())
             this.visual = null;
         else
             this.visual = new PetVisual(player, this.getActivePet(), this.activePetSlot);
@@ -88,13 +88,13 @@ public class PlayerPet {
     }
 
     public Item getActivePet() {
-        if (this.activePetSlot == -1 || isActiveDoesntExist())
+        if (this.activePetSlot == -1 || isActiveDoesNotExist())
             return null;
 
         return this.pets.get(this.activePetSlot);
     }
 
-    private boolean isActiveDoesntExist() {
+    private boolean isActiveDoesNotExist() {
         if (this.activePetSlot >= this.pets.size()) {
             SkyblockDragons.logger.severe("Active Pet doesn't exist");
             this.activePetSlot = -1;

@@ -32,9 +32,9 @@ public class Forge {
             if (Variables.get(player.getUniqueId(), "ForgeRecipe", i) != null)
                 this.forging.put(i, new ForgeSlot(
                         player,
-                        Variables.get(player.getUniqueId(), "ForgeRecipe", i),
-                        Variables.get(player.getUniqueId(), "ForgeFromItem", i),
-                        new Time(Variables.get(player.getUniqueId(), "ForgeTime", i))
+                        (ForgeRecipe) Variables.get(player.getUniqueId(), "ForgeRecipe", i),
+                        Variables.getItemStack(player.getUniqueId(), "ForgeFromItem", i),
+                        new Time(Variables.getDouble(player.getUniqueId(), "ForgeTime", i))
                 ));
         }
     }
