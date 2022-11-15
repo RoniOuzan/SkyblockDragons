@@ -2,7 +2,6 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.powerorbs;
 
 import me.maxiiiiii.skyblockdragons.item.material.types.PowerOrbMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
@@ -16,7 +15,7 @@ public class ManaFluxPowerOrb extends PowerOrbMaterial {
                 Rarity.RARE,
                 "Grants " + ChatColor.AQUA + "+50% " + ChatColor.GRAY + "base mana regen." + " NEW_LINE " + "Heals " + ChatColor.RED + "2% " + ChatColor.GRAY + "of max " + StatType.HEALTH.getIcon() + " " + ChatColor.GRAY + "per second." + " NEW_LINE " + ChatColor.GRAY + "Grants " + ChatColor.RED + "+10 Strength" + ChatColor.GRAY + ".",
                 "Mana Flux",
-                new PowerOrbDeployAbility(PowerOrbDeployAbility.PowerOrb.Type.MANA_FLUX)
+                new PowerOrbDeployAbility(PowerOrbDeployAbility.PowerOrb.MANA_FLUX)
         );
     }
 

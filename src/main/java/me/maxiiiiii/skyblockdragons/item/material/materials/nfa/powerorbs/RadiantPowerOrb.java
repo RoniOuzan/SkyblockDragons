@@ -2,7 +2,6 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.powerorbs;
 
 import me.maxiiiiii.skyblockdragons.item.material.types.PowerOrbMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
-import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
@@ -16,7 +15,7 @@ public class RadiantPowerOrb extends PowerOrbMaterial {
                 Rarity.UNCOMMON,
                 "Heals " + ChatColor.RED + "1% " + ChatColor.GRAY + "of max " + StatType.HEALTH.getIcon() + " " + ChatColor.GRAY + "per second.",
                 "Radiant",
-                new PowerOrbDeployAbility(PowerOrbDeployAbility.PowerOrb.Type.RADIANT)
+                new PowerOrbDeployAbility(PowerOrbDeployAbility.PowerOrb.RADIANT)
         );
     }
 

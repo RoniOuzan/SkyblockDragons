@@ -16,7 +16,7 @@ public class PlasmaPowerOrb extends PowerOrbMaterial {
                 Rarity.LEGENDARY,
                 "Grants " + ChatColor.AQUA + "+125% " + ChatColor.GRAY + "base mana regen." + " NEW_LINE " + "Heals " + ChatColor.RED + "3% " + ChatColor.GRAY + "of max " + StatType.HEALTH.getIcon() + " " + ChatColor.GRAY + "per second." + " NEW_LINE " + "Increases all heals by " + ChatColor.GREEN + "+7.5%" + ChatColor.GRAY + "." + " NEW_LINE " + ChatColor.GRAY + "Grants " + ChatColor.RED + "+35 Strength" + ChatColor.GRAY + ".",
                 "Plasma",
-                new PowerOrbDeployAbility(PowerOrbDeployAbility.PowerOrb.Type.PLASMA)
+                new PowerOrbDeployAbility(PowerOrbDeployAbility.PowerOrb.PLASMA)
         );
     }
 

@@ -29,8 +29,7 @@ public abstract class SkinMaterial extends ItemMaterial {
                     Material.BARRIER,
                     ItemFamily.NULL,
                     "Null",
-                    Rarity.SPECIAL,
-                    "NULL"
+                    Rarity.SPECIAL
             );
         }
     }

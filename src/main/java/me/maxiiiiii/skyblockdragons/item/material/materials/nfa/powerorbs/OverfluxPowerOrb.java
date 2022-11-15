@@ -15,7 +15,7 @@ public class OverfluxPowerOrb extends PowerOrbMaterial {
                 Rarity.EPIC,
                 "Grants " + ChatColor.AQUA + "+100% " + ChatColor.GRAY + "base mana regen." + " NEW_LINE " + "Heals " + ChatColor.RED + "2.5% " + ChatColor.GRAY + "of max " + StatType.HEALTH.getIcon() + " " + ChatColor.GRAY + "per second." + " NEW_LINE " + "Increases all heals by " + ChatColor.GREEN + "+5%"  + ChatColor.GRAY + "." + " NEW_LINE " + ChatColor.GRAY + "Grants " + ChatColor.RED + "+25 Strength" + ChatColor.GRAY + ".",
                 "Overflux",
-                new PowerOrbDeployAbility(PowerOrbDeployAbility.PowerOrb.Type.OVERFLUX)
+                new PowerOrbDeployAbility(PowerOrbDeployAbility.PowerOrb.OVERFLUX)
         );
     }
 
