@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.objects.abilities.general;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbilityPerPlayer;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityUsage;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -70,7 +71,11 @@ public class MultiShot extends ItemAbility implements Listener {
 
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
 
-        ((AbilityRunnable) getAbilityOfPlayer(player).getRunnable()).lastTimeUsed = SkyblockDragons.getCurrentTimeInSeconds();
+        ItemAbilityPerPlayer abilityPerPlayer = getAbilityOfPlayer(player);
+        if (abilityPerPlayer == null) return;
+        AbilityRunnable runnable = ((AbilityRunnable) abilityPerPlayer.getRunnable());
+        if (runnable == null) return;
+        runnable.lastTimeUsed = SkyblockDragons.getCurrentTimeInSeconds();
     }
 
     @Override

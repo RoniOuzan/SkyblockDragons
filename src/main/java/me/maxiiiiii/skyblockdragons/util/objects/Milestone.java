@@ -20,7 +20,7 @@ public abstract class Milestone {
         this.variableName = variableName;
         this.rewards = Arrays.asList(rewards);
 
-        this.amount = Variables.get(player.getUniqueId(), variableName, 0, 0);
+        this.amount = Variables.getInt(player.getUniqueId(), variableName, 0, 0);
     }
 
     public void save() {

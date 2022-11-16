@@ -11,7 +11,6 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.ItemAbilityManaCostPercentage;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown.ItemAbilityCooldown;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.util.interfaces.LoopTask;
 import me.maxiiiiii.skyblockdragons.util.objects.AIFly;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -70,33 +69,30 @@ public class FlowerOfTruth extends SwordMaterial {
                 stand.setMarker(true);
                 stand.setItemInHand(new ItemStack(Material.RED_ROSE));
 
-                Loop(50, 1L, new LoopTask() {
-                    int damagedAmount = 0;
-                    boolean isStopped = false;
-                    final ArrayList<Entity> damagedEntities = new ArrayList<>();
-                    @Override
-                    public void task(int i) {
-                        if (stand.isDead()) return;
-                        if (stand.getLocation().add(0, 1, 0).getBlock().getType().isSolid()) {
-                            stand.remove();
-                            return;
-                        }
+                final int[] damagedAmount = {0};
+                final boolean[] isStopped = {false};
+                final ArrayList<Entity> damagedEntities = new ArrayList<>();
+                Loop(50, 1L, i -> {
+                    if (stand.isDead()) return;
+                    if (stand.getLocation().add(0, 1, 0).getBlock().getType().isSolid()) {
+                        stand.remove();
+                        return;
+                    }
 
-                        if (!isStopped) {
-                            Location newLocation = stand.getLocation().add(location.getDirection());
-                            stand.teleport(newLocation);
-                        }
+                    if (!isStopped[0]) {
+                        Location newLocation = stand.getLocation().add(location.getDirection());
+                        stand.teleport(newLocation);
+                    }
 
-                        for (Entity entity : loopEntities(location, 5)) {
-                            if (damagedAmount >= 5) return;
-                            if (entity instanceof Creature) {
-                                isStopped = true;
-                                if (!damagedEntities.contains(entity)) {
-                                    damagedEntities.add(entity);
-                                    damagedAmount++;
-                                    new AIFly(stand, entity, 500).runTaskTimer(SkyblockDragons.plugin, 0L, 1L);
-                                    Wait(10L, () -> ((Creature) entity).damage(1, player));
-                                }
+                    for (Entity entity : loopEntities(location, 5)) {
+                        if (damagedAmount[0] >= 5) return;
+                        if (entity instanceof Creature) {
+                            isStopped[0] = true;
+                            if (!damagedEntities.contains(entity)) {
+                                damagedEntities.add(entity);
+                                damagedAmount[0]++;
+                                new AIFly(stand, entity, 500).runTaskTimer(SkyblockDragons.plugin, 0L, 1L);
+                                Wait(10L, () -> ((Creature) entity).damage(1, player));
                             }
                         }
                     }

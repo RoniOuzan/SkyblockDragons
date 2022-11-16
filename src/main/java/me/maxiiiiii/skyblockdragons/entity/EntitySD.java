@@ -11,7 +11,6 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
-import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -120,7 +119,7 @@ public class EntitySD extends EntityClass {
 
     public static void saveLocations() {
         int i = 0;
-        Variables.VARIABLES.get().set("EntitiesSpawns", null);
+        Variables.delete("EntitiesSpawns");
         for (Location location : entitiesLocations.keySet()) {
             Variables.set("EntitiesSpawns", i, new EntitySpawn(location, entitiesLocations.get(location).name()));
             i++;
@@ -128,43 +127,52 @@ public class EntitySD extends EntityClass {
     }
 
     public static void loadLocations() {
-        long entitiesSpawnsLocations = Variables.getSize("EntitiesSpawns");
-        SkyblockDragons.logger.info(String.format("Loading Entity locations... %s", entitiesSpawnsLocations));
-        for (int i = 0; i < entitiesSpawnsLocations; i++) {
-            EntitySpawn spawn = Variables.get("EntitiesSpawns", i);
-            if (spawn == null) {
-                SkyblockDragons.logger.info(String.format("Skip entity %s object NULL", i));
+        for (Object value : Variables.getList("EntitiesSpawns")) {
+            if (!(value instanceof EntitySpawn)) {
+                SkyblockDragons.logger.severe("Entity Spawn is not entity spawn");
                 continue;
             }
-            Location location = spawn.getLocation();
-            EntityMaterial material = spawn.getEntityMaterial();
-            if (material == EntityMaterial.NULL) {
-                if (location.getWorld().getName().equals("DeepMines")) {
-                    if (location.getY() >= 170) {
-                        material = EntityMaterial.get("GOLDEN_SKELETON");
-                    } else if (location.getY() >= 120) {
-                        material = Functions.getRandom(EntityMaterial.get("LAPIS_ZOMBIE"), EntityMaterial.get("REDSTONE_PIGMAN"), EntityMaterial.get("EMERALD_CREEPER"));
-                    } else {
-                        material = Functions.getRandom(EntityMaterial.get("DIAMOND_ZOMBIE"), EntityMaterial.get("DIAMOND_ZOMBIE"), EntityMaterial.get("OBSIDIAN_ZOMBIE"));
-                    }
-                }
-                SkyblockDragons.logger.info(String.format("Set entity %s material NULL to %s", i, material.getName()));
-            }
-            if (location.getWorld().getName().equals("TheEnd")) {
-                if (material.name().startsWith("ENDER") || material == EntityMaterial.NULL) {
-                    if (location.distance(TheEnd.MIDDLE) <= 60) {
-                        material = EntityMaterial.get("ENDER_GUARD");
-                    } else if (location.distance(TheEnd.MIDDLE) <= 100) {
-                        material = EntityMaterial.get("ENDERMAN_TIER_2");
-                    } else
-                        material = EntityMaterial.get("ENDERMAN_TIER_1");
-                }
-            }
-            if (material != null) {
-                SkyblockDragons.logger.info(String.format("Entity at %s has material %s", location, material.getName()));
-            }
-            entitiesLocations.put(location, material);
+
+            EntitySpawn entitySpawn = (EntitySpawn) value;
+            entitiesLocations.put(entitySpawn.getLocation(), entitySpawn.getEntityMaterial());
         }
+//        long entitiesSpawnsLocations = Variables.getSize("EntitiesSpawns");
+//        SkyblockDragons.logger.info(String.format("Loading Entity locations... %s", entitiesSpawnsLocations));
+//        for (int i = 0; i < entitiesSpawnsLocations; i++) {
+//            EntitySpawn spawn = Variables.get("EntitiesSpawns", i);
+//            if (spawn == null) {
+//                SkyblockDragons.logger.info(String.format("Skip entity %s object NULL", i));
+//                continue;
+//            }
+//            Location location = spawn.getLocation();
+//            EntityMaterial material = spawn.getEntityMaterial();
+//            if (material == EntityMaterial.NULL) {
+//                if (location.getWorld().getName().equals("DeepMines")) {
+//                    if (location.getY() >= 170) {
+//                        material = EntityMaterial.get("GOLDEN_SKELETON");
+//                    } else if (location.getY() >= 120) {
+//                        material = Functions.getRandom(EntityMaterial.get("LAPIS_ZOMBIE"), EntityMaterial.get("REDSTONE_PIGMAN"), EntityMaterial.get("EMERALD_CREEPER"));
+//                    } else {
+//                        material = Functions.getRandom(EntityMaterial.get("DIAMOND_ZOMBIE"), EntityMaterial.get("DIAMOND_ZOMBIE"), EntityMaterial.get("OBSIDIAN_ZOMBIE"));
+//                    }
+//                }
+//                SkyblockDragons.logger.info(String.format("Set entity %s material NULL to %s", i, material.getName()));
+//            }
+//            if (location.getWorld().getName().equals("TheEnd")) {
+//                if (material.name().startsWith("ENDER") || material == EntityMaterial.NULL) {
+//                    if (location.distance(TheEnd.MIDDLE) <= 60) {
+//                        material = EntityMaterial.get("ENDER_GUARD");
+//                    } else if (location.distance(TheEnd.MIDDLE) <= 100) {
+//                        material = EntityMaterial.get("ENDERMAN_TIER_2");
+//                    } else
+//                        material = EntityMaterial.get("ENDERMAN_TIER_1");
+//                }
+//            }
+//            if (material != null) {
+//                SkyblockDragons.logger.info(String.format("Entity at %s has material %s", location, material.getName()));
+//            }
+//            entitiesLocations.put(location, material);
+//        }
     }
 
     public static EntitySD get(UUID uuid) {
@@ -249,7 +257,6 @@ public class EntitySD extends EntityClass {
     public EntityEquipment getEquipment() {
         return this.entity.getEquipment();
     }
-
 
     public Equipment getItems() {
         return this.equipment;

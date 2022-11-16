@@ -6,9 +6,13 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import net.minecraft.server.v1_12_R1.ChatMessage;
+import net.minecraft.server.v1_12_R1.EntityPlayer;
+import net.minecraft.server.v1_12_R1.PacketPlayOutOpenWindow;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -42,6 +46,7 @@ public abstract class Menu implements InventoryHolder {
     public final ItemStack GO_BACK = createItem(Material.ARROW, ChatColor.GREEN + "Go Back", "GO_BACK", "", ChatColor.YELLOW + "Click to go back!");
 
     protected Inventory inventory;
+    protected String title;
 
     protected final PlayerSD player;
 
@@ -50,6 +55,7 @@ public abstract class Menu implements InventoryHolder {
     protected Menu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, boolean autoUpdate, boolean utilButtons) {
         this.player = player;
         this.inventory = Bukkit.createInventory(this, rows * 9, title);
+        this.title = title;
         this.inventoryGlassType = inventoryGlassType;
 
         if (inventoryGlassType == InventoryGlassType.ALL) {
@@ -136,8 +142,16 @@ public abstract class Menu implements InventoryHolder {
 
     public void onInventoryDrag(InventoryDragEvent e) {}
 
+    protected void setTitle(String title) {
+        EntityPlayer ep = ((CraftPlayer) player.getPlayer()).getHandle();
+        PacketPlayOutOpenWindow packet = new PacketPlayOutOpenWindow(ep.activeContainer.windowId, "minecraft:chest", new ChatMessage(title), this.getRows() * 9);
+        ep.playerConnection.sendPacket(packet);
+        ep.updateInventory(ep.activeContainer);
+        this.title = title;
+    }
+
     protected String getTitle() {
-        return this.inventory.getTitle();
+        return this.title;
     }
 
     protected static ItemStack createItem(ItemStack item, String name, String nbt, List<String> lores) {

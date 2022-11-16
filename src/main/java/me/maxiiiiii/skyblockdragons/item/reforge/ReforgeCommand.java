@@ -87,7 +87,7 @@ public class ReforgeCommand implements CommandExecutor, Listener {
     public static int getCost(Inventory inventory, PlayerSD player) {
         int cost = 0;
         if (inventory.getItem(13).getItemMeta().getDisplayName().contains("Accessory Bag")) {
-            for (ItemStack item : player.getPlayerItems().getAccessoryBag().getItems()) {
+            for (ItemStack item : player.getItems().getAccessoryBag().getItems()) {
                 if (Rarity.getRarity(item) == ReforgeMenu.raritySelected.get(player.getPlayer()) || ReforgeMenu.raritySelected.getOrDefault(player.getPlayer(), Rarity.NONE) == Rarity.NONE)
                     cost += Rarity.getRarity(item).getLevel() * 2000;
             }
@@ -161,16 +161,16 @@ public class ReforgeCommand implements CommandExecutor, Listener {
                                 reforgeType = getRandomReforge(ItemType.ACCESSORY);
                             }
                         }
-                        List<Item> accessories = player.getPlayerItems().getAccessoryBag().getItems();
+                        List<Item> accessories = player.getItems().getAccessoryBag().getItems();
                         int i = 0;
-                        for (Item item : player.getPlayerItems().getAccessoryBag().getItems()) {
+                        for (Item item : player.getItems().getAccessoryBag().getItems()) {
                             if (Items.get(item).getRarity() == ReforgeMenu.raritySelected.get(player) || ReforgeMenu.raritySelected.getOrDefault(player, Rarity.NONE) == Rarity.NONE) {
                                 Reforge reforge = new Reforge(item, reforgeType);
                                 accessories.set(i, reforge.apply(player));
                             }
                             i++;
                         }
-                        player.getPlayerItems().getAccessoryBag().setItems(accessories);
+                        player.getItems().getAccessoryBag().setItems(accessories);
                         player.sendMessage(ChatColor.GREEN + "You have been reforged all your accessory bag to " + reforgeType.toString() + ChatColor.GREEN + ".");
                         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.5f, 1f);
                     } else {

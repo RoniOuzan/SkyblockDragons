@@ -3,16 +3,21 @@ package me.maxiiiiii.skyblockdragons.commands;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.serialization.Serializer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.*;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -110,15 +115,9 @@ public class SkyblockDragonsCommand extends CommandSD {
                     } catch (NullPointerException ignored) {}
                 }
             } else if (args[0].equalsIgnoreCase("test")) {
-                String serialized = Serializer.serialize(player.getItems().getTool());
-                player.sendMessage(serialized);
-                player.sendMessage("---------------");
-                player.sendMessage((Item) Serializer.deserialize(serialized));
-            } else if (args[0].equalsIgnoreCase("test2")) {
-                String serialized = Serializer.serialize(32);
-                player.sendMessage(serialized);
-                player.sendMessage("---------------");
-                player.sendMessage((Integer) Serializer.deserialize(serialized));
+                YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(SkyblockDragons.plugin.getDataFolder(), "Test.yml"));
+                config.set("Test", 3);
+                player.sendMessage("1. " + config.getKeys(false));
             }
         } else {
             player.sendMessage(ChatColor.RED + "Invalid arguments!");

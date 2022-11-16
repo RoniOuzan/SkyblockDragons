@@ -10,10 +10,8 @@ import org.bukkit.Material;
 
 @Getter
 public abstract class PowerOrbMaterial extends ToolMaterial implements ItemAbilityAble {
-    private final String powerOrbName;
 
-    public PowerOrbMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description, String powerOrbName, MaterialModifier... modifiers) {
-        super(itemID, material, family, name, type, rarity, description, modifiers);
-        this.powerOrbName = powerOrbName;
+    public PowerOrbMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, MaterialModifier... modifiers) {
+        super(itemID, material, family, name, type, rarity, "", modifiers);
     }
 }

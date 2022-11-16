@@ -14,16 +14,13 @@ import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.events.listeners.EntityHealth;
 import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.item.abilities.Wither_Impact;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.modifiers.*;
-import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.util.interfaces.LoopTask;
 import me.maxiiiiii.skyblockdragons.util.interfaces.While;
 import me.maxiiiiii.skyblockdragons.util.objects.SignMenu;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
@@ -52,6 +49,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.item.material.Items.*;
@@ -1284,45 +1282,44 @@ public class Functions {
     }
 
     // Loop(amount, delay, (amount) -> {TASK});
-    public static void Loop(int amount, long delay, LoopTask task, LoopTask onCancel) {
+    public static void Loop(int amount, long delay, Consumer<Integer> task, Consumer<Integer> onCancel) {
         new BukkitRunnable() {
             int i = 0;
             @Override
             public void run() {
                 if (i >= amount) {
-                    onCancel.task(i);
+                    onCancel.accept(i);
                     cancel();
                     return;
                 }
-                task.task(i);
+                task.accept(i);
                 i++;
             }
         }.runTaskTimer(SkyblockDragons.plugin, 0L, delay);
     }
 
-    public static void Loop(int amount, long delay, LoopTask loop) {
+    public static void Loop(int amount, long delay, Consumer<Integer> loop) {
         Loop(amount, delay, loop, (i) -> {});
     }
 
     // While(() -> CONDITION, delay, (amount) -> {TASK});
-    public static void While(While condition, long delay, LoopTask task, LoopTask onCancel) {
+    public static void While(While condition, long delay, Consumer<Integer> task, Consumer<Integer> onCancel) {
         new BukkitRunnable() {
             int i = 0;
             @Override
             public void run() {
                 if (!condition.task()) {
-                    onCancel.task(i);
-                    cancel();
+                    onCancel.accept(i);
                     return;
                 }
 
-                task.task(i);
+                task.accept(i);
                 i++;
             }
         }.runTaskTimer(SkyblockDragons.plugin, 0L, delay);
     }
 
-    public static void While(While condition, long delay, LoopTask loop) {
+    public static void While(While condition, long delay, Consumer<Integer> loop) {
         While(condition, delay, loop, (i) -> {});
     }
 

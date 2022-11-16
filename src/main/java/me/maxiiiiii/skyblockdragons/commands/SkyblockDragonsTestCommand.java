@@ -7,7 +7,6 @@ import me.maxiiiiii.skyblockdragons.commands.manager.QuickCommand;
 import me.maxiiiiii.skyblockdragons.commands.manager.QuickSubCommand;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.entity.EntitySpawn;
 import me.maxiiiiii.skyblockdragons.entity.types.witherisland.EntityWither;
 import me.maxiiiiii.skyblockdragons.events.listeners.JoinQuitListener;
 import me.maxiiiiii.skyblockdragons.item.Item;
@@ -85,10 +84,11 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
             JoinQuitListener.starterKit(player);
         }));
         addSubCommand(new QuickSubCommand("new-spawn", (player, args) -> {
-            EntitySpawn spawn = new EntitySpawn(player.getLocation(), "NULL");
-            Variables.set("Spawns", 0, spawn);
-            EntitySpawn spawnAtFile = Variables.get("Spawns", 0);
-            player.sendMessage("Spawn at file: " + spawnAtFile);
+            player.sendMessage("ERROR ERROR");
+//            EntitySpawn spawn = new EntitySpawn(player.getLocation(), "NULL");
+//            Variables.set("Spawns", 0, spawn);
+//            EntitySpawn spawnAtFile = Variables.get("Spawns", 0);
+//            player.sendMessage("Spawn at file: " + spawnAtFile);
         }));
         addSubCommand(new QuickSubCommand("vars-save", (player, args) -> {
             Variables.save();
