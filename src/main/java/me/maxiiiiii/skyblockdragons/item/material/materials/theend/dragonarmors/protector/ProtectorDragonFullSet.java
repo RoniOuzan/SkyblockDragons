@@ -1,7 +1,8 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.protector;
 
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
-import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -19,7 +20,7 @@ public class ProtectorDragonFullSet extends ItemFullSetBonus {
         if (!(e.getPlayer().getItems().getFullSet() instanceof ProtectorDragonFullSet)) return;
 
         if (e.getPlayer().getHealth() >= e.getStats().getHealth().get() / 2) {
-            e.getStats().addMultiplier(StatType.DEFENSE, 30, 0);
+            e.getStats().addMultiplier(StatTypes.DEFENSE, 30, 0);
         }
     }
 }

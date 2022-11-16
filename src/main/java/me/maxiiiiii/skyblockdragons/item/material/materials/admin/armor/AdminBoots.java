@@ -4,7 +4,7 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.CombatStats;
 import org.bukkit.Material;
 
 public class AdminBoots extends ArmorMaterial {
@@ -15,7 +15,7 @@ public class AdminBoots extends ArmorMaterial {
                 "Admin Boots",
                 ItemType.BOOTS,
                 Rarity.SPECIAL,
-                new Stats(10000000, 10000000, 10000000, 10000000, 10000000, 0, 10000000, 10000000, 5000, 10000000),
+                new CombatStats(10000000, 10000000, 10000000, 5000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 1000000, 0),
                 ""
         );
     }

@@ -32,7 +32,7 @@ public class EnderLeggings extends ArmorMaterial {
         if (e.isNotThisItem(this)) return;
         
         if (e.getPlayer().getWorldSD() instanceof TheEnd) {
-            e.getStats().addDamageMultipliers(5, 0);
+            e.getStats().addCombatMultipliers(5, 0);
         }
     }
 }

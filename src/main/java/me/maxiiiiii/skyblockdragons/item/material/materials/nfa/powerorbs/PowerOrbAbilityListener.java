@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.powerorbs;
 
-import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

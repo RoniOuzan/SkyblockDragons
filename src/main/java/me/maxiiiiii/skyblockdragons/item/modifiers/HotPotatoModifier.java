@@ -2,7 +2,8 @@ package me.maxiiiiii.skyblockdragons.item.modifiers;
 
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.item.stats.StatModifier;
 import me.maxiiiiii.skyblockdragons.item.stats.StatModifierType;

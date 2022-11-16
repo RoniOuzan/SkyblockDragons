@@ -2,7 +2,8 @@ package me.maxiiiiii.skyblockdragons.player.skill;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 
 import java.util.function.Function;
 

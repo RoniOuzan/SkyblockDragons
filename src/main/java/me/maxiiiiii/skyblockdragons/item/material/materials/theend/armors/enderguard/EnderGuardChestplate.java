@@ -32,7 +32,7 @@ public class EnderGuardChestplate extends ArmorMaterial {
         if (e.isNotThisItem(this)) return;
         
         if (e.getPlayer().getWorldSD() instanceof TheEnd) {
-            e.getStats().addDamageMultipliers(10, 0);
+            e.getStats().addCombatMultipliers(10, 0);
         }
     }
 }

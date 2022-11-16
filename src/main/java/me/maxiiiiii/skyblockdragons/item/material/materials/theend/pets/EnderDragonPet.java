@@ -6,7 +6,8 @@ import me.maxiiiiii.skyblockdragons.item.material.materials.theend.swords.Aspect
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
@@ -81,8 +82,8 @@ public class EnderDragonPet extends PetMaterial {
 
             if (e.getPlayer().getItems().getToolMaterial() instanceof AspectOfTheDragons) {
                 int level = e.getPlayer().getActivePet().getModifiers().getPet().getLevel();
-                e.getStats().addMultiplier(StatType.DAMAGE, level * DAMAGE_MULTIPLIER);
-                e.getStats().addMultiplier(StatType.STRENGTH, level * STRENGTH_MULTIPLIER);
+                e.getStats().addMultiplier(StatTypes.DAMAGE, level * DAMAGE_MULTIPLIER);
+                e.getStats().addMultiplier(StatTypes.STRENGTH, level * STRENGTH_MULTIPLIER);
             }
         }
     }
