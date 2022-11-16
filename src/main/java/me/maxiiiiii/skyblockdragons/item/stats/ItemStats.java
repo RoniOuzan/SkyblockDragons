@@ -41,27 +41,9 @@ public class ItemStats extends Stats {
     }
 
     public void addAllStatsMultipliers(double base, double post) {
-        this.addMultiplier(StatType.DAMAGE, base, post);
-        this.addMultiplier(StatType.STRENGTH, base, post);
-        this.addMultiplier(StatType.CRIT_DAMAGE, base, post);
-        this.addMultiplier(StatType.CRIT_CHANCE, base, post);
-        this.addMultiplier(StatType.ABILITY_DAMAGE, base, post);
-        this.addMultiplier(StatType.ABILITY_SCALING, base, post);
-        this.addMultiplier(StatType.ATTACK_SPEED, base, post);
-        this.addMultiplier(StatType.FEROCITY, base, post);
-        this.addMultiplier(StatType.HEALTH, base, post);
-        this.addMultiplier(StatType.DEFENSE, base, post);
-        this.addMultiplier(StatType.TRUE_DEFENSE, base, post);
-        this.addMultiplier(StatType.SPEED, base, post);
-        this.addMultiplier(StatType.INTELLIGENCE, base, post);
-        this.addMultiplier(StatType.MAGIC_FIND, base, post);
-        this.addMultiplier(StatType.PET_LUCK, base, post);
-        this.addMultiplier(StatType.MINING_SPEED, base, post);
-        this.addMultiplier(StatType.MINING_FORTUNE, base, post);
-        this.addMultiplier(StatType.FARMING_FORTUNE, base, post);
-        this.addMultiplier(StatType.FORAGING_FORTUNE, base, post);
-        this.addMultiplier(StatType.SEA_CREATURE_CHANCE, base, post);
-        this.addMultiplier(StatType.ABSORPTION, base, post);
+        for (Stat stat : this) {
+            this.addMultiplier(stat.type, base, post);
+        }
     }
 
     public void addDamageMultipliers(double base, double post) {
@@ -70,7 +52,6 @@ public class ItemStats extends Stats {
         this.addMultiplier(StatType.CRIT_DAMAGE, base, post);
         this.addMultiplier(StatType.CRIT_CHANCE, base, post);
         this.addMultiplier(StatType.ABILITY_DAMAGE, base, post);
-        this.addMultiplier(StatType.ABILITY_SCALING, base, post);
         this.addMultiplier(StatType.ATTACK_SPEED, base, post);
         this.addMultiplier(StatType.FEROCITY, base, post);
         this.addMultiplier(StatType.MANA, base, post);

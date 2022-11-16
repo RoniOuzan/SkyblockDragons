@@ -14,12 +14,11 @@ public enum StatType {
     CRIT_DAMAGE(new ItemStack(Material.INK_SACK, 1, (short) 4), ChatColor.BLUE, "☠", "Crit Damage", true),
     CRIT_CHANCE(new ItemStack(Material.INK_SACK, 1, (short) 4), ChatColor.BLUE, "☣", "Crit Chance", true),
     ABILITY_DAMAGE(Material.BEACON, ChatColor.RED, "๑", "Ability Damage", true),
-    ABILITY_SCALING(Material.ENDER_PEARL, ChatColor.RED, "๑", "Ability Scaling", true),
-    ATTACK_SPEED(Material.GOLD_AXE, ChatColor.YELLOW, "✎", "Attack Speed", true),
+    ATTACK_SPEED(Material.GOLD_AXE, ChatColor.YELLOW, "⚔", "Attack Speed", true),
     FEROCITY(new ItemStack(Material.INK_SACK, 1, (short) 1), ChatColor.RED, "⫽", "Ferocity", false),
     HEALTH(Material.GOLDEN_APPLE, ChatColor.RED, "❤", "Health", false),
     DEFENSE(Material.IRON_CHESTPLATE, ChatColor.GREEN, "❈", "Defense", false),
-    TRUE_DEFENSE(Material.IRON_BLOCK, ChatColor.WHITE, "❂", "Defense", false),
+    TRUE_DEFENSE(Material.IRON_BLOCK, ChatColor.WHITE, "❂", "True Defense", false),
     SPEED(Material.SUGAR, ChatColor.WHITE, "✦", "Speed", true),
     INTELLIGENCE(Material.ENCHANTED_BOOK, ChatColor.AQUA, "✎", "Intelligence", false),
     MANA(Material.ENCHANTED_BOOK, ChatColor.AQUA, "✎", "Mana", false),
@@ -30,7 +29,8 @@ public enum StatType {
     FARMING_FORTUNE(Material.GOLD_HOE, ChatColor.GOLD, "☘", "Farming Fortune", false),
     FORAGING_FORTUNE(Material.GOLD_AXE, ChatColor.GOLD, "☘", "Foraging Fortune", false),
     SEA_CREATURE_CHANCE(Material.RAW_FISH, ChatColor.DARK_AQUA, "α", "Sea Create Chance", true),
-    ABSORPTION(Material.GOLDEN_APPLE, ChatColor.GOLD, "❤", "Intelligence", false),
+    VITALITY(Material.REDSTONE, ChatColor.DARK_RED, "♨", "Vitality", true),
+
     ;
 
     private final ItemStack item;

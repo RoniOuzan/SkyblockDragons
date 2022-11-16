@@ -20,7 +20,7 @@ public class PlayerStats extends Stats {
     private final PlayerSD player;
 
     public PlayerStats(PlayerSD player, double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double farmingFortune, double foragingFortune, double seaCreatureChance, double absorption) {
-        super(damage, strength, critDamage, critChance, abilityDamage, abilityScaling, attackSpeed, ferocity, health, defense, trueDefense, speed, intelligence, magicFind, petLuck, miningSpeed, miningFortune, farmingFortune, foragingFortune, seaCreatureChance, absorption);
+        super(damage, strength, critDamage, critChance, abilityDamage, attackSpeed, ferocity, health, defense, trueDefense, speed, intelligence, magicFind, petLuck, miningSpeed, miningFortune, farmingFortune, foragingFortune, seaCreatureChance);
         this.player = player;
         this.mana = new Stat(this.intelligence.amount, StatType.MANA);
         this.multiplayer = new HashMap<>();
@@ -50,7 +50,6 @@ public class PlayerStats extends Stats {
         this.addMultiplier(StatType.CRIT_DAMAGE, base, post);
         this.addMultiplier(StatType.CRIT_CHANCE, base, post);
         this.addMultiplier(StatType.ABILITY_DAMAGE, base, post);
-        this.addMultiplier(StatType.ABILITY_SCALING, base, post);
         this.addMultiplier(StatType.ATTACK_SPEED, base, post);
         this.addMultiplier(StatType.FEROCITY, base, post);
         this.addMultiplier(StatType.HEALTH, base, post);
@@ -65,7 +64,6 @@ public class PlayerStats extends Stats {
         this.addMultiplier(StatType.FARMING_FORTUNE, base, post);
         this.addMultiplier(StatType.FORAGING_FORTUNE, base, post);
         this.addMultiplier(StatType.SEA_CREATURE_CHANCE, base, post);
-        this.addMultiplier(StatType.ABSORPTION, base, post);
     }
 
     public void addDamageMultipliers(double base, double post) {
@@ -74,17 +72,9 @@ public class PlayerStats extends Stats {
         this.addMultiplier(StatType.CRIT_DAMAGE, base, post);
         this.addMultiplier(StatType.CRIT_CHANCE, base, post);
         this.addMultiplier(StatType.ABILITY_DAMAGE, base, post);
-        this.addMultiplier(StatType.ABILITY_SCALING, base, post);
         this.addMultiplier(StatType.ATTACK_SPEED, base, post);
         this.addMultiplier(StatType.FEROCITY, base, post);
         this.addMultiplier(StatType.MANA, base, post);
-    }
-
-    @Override
-    public Stat getStat(StatType stat) {
-        Stat output = super.getStat(stat);
-        if (stat == StatType.MANA) output = this.mana;
-        return output;
     }
 
     @Override
