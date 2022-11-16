@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 
 public class EnderChestMenu extends Menu {
     private int page;
@@ -23,6 +24,7 @@ public class EnderChestMenu extends Menu {
 
     @Override
     public void update() {
+        this.setTitle("Ender Chest Page " + (page + 1));
         for (int i = 0; i < 45; i++) {
             this.setItem(i + 9, this.player.getEnderChestSD().getItems().get(i + (this.page * 45)));
         }
@@ -34,14 +36,15 @@ public class EnderChestMenu extends Menu {
         this.setItem(0, CLOSE);
         this.setItem(1, GO_BACK);
 
-        this.player.sendMessage(this.page);
         this.setItem(8, this.page >= 8 ? GLASS : Functions.applySkull(createItem(Material.SKULL_ITEM, 3, ChatColor.GREEN + "Next Page", "NextPage", "", ChatColor.AQUA + "Right-Click to go to last page!", ChatColor.YELLOW + "Click to go to the next page!"), "23b3f9dc-f02c-4ea8-a949-dbd56b03602c", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGVmMzU2YWQyYWE3YjE2NzhhZWNiODgyOTBlNWZhNWEzNDI3ZTVlNDU2ZmY0MmZiNTE1NjkwYzY3NTE3YjgifX19"));
         this.setItem(7, this.page <= 0 ? GLASS : Functions.applySkull(createItem(Material.SKULL_ITEM, 3, ChatColor.GREEN + "Previous Page", "PreviousPage", "", ChatColor.AQUA + "Right-Click to go to first page!", ChatColor.YELLOW + "Click to go to the previous page!"), "5df301dc-3d34-4c29-9f69-8e7cacb548e0", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjUzNDc0MjNlZTU1ZGFhNzkyMzY2OGZjYTg1ODE5ODVmZjUzODlhNDU0MzUzMjFlZmFkNTM3YWYyM2QifX19"));
     }
 
     @Override
     public void onInventoryClick(InventoryClickEvent e) {
-        if (e.getSlot() >= 9) e.setCancelled(false);
+        if (e.getSlot() >= 9 || e.getClickedInventory().getType() == InventoryType.PLAYER)
+            e.setCancelled(false);
+
         if (!Functions.isNotAir(e.getCurrentItem())) return;
 
         if (this.getNBT(e.getCurrentItem()).equals("NextPage")) {
@@ -51,7 +54,7 @@ public class EnderChestMenu extends Menu {
             } else if (e.getClick().isRightClick()) {
                 this.page = 8;
             }
-            new EnderChestMenu(player, this.page);
+            this.update();
         } else if (this.getNBT(e.getCurrentItem()).equals("PreviousPage")) {
             this.save();
             if (e.getClick().isLeftClick()) {
@@ -59,7 +62,7 @@ public class EnderChestMenu extends Menu {
             } else if (e.getClick().isRightClick()) {
                 this.page = 0;
             }
-            new EnderChestMenu(player, this.page);
+            this.update();
         }
     }
 

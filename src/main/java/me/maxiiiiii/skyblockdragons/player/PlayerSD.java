@@ -160,7 +160,6 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.lastCoins = this.getCoins();
 
         this.scoreboardSD = new ScoreboardSD(this);
-
         this.equipment = new PlayerEquipment();
     }
 
@@ -648,8 +647,6 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         public PlayerEquipment() {
             super(PlayerSD.this);
             this.accessoryBag = new AccessoryBag(PlayerSD.this);
-
-            this.update();
         }
 
         public void setAccessoryBag(List<Item> items) {
