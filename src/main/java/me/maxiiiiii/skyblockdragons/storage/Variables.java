@@ -1,195 +1,209 @@
 package me.maxiiiiii.skyblockdragons.storage;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.CustomConfig;
-import me.maxiiiiii.skyblockdragons.util.serialization.Serializer;
-import org.bukkit.configuration.ConfigurationSection;
+import me.maxiiiiii.skyblockdragons.util.objects.Entry;
+import org.bukkit.Bukkit;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
-import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Variables {
-    public static final List<Variable> variables = new ArrayList<>();
-    public static final CustomConfig VARIABLES = new CustomConfig("variables");
-    public static final Map<UUID, List<Variable>> playerVariables = new HashMap<>();
-
-    public static List<Variable> getVariableAll(UUID uuid, String name) {
-        return playerVariables.getOrDefault(uuid, new ArrayList<>()).stream().filter(v -> v.name.equals(name)).collect(Collectors.toList());
-    }
-
-    public static <T> T get(UUID uuid, String name, int data) {
-        if (!playerVariables.containsKey(uuid)) return null;
-
-        for (Variable variable : playerVariables.get(uuid)) {
-            if (variable.name.equals(name) && variable.data == data) {
-                return variable.getValue();
-            }
-        }
-        return null;
-    }
-
-    public static <T> T get(UUID uuid, String name, int data, T defaultValue) {
-        T output = get(uuid, name, data);
-        return output == null ? defaultValue : output;
-    }
-
-    public static <T> T get(String name, int data) {
-//        List<Variable> output = variables.stream()
-//                .filter(v -> v.name.equals(name) && v.data == data)
-//                .collect(Collectors.toList());
-//        if (output.size() > 0)
-//            return output.get(0).getValue();
-        return (T) VARIABLES.get().get(name + "." + data);
-    }
-
-    public static <T> T get(String name, int data, T defaultValue) {
-        T output = get(name, data);
-        if (output != null)
-            return output;
-        return defaultValue;
-    }
-
-    public static <T> void set(UUID uuid, String name, int data, T value) {
-        List<Variable> variables = playerVariables.getOrDefault(uuid, new ArrayList<>());
-        boolean did = false;
-        for (int i = 0; i < variables.size(); i++) {
-            if (variables.get(i).name.equals(name) && variables.get(i).data == data) {
-                did = true;
-                variables.set(i, variables.get(i).setValue(value));
-            }
-        }
-        if (!did) {
-            variables.add(new Variable(name, data, Serializer.serialize(value)));
-            playerVariables.put(uuid, variables);
-        }
-    }
-
-    public static <T> void set(String name, int data, T value) {
-        /*boolean did = false;
-        for (int i = 0; i < variables.size(); i++) {
-            if (variables.get(i).name.equals(name) && variables.get(i).data == data) {
-                did = true;
-                variables.set(i, variables.get(i).setValue(value));
-            }
-        }
-        if (!did) {
-            variables.add(new Variable(name, data, Serializer.serialize(value)));
-        }*/
-        VARIABLES.get().set(name + "." + data, value);
-    }
-
-    public static <T> void set(String name, Collection<T> value) {
-        int i = 0;
-        for (T t : value) {
-            set(name, i, t);
-            i++;
-        }
-    }
-
-    public static void delete(UUID uuid, String name, int data) {
-        playerVariables.getOrDefault(uuid, new ArrayList<>()).removeIf(v -> v.name.equals(name) && v.data == data);
-    }
-
-    public static void delete(UUID uuid, String name) {
-        playerVariables.getOrDefault(uuid, new ArrayList<>()).removeIf(v -> v.name.equals(name));
-    }
-
-    public static void delete(String name, int data) {
-//        variables.removeIf(v -> v.name.equals(name) && v.data == data);
-        VARIABLES.get().set(name + "." + data, null);
-    }
-
-    public static long getSize(UUID uuid, String name) {
-        return playerVariables.getOrDefault(uuid, new ArrayList<>()).stream().filter(v -> v.name.equals(name)).count();
-    }
-
-    public static long getSize(String name) {
-//        return variables.stream().filter(v -> v.name.equals(name)).count();
-        ConfigurationSection section = VARIABLES.get().getConfigurationSection(name);
-        return section != null ? section.getKeys(false).size() : 0;
-    }
-
-    public static boolean has(UUID uuid, String name, int data) {
-        if (!playerVariables.containsKey(uuid)) return false;
-
-        for (Variable variable : playerVariables.get(uuid)) {
-            if (variable.name.equals(name) && variable.data == data) {
-                return true;
-            }
-        }
-        return false;
-    }
+    private static final CustomConfig variables = new CustomConfig("Variables");
+    private static final Map<UUID, CustomConfig> playerVariables = new HashMap<>();
+    private static final String PLAYER_FILE = "Players";
 
     public static void save() {
         EntitySD.saveLocations();
-        for (PlayerSD player : SkyblockDragons.players.values()) {
+        for (PlayerSD player : SkyblockDragons.getPlayers()) {
             player.save();
         }
-        VARIABLES.save();
-        try {
-            Gson gson = new Gson();
-            for (UUID uuid : playerVariables.keySet()) {
-                FileWriter fileWriter = new FileWriter(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/Players/" + uuid + ".json");
-                String json = gson.toJson(playerVariables.get(uuid));
-                fileWriter.write(json);
-                fileWriter.close();
-            }
-            FileWriter fileWriter = new FileWriter(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/Variables.json");
-            String json = gson.toJson(variables);
-            fileWriter.write(json);
-            fileWriter.close();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        variables.save();
+        for (CustomConfig customConfig : playerVariables.values()) {
+            customConfig.save();
         }
     }
 
     public static void load() {
-        VARIABLES.reload();
-        variables.clear();
-        try {
-            File file = new File(SkyblockDragons.plugin.getDataFolder().getAbsolutePath() + "/Players");
-            if (file.list() != null) {
-                for (String path : file.list()) {
-                    BufferedReader reader = new BufferedReader(new FileReader(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/Players/" + path));
-                    String json = reader.readLine();
-                    JsonReader jsonReader = new JsonReader(new StringReader(json));
-                    JsonArray array = new JsonParser().parse(jsonReader).getAsJsonArray();
+        variables.load();
+    }
 
-                    String[] names = path.split("/");
-                    UUID uuid = UUID.fromString(names[names.length - 1].replace(".json", ""));
+    public static void set(UUID uuid, String name, int data, Object value) {
+        CustomConfig config = get(uuid);
+        config.set(name + "." + data, value);
+    }
 
-                    List<Variable> variables = new ArrayList<>();
-                    for (JsonElement variable : array) {
-                        String name = variable.getAsJsonObject().get("name").getAsString();
-                        int data = variable.getAsJsonObject().get("data").getAsInt();
-                        String value = variable.getAsJsonObject().get("value").getAsString();
-                        variables.add(new Variable(name, data, value));
-                    }
-                    playerVariables.put(uuid, variables);
-                }
-            }
-            BufferedReader reader = new BufferedReader(new FileReader(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/Variables.json"));
-            String json = reader.readLine();
-            JsonReader jsonReader = new JsonReader(new StringReader(json));
-            JsonArray array = new JsonParser().parse(jsonReader).getAsJsonArray();
+    public static void set(UUID uuid, String name, Object value) {
+        CustomConfig config = get(uuid);
+        config.set(name, value);
+    }
 
-            for (JsonElement variable : array) {
-                String name = variable.getAsJsonObject().get("name").getAsString();
-                int data = variable.getAsJsonObject().get("data").getAsInt();
-                String value = variable.getAsJsonObject().get("value").getAsString();
-                variables.add(new Variable(name, data, value));
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+    public static void set(String name, int data, Object value) {
+        variables.set(name + "." + data, value);
+    }
+
+    public static void set(String name, Object value) {
+        variables.set(name, value);
+    }
+
+    public static void delete(UUID uuid, String name, int data) {
+        CustomConfig config = get(uuid);
+        config.set(name + "." + data, null);
+    }
+
+    public static void delete(UUID uuid, String name) {
+        CustomConfig config = get(uuid);
+        config.set(name, null);
+    }
+
+    public static void delete(String name, int data) {
+        variables.set(name + "." + data, null);
+    }
+
+    public static void delete(String name) {
+        variables.set(name, null);
+    }
+
+    public static Object get(UUID uuid, String name, int data, Object defaultValue) {
+        if (!playerVariables.containsKey(uuid)) {
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
         }
+
+        return playerVariables.get(uuid).get(name + "." + data, defaultValue);
+    }
+
+    public static Object get(UUID uuid, String name, int data) {
+        return get(uuid, name, data, null);
+    }
+
+    public static Object get(UUID uuid, String name, Object defaultValue) {
+        if (!playerVariables.containsKey(uuid))
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+
+        return playerVariables.get(uuid).get(name, defaultValue);
+    }
+
+    public static Object get(UUID uuid, String name) {
+        return get(uuid, name, null);
+    }
+
+    public static Object get(String name, int data, Object defaultValue) {
+        return variables.get(name + "." + data, defaultValue);
+    }
+
+    public static Object get(String name, int data) {
+        return get(name, data, null);
+    }
+
+    public static Object get(String name, Object defaultValue) {
+        return variables.get(name, defaultValue);
+    }
+
+    public static Object get(String name) {
+        return get(name, null);
+    }
+
+    public static List<Entry<Integer, ?>> getList(UUID uuid, String name) {
+        if (!playerVariables.containsKey(uuid))
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+
+        List<Entry<Integer, ?>> list = new ArrayList<>();
+        for (Map.Entry<String, Object> variable : playerVariables.get(uuid).getValues(true).entrySet()) {
+            Bukkit.getPlayer("LidanTheGamer").sendMessage(variable.getKey());
+            if (variable.getKey().contains(".") && variable.getKey().split("\\.")[0].equals(name)) {
+                list.add(new Entry<>(Integer.parseInt(variable.getKey().split("\\.")[1]), variable.getValue()));
+            }
+        }
+        return list;
+    }
+
+    public static List<Object> getList(String name) {
+        List<Object> list = new ArrayList<>();
+        for (Map.Entry<String, Object> variable : variables.getValues(false).entrySet()) {
+            if (variable.getKey().equals(name)) {
+                list.add(variable.getValue());
+            }
+        }
+        return list;
+    }
+
+    public static int getInt(UUID uuid, String name, int data, int defaultValue) {
+        if (!playerVariables.containsKey(uuid))
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+
+        return playerVariables.get(uuid).getInt(name + "." + data, defaultValue);
+    }
+
+    public static int getInt(UUID uuid, String name, int defaultValue) {
+        if (!playerVariables.containsKey(uuid))
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+
+        return playerVariables.get(uuid).getInt(name, defaultValue);
+    }
+
+    public static double getDouble(UUID uuid, String name, int data, double defaultValue) {
+        if (!playerVariables.containsKey(uuid))
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+
+        return playerVariables.get(uuid).getDouble(name + "." + data, defaultValue);
+    }
+
+    public static double getDouble(UUID uuid, String name, double defaultValue) {
+        if (!playerVariables.containsKey(uuid))
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+
+        return playerVariables.get(uuid).getDouble(name, defaultValue);
+    }
+
+    public static ItemStack getItemStack(UUID uuid, String name, int data, ItemStack defaultObject) {
+        if (!playerVariables.containsKey(uuid))
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+
+        return playerVariables.get(uuid).getItemStack(name + "." + data, defaultObject);
+    }
+
+    public static ItemStack getItemStack(UUID uuid, String name, int data) {
+        return getItemStack(uuid, name, data, null);
+    }
+
+    public static Vector getVector(UUID uuid, String name, int data, Vector defaultObject) {
+        if (!playerVariables.containsKey(uuid))
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+
+        return playerVariables.get(uuid).getVector(name + "." + data, defaultObject);
+    }
+
+    public static Vector getVector(UUID uuid, String name, int data) {
+        return getVector(uuid, name, data, null);
+    }
+
+    public static Vector getVector(String name, int data, Vector defaultObject) {
+        return variables.getVector(name + "." + data, defaultObject);
+    }
+
+    public static Vector getVector(String name, int data) {
+        return getVector(name, data, null);
+    }
+
+    public static boolean getBoolean(UUID uuid, String name, int data, boolean defaultObject) {
+        if (!playerVariables.containsKey(uuid))
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+
+        return playerVariables.get(uuid).getBoolean(name + "." + data, defaultObject);
+    }
+    
+    public static boolean getBoolean(String name, int data, boolean defaultObject) {
+        return variables.getBoolean(name + "." + data, defaultObject);
+    }
+
+    private static CustomConfig get(UUID uuid) {
+        if (!playerVariables.containsKey(uuid))
+            return playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()));
+
+        return playerVariables.get(uuid);
     }
 }

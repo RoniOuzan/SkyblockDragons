@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.util.objects;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
@@ -10,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class Time implements ConfigurationSerializable {
     public enum Unit {
-        YEAR(1d / 31_536_000_000d), MONTH(1d / 2_592_000_000d), DAY(1d / 86_400_000), HOUR(1d / 3_600_000), MINUTE(1d / 60_000), SECOND(1d / 1_000), TICK(1d / 50), MILLISECOND(1), NANOSECOND(1_000);
+        YEAR(1d / 31_536_000_000d), MONTH(1d / 2_592_000), DAY(1d / 86_400), HOUR(1d / 3_600), MINUTE(1d / 60), SECOND(1d), TICK(50), MILLISECOND(1000), NANOSECOND(1_000_000);
 
         private final double MULTIPLIER;
 
@@ -32,9 +33,9 @@ public class Time implements ConfigurationSerializable {
         }
     }
 
-    public long now;
+    public double now;
 
-    public Time(Long now) {
+    public Time(double now) {
         this.now = now;
     }
 
@@ -47,7 +48,7 @@ public class Time implements ConfigurationSerializable {
     }
 
     public double now(Unit unit) {
-        long time = System.currentTimeMillis() - this.now;
+        double time = SkyblockDragons.getCurrentTimeInSeconds() - this.now;
         return this.convert(time, unit);
     }
 
@@ -55,7 +56,7 @@ public class Time implements ConfigurationSerializable {
         return this.convert(this.now, unit);
     }
 
-    public double convert(long time, Unit unit) {
+    public double convert(double time, Unit unit) {
         return time * unit.MULTIPLIER;
     }
 
@@ -102,6 +103,6 @@ public class Time implements ConfigurationSerializable {
     }
 
     public static Time deserialize(Map<String, Object> args) {
-        return new Time((long) args.get("now"));
+        return new Time((double) args.get("now"));
     }
 }

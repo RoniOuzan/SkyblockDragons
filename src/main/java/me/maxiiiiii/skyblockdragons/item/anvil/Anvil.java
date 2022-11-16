@@ -61,7 +61,7 @@ public class Anvil {
                     }
                 } else if (material2 instanceof SkinMaterial) {
                     SkinMaterial skin = (SkinMaterial) material2;
-                    if (material1.name().equals(skin.name().replaceAll("_SKIN", ""))) {
+                    if (((SkinMaterial) material2).getCanApplyTo().contains(material1.name())) {
                         if (!nbt1.getString("Skin").equals(skin.name())) {
                             item = new Item(player, material1, ItemModifiers.getModifiers(item1), new SkinModifier(skin));
                         }

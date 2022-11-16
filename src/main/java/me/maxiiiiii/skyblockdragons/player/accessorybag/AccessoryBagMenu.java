@@ -24,7 +24,7 @@ public class AccessoryBagMenu extends Menu {
             this.setItem(i, getGLASS());
         }
 
-        List<Item> accessories = player.getPlayerItems().getAccessoryBag().getItems();
+        List<Item> accessories = player.getItems().getAccessoryBag().getItems();
         for (int i = 0; i < 45; i++) {
             if (i < accessories.size())
                 this.setItem(i, accessories.get(i));
@@ -47,6 +47,6 @@ public class AccessoryBagMenu extends Menu {
                 accessories.add(item);
             }
         }
-        player.getPlayerItems().setAccessoryBag(accessories);
+        player.getItems().setAccessoryBag(accessories);
     }
 }

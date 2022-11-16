@@ -21,6 +21,8 @@ public abstract class EntityDamage {
 
     public EntityDamage(EntitySD victim, double baseDamage) {
         this.victim = victim;
+        this.victimStats = victim instanceof PlayerSD ? ((PlayerSD) victim).getStats() : null;
+        this.victimEquipment = victim.getItems();
         this.baseDamage = baseDamage;
         this.multiplier = new Multiplier();
     }
