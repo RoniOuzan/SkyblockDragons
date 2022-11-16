@@ -16,7 +16,7 @@ public class AdminLuckyLeggings extends ArmorMaterial {
                 "Admin Boots",
                 ItemType.BOOTS,
                 Rarity.SPECIAL,
-                new CombatStats(10000000, 10000000, 10000000, 5000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 1000000, 0).set(StatTypes.MAGIC_FIND, 1000000),
+                new CombatStats(10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 5000, 1000000, 1000000).set(StatTypes.MAGIC_FIND, 1000000),
                 ""
         );
     }

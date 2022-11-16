@@ -11,6 +11,10 @@ public class Stat {
         this.amount = amount;
     }
 
+    public Stat(double amount, StatType type) {
+        this(type, amount);
+    }
+
     public Stat(StatType type) {
         this(type, 0);
     }
@@ -33,6 +37,10 @@ public class Stat {
 
     public void remove(double amount) {
         this.amount -= amount;
+    }
+
+    public void multiply(double multiplier) {
+        this.amount *= multiplier;
     }
 
     public void normalize(PlayerSD player) {

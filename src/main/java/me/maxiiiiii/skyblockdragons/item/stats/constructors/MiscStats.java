@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.stats.constructors;
 import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 
 import java.util.ArrayList;
 import java.util.Arrays;

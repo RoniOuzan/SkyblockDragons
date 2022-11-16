@@ -13,7 +13,7 @@ public class AdminProSword extends SwordMaterial {
                 ItemFamily.ADMIN,
                 "Admin PRO Sword",
                 Rarity.SPECIAL,
-                new CombatStats(100000, 100000, 100000, 0, 0,100000 ,0, 100000, 100000, 100000, 100000, 100000, 0),
+                new CombatStats(100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 5000, 1000000, 1000000),
                 ""
         );
     }

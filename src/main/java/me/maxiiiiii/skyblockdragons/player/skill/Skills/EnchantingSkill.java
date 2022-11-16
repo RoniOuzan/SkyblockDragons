@@ -1,7 +1,6 @@
 package me.maxiiiiii.skyblockdragons.player.skill.Skills;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.item.stats.StatType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
@@ -19,7 +18,7 @@ public class EnchantingSkill extends AbstractSkill {
                 new SkillRewards(
                         "Conjurer",
                         l -> ChatColor.WHITE + "Gain " + ChatColor.DARK_GRAY + (l * 4) + "➡" + ChatColor.GREEN + ((l + 1) * 4) + " " + ChatColor.WHITE + "more experience orbs from any source.",
-                        StatType.INTELLIGENCE,
+                        StatTypes.INTELLIGENCE,
                         2,
                         coinsAmount
                 ),

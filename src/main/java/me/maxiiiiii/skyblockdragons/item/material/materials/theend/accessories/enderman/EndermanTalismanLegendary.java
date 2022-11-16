@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import org.bukkit.Material;
 
 public class EndermanTalismanLegendary extends AccessoryMaterial {

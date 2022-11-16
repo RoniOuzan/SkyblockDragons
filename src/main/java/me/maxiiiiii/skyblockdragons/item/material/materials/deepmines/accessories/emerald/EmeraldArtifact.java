@@ -4,7 +4,7 @@ import me.maxiiiiii.skyblockdragons.item.material.types.AccessoryMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import org.bukkit.Material;
 
 public class EmeraldArtifact extends AccessoryMaterial {
@@ -14,7 +14,7 @@ public class EmeraldArtifact extends AccessoryMaterial {
                 ItemFamily.EMERALD,
                 "Emerald Artifact",
                 Rarity.RARE,
-                new Stats(0, 8, 4, 1, 0, 0),
+                new DamageStats(0, 8, 4, 1, 0, 0),
                 ""
         );
     }

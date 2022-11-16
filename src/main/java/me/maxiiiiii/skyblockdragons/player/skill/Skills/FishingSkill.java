@@ -1,7 +1,6 @@
 package me.maxiiiiii.skyblockdragons.player.skill.Skills;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.item.stats.StatType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
@@ -21,7 +20,7 @@ public class FishingSkill extends AbstractSkill {
                 new SkillRewards(
                         "Treasure Hunter",
                         l -> ChatColor.WHITE + "Increases the chance to find treasure when fishing by " + ChatColor.DARK_GRAY + (l * 0.2) + "➡" + ChatColor.GREEN + ((l + 1) * 0.2) + "%" + ChatColor.WHITE + ".",
-                        StatType.HEALTH,
+                        StatTypes.HEALTH,
                         2,
                         coinsAmount
                 ),

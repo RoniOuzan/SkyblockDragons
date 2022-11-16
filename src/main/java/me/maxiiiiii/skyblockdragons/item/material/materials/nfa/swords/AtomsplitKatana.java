@@ -1,15 +1,18 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.swords;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityUsage;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown.ItemAbilityCooldown;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.ItemAbilityManaCost;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
@@ -36,7 +39,7 @@ public class AtomsplitKatana extends SwordMaterial {
         if (e.isNotThisItem(this)) return;
         
         if (SkyblockDragons.getCurrentTimeInSeconds() - ((Soulcry) this.getAbilities().get(0)).getLastTimeUsed(e.getPlayer()) <= 4) {
-            e.getStats().add(StatType.FEROCITY, 400);
+            e.getStats().add(StatTypes.FEROCITY, 400);
         }
     }
 
@@ -44,7 +47,7 @@ public class AtomsplitKatana extends SwordMaterial {
         public Soulcry() {
             super(AbilityAction.RIGHT_CLICK,
                     "Soulcry",
-                    "Gain " + ChatColor.RED + "+400" + StatType.FEROCITY.getIconAndText() + ChatColor.GRAY + " against Endermen for " + ChatColor.GREEN + "4 seconds" + ChatColor.GRAY + "."
+                    "Gain " + ChatColor.RED + "+400" + StatTypes.FEROCITY + ChatColor.GRAY + " against Endermen for " + ChatColor.GREEN + "4 seconds" + ChatColor.GRAY + "."
             );
         }
 

@@ -19,7 +19,7 @@ public class AlchemySkill extends AbstractSkill {
                 new SkillRewards(
                         "Brewer",
                         l -> ChatColor.GRAY + "Potion that you brew have a " + ChatColor.DARK_GRAY + l + "➡" + ChatColor.GREEN + (l + 1) + "% " + ChatColor.WHITE + "longer duration.",
-                        StatType.INTELLIGENCE,
+                        StatTypes.INTELLIGENCE,
                         2,
                         coinsAmount
                 ),

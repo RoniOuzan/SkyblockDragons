@@ -11,7 +11,7 @@ import org.bukkit.event.EventPriority;
 public class YoungDragonFullSet extends ItemFullSetBonus {
     public YoungDragonFullSet() {
         super("Young blood",
-                "Gain " + ChatColor.WHITE + "+70" + StatType.SPEED.getIconAndText() + " " + ChatColor.GRAY + "while you are above " + ChatColor.GREEN + "50% " + StatType.HEALTH.getIconAndText() + ChatColor.GRAY + "."
+                "Gain " + ChatColor.WHITE + "+70" + StatTypes.SPEED + " " + ChatColor.GRAY + "while you are above " + ChatColor.GREEN + "50% " + StatTypes.HEALTH + ChatColor.GRAY + "."
         );
     }
     

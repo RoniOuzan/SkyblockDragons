@@ -23,7 +23,7 @@ public class DungeoneeringSkill extends AbstractSkill {
                 new SkillRewards(
                         "Catacomber",
                         l -> ChatColor.WHITE + "Increasing the stats of your dungeon items by " + ChatColor.DARK_GRAY + getLevelIncrease(l) + "➡" + ChatColor.GREEN + levelIncrease[l] + "% " + ChatColor.WHITE + "while in " + ChatColor.RED + "The Catacombs" + ChatColor.WHITE + ".",
-                        StatType.HEALTH,
+                        StatTypes.HEALTH,
                         1,
                         coinsAmount
                 ),

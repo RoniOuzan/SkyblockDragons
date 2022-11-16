@@ -7,6 +7,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityUsage;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;

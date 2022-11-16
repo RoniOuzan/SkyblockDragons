@@ -20,6 +20,7 @@ import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.item.stats.ItemStats;
 import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateItemStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
@@ -229,7 +230,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
 
             NBTList<Double> statList = nbt.getDoubleList("Stats");
             for (Stat stat : stats) {
-                statList.add(stat.amount);
+                statList.add(stat.get());
             }
 //            if (isStackable()) {
 //                nbt.setInteger("Stack", Functions.randomInt(1, 10000));

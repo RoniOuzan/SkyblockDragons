@@ -10,6 +10,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown.It
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown.ItemAbilitySilentCooldown;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.ChatColor;

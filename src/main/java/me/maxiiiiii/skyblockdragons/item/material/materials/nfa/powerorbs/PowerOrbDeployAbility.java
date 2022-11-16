@@ -8,12 +8,11 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
-import me.maxiiiiii.skyblockdragons.item.stats.StatType;
-import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityUsage;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.ItemAbilityManaCostPercentage;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.particle.ParticleUtil;
@@ -69,8 +68,8 @@ public class PowerOrbDeployAbility extends ItemAbility implements ItemAbilityMan
                         "up to " + ChatColor.AQUA + type.players + " " + ChatColor.GRAY + "players within " + ChatColor.GREEN + type.range + " " +
                         ChatColor.GRAY + "blocks. Only one orb applies per player. " +
                         (type.manaRegenPercent != 0 ? "Grants " + ChatColor.AQUA + "+" + type.manaRegenPercent + "% " + ChatColor.GRAY + " base mana regen. " : "") +
-                        (type.healthRegenPercent != 0 ? "Heals " + ChatColor.RED + type.healthRegenPercent + "% " + ChatColor.GRAY + " of max " + ChatColor.RED + StatType.HEALTH.getIcon() + " " + ChatColor.GRAY + " per second. " : "") +
-                        (type.strength != 0 ? "Grants " + StatType.STRENGTH.getColor() + "+" + type.strength + StatType.STRENGTH.getIconAndText() : "")
+                        (type.healthRegenPercent != 0 ? "Heals " + ChatColor.RED + type.healthRegenPercent + "% " + ChatColor.GRAY + " of max " + ChatColor.RED + StatTypes.HEALTH.getIcon() + " " + ChatColor.GRAY + " per second. " : "") +
+                        (type.strength != 0 ? "Grants " + StatTypes.STRENGTH.toString(type.strength) : "")
         );
         this.type = type;
     }

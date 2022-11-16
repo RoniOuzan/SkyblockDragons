@@ -64,7 +64,7 @@ public class Mining implements Listener {
         BlockMaterial blockMaterial = BlockMaterial.get(block.getType());
         if (blockMaterial == null) return;
 
-        double miningTime = ((blockMaterial.blockStrength * 30) / Math.max(player.getStats().getMiningSpeed().amount, 1)) * 50;
+        double miningTime = ((blockMaterial.blockStrength * 30) / Math.max(player.getStats().getMiningSpeed().get(), 1)) * 50;
 //        player.sendMessage("Trying to break %s at speed %s", blockMaterial, miningTime);
 
         if (miningTime <= 50) {

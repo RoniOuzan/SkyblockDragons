@@ -4,6 +4,7 @@ import me.maxiiiiii.skyblockdragons.item.material.types.BowMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.general.MultiShot;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;

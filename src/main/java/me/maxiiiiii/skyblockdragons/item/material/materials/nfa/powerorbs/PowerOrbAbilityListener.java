@@ -10,7 +10,7 @@ public class PowerOrbAbilityListener implements Listener {
     @EventHandler
     public void updateStats(UpdateStatsEvent e) {
         if (e.getPlayer().getActivePowerOrb() != null) {
-            e.getStats().add(StatType.STRENGTH, e.getPlayer().getActivePowerOrb().getStrength());
+            e.getStats().add(StatTypes.STRENGTH, e.getPlayer().getActivePowerOrb().getStrength());
         }
     }
 }

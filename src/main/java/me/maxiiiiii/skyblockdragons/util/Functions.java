@@ -20,6 +20,7 @@ import me.maxiiiiii.skyblockdragons.item.material.types.*;
 import me.maxiiiiii.skyblockdragons.item.modifiers.*;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.item.stats.Stat;
+import me.maxiiiiii.skyblockdragons.item.stats.interfaces.PercentageStat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.interfaces.While;
 import me.maxiiiiii.skyblockdragons.util.objects.SignMenu;
@@ -706,7 +707,7 @@ public class Functions {
     }
 
     public static String getNumSymbol(Stat stat) {
-        return (stat.get() < 0 ? "-" : "+") + Math.abs(stat.get()) + (stat.getType().isPercentage() ? "%" : "");
+        return (stat.get() < 0 ? "-" : "+") + Math.abs(stat.get()) + (stat.getType() instanceof PercentageStat ? "%" : "");
     }
 
 //    public static EnchantType getEnchant(String name) {

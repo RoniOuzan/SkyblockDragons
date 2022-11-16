@@ -4,8 +4,8 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.SurvivorStats;
 import org.bukkit.Color;
 import org.bukkit.Material;
 
@@ -17,7 +17,7 @@ public class ChlorophyteBoots extends ArmorMaterial {
                 "Chlorophyte Boots",
                 ItemType.BOOTS,
                 Rarity.UNCOMMON,
-                new Stats(45, 35, 0, 20, 110, 25, 0),
+                new SurvivorStats(45, 35, 0, 20, 110, 25, 0),
                 "",
                 ItemFullSetBonus.CHLOROPHYTE_FULL_SET
         );

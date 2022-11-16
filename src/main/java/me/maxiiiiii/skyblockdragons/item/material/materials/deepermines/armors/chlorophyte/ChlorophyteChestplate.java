@@ -4,8 +4,8 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.SurvivorStats;
 import org.bukkit.Color;
 import org.bukkit.Material;
 
@@ -17,7 +17,7 @@ public class ChlorophyteChestplate extends ArmorMaterial {
                 "Chlorophyte Chestplate",
                 ItemType.CHESTPLATE,
                 Rarity.UNCOMMON,
-                new Stats(65, 45, 0, 20, 125, 35, 0),
+                new SurvivorStats(65, 45, 0, 20, 125, 35, 0),
                 "",
                 ItemFullSetBonus.CHLOROPHYTE_FULL_SET
         );

@@ -15,7 +15,7 @@ public class AdminNoobBoots extends ArmorMaterial {
                 "Admin N00B Boots",
                 ItemType.BOOTS,
                 Rarity.SPECIAL,
-                new CombatStats(1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000000, 0),
+                new CombatStats(1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 5000, 1000000, 1000000),
                 ""
         );
     }

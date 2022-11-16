@@ -95,7 +95,7 @@ public class RecipesMenu extends Menu {
 
     public enum Type {
         WEAPONS(i -> i instanceof Item && ((Item) i).getMaterial().getType().isWeapon()),
-        MINING(i -> i instanceof Item && (Items.get(i).getType().isPickaxe() || Items.get(i).getType().isArmor()) && ((Items.get(i) instanceof ItemStatsAble && (((ItemStatsAble) Items.get(i)).getStats().getMiningSpeed().amount > 0 || ((ItemStatsAble) Items.get(i)).getStats().getMiningFortune().amount > 0)))),
+        MINING(i -> i instanceof Item && (Items.get(i).getType().isPickaxe() || Items.get(i).getType().isArmor()) && ((Items.get(i) instanceof ItemStatsAble && (((ItemStatsAble) Items.get(i)).getStats().getMiningSpeed().get() > 0 || ((ItemStatsAble) Items.get(i)).getStats().getMiningFortune().get() > 0)))),
         FARMING(i -> i instanceof Item && ((Item) i).getMaterial().getType() == ItemType.HOE),
         FISHING(i -> i instanceof Item && ((Item) i).getMaterial().getType() == ItemType.ROD),
         WANDS(i -> i instanceof Item && ((Item) i).getMaterial().getType() == ItemType.WAND),

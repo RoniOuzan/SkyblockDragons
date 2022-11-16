@@ -2,12 +2,15 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.swords;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.ItemAbilityManaCost;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityUsage;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown.ItemAbilitySilentCooldown;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.ItemAbilityManaCost;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.ChatColor;
@@ -29,7 +32,7 @@ public class AxeOfTheShredded extends SwordMaterial {
                 "Axe of the Shredded",
                 Rarity.LEGENDARY,
                 new Stats(140, 115, 0, 0, 0, 0, 0, 0, 0, 0),
-                "Heal " + ChatColor.RED + "50" + StatType.HEALTH.getIcon() + " " + ChatColor.GRAY + "per hit." + " NEW_LINE " + "Deal " + ChatColor.GREEN + "+250% " + ChatColor.GRAY + "damage to Zombies." + " NEW_LINE " + "Receive " + ChatColor.GREEN + "25% " + ChatColor.GRAY + "less damage from Zombies when held.",
+                "Heal " + ChatColor.RED + "50" + StatTypes.HEALTH.getIcon() + " " + ChatColor.GRAY + "per hit." + " NEW_LINE " + "Deal " + ChatColor.GREEN + "+250% " + ChatColor.GRAY + "damage to Zombies." + " NEW_LINE " + "Receive " + ChatColor.GREEN + "25% " + ChatColor.GRAY + "less damage from Zombies when held.",
                 new Throw()
         );
     }

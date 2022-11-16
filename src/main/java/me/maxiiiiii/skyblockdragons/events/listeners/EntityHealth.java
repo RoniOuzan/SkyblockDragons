@@ -28,11 +28,11 @@ public class EntityHealth implements Listener {
         } catch (NullPointerException ignored) {
         }
         if (entity.getHealth() <= entity.getMaxHealth() / 4) {
-            entity.setCustomName(name + SPLITTER + ChatColor.RED + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatType.HEALTH.getIcon());
+            entity.setCustomName(name + SPLITTER + ChatColor.RED + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatTypes.HEALTH.getIcon());
         } else if (entity.getHealth() <= entity.getMaxHealth() / 2) {
-            entity.setCustomName(name + SPLITTER + ChatColor.YELLOW + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatType.HEALTH.getIcon());
+            entity.setCustomName(name + SPLITTER + ChatColor.YELLOW + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatTypes.HEALTH.getIcon());
         } else {
-            entity.setCustomName(name + SPLITTER + ChatColor.GREEN + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatType.HEALTH.getIcon());
+            entity.setCustomName(name + SPLITTER + ChatColor.GREEN + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatTypes.HEALTH.getIcon());
         }
         entity.setCustomNameVisible(true);
     }
@@ -46,7 +46,7 @@ public class EntityHealth implements Listener {
             }
         } catch (NullPointerException ignored) {
         }
-        return name + SPLITTER + ChatColor.GREEN + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatType.HEALTH.getIcon();
+        return name + SPLITTER + ChatColor.GREEN + Functions.getShortNumber(Math.ceil(entity.getHealth())) + StatTypes.HEALTH.getIcon();
     }
 
     @EventHandler

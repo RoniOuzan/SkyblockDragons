@@ -1,9 +1,10 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.armors.obsidian;
 
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
-
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.CombatStats;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.Color;
@@ -17,7 +18,7 @@ public class ObsidianLeggings extends ArmorMaterial {
                 "Obsidian Leggings",
                 ItemType.LEGGINGS,
                 Rarity.RARE,
-                new Stats(0, 8, 12, 0, 0, 0, 95, 45, -5, 5),
+                new CombatStats(0, 8, 12, 0, 0, 0, 95, 45, -5, 5),
                 "",
                 new SkillRequirement(SkillType.COMBAT, 3)
         );

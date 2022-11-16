@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.deepermines.drills;
 import me.maxiiiiii.skyblockdragons.item.material.types.DrillMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import org.bukkit.Material;
 
 public class CobaltDrill extends DrillMaterial {
@@ -13,7 +13,7 @@ public class CobaltDrill extends DrillMaterial {
                 ItemFamily.COBALT,
                 "Cobalt Drill",
                 Rarity.COMMON,
-                new Stats(70, 0, 0, 0, 0, 0, 420, 60),
+                new DamageStats(70, 0, 0, 0, 0, 0, 420, 60),
                 5,
                 ""
         );

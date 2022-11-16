@@ -2,7 +2,6 @@ package me.maxiiiiii.skyblockdragons.entity;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.item.stats.StatType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
@@ -34,7 +33,7 @@ public class EntityHologram {
     }
 
     public void update() {
-        this.stand.setCustomName(this.entity.getCustomName() + " " + ChatColor.GREEN + Functions.getShortNumber(this.entity.getHealth()) + ChatColor.RED + StatType.HEALTH.getIcon());
+        this.stand.setCustomName(this.entity.getCustomName() + " " + ChatColor.GREEN + Functions.getShortNumber(this.entity.getHealth()) + ChatColor.RED + StatTypes.HEALTH.getIcon());
     }
 
     public void remove() {

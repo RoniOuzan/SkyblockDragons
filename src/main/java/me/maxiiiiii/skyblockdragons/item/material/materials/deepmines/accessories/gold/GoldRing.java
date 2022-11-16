@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import org.bukkit.Material;
 
 public class GoldRing extends AccessoryMaterial {
@@ -14,7 +15,7 @@ public class GoldRing extends AccessoryMaterial {
                 ItemFamily.GOLD,
                 "Gold Ring",
                 Rarity.UNCOMMON,
-                new Stats(0, 4, 2, 0, 0, 0),
+                new DamageStats(0, 4, 2, 0, 0, 0),
                 ""
         );
     }

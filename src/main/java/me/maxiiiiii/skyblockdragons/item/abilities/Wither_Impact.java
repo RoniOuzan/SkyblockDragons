@@ -47,12 +47,12 @@ public class Wither_Impact implements Listener {
         if (scrolls.size() >= 3) {
             if (cooldown(player, cooldown, 200, true)) return;
 
-            if (players.get(player.getUniqueId()).manaCost(300, item, "Wither Impact")) return;
+//            if (players.get(player.getUniqueId()).manaCost(300, item, "Wither Impact")) return;
 
             player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1f, 0f);
             player.playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1f, 0f);
 
-            double heal = players.get(player.getUniqueId()).getStats().getCritDamage().amount * 1.5;
+            double heal = players.get(player.getUniqueId()).getStats().getCritDamage().get() * 1.5;
             witherShieldHealth.put(player.getUniqueId(), (int) heal);
             witherShield.put(player.getUniqueId(), System.currentTimeMillis());
 
@@ -94,13 +94,13 @@ public class Wither_Impact implements Listener {
                 return;
             }
 
-            if (players.get(player.getUniqueId()).getStats().getMana().amount >= 300) {
+            if (players.get(player.getUniqueId()).getStats().getMana().get() >= 300) {
                 player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1f, 0f);
             }
 
             if (scrolls.contains(NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP)) {
 
-                if (players.get(player.getUniqueId()).manaCost(300, item, "Shadow Warp")) return;
+//                if (players.get(player.getUniqueId()).manaCost(300, item, "Shadow Warp")) return;
 
                 teleportForward(player, 10);
 
@@ -119,7 +119,7 @@ public class Wither_Impact implements Listener {
 
             if (scrolls.contains(NecronBladeMaterial.NecronBladeAbility.WITHER_SHIELD)) {
 
-                if (players.get(player.getUniqueId()).manaCost(150, item, "Wither Shield")) return;
+//                if (players.get(player.getUniqueId()).manaCost(150, item, "Wither Shield")) return;
 
                 player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 100, 3, false, false));
                 player.playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1f, 0f);
@@ -127,7 +127,7 @@ public class Wither_Impact implements Listener {
 
             if (scrolls.contains(NecronBladeMaterial.NecronBladeAbility.IMPLOSION)) {
 
-                if (players.get(player.getUniqueId()).manaCost(300, item, "Implosion")) return;
+//                if (players.get(player.getUniqueId()).manaCost(300, item, "Implosion")) return;
 
                 player.getLocation().getWorld().spawnParticle(Particle.EXPLOSION_HUGE, player.getLocation(), 1, 0, 0, 0, 10);
                 List<EntitySD> entities = loopEntities(player.getLocation(), 6);

@@ -1,13 +1,16 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.swords;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.ItemAbilityManaCost;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -35,7 +38,7 @@ public class RogueSword extends SwordMaterial {
         if (e.isNotThisItem(this)) return;
         
         if (System.currentTimeMillis() - SpeedBoost.rogueSwordLastTimeUsed.getOrDefault(e.getPlayer(), 0L) <= 30000) {
-            e.getStats().getSpeed().amount += (SpeedBoost.rogueSwordAmountUsed.get(e.getPlayer()) + 1) * 10;
+            e.getStats().getSpeed().add((SpeedBoost.rogueSwordAmountUsed.get(e.getPlayer()) + 1) * 10);
         }
     }
 
@@ -46,7 +49,7 @@ public class RogueSword extends SwordMaterial {
         public SpeedBoost() {
             super(AbilityAction.RIGHT_CLICK,
                     "Speed Boost",
-                    "Increases your movement " + StatType.SPEED.getIconAndText() + " " + ChatColor.GRAY + "by " + ChatColor.GREEN + "+20 " + ChatColor.GRAY + "for " + ChatColor.GREEN + "30 " + ChatColor.GRAY + "seconds. Only gives " + ChatColor.GREEN + "+10 " + StatType.SPEED.getIconAndText() + " " + ChatColor.GRAY + "if already in use."
+                    "Increases your movement " + StatTypes.SPEED + " " + ChatColor.GRAY + "by " + ChatColor.GREEN + "+20 " + ChatColor.GRAY + "for " + ChatColor.GREEN + "30 " + ChatColor.GRAY + "seconds. Only gives " + ChatColor.GREEN + "+10 " + StatTypes.SPEED + " " + ChatColor.GRAY + "if already in use."
             );
         }
 

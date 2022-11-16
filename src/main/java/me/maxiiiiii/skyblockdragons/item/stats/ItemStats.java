@@ -23,9 +23,7 @@ public class ItemStats extends Stats {
     }
 
     @Override
-    public void reset(PlayerSD player) {
-        super.reset(player);
-
+    public void reset() {
         multiplayer.clear();
     }
 

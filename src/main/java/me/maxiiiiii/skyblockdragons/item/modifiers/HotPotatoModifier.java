@@ -2,12 +2,7 @@ package me.maxiiiiii.skyblockdragons.item.modifiers;
 
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.item.stats.StatType;
-import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
-import me.maxiiiiii.skyblockdragons.item.stats.Stat;
-import me.maxiiiiii.skyblockdragons.item.stats.StatModifier;
-import me.maxiiiiii.skyblockdragons.item.stats.StatModifierType;
-import me.maxiiiiii.skyblockdragons.item.stats.UpdateItemStatsEvent;
+import me.maxiiiiii.skyblockdragons.item.stats.*;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -42,8 +37,8 @@ public class HotPotatoModifier extends ItemModifier implements Listener {
         @EventHandler
         public void updateItemStats(UpdateItemStatsEvent e) {
             int hotPotato = e.getStats().getItem().getModifiers().getHotPotato();
-            e.getStats().getModifiers().add(new StatModifier(StatModifierType.HOT_POTATO, "", new Stat(hotPotato * 2, StatType.DAMAGE)));
-            e.getStats().getModifiers().add(new StatModifier(StatModifierType.HOT_POTATO, "", new Stat(hotPotato * 2, StatType.STRENGTH)));
+            e.getStats().getModifiers().add(new StatModifier(StatModifierType.HOT_POTATO, "", new Stat(StatTypes.DAMAGE, hotPotato * 2)));
+            e.getStats().getModifiers().add(new StatModifier(StatModifierType.HOT_POTATO, "", new Stat(StatTypes.STRENGTH, hotPotato * 2)));
         }
     }
 }

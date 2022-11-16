@@ -48,6 +48,8 @@ public abstract class StatType {
     }
 
     public double getMaxLevel(PlayerSD player) {
+        if (maxLevel == null) return Double.MAX_VALUE;
+
         return maxLevel.apply(player);
     }
 

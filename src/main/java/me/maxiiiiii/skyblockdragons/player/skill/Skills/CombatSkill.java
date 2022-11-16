@@ -2,7 +2,6 @@ package me.maxiiiiii.skyblockdragons.player.skill.Skills;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
-import me.maxiiiiii.skyblockdragons.item.stats.StatType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
@@ -21,7 +20,7 @@ public class CombatSkill extends AbstractSkill {
                 new SkillRewards(
                         "Warrior",
                         l -> ChatColor.WHITE + "Deal " + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + (l * 4) + "➡" + ChatColor.GREEN + ((l + 1) * 4) + "% " + ChatColor.WHITE + "more damage to mobs",
-                        StatType.CRIT_CHANCE,
+                        StatTypes.CRIT_CHANCE,
                         0.5,
                         coinsAmount
                 ),

@@ -18,9 +18,8 @@ import me.maxiiiiii.skyblockdragons.item.material.types.BowMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.MiningMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
-import me.maxiiiiii.skyblockdragons.item.stats.StatType;
-import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
@@ -114,29 +113,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.update(player);
         SkyblockDragons.players.put(player.getUniqueId(), this);
 
-        this.stats = new PlayerStats(this,
-                0,
-                0,
-                0,
-                10,
-                0,
-                0,
-                0,
-                0,
-                100,
-                0,
-                0,
-                100,
-                100,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0
-        );
+        this.stats = new PlayerStats(this);
 
         this.chatChannel = (ChatChannel) Variables.get(player.getUniqueId(), "ChatChannel", 0, ChatChannel.ALL);
 
@@ -350,9 +327,9 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         for (AbstractSkill skill : this.getSkill()) {
             this.stats.add(skill.getRewards().getStat(), skill.getRewards().getStatAmount() * skill.getLevel());
         }
-        this.stats.add(StatType.MINING_FORTUNE, this.getSkill().getMiningSkill().getLevel() * 4);
-        this.stats.add(StatType.FARMING_FORTUNE, this.getSkill().getFarmingSkill().getLevel() * 4);
-        this.stats.add(StatType.FORAGING_FORTUNE, this.getSkill().getForagingSkill().getLevel() * 4);
+        this.stats.add(StatTypes.MINING_FORTUNE, this.getSkill().getMiningSkill().getLevel() * 4);
+        this.stats.add(StatTypes.FARMING_FORTUNE, this.getSkill().getFarmingSkill().getLevel() * 4);
+        this.stats.add(StatTypes.FORAGING_FORTUNE, this.getSkill().getForagingSkill().getLevel() * 4);
 
         for (Item item : equipment) {
             if (item.getMaterial() instanceof ItemRequirementAble && !((ItemRequirementAble) item.getMaterial()).getRequirements().hasRequirements(this)) continue;
@@ -376,7 +353,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
             this.stats.getMana().set(this.stats.getIntelligence().get());
         }
 
-        this.stats.normalize();
+        this.stats.normalize(this);
 
         if (this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() != this.getMaxHealth()) {
             this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers().clear();
@@ -396,7 +373,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public void sendActionBar() {
-        ActionBarSupplier defense = new ActionBarSupplier(ChatColor.GREEN.toString() + this.getStats().getDefense().get() + StatType.DEFENSE.getIcon(), 0);
+        ActionBarSupplier defense = new ActionBarSupplier(ChatColor.GREEN.toString() + this.getStats().getDefense().get() + StatTypes.DEFENSE.getIcon(), 0);
 
         ActionBarSupplier actionBar = this.actionBarQueue.getOrDefault(defense);
         if (actionBar != null && SkyblockDragons.getCurrentTimeInSeconds() - actionBar.getStartedAt() > actionBar.getDuration()) {
@@ -412,19 +389,6 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
     public void addActionBar(String text, double duration) {
         this.actionBarQueue.add(new ActionBarSupplier(text, duration));
-    }
-
-    public boolean manaCost(int manaCost, ItemStack item, String abilityName) {
-        if (this.player.getGameMode() == GameMode.CREATIVE) return false;
-
-        int cost = Functions.manaCostCalculator(manaCost, this);
-        if (this.stats.mana.amount >= cost) {
-            this.stats.mana.amount -= cost;
-//            Functions.sendActionBar(this, abilityName + ChatColor.AQUA + "! (" + cost + " Mana)");
-            return false;
-        }
-        this.player.sendMessage(ChatColor.RED + "You don't have enough mana to use this item!");
-        return true;
     }
 
     @Override
@@ -571,7 +535,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
     public boolean chanceOf(double percent, Object... other) {
         double multiplier = 1;
-        multiplier += this.getStats().getMagicFind().amount / 100;
+        multiplier += this.getStats().getMagicFind().get() / 100;
         return Functions.chanceOf(percent * multiplier);
     }
 

@@ -5,6 +5,7 @@ import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,7 +16,7 @@ public abstract class NecronBladeMaterial extends SwordMaterial {
     private NecronBladeType bladeType;
 
     public NecronBladeMaterial(String itemID, Material material, ItemFamily family, String name, Rarity rarity, Stats stats, NecronBladeType bladeType) {
-        super(itemID, material, family, name, rarity, stats, "Deals +" + ChatColor.GREEN + "50% " + ChatColor.GRAY + "damage to Withers. Grants " + ChatColor.RED + "+1" + StatType.DAMAGE.getIconAndText() + " " + ChatColor.GRAY + "and " + ChatColor.RED + "+1" + StatType.STRENGTH.getIconAndText() + " " + ChatColor.GRAY + "per " + ChatColor.RED + "Catacombs " + ChatColor.GRAY + "level." + " NEW_LINE " + ChatColor.GRAY + "Your Catacombs Level: " + ChatColor.RED + "0");
+        super(itemID, material, family, name, rarity, stats, "Deals +" + ChatColor.GREEN + "50% " + ChatColor.GRAY + "damage to Withers. Grants " + ChatColor.RED + "+1" + StatTypes.DAMAGE + " " + ChatColor.GRAY + "and " + ChatColor.RED + "+1" + StatTypes.STRENGTH + " " + ChatColor.GRAY + "per " + ChatColor.RED + "Catacombs " + ChatColor.GRAY + "level." + " NEW_LINE " + ChatColor.GRAY + "Your Catacombs Level: " + ChatColor.RED + "0");
         this.bladeType = bladeType;
     }
 

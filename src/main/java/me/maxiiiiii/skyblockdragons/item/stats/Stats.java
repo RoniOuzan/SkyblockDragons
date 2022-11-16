@@ -38,6 +38,7 @@ public class Stats implements Iterable<Stat> {
         Stat stat = stats.getOrDefault(type, new Stat(type, getDefaultValue(type)));
         stat.set(amount);
         stats.put(type, stat);
+        return this;
     }
 
     public void add(StatType type, double amount) {
@@ -46,10 +47,28 @@ public class Stats implements Iterable<Stat> {
         stats.put(type, stat);
     }
 
+    public void add(Stats stats) {
+        for (Stat stat : stats) {
+            this.add(stat.getType(), stat.get());
+        }
+    }
+
     public void remove(StatType type, double amount) {
         Stat stat = stats.getOrDefault(type, new Stat(type, getDefaultValue(type)));
         stat.remove(amount);
         stats.put(type, stat);
+    }
+
+    public void multiply(StatType type, double multiplier) {
+        Stat stat = stats.getOrDefault(type, new Stat(type, getDefaultValue(type)));
+        stat.multiply(multiplier);
+        stats.put(type, stat);
+    }
+
+    public void multiply(double multiplier) {
+        for (Stat stat : this) {
+            stat.multiply(multiplier);
+        }
     }
 
     public void normalize(PlayerSD player, StatType type) {
@@ -64,9 +83,9 @@ public class Stats implements Iterable<Stat> {
         }
     }
 
-    public void reset(PlayerSD player) {
+    public void reset() {
         for (Stat stat : this) {
-            stat.reset(player);
+            stat.set(getDefaultValue(stat.getType()));
         }
     }
 
@@ -234,5 +253,72 @@ public class Stats implements Iterable<Stat> {
 
     public Stat getDungeoneeringWisdom() {
         return this.get(StatTypes.DUNGEONEERING_WISDOM);
+    }
+
+    public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence) {
+        this(new ArrayList<>(Arrays.asList(
+                new Stat(StatTypes.DAMAGE, damage),
+                new Stat(StatTypes.SPEED, strength),
+                new Stat(StatTypes.CRIT_DAMAGE, critDamage),
+                new Stat(StatTypes.CRIT_CHANCE, critChance),
+                new Stat(StatTypes.ATTACK_SPEED, attackSpeed),
+                new Stat(StatTypes.FEROCITY, ferocity),
+                new Stat(StatTypes.HEALTH, health),
+                new Stat(StatTypes.DEFENSE, defense),
+                new Stat(StatTypes.SPEED, speed),
+                new Stat(StatTypes.INTELLIGENCE, intelligence)
+        )));
+    }
+
+    public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity) {
+        this(new ArrayList<>(Arrays.asList(
+                new Stat(StatTypes.DAMAGE, damage),
+                new Stat(StatTypes.STRENGTH, strength),
+                new Stat(StatTypes.CRIT_DAMAGE, critDamage),
+                new Stat(StatTypes.CRIT_CHANCE, critChance),
+                new Stat(StatTypes.ATTACK_SPEED, attackSpeed),
+                new Stat(StatTypes.FEROCITY, ferocity)
+        )));
+    }
+
+    public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double miningSpeed, double miningFortune) {
+        this(new ArrayList<>(Arrays.asList(
+                new Stat(StatTypes.DAMAGE, damage),
+                new Stat(StatTypes.STRENGTH, strength),
+                new Stat(StatTypes.CRIT_DAMAGE, critDamage),
+                new Stat(StatTypes.CRIT_CHANCE, critChance),
+                new Stat(StatTypes.ATTACK_SPEED, attackSpeed),
+                new Stat(StatTypes.FEROCITY, ferocity),
+                new Stat(StatTypes.MINING_SPEED, miningSpeed),
+                new Stat(StatTypes.MINING_FORTUNE, miningFortune)
+        )));
+    }
+
+    public Stats(double health, double defense, double trueDefense, double intelligence, double miningSpeed, double miningFortune, double magicFind) {
+        this(new ArrayList<>(Arrays.asList(
+                new Stat(StatTypes.HEALTH, health),
+                new Stat(StatTypes.DEFENSE, defense),
+                new Stat(StatTypes.TRUE_DEFENSE, trueDefense),
+                new Stat(StatTypes.INTELLIGENCE, intelligence),
+                new Stat(StatTypes.MAGIC_FIND, magicFind),
+                new Stat(StatTypes.MINING_SPEED, miningSpeed),
+                new Stat(StatTypes.MINING_FORTUNE, miningFortune)
+        )));
+    }
+
+    public Stats(double health, double defense, double speed, double intelligence) {
+        this(new ArrayList<>(Arrays.asList(
+                new Stat(StatTypes.HEALTH, health),
+                new Stat(StatTypes.DEFENSE, defense),
+                new Stat(StatTypes.SPEED, speed),
+                new Stat(StatTypes.INTELLIGENCE, intelligence)
+        )));
+    }
+
+    public Stats(double miningSpeed, double miningFortune) {
+        this(new ArrayList<>(Arrays.asList(
+                new Stat(StatTypes.MINING_SPEED, miningSpeed),
+                new Stat(StatTypes.MINING_FORTUNE, miningFortune)
+        )));
     }
 }

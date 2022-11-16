@@ -28,7 +28,7 @@ public class ProfileMenu extends Menu {
 
     @Override
     public void update() {
-        this.setItem(13, Functions.applyHead(Functions.createItem(Material.SKULL_ITEM, 1, 3, ChatColor.WHITE + target.getName() + "'s Profile", target.getStats().toList().stream().map(s -> s.type.getIconAndText() + " " + ChatColor.WHITE + Functions.getNumberFormat(s.amount)).collect(Collectors.toList())), target));
+        this.setItem(13, Functions.applyHead(Functions.createItem(Material.SKULL_ITEM, 1, 3, ChatColor.WHITE + target.getName() + "'s Profile", target.getStats().toList().stream().map(s -> s.getType() + " " + ChatColor.WHITE + Functions.getNumberFormat(s.get())).collect(Collectors.toList())), target));
 
         this.setItem(1, Functions.isNotAir(target.getEquipment().getItemInMainHand()) ? target.getEquipment().getItemInMainHand() : Functions.createItem(Material.STAINED_GLASS_PANE, 1, 0, ChatColor.YELLOW + "Player Hand"));
         this.setItem(10, Functions.isNotAir(target.getEquipment().getHelmet()) ? target.getEquipment().getHelmet() : Functions.createItem(Material.STAINED_GLASS_PANE, 1, 0, ChatColor.YELLOW + "Player Helmet"));

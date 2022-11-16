@@ -84,7 +84,7 @@ public abstract class AbstractSkill implements Listener {
         player.sendMessage("    " + ChatColor.GREEN + "" + ChatColor.BOLD + "REWARDS");
         player.sendMessage("      " + ChatColor.YELLOW + this.rewards.getName() + integerToRoman(this.getLevel()));
         player.sendMessage("         " + this.rewards.getPassive(this.getLevel()));
-        player.sendMessage("       " + ChatColor.DARK_GRAY + "+" + ChatColor.GREEN + getInt(this.rewards.getStatAmount() *  this.getLevel() + "") + this.rewards.getStat().getIconAndText());
+        player.sendMessage("       " + ChatColor.DARK_GRAY + "+" + ChatColor.GREEN + getInt(this.rewards.getStatAmount() *  this.getLevel() + "") + this.rewards.getStat());
         player.sendMessage("       " + ChatColor.DARK_GRAY + "+" + ChatColor.GOLD + getNumberFormat(this.rewards.getCoins(this.getLevel())) + " " + ChatColor.GRAY + "Coins");
         player.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "------------------------------------------");
 

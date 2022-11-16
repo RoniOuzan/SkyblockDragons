@@ -1,7 +1,6 @@
 package me.maxiiiiii.skyblockdragons.player.skill.Skills;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.item.stats.StatType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -23,7 +22,7 @@ public class FarmingSkill extends AbstractSkill {
                 new SkillRewards(
                         "Farmhand",
                         l -> ChatColor.WHITE + "Grants " + ChatColor.DARK_GRAY + (l * 4) + "➡" + ChatColor.GREEN + ((l + 1) * 4) + " " + ChatColor.GOLD + "Farming Fortune" + ChatColor.WHITE + ", which increase your chance for multiple crops.",
-                        StatType.HEALTH,
+                        StatTypes.HEALTH,
                         2,
                         coinsAmount
                 ),
@@ -37,6 +36,6 @@ public class FarmingSkill extends AbstractSkill {
     public void updateStats(UpdateStatsEvent e) {
         if (e.getPlayer() != this.getPlayer()) return;
 
-        e.getStats().add(StatType.FARMING_FORTUNE, this.getLevel() * 4);
+        e.getStats().add(StatTypes.FARMING_FORTUNE, this.getLevel() * 4);
     }
 }

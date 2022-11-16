@@ -11,6 +11,7 @@ import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateItemStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
@@ -72,7 +73,7 @@ public class EnderDragonPet extends PetMaterial {
 
         public OneWithTheDragons() {
             super("One with the Dragons",
-                    (p, i) -> "Buffs the Aspect of the Dragons Sword by " + ChatColor.GREEN + (i * DAMAGE_MULTIPLIER) + " " + StatType.DAMAGE.getIconAndText() + " " + ChatColor.GRAY + "and " + ChatColor.GREEN + (i * STRENGTH_MULTIPLIER) + " " + StatType.STRENGTH.getIconAndText()
+                    (p, i) -> "Buffs the Aspect of the Dragons Sword by " + ChatColor.GREEN + (i * DAMAGE_MULTIPLIER) + " " + StatTypes.DAMAGE + " " + ChatColor.GRAY + "and " + ChatColor.GREEN + (i * STRENGTH_MULTIPLIER) + " " + StatTypes.STRENGTH
             );
         }
 

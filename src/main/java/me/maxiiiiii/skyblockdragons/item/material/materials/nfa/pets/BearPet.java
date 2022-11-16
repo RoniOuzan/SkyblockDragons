@@ -9,6 +9,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.stats.StatType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;

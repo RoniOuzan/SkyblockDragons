@@ -1,10 +1,13 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.swords;
 
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.ItemAbilityManaCost;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
@@ -35,7 +38,7 @@ public class AspectOfTheEnd extends SwordMaterial {
         public Transmission(double blocks) {
             super(AbilityAction.RIGHT_CLICK,
                     "Transmission",
-                    ChatColor.GRAY + "Teleport " + ChatColor.GREEN + "8 blocks " + ChatColor.GRAY + "ahead of you and gain " + ChatColor.GREEN + "+50 " + StatType.SPEED.getIconAndText() + " NEW_LINE for " + ChatColor.GREEN + "3 seconds" + ChatColor.GRAY + "."
+                    ChatColor.GRAY + "Teleport " + ChatColor.GREEN + "8 blocks " + ChatColor.GRAY + "ahead of you and gain " + ChatColor.GREEN + "+50 " + StatTypes.SPEED + " NEW_LINE for " + ChatColor.GREEN + "3 seconds" + ChatColor.GRAY + "."
             );
             this.blocks = blocks;
         }
