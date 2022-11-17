@@ -30,8 +30,10 @@ public class SkyblockDragonsCommand extends CommandSD {
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
                 player.sendMessage(ChatColor.GREEN + "You have been reloaded SkyblockDragons plugin.");
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "plugman reload SkyblockDragons");
-                player.sendMessage(ChatColor.GREEN + "Successfully reloaded SkyblockDragons.");
+                Functions.Wait(1L, () -> {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "plugman reload SkyblockDragons");
+                    player.sendMessage(ChatColor.GREEN + "Successfully reloaded SkyblockDragons.");
+                });
             } else if (args[0].equalsIgnoreCase("update")) {
                 player.sendMessage(ChatColor.GREEN + "You have been reloaded SkyblockDragons plugin.");
                 Functions.Loop(5, 20L, amount -> {

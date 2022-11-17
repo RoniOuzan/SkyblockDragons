@@ -106,7 +106,18 @@ public class Stats implements Iterable<Stat> {
     }
 
     public List<Stat> toList() {
-        return new ArrayList<>(this.stats.values());
+        List<Stat> stats = new ArrayList<>();
+        for (StatType stat : StatTypes.STATS) {
+            if (stat == StatTypes.MANA) continue;
+
+            stats.add(this.stats.getOrDefault(stat, new Stat(stat, 0)));
+        }
+        return stats;
+    }
+
+    @Override
+    public String toString() {
+        return this.toList().toString();
     }
 
     @Override

@@ -63,7 +63,6 @@ import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
 import static me.maxiiiiii.skyblockdragons.util.Functions.getInt;
@@ -313,7 +312,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
     public void applyStats(boolean manaRegan) {
         this.equipment.update();
-        PlayerEquipment equipment = getItems();
+        PlayerEquipment equipment = this.getItems();
 
         if (this.getWorldSD().isType(WorldType.MINING)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, -1, false, false), true);
@@ -322,7 +321,6 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         }
 
         this.stats.reset();
-        this.stats.getHealth().set(500); // no other way to have more base health so for now it will be that
 
         for (AbstractSkill skill : this.getSkill()) {
             this.stats.add(skill.getRewards().getStat(), skill.getRewards().getStatAmount() * skill.getLevel());
@@ -332,7 +330,10 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.stats.add(StatTypes.FORAGING_FORTUNE, this.getSkill().getForagingSkill().getLevel() * 4);
 
         for (Item item : equipment) {
-            if (item.getMaterial() instanceof ItemRequirementAble && !((ItemRequirementAble) item.getMaterial()).getRequirements().hasRequirements(this)) continue;
+            if (item.getMaterial().name().equals("NULL") ||
+                    (item.getMaterial() instanceof ItemRequirementAble &&
+                            !((ItemRequirementAble) item.getMaterial()).getRequirements().hasRequirements(this)))
+                continue;
 
             stats.add(item.getStats());
         }
@@ -543,10 +544,6 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         return this.getGameMode() == GameMode.CREATIVE;
     }
 
-    public void sendNoRequirementsMessage() {
-        this.sendNoRequirementsMessage("Item");
-    }
-
     public void sendNoRequirementsMessage(String whatToUse) {
         this.sendMessage(ChatColor.RED + "You don't have the requirements to use this " + whatToUse + "!");
     }
@@ -575,7 +572,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public List<EntitySD> getEntities(double radius) {
-        return Functions.loopEntities(this.getLocation(), radius).stream().map(EntitySD::get).collect(Collectors.toList());
+        return Functions.loopEntities(this.getLocation(), radius);
     }
 
     /**
@@ -591,7 +588,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
     @Override
     public void giveExp(int amount) {
-        amount *= 1 + (this.getSkill().getEnchantingSkill().getLevel() * 4 / 100);
+        amount *= 1 + ((this.getSkill().getEnchantingSkill().getLevel() * 4) / 100);
         super.giveExp(amount);
     }
 
