@@ -579,12 +579,6 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         return Functions.cooldown(victim, this.hitTick, this.getHitTick(), false);
     }
 
-    @Override
-    public void giveExp(int amount) {
-        amount *= 1 + ((this.getSkill().getEnchantingSkill().getLevel() * 4) / 100);
-        super.giveExp(amount);
-    }
-
     public void heal(double amount) {
         this.setHealth(Math.min(this.getHealth() + amount, this.getMaxHealth()));
     }

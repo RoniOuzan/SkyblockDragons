@@ -13,6 +13,7 @@ import me.maxiiiiii.skyblockdragons.entity.events.EntityDeathEvent;
 import me.maxiiiiii.skyblockdragons.entity.types.other.PlayerEntity;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.drops.PlayerGetDropEvent;
 import me.maxiiiiii.skyblockdragons.item.drops.UpdateDropChanceEvent;
 import me.maxiiiiii.skyblockdragons.item.drops.types.ItemDrop;
 import me.maxiiiiii.skyblockdragons.item.drops.types.ItemRareDrop;
@@ -20,6 +21,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.U
 import me.maxiiiiii.skyblockdragons.item.stats.*;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetCoinsFromEntityEvent;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerGetExperienceEvent;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,8 +40,6 @@ import static me.maxiiiiii.skyblockdragons.item.enchants.EnchantType.*;
 
 public class EnchantListeners implements Listener {
     private final Map<PlayerSD, CounterStrike> counterStrikes = new HashMap<>();
-
-    // TODO: experience, telekinesis
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void updateDamage(UpdateEntityDamageEntityEvent e) {
@@ -112,7 +112,7 @@ public class EnchantListeners implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void updateDamage(UpdateEntityDamageEvent e) {
         if (e.getVictim() instanceof PlayerSD) return;
 
@@ -161,7 +161,7 @@ public class EnchantListeners implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void onDeath(EntityDeathEvent e) {
         if (!(e.getKiller() instanceof PlayerSD)) return;
 
@@ -171,7 +171,7 @@ public class EnchantListeners implements Listener {
         enchant(player, enchants, VAMPIRISM, s -> player.heal(player.getMaxHealth() * s));
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void onPlayerGetCoinsFromEntity(PlayerGetCoinsFromEntityEvent e) {
         PlayerSD player = e.getPlayer();
         Map<EnchantType, Short> enchants = player.getItems().getTool().getModifiers().getEnchants();
@@ -216,7 +216,7 @@ public class EnchantListeners implements Listener {
         });
     }
     
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void updateDrop(UpdateDropChanceEvent e) {
         PlayerSD player = e.getPlayer();
         Map<EnchantType, Short> enchants = player.getItems().getTool().getModifiers().getEnchants();
@@ -235,7 +235,7 @@ public class EnchantListeners implements Listener {
         });
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void updateManaCost(UpdateManaCostEvent e) {
         if (e.getPlayer() == null) return;
 
@@ -245,7 +245,7 @@ public class EnchantListeners implements Listener {
         enchant(player, enchants, ULTIMATE_WISE, s -> e.getMultiplier().addPost(-s));
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void onPlayerShoot(ProjectileLaunchEvent e) {
         if (!(e.getEntity().getShooter() instanceof Player)) return;
 
@@ -264,6 +264,22 @@ public class EnchantListeners implements Listener {
                 }
             });
         });
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
+    public void updateExperience(PlayerGetExperienceEvent e) {
+        PlayerSD player = e.getPlayer();
+        Map<EnchantType, Short> enchants = player.getItems().getTool().getModifiers().getEnchants();
+
+        enchant(player, enchants, EXPERIENCE, s -> e.getMultiplier().addBase(s));
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
+    public void onPlayerGetDrop(PlayerGetDropEvent e) {
+        PlayerSD player = e.getPlayer();
+        Map<EnchantType, Short> enchants = player.getItems().getTool().getModifiers().getEnchants();
+
+        enchant(player, enchants, TELEKINESIS, s -> e.setTelekinesis(true));
     }
 
     private void enchant(PlayerSD player, Map<EnchantType, Short> enchants, EnchantType enchant, Consumer<Double> runnable) {

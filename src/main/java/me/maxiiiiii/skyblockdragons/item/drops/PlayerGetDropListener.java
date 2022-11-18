@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.util.Vector;
 
 public class PlayerGetDropListener implements Listener {
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerGetDrop(PlayerGetDropEvent e) {
         UpdateDropChanceEvent event = new UpdateDropChanceEvent(e.getPlayer(), e.getDrop(), e.getSource());
         Bukkit.getPluginManager().callEvent(event);
@@ -36,7 +36,10 @@ public class PlayerGetDropListener implements Listener {
                     ).normalize());
                 }
 
-                e.getDrop().dropItem(e.getPlayer(), location);
+                if (e.isTelekinesis())
+                    e.getDrop().give(e.getPlayer());
+                else
+                    e.getDrop().dropItem(e.getPlayer(), location);
             }
         }
     }

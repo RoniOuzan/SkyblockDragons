@@ -10,10 +10,7 @@ import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirements;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.ChatColor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.setTitleCase;
@@ -141,23 +138,23 @@ public class EnchantType implements Comparable<EnchantType> {
     }
 
     EnchantType(int maxLevel, String description, EnchantMultiplier multiplayers, SkillRequirement requirements, ItemType type, ArrayList<String> distractions) {
-        this(new Stats(), maxLevel, description, multiplayers, requirements, new ArrayList<>(Arrays.asList(type)), distractions, true);
+        this(new Stats(), maxLevel, description, multiplayers, requirements, new ArrayList<>(Collections.singletonList(type)), distractions, true);
     }
 
     EnchantType(int maxLevel, String description, EnchantMultiplier multiplayers, SkillRequirement requirements, ItemType type, ArrayList<String> distractions, boolean inEnchantingTable) {
-        this(new Stats(), maxLevel, description, multiplayers, requirements, new ArrayList<>(Arrays.asList(type)), distractions, inEnchantingTable);
+        this(new Stats(), maxLevel, description, multiplayers, requirements, new ArrayList<>(Collections.singletonList(type)), distractions, inEnchantingTable);
     }
 
     EnchantType(int maxLevel, String description, EnchantMultiplier multiplayers, SkillRequirement requirements, ItemType type, String distraction) {
-        this(new Stats(), maxLevel, description, multiplayers, requirements, new ArrayList<>(Arrays.asList(type)), new ArrayList<>(Arrays.asList(distraction)), true);
+        this(new Stats(), maxLevel, description, multiplayers, requirements, new ArrayList<>(Collections.singletonList(type)), new ArrayList<>(Collections.singletonList(distraction)), true);
     }
 
     EnchantType(int maxLevel, String description, EnchantMultiplier multiplayers, SkillRequirement requirements, ItemType type) {
-        this(new Stats(), maxLevel, description, multiplayers, requirements, new ArrayList<>(Arrays.asList(type)), new ArrayList<>(), true);
+        this(new Stats(), maxLevel, description, multiplayers, requirements, new ArrayList<>(Collections.singletonList(type)), new ArrayList<>(), true);
     }
 
     EnchantType(int maxLevel, String description, EnchantMultiplier multiplayers, SkillRequirement requirements, ItemType type, boolean inEnchantingTable) {
-        this(new Stats(), maxLevel, description, multiplayers, requirements, new ArrayList<>(Arrays.asList(type)), new ArrayList<>(), inEnchantingTable);
+        this(new Stats(), maxLevel, description, multiplayers, requirements, new ArrayList<>(Collections.singletonList(type)), new ArrayList<>(), inEnchantingTable);
     }
 
     EnchantType(int maxLevel, String description, EnchantMultiplier multiplayers, SkillRequirement requirements, List<ItemType> types) {
@@ -177,11 +174,11 @@ public class EnchantType implements Comparable<EnchantType> {
     }
 
     EnchantType(Stats stats, int maxLevel, String description, EnchantMultiplier multiplayers, SkillRequirement requirements, ItemType type) {
-        this(stats, maxLevel, description, multiplayers, requirements, new ArrayList<>(Arrays.asList(type)), new ArrayList<>(), true);
+        this(stats, maxLevel, description, multiplayers, requirements, new ArrayList<>(Collections.singletonList(type)), new ArrayList<>(), true);
     }
 
     EnchantType(Stats stats, int maxLevel, String description, EnchantMultiplier multiplayers, SkillRequirement requirements, ItemType type, boolean inEnchantingTable) {
-        this(stats, maxLevel, description, multiplayers, requirements, new ArrayList<>(Arrays.asList(type)), new ArrayList<>(), inEnchantingTable);
+        this(stats, maxLevel, description, multiplayers, requirements, new ArrayList<>(Collections.singletonList(type)), new ArrayList<>(), inEnchantingTable);
     }
 
     EnchantType(int maxLevel, String description, EnchantMultiplier multiplayers, SkillRequirement requirements) {
@@ -237,15 +234,15 @@ public class EnchantType implements Comparable<EnchantType> {
         // Boots
 //        enchants.put("DEPTH_STRIDER", new EnchantType(3, "", 0, ItemType.BOOTS, new ArrayList<>(Arrays.asList("FROST_WALKER"))));
         enchants.put("FEATHER_FALLING", new EnchantType(4, "Reduces fall damage by " + ChatColor.GREEN + "MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(5, 10, 15, 20, 25), SkillRequirement.NULL, ItemType.BOOTS));
-        enchants.put("FROST_WALKER", new EnchantType(2, "Ice blocks will be created below you when you walk above water in radius of " + ChatColor.GREEN + "MULTIPLIER " + ChatColor.GRAY + "blocks.", new EnchantMultiplier(1, 2), SkillRequirement.NULL, ItemType.BOOTS, new ArrayList<>(Arrays.asList("DEPTH_STRIDER"))));
+        enchants.put("FROST_WALKER", new EnchantType(2, "Ice blocks will be created below you when you walk above water in radius of " + ChatColor.GREEN + "MULTIPLIER " + ChatColor.GRAY + "blocks.", new EnchantMultiplier(1, 2), SkillRequirement.NULL, ItemType.BOOTS, new ArrayList<>(Collections.singletonList("DEPTH_STRIDER"))));
         enchants.put("SUGAR_RUSH", new EnchantType(new Stats(0, 0, 0, 0, 0, 0, 0, 0, 2, 0), 3, "Grants " + ChatColor.WHITE + "+MULTIPLIER" + StatTypes.SPEED + ChatColor.GRAY + ".", new EnchantMultiplier(4, 8, 12), new SkillRequirement(SkillType.ENCHANTING, 7), ItemType.BOOTS));
         // All Armors
         enchants.put("BLAST_PROTECTION", new EnchantType(5, "Grants " + ChatColor.GREEN + "+MULTIPLIER" + StatTypes.DEFENSE + " " + ChatColor.GRAY + "against explosions.", new EnchantMultiplier(30, 60, 90, 120 ,150, 180, 210), SkillRequirement.NULL, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("FIRE_PROTECTION", "PROJECTILE_PROTECTION", "PROTECTION"))));
         enchants.put("FIRE_PROTECTION", new EnchantType(5, "Grants " + ChatColor.WHITE + "+MULTIPLIER" + StatTypes.TRUE_DEFENSE + " " + ChatColor.GRAY + "against fire and lava.", new EnchantMultiplier(2, 4, 6, 8, 10, 12, 14), SkillRequirement.NULL, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("BLAST_PROTECTION", "PROJECTILE_PROTECTION", "PROTECTION"))));
         enchants.put("GROWTH", new EnchantType(new Stats(0, 0, 0, 0, 0, 0, 15, 0, 0, 0), 5, "Grants " + ChatColor.RED + "+MULTIPLIER" + StatTypes.HEALTH, new EnchantMultiplier(15, 30, 45, 60, 75, 105), new SkillRequirement(SkillType.ENCHANTING, 5), ItemTypeGroup.ARMOR.toType()));
         enchants.put("PROJECTILE_PROTECTION", new EnchantType(5, "Grants " + ChatColor.GREEN + "+MULTIPLIER" + StatTypes.DEFENSE + " " + ChatColor.GRAY + "against projectiles.", new EnchantMultiplier(7, 14, 21, 28, 35, 42, 49), SkillRequirement.NULL, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("BLAST_PROTECTION", "FIRE_PROTECTION", "PROTECTION"))));
-        enchants.put("PROTECTION", new EnchantType(new Stats(0, 0, 0, 0, 0, 0, 0, 3, 0, 0), 5, "Grants " + ChatColor.GREEN + "+MULTIPLIER" + StatTypes.DEFENSE + ChatColor.GRAY + ".", new EnchantMultiplier(3, 6, 9, 12, 15, 18, 21), SkillRequirement.NULL, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("BLAST_PROTECTION", "FIRE_PROTECTION", "PROJEC)TILE_PROTECTION"))));
-        enchants.put("REJUVENATE", new EnchantType(5, "Increases your " + StatTypes.VITALITY + " by " + ChatColor.GREEN + "+MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(2, 4, 6, 8, 10), new SkillRequirement(SkillType.ENCHANTING, 10), ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("RESPITE")), false));
+        enchants.put("PROTECTION", new EnchantType(new Stats(0, 0, 0, 0, 0, 0, 0, 3, 0, 0), 5, "Grants " + ChatColor.GREEN + "+MULTIPLIER" + StatTypes.DEFENSE + ChatColor.GRAY + ".", new EnchantMultiplier(3, 6, 9, 12, 15, 18, 21), SkillRequirement.NULL, ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Arrays.asList("BLAST_PROTECTION", "FIRE_PROTECTION", "PROJECTILE_PROTECTION"))));
+        enchants.put("REJUVENATE", new EnchantType(5, "Increases your " + StatTypes.VITALITY + " by " + ChatColor.GREEN + "+MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(2, 4, 6, 8, 10), new SkillRequirement(SkillType.ENCHANTING, 10), ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Collections.singletonList("RESPITE")), false));
 
         enchants.put("FORTUNE", new EnchantType(new Stats(0, 15), 3, "Grants " + ChatColor.GOLD + "+MULTIPLIER" + StatTypes.MINING_FORTUNE + ChatColor.GRAY + ".", new EnchantMultiplier(15, 30, 45, 60), SkillRequirement.NULL, ItemTypeGroup.MINING.toType()));
         enchants.put("EFFICIENCY", new EnchantType(new Stats(25, 0), 3, "Grants " + ChatColor.GOLD + "+MULTIPLIER" + StatTypes.MINING_SPEED + ChatColor.GRAY + ".", new EnchantMultiplier(25, 50, 75, 100, 125, 150, 175, 200, 225, 250), SkillRequirement.NULL, ItemTypeGroup.MINING.toType()));
@@ -254,9 +251,9 @@ public class EnchantType implements Comparable<EnchantType> {
         enchants.put("TELEKINESIS", new EnchantType(1, "Block and mob drops go directly into your inventory.", new EnchantMultiplier(0), SkillRequirement.NULL, Arrays.stream(ItemType.values()).collect(Collectors.toList())));
 
         // Ultimate Enchants
-        enchants.put("CHIMERA", new UltimateEnchantType(5, "Copies " + ChatColor.GREEN + "MULTIPLIER% " + ChatColor.GRAY + "of your active pet's stats.", new EnchantMultiplier(20, 40, 60, 80, 100), new SkillRequirement(SkillType.ENCHANTING, 31), new ArrayList<>(Arrays.asList(ItemType.SWORD)), "CHIMERA"));
-        enchants.put("ONE_FOR_ALL", new UltimateEnchantType(1, "Removes all other enchants but increases your weapon damage by " + ChatColor.GREEN + "MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(500), new SkillRequirement(SkillType.ENCHANTING, 37), new ArrayList<>(Arrays.asList(ItemType.SWORD)), "ONE_FOR_ALL"));
-        enchants.put("ULTIMATE_WISE", new UltimateEnchantType(5, "Reduces the ability mana cost of this item by " + ChatColor.GREEN + "MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(10, 20, 30, 40, 50), new SkillRequirement(SkillType.ENCHANTING, 20), new ArrayList<>(Arrays.asList(ItemType.SWORD)), "ULTIMATE_WISE"));
+        enchants.put("CHIMERA", new UltimateEnchantType(5, "Copies " + ChatColor.GREEN + "MULTIPLIER% " + ChatColor.GRAY + "of your active pet's stats.", new EnchantMultiplier(20, 40, 60, 80, 100), new SkillRequirement(SkillType.ENCHANTING, 31), new ArrayList<>(Collections.singletonList(ItemType.SWORD)), "CHIMERA"));
+        enchants.put("ONE_FOR_ALL", new UltimateEnchantType(1, "Removes all other enchants but increases your weapon damage by " + ChatColor.GREEN + "MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(500), new SkillRequirement(SkillType.ENCHANTING, 37), new ArrayList<>(Collections.singletonList(ItemType.SWORD)), "ONE_FOR_ALL"));
+        enchants.put("ULTIMATE_WISE", new UltimateEnchantType(5, "Reduces the ability mana cost of this item by " + ChatColor.GREEN + "MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(10, 20, 30, 40, 50), new SkillRequirement(SkillType.ENCHANTING, 20), new ArrayList<>(Collections.singletonList(ItemType.SWORD)), "ULTIMATE_WISE"));
 
         BANE_OF_ARTHROPODS = enchants.get("BANE_OF_ARTHROPODS");
         CRITICAL = enchants.get("CRITICAL");
@@ -343,7 +340,7 @@ public class EnchantType implements Comparable<EnchantType> {
         return "";
     }
 
-    public String realname() {
+    public String getRealName() {
         for (String key : enchants.keySet()) {
             if (enchants.get(key) == this) {
                 return key.replaceAll(" ", "");

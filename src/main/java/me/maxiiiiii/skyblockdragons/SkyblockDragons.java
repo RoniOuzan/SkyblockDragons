@@ -47,6 +47,7 @@ import me.maxiiiiii.skyblockdragons.player.chat.listeners.PlayerSendMessageListe
 import me.maxiiiiii.skyblockdragons.player.coop.CoopCommand;
 import me.maxiiiiii.skyblockdragons.player.listeners.PlayerDeathListener;
 import me.maxiiiiii.skyblockdragons.player.listeners.PlayerGetCoinsListener;
+import me.maxiiiiii.skyblockdragons.player.listeners.PlayerGetExperienceListener;
 import me.maxiiiiii.skyblockdragons.player.listeners.PlayerRegainHealthListener;
 import me.maxiiiiii.skyblockdragons.player.party.PartyChatCommand;
 import me.maxiiiiii.skyblockdragons.player.party.PartyCommand;
@@ -375,6 +376,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerEvents(new PlayerDeathListener(), this);
         registerEvents(new PlayerRegainHealthListener(), this);
         registerEvents(new PlayerGetCoinsListener(), this);
+        registerEvents(new PlayerGetExperienceListener(), this);
 
         registerEvents(new MenuListener(), this);
 
