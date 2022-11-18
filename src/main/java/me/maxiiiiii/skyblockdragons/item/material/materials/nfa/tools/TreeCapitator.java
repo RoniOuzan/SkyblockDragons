@@ -61,7 +61,8 @@ public class TreeCapitator extends MiningMaterial {
 
             if (cooldown(player, cooldown, 2000, true)) return;
 
-            if (e.getBlock().getType().toString().contains("LOG") || e.getBlock().getType().toString().contains("OAK") || e.getBlock().getType().toString().contains("WOOD") || e.getBlock().getType().toString().contains("BIRCH") || e.getBlock().getType().toString().contains("SPRUCE") || e.getBlock().getType().toString().contains("JUNGLE") || e.getBlock().getType().toString().contains("ACACIA")) {
+            String type = e.getBlock().getType().toString();
+            if (type.contains("LOG") || type.contains("OAK") || type.contains("WOOD") || type.contains("BIRCH") || type.contains("SPRUCE") || type.contains("JUNGLE") || type.contains("ACACIA")) {
                 recursiveBreakBlocks(e.getBlock().getLocation(), 12, e.getBlock().getType(), 2);
             }
         }
