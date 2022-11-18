@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
 import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEvent;
 import me.maxiiiiii.skyblockdragons.damage.interfaces.ExplosionDamage;
 import me.maxiiiiii.skyblockdragons.damage.interfaces.FireDamage;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamage.PreciseFallEntityDamage;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.MeleeEntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.ProjectileEntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
@@ -14,18 +15,14 @@ import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.drops.UpdateDropChanceEvent;
 import me.maxiiiiii.skyblockdragons.item.drops.types.ItemDrop;
 import me.maxiiiiii.skyblockdragons.item.drops.types.ItemRareDrop;
-import me.maxiiiiii.skyblockdragons.item.stats.StatType;
-import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.UpdateManaCostEvent;
-import me.maxiiiiii.skyblockdragons.item.stats.ItemStats;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
-import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
-import me.maxiiiiii.skyblockdragons.item.stats.UpdateItemStatsEvent;
-import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
+import me.maxiiiiii.skyblockdragons.item.stats.*;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,11 +33,9 @@ import java.util.function.Consumer;
 import static me.maxiiiiii.skyblockdragons.item.enchants.EnchantType.*;
 
 public class EnchantListeners implements Listener {
-    private final CounterStrike emptyCounterStrike = new CounterStrike();
-
     private final Map<PlayerSD, CounterStrike> counterStrikes = new HashMap<>();
 
-    // TODO: experience, looting, scavenger, chance, aiming, quiver, respiration, feather falling, rejuvenate, respite
+    // TODO: experience, looting, scavenger, chance, aiming, quiver
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void updateDamage(UpdateEntityDamageEntityEvent e) {
@@ -125,6 +120,8 @@ public class EnchantListeners implements Listener {
             enchantArmor(victim, FIRE_PROTECTION, s -> e.getDamage().getVictimStats().add(StatTypes.DEFENSE, s));
         } else if (e.getDamage() instanceof ProjectileEntityDamageEntity) {
             enchantArmor(victim, PROJECTILE_PROTECTION, s -> e.getDamage().getVictimStats().add(StatTypes.DEFENSE, s));
+        } else if (e.getDamage() instanceof PreciseFallEntityDamage) {
+            enchantArmor(victim, FEATHER_FALLING, s -> e.getDamage().getMultiplier().addBase(-s));
         }
     }
 
@@ -141,8 +138,9 @@ public class EnchantListeners implements Listener {
         enchant(player, enchants, MANA_STEAL, s -> player.getStats().add(StatTypes.MANA, player.getStats().getIntelligence().get() * (s / 100)));
 
         enchant(player, enchants, COUNTER_STRIKE, s -> {
-            if (!counterStrikes.getOrDefault(player, emptyCounterStrike).entities.contains(e.getVictim())) {
-                counterStrikes.put(player, counterStrikes.getOrDefault(player, emptyCounterStrike).add(e.getVictim()));
+            if (!counterStrikes.containsKey(player)) counterStrikes.put(player, new CounterStrike());
+            if (!counterStrikes.get(player).entities.contains(e.getVictim())) {
+                counterStrikes.put(player, counterStrikes.get(player).add(e.getVictim()));
             }
         });
     }
@@ -191,6 +189,8 @@ public class EnchantListeners implements Listener {
 
         enchant(player, enchants, PROTECTION, s -> stats.add(StatTypes.DEFENSE, s));
 
+        enchant(player, enchants, REJUVENATE, s -> stats.add(StatTypes.VITALITY, s));
+
         enchant(player, enchants, FORTUNE, s -> stats.add(StatTypes.MINING_FORTUNE, s));
 
         enchant(player, enchants, EFFICIENCY, s -> stats.add(StatTypes.MINING_SPEED, s));
@@ -221,6 +221,31 @@ public class EnchantListeners implements Listener {
         Map<EnchantType, Short> enchants = e.getItem().getModifiers().getEnchants();
 
         enchant(player, enchants, ULTIMATE_WISE, s -> e.getMultiplier().addPost(-s));
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerShoot(ProjectileLaunchEvent e) {
+        if (!(e.getEntity() instanceof Player)) return;
+
+        PlayerSD player = SkyblockDragons.getPlayer((Player) e.getEntity());
+        Map<EnchantType, Short> enchants = player.getItems().getTool().getModifiers().getEnchants();
+
+//        enchant(player, enchants, AIMING, s -> {
+//            player.sendMessage(s);
+//            AtomicBoolean hasTarget = new AtomicBoolean(false);
+//            Functions.While(() -> !e.getProjectile().isDead() && !hasTarget.get(), 4L, i -> {
+//                for (EntitySD entity : Functions.loopEntities(e.getProjectile().getLocation(), s)) {
+////                    if (entity.getMaterial() instanceof EntityDragon) {
+//                    player.sendMessage(entity.getMaterial().name());
+//                        hasTarget.set(true);
+//
+//                        e.getProjectile().setVelocity(
+//                                entity.getLocation().subtract(e.getProjectile().getLocation()).toVector()
+//                        );
+////                    }
+//                }
+//            });
+//        });
     }
 
     private void enchant(PlayerSD player, Map<EnchantType, Short> enchants, EnchantType enchant, Consumer<Double> runnable) {

@@ -93,13 +93,14 @@ public abstract class ItemAbility implements MaterialModifier {
     public List<String> getLore(PlayerSD player, Item item) {
         List<String> lores = new ArrayList<>();
         lores.add(getAbilityFullTitle());
-        lores.addAll(Functions.loreBuilder(this.getDescription(player)));
+        String description = this.getDescription(player);
+        if (!description.isEmpty()) lores.addAll(Functions.loreBuilder(this.getDescription(player)));
         lores.addAll(getModifiersLore(player, item));
         return lores;
     }
 
     protected String getAbilityFullTitle() {
-        return ChatColor.GOLD + abilityTitle + " " + name + " " + action.toString();
+        return ChatColor.GOLD + abilityTitle + " " + getName() + " " + getAction().toString();
     }
 
     protected List<String> getModifiersLore(PlayerSD player, Item item) {

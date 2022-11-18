@@ -26,6 +26,7 @@ import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.player.chat.ChatChannel;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerDeathEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerRegainHealthEvent;
 import me.maxiiiiii.skyblockdragons.player.objects.ActionBarSupplier;
 import me.maxiiiiii.skyblockdragons.player.party.Party;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
@@ -359,14 +360,8 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
             this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(this.getMaxHealth());
         }
 
-        double amountToRegain = this.getMaxHealth() * HEALTH_REGEN;
-        if (this.getActivePowerOrb() != null) amountToRegain += this.getMaxHealth() * this.getActivePowerOrb().getHealthRegenPercent();
-
-        if (ManaRegain && this.getHealth() + amountToRegain <= this.getMaxHealth()) {
-            this.setHealth(this.getHealth() + amountToRegain);
-        } else if (this.getHealth() != this.getMaxHealth()) {
-            this.setHealth(this.getMaxHealth());
-        }
+        PlayerRegainHealthEvent regainHealthEvent = new PlayerRegainHealthEvent(this);
+        Bukkit.getPluginManager().callEvent(regainHealthEvent);
 
         this.setWalkSpeed((float) (this.stats.getSpeed().get() / 500));
     }
@@ -576,12 +571,12 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     /**
      * @return the hit tik with the attack speed calculations in milliseconds
      */
-    public int getHitTik() {
+    public int getHitTick() {
         return (int) (500 - (500 * (this.stats.getAttackSpeed().get() / (this.stats.getAttackSpeed().get() + 100))));
     }
 
     public boolean isOnHitTick(EntitySD victim) {
-        return Functions.cooldown(victim, this.hitTick, this.getHitTik(), false);
+        return Functions.cooldown(victim, this.hitTick, this.getHitTick(), false);
     }
 
     @Override
@@ -591,7 +586,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public void heal(double amount) {
-        this.setHealth(this.getHealth() + amount);
+        this.setHealth(Math.min(this.getHealth() + amount, this.getMaxHealth()));
     }
 
     @Override

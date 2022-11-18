@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 public class HealthStat extends CombatStat {
     public HealthStat() {
         super("Health",
-                "❈",
+                "❤",
                 ChatColor.RED,
                 "",
                 100

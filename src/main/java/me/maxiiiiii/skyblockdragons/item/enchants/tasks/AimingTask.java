@@ -1,11 +1,8 @@
 package me.maxiiiiii.skyblockdragons.item.enchants.tasks;
 
-import me.maxiiiiii.skyblockdragons.util.Functions;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.spigotmc.TicksPerSecondCommand;
 
 public class AimingTask extends BukkitRunnable {
 
@@ -24,7 +21,7 @@ public class AimingTask extends BukkitRunnable {
 
     private void findTarget(Projectile projectile, int radius) {
         double distance = Double.MAX_VALUE;
-        double d = 0;
+        double d;
         for (Entity entity : projectile.getNearbyEntities(radius, radius, radius)) {
             if (entity instanceof Creature && !(entity instanceof Enderman) || entity instanceof EnderDragon) {
                 d = projectile.getLocation().distance(entity.getLocation());
