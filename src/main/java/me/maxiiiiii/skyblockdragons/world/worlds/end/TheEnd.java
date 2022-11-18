@@ -20,7 +20,6 @@ import me.maxiiiiii.skyblockdragons.world.worlds.end.events.PlayerPlaceEyeEvent;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.listeners.DragonKillListener;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.listeners.PlayerPlaceEyeListener;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Player;
@@ -32,8 +31,6 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
@@ -104,7 +101,6 @@ public class TheEnd extends WorldSD implements Listener {
         dragon = new EntitySD(DRAGON_SPAWN, getRandomDragon());
         NBTEntity nbtEntity = new NBTEntity(dragon.entity);
         nbtEntity.setInteger("DragonPhase", 1);
-        dragon.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
         for (Player player : Bukkit.getOnlinePlayers().stream().filter(p -> p.getWorld().getName().equals("TheEnd")).collect(Collectors.toList())) {
             if (player.getLocation().distance(MIDDLE) <= 50) {
                 player.setVelocity(new Vector(
@@ -113,7 +109,6 @@ public class TheEnd extends WorldSD implements Listener {
                         DRAGON_SPAWN.getZ() - player.getLocation().getZ()
                 ).normalize().multiply(2).setY(3));
             }
-            dragonDamage.put(SkyblockDragons.getPlayer(player), 10D);
         }
 
 //        Functions.While(() -> !dragon.isDead(), 2L, i -> {
@@ -128,7 +123,7 @@ public class TheEnd extends WorldSD implements Listener {
             if (i % 6 == 4) {
                 return;
             } else if (i % 6 == 5) {
-                ((EntityDragon) dragon.material).strikeAbility(dragon);
+                ((EntityDragon) dragon.getMaterial()).strikeAbility(dragon);
                 return;
             }
             double x = Functions.randomDouble(-40, 40);
@@ -149,22 +144,10 @@ public class TheEnd extends WorldSD implements Listener {
             ItemStack item = e.getItem();
             String id = Functions.getId(item);
             PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
-            if (id.equals("SUMMONING_EYE") || id.equals("ADMIN_SUMMONING_EYE")) {
+            if (id.equals("SUMMONING_EYE")) {
                 if (e.getClickedBlock().getLocation().distance(MIDDLE) <= 5) {
-                    if (e.getPlayer().getGameMode() != GameMode.CREATIVE && !id.equals("ADMIN_SUMMONING_EYE")) {
+                    if (e.getPlayer().getGameMode() != GameMode.CREATIVE)
                         e.getPlayer().getEquipment().setItemInMainHand(null);
-                    }
-                    if (id.equals("ADMIN_SUMMONING_EYE")){
-                        if (e.getPlayer().getGameMode() != GameMode.CREATIVE){
-                            Integer amount = PlayerPlaceEyeListener.amountOfPlacedEyes.getOrDefault(player, 0);
-                            if (amount > 4){
-                                player.sendMessage("PLACE 4 OR BLIND!");
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 600, 1));
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 600, 4));
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 600, 4));
-                            }
-                        }
-                    }
 
                     e.setCancelled(true);
                     PlayerPlaceEyeEvent event = new PlayerPlaceEyeEvent(player, e.getClickedBlock(), e.getItem());
@@ -179,12 +162,12 @@ public class TheEnd extends WorldSD implements Listener {
         if (e.getEntity() instanceof EnderDragon) {
             EnderDragon dragon = (EnderDragon) e.getEntity();
             if (dragon.getWorld().getName().equals("TheEnd")) {
-                long diff = System.currentTimeMillis() - time;
-                if (diff <= 2000){
-                    SkyblockDragons.logger.warning("Dragon died too quick to count! " + diff);
-                    return;
-                }
-                time = System.currentTimeMillis();
+//                long diff = System.currentTimeMillis() - time;
+//                if (diff <= 2000){
+//                    SkyblockDragons.logger.warning("Dragon died too quick to count! " + diff);
+//                    return;
+//                }
+//                time = System.currentTimeMillis();
                 Functions.Wait(1L, () -> {
                     DragonKillEvent event = new DragonKillEvent(EntitySD.get(e.getEntity()), dragonDamage);
                     Bukkit.getServer().getPluginManager().callEvent(event);

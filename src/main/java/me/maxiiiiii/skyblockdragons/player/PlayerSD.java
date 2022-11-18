@@ -363,7 +363,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         PlayerRegainHealthEvent regainHealthEvent = new PlayerRegainHealthEvent(this);
         Bukkit.getPluginManager().callEvent(regainHealthEvent);
 
-        this.setWalkSpeed((float) (this.stats.getSpeed().get() / 500));
+        this.setWalkSpeed((float) Math.min((this.stats.getSpeed().get() / 500), 500));
     }
 
     public void sendActionBar() {
@@ -391,13 +391,13 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public short getEnchantLevel(EnchantType enchant) {
-        if (skill.getEnchantingSkill().getLevel() < enchant.getRequirement().getLevel() && this.getGameMode() != GameMode.CREATIVE)
+        if (skill.getEnchantingSkill().getLevel() < enchant.getRequirements().getRequirement(0).getLevel() && this.getGameMode() != GameMode.CREATIVE)
             return 0;
         return Functions.getEnchantLevel(player.getEquipment().getItemInMainHand(), enchant);
     }
 
     public short getEnchantLevel(EnchantType enchant, Condition condition) {
-        if (skill.getEnchantingSkill().getLevel() < enchant.getRequirement().getLevel() && this.getGameMode() != GameMode.CREATIVE)
+        if (skill.getEnchantingSkill().getLevel() < enchant.getRequirements().getRequirement(0).getLevel() && this.getGameMode() != GameMode.CREATIVE)
             return 0;
         if (!condition.check())
             return 0;

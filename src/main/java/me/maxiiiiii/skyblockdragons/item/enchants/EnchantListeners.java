@@ -10,6 +10,7 @@ import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.MeleeEntityD
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.ProjectileEntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.events.EntityDeathEvent;
+import me.maxiiiiii.skyblockdragons.entity.types.other.PlayerEntity;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.drops.UpdateDropChanceEvent;
@@ -18,6 +19,8 @@ import me.maxiiiiii.skyblockdragons.item.drops.types.ItemRareDrop;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.UpdateManaCostEvent;
 import me.maxiiiiii.skyblockdragons.item.stats.*;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerGetCoinsFromEntityEvent;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -28,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 import static me.maxiiiiii.skyblockdragons.item.enchants.EnchantType.*;
@@ -35,7 +39,7 @@ import static me.maxiiiiii.skyblockdragons.item.enchants.EnchantType.*;
 public class EnchantListeners implements Listener {
     private final Map<PlayerSD, CounterStrike> counterStrikes = new HashMap<>();
 
-    // TODO: experience, looting, scavenger, chance, aiming, quiver
+    // TODO: experience, telekinesis
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void updateDamage(UpdateEntityDamageEntityEvent e) {
@@ -157,14 +161,22 @@ public class EnchantListeners implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
         if (!(e.getKiller() instanceof PlayerSD)) return;
-        
+
         PlayerSD player = (PlayerSD) e.getKiller();
         Map<EnchantType, Short> enchants = e.getKillerEquipment().getTool().getModifiers().getEnchants();
 
         enchant(player, enchants, VAMPIRISM, s -> player.heal(player.getMaxHealth() * s));
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onPlayerGetCoinsFromEntity(PlayerGetCoinsFromEntityEvent e) {
+        PlayerSD player = e.getPlayer();
+        Map<EnchantType, Short> enchants = player.getItems().getTool().getModifiers().getEnchants();
+
+        enchant(player, enchants, SCAVENGER, s -> e.getMultiplier().addBase(s));
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
@@ -196,6 +208,8 @@ public class EnchantListeners implements Listener {
         enchant(player, enchants, EFFICIENCY, s -> stats.add(StatTypes.MINING_SPEED, s));
 
         enchant(player, enchants, CHIMERA, s -> {
+            if (player.getActivePet() == null) return;
+
             Stats petStats = new Stats(player.getActivePet().getStats().toList());
             petStats.multiply(s);
             stats.add(petStats);
@@ -205,11 +219,19 @@ public class EnchantListeners implements Listener {
     @EventHandler
     public void updateDrop(UpdateDropChanceEvent e) {
         PlayerSD player = e.getPlayer();
-        Map<EnchantType, Short> enchants = e.getPlayer().getItems().getTool().getModifiers().getEnchants();
+        Map<EnchantType, Short> enchants = player.getItems().getTool().getModifiers().getEnchants();
 
         enchant(player, enchants, LUCK, s -> {
             if (e.getDrop() instanceof ItemDrop && !(e.getDrop() instanceof ItemRareDrop))
-                e.getMultiplier().addBase(s);
+                e.getChanceMultiplier().addBase(s);
+        });
+        enchant(player, enchants, LOOTING, s -> {
+            if (e.getDrop() instanceof ItemDrop && !(e.getDrop() instanceof ItemRareDrop))
+                e.getAmountMultiplier().addBase(s);
+        });
+        enchant(player, enchants, CHANCE, s -> {
+            if (e.getDrop() instanceof ItemDrop && !(e.getDrop() instanceof ItemRareDrop))
+                e.getAmountMultiplier().addBase(s);
         });
     }
 
@@ -225,31 +247,27 @@ public class EnchantListeners implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerShoot(ProjectileLaunchEvent e) {
-        if (!(e.getEntity() instanceof Player)) return;
+        if (!(e.getEntity().getShooter() instanceof Player)) return;
 
-        PlayerSD player = SkyblockDragons.getPlayer((Player) e.getEntity());
+        PlayerSD player = SkyblockDragons.getPlayer((Player) e.getEntity().getShooter());
         Map<EnchantType, Short> enchants = player.getItems().getTool().getModifiers().getEnchants();
 
-//        enchant(player, enchants, AIMING, s -> {
-//            player.sendMessage(s);
-//            AtomicBoolean hasTarget = new AtomicBoolean(false);
-//            Functions.While(() -> !e.getProjectile().isDead() && !hasTarget.get(), 4L, i -> {
-//                for (EntitySD entity : Functions.loopEntities(e.getProjectile().getLocation(), s)) {
-////                    if (entity.getMaterial() instanceof EntityDragon) {
-//                    player.sendMessage(entity.getMaterial().name());
-//                        hasTarget.set(true);
-//
-//                        e.getProjectile().setVelocity(
-//                                entity.getLocation().subtract(e.getProjectile().getLocation()).toVector()
-//                        );
-////                    }
-//                }
-//            });
-//        });
+        enchant(player, enchants, AIMING, s -> {
+            AtomicBoolean hasTarget = new AtomicBoolean(false);
+            Functions.While(() -> !e.getEntity().isDead() && !hasTarget.get(), 4L, i -> {
+                for (EntitySD entity : Functions.loopEntities(e.getEntity().getLocation(), s)) {
+                    if (!(entity.getMaterial() instanceof PlayerEntity)) {
+                        hasTarget.set(true);
+
+                        e.getEntity().setVelocity(entity.getEyeLocation().subtract(e.getEntity().getLocation()).toVector().normalize());
+                    }
+                }
+            });
+        });
     }
 
     private void enchant(PlayerSD player, Map<EnchantType, Short> enchants, EnchantType enchant, Consumer<Double> runnable) {
-        if (!enchant.getRequirement().hasRequirement(player)) return;
+        if (!enchant.getRequirements().hasRequirements(player)) return;
 
         if (enchants.getOrDefault(enchant, (short) 0) > 0)
             runnable.accept(enchant.getMultipliers().get(enchants.get(enchant)));

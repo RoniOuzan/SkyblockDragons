@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
 public class DragonKillListener implements Listener {
     public static final Location UNiQUE_DROP_LOCATION = new Location(TheEnd.world, 5, 62, 13);
     public static final Location NORMAL_DROP_LOCATION = new Location(TheEnd.world, 1.5, 62, 19.5);
-    public boolean veryUniqueDropGenerated = false;
 
     @EventHandler
     public void onDragonKill(DragonKillEvent e) {
@@ -49,12 +48,10 @@ public class DragonKillListener implements Listener {
         }
 
         Map<PlayerSD, Integer> positions = new HashMap<>();
-        Map<PlayerSD, Double> playerQuality = new LinkedHashMap<>();
 
         // 1 to make the place be easier to see
         for (int i = 1; i < killers.size() + 1; i++) {
             PlayerSD player = killers.get(i - 1).player;
-            double damage = killers.get(i - 1).damage;
 
             int eyes = PlayerPlaceEyeListener.amountOfPlacedEyes.getOrDefault(player, 0);
             int placeQuality;
@@ -79,7 +76,6 @@ public class DragonKillListener implements Listener {
 
 //            double quality = placeQuality + ((damage / killers.get(0).damage) * 100) + (eyes * 100);
             double quality = placeQuality + (eyes * 100);
-            playerQuality.put(player, quality);
 
             ItemStack uniqueDrop = getPlayerUniqueDrop(dragonType, eyes, quality);
 

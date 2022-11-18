@@ -17,7 +17,8 @@ public class PlayerGetDropListener implements Listener {
         UpdateDropChanceEvent event = new UpdateDropChanceEvent(e.getPlayer(), e.getDrop(), e.getSource());
         Bukkit.getPluginManager().callEvent(event);
 
-        double chances = event.getMultiplier().multiply(e.getDrop().getChances());
+        event.applyAmountMultipliers();
+        double chances = event.getChanceMultiplier().multiply(e.getDrop().getChances()) / 100;
         if (Math.random() <= chances) {
             if (e.getPlayer().getItems().getTool().getModifiers().getEnchants().getOrDefault(EnchantType.TELEKINESIS, (short) 0) > 1) {
                 e.getDrop().give(e.getPlayer());

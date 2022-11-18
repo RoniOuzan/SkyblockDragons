@@ -156,7 +156,7 @@ public class Functions {
                 output.add(EntitySD.get(value));
             }
         }
-        return output;
+        return output.stream().filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     public static ArrayList<Entity> loopEntitiesScope(Location center, int size, int size2, int size3) {

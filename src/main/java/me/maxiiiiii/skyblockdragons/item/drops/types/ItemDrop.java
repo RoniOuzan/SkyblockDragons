@@ -10,7 +10,7 @@ import org.bukkit.Location;
 @Getter
 public abstract class ItemDrop {
     protected final ItemMaterial material;
-    protected final int amount;
+    protected int amount;
     protected final double chances;
 
     public ItemDrop(ItemMaterial material, int amount, double chances) {
@@ -37,6 +37,10 @@ public abstract class ItemDrop {
 
     public int getAmount() {
         return this.amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public void give(PlayerSD player) {

@@ -9,6 +9,8 @@ public interface Drop {
 
     int getAmount();
 
+    void setAmount(int amount);
+
     void give(PlayerSD player);
 
     void dropItem(PlayerSD player, Location location);

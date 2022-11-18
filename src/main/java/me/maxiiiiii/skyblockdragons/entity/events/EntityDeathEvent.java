@@ -18,7 +18,7 @@ public class EntityDeathEvent extends EntitySDEvent {
     public EntityDeathEvent(EntitySD entity, EntitySD killer) {
         super(entity);
         this.killer = killer;
-        this.killerStats = killer instanceof PlayerSD ? ((PlayerSD) entity).getStats() : null;
+        this.killerStats = killer instanceof PlayerSD ? ((PlayerSD) killer).getStats() : null;
         this.killerEquipment = killer != null ? killer.getItems() : null;
     }
 
