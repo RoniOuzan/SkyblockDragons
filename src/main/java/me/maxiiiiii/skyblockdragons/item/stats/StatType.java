@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.item.stats;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.item.stats.interfaces.PercentageStat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
@@ -38,10 +39,10 @@ public abstract class StatType {
         this(name, icon, color, description, null, p -> 0.0);
     }
 
-    public ItemStack getItem() {
+    public ItemStack getItem(double stat) {
         ItemStack item = this.getItemStack();
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(this.toString());
+        meta.setDisplayName(this.toString(stat));
         meta.setLore(Functions.loreBuilder(this.description));
         item.setItemMeta(meta);
         return item;
@@ -58,6 +59,10 @@ public abstract class StatType {
     }
 
     public abstract ItemStack getItemStack();
+
+    public String toStringLore(double statAmount) {
+        return this + " " + ChatColor.WHITE + Functions.getNumberFormat(statAmount) + " " + (this instanceof PercentageStat ? "%" : "");
+    }
 
     public String toString(double statAmount) {
         return (this.color.toString() + statAmount + this.icon + " " + this.getName()).replace(".0", "");

@@ -186,6 +186,7 @@ public class Items {
         }
 
         NULL = new QuickNormalMaterial(Material.BARRIER, ItemFamily.NULL, "Null", ItemType.NULL, Rarity.SPECIAL, ChatColor.GRAY + "" + ChatColor.ITALIC + "Null barrier that created by " + ChatColor.GRAY + "" + ChatColor.ITALIC + "ERROR with an item.");
+        NULL.setItemID("NULL");
     }
 
     public static ItemMaterial get(String name) {

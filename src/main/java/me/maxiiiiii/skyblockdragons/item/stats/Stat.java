@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.stats;
 
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import org.bukkit.inventory.ItemStack;
 
 public class Stat {
     private final StatType type;
@@ -25,6 +26,10 @@ public class Stat {
 
     public double get() {
         return this.amount;
+    }
+
+    public String getString() {
+        return (this.amount + "").replace(".0", "");
     }
 
     public void set(double amount) {
@@ -57,6 +62,14 @@ public class Stat {
 
     public boolean isEmpty() {
         return this.amount == 0;
+    }
+
+    public ItemStack getItem() {
+        return this.type.getItem(this.amount);
+    }
+
+    public String toStringLore() {
+        return this.type.toStringLore(this.amount);
     }
 
     @Override

@@ -97,12 +97,12 @@ public class Stats implements Iterable<Stat> {
         return this.toList().stream().filter(s -> s.getType() instanceof GatheringStat).collect(Collectors.toList());
     }
 
-    public List<Stat> toMiscList() {
-        return this.toList().stream().filter(s -> s.getType() instanceof MiscStat).collect(Collectors.toList());
-    }
-
     public List<Stat> toWisdomList() {
         return this.toList().stream().filter(s -> s.getType() instanceof WisdomStat).collect(Collectors.toList());
+    }
+
+    public List<Stat> toMiscList() {
+        return this.toList().stream().filter(s -> s.getType() instanceof MiscStat).collect(Collectors.toList());
     }
 
     public List<Stat> toList() {
@@ -168,6 +168,10 @@ public class Stats implements Iterable<Stat> {
 
     public Stat getMana() {
         return this.get(StatTypes.MANA);
+    }
+
+    public Stat getMending() {
+        return this.get(StatTypes.MENDING);
     }
 
     public Stat getDamage() {

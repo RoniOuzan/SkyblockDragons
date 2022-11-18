@@ -163,14 +163,13 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public void logLogin() {
-        logger.info("Player Login: " + getName());
-        logger.info("Display Player name: " + getDisplayName());
-        logger.info("Player location: " + getLocation());
+        logger.info("Player Login: " + player.getName());
+        logger.info("Player location: " + player.getLocation());
     }
 
     public void logLogout() {
-        logger.info("Player Logout: " + getName());
-        logger.info("Player location: " + getLocation());
+        logger.info("Player Logout: " + player.getName());
+        logger.info("Player location: " + player.getLocation());
     }
 
     public void update(Player player) {
@@ -310,7 +309,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
 
-    public void applyStats(boolean manaRegan) {
+    public void applyStats(boolean ManaRegain) {
         this.equipment.update();
         PlayerEquipment equipment = this.getItems();
 
@@ -346,8 +345,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         if (getEnchantLevel(EnchantType.RESPIRATION) > 0)
             player.setMaximumAir((getEnchantLevel(EnchantType.RESPIRATION) * 200) + 200);
 
-        // TODO: convert it to event
-        if (manaRegan && this.stats.getMana().get() < this.stats.getIntelligence().get()) {
+        if (ManaRegain && this.stats.getMana().get() < this.stats.getIntelligence().get()) {
             this.stats.getMana().add(this.stats.getIntelligence().get() / 50);
         }
         if (this.stats.getMana().get() > this.stats.getIntelligence().get()) {
@@ -364,7 +362,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         double amountToRegain = this.getMaxHealth() * HEALTH_REGEN;
         if (this.getActivePowerOrb() != null) amountToRegain += this.getMaxHealth() * this.getActivePowerOrb().getHealthRegenPercent();
 
-        if (this.getHealth() + amountToRegain <= this.getMaxHealth()) {
+        if (ManaRegain && this.getHealth() + amountToRegain <= this.getMaxHealth()) {
             this.setHealth(this.getHealth() + amountToRegain);
         } else if (this.getHealth() != this.getMaxHealth()) {
             this.setHealth(this.getMaxHealth());

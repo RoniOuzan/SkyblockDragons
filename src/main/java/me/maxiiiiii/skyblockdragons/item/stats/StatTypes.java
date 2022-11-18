@@ -25,6 +25,7 @@ public class StatTypes {
     public static final VitalityStat VITALITY = new VitalityStat();
     public static final IntelligenceStat INTELLIGENCE = new IntelligenceStat();
     public static final ManaStat MANA = new ManaStat();
+    public static final MendingStat MENDING = new MendingStat();
     public static final DamageStat DAMAGE = new DamageStat();
     public static final StrengthStat STRENGTH = new StrengthStat();
     public static final CritDamageStat CRIT_DAMAGE = new CritDamageStat();
