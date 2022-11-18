@@ -1,11 +1,10 @@
 package me.maxiiiiii.skyblockdragons.player.food;
 
-import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 
-public class AttackFood extends AbstractFood {
+public class PotatoFood extends AbstractFood {
 
-    public AttackFood(double duration, int level) {
+    public PotatoFood(double duration, int level) {
         super(duration, level);
     }
 
