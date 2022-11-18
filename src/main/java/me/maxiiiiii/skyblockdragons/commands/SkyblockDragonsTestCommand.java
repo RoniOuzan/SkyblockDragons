@@ -16,6 +16,8 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.modifiers.CrystalModifier;
 import me.maxiiiiii.skyblockdragons.item.modifiers.HotPotatoModifier;
 import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
+import me.maxiiiiii.skyblockdragons.player.food.BreadFood;
+import me.maxiiiiii.skyblockdragons.player.food.GoldenMelonFood;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.TextMessage;
@@ -130,6 +132,12 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
         addSubCommand(new QuickSubCommand("id", (player, args) -> {
             Item item = player.getItems().getTool();
             new TextMessage().append("Spigot Material: " + item.getType()).setClickAsSuggestCmd(item.getType().name()).save().append(" ItemMaterial: " + item.getMaterial().name()).setClickAsSuggestCmd(item.getMaterial().name()).save().send(player);
+        }));
+        addSubCommand(new QuickSubCommand("testFood", (player, args) -> {
+            player.food = new GoldenMelonFood(30, 1);
+        }));
+        addSubCommand(new QuickSubCommand("sendFood", (player, args) -> {
+            player.sendMessage(player.food);
         }));
     }
 }

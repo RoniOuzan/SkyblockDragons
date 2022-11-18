@@ -98,6 +98,9 @@ public class EnchantType implements Comparable<EnchantType> {
     public static EnchantType FORTUNE = null;
     public static EnchantType EFFICIENCY = null;
 
+    // Hoes
+    public static EnchantType REPLANT = null;
+
     // Not For Armors
     public static EnchantType TELEKINESIS = null;
 
@@ -245,6 +248,9 @@ public class EnchantType implements Comparable<EnchantType> {
         enchants.put("REJUVENATE", new EnchantType(5, "Increases your " + StatTypes.VITALITY + " by " + ChatColor.GREEN + "+MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(2, 4, 6, 8, 10), new SkillRequirement(SkillType.ENCHANTING, 10), ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Collections.singletonList("RESPITE")), false));
 
         enchants.put("FORTUNE", new EnchantType(new Stats(0, 15), 3, "Grants " + ChatColor.GOLD + "+MULTIPLIER" + StatTypes.MINING_FORTUNE + ChatColor.GRAY + ".", new EnchantMultiplier(15, 30, 45, 60), SkillRequirement.NULL, ItemTypeGroup.MINING.toType()));
+
+        enchants.put("REPLANT", new EnchantType(new Stats(0, 0), 1, "Replants crops when you break them", new EnchantMultiplier(0), SkillRequirement.NULL, ItemTypeGroup.FARMING.toType()));
+
         enchants.put("EFFICIENCY", new EnchantType(new Stats(25, 0), 3, "Grants " + ChatColor.GOLD + "+MULTIPLIER" + StatTypes.MINING_SPEED + ChatColor.GRAY + ".", new EnchantMultiplier(25, 50, 75, 100, 125, 150, 175, 200, 225, 250), SkillRequirement.NULL, ItemTypeGroup.MINING.toType()));
 
         // Not For Armors
@@ -317,6 +323,8 @@ public class EnchantType implements Comparable<EnchantType> {
 
         FORTUNE = enchants.get("FORTUNE");
         EFFICIENCY = enchants.get("EFFICIENCY");
+
+        REPLANT = enchants.get("REPLANT");
 
         TELEKINESIS = enchants.get("TELEKINESIS");
 

@@ -27,6 +27,7 @@ import me.maxiiiiii.skyblockdragons.player.chat.ChatChannel;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerDeathEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerRegainHealthEvent;
+import me.maxiiiiii.skyblockdragons.player.food.AbstractFood;
 import me.maxiiiiii.skyblockdragons.player.objects.ActionBarSupplier;
 import me.maxiiiiii.skyblockdragons.player.party.Party;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
@@ -95,6 +96,8 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
     public Griffin griffin;
 
+    public AbstractFood food;
+
     private PowerOrbDeployAbility.PowerOrbType activePowerOrb = null;
 
     private double lastCoins;
@@ -146,14 +149,15 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         FileHandler fh;
         try {
 
+            // don't log to console
+            logger.setUseParentHandlers(false);
+
             // This block configures the logger with handler and formatter
             fh = new FileHandler(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/PlayersLogs/" + getUniqueId() + ".log", 0,1, true);
             logger.addHandler(fh);
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
 
-            // don't log to console
-            logger.setUseParentHandlers(false);
             // the following statement is used to log any messages
             logger.info("Init Logger: " + getUniqueId());
             logLogin();

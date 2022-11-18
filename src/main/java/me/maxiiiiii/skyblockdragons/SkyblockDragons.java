@@ -45,6 +45,7 @@ import me.maxiiiiii.skyblockdragons.player.chat.listeners.ChatListener;
 import me.maxiiiiii.skyblockdragons.player.chat.listeners.PlayerGetMessageListener;
 import me.maxiiiiii.skyblockdragons.player.chat.listeners.PlayerSendMessageListener;
 import me.maxiiiiii.skyblockdragons.player.coop.CoopCommand;
+import me.maxiiiiii.skyblockdragons.player.food.AbstractFood;
 import me.maxiiiiii.skyblockdragons.player.listeners.PlayerDeathListener;
 import me.maxiiiiii.skyblockdragons.player.listeners.PlayerGetCoinsListener;
 import me.maxiiiiii.skyblockdragons.player.listeners.PlayerGetExperienceListener;
@@ -275,6 +276,14 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                                 showed.playSound(player.getPlayerPet().getVisual().getArmorStand().getLocation().add(0, 0.5, 0), sound.sound, (2f - (float) showed.getEyeLocation().distance(player.getPlayerPet().getVisual().getArmorStand().getLocation().add(0, 0.5, 0))) / 4, sound.pitch);
                         }
                     }
+                //food
+                AbstractFood food = player.food;
+                if (food != null) {
+                    food.second();
+                    if (food.getDuration() <= 0){
+                        player.food = null;
+                    }
+                }
             }
         }, 0L, 20L);
     }

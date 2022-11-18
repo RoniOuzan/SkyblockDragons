@@ -19,15 +19,25 @@ import me.maxiiiiii.skyblockdragons.item.drops.types.ItemDrop;
 import me.maxiiiiii.skyblockdragons.item.drops.types.ItemRareDrop;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.UpdateManaCostEvent;
 import me.maxiiiiii.skyblockdragons.item.stats.*;
+import me.maxiiiiii.skyblockdragons.mining.PlayerBreakBlockEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetCoinsFromEntityEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetExperienceEvent;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import org.bukkit.CropState;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.material.CocoaPlant;
+import org.bukkit.material.Crops;
+import org.bukkit.material.MaterialData;
+import org.bukkit.material.NetherWarts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -280,6 +290,33 @@ public class EnchantListeners implements Listener {
         Map<EnchantType, Short> enchants = player.getItems().getTool().getModifiers().getEnchants();
 
         enchant(player, enchants, TELEKINESIS, s -> e.setTelekinesis(true));
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerBreakBlock(BlockBreakEvent e) {
+        PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
+        Map<EnchantType, Short> enchants = player.getItems().getTool().getModifiers().getEnchants();
+        enchant(player, enchants, REPLANT, s -> {
+            Material type = e.getBlock().getType();
+            BlockState state = e.getBlock().getState();
+            MaterialData data = state.getData().clone();
+            if (data instanceof Crops || data instanceof NetherWarts) {
+                Functions.Wait(1L, () -> {
+                    e.getBlock().setType(type);
+                });
+            }
+            else if (data instanceof CocoaPlant) {
+                CocoaPlant plants = (CocoaPlant) data;
+                BlockFace face = plants.getFacing();
+                Functions.Wait(1L, () -> {
+                    e.getBlock().setType(type);
+                    CocoaPlant newPlant = new CocoaPlant(CocoaPlant.CocoaPlantSize.SMALL, face);
+                    state.setData(newPlant);
+                    state.update();
+                    player.sendMessage(newPlant);
+                });
+            }
+        });
     }
 
     private void enchant(PlayerSD player, Map<EnchantType, Short> enchants, EnchantType enchant, Consumer<Double> runnable) {

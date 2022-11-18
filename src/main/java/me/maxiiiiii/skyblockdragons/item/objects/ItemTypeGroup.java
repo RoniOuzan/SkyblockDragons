@@ -8,6 +8,7 @@ public enum ItemTypeGroup {
     WEAPON(new ArrayList<>(Arrays.asList(ItemType.SWORD, ItemType.BOW))),
     TOOL(new ArrayList<>(Arrays.asList(ItemType.SWORD, ItemType.ITEM, ItemType.BOW, ItemType.WAND, ItemType.AXE, ItemType.PICKAXE, ItemType.ROD))),
     MINING(new ArrayList<>(Arrays.asList(ItemType.PICKAXE, ItemType.DRILL, ItemType.AXE, ItemType.HOE))),
+    FARMING(new ArrayList<>(Arrays.asList(ItemType.AXE, ItemType.HOE))),
     BOWS(new ArrayList<>(Arrays.asList(ItemType.BOW, ItemType.RANGE_WEAPON, ItemType.SHORT_BOW))),
     OTHER(new ArrayList<>(Arrays.asList(ItemType.BOOK, ItemType.REFORGE_STONE, ItemType.SKIN)));
 
