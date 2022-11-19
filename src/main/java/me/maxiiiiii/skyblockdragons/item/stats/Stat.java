@@ -76,4 +76,11 @@ public class Stat {
     public String toString() {
         return this.type.toString(this.amount);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Stat)) return false;
+
+        return this.getType() == ((Stat) other).getType() && this.get() == ((Stat) other).get();
+    }
 }

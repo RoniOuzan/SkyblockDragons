@@ -37,8 +37,8 @@ public class HotPotatoModifier extends ItemModifier implements Listener {
         @EventHandler
         public void updateItemStats(UpdateItemStatsEvent e) {
             int hotPotato = e.getStats().getItem().getModifiers().getHotPotato();
-            e.getStats().getModifiers().add(new StatModifier(StatModifierType.HOT_POTATO, "", new Stat(StatTypes.DAMAGE, hotPotato * 2)));
-            e.getStats().getModifiers().add(new StatModifier(StatModifierType.HOT_POTATO, "", new Stat(StatTypes.STRENGTH, hotPotato * 2)));
+            e.getStats().addModifier(new StatModifier(StatModifierType.HOT_POTATO, "", new Stat(StatTypes.DAMAGE, hotPotato * 2)));
+            e.getStats().addModifier(new StatModifier(StatModifierType.HOT_POTATO, "", new Stat(StatTypes.STRENGTH, hotPotato * 2)));
         }
     }
 }

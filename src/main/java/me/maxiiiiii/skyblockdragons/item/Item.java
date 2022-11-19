@@ -389,7 +389,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
                 crystalLore.append(ChatColor.GRAY).append("[✧] ");
             } else {
                 Crystal crystal = crystals.get(i);
-                crystalLore.append(Rarity.getRarity(crystal.getLevel()).getColor()).append("[").append(ChatColor.LIGHT_PURPLE).append(crystal.getCrystal().getStatType().getIcon()).append(Rarity.getRarity(crystal.getLevel()).getColor()).append("] ");
+                crystalLore.append(Rarity.getRarity(crystal.getLevel()).getColor()).append("[").append(crystal.getCrystal().getStatType().getColor()).append(crystal.getCrystal().getStatType().getIcon()).append(Rarity.getRarity(crystal.getLevel()).getColor()).append("] ");
             }
         }
         lores.add(crystalLore.toString());

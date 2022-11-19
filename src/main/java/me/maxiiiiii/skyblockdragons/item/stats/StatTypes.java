@@ -18,14 +18,6 @@ public class StatTypes {
     public static final List<StatType> STATS = new ArrayList<>();
 
     // Combat
-    public static final HealthStat HEALTH = new HealthStat();
-    public static final DefenseStat DEFENSE = new DefenseStat();
-    public static final TrueDefenseStat TRUE_DEFENSE = new TrueDefenseStat();
-    public static final SpeedStat SPEED = new SpeedStat();
-    public static final VitalityStat VITALITY = new VitalityStat();
-    public static final IntelligenceStat INTELLIGENCE = new IntelligenceStat();
-    public static final ManaStat MANA = new ManaStat();
-    public static final MendingStat MENDING = new MendingStat();
     public static final DamageStat DAMAGE = new DamageStat();
     public static final StrengthStat STRENGTH = new StrengthStat();
     public static final CritDamageStat CRIT_DAMAGE = new CritDamageStat();
@@ -33,8 +25,15 @@ public class StatTypes {
     public static final AbilityDamageStat ABILITY_DAMAGE = new AbilityDamageStat();
     public static final AttackSpeedStat ATTACK_SPEED = new AttackSpeedStat();
     public static final FerocityStat FEROCITY = new FerocityStat();
+    public static final HealthStat HEALTH = new HealthStat();
+    public static final DefenseStat DEFENSE = new DefenseStat();
+    public static final TrueDefenseStat TRUE_DEFENSE = new TrueDefenseStat();
+    public static final SpeedStat SPEED = new SpeedStat();
+    public static final VitalityStat VITALITY = new VitalityStat();
+    public static final IntelligenceStat INTELLIGENCE = new IntelligenceStat();
+    public static final ManaStat MANA = new ManaStat();
 
-    // Gathering4
+    // Gathering
     public static final MiningSpeedStat MINING_SPEED = new MiningSpeedStat();
     public static final MiningFortuneStat MINING_FORTUNE = new MiningFortuneStat();
     public static final FarmingFortuneStat FARMING_FORTUNE = new FarmingFortuneStat();
