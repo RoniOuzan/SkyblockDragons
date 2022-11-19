@@ -55,7 +55,7 @@ public class ScoreboardSD {
                 player.addBits(250);
             }
         }
-        scores.add(ChatColor.WHITE + "PCoin: " + ChatColor.DARK_GREEN + getNumberFormat(player.getBits()) + " " + bitsAdder);
+        scores.add(ChatColor.WHITE + "Bits: " + ChatColor.AQUA + getNumberFormat(player.getBits()) + " " + bitsAdder);
         scores.add(" ");
         if (TheEnd.dragon != null) {
             DragonType dragonType = DragonType.getDragonType(TheEnd.dragon.material.getName());
