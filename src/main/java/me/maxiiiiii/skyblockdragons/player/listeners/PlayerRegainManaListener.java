@@ -9,6 +9,6 @@ import org.bukkit.event.Listener;
 public class PlayerRegainManaListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerRegainMana(PlayerRegainManaEvent e) {
-        e.getPlayer().getStats().add(StatTypes.MANA, e.getMultiplier().multiply(e.getAmount()));
+        e.getPlayer().getStats().add(StatTypes.MANA, e.getAmount());
     }
 }

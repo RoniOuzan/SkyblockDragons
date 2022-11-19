@@ -45,11 +45,11 @@ public class ProfileMenu extends Menu {
         this.setItem(22, Functions.applyHead(Functions.createItem(Material.SKULL_ITEM, 1, 3, ChatColor.WHITE + target.getName() + "'s Profile"), target));
 
         this.placeItem(10, target.getItems().getHelmet(), "Helmet", "HELMET");
-        this.placeItem(19, target.getItems().getHelmet(), "Chestplate", "CHESTPLATE");
-        this.placeItem(28, target.getItems().getHelmet(), "Leggings", "LEGGINGS");
-        this.placeItem(37, target.getItems().getHelmet(), "Boots", "BOOTS");
+        this.placeItem(19, target.getItems().getChestplate(), "Chestplate", "CHESTPLATE");
+        this.placeItem(28, target.getItems().getLeggings(), "Leggings", "LEGGINGS");
+        this.placeItem(37, target.getItems().getBoots(), "Boots", "BOOTS");
         this.placeItem(20, target.getItems().getTool(), "Hand", "HAND");
-        this.placeItem(29, target.getItems().getHelmet(), "Pet", "PET");
+        this.placeItem(29, target.getItems().getPet(), "Pet", "PET");
 
         this.setItem(24, StatsType.COMBAT.item.apply(target));
         this.setItem(25, StatsType.GATHERING.item.apply(target));

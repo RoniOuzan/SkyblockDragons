@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.stats.interfaces.PercentageStat;
+import me.maxiiiiii.skyblockdragons.item.stats.stats.combat.ManaStat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
@@ -30,7 +31,8 @@ public abstract class StatType {
         this.maxLevel = maxLevel;
         this.base = base;
 
-        StatTypes.STATS.add(this);
+        if (!(this instanceof ManaStat))
+            StatTypes.STATS.add(this);
 
         if (this instanceof Listener) {
             SkyblockDragons.plugin.registerEvents((Listener) this);

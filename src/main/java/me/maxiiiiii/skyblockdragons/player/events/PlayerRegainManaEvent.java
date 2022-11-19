@@ -21,6 +21,10 @@ public class PlayerRegainManaEvent extends UpdateEvent implements Cancellable {
         this.cancelled = false;
     }
 
+    public PlayerSD getPlayer() {
+        return (PlayerSD) this.getEntity();
+    }
+
     @Override
     public boolean isCancelled() {
         return cancelled;
