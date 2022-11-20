@@ -1,6 +1,5 @@
 package me.maxiiiiii.skyblockdragons.item.drops;
 
-import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -20,7 +19,7 @@ public class PlayerGetDropListener implements Listener {
         event.applyAmountMultipliers();
         double chances = event.getChanceMultiplier().multiply(e.getDrop().getChances()) / 100;
         if (Math.random() <= chances) {
-            if (e.getPlayer().getItems().getTool().getModifiers().getEnchants().getOrDefault(EnchantType.TELEKINESIS, (short) 0) > 1) {
+            if (e.isTelekinesis()) {
                 e.getDrop().give(e.getPlayer());
             } else {
                 Location location = e.getPlayer().getLocation();
@@ -36,10 +35,7 @@ public class PlayerGetDropListener implements Listener {
                     ).normalize());
                 }
 
-                if (e.isTelekinesis())
-                    e.getDrop().give(e.getPlayer());
-                else
-                    e.getDrop().dropItem(e.getPlayer(), location);
+                e.getDrop().dropItem(e.getPlayer(), location);
             }
         }
     }

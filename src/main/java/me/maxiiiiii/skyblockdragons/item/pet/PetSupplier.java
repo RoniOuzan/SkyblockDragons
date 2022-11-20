@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.pet;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
@@ -11,9 +12,10 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.inventory.ItemStack;
 
 @Getter
+@Setter
 @ToString
 public class PetSupplier {
-    private final Rarity rarity;
+    private Rarity rarity;
     private int level;
     private double currentXp;
 
@@ -31,16 +33,8 @@ public class PetSupplier {
         this.setLevel(this.level + 1);
     }
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
     public void giveXp(double amount) {
         this.currentXp += amount;
-    }
-
-    public void setCurrentXp(double currentXp) {
-        this.currentXp = currentXp;
     }
 
     public static PetSupplier getPetSupplier(ItemStack item) {

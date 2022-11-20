@@ -8,6 +8,6 @@ import org.bukkit.event.Listener;
 public class PlayerRegainHealthListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerRegain(PlayerRegainHealthEvent e) {
-        e.getPlayer().heal(e.applyMultiplier());
+        e.getPlayer().heal(e.applyMultiplier() * (1 + (e.getPlayer().getStats().getVitality().get() / 100)));
     }
 }

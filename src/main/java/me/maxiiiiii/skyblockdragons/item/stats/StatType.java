@@ -2,13 +2,11 @@ package me.maxiiiiii.skyblockdragons.item.stats;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.stats.interfaces.PercentageStat;
 import me.maxiiiiii.skyblockdragons.item.stats.stats.combat.ManaStat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -33,10 +31,6 @@ public abstract class StatType {
 
         if (!(this instanceof ManaStat))
             StatTypes.STATS.add(this);
-
-        if (this instanceof Listener) {
-            SkyblockDragons.plugin.registerEvents((Listener) this);
-        }
     }
 
     public StatType(String name, String icon, ChatColor color, String description, double base) {
