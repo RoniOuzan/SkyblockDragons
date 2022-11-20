@@ -2,14 +2,14 @@ package me.maxiiiiii.skyblockdragons.player.skill;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.skill.Skills.*;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.player.skill.skills.*;
 
 import java.util.Iterator;
 
 @Getter
-public class Skill implements Iterable<AbstractSkill> {
+public class Skills implements Iterable<AbstractSkill> {
     private final PlayerSD player;
     private final FarmingSkill farmingSkill;
     private final MiningSkill miningSkill;
@@ -21,7 +21,7 @@ public class Skill implements Iterable<AbstractSkill> {
     private final TamingSkill tamingSkill;
     private final DungeoneeringSkill dungeoneeringSkill;
 
-    public Skill(PlayerSD player) {
+    public Skills(PlayerSD player) {
         this.player = player;
         this.farmingSkill = new FarmingSkill(player, Variables.getInt(player.getUniqueId(), "SkillFarming", 0, 0), Variables.getDouble(player.getUniqueId(), "SkillFarming", 1, 0d));
         this.miningSkill = new MiningSkill(player, Variables.getInt(player.getUniqueId(), "SkillMining", 0, 0), Variables.getDouble(player.getUniqueId(), "SkillMining", 1, 0d));

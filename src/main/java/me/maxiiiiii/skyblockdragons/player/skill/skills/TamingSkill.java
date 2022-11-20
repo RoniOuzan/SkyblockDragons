@@ -1,6 +1,5 @@
-package me.maxiiiiii.skyblockdragons.player.skill.Skills;
+package me.maxiiiiii.skyblockdragons.player.skill.skills;
 
-import me.maxiiiiii.skyblockdragons.item.stats.StatType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;

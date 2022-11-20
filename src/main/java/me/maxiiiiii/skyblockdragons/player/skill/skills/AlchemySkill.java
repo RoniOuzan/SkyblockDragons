@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.player.skill.Skills;
+package me.maxiiiiii.skyblockdragons.player.skill.skills;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
@@ -9,21 +9,21 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 @Getter
-public class EnchantingSkill extends AbstractSkill {
-    public EnchantingSkill(PlayerSD player, int level, double totalXp) {
+public class AlchemySkill extends AbstractSkill {
+    public AlchemySkill(PlayerSD player, int level, double totalXp) {
         super(player,
-                "Enchanting",
-                "Enchant items to earn Enchanting XP!",
-                Material.ENCHANTMENT_TABLE,
+                "Alchemy",
+                "Brew potions to earn Alchemy XP!",
+                Material.BREWING_STAND_ITEM,
                 new SkillRewards(
-                        "Conjurer",
-                        l -> ChatColor.WHITE + "Gain " + ChatColor.DARK_GRAY + (l * 4) + "➡" + ChatColor.GREEN + ((l + 1) * 4) + " " + ChatColor.WHITE + "more experience orbs from any source.",
+                        "Brewer",
+                        l -> ChatColor.GRAY + "Potion that you brew have a " + ChatColor.DARK_GRAY + l + "➡" + ChatColor.GREEN + (l + 1) + "% " + ChatColor.WHITE + "longer duration.",
                         StatTypes.INTELLIGENCE,
                         2,
                         coinsAmount
                 ),
                 level,
-                60,
+                50,
                 totalXp
         );
     }

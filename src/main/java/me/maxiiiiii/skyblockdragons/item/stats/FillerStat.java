@@ -3,19 +3,19 @@ package me.maxiiiiii.skyblockdragons.item.stats;
 import lombok.Getter;
 
 @Getter
-public class FilledStat extends Stat {
+public class FillerStat extends Stat {
     private final Stat filler;
 
-    public FilledStat(StatType type, double amount, StatType fillerType, double fillerAmount) {
+    public FillerStat(StatType type, double amount, StatType fillerType, double fillerAmount) {
         super(type, amount);
         this.filler = new Stat(fillerType, fillerAmount);
     }
 
-    public FilledStat(double amount, StatType type, double fillerAmount, StatType fillerType) {
+    public FillerStat(double amount, StatType type, double fillerAmount, StatType fillerType) {
         this(type, amount, fillerType, fillerAmount);
     }
 
-    public FilledStat(StatType type, StatType fillerType) {
+    public FillerStat(StatType type, StatType fillerType) {
         this(type, 0, fillerType, 0);
     }
 }

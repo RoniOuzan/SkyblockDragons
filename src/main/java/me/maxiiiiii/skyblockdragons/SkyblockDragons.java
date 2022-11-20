@@ -52,6 +52,7 @@ import me.maxiiiiii.skyblockdragons.player.party.PartyListCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillAdminCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillListener;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillMenu;
+import me.maxiiiiii.skyblockdragons.player.skill.listeners.PlayerGetSkillXpListener;
 import me.maxiiiiii.skyblockdragons.player.stats.StatCommand;
 import me.maxiiiiii.skyblockdragons.player.storage.EnderChestMenu;
 import me.maxiiiiii.skyblockdragons.player.storage.StorageMenu;
@@ -375,6 +376,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerEvents(new PlayerGetCoinsListener(), this);
         registerEvents(new PlayerGetExperienceListener(), this);
         registerEvents(new PlayerRegainManaListener(), this);
+        registerEvents(new PlayerGetSkillXpListener(), this);
 
         registerEvents(new MenuListener(), this);
 

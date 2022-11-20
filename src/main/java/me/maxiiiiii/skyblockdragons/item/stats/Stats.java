@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.stats;
 import me.maxiiiiii.skyblockdragons.item.stats.interfaces.*;
 import me.maxiiiiii.skyblockdragons.item.stats.stats.combat.ManaStat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -29,13 +30,37 @@ public class Stats implements Iterable<Stat> {
     }
 
     private Stat getDefaultStat(StatType type) {
-        if (type instanceof me.maxiiiiii.skyblockdragons.item.stats.interfaces.FilledStat)
-            return new FilledStat(type, getDefaultValue(type), ((me.maxiiiiii.skyblockdragons.item.stats.interfaces.FilledStat) type).getFiller(), getDefaultValue(((me.maxiiiiii.skyblockdragons.item.stats.interfaces.FilledStat) type).getFiller()));
+        if (type instanceof FilledStat)
+            return new FillerStat(type, getDefaultValue(type), ((FilledStat) type).getFiller(), getDefaultValue(((FilledStat) type).getFiller()));
         return new Stat(type, getDefaultValue(type));
     }
     
     public Stat get(StatType type) {
         return stats.getOrDefault(type, getDefaultStat(type));
+    }
+    
+    public Stat get(SkillType skill) {
+        switch (skill) {
+            case FARMING:
+                return this.get(StatTypes.FARMING_WISDOM);
+            case MINING:
+                return this.get(StatTypes.MINING_WISDOM);
+            case COMBAT:
+                return this.get(StatTypes.COMBAT_WISDOM);
+            case FORAGING:
+                return this.get(StatTypes.FORAGING_WISDOM);
+            case FISHING:
+                return this.get(StatTypes.FISHING_WISDOM);
+            case ENCHANTING:
+                return this.get(StatTypes.ENCHANTING_WISDOM);
+            case ALCHEMY:
+                return this.get(StatTypes.ALCHEMY_WISDOM);
+            case TAMING:
+                return this.get(StatTypes.TAMING_WISDOM);
+            case DUNGEONEERING:
+                return this.get(StatTypes.DUNGEONEERING_WISDOM);
+        }
+        return this.get(StatTypes.COMBAT_WISDOM);
     }
 
     public Stats set(StatType type, double amount) {
@@ -171,11 +196,7 @@ public class Stats implements Iterable<Stat> {
     }
 
     public Stat getMana() {
-        return ((FilledStat) this.get(StatTypes.INTELLIGENCE)).getFiller();
-    }
-
-    public Stat getMending() {
-        return this.get(StatTypes.MENDING);
+        return ((FillerStat) this.get(StatTypes.INTELLIGENCE)).getFiller();
     }
 
     public Stat getDamage() {

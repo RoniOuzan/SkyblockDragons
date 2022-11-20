@@ -30,8 +30,9 @@ import me.maxiiiiii.skyblockdragons.player.events.PlayerRegainHealthEvent;
 import me.maxiiiiii.skyblockdragons.player.objects.ActionBarSupplier;
 import me.maxiiiiii.skyblockdragons.player.party.Party;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
-import me.maxiiiiii.skyblockdragons.player.skill.Skill;
+import me.maxiiiiii.skyblockdragons.player.skill.Skills;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
+import me.maxiiiiii.skyblockdragons.player.skill.events.PlayerGetSkillXpEvent;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.player.storage.EnderChest;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.Wardrobe;
@@ -85,7 +86,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     public int playTime;
     public int bits;
 
-    public Skill skill;
+    public Skills skills;
     public Wardrobe wardrobe;
     public BankAccount bank;
     public PlayerPet playerPet;
@@ -126,7 +127,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.bits = Variables.getInt(player.getUniqueId(), "Bits", 0, 0);
 
         this.wardrobe = new Wardrobe(this);
-        this.skill = new Skill(this);
+        this.skills = new Skills(this);
         this.bank = new BankAccount(this, 50_000_000);
         this.playerPet = new PlayerPet(this);
         this.enderChestSD = new EnderChest(this);
@@ -186,7 +187,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         Variables.set(player.getUniqueId(), "Tracked", 0, this.tracked);
 
         this.wardrobe.save();
-        this.skill.save();
+        this.skills.save();
         this.bank.save();
         this.playerPet.save();
         this.getItems().save();
@@ -204,9 +205,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public void giveSkill(SkillType skillType, double amount) {
-        this.skill.get(skillType.name()).giveXp(amount);
-        String message = ChatColor.DARK_AQUA + "+" + getInt(amount + "") + " " + skillType + " (" + Math.floor(this.getSkill().get(skillType).getCurrentXp() / this.getSkill().get(skillType).getCurrentNeedXp() * 1000d) / 10d + "%)";
-        this.actionBarQueue.add(new ActionBarSupplier(message, 2));
+        Bukkit.getPluginManager().callEvent(new PlayerGetSkillXpEvent(this, skillType, amount));
     }
 
     public void addPlayTime(int amount) {
@@ -322,12 +321,12 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
         this.stats.reset();
 
-        for (AbstractSkill skill : this.getSkill()) {
+        for (AbstractSkill skill : this.getSkills()) {
             this.stats.add(skill.getRewards().getStat(), skill.getRewards().getStatAmount() * skill.getLevel());
         }
-        this.stats.add(StatTypes.MINING_FORTUNE, this.getSkill().getMiningSkill().getLevel() * 4);
-        this.stats.add(StatTypes.FARMING_FORTUNE, this.getSkill().getFarmingSkill().getLevel() * 4);
-        this.stats.add(StatTypes.FORAGING_FORTUNE, this.getSkill().getForagingSkill().getLevel() * 4);
+        this.stats.add(StatTypes.MINING_FORTUNE, this.getSkills().getMiningSkill().getLevel() * 4);
+        this.stats.add(StatTypes.FARMING_FORTUNE, this.getSkills().getFarmingSkill().getLevel() * 4);
+        this.stats.add(StatTypes.FORAGING_FORTUNE, this.getSkills().getForagingSkill().getLevel() * 4);
 
         for (Item item : equipment) {
             if (item.getMaterial().name().equals("NULL") ||
@@ -391,13 +390,13 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public short getEnchantLevel(EnchantType enchant) {
-        if (skill.getEnchantingSkill().getLevel() < enchant.getRequirements().getRequirement(0).getLevel() && this.getGameMode() != GameMode.CREATIVE)
+        if (skills.getEnchantingSkill().getLevel() < enchant.getRequirements().getRequirement(0).getLevel() && this.getGameMode() != GameMode.CREATIVE)
             return 0;
         return Functions.getEnchantLevel(player.getEquipment().getItemInMainHand(), enchant);
     }
 
     public short getEnchantLevel(EnchantType enchant, Condition condition) {
-        if (skill.getEnchantingSkill().getLevel() < enchant.getRequirements().getRequirement(0).getLevel() && this.getGameMode() != GameMode.CREATIVE)
+        if (skills.getEnchantingSkill().getLevel() < enchant.getRequirements().getRequirement(0).getLevel() && this.getGameMode() != GameMode.CREATIVE)
             return 0;
         if (!condition.check())
             return 0;

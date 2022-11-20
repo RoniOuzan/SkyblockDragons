@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.player.skill.Skills;
+package me.maxiiiiii.skyblockdragons.player.skill.skills;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
