@@ -41,10 +41,23 @@ public abstract class StatType {
         this(name, icon, color, description, null, p -> 0.0);
     }
 
+    public String name() {
+        return this.getName().toUpperCase().replace(" ", "_");
+    }
+
     public ItemStack getItem(double stat) {
         ItemStack item = this.getItemStack();
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(this.toString(stat));
+        meta.setLore(Functions.loreBuilder(this.description));
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    public ItemStack getItem() {
+        ItemStack item = this.getItemStack();
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(this.toString());
         meta.setLore(Functions.loreBuilder(this.description));
         item.setItemMeta(meta);
         return item;
@@ -63,7 +76,7 @@ public abstract class StatType {
     public abstract ItemStack getItemStack();
 
     public String toStringLore(double statAmount) {
-        return this + " " + ChatColor.WHITE + Functions.getNumberFormat(statAmount) + " " + (this instanceof PercentageStat ? "%" : "");
+        return this + " " + ChatColor.WHITE + Functions.getNumberFormat(statAmount) + (this instanceof PercentageStat ? "%" : "");
     }
 
     public String toString(double statAmount) {

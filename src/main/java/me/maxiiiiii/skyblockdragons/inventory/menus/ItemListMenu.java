@@ -12,13 +12,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.stream.Collectors;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.openSign;
-
 public class ItemListMenu extends PageMenu {
     private String search;
 
     public ItemListMenu(PlayerSD player, String search) {
-        super(player, "Item List", 6, InventoryGlassType.SURROUND, () -> Items.itemMaterials.values().stream().sorted().filter(m -> m.getName().toLowerCase().contains(search.toLowerCase())).map(m -> new Item(player, m)).collect(Collectors.toList()), true);
+        super(player, "Item List", 6, InventoryGlassType.SURROUND, () -> Items.itemMaterials.values().stream().sorted().filter(m -> m.getName().toLowerCase().contains(search.toLowerCase())).map(m -> new Item(player, m)).collect(Collectors.toList()), false);
 
         this.search = search;
     }
@@ -33,11 +31,9 @@ public class ItemListMenu extends PageMenu {
     @Override
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Search Items") && e.getSlot() == 48) {
-            openSign(player, lines -> {
-                this.search = lines.get(0);
-                this.update();
-                this.open();
-            });
+//            Functions.openSign(player, lines -> {
+//                this.search = lines.get(0);
+//            });
         }
 
         if (e.getSlot() % 9 != 0 && e.getSlot() % 9 != 8)

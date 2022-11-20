@@ -55,4 +55,8 @@ public class StatTypes {
     public static final AlchemyWisdomStat ALCHEMY_WISDOM = new AlchemyWisdomStat();
     public static final TamingWisdomStat TAMING_WISDOM = new TamingWisdomStat();
     public static final DungeoneeringWisdomStat DUNGEONEERING_WISDOM = new DungeoneeringWisdomStat();
+
+    public static StatType get(String name) {
+        return STATS.stream().filter(s -> s.name().equalsIgnoreCase(name)).findFirst().orElse(DAMAGE);
+    }
 }

@@ -9,10 +9,7 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,16 +75,6 @@ public class PetMenu extends PageMenu {
         }
 
         this.update();
-    }
-
-    private static ItemStack addLine(ItemStack itemStack, String... lores) {
-        ItemStack item = itemStack.clone();
-        ItemMeta meta = item.getItemMeta();
-        List<String> newLores = meta.getLore();
-        newLores.addAll(Arrays.asList(lores));
-        meta.setLore(newLores);
-        item.setItemMeta(meta);
-        return item;
     }
 
     public static class Command extends CommandSD {

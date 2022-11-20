@@ -53,6 +53,7 @@ import me.maxiiiiii.skyblockdragons.player.skill.SkillAdminCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillListener;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillMenu;
 import me.maxiiiiii.skyblockdragons.player.skill.listeners.PlayerGetSkillXpListener;
+import me.maxiiiiii.skyblockdragons.player.stats.PlayerBaseStatsCommand;
 import me.maxiiiiii.skyblockdragons.player.stats.StatCommand;
 import me.maxiiiiii.skyblockdragons.player.storage.EnderChestMenu;
 import me.maxiiiiii.skyblockdragons.player.storage.StorageMenu;
@@ -332,6 +333,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerCommand("PartyList", new PartyListCommand());
         registerCommand("Kill", new KillCommand());
         registerCommand("CrystalGrinder", new CrystalGrinderMenu.Command());
+        registerCommand("BaseStats", new PlayerBaseStatsCommand());
     }
 
     private void registerAllEvents() {

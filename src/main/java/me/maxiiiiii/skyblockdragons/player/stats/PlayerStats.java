@@ -16,16 +16,18 @@ public class PlayerStats extends Stats {
     @Getter(AccessLevel.NONE)
     private final Map<StatType, Multiplier> multiplayer;
     private final PlayerSD player;
+    private final PlayerBaseStats baseStats;
 
     public PlayerStats(PlayerSD player) {
         super();
         this.player = player;
+        this.baseStats = new PlayerBaseStats(player);
         this.multiplayer = new HashMap<>();
     }
 
     @Override
     protected double getDefaultValue(StatType type) {
-        return type.getBase(player);
+        return this.baseStats.get(type);
     }
 
     @Override

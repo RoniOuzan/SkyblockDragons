@@ -50,11 +50,11 @@ public abstract class PageMenu extends Menu {
         int maxItems = this.getMaxItemsInPage();
         int adder = maxItems * (page - 1);
         for (int i = 0; i < maxItems; i++) {
-            if (i + adder >= items.get().size())
-                continue;
-//                this.setItem(Functions.intToSlot(i), new ItemStack(Material.AIR));
-
-            this.setItem(Functions.intToSlot(i), changeItem(items.get().get(i + adder)));
+            if (i + adder >= items.get().size()) {
+                this.setItem(Functions.intToSlot(i), inventoryGlassType == InventoryGlassType.ALL ? getGLASS() : new ItemStack(Material.AIR));
+            } else {
+                this.setItem(Functions.intToSlot(i), changeItem(items.get().get(i + adder)));
+            }
         }
     }
 

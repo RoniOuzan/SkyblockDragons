@@ -862,16 +862,16 @@ public class PlayerClass extends EntitySD implements Player {
     }
 
     public void sendMessage(String message, Object... args) {
-        this.player.sendMessage(String.format(message, args));
+        this.sendMessage(String.format(message, args));
     }
 
     @Override
     public void sendMessage(String message) {
-        this.player.sendMessage(message);
+        this.player.sendMessage(message.replace(".0", ""));
     }
 
     public void sendMessage(Object message) {
-        this.player.sendMessage(String.valueOf(message));
+        this.sendMessage(String.valueOf(message));
     }
 
     public void sendMessage(Object... messages) {
@@ -885,7 +885,7 @@ public class PlayerClass extends EntitySD implements Player {
             message.append(", ").append(value);
         }
         message = new StringBuilder(message.toString().replace(",, ", ""));
-        this.player.sendMessage(message.toString());
+        this.sendMessage(message.toString());
     }
 
     @Override
