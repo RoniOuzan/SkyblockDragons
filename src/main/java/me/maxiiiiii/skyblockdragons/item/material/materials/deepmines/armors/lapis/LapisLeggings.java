@@ -1,9 +1,10 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.armors.lapis;
 
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
-
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.SurvivorStats;
 import org.bukkit.Color;
 import org.bukkit.Material;
 
@@ -15,7 +16,7 @@ public class LapisLeggings extends ArmorMaterial {
                 "Lapis Leggings",
                 ItemType.LEGGINGS,
                 Rarity.COMMON,
-                new Stats(0, 0, 0, 0, 0, 0, 20, 12, 0, 0),
+                new SurvivorStats(20, 12, 0, 0, 0, 0),
                 ""
         );
     }

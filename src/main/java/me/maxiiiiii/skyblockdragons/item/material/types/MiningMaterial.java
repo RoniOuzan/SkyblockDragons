@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemStatsAble;
 import me.maxiiiiii.skyblockdragons.item.objects.*;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import org.bukkit.Material;
 
 @Getter

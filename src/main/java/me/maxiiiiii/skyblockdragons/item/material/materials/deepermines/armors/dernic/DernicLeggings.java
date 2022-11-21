@@ -4,8 +4,8 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.SurvivorStats;
 import org.bukkit.Color;
 import org.bukkit.Material;
 
@@ -17,7 +17,7 @@ public class DernicLeggings extends ArmorMaterial {
                 "Dernic Leggings",
                 ItemType.LEGGINGS,
                 Rarity.EPIC,
-                new Stats(90, 100, 0, 30, 200, 75, 5),
+                new SurvivorStats(90, 100, 0, 30, 200, 75, 5),
                 "",
                 ItemFullSetBonus.DERNIC_FULL_SET
         );

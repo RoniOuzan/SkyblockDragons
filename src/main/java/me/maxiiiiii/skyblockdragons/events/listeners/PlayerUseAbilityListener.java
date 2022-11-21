@@ -33,7 +33,7 @@ public class PlayerUseAbilityListener implements Listener {
     public void onUseAbility(PlayerInteractEvent e) {
         ItemStack itemStack = e.getItem();
 
-        if (Items.get(itemStack) instanceof ShortBowMaterial && !Functions.cooldown(e.getPlayer(), cooldown, 200, false)) {
+        if (Items.get(itemStack) instanceof ShortBowMaterial && !Functions.cooldown(e.getPlayer(), cooldown, SkyblockDragons.getPlayer(e.getPlayer()).getHitTick(), false)) {
             Projectile projectile = e.getPlayer().getWorld().spawnArrow(new Location(WorldSD.HUB.getWorld(), 0, 0, 0), e.getPlayer().getLocation().getDirection(), 0, 0);
             Bukkit.getPluginManager().callEvent(new EntityShootBowEvent(e.getPlayer(), itemStack, projectile, -1));
             e.setCancelled(true);

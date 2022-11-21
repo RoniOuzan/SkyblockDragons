@@ -27,7 +27,7 @@ public class JoinQuitListener implements Listener {
             if (!playerBukkit.hasPlayedBefore()){
                 starterKit(player);
             }
-            player.logLogin();
+            Functions.Wait(1L, player::logLogin);
         });
     }
 

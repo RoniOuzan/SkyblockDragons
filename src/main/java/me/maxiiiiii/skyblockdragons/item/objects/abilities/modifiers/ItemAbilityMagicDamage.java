@@ -10,7 +10,6 @@ public interface ItemAbilityMagicDamage {
     }
 
     default double getFinalAbilityDamage(PlayerSD player) {
-        double abilityScaling = this.getBaseAbilityScaling(player) + player.getStats().getAbilityScaling().get();
-        return this.getBaseAbilityDamage(player) * (1 + ((player.getStats().getIntelligence().get() / 100) * abilityScaling));
+        return this.getBaseAbilityDamage(player) * (1 + ((player.getStats().getIntelligence().get() / 100) * this.getBaseAbilityScaling(player)));
     }
 }

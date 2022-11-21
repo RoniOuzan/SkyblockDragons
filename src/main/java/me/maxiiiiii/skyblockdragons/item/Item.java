@@ -36,8 +36,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.loreBuilder;
-import static me.maxiiiiii.skyblockdragons.util.Functions.setTitleCase;
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 @Getter
 public class Item extends ItemStack implements Comparable<Item>, ConfigurationSerializable {
@@ -177,8 +176,8 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
                 lores.add(ChatColor.GRAY + "to apply it!");
                 int levelRequirement = 0;
                 for (EnchantType enchantType : modifiers.getEnchants().keySet()) {
-                    if (enchantType.getRequirement().getLevel() >= levelRequirement)
-                        levelRequirement = enchantType.getRequirement().getLevel();
+                    if (enchantType.getRequirements().getRequirement(0).getLevel() >= levelRequirement)
+                        levelRequirement = enchantType.getRequirements().getRequirement(0).getLevel();
                 }
                 if (player == null || player.getSkills().getEnchantingSkill().getLevel() < levelRequirement) {
                     lores.add("");
@@ -229,13 +228,8 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
 
             NBTList<Double> statList = nbt.getDoubleList("Stats");
             for (Stat stat : stats) {
-                statList.add(stat.amount);
+                statList.add(stat.get());
             }
-//            if (isStackable()) {
-//                nbt.setInteger("Stack", Functions.randomInt(1, 10000));
-//                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-//                nbt.setString("Date", format.format(new Date()));
-//            }
             nbt.setInteger("Rarity", rarity.getLevel());
 
             for (ItemModifier modifier : modifiers) {
@@ -395,7 +389,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
                 crystalLore.append(ChatColor.GRAY).append("[✧] ");
             } else {
                 Crystal crystal = crystals.get(i);
-                crystalLore.append(Rarity.getRarity(crystal.getLevel()).getColor()).append("[").append(ChatColor.LIGHT_PURPLE).append(crystal.getCrystal().getStatType().getIcon()).append(Rarity.getRarity(crystal.getLevel()).getColor()).append("] ");
+                crystalLore.append(Rarity.getRarity(crystal.getLevel()).getColor()).append("[").append(crystal.getCrystal().getStatType().getColor()).append(crystal.getCrystal().getStatType().getIcon()).append(Rarity.getRarity(crystal.getLevel()).getColor()).append("] ");
             }
         }
         lores.add(crystalLore.toString());
@@ -462,14 +456,17 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
         return material.getType() != ItemType.ITEM || (material instanceof NormalMaterial && !((NormalMaterial) material).isStackAble());
     }
 
-    public static String getEnchantLoreColor(EnchantType enchantType, int level) {
+    public String getEnchantLoreColor(EnchantType enchantType, int level) {
+        if (player != null && !enchantType.getRequirements().hasRequirements(player))
+            return ChatColor.RED + "" + ChatColor.BOLD;
+
         if (enchantType instanceof UltimateEnchantType)
             return ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD;
         if (level <= enchantType.getMaxLevel())
             return ChatColor.BLUE + "";
         if (level == enchantType.getMaxLevel() + 1)
             return ChatColor.GOLD + "";
-        if (level == enchantType.getMaxLevel() + 2)
+        if (level >= enchantType.getMaxLevel() + 2)
             return ChatColor.GOLD + "" + ChatColor.BOLD;
         return ChatColor.BLUE + "";
     }

@@ -42,7 +42,7 @@ public class ReforgeModifier extends ItemModifier {
             if (item.getModifiers().getReforge() == ReforgeType.NULL) return;
 
             item.getModifiers().getReforge().getStats().get(item.getRarity().getLevel() - 1).stream().filter(s -> !s.isEmpty()).forEach(s ->
-                    e.getStats().getModifiers().add(new StatModifier(StatModifierType.REFORGE, item.getModifiers().getReforge().toString(), s))
+                    e.getStats().addModifier(new StatModifier(StatModifierType.REFORGE, item.getModifiers().getReforge().toString(), s))
             );
         }
     }

@@ -16,7 +16,7 @@ public class SkillXpReward implements Reward {
 
     @Override
     public void give(PlayerSD player) {
-        player.getSkills().get(this.skill).giveXp(this.amount);
+        player.giveSkill(this.skill, this.amount);
     }
 
     @Override

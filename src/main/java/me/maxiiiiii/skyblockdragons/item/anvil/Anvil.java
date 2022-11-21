@@ -91,7 +91,7 @@ public class Anvil {
                             }
                         } else if (enchants2.hasKey(enchantType.name())) {
                             for (EnchantType enchantDistraction : ItemModifiers.getModifiers(item1).getEnchants().keySet()) {
-                                if (enchantType.getDistractions().contains(enchantDistraction.name()) || (enchantDistraction.realname().contains("AAA") && ItemModifiers.getModifiers(item2).getEnchants().keySet().toString().contains("AAA"))) {
+                                if (enchantType.getDistractions().contains(enchantDistraction.name()) || (enchantDistraction.getRealName().contains("AAA") && ItemModifiers.getModifiers(item2).getEnchants().keySet().toString().contains("AAA"))) {
                                     enchants.remove(enchantDistraction);
                                 }
                             }

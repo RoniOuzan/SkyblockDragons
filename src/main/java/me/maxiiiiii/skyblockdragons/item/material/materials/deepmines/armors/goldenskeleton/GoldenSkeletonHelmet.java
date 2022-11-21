@@ -6,7 +6,7 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.SurvivorStats;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -20,7 +20,7 @@ public class GoldenSkeletonHelmet extends ArmorMaterial {
                 "Golden Skeleton Helmet",
                 ItemType.HELMET,
                 Rarity.COMMON,
-                new Stats(0, 0, 0, 0, 0, 0, 25, 25, 0, 5),
+                new SurvivorStats(25, 25, 0, 0, 0, 5),
                 "Deals " + ChatColor.GREEN + "+20% " + ChatColor.GRAY + "damage with " + ChatColor.WHITE + "Golden Skeleton Bow" + ChatColor.GRAY + "."
         );
     }
@@ -32,6 +32,8 @@ public class GoldenSkeletonHelmet extends ArmorMaterial {
 
     @EventHandler
     public void updateDamage(UpdateEntityDamageEntityEvent e) {
+        if (!(e.getDamage().getAttackerEquipment().getHelmetMaterial() instanceof GoldenSkeletonHelmet)) return;
+
         if (e.getDamage().getAttackerEquipment().getToolMaterial() instanceof GoldenSkeletonBow) {
             e.getDamage().getMultiplier().addBase(20);
         }

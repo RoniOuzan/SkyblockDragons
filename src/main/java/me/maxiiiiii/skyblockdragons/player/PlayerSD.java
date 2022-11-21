@@ -18,19 +18,21 @@ import me.maxiiiiii.skyblockdragons.item.material.types.BowMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.MiningMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.player.chat.ChatChannel;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerDeathEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerRegainHealthEvent;
 import me.maxiiiiii.skyblockdragons.player.objects.ActionBarSupplier;
 import me.maxiiiiii.skyblockdragons.player.party.Party;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
-import me.maxiiiiii.skyblockdragons.player.skill.Skill;
+import me.maxiiiiii.skyblockdragons.player.skill.Skills;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
+import me.maxiiiiii.skyblockdragons.player.skill.events.PlayerGetSkillXpEvent;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.player.storage.EnderChest;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.Wardrobe;
@@ -63,7 +65,6 @@ import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
 import static me.maxiiiiii.skyblockdragons.util.Functions.getInt;
@@ -85,7 +86,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     public int playTime;
     public int bits;
 
-    public Skill skills;
+    public Skills skills;
     public Wardrobe wardrobe;
     public BankAccount bank;
     public PlayerPet playerPet;
@@ -113,29 +114,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.update(player);
         SkyblockDragons.players.put(player.getUniqueId(), this);
 
-        this.stats = new PlayerStats(this,
-                0,
-                0,
-                0,
-                10,
-                0,
-                0,
-                0,
-                0,
-                100,
-                0,
-                0,
-                100,
-                100,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0
-        );
+        this.stats = new PlayerStats(this);
 
         this.chatChannel = (ChatChannel) Variables.get(player.getUniqueId(), "ChatChannel", 0, ChatChannel.ALL);
 
@@ -148,7 +127,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.bits = Variables.getInt(player.getUniqueId(), "Bits", 0, 0);
 
         this.wardrobe = new Wardrobe(this);
-        this.skills = new Skill(this);
+        this.skills = new Skills(this);
         this.bank = new BankAccount(this, 50_000_000);
         this.playerPet = new PlayerPet(this);
         this.enderChestSD = new EnderChest(this);
@@ -186,14 +165,13 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public void logLogin() {
-        logger.info("Player Login: " + getName());
-        logger.info("Display Player name: " + getDisplayName());
-        logger.info("Player location: " + getLocation());
+        logger.info("Player Login: " + player.getName());
+        logger.info("Player location: " + player.getLocation());
     }
 
     public void logLogout() {
-        logger.info("Player Logout: " + getName());
-        logger.info("Player location: " + getLocation());
+        logger.info("Player Logout: " + player.getName());
+        logger.info("Player location: " + player.getLocation());
     }
 
     public void update(Player player) {
@@ -227,9 +205,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public void giveSkill(SkillType skillType, double amount) {
-        this.skills.get(skillType.name()).giveXp(amount);
-        String message = ChatColor.DARK_AQUA + "+" + getInt(amount + "") + " " + skillType + " (" + Math.floor(this.getSkills().get(skillType).getCurrentXp() / this.getSkills().get(skillType).getCurrentNeedXp() * 1000d) / 10d + "%)";
-        this.actionBarQueue.add(new ActionBarSupplier(message, 2));
+        Bukkit.getPluginManager().callEvent(new PlayerGetSkillXpEvent(this, skillType, amount));
     }
 
     public void addPlayTime(int amount) {
@@ -333,9 +309,9 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
 
-    public void applyStats(boolean manaRegan) {
+    public void applyStats(boolean ManaRegain) {
         this.equipment.update();
-        PlayerEquipment equipment = getItems();
+        PlayerEquipment equipment = this.getItems();
 
         if (this.getWorldSD().isType(WorldType.MINING)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, -1, false, false), true);
@@ -344,17 +320,19 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         }
 
         this.stats.reset();
-        this.stats.getHealth().set(500); // no other way to have more base health so for now it will be that
 
         for (AbstractSkill skill : this.getSkills()) {
             this.stats.add(skill.getRewards().getStat(), skill.getRewards().getStatAmount() * skill.getLevel());
         }
-        this.stats.add(StatType.MINING_FORTUNE, this.getSkills().getMiningSkill().getLevel() * 4);
-        this.stats.add(StatType.FARMING_FORTUNE, this.getSkills().getFarmingSkill().getLevel() * 4);
-        this.stats.add(StatType.FORAGING_FORTUNE, this.getSkills().getForagingSkill().getLevel() * 4);
+        this.stats.add(StatTypes.MINING_FORTUNE, this.getSkills().getMiningSkill().getLevel() * 4);
+        this.stats.add(StatTypes.FARMING_FORTUNE, this.getSkills().getFarmingSkill().getLevel() * 4);
+        this.stats.add(StatTypes.FORAGING_FORTUNE, this.getSkills().getForagingSkill().getLevel() * 4);
 
         for (Item item : equipment) {
-            if (item.getMaterial() instanceof ItemRequirementAble && !((ItemRequirementAble) item.getMaterial()).getRequirements().hasRequirements(this)) continue;
+            if (item.getMaterial().name().equals("NULL") ||
+                    (item.getMaterial() instanceof ItemRequirementAble &&
+                            !((ItemRequirementAble) item.getMaterial()).getRequirements().hasRequirements(this)))
+                continue;
 
             stats.add(item.getStats());
         }
@@ -367,35 +345,28 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         if (getEnchantLevel(EnchantType.RESPIRATION) > 0)
             player.setMaximumAir((getEnchantLevel(EnchantType.RESPIRATION) * 200) + 200);
 
-        // TODO: convert it to event
-        if (manaRegan && this.stats.getMana().get() < this.stats.getIntelligence().get()) {
+        if (ManaRegain && this.stats.getMana().get() < this.stats.getIntelligence().get()) {
             this.stats.getMana().add(this.stats.getIntelligence().get() / 50);
         }
         if (this.stats.getMana().get() > this.stats.getIntelligence().get()) {
             this.stats.getMana().set(this.stats.getIntelligence().get());
         }
 
-        this.stats.normalize();
+        this.stats.normalize(this);
 
         if (this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() != this.getMaxHealth()) {
             this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers().clear();
             this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(this.getMaxHealth());
         }
 
-        double amountToRegain = this.getMaxHealth() * HEALTH_REGEN;
-        if (this.getActivePowerOrb() != null) amountToRegain += this.getMaxHealth() * this.getActivePowerOrb().getHealthRegenPercent();
+        PlayerRegainHealthEvent regainHealthEvent = new PlayerRegainHealthEvent(this);
+        Bukkit.getPluginManager().callEvent(regainHealthEvent);
 
-        if (this.getHealth() + amountToRegain <= this.getMaxHealth()) {
-            this.setHealth(this.getHealth() + amountToRegain);
-        } else if (this.getHealth() != this.getMaxHealth()) {
-            this.setHealth(this.getMaxHealth());
-        }
-
-        this.setWalkSpeed((float) (this.stats.getSpeed().get() / 500));
+        this.setWalkSpeed((float) Math.min((this.stats.getSpeed().get() / 500), 500));
     }
 
     public void sendActionBar() {
-        ActionBarSupplier defense = new ActionBarSupplier(ChatColor.GREEN.toString() + this.getStats().getDefense().get() + StatType.DEFENSE.getIcon(), 0);
+        ActionBarSupplier defense = new ActionBarSupplier(ChatColor.GREEN.toString() + this.getStats().getDefense().get() + StatTypes.DEFENSE.getIcon(), 0);
 
         ActionBarSupplier actionBar = this.actionBarQueue.getOrDefault(defense);
         if (actionBar != null && SkyblockDragons.getCurrentTimeInSeconds() - actionBar.getStartedAt() > actionBar.getDuration()) {
@@ -413,32 +384,19 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.actionBarQueue.add(new ActionBarSupplier(text, duration));
     }
 
-    public boolean manaCost(int manaCost, ItemStack item, String abilityName) {
-        if (this.player.getGameMode() == GameMode.CREATIVE) return false;
-
-        int cost = Functions.manaCostCalculator(manaCost, this);
-        if (this.stats.mana.amount >= cost) {
-            this.stats.mana.amount -= cost;
-//            Functions.sendActionBar(this, abilityName + ChatColor.AQUA + "! (" + cost + " Mana)");
-            return false;
-        }
-        this.player.sendMessage(ChatColor.RED + "You don't have enough mana to use this item!");
-        return true;
-    }
-
     @Override
     public void kill() {
         Bukkit.getPluginManager().callEvent(new PlayerDeathEvent(this));
     }
 
     public short getEnchantLevel(EnchantType enchant) {
-        if (skills.getEnchantingSkill().getLevel() < enchant.getRequirement().getLevel() && this.getGameMode() != GameMode.CREATIVE)
+        if (skills.getEnchantingSkill().getLevel() < enchant.getRequirements().getRequirement(0).getLevel() && this.getGameMode() != GameMode.CREATIVE)
             return 0;
         return Functions.getEnchantLevel(player.getEquipment().getItemInMainHand(), enchant);
     }
 
     public short getEnchantLevel(EnchantType enchant, Condition condition) {
-        if (skills.getEnchantingSkill().getLevel() < enchant.getRequirement().getLevel() && this.getGameMode() != GameMode.CREATIVE)
+        if (skills.getEnchantingSkill().getLevel() < enchant.getRequirements().getRequirement(0).getLevel() && this.getGameMode() != GameMode.CREATIVE)
             return 0;
         if (!condition.check())
             return 0;
@@ -570,16 +528,12 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
     public boolean chanceOf(double percent, Object... other) {
         double multiplier = 1;
-        multiplier += this.getStats().getMagicFind().amount / 100;
+        multiplier += this.getStats().getMagicFind().get() / 100;
         return Functions.chanceOf(percent * multiplier);
     }
 
     public boolean ignoreItemRequirements() {
         return this.getGameMode() == GameMode.CREATIVE;
-    }
-
-    public void sendNoRequirementsMessage() {
-        this.sendNoRequirementsMessage("Item");
     }
 
     public void sendNoRequirementsMessage(String whatToUse) {
@@ -610,28 +564,22 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public List<EntitySD> getEntities(double radius) {
-        return Functions.loopEntities(this.getLocation(), radius).stream().map(EntitySD::get).collect(Collectors.toList());
+        return Functions.loopEntities(this.getLocation(), radius);
     }
 
     /**
      * @return the hit tik with the attack speed calculations in milliseconds
      */
-    public int getHitTik() {
+    public int getHitTick() {
         return (int) (500 - (500 * (this.stats.getAttackSpeed().get() / (this.stats.getAttackSpeed().get() + 100))));
     }
 
     public boolean isOnHitTick(EntitySD victim) {
-        return Functions.cooldown(victim, this.hitTick, this.getHitTik(), false);
-    }
-
-    @Override
-    public void giveExp(int amount) {
-        amount *= 1 + (this.getSkills().getEnchantingSkill().getLevel() * 4 / 100);
-        super.giveExp(amount);
+        return Functions.cooldown(victim, this.hitTick, this.getHitTick(), false);
     }
 
     public void heal(double amount) {
-        this.setHealth(this.getHealth() + amount);
+        this.setHealth(Math.min(this.getHealth() + amount, this.getMaxHealth()));
     }
 
     @Override

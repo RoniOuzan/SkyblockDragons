@@ -21,7 +21,6 @@ import me.maxiiiiii.skyblockdragons.world.worlds.end.events.PlayerPlaceEyeEvent;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.listeners.DragonKillListener;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.listeners.PlayerPlaceEyeListener;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -34,11 +33,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class TheEnd extends WorldSD implements Listener {
     public static final World world = Bukkit.getWorld("TheEnd");
@@ -68,7 +65,7 @@ public class TheEnd extends WorldSD implements Listener {
                     amount += itemStack.getAmount();
                 }
             }
-            return new Item(fragmentMaterial, amount/2);
+            return new Item(fragmentMaterial, amount / 2);
         }
         return item;
     }
@@ -104,19 +101,8 @@ public class TheEnd extends WorldSD implements Listener {
         dragon = new EntitySD(DRAGON_SPAWN, getRandomDragon());
         NBTEntity nbtEntity = new NBTEntity(dragon.entity);
         nbtEntity.setInteger("DragonPhase", 1);
-        dragon.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
-        for (Player player : Bukkit.getOnlinePlayers().stream().filter(p -> p.getWorld().getName().equals("TheEnd")).collect(Collectors.toList())) {
-            if (player.getLocation().distance(MIDDLE) <= 50) {
-                player.setVelocity(new Vector(
-                        DRAGON_SPAWN.getX() - player.getLocation().getX(),
-                        0,
-                        DRAGON_SPAWN.getZ() - player.getLocation().getZ()
-                ).normalize().multiply(2).setY(3));
-            }
-            dragonDamage.put(SkyblockDragons.getPlayer(player), 10D);
-        }
 
-        Functions.While(() -> !dragon.isDead(), 2L, i -> {
+        Functions.While(() -> !dragon.isDead(), 5L, i -> {
             for (Entity entity : dragon.getNearbyEntities(1)) {
                 if (entity instanceof Arrow && ((Arrow) entity).getShooter() != null) {
                     entity.remove();

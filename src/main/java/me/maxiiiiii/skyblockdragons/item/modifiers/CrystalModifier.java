@@ -79,7 +79,7 @@ public class CrystalModifier extends ItemModifier {
         public void updateItemStats(UpdateItemStatsEvent e) {
             Item item = e.getStats().getItem();
             for (Crystal crystal : item.getModifiers().getCrystals()) {
-                e.getStats().getModifiers().add(new StatModifier(StatModifierType.CRYSTAL, "", crystal.getStat()));
+                e.getStats().addModifier(new StatModifier(StatModifierType.CRYSTAL, "", crystal.getStat()));
             }
         }
     }

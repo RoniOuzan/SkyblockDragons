@@ -4,8 +4,8 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.SurvivorStats;
 import org.bukkit.Color;
 import org.bukkit.Material;
 
@@ -17,7 +17,7 @@ public class VoidCrystalChestplate extends ArmorMaterial {
                 "Void Crystal Chestplate",
                 ItemType.CHESTPLATE,
                 Rarity.MYTHIC,
-                new Stats(145, 140, 120, 30, 310, 110, 20),
+                new SurvivorStats(145, 140, 120, 30, 310, 110, 20),
                 "",
                 ItemFullSetBonus.VOID_CRYSTAL_FULL_SET
         );

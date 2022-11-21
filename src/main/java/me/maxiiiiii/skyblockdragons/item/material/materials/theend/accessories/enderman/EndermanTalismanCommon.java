@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import org.bukkit.Material;
 
 public class EndermanTalismanCommon extends AccessoryMaterial {
@@ -14,7 +15,7 @@ public class EndermanTalismanCommon extends AccessoryMaterial {
                 ItemFamily.ENDERMAN,
                 "Enderman Talisman",
                 Rarity.COMMON,
-                new Stats(0, 2, 2, 0, 0, 0),
+                new DamageStats(0, 2, 2, 0, 0, 0),
                 ""
         );
     }

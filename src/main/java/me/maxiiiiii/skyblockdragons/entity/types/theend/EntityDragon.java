@@ -30,15 +30,14 @@ public abstract class EntityDragon extends EntityMaterial {
         for (PlayerSD player : entity.getWorld().getPlayers().stream().map(SkyblockDragons::getPlayer).collect(Collectors.toList())) {
             if (player.getGameMode() == GameMode.SURVIVAL) {
                 entity.getWorld().strikeLightningEffect(player.getLocation());
-                player.damage(new PercentEntityDamageEntity(entity, player, percent) {
-                });
+                player.damage(new PercentEntityDamageEntity(entity, player, percent));
             }
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onDamage(EntityDamageEvent e) {
-        if (e.getVictim().material instanceof EntityDragon && e.getAttacker() instanceof PlayerSD) {
+        if (e.getVictim().getMaterial() == this && e.getAttacker() instanceof PlayerSD) {
             PlayerSD attacker = (PlayerSD) e.getAttacker();
             TheEnd.dragonDamage.put(attacker, TheEnd.dragonDamage.getOrDefault(attacker, 0d) + e.getFinalDamage());
         }
@@ -61,13 +60,13 @@ public abstract class EntityDragon extends EntityMaterial {
         entity.setNoDamageTicks(Integer.MAX_VALUE);
     }
 
-    @Override
-    public void onTick(EntitySD entity) {
-        if (entity.getHealth() >= 10) {
-            EnderDragon dragon = (EnderDragon) entity.entity;
-            dragon.setPhase(EnderDragon.Phase.CIRCLING);
-        } else {
-            deadDragon(entity);
-        }
-    }
+//    @Override
+//    public void onTick(EntitySD entity) {
+//        if (entity.getHealth() >= 10) {
+//            EnderDragon dragon = (EnderDragon) entity.entity;
+//            dragon.setPhase(EnderDragon.Phase.CIRCLING);
+//        } else {
+//            deadDragon(entity);
+//        }
+//    }
 }

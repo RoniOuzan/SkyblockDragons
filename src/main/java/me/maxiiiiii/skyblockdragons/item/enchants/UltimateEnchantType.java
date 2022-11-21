@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.enchants;
 
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 

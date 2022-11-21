@@ -4,7 +4,7 @@ import me.maxiiiiii.skyblockdragons.item.material.types.AccessoryMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import org.bukkit.Material;
 
 public class KingTalismanGod extends AccessoryMaterial {
@@ -14,7 +14,7 @@ public class KingTalismanGod extends AccessoryMaterial {
                 ItemFamily.KING,
                 "King of the Kingdom",
                 Rarity.RARE,
-                new Stats(0, 10, 3, 2, 0, 0),
+                new DamageStats(0, 10, 3, 2, 0, 0),
                 "You pissed off GOD!"
         );
     }

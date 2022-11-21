@@ -3,7 +3,8 @@ package me.maxiiiiii.skyblockdragons.item.crystals;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 
 import java.util.Arrays;
@@ -12,11 +13,11 @@ import java.util.stream.Collectors;
 
 @Getter
 public enum CrystalType {
-    ATHENA("Athena", 3, StatType.INTELLIGENCE, 5.0, 10.0, 20.0),
-    PHANES("Phanes", 3, StatType.DEFENSE, 5.0, 10.0, 20.0),
-    HERMES("Hermes", 3, StatType.SPEED, 5.0, 10.0, 20.0),
-    DEMETER("Demeter", 3, StatType.CRIT_DAMAGE, 5.0, 10.0, 20.0),
-    ARES("Ares", 3, StatType.STRENGTH, 5.0, 10.0, 20.0);
+    ATHENA("Athena", 3, StatTypes.INTELLIGENCE, 5.0, 10.0, 20.0),
+    PHANES("Phanes", 3, StatTypes.DEFENSE, 5.0, 10.0, 20.0),
+    HERMES("Hermes", 3, StatTypes.SPEED, 5.0, 10.0, 20.0),
+    DEMETER("Demeter", 3, StatTypes.CRIT_DAMAGE, 5.0, 10.0, 20.0),
+    ARES("Ares", 3, StatTypes.STRENGTH, 5.0, 10.0, 20.0);
 
     private final String name;
     private final int maxLevel;
@@ -47,7 +48,7 @@ public enum CrystalType {
     }
 
     public Stat getStatType(int level) {
-        if (level > this.maxLevel) return new Stat(0, StatType.DAMAGE);
+        if (level > this.maxLevel) return new Stat(0, StatTypes.DAMAGE);
 
         return new Stat(amount.get(level - 1), statType);
     }

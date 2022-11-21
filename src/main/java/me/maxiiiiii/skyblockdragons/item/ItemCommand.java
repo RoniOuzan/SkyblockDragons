@@ -1,7 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.inventory.menus.ItemListMenu;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.ChatColor;
@@ -23,59 +22,52 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        PlayerSD player = null;
-        ItemStack item;
-        byte amount = 1;
-        if (args.length > 0 && !args[0].equalsIgnoreCase("list")) {
-            if (isItemMaterial(args[0])) {
-                if (sender instanceof Player) {
-                    player = SkyblockDragons.getPlayer((Player) sender);
-                }
-                if (args.length > 1) {
-                    if (isByte(args[1])) {
-                        amount = Byte.parseByte(args[1]);
-                        if (args.length > 2 && isPlayerName(args[2])) player = SkyblockDragons.getPlayer(args[2]);
-                    } else if (args.length > 2 && isByte(args[2])) {
-                        amount = Byte.parseByte(args[2]);
-                        if (isPlayerName(args[1])) player = SkyblockDragons.getPlayer(args[1]);
-                    } else if (isPlayerName(args[1])) {
-                        player = SkyblockDragons.getPlayer(args[1]);
-                        if (args.length > 2 && isByte(args[2])) amount = Byte.parseByte(args[2]);
-                    } else if (args.length > 2 && isPlayerName(args[2])) {
-                        player = SkyblockDragons.getPlayer(args[2]);
-                        if (isByte(args[1])) amount = Byte.parseByte(args[1]);
+        if (sender instanceof Player) {
+            PlayerSD player = SkyblockDragons.getPlayer((Player) sender);
+            ItemStack item;
+            byte amount = 1;
+            if (args.length > 0 && !args[0].equalsIgnoreCase("list")) {
+                if (isItemMaterial(args[0])) {
+                    if (args.length > 1) {
+                        if (isByte(args[1])) {
+                            amount = Byte.parseByte(args[1]);
+                            if (args.length > 2 && isPlayerName(args[2])) player = SkyblockDragons.getPlayer(args[2]);
+                        } else if (args.length > 2 && isByte(args[2])) {
+                            amount = Byte.parseByte(args[2]);
+                            if (isPlayerName(args[1])) player = SkyblockDragons.getPlayer(args[1]);
+                        } else if (isPlayerName(args[1])) {
+                            player = SkyblockDragons.getPlayer(args[1]);
+                            if (args.length > 2 && isByte(args[2])) amount = Byte.parseByte(args[2]);
+                        } else if (args.length > 2 && isPlayerName(args[2])) {
+                            player = SkyblockDragons.getPlayer(args[2]);
+                            if (isByte(args[1])) amount = Byte.parseByte(args[1]);
+                        }
                     }
-                }
-                if (player != null) {
+
                     for (int i = 0; i < amount; i++) {
                         item = new Item(player, items.get(args[0].toUpperCase()));
                         player.getInventory().addItem(item);
                     }
                     sender.sendMessage(ChatColor.GREEN + "Gave " + args[0].toUpperCase() + " to " + player.getName());
-                }
-            } else {
-                for (ItemMaterial itemMaterial : items.values()) {
-                    if (itemMaterial.name().contains(args[0].toUpperCase())) {
-                        if (sender instanceof Player) {
-                            player = SkyblockDragons.getPlayer((Player) sender);
-                        }
-                        if (args.length > 1) {
-                            if (isByte(args[1])) {
-                                amount = Byte.parseByte(args[1]);
-                                if (args.length > 2 && isPlayerName(args[2]))
+                } else {
+                    for (ItemMaterial itemMaterial : items.values()) {
+                        if (itemMaterial.name().contains(args[0].toUpperCase())) {
+                            if (args.length > 1) {
+                                if (isByte(args[1])) {
+                                    amount = Byte.parseByte(args[1]);
+                                    if (args.length > 2 && isPlayerName(args[2])) player = SkyblockDragons.getPlayer(args[2]);
+                                } else if (args.length > 2 && isByte(args[2])) {
+                                    amount = Byte.parseByte(args[2]);
+                                    if (isPlayerName(args[1])) player = SkyblockDragons.getPlayer(args[1]);
+                                } else if (isPlayerName(args[1])) {
+                                    player = SkyblockDragons.getPlayer(args[1]);
+                                    if (args.length > 2 && isByte(args[2])) amount = Byte.parseByte(args[2]);
+                                } else if (args.length > 2 && isPlayerName(args[2])) {
                                     player = SkyblockDragons.getPlayer(args[2]);
-                            } else if (args.length > 2 && isByte(args[2])) {
-                                amount = Byte.parseByte(args[2]);
-                                if (isPlayerName(args[1])) player = SkyblockDragons.getPlayer(args[1]);
-                            } else if (isPlayerName(args[1])) {
-                                player = SkyblockDragons.getPlayer(args[1]);
-                                if (args.length > 2 && isByte(args[2])) amount = Byte.parseByte(args[2]);
-                            } else if (args.length > 2 && isPlayerName(args[2])) {
-                                player = SkyblockDragons.getPlayer(args[2]);
-                                if (isByte(args[1])) amount = Byte.parseByte(args[1]);
+                                    if (isByte(args[1])) amount = Byte.parseByte(args[1]);
+                                }
                             }
-                        }
-                        if (player != null) {
+
                             for (int i = 0; i < amount; i++) {
                                 player.getInventory().addItem(new Item(player, itemMaterial));
                             }
@@ -83,13 +75,9 @@ public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
                         }
                     }
                 }
-            }
-        } else {
-            if (sender instanceof Player) {
-                player = SkyblockDragons.getPlayer((Player) sender);
-            }
-            if (player != null) {
-                new ItemListMenu(player, "");
+            } else {
+                player.sendMessage("bugged");
+//                new ItemListMenu(player, "");
             }
         }
         return true;

@@ -3,7 +3,6 @@ package me.maxiiiiii.skyblockdragons.item.stats;
 import lombok.AccessLevel;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.util.objects.Multiplier;
 
 import java.util.*;
@@ -16,7 +15,7 @@ public class ItemStats extends Stats {
     private final List<StatModifier> modifiers;
 
     public ItemStats(Stats stats, Item item) {
-        super(stats);
+        super(stats.toList());
         this.item = item;
         this.multiplayer = new HashMap<>();
         this.modifiers = new ArrayList<>();
@@ -24,9 +23,28 @@ public class ItemStats extends Stats {
 
     @Override
     public void reset() {
-        super.reset();
-
         multiplayer.clear();
+    }
+
+    public void addModifier(StatModifier modifier) {
+        if (modifiers.contains(modifier)) {
+            double amount = 0;
+            int i = 0;
+            for (; i < modifiers.size(); i++) {
+                StatModifier statModifier = modifiers.get(i);
+
+                if (statModifier.equals(modifier)) {
+                    amount = statModifier.getStat().get();
+                    break;
+                }
+            }
+
+            modifiers.remove(i);
+            StatModifier newModifier = new StatModifier(modifier.getType(), modifier.getText(), new Stat(modifier.getStat().getType(), modifier.getStat().get() + amount));
+            modifiers.add(newModifier);
+        } else {
+            modifiers.add(modifier);
+        }
     }
 
     public void addMultiplier(StatType statType, double base, double post) {
@@ -41,39 +59,20 @@ public class ItemStats extends Stats {
     }
 
     public void addAllStatsMultipliers(double base, double post) {
-        this.addMultiplier(StatType.DAMAGE, base, post);
-        this.addMultiplier(StatType.STRENGTH, base, post);
-        this.addMultiplier(StatType.CRIT_DAMAGE, base, post);
-        this.addMultiplier(StatType.CRIT_CHANCE, base, post);
-        this.addMultiplier(StatType.ABILITY_DAMAGE, base, post);
-        this.addMultiplier(StatType.ABILITY_SCALING, base, post);
-        this.addMultiplier(StatType.ATTACK_SPEED, base, post);
-        this.addMultiplier(StatType.FEROCITY, base, post);
-        this.addMultiplier(StatType.HEALTH, base, post);
-        this.addMultiplier(StatType.DEFENSE, base, post);
-        this.addMultiplier(StatType.TRUE_DEFENSE, base, post);
-        this.addMultiplier(StatType.SPEED, base, post);
-        this.addMultiplier(StatType.INTELLIGENCE, base, post);
-        this.addMultiplier(StatType.MAGIC_FIND, base, post);
-        this.addMultiplier(StatType.PET_LUCK, base, post);
-        this.addMultiplier(StatType.MINING_SPEED, base, post);
-        this.addMultiplier(StatType.MINING_FORTUNE, base, post);
-        this.addMultiplier(StatType.FARMING_FORTUNE, base, post);
-        this.addMultiplier(StatType.FORAGING_FORTUNE, base, post);
-        this.addMultiplier(StatType.SEA_CREATURE_CHANCE, base, post);
-        this.addMultiplier(StatType.ABSORPTION, base, post);
+        for (Stat stat : this) {
+            this.addMultiplier(stat.getType(), base, post);
+        }
     }
 
     public void addDamageMultipliers(double base, double post) {
-        this.addMultiplier(StatType.DAMAGE, base, post);
-        this.addMultiplier(StatType.STRENGTH, base, post);
-        this.addMultiplier(StatType.CRIT_DAMAGE, base, post);
-        this.addMultiplier(StatType.CRIT_CHANCE, base, post);
-        this.addMultiplier(StatType.ABILITY_DAMAGE, base, post);
-        this.addMultiplier(StatType.ABILITY_SCALING, base, post);
-        this.addMultiplier(StatType.ATTACK_SPEED, base, post);
-        this.addMultiplier(StatType.FEROCITY, base, post);
-        this.addMultiplier(StatType.MANA, base, post);
+        this.addMultiplier(StatTypes.DAMAGE, base, post);
+        this.addMultiplier(StatTypes.STRENGTH, base, post);
+        this.addMultiplier(StatTypes.CRIT_DAMAGE, base, post);
+        this.addMultiplier(StatTypes.CRIT_CHANCE, base, post);
+        this.addMultiplier(StatTypes.ABILITY_DAMAGE, base, post);
+        this.addMultiplier(StatTypes.ATTACK_SPEED, base, post);
+        this.addMultiplier(StatTypes.FEROCITY, base, post);
+        this.addMultiplier(StatTypes.MANA, base, post);
     }
 
     public void applyMultipliers() {
