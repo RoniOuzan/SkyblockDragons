@@ -26,8 +26,11 @@ public class PlayerPlaceEyeListener implements Listener {
             player.sendMessage( ChatColor.DARK_PURPLE + "☬ " + e.getPlayer().getDisplayName() + ChatColor.LIGHT_PURPLE + " placed an eye! (" + e.getAmountOfEyes() + "/8)");
         }
 
+
         if (e.getAmountOfEyes() >= 8) {
             Functions.Wait(20L, TheEnd::spawnDragon);
         }
     }
+
 }
+// -4

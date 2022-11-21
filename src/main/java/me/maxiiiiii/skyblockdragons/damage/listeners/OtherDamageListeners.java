@@ -14,8 +14,6 @@ public class OtherDamageListeners implements Listener {
 
     @EventHandler
     public void onCreeperExplode(EntityExplodeEvent e) {
-        EntitySD entity = EntitySD.get(e.getEntity());
-        if (entity != null)
-            entity.kill();
+        EntitySD.get(e.getEntity()).kill();
     }
 }
