@@ -5,7 +5,6 @@ import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.CustomConfig;
 import me.maxiiiiii.skyblockdragons.util.objects.Entry;
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -113,7 +112,6 @@ public class Variables {
 
         List<Entry<Integer, ?>> list = new ArrayList<>();
         for (Map.Entry<String, Object> variable : playerVariables.get(uuid).getValues(true).entrySet()) {
-            Bukkit.getPlayer("LidanTheGamer").sendMessage(variable.getKey());
             if (variable.getKey().contains(".") && variable.getKey().split("\\.")[0].equals(name)) {
                 list.add(new Entry<>(Integer.parseInt(variable.getKey().split("\\.")[1]), variable.getValue()));
             }

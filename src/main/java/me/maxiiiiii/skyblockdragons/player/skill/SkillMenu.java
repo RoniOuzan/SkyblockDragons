@@ -21,10 +21,10 @@ public class SkillMenu extends Menu {
 
     @Override
     public void update() {
-        this.setItem(4, createItem(Material.DIAMOND_SWORD, ChatColor.GREEN + "Your Skills", "YOUR_SKILLS", ChatColor.GRAY + "View your skill progression and", ChatColor.GRAY + "rewards", "", ChatColor.GOLD + "" + player.getSkill().getAverage() + " Skill Average"));
+        this.setItem(4, createItem(Material.DIAMOND_SWORD, ChatColor.GREEN + "Your Skills", "YOUR_SKILLS", ChatColor.GRAY + "View your skill progression and", ChatColor.GRAY + "rewards", "", ChatColor.GOLD + "" + player.getSkills().getAverage() + " Skill Average"));
 
-        for (int i = 0; i < player.getSkill().size(); i++) {
-            AbstractSkill skill = player.getSkill().get(i);
+        for (int i = 0; i < player.getSkills().size(); i++) {
+            AbstractSkill skill = player.getSkills().get(i);
             int slot = i < 7 ? 19 + i : i == 7 ? 30 : 32;
             this.setItem(slot, createItem(skill.getItem(), ChatColor.GREEN + skill.getName() + " " + skill.getLevel(), skill.getName().toUpperCase(), getItemLores(skill)));
         }

@@ -180,7 +180,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
                     if (enchantType.getRequirement().getLevel() >= levelRequirement)
                         levelRequirement = enchantType.getRequirement().getLevel();
                 }
-                if (player == null || player.getSkill().getEnchantingSkill().getLevel() < levelRequirement) {
+                if (player == null || player.getSkills().getEnchantingSkill().getLevel() < levelRequirement) {
                     lores.add("");
                     lores.add(SkillRequirement.toString(SkillType.ENCHANTING, levelRequirement));
                 }

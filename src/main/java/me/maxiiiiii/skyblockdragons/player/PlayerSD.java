@@ -85,7 +85,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     public int playTime;
     public int bits;
 
-    public Skill skill;
+    public Skill skills;
     public Wardrobe wardrobe;
     public BankAccount bank;
     public PlayerPet playerPet;
@@ -148,7 +148,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.bits = Variables.getInt(player.getUniqueId(), "Bits", 0, 0);
 
         this.wardrobe = new Wardrobe(this);
-        this.skill = new Skill(this);
+        this.skills = new Skill(this);
         this.bank = new BankAccount(this, 50_000_000);
         this.playerPet = new PlayerPet(this);
         this.enderChestSD = new EnderChest(this);
@@ -209,7 +209,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         Variables.set(player.getUniqueId(), "Tracked", 0, this.tracked);
 
         this.wardrobe.save();
-        this.skill.save();
+        this.skills.save();
         this.bank.save();
         this.playerPet.save();
         this.getItems().save();
@@ -227,8 +227,8 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public void giveSkill(SkillType skillType, double amount) {
-        this.skill.get(skillType.name()).giveXp(amount);
-        String message = ChatColor.DARK_AQUA + "+" + getInt(amount + "") + " " + skillType + " (" + Math.floor(this.getSkill().get(skillType).getCurrentXp() / this.getSkill().get(skillType).getCurrentNeedXp() * 1000d) / 10d + "%)";
+        this.skills.get(skillType.name()).giveXp(amount);
+        String message = ChatColor.DARK_AQUA + "+" + getInt(amount + "") + " " + skillType + " (" + Math.floor(this.getSkills().get(skillType).getCurrentXp() / this.getSkills().get(skillType).getCurrentNeedXp() * 1000d) / 10d + "%)";
         this.actionBarQueue.add(new ActionBarSupplier(message, 2));
     }
 
@@ -346,12 +346,12 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.stats.reset();
         this.stats.getHealth().set(500); // no other way to have more base health so for now it will be that
 
-        for (AbstractSkill skill : this.getSkill()) {
+        for (AbstractSkill skill : this.getSkills()) {
             this.stats.add(skill.getRewards().getStat(), skill.getRewards().getStatAmount() * skill.getLevel());
         }
-        this.stats.add(StatType.MINING_FORTUNE, this.getSkill().getMiningSkill().getLevel() * 4);
-        this.stats.add(StatType.FARMING_FORTUNE, this.getSkill().getFarmingSkill().getLevel() * 4);
-        this.stats.add(StatType.FORAGING_FORTUNE, this.getSkill().getForagingSkill().getLevel() * 4);
+        this.stats.add(StatType.MINING_FORTUNE, this.getSkills().getMiningSkill().getLevel() * 4);
+        this.stats.add(StatType.FARMING_FORTUNE, this.getSkills().getFarmingSkill().getLevel() * 4);
+        this.stats.add(StatType.FORAGING_FORTUNE, this.getSkills().getForagingSkill().getLevel() * 4);
 
         for (Item item : equipment) {
             if (item.getMaterial() instanceof ItemRequirementAble && !((ItemRequirementAble) item.getMaterial()).getRequirements().hasRequirements(this)) continue;
@@ -432,13 +432,13 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public short getEnchantLevel(EnchantType enchant) {
-        if (skill.getEnchantingSkill().getLevel() < enchant.getRequirement().getLevel() && this.getGameMode() != GameMode.CREATIVE)
+        if (skills.getEnchantingSkill().getLevel() < enchant.getRequirement().getLevel() && this.getGameMode() != GameMode.CREATIVE)
             return 0;
         return Functions.getEnchantLevel(player.getEquipment().getItemInMainHand(), enchant);
     }
 
     public short getEnchantLevel(EnchantType enchant, Condition condition) {
-        if (skill.getEnchantingSkill().getLevel() < enchant.getRequirement().getLevel() && this.getGameMode() != GameMode.CREATIVE)
+        if (skills.getEnchantingSkill().getLevel() < enchant.getRequirement().getLevel() && this.getGameMode() != GameMode.CREATIVE)
             return 0;
         if (!condition.check())
             return 0;
@@ -626,7 +626,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
     @Override
     public void giveExp(int amount) {
-        amount *= 1 + (this.getSkill().getEnchantingSkill().getLevel() * 4 / 100);
+        amount *= 1 + (this.getSkills().getEnchantingSkill().getLevel() * 4 / 100);
         super.giveExp(amount);
     }
 

@@ -23,22 +23,22 @@ public class SkillAdminCommand extends CommandSD {
                 if (args[1].equalsIgnoreCase("give")) {
                     try {
                         double amount = Double.parseDouble(args[2]);
-                        player.getSkill().get(args[0]).giveXp(amount);
+                        player.getSkills().get(args[0]).giveXp(amount);
                         player.sendMessage(ChatColor.GREEN + "Gave " + args[2] + " " + Functions.setTitleCase(args[0]) + " xp to " + player.getName() + ".");
                     } catch (NumberFormatException ex) {
                         player.sendMessage(ChatColor.RED + "Can't understand this number!");
                     }
                 } else if (args[1].equalsIgnoreCase("set") || args[1].equalsIgnoreCase("setXp")) {
                     try {
-                        player.getSkill().get(args[0]).setXp(Math.max(Double.parseDouble(args[2]), 0));
+                        player.getSkills().get(args[0]).setXp(Math.max(Double.parseDouble(args[2]), 0));
                         player.sendMessage(ChatColor.GREEN + "Set " + args[2] + " " + Functions.setTitleCase(args[0]) + " xp to " + player.getName() + ".");
                     } catch (NumberFormatException ex) {
                         player.sendMessage(ChatColor.RED + "Can't understand this number!");
                     }
                 } else if (args[1].equalsIgnoreCase("setLevel") || args[1].equalsIgnoreCase("setLVL")) {
                     try {
-                        int level = Functions.range(Integer.parseInt(args[2]), 0, player.getSkill().get(args[0]).getMaxLevel());
-                        player.getSkill().get(args[0]).setLevel(level);
+                        int level = Functions.range(Integer.parseInt(args[2]), 0, player.getSkills().get(args[0]).getMaxLevel());
+                        player.getSkills().get(args[0]).setLevel(level);
                         player.sendMessage(ChatColor.GREEN + "Set " + args[2] + " " + Functions.setTitleCase(args[0]) + " level to " + player.getName() + ".");
                     } catch (NumberFormatException ex) {
                         player.sendMessage(ChatColor.RED + "Can't understand this number!");
