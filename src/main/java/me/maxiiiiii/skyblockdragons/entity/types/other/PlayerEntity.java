@@ -9,9 +9,4 @@ public class PlayerEntity extends EntityMaterial {
     public PlayerEntity() {
         super(EntityType.PLAYER, "", -1, -1, -1, -1, -1, new Equipment(), -1, 0, -1, -1);
     }
-
-    @Override
-    public void onSpawn(EntitySD entity) {
-
-    }
 }

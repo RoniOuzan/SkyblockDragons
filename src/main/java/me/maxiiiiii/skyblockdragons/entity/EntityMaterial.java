@@ -11,6 +11,7 @@ import me.maxiiiiii.skyblockdragons.entity.types.eternity.ERROR_Infinity;
 import me.maxiiiiii.skyblockdragons.entity.types.eternity.EternityBoss;
 import me.maxiiiiii.skyblockdragons.entity.types.eternity.Infinity;
 import me.maxiiiiii.skyblockdragons.entity.types.eternity.Super_Infinity;
+import me.maxiiiiii.skyblockdragons.entity.types.other.DragonTest;
 import me.maxiiiiii.skyblockdragons.entity.types.other.Dummy;
 import me.maxiiiiii.skyblockdragons.entity.types.other.NullEntity;
 import me.maxiiiiii.skyblockdragons.entity.types.other.PlayerEntity;
@@ -76,7 +77,8 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         this(entityType, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, true, combatXp, coins, drops);
     }
 
-    public abstract void onSpawn(EntitySD entity);
+    public void onSpawn(EntitySD entity) {
+    }
 
     public void onTick(EntitySD entity){
     }
@@ -102,7 +104,8 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         entities.put("YOUNG_DRAGON", new YoungDragon());
         entities.put("STRONG_DRAGON", new StrongDragon());
         entities.put("SUPERIOR_DRAGON", new SuperiorDragon());
-        entities.put("ERROR_DRAGON", new ERRORDragon());
+        entities.put("ERROR_DRAGON", new ErrorDragon());
+        entities.put("DRAGON_TEST", new DragonTest());
 
         entities.put("ICE_MINER", new IceMiner());
         entities.put("GHOST", new Ghost());

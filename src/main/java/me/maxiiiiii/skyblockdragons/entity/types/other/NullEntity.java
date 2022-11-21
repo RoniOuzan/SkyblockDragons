@@ -9,9 +9,4 @@ public class NullEntity extends EntityMaterial {
     public NullEntity() {
         super(EntityType.SKELETON, "Null", 0, 1, 0, 0, 0, new Equipment(), 0, 1, 0, 0);
     }
-
-    @Override
-    public void onSpawn(EntitySD entity) {
-
-    }
 }

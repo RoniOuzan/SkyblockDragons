@@ -30,9 +30,4 @@ public class EndermanTier1 extends EntityMaterial {
                 new EntityItemRareDrop(Items.get("ENDERMAN_TALISMAN_RARE"), 1, 0.04)
         );
     }
-
-    @Override
-    public void onSpawn(EntitySD entity) {
-
-    }
 }
