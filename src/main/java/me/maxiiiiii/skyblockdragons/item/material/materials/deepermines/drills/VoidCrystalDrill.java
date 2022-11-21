@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.deepermines.drills;
 import me.maxiiiiii.skyblockdragons.item.material.types.DrillMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import org.bukkit.Material;
 
 public class VoidCrystalDrill extends DrillMaterial {
@@ -13,7 +13,7 @@ public class VoidCrystalDrill extends DrillMaterial {
                 ItemFamily.VOID_CRYSTAL,
                 "Void Crystal Drill",
                 Rarity.MYTHIC,
-                new Stats(265, 60, 0, 0, 0, 0, 1610, 410),
+                new DamageStats(265, 60, 0, 0, 0, 0, 1610, 410),
                 10,
                 ""
         );

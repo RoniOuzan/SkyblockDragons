@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.objects.abilities.general;
 
+import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
@@ -19,6 +20,7 @@ import org.bukkit.util.Vector;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.getVector;
 
+@Getter
 public class MultiShot extends ItemAbility implements Listener {
     private static final double DEFAULT_MAX_POWER_TIME = 1;
     private static final double POW = 3;

@@ -21,10 +21,10 @@ public class SkillMenu extends Menu {
 
     @Override
     public void update() {
-        this.setItem(4, createItem(Material.DIAMOND_SWORD, ChatColor.GREEN + "Your Skills", "YOUR_SKILLS", ChatColor.GRAY + "View your skill progression and", ChatColor.GRAY + "rewards", "", ChatColor.GOLD + "" + player.getSkill().getAverage() + " Skill Average"));
+        this.setItem(4, createItem(Material.DIAMOND_SWORD, ChatColor.GREEN + "Your Skills", "YOUR_SKILLS", ChatColor.GRAY + "View your skill progression and", ChatColor.GRAY + "rewards", "", ChatColor.GOLD + "" + player.getSkills().getAverage() + " Skill Average"));
 
-        for (int i = 0; i < player.getSkill().size(); i++) {
-            AbstractSkill skill = player.getSkill().get(i);
+        for (int i = 0; i < player.getSkills().size(); i++) {
+            AbstractSkill skill = player.getSkills().get(i);
             int slot = i < 7 ? 19 + i : i == 7 ? 30 : 32;
             this.setItem(slot, createItem(skill.getItem(), ChatColor.GREEN + skill.getName() + " " + skill.getLevel(), skill.getName().toUpperCase(), getItemLores(skill)));
         }
@@ -48,7 +48,7 @@ public class SkillMenu extends Menu {
         for (String line : Functions.loreBuilder(skill.getRewards().getPassive(skill.getLevel()), ChatColor.WHITE, 20)) {
             lores.add("    " + line);
         }
-        lores.add("  " + ChatColor.DARK_GRAY + "+" + ChatColor.GREEN + Functions.getInt(skill.getRewards().getStatAmount() * skill.getLevel() + "") + " " + skill.getRewards().getStat().getIconAndText());
+        lores.add("  " + ChatColor.DARK_GRAY + "+" + ChatColor.GREEN + Functions.getInt(skill.getRewards().getStatAmount() * skill.getLevel() + "") + " " + skill.getRewards().getStat());
         lores.add("  " + ChatColor.DARK_GRAY + "+" + ChatColor.GOLD + Functions.getNumberFormat(skill.getRewards().getCoins(skill.getLevel())) + " " + ChatColor.GRAY + "Coins");
         lores.add("");
         lores.add(ChatColor.YELLOW + "Click to view!");
@@ -140,7 +140,7 @@ public class SkillMenu extends Menu {
         for (String line : loreBuilder(skill.getRewards().getPassive(), ChatColor.WHITE, 20)) {
             lores.add("    " + line);
         }
-        lores.add("  " + ChatColor.DARK_GRAY + "+" + ChatColor.GREEN + getInt(skill.getRewards().getStatAmount() * skill.getLevel() + "") + " " + skill.getRewards().getStat().getIconAndText());
+        lores.add("  " + ChatColor.DARK_GRAY + "+" + ChatColor.GREEN + getInt(skill.getRewards().getStatAmount() * skill.getLevel() + "") + " " + skill.getRewards().getStat());
         lores.add("  " + ChatColor.DARK_GRAY + "+" + ChatColor.GOLD + getNumberFormat(skill.getRewards().getCoinsAmount()[skill.getLevel()]) + " " + ChatColor.GRAY + "Coins");
         lores.add("");
         lores.add(ChatColor.YELLOW + "Click to view!");

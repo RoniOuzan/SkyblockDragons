@@ -4,8 +4,8 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.SurvivorStats;
 import org.bukkit.Material;
 
 public class LuminateChestplate extends ArmorMaterial {
@@ -16,7 +16,7 @@ public class LuminateChestplate extends ArmorMaterial {
                 "Luminate Chestplate",
                 ItemType.CHESTPLATE,
                 Rarity.RARE,
-                new Stats(85, 70, 0, 20, 125, 50, 2),
+                new SurvivorStats(85, 70, 0, 20, 125, 50, 2),
                 "",
                 ItemFullSetBonus.LUMINATE_FULL_SET
         );

@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import org.bukkit.Material;
 
 public class IronArtifact extends AccessoryMaterial {
@@ -14,7 +15,7 @@ public class IronArtifact extends AccessoryMaterial {
                 ItemFamily.IRON,
                 "Iron Artifact",
                 Rarity.RARE,
-                new Stats(0, 8, 4, 1, 0, 0),
+                new DamageStats(0, 8, 4, 1, 0, 0),
                 ""
         );
     }

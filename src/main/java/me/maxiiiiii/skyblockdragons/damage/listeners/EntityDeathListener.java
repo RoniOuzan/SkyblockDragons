@@ -6,6 +6,7 @@ import me.maxiiiiii.skyblockdragons.entity.events.EntityDeathEvent;
 import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityDrop;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerDeathEvent;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerGetCoinsFromEntityEvent;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
@@ -33,9 +34,8 @@ public class EntityDeathListener implements Listener {
                 drop.drop(killer, entity);
             }
 
-            Functions.createHologram(entity.getLocation().add(0, 3, 0), new ArrayList<>(Arrays.asList(ChatColor.GOLD + killer.getName(), ChatColor.GOLD + "+" + Functions.getNumberFormat(entity.material.getCoins()))), 40);
-            double coins = entity.material.getCoins();
-            killer.giveCoins(coins);
+            PlayerGetCoinsFromEntityEvent event = new PlayerGetCoinsFromEntityEvent(killer, entity, entity.material.getCoins());
+            Bukkit.getPluginManager().callEvent(event);
         }
     }
 

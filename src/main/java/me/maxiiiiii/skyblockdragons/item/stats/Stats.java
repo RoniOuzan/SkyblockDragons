@@ -1,7 +1,9 @@
 package me.maxiiiiii.skyblockdragons.item.stats;
 
-import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.interfaces.*;
+import me.maxiiiiii.skyblockdragons.item.stats.stats.combat.ManaStat;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -9,194 +11,87 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-@Getter
 public class Stats implements Iterable<Stat> {
-    protected final Stat damage;
-    protected final Stat strength;
-    protected final Stat critDamage;
-    protected final Stat critChance;
-    protected final Stat abilityDamage;
-    protected final Stat abilityScaling;
-    protected final Stat attackSpeed;
-    protected final Stat ferocity;
-    protected final Stat health;
-    protected final Stat defense;
-    protected final Stat trueDefense;
-    protected final Stat speed;
-    protected final Stat intelligence;
-    protected final Stat magicFind;
-    protected final Stat petLuck;
-    protected final Stat miningSpeed;
-    protected final Stat miningFortune;
-    protected final Stat farmingFortune;
-    protected final Stat foragingFortune;
-    protected final Stat seaCreatureChance;
-    protected final Stat absorption;
+    private final Map<StatType, Stat> stats;
 
-    public Stats(double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double farmingFortune, double foragingFortune, double seaCreatureChance, double absorption) {
-        this.damage = new Stat(damage, StatType.DAMAGE);
-        this.strength = new Stat(strength, StatType.STRENGTH);
-        this.critDamage = new Stat(critDamage, StatType.CRIT_DAMAGE);
-        this.critChance = new Stat(critChance, StatType.CRIT_CHANCE);
-        this.abilityDamage = new Stat(abilityDamage, StatType.ABILITY_DAMAGE);
-        this.abilityScaling = new Stat(abilityScaling, StatType.ABILITY_SCALING);
-        this.attackSpeed = new Stat(attackSpeed, StatType.ATTACK_SPEED);
-        this.ferocity = new Stat(ferocity, StatType.FEROCITY);
-        this.health = new Stat(health, StatType.HEALTH);
-        this.defense = new Stat(defense, StatType.DEFENSE);
-        this.trueDefense = new Stat(trueDefense, StatType.TRUE_DEFENSE);
-        this.speed = new Stat(speed, StatType.SPEED);
-        this.intelligence = new Stat(intelligence, StatType.INTELLIGENCE);
-        this.magicFind = new Stat(magicFind, StatType.MAGIC_FIND);
-        this.petLuck = new Stat(petLuck, StatType.PET_LUCK);
-        this.miningSpeed = new Stat(miningSpeed, StatType.MINING_SPEED);
-        this.miningFortune = new Stat(miningFortune, StatType.MINING_FORTUNE);
-        this.farmingFortune = new Stat(farmingFortune, StatType.FARMING_FORTUNE);
-        this.foragingFortune = new Stat(foragingFortune, StatType.FORAGING_FORTUNE);
-        this.seaCreatureChance = new Stat(seaCreatureChance, StatType.SEA_CREATURE_CHANCE);
-        this.absorption = new Stat(absorption, StatType.ABSORPTION);
-    }
-
-    public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence) {
-        this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, health, defense, 0, speed, intelligence, 0, 0, 0, 0, 0, 0, 0, 0);
-    }
-
-    public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity) {
-        this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-    }
-
-    public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double miningSpeed, double miningFortune) {
-        this(damage, strength, critDamage, critChance, 0, 0, attackSpeed, ferocity, 0, 0, 0, 0, 0, 0, 0, miningSpeed, miningFortune, 0, 0, 0, 0);
-    }
-
-    public Stats(double health, double defense, double trueDefense, double intelligence, double miningSpeed, double miningFortune, double magicFind) {
-        this(0, 0, 0, 0, 0, 0, 0, 0, health, defense, trueDefense, 0, intelligence, magicFind, 0, miningSpeed, miningFortune, 0, 0, 0, 0);
-    }
-
-    public Stats(double health, double defense, double speed, double intelligence) {
-        this(0, 0, 0, 0, 0, 0, health, defense, speed, intelligence);
-    }
-
-    public Stats(double miningSpeed, double miningFortune) {
-        this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, miningSpeed, miningFortune, 0, 0, 0, 0);
-    }
-
-    public Stats(StatType stat, double amount) {
-        this();
-        this.add(stat, amount);
-    }
-
-    public Stats(Object... statsAndAmounts) {
-        this();
-        List<StatType> stats = Arrays.stream(statsAndAmounts).filter(o -> o instanceof StatType).map(o -> (StatType) o).collect(Collectors.toList());
-        List<Double> amounts = Arrays.stream(statsAndAmounts).filter(o -> o instanceof Double).map(o -> (Double) o).collect(Collectors.toList());
-        for (int i = 0; i < stats.size(); i++) {
-            this.add(stats.get(i), amounts.get(i));
+    public Stats(List<Stat> stats) {
+        this.stats = new HashMap<>();
+        for (Stat stat : stats) {
+            this.stats.put(stat.getType(), new Stat(stat.getType(), stat.get()));
         }
-    }
-
-    public Stats(Stats stats) {
-        this(
-                stats.damage.get(),
-                stats.strength.get(),
-                stats.critDamage.get(),
-                stats.critChance.get(),
-                stats.abilityDamage.get(),
-                stats.abilityScaling.get(),
-                stats.attackSpeed.get(),
-                stats.ferocity.get(),
-                stats.health.get(),
-                stats.defense.get(),
-                stats.trueDefense.get(),
-                stats.speed.get(),
-                stats.intelligence.get(),
-                stats.magicFind.get(),
-                stats.petLuck.get(),
-                stats.miningSpeed.get(),
-                stats.miningFortune.get(),
-                stats.farmingFortune.get(),
-                stats.foragingFortune.get(),
-                stats.seaCreatureChance.get(),
-                stats.absorption.get()
-        );
     }
 
     public Stats() {
-        this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        this(new ArrayList<>());
     }
 
-    public List<Stat> toList() {
-        return new ArrayList<>(Arrays.asList(
-                damage,
-                strength,
-                critDamage,
-                critChance,
-                abilityDamage,
-                abilityScaling,
-                attackSpeed,
-                ferocity,
-                health,
-                defense,
-                trueDefense,
-                speed,
-                intelligence,
-                magicFind,
-                petLuck,
-                miningSpeed,
-                miningFortune,
-                farmingFortune,
-                foragingFortune,
-                seaCreatureChance,
-                absorption
-        ));
+    protected double getDefaultValue(StatType type) {
+        return 0;
     }
 
-    public Stat getStat(StatType stat) {
-        switch (stat) {
-            case DAMAGE:
-                return this.damage;
-            case STRENGTH:
-                return this.strength;
-            case CRIT_DAMAGE:
-                return this.critDamage;
-            case CRIT_CHANCE:
-                return this.critChance;
-            case ABILITY_DAMAGE:
-                return this.abilityDamage;
-            case ABILITY_SCALING:
-                return this.abilityScaling;
-            case ATTACK_SPEED:
-                return this.attackSpeed;
-            case FEROCITY:
-                return this.ferocity;
-            case HEALTH:
-                return this.health;
-            case DEFENSE:
-                return this.defense;
-            case TRUE_DEFENSE:
-                return this.trueDefense;
-            case SPEED:
-                return this.speed;
-            case INTELLIGENCE:
-                return this.intelligence;
-            case MAGIC_FIND:
-                return this.magicFind;
-            case PET_LUCK:
-                return this.petLuck;
-            case MINING_SPEED:
-                return this.miningSpeed;
-            case MINING_FORTUNE:
-                return this.miningFortune;
-            case SEA_CREATURE_CHANCE:
-                return this.seaCreatureChance;
-            case ABSORPTION:
-                return this.absorption;
+    private Stat getDefaultStat(StatType type) {
+        if (type instanceof FilledStat)
+            return new FillerStat(type, getDefaultValue(type), ((FilledStat) type).getFiller(), getDefaultValue(((FilledStat) type).getFiller()));
+        return new Stat(type, getDefaultValue(type));
+    }
+    
+    public Stat get(StatType type) {
+        return stats.getOrDefault(type, getDefaultStat(type));
+    }
+    
+    public Stat get(SkillType skill) {
+        switch (skill) {
+            case FARMING:
+                return this.get(StatTypes.FARMING_WISDOM);
+            case MINING:
+                return this.get(StatTypes.MINING_WISDOM);
+            case COMBAT:
+                return this.get(StatTypes.COMBAT_WISDOM);
+            case FORAGING:
+                return this.get(StatTypes.FORAGING_WISDOM);
+            case FISHING:
+                return this.get(StatTypes.FISHING_WISDOM);
+            case ENCHANTING:
+                return this.get(StatTypes.ENCHANTING_WISDOM);
+            case ALCHEMY:
+                return this.get(StatTypes.ALCHEMY_WISDOM);
+            case TAMING:
+                return this.get(StatTypes.TAMING_WISDOM);
+            case DUNGEONEERING:
+                return this.get(StatTypes.DUNGEONEERING_WISDOM);
         }
-        return null;
+        return this.get(StatTypes.COMBAT_WISDOM);
     }
 
-    public void add(StatType stat, double amount) {
-        this.get(stat).amount += amount;
+    public Stats set(StatType type, double amount) {
+        Stat stat = stats.getOrDefault(type, getDefaultStat(type));
+        stat.set(amount);
+        stats.put(type, stat);
+        return this;
+    }
+
+    public void add(StatType type, double amount) {
+        Stat stat = stats.getOrDefault(type, getDefaultStat(type));
+        stat.add(amount);
+        stats.put(type, stat);
+    }
+
+    public void add(Stats stats) {
+        for (Stat stat : stats) {
+            this.add(stat.getType(), stat.get());
+        }
+    }
+
+    public void remove(StatType type, double amount) {
+        Stat stat = stats.getOrDefault(type, getDefaultStat(type));
+        stat.remove(amount);
+        stats.put(type, stat);
+    }
+
+    public void multiply(StatType type, double multiplier) {
+        Stat stat = stats.getOrDefault(type, getDefaultStat(type));
+        stat.multiply(multiplier);
+        stats.put(type, stat);
     }
 
     public void multiply(double multiplier) {
@@ -205,194 +100,53 @@ public class Stats implements Iterable<Stat> {
         }
     }
 
-    public void increasePlayerStat(double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double seaCreatureChance, double absorption) {
-        this.damage.increase(damage);
-        this.strength.increase(strength);
-        this.critDamage.increase(critDamage);
-        this.critChance.increase(critChance);
-        this.abilityDamage.increase(abilityDamage);
-        this.abilityScaling.increase(abilityScaling);
-        this.attackSpeed.increase(attackSpeed);
-        this.ferocity.increase(ferocity);
-        this.health.increase(health);
-        this.defense.increase(defense);
-        this.trueDefense.increase(trueDefense);
-        this.speed.increase(speed);
-        this.intelligence.increase(intelligence);
-        this.magicFind.increase(magicFind);
-        this.petLuck.increase(petLuck);
-        this.miningSpeed.increase(miningSpeed);
-        this.miningFortune.increase(miningFortune);
-        this.seaCreatureChance.increase(seaCreatureChance);
-        this.absorption.increase(absorption);
+    public void normalize(PlayerSD player, StatType type) {
+        Stat stat = stats.getOrDefault(type, getDefaultStat(type));
+        stat.normalize(player);
+        stats.put(type, stat);
+    }
+
+    public void normalize(PlayerSD player) {
+        for (Stat stat : this) {
+            stat.normalize(player);
+        }
     }
 
     public void reset() {
-        this.damage.amount = 0;
-        this.strength.amount = 0;
-        this.critDamage.amount = 0;
-        this.critChance.amount = 10;
-        this.abilityDamage.amount = 0;
-        this.abilityScaling.amount = 1;
-        this.attackSpeed.amount = 0;
-        this.ferocity.amount = 0;
-        this.health.amount = 100;
-        this.defense.amount = 0;
-        this.trueDefense.amount = 0;
-        this.speed.amount = 100;
-        this.intelligence.amount = 100;
-        this.magicFind.amount = 0;
-        this.petLuck.amount = 0;
-        this.miningSpeed.amount = 0;
-        this.miningFortune.amount = 0;
-        this.seaCreatureChance.amount = 0;
-        this.absorption.amount = 0;
-    }
+        for (Stat stat : this) {
+            if (stat.getType() instanceof ManaStat) continue;
 
-    public void add(Stats stats) {
-        this.add(stats.stream().map(s -> s.amount).collect(Collectors.toList()));
-    }
-
-    public void add(List<Double> num) {
-        try {
-            this.damage.amount += num.get(0);
-            this.strength.amount += num.get(1);
-            this.critDamage.amount += num.get(2);
-            this.critChance.amount += num.get(3);
-            this.abilityDamage.amount += num.get(4);
-            this.abilityScaling.amount += num.get(5);
-            this.attackSpeed.amount += num.get(6);
-            this.ferocity.amount += num.get(7);
-            this.health.amount += num.get(8);
-            this.defense.amount += num.get(9);
-            this.trueDefense.amount += num.get(10);
-            this.speed.amount += num.get(11);
-            this.intelligence.amount += num.get(12);
-            this.magicFind.amount += num.get(13);
-            this.petLuck.amount += num.get(14);
-            this.miningSpeed.amount += num.get(15);
-            this.miningFortune.amount += num.get(16);
-            this.seaCreatureChance.amount += num.get(17);
-            this.absorption.amount += num.get(18);
-        } catch (IndexOutOfBoundsException ignored) {}
-    }
-
-    public void normalize() {
-        this.damage.normalize();
-        this.strength.normalize();
-        this.critDamage.normalize();
-        this.critChance.normalize();
-        this.abilityDamage.normalize();
-        this.abilityScaling.normalize();
-        this.attackSpeed.normalize();
-        this.ferocity.normalize();
-        this.health.normalize();
-        this.defense.normalize();
-        this.trueDefense.normalize();
-        this.speed.normalize();
-        this.intelligence.normalize();
-        this.magicFind.normalize();
-        this.petLuck.normalize();
-        this.miningSpeed.normalize();
-        this.miningFortune.normalize();
-        this.seaCreatureChance.normalize();
-        this.absorption.normalize();
-    }
-
-    public Stat get(Stat stat) {
-        switch (stat.type) {
-            case DAMAGE:
-                return this.damage;
-            case STRENGTH:
-                return this.strength;
-            case CRIT_DAMAGE:
-                return this.critDamage;
-            case CRIT_CHANCE:
-                return this.critChance;
-            case ABILITY_DAMAGE:
-                return this.abilityDamage;
-            case ABILITY_SCALING:
-                return this.abilityScaling;
-            case ATTACK_SPEED:
-                return this.attackSpeed;
-            case FEROCITY:
-                return this.ferocity;
-            case HEALTH:
-                return this.health;
-            case DEFENSE:
-                return this.defense;
-            case TRUE_DEFENSE:
-                return this.trueDefense;
-            case SPEED:
-                return this.speed;
-            case INTELLIGENCE:
-                return this.intelligence;
-            case MAGIC_FIND:
-                return this.magicFind;
-            case PET_LUCK:
-                return this.petLuck;
-            case MINING_SPEED:
-                return this.miningSpeed;
-            case MINING_FORTUNE:
-                return this.miningFortune;
-            case FARMING_FORTUNE:
-                return this.farmingFortune;
-            case FORAGING_FORTUNE:
-                return this.foragingFortune;
-            case SEA_CREATURE_CHANCE:
-                return this.seaCreatureChance;
-            case ABSORPTION:
-                return this.absorption;
+            stat.set(getDefaultValue(stat.getType()));
         }
-        return null;
     }
 
-    public Stat get(StatType stat) {
-        switch (stat) {
-            case DAMAGE:
-                return this.damage;
-            case STRENGTH:
-                return this.strength;
-            case CRIT_DAMAGE:
-                return this.critDamage;
-            case CRIT_CHANCE:
-                return this.critChance;
-            case ABILITY_DAMAGE:
-                return this.abilityDamage;
-            case ABILITY_SCALING:
-                return this.abilityScaling;
-            case ATTACK_SPEED:
-                return this.attackSpeed;
-            case FEROCITY:
-                return this.ferocity;
-            case HEALTH:
-                return this.health;
-            case DEFENSE:
-                return this.defense;
-            case TRUE_DEFENSE:
-                return this.trueDefense;
-            case SPEED:
-                return this.speed;
-            case INTELLIGENCE:
-                return this.intelligence;
-            case MAGIC_FIND:
-                return this.magicFind;
-            case PET_LUCK:
-                return this.petLuck;
-            case MINING_SPEED:
-                return this.miningSpeed;
-            case MINING_FORTUNE:
-                return this.miningFortune;
-            case FARMING_FORTUNE:
-                return this.farmingFortune;
-            case FORAGING_FORTUNE:
-                return this.foragingFortune;
-            case SEA_CREATURE_CHANCE:
-                return this.seaCreatureChance;
-            case ABSORPTION:
-                return this.absorption;
+    public List<Stat> toCombatList() {
+        return this.toList().stream().filter(s -> s.getType() instanceof CombatStat).collect(Collectors.toList());
+    }
+
+    public List<Stat> toGatheringList() {
+        return this.toList().stream().filter(s -> s.getType() instanceof GatheringStat).collect(Collectors.toList());
+    }
+
+    public List<Stat> toWisdomList() {
+        return this.toList().stream().filter(s -> s.getType() instanceof WisdomStat).collect(Collectors.toList());
+    }
+
+    public List<Stat> toMiscList() {
+        return this.toList().stream().filter(s -> s.getType() instanceof MiscStat).collect(Collectors.toList());
+    }
+
+    public List<Stat> toList() {
+        List<Stat> stats = new ArrayList<>();
+        for (StatType stat : StatTypes.STATS) {
+            stats.add(this.stats.getOrDefault(stat, new Stat(stat, 0)));
         }
-        return null;
+        return stats;
+    }
+
+    @Override
+    public String toString() {
+        return this.toList().toString();
     }
 
     @Override
@@ -415,5 +169,196 @@ public class Stats implements Iterable<Stat> {
 
     public Stream<Stat> stream() {
         return StreamSupport.stream(spliterator(), false);
+    }
+
+    public Stat getHealth() {
+        return this.get(StatTypes.HEALTH);
+    }
+
+    public Stat getDefense() {
+        return this.get(StatTypes.DEFENSE);
+    }
+
+    public Stat getTrueDefense() {
+        return this.get(StatTypes.TRUE_DEFENSE);
+    }
+
+    public Stat getSpeed() {
+        return this.get(StatTypes.SPEED);
+    }
+
+    public Stat getVitality() {
+        return this.get(StatTypes.VITALITY);
+    }
+
+    public Stat getIntelligence() {
+        return this.get(StatTypes.INTELLIGENCE);
+    }
+
+    public Stat getMana() {
+        return ((FillerStat) this.get(StatTypes.INTELLIGENCE)).getFiller();
+    }
+
+    public Stat getDamage() {
+        return this.get(StatTypes.DAMAGE);
+    }
+
+    public Stat getStrength() {
+        return this.get(StatTypes.STRENGTH);
+    }
+
+    public Stat getCritDamage() {
+        return this.get(StatTypes.CRIT_DAMAGE);
+    }
+
+    public Stat getCritChance() {
+        return this.get(StatTypes.CRIT_CHANCE);
+    }
+
+    public Stat getAbilityDamage() {
+        return this.get(StatTypes.ABILITY_DAMAGE);
+    }
+
+    public Stat getAttackSpeed() {
+        return this.get(StatTypes.ATTACK_SPEED);
+    }
+
+    public Stat getFerocity() {
+        return this.get(StatTypes.FEROCITY);
+    }
+
+    public Stat getMagicFind() {
+        return this.get(StatTypes.MAGIC_FIND);
+    }
+
+    public Stat getPetLuck() {
+        return this.get(StatTypes.PET_LUCK);
+    }
+
+    public Stat getSeaCreatureChance() {
+        return this.get(StatTypes.SEA_CREATURE_CHANCE);
+    }
+
+    public Stat getFishingSpeed() {
+        return this.get(StatTypes.FISHING_SPEED);
+    }
+
+    public Stat getMiningSpeed() {
+        return this.get(StatTypes.MINING_SPEED);
+    }
+
+    public Stat getMiningFortune() {
+        return this.get(StatTypes.MINING_FORTUNE);
+    }
+
+    public Stat getFarmingFortune() {
+        return this.get(StatTypes.FARMING_FORTUNE);
+    }
+
+    public Stat getForagingFortune() {
+        return this.get(StatTypes.FORAGING_FORTUNE);
+    }
+
+    public Stat getFarmingWisdom() {
+        return this.get(StatTypes.FARMING_WISDOM);
+    }
+
+    public Stat getMiningWisdom() {
+        return this.get(StatTypes.MINING_WISDOM);
+    }
+
+    public Stat getCombatWisdom() {
+        return this.get(StatTypes.COMBAT_WISDOM);
+    }
+
+    public Stat getForagingWisdom() {
+        return this.get(StatTypes.FORAGING_WISDOM);
+    }
+
+    public Stat getFishingWisdom() {
+        return this.get(StatTypes.FISHING_WISDOM);
+    }
+
+    public Stat getEnchantingWisdom() {
+        return this.get(StatTypes.ENCHANTING_WISDOM);
+    }
+
+    public Stat getAlchemyWisdom() {
+        return this.get(StatTypes.ALCHEMY_WISDOM);
+    }
+
+    public Stat getTamingWisdom() {
+        return this.get(StatTypes.TAMING_WISDOM);
+    }
+
+    public Stat getDungeoneeringWisdom() {
+        return this.get(StatTypes.DUNGEONEERING_WISDOM);
+    }
+
+    public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence) {
+        this(new ArrayList<>(Arrays.asList(
+                new Stat(StatTypes.DAMAGE, damage),
+                new Stat(StatTypes.SPEED, strength),
+                new Stat(StatTypes.CRIT_DAMAGE, critDamage),
+                new Stat(StatTypes.CRIT_CHANCE, critChance),
+                new Stat(StatTypes.ATTACK_SPEED, attackSpeed),
+                new Stat(StatTypes.FEROCITY, ferocity),
+                new Stat(StatTypes.HEALTH, health),
+                new Stat(StatTypes.DEFENSE, defense),
+                new Stat(StatTypes.SPEED, speed),
+                new Stat(StatTypes.INTELLIGENCE, intelligence)
+        )));
+    }
+
+    public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity) {
+        this(new ArrayList<>(Arrays.asList(
+                new Stat(StatTypes.DAMAGE, damage),
+                new Stat(StatTypes.STRENGTH, strength),
+                new Stat(StatTypes.CRIT_DAMAGE, critDamage),
+                new Stat(StatTypes.CRIT_CHANCE, critChance),
+                new Stat(StatTypes.ATTACK_SPEED, attackSpeed),
+                new Stat(StatTypes.FEROCITY, ferocity)
+        )));
+    }
+
+    public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double miningSpeed, double miningFortune) {
+        this(new ArrayList<>(Arrays.asList(
+                new Stat(StatTypes.DAMAGE, damage),
+                new Stat(StatTypes.STRENGTH, strength),
+                new Stat(StatTypes.CRIT_DAMAGE, critDamage),
+                new Stat(StatTypes.CRIT_CHANCE, critChance),
+                new Stat(StatTypes.ATTACK_SPEED, attackSpeed),
+                new Stat(StatTypes.FEROCITY, ferocity),
+                new Stat(StatTypes.MINING_SPEED, miningSpeed),
+                new Stat(StatTypes.MINING_FORTUNE, miningFortune)
+        )));
+    }
+
+    public Stats(double health, double defense, double trueDefense, double intelligence, double miningSpeed, double miningFortune, double magicFind) {
+        this(new ArrayList<>(Arrays.asList(
+                new Stat(StatTypes.HEALTH, health),
+                new Stat(StatTypes.DEFENSE, defense),
+                new Stat(StatTypes.TRUE_DEFENSE, trueDefense),
+                new Stat(StatTypes.INTELLIGENCE, intelligence),
+                new Stat(StatTypes.MAGIC_FIND, magicFind),
+                new Stat(StatTypes.MINING_SPEED, miningSpeed),
+                new Stat(StatTypes.MINING_FORTUNE, miningFortune)
+        )));
+    }
+
+    public Stats(double health, double defense, double speed, double intelligence) {
+        this(new ArrayList<>(Arrays.asList(
+                new Stat(StatTypes.HEALTH, health),
+                new Stat(StatTypes.DEFENSE, defense),
+                new Stat(StatTypes.SPEED, speed),
+                new Stat(StatTypes.INTELLIGENCE, intelligence)
+        )));
+    }
+
+    public Stats(double miningSpeed, double miningFortune) {
+        this(new ArrayList<>(Arrays.asList(
+                new Stat(StatTypes.MINING_SPEED, miningSpeed),
+                new Stat(StatTypes.MINING_FORTUNE, miningFortune)
+        )));
     }
 }

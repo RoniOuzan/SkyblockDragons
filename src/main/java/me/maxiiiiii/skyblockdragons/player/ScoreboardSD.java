@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.player;
 
 import dev.jcsoftware.jscoreboards.JPerPlayerMethodBasedScoreboard;
-import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.DragonType;
@@ -61,7 +61,7 @@ public class ScoreboardSD {
             DragonType dragonType = DragonType.getDragonType(TheEnd.dragon.material.getName());
             if (player.getWorldSD() == WorldSD.THE_END && dragonType != null) {
                 scores.add(dragonType + " Dragon");
-                scores.add("  " + ChatColor.WHITE + "Dragon's Health: " + ChatColor.GREEN + Functions.getShortNumber(TheEnd.dragon.getHealth()) + StatType.HEALTH.getIcon());
+                scores.add("  " + ChatColor.WHITE + "Dragon's Health: " + ChatColor.GREEN + Functions.getShortNumber(TheEnd.dragon.getHealth()) + StatTypes.HEALTH.getIcon());
                 scores.add("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getShortNumber(TheEnd.dragonDamage.getOrDefault(this.player, 0d)));
                 scores.add("  ");
             }
@@ -70,7 +70,7 @@ public class ScoreboardSD {
             String name = WitherIsland.wither.material.name;
             if (player.getWorldSD() == WorldSD.WITHER_ISLAND && name != null) {
                 scores.add(name);
-                scores.add("  " + ChatColor.WHITE + "Wither's Health: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.wither.getHealth()) + StatType.HEALTH.getIcon());
+                scores.add("  " + ChatColor.WHITE + "Wither's Health: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.wither.getHealth()) + StatTypes.HEALTH.getIcon());
                 scores.add("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.witherDamage.getOrDefault(player.getUniqueId(), 0d)));
                 scores.add("  ");
             }

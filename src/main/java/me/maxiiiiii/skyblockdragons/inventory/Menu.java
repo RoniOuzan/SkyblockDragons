@@ -22,6 +22,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -204,6 +205,17 @@ public abstract class Menu implements InventoryHolder {
         if (nbtItem.hasKey("GuiButton"))
             return nbtItem.getString("GuiButton");
         return "";
+    }
+
+    protected static ItemStack addLine(ItemStack itemStack, String... lores) {
+        ItemStack item = itemStack.clone();
+        ItemMeta meta = item.getItemMeta();
+        List<String> newLores = meta.getLore();
+        if (newLores == null) newLores = new ArrayList<>();
+        newLores.addAll(Arrays.asList(lores));
+        meta.setLore(newLores);
+        item.setItemMeta(meta);
+        return item;
     }
 
     public static ItemStack addNBT(ItemStack itemStack, String nbt) {

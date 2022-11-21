@@ -3,7 +3,6 @@ package me.maxiiiiii.skyblockdragons.events.listeners;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
-import me.maxiiiiii.skyblockdragons.item.enchants.tasks.AimingTask;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -28,7 +27,7 @@ public class ProjectileShootListener implements Listener {
             }
             if (enchantLevel > 0){
 //                player.sendMessage("Shot with aiming!");
-                new AimingTask(projectile, enchantLevel).runTaskTimer(SkyblockDragons.plugin, 2L, 1L);
+//                new AimingTask(projectile, enchantLevel).runTaskTimer(SkyblockDragons.plugin, 2L, 1L);
             }
         }
     }

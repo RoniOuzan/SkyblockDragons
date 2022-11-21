@@ -95,7 +95,7 @@ public class EndermanPet extends PetMaterial {
             if (!(e.getPlayer().getActivePetMaterial() instanceof EndermanPet)) return;
 
             if (e.getSource() instanceof EntitySD && ((EntitySD) e.getSource()).isEndMob()) {
-                e.getMultiplier().addBase(MULTIPLIER * e.getPlayer().getActivePet().getModifiers().getPet().getLevel());
+                e.getChanceMultiplier().addBase(MULTIPLIER * e.getPlayer().getActivePet().getModifiers().getPet().getLevel());
             }
         }
     }

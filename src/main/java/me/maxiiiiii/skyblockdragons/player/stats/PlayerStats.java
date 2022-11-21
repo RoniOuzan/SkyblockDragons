@@ -3,33 +3,36 @@ package me.maxiiiiii.skyblockdragons.player.stats;
 import lombok.AccessLevel;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.stats.Stat;
-import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.StatType;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.Multiplier;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Getter
 public class PlayerStats extends Stats {
-    public Stat mana;
     @Getter(AccessLevel.NONE)
     private final Map<StatType, Multiplier> multiplayer;
     private final PlayerSD player;
+    private final PlayerBaseStats baseStats;
 
-    public PlayerStats(PlayerSD player, double damage, double strength, double critDamage, double critChance, double abilityDamage, double abilityScaling, double attackSpeed, double ferocity, double health, double defense, double trueDefense, double speed, double intelligence, double magicFind, double petLuck, double miningSpeed, double miningFortune, double farmingFortune, double foragingFortune, double seaCreatureChance, double absorption) {
-        super(damage, strength, critDamage, critChance, abilityDamage, abilityScaling, attackSpeed, ferocity, health, defense, trueDefense, speed, intelligence, magicFind, petLuck, miningSpeed, miningFortune, farmingFortune, foragingFortune, seaCreatureChance, absorption);
+    public PlayerStats(PlayerSD player) {
+        super();
         this.player = player;
-        this.mana = new Stat(this.intelligence.amount, StatType.MANA);
+        this.baseStats = new PlayerBaseStats(player);
         this.multiplayer = new HashMap<>();
+    }
+
+    @Override
+    protected double getDefaultValue(StatType type) {
+        return this.baseStats.get(type);
     }
 
     @Override
     public void reset() {
         super.reset();
-
         multiplayer.clear();
     }
 
@@ -45,73 +48,33 @@ public class PlayerStats extends Stats {
     }
 
     public void addAllStatsMultipliers(double base, double post) {
-        this.addMultiplier(StatType.DAMAGE, base, post);
-        this.addMultiplier(StatType.STRENGTH, base, post);
-        this.addMultiplier(StatType.CRIT_DAMAGE, base, post);
-        this.addMultiplier(StatType.CRIT_CHANCE, base, post);
-        this.addMultiplier(StatType.ABILITY_DAMAGE, base, post);
-        this.addMultiplier(StatType.ABILITY_SCALING, base, post);
-        this.addMultiplier(StatType.ATTACK_SPEED, base, post);
-        this.addMultiplier(StatType.FEROCITY, base, post);
-        this.addMultiplier(StatType.HEALTH, base, post);
-        this.addMultiplier(StatType.DEFENSE, base, post);
-        this.addMultiplier(StatType.TRUE_DEFENSE, base, post);
-        this.addMultiplier(StatType.SPEED, base, post);
-        this.addMultiplier(StatType.INTELLIGENCE, base, post);
-        this.addMultiplier(StatType.MAGIC_FIND, base, post);
-        this.addMultiplier(StatType.PET_LUCK, base, post);
-        this.addMultiplier(StatType.MINING_SPEED, base, post);
-        this.addMultiplier(StatType.MINING_FORTUNE, base, post);
-        this.addMultiplier(StatType.FARMING_FORTUNE, base, post);
-        this.addMultiplier(StatType.FORAGING_FORTUNE, base, post);
-        this.addMultiplier(StatType.SEA_CREATURE_CHANCE, base, post);
-        this.addMultiplier(StatType.ABSORPTION, base, post);
+        for (Stat stat : this) {
+            this.addMultiplier(stat.getType(), base, post);
+        }
     }
 
-    public void addDamageMultipliers(double base, double post) {
-        this.addMultiplier(StatType.DAMAGE, base, post);
-        this.addMultiplier(StatType.STRENGTH, base, post);
-        this.addMultiplier(StatType.CRIT_DAMAGE, base, post);
-        this.addMultiplier(StatType.CRIT_CHANCE, base, post);
-        this.addMultiplier(StatType.ABILITY_DAMAGE, base, post);
-        this.addMultiplier(StatType.ABILITY_SCALING, base, post);
-        this.addMultiplier(StatType.ATTACK_SPEED, base, post);
-        this.addMultiplier(StatType.FEROCITY, base, post);
-        this.addMultiplier(StatType.MANA, base, post);
+    public void addCombatMultipliers(double base, double post) {
+        for (Stat stat : this.toCombatList()) {
+            this.addMultiplier(stat.getType(), base, post);
+        }
     }
 
-    @Override
-    public Stat getStat(StatType stat) {
-        Stat output = super.getStat(stat);
-        if (stat == StatType.MANA) output = this.mana;
-        return output;
+    public void addGatheringMultipliers(double base, double post) {
+        for (Stat stat : this.toGatheringList()) {
+            this.addMultiplier(stat.getType(), base, post);
+        }
     }
 
-    @Override
-    public Stat get(StatType stat) {
-        if (stat == StatType.MANA)
-            return this.mana;
-        return super.get(stat);
+    public void addMiscMultipliers(double base, double post) {
+        for (Stat stat : this.toMiscList()) {
+            this.addMultiplier(stat.getType(), base, post);
+        }
     }
 
-    @Override
-    public Stat get(Stat stat) {
-        Stat output = super.get(stat);
-        if (stat.type == StatType.MANA) output = this.mana;
-        return output;
-    }
-
-    @Override
-    public void normalize() {
-        super.normalize();
-        this.mana.normalize();
-    }
-
-    @Override
-    public List<Stat> toList() {
-        List<Stat> list = super.toList();
-        list.add(mana);
-        return list;
+    public void addWisdomMultipliers(double base, double post) {
+        for (Stat stat : this.toWisdomList()) {
+            this.addMultiplier(stat.getType(), base, post);
+        }
     }
 
     public void applyMultipliers() {

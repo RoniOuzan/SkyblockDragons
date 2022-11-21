@@ -2,14 +2,14 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.pets;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
-import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -24,7 +24,7 @@ public class BearPet extends PetMaterial {
                 new Stats(0, 2, 1, 0.5, 0, 0.5),
                 Arrays.asList(
                         new PetRarity(Rarity.EPIC, new FuriousBear()),
-                        new PetRarity(Rarity.EPIC,
+                        new PetRarity(Rarity.LEGENDARY,
                                 new FuriousBear(),
                                 new FerocityIsStronger())
                 ),
@@ -55,7 +55,7 @@ public class BearPet extends PetMaterial {
         public void updateStats(UpdateStatsEvent e) {
             if (!(e.getPlayer().getActivePetMaterial() instanceof BearPet)) return;
 
-            e.getStats().addMultiplier(StatType.FEROCITY, MULTIPLIER * e.getPlayer().getActivePet().getModifiers().getPet().getLevel(), 0);
+            e.getStats().addMultiplier(StatTypes.FEROCITY, MULTIPLIER * e.getPlayer().getActivePet().getModifiers().getPet().getLevel(), 0);
         }
     }
 

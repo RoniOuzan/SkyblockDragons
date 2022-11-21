@@ -4,8 +4,8 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
+import me.maxiiiiii.skyblockdragons.item.stats.constructors.SurvivorStats;
 import org.bukkit.Color;
 import org.bukkit.Material;
 
@@ -17,7 +17,7 @@ public class HematiteBoots extends ArmorMaterial {
                 "Hematite Boots",
                 ItemType.BOOTS,
                 Rarity.LEGENDARY,
-                new Stats(105, 85, 40, 30, 260, 90, 10),
+                new SurvivorStats(105, 85, 40, 30, 260, 90, 10),
                 "",
                 ItemFullSetBonus.HEMATITE_FULL_SET
         );

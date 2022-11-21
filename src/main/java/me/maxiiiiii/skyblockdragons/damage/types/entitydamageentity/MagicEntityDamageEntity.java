@@ -27,7 +27,7 @@ public class MagicEntityDamageEntity extends EntityDamageEntity {
 
             double baseAbilityDamage = ability instanceof ItemAbilityMagicDamage ? ((ItemAbilityMagicDamage) ability).getFinalAbilityDamage(player) : 1;
 
-            return baseAbilityDamage * (1 + (player.getStats().getIntelligence().amount / 100));
+            return baseAbilityDamage * (1 + (player.getStats().getIntelligence().get() / 100));
         }
         return 1;
     }

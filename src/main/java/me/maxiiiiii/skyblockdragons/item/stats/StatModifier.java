@@ -13,4 +13,13 @@ public class StatModifier {
         this.text = text;
         this.stat = stat;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof StatModifier)) return false;
+
+        return this.getStat().getType() == ((StatModifier) other).getStat().getType() &&
+                this.getType() == ((StatModifier) other).getType() &&
+                this.getText().equals(((StatModifier) other).getText());
+    }
 }

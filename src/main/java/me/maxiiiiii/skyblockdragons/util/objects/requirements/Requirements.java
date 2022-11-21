@@ -22,4 +22,8 @@ public class Requirements {
         return player.ignoreItemRequirements() ||
                 this.requirements.stream().allMatch(r -> r.hasRequirement(player));
     }
+
+    public Requirement getRequirement(int index) {
+        return this.requirements.get(index);
+    }
 }
