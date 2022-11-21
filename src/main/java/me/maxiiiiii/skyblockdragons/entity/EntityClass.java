@@ -330,6 +330,10 @@ public class EntityClass implements LivingEntity {
         return this.entity.getNearbyEntities(x, y, z);
     }
 
+    public List<Entity> getNearbyEntities(double range) {
+        return this.getNearbyEntities(range, range, range);
+    }
+
     @Override
     public int getEntityId() {
         return this.entity.getEntityId();

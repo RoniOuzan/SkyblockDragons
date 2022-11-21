@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.world.worlds.end;
 
 import de.tr7zw.changeme.nbtapi.NBTEntity;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.ProjectileEntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
@@ -22,8 +23,7 @@ import me.maxiiiiii.skyblockdragons.world.worlds.end.listeners.PlayerPlaceEyeLis
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
-import org.bukkit.entity.EnderDragon;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -116,14 +116,15 @@ public class TheEnd extends WorldSD implements Listener {
             dragonDamage.put(SkyblockDragons.getPlayer(player), 10D);
         }
 
-//        Functions.While(() -> !dragon.isDead(), 2L, i -> {
-//            for (Entity entity : dragon.getNearbyEntities(1, 1, 1)) {
-//                if (entity instanceof Arrow && ((Arrow) entity).getShooter() != null) {
-//                    entity.remove();
-//                    SkyblockDragons.getPlayer((Player) ((Arrow) entity).getShooter()).makeDamage(dragon, Damage.DamageType.PROJECTILE, 1);
-//                }
-//            }
-//        });
+        Functions.While(() -> !dragon.isDead(), 2L, i -> {
+            for (Entity entity : dragon.getNearbyEntities(1)) {
+                if (entity instanceof Arrow && ((Arrow) entity).getShooter() != null) {
+                    entity.remove();
+                    PlayerSD player = SkyblockDragons.getPlayer((Player) ((Arrow) entity).getShooter());
+                    player.damage(new ProjectileEntityDamageEntity(player, dragon, (Projectile) entity));
+                }
+            }
+        });
         Functions.While(() -> dragon != null && !dragon.isDead(), 40L, i -> {
             if (i % 6 == 4) {
                 return;
