@@ -2,9 +2,9 @@ package me.maxiiiiii.skyblockdragons.commands;
 
 import me.maxiiiiii.skyblockdragons.commands.manager.QuickCommand;
 import me.maxiiiiii.skyblockdragons.commands.manager.QuickSubCommand;
-import me.maxiiiiii.skyblockdragons.events.JoinQuitListener;
+import me.maxiiiiii.skyblockdragons.events.listeners.JoinQuitListener;
 import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
+import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 
 public class SkyblockDragonsAlphaCommand extends QuickCommand {
     public SkyblockDragonsAlphaCommand() {
@@ -13,7 +13,7 @@ public class SkyblockDragonsAlphaCommand extends QuickCommand {
             JoinQuitListener.starterKit(player);
         }));
         addSubCommand(new QuickSubCommand("breakPiece", (player, args) -> {
-            Item toolItem = player.getItems().getToolItem();
+            Item toolItem = player.getItems().getTool();
             Item item = TheEnd.breakArmorPiece(toolItem);
             player.getInventory().setItemInMainHand(item);
             player.sendMessage("§c[SBD ALPHA] You BROKE %s -> %sx %s!", toolItem.getItemMeta().getDisplayName(), item.getAmount(), item.getItemMeta().getDisplayName());

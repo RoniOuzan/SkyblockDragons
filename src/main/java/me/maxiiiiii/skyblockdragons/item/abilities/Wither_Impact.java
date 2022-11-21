@@ -1,8 +1,9 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.types.NecronBladeMaterial;
 import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
-import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
+import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Creature;
@@ -57,7 +58,7 @@ public class Wither_Impact implements Listener {
 
             teleportForward(player, 10);
 
-            List<Entity> entities = loopEntities(player.getLocation(), 6);
+            List<EntitySD> entities = loopEntities(player.getLocation(), 6);
 
             for (Entity entity : entities) {
                 if (entity instanceof Creature) {
@@ -80,7 +81,7 @@ public class Wither_Impact implements Listener {
             if (cooldown(player, cooldown, 10000, true)) {
                 if (scrolls.contains(NecronBladeMaterial.NecronBladeAbility.SHADOW_WARP)) {
                     if ((System.currentTimeMillis() - cooldown.getCooldown(player)) <= 5000) {
-                        List<Entity> entities = loopEntities(player.getLocation(), 6);
+                        List<EntitySD> entities = loopEntities(player.getLocation(), 6);
 
                         for (Entity entity : entities) {
                             if (entity instanceof Creature) {
@@ -103,9 +104,9 @@ public class Wither_Impact implements Listener {
 
                 teleportForward(player, 10);
 
-                List<Entity> entities = loopEntities(player.getLocation(), 6);
+                List<EntitySD> entities = loopEntities(player.getLocation(), 6);
 
-                for (Entity entity : entities) {
+                for (EntitySD entity : entities) {
                     if (entity instanceof Creature) {
                         entity.setVelocity(new Vector(
                                 (player.getLocation().getX() - entity.getLocation().getX()) / 3,
@@ -129,7 +130,7 @@ public class Wither_Impact implements Listener {
                 if (players.get(player.getUniqueId()).manaCost(300, item, "Implosion")) return;
 
                 player.getLocation().getWorld().spawnParticle(Particle.EXPLOSION_HUGE, player.getLocation(), 1, 0, 0, 0, 10);
-                List<Entity> entities = loopEntities(player.getLocation(), 6);
+                List<EntitySD> entities = loopEntities(player.getLocation(), 6);
 
                 for (Entity entity : entities) {
                     if (entity instanceof Creature) {

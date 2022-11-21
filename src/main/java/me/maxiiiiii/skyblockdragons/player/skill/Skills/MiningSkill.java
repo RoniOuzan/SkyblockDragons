@@ -2,11 +2,13 @@ package me.maxiiiiii.skyblockdragons.player.skill.Skills;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
 
 @Getter
 public class MiningSkill extends AbstractSkill {
@@ -19,7 +21,7 @@ public class MiningSkill extends AbstractSkill {
                 Material.DIAMOND_PICKAXE,
                 new SkillRewards(
                         "Spelunker",
-                        ChatColor.WHITE + "Grants " + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + (level * 4) + "➡" + ChatColor.GREEN + ((level + 1) * 4) + " " + ChatColor.GOLD + "Mining Fortune" + ChatColor.WHITE + ", which increases your chance for multiple ore drops.",
+                        l -> ChatColor.WHITE + "Grants " + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + (l * 4) + "➡" + ChatColor.GREEN + ((l + 1) * 4) + " " + ChatColor.GOLD + "Mining Fortune" + ChatColor.WHITE + ", which increases your chance for multiple ore drops.",
                         StatType.DEFENSE,
                         2,
                         coinsAmount
@@ -28,5 +30,12 @@ public class MiningSkill extends AbstractSkill {
                 60,
                 totalXp
         );
+    }
+
+    @EventHandler
+    public void updateStats(UpdateStatsEvent e) {
+        if (e.getPlayer() != this.getPlayer()) return;
+
+        e.getStats().add(StatType.MINING_FORTUNE, this.getLevel() * 4);
     }
 }

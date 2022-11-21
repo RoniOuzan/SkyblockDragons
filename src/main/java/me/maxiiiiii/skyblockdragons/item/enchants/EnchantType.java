@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.item.enchants;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.item.objects.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemTypeGroup;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
@@ -107,7 +107,7 @@ public class EnchantType implements Comparable<EnchantType> {
     private final Stats stats; // dmg, str, cd, cc, as, fer, hp, def, speed, mana
     private final short maxLevel;
     private final String description;
-    private final EnchantMultiplier multiplayers;
+    private final EnchantMultiplier multipliers;
     private final SkillRequirement requirement;
     private final ArrayList<ItemType> types;
     private final ArrayList<String> distractions;
@@ -116,7 +116,7 @@ public class EnchantType implements Comparable<EnchantType> {
     EnchantType(Stats stats, int maxLevel , String description, EnchantMultiplier multiplayers, SkillRequirement requirement, ArrayList<ItemType> types, ArrayList<String> distractions, boolean inEnchantingTable) {
         this.stats = stats;
         this.description = description;
-        this.multiplayers = multiplayers;
+        this.multipliers = multiplayers;
         if (!types.contains(ItemType.BOOK)) types.add(ItemType.BOOK);
         this.requirement = requirement;
         this.types = types;
@@ -194,7 +194,7 @@ public class EnchantType implements Comparable<EnchantType> {
         enchants.put("EXPERIENCE", new EnchantType(3, "Grants a " + ChatColor.GREEN + "MULTIPLIER% " + ChatColor.GREEN + "chance for mobs and ores to drop double experience.", new EnchantMultiplier(12.5, 25, 37.5, 50), SkillRequirement.NULL, ItemType.SWORD));
         enchants.put("FIRST_STRIKE" , new EnchantType(4, "Increases melee damage dealt by " + ChatColor.GREEN + "MULTIPLIER% " + ChatColor.GRAY + "for the first hit on a mob.", new EnchantMultiplier(25, 50, 75, 100, 125), new SkillRequirement(SkillType.ENCHANTING, 10), ItemType.SWORD, "TRIPLE_STRIKE"));
         enchants.put("GIANT_KILLER", new EnchantType(5, "Increases damage dealt by " + ChatColor.GREEN + "MULTIPLIER% " + ChatColor.GRAY + "for each percent of extra " + StatType.HEALTH.getIconAndText() + " " + ChatColor.GRAY + "that your target has above you up to " + ChatColor.GREEN + "50%" + ChatColor.GRAY + ".", new EnchantMultiplier(0.1, 0.2, 0.3, 0.4, 0.6, 0.9, 1.2), new SkillRequirement(SkillType.ENCHANTING, 8), ItemType.SWORD, "TITAN_KILLER"));
-//        enchants.put("LETHALITY", new EnchantType(5, "Reduces the " + StatType.DEFENSE.getIconAndText() + " " + ChatColor.GRAY + "of your target by " + ChatColor.GREEN + "MULTIPLIER% " + ChatColor.GRAY + "for 4s seconds.", new EnchantMultiplayer(1.2, 2.4, 3.6, 4.8, 6, 9), new SkillRequirement(SkillType.ENCHANTING, 14), ItemType.SWORD));
+//        enchants.put("LETHALITY", new EnchantType(5, "Reduces the " + StatType.DEFENSE.getIconAndText() + " " + ChatColor.GRAY + "of your target by " + ChatColor.GREEN + "MULTIPLIER% " + ChatColor.GRAY + "for 4s seconds.", new EnchantMultiplier(1.2, 2.4, 3.6, 4.8, 6, 9), new SkillRequirement(SkillType.ENCHANTING, 14), ItemType.SWORD));
         enchants.put("LIFE_STEAL", new EnchantType(5, "Heals for " + ChatColor.GREEN + "MULTIPLIER% " + ChatColor.GRAY + "of your max " + StatType.HEALTH.getIconAndText() + " " + ChatColor.GRAY + "each time you hit a mob.", new EnchantMultiplier(0.5, 1, 1.5, 2, 2.5), new SkillRequirement(SkillType.ENCHANTING, 5), ItemType.SWORD, new ArrayList<>(Arrays.asList("SYPHON", "MANA_STEAL"))));
         enchants.put("LOOTING", new EnchantType(5, "Increases the amount of drops of a Monster by " + ChatColor.GREEN + "MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(1, 2, 3, 4, 5), SkillRequirement.NULL, ItemType.SWORD));
         enchants.put("LUCK", new EnchantType(5, "Increases the chance of a Monster dropping their rare drops by " + ChatColor.GREEN + "MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(5, 10, 15, 20, 25, 30, 35), new SkillRequirement(SkillType.ENCHANTING, 3), ItemType.SWORD));
@@ -227,7 +227,7 @@ public class EnchantType implements Comparable<EnchantType> {
         enchants.put("BIG_BRAIN", new EnchantType(new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 5), 5, "Grants " + ChatColor.AQUA + "MULTIPLIER" + StatType.INTELLIGENCE.getIconAndText(), new EnchantMultiplier(15, 20, 25), new SkillRequirement(SkillType.ENCHANTING, 21), ItemType.HELMET, false));
         enchants.put("RESPIRATION", new EnchantType(3, "Extends your underwater breathing time by " + ChatColor.GREEN + "MULTIPLIER" + ChatColor.GRAY + ".", new EnchantMultiplier(15, 30, 45), SkillRequirement.NULL, ItemType.HELMET));
         // Chestplate
-        enchants.put("COUNTER_STRIKE", new EnchantType(5, "Gain " + ChatColor.GREEN + "+10" + StatType.DEFENSE.getIconAndText() + " " + ChatColor.GRAY + "for " + ChatColor.GREEN + "7s " + ChatColor.GRAY + "on the first hit from an enemy.", new EnchantMultiplier(0), new SkillRequirement(SkillType.ENCHANTING, 22), ItemType.CHESTPLATE, false));
+        enchants.put("COUNTER_STRIKE", new EnchantType(5, "Gain " + ChatColor.GREEN + "+10" + StatType.DEFENSE.getIconAndText() + " " + ChatColor.GRAY + "for " + ChatColor.GREEN + "7s " + ChatColor.GRAY + "on the first hit from an enemy.", new EnchantMultiplier(10, 10, 10, 10, 10), new SkillRequirement(SkillType.ENCHANTING, 22), ItemType.CHESTPLATE, false));
         enchants.put("TRUE_PROTECTION", new EnchantType(1, "Grants " + ChatColor.WHITE + "+MULTIPLIER" + StatType.TRUE_DEFENSE.getIconAndText() + ChatColor.GRAY + ".", new EnchantMultiplier(5), new SkillRequirement(SkillType.ENCHANTING, 15), ItemType.CHESTPLATE, false));
         // Leggings
         enchants.put("SMARTY_PANTS", new EnchantType(new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 5), 5, "Grants " + ChatColor.AQUA + "MULTIPLIER" + StatType.INTELLIGENCE.getIconAndText() + ChatColor.GRAY + ".", new EnchantMultiplier(5, 10, 15, 20, 25), new SkillRequirement(SkillType.ENCHANTING, 21), ItemType.LEGGINGS, false));
@@ -254,7 +254,7 @@ public class EnchantType implements Comparable<EnchantType> {
         // Ultimate Enchants
         enchants.put("CHIMERA", new UltimateEnchantType(5, "Copies " + ChatColor.GREEN + "MULTIPLIER% " + ChatColor.GRAY + "of your active pet's stats.", new EnchantMultiplier(20, 40, 60, 80, 100), new SkillRequirement(SkillType.ENCHANTING, 31), new ArrayList<>(Arrays.asList(ItemType.SWORD)), "CHIMERA"));
         enchants.put("ONE_FOR_ALL", new UltimateEnchantType(1, "Removes all other enchants but increases your weapon damage by " + ChatColor.GREEN + "MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(500), new SkillRequirement(SkillType.ENCHANTING, 37), new ArrayList<>(Arrays.asList(ItemType.SWORD)), "ONE_FOR_ALL"));
-        enchants.put("ULTIMATE_WISE", new UltimateEnchantType(5, "Reduces the abiliy mana cost of this item by " + ChatColor.GREEN + "MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(10, 20, 30, 40, 50), new SkillRequirement(SkillType.ENCHANTING, 20), new ArrayList<>(Arrays.asList(ItemType.SWORD)), "ULTIMATE_WISE"));
+        enchants.put("ULTIMATE_WISE", new UltimateEnchantType(5, "Reduces the ability mana cost of this item by " + ChatColor.GREEN + "MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(10, 20, 30, 40, 50), new SkillRequirement(SkillType.ENCHANTING, 20), new ArrayList<>(Arrays.asList(ItemType.SWORD)), "ULTIMATE_WISE"));
 
         BANE_OF_ARTHROPODS = enchants.get("BANE_OF_ARTHROPODS");
         CRITICAL = enchants.get("CRITICAL");
@@ -327,7 +327,7 @@ public class EnchantType implements Comparable<EnchantType> {
     }
 
     public String getDescription(int level) {
-        return this.getDescription().replace("MULTIPLIER", this.getMultiplayers().get(level) + "");
+        return this.getDescription().replace("MULTIPLIER", this.getMultipliers().get(level) + "");
     }
 
     public String name() {

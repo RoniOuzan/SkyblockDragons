@@ -20,7 +20,7 @@ import me.maxiiiiii.skyblockdragons.entity.types.theend.EndermanTier2;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.dragon.*;
 import me.maxiiiiii.skyblockdragons.entity.types.witherisland.WitherGuard;
 import me.maxiiiiii.skyblockdragons.entity.types.witherisland.wither.*;
-import me.maxiiiiii.skyblockdragons.item.objects.Drop;
+import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityDrop;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.Utility;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -51,9 +51,9 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
     public double combatXp;
     public double coins;
 
-    public Drop[] drops;
+    public EntityDrop[] drops;
 
-    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance, boolean ai, double combatXp, double coins, Drop... drops) {
+    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance, boolean ai, double combatXp, double coins, EntityDrop... drops) {
         this.entityType = entityType;
         this.name = name;
         this.level = level;
@@ -72,25 +72,13 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         SkyblockDragons.plugin.getServer().getPluginManager().registerEvents(this, SkyblockDragons.plugin);
     }
 
-    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance, double combatXp, double coins, Drop... drops) {
+    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance, double combatXp, double coins, EntityDrop... drops) {
         this(entityType, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, true, combatXp, coins, drops);
-    }
-
-    public EntityMaterial(EntityType wither, String name, int level, int health, int defense, int damage, int trueDamage, int i, double speed, int knockbackResistance, int combatXp, Drop drop) {
     }
 
     public abstract void onSpawn(EntitySD entity);
 
     public void onTick(EntitySD entity){
-
-    }
-
-    public void onDamage(EntitySD attacker, EntitySD entity, Double damage) {
-
-    }
-
-    public void onDeath(EntitySD attacker, EntitySD entity) {
-
     }
 
     public static void registerEntities() {
@@ -130,8 +118,6 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
 
         entities.put("DUMMY", new Dummy());
 
-        entities.put("PLAYER", new PlayerEntity());
-
         entities.put("ETERNITYBOSS", new EternityBoss());
         entities.put("INFINITY", new Infinity());
         entities.put("SUPER_INFINITY", new Super_Infinity());
@@ -148,6 +134,8 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         entities.put("POLAR__BEAR_BOSS", new Polar_Bear_Boss());
         entities.put("KOALA_BEAR_BOSS", new Koala_Bear_Boss());
         entities.put("PANDA_BOSS", new Panda_Bear_Boss());
+
+        entities.put("PLAYER", new PlayerEntity());
 
         NullEntity nullEntity = new NullEntity();
         entities.put("NULL", nullEntity);

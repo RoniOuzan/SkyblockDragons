@@ -45,11 +45,11 @@ public class SkillMenu extends Menu {
         lores.add("");
         lores.add(ChatColor.GRAY + "Level " + (skill.getLevel() + 1) + " Rewards:");
         lores.add("  " + ChatColor.YELLOW + skill.getRewards().getName() + " " + skill.getLevel());
-        for (String line : Functions.loreBuilder(skill.getRewards().getPassive(), ChatColor.WHITE, 20)) {
+        for (String line : Functions.loreBuilder(skill.getRewards().getPassive(skill.getLevel()), ChatColor.WHITE, 20)) {
             lores.add("    " + line);
         }
         lores.add("  " + ChatColor.DARK_GRAY + "+" + ChatColor.GREEN + Functions.getInt(skill.getRewards().getStatAmount() * skill.getLevel() + "") + " " + skill.getRewards().getStat().getIconAndText());
-        lores.add("  " + ChatColor.DARK_GRAY + "+" + ChatColor.GOLD + Functions.getNumberFormat(skill.getRewards().getCoinsAmount()[skill.getLevel()]) + " " + ChatColor.GRAY + "Coins");
+        lores.add("  " + ChatColor.DARK_GRAY + "+" + ChatColor.GOLD + Functions.getNumberFormat(skill.getRewards().getCoins(skill.getLevel())) + " " + ChatColor.GRAY + "Coins");
         lores.add("");
         lores.add(ChatColor.YELLOW + "Click to view!");
         return lores;

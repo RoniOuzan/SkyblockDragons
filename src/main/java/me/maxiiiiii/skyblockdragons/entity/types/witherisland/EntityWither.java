@@ -2,28 +2,27 @@ package me.maxiiiiii.skyblockdragons.entity.types.witherisland;
 
 import de.tr7zw.changeme.nbtapi.NBTEntity;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.damage.Damage;
+import me.maxiiiiii.skyblockdragons.damage.events.EntityDamageEvent;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.item.objects.Drop;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import me.maxiiiiii.skyblockdragons.util.objects.FlyToLocation;
-import me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland;
-import org.bukkit.GameMode;
+import me.maxiiiiii.skyblockdragons.world.worlds.witherisland.WitherIsland;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 
 public abstract class EntityWither extends EntityMaterial {
 
@@ -253,23 +252,19 @@ public abstract class EntityWither extends EntityMaterial {
         entity.getWorld().playSound(entity.getLocation(), sound, volume, pitch);
     }
 
-    @Override
-    public void onDamage(EntitySD attacker, EntitySD entity, Double damage) {
-        if (attacker instanceof PlayerSD){
-            PlayerSD playerSD = (PlayerSD) attacker;
-            double oldDamage = WitherIsland.witherDamage.getOrDefault(playerSD.getUniqueId(), 0d);
-            double newDamage = oldDamage + damage;
-            WitherIsland.witherDamage.put(playerSD.getUniqueId(), newDamage);
-//            playerSD.sendMessage(String.format("Damage to Wither: %s", Functions.getNumberFormat(newDamage)));
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    public void onDamage(EntityDamageEvent e) {
+        if (e.getVictim().material instanceof EntityWither && e.getAttacker() instanceof PlayerSD) {
+            WitherIsland.witherDamage.put(e.getAttacker().getUniqueId(), WitherIsland.witherDamage.getOrDefault(e.getAttacker().getUniqueId(), 0d) + e.getFinalDamage());
         }
     }
+}
 
-    /*
+/*
     wither guide:
     Athena = Intelligence = execute more abilities
     Phanes = Health = more health
     Hermes = Speed = moves faster
     Demeter = Crit damage = deals more damage
     Ares = Strength = deals more damage
-     */
-}
+ */

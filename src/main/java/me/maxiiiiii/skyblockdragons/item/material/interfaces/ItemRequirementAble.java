@@ -1,9 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.material.interfaces;
 
-import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
-
-import java.util.List;
+import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirements;
 
 public interface ItemRequirementAble extends ItemAble {
-    List<Requirement> getRequirements();
+    Requirements getRequirements();
 }

@@ -1,15 +1,11 @@
 package me.maxiiiiii.skyblockdragons.player.bank.objects;
 
-import me.maxiiiiii.skyblockdragons.storage.Variables;
-import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class BankAccount {
     public enum Type {
@@ -28,8 +24,8 @@ public class BankAccount {
 
     public BankAccount(PlayerSD player, double limit) {
         this.player = player;
-        this.personal = Variables.get(player.getUniqueId(), "BankPersonal", 0, 0d);
-        this.coop = Variables.get(player.getUniqueId(), "BankCoop", 0, 0d);
+        this.personal = Variables.getDouble(player.getUniqueId(), "BankPersonal", 0, 0d);
+        this.coop = Variables.getDouble(player.getUniqueId(), "BankCoop", 0, 0d);
 
         this.limit = limit;
     }

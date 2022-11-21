@@ -8,7 +8,7 @@ import org.bukkit.World;
 public class DungeonWorldFloor1 extends DungeonWorld {
     public static final World world = Bukkit.getWorld("DungeonWorld1");
 
-    protected DungeonWorldFloor1() { // TODO change the spawn location
+    protected DungeonWorldFloor1() {
         super(world, 1, new Location(world, 0, 100, 0));
     }
 }

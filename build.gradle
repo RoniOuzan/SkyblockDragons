@@ -59,12 +59,13 @@ repositories {
     maven {
         url = uri('https://repo.maven.apache.org/maven2/')
     }
+    mavenCentral()
 }
 
 dependencies {
     implementation 'de.tr7zw:item-nbt-api:2.9.2'
     implementation 'dev.jcsoftware:JScoreboards:2.1.5-RELEASE'
-    compileOnly 'com.github.fierioziy.particlenativeapi:ParticleNativeAPI-plugin:3.2.0'
+    compileOnly 'com.github.fierioziy.particlenativeapi:ParticleNativeAPI-plugin:3.3.1'
     compileOnly 'org.jetbrains:annotations:23.0.0'
     compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
     compileOnly 'org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT'
@@ -75,6 +76,7 @@ dependencies {
     compileOnly 'net.citizensnpcs:citizens-main:2.0.29-SNAPSHOT'
     compileOnly 'com.sk89q.worldedit:worldedit-bukkit:6.1.4-SNAPSHOT'
     compileOnly 'com.sk89q.worldedit:worldedit-core:6.1.4-SNAPSHOT'
+    implementation 'org.reflections:reflections:0.10.2'
 }
 
 tasks.jar.configure {

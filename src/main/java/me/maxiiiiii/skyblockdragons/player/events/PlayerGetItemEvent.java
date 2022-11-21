@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.player.events;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.entity.PlayerSDEvent;
+import me.maxiiiiii.skyblockdragons.events.events.abstracts.playersd.PlayerSDEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;

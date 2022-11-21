@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.entity.types.deepermines;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.objects.Drop;
+import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemDrop;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -27,9 +27,9 @@ public class Ghost extends EntityMaterial {
                 0,
                 250,
                 5,
-                new Drop(Items.get("DERNIC_SHARD"), 1, 1),
-                new Drop(Items.get("HEMATITE_SHARD"), 1, 0.2),
-                new Drop(Items.get("VOID_CRYSTAL_SHARD"), 1, 0.05)
+                new EntityItemDrop(Items.get("DERNIC_SHARD"), 1, 1),
+                new EntityItemDrop(Items.get("HEMATITE_SHARD"), 1, 0.2),
+                new EntityItemDrop(Items.get("VOID_CRYSTAL_SHARD"), 1, 0.05)
         );
     }
 

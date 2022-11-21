@@ -6,7 +6,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 public class PlayerSendMessageListener implements Listener {
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerSendMessage(PlayerSendMessageEvent e) {
         if (!e.isCancelled()) {
             e.getPlayer().makePlayerSay(e.getMessage());

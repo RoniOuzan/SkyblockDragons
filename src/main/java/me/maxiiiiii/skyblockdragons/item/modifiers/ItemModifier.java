@@ -1,5 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.modifiers;
 
+import de.tr7zw.changeme.nbtapi.NBTCompound;
+import me.maxiiiiii.skyblockdragons.item.Item;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
@@ -11,6 +13,8 @@ public abstract class ItemModifier {
     public ItemModifier(Class<? extends ItemModifier> clazz) {
         classes.add(clazz);
     }
+    
+    public abstract void applyNBT(Item item, NBTCompound nbt);
 
     public static Set<Class<? extends ItemModifier>> getClasses() {
         return classes;

@@ -1,71 +1,76 @@
 package me.maxiiiiii.skyblockdragons.player;
 
-import de.tr7zw.changeme.nbtapi.NBTCompound;
-import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.damage.Damage;
-import me.maxiiiiii.skyblockdragons.damage.EntityDamageEntityEvent;
+import me.maxiiiiii.skyblockdragons.damage.events.EntityDamageEvent;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamage.EntityDamage;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.EntityDamageEntity;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
+import me.maxiiiiii.skyblockdragons.entity.Equipment;
 import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.item.abilities.Atomsplit_Katana;
-import me.maxiiiiii.skyblockdragons.item.abilities.Rogue_Sword;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.material.types.*;
-import me.maxiiiiii.skyblockdragons.item.objects.Drop;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
-import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
+import me.maxiiiiii.skyblockdragons.item.material.materials.nfa.powerorbs.PowerOrbDeployAbility;
+import me.maxiiiiii.skyblockdragons.item.material.types.BowMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.MiningMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
-import me.maxiiiiii.skyblockdragons.item.pet.Pet;
 import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
+import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.player.chat.ChatChannel;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerDeathEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
+import me.maxiiiiii.skyblockdragons.player.objects.ActionBarSupplier;
 import me.maxiiiiii.skyblockdragons.player.party.Party;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
-import me.maxiiiiii.skyblockdragons.player.stats.StatsMultiplayer;
 import me.maxiiiiii.skyblockdragons.player.storage.EnderChest;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
-import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
+import me.maxiiiiii.skyblockdragons.util.objects.Priority;
+import me.maxiiiiii.skyblockdragons.util.objects.Queue;
+import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
-import me.maxiiiiii.skyblockdragons.worlds.deepermines.forge.Forge;
-import me.maxiiiiii.skyblockdragons.worlds.griffin.Griffin;
+import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.forge.Forge;
+import me.maxiiiiii.skyblockdragons.world.worlds.griffin.Griffin;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Method;
+import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import java.util.stream.Collectors;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.*;
+import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
+import static me.maxiiiiii.skyblockdragons.util.Functions.getInt;
 
 @Getter
 @Setter
-public class PlayerSD extends PlayerClass {
+public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     public PlayerStats stats;
 
     private ScoreboardSD scoreboardSD;
@@ -84,24 +89,29 @@ public class PlayerSD extends PlayerClass {
     public Wardrobe wardrobe;
     public BankAccount bank;
     public PlayerPet playerPet;
-    public AccessoryBag accessoryBag;
     public EnderChest enderChestSD;
 
     public Forge forge;
 
     public Griffin griffin;
 
-    public final Cooldown<PlayerSD> updateStatsCooldown = new Cooldown<>();
+    private PowerOrbDeployAbility.PowerOrbType activePowerOrb = null;
 
     private double lastCoins;
 
     private final List<Menu> menuHistory = new ArrayList<>();
 
-    public static final double HEALTH_REGEN = 1.05;
+    private final Cooldown<EntitySD> hitTick = new Cooldown<>();
+
+    private final Queue<ActionBarSupplier> actionBarQueue = new Queue<>();
+
+    public static final double HEALTH_REGEN = 0.05;
 
     public PlayerSD(Player player) {
         super(player);
+        System.out.println("player " + player);
         this.update(player);
+        SkyblockDragons.players.put(player.getUniqueId(), this);
 
         this.stats = new PlayerStats(this,
                 0,
@@ -127,21 +137,20 @@ public class PlayerSD extends PlayerClass {
                 0
         );
 
-        this.chatChannel = Variables.get(player.getUniqueId(), "ChatChannel", 0, ChatChannel.ALL);
+        this.chatChannel = (ChatChannel) Variables.get(player.getUniqueId(), "ChatChannel", 0, ChatChannel.ALL);
 
-        this.tracked = Variables.get(player.getUniqueId(), "Tracked", 0, true);
-        setupLogger();
+        this.tracked = Variables.getBoolean(player.getUniqueId(), "Tracked", 0, true);
+//        setupLogger();
 
         this.party = null;
 
-        this.playTime = Variables.get(player.getUniqueId(), "PlayTime", 0, 0);
-        this.bits = Variables.get(player.getUniqueId(), "Bits", 0, 0);
+        this.playTime = Variables.getInt(player.getUniqueId(), "PlayTime", 0, 0);
+        this.bits = Variables.getInt(player.getUniqueId(), "Bits", 0, 0);
 
         this.wardrobe = new Wardrobe(this);
         this.skill = new Skill(this);
         this.bank = new BankAccount(this, 50_000_000);
         this.playerPet = new PlayerPet(this);
-        this.accessoryBag = new AccessoryBag(this);
         this.enderChestSD = new EnderChest(this);
 
         this.forge = new Forge(this);
@@ -151,8 +160,7 @@ public class PlayerSD extends PlayerClass {
         this.lastCoins = this.getCoins();
 
         this.scoreboardSD = new ScoreboardSD(this);
-
-        SkyblockDragons.players.put(player.getUniqueId(), this);
+        this.equipment = new PlayerEquipment();
     }
 
     private void setupLogger() {
@@ -160,7 +168,7 @@ public class PlayerSD extends PlayerClass {
         FileHandler fh;
         try {
 
-            // This block configure the logger with handler and formatter
+            // This block configures the logger with handler and formatter
             fh = new FileHandler(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/PlayersLogs/" + getUniqueId() + ".log", 0,1, true);
             logger.addHandler(fh);
             SimpleFormatter formatter = new SimpleFormatter();
@@ -197,23 +205,31 @@ public class PlayerSD extends PlayerClass {
         Variables.set(player.getUniqueId(), "PlayTime", 0, this.playTime);
         Variables.set(player.getUniqueId(), "Bits", 0, this.bits);
 
-        Variables.set(player.getUniqueId(), "ChatChannel", 0, this.chatChannel);
+//        Variables.set(player.getUniqueId(), "ChatChannel", 0, this.chatChannel);
         Variables.set(player.getUniqueId(), "Tracked", 0, this.tracked);
 
         this.wardrobe.save();
         this.skill.save();
         this.bank.save();
         this.playerPet.save();
-        this.accessoryBag.save();
+        this.getItems().save();
         this.enderChestSD.save();
 
         this.forge.save();
     }
 
+    public void setActivePowerOrb(PowerOrbDeployAbility.PowerOrbType activePowerOrb) {
+        this.activePowerOrb = activePowerOrb;
+    }
+
+    public PowerOrbDeployAbility.PowerOrbType getActivePowerOrb() {
+        return activePowerOrb;
+    }
+
     public void giveSkill(SkillType skillType, double amount) {
         this.skill.get(skillType.name()).giveXp(amount);
         String message = ChatColor.DARK_AQUA + "+" + getInt(amount + "") + " " + skillType + " (" + Math.floor(this.getSkill().get(skillType).getCurrentXp() / this.getSkill().get(skillType).getCurrentNeedXp() * 1000d) / 10d + "%)";
-        Functions.sendActionBar(this, message);
+        this.actionBarQueue.add(new ActionBarSupplier(message, 2));
     }
 
     public void addPlayTime(int amount) {
@@ -228,17 +244,25 @@ public class PlayerSD extends PlayerClass {
         this.bits = amount;
     }
 
-    public void setActivePet(int activePet) {
-        this.playerPet.activePet = activePet;
-//        Variables.set(player.getUniqueId(), "ActivePet", activePet);
+    public void setActivePet(int activePetSlot) {
+        this.playerPet.setActivePetSlot(activePetSlot);
     }
 
-    public Pet getPetActive() {
-        return this.playerPet.getPetActive();
+    public Item getActivePet() {
+        if (this.playerPet == null) return null;
+
+        return this.playerPet.getActivePet();
     }
 
-    public Pet getPet() {
-        return this.getPetActive();
+    public PetMaterial getActivePetMaterial() {
+        if (this.getActivePet() != null && this.getActivePet().getMaterial() instanceof PetMaterial) {
+            return (PetMaterial) this.getActivePet().getMaterial();
+        }
+        return PetMaterial.NULL;
+    }
+
+    public Item getPet() {
+        return this.getActivePet();
     }
 
     public int getBreakingPower() {
@@ -249,12 +273,9 @@ public class PlayerSD extends PlayerClass {
         return 0;
     }
 
-    public double getHealthStat() {
-        return this.stats.health.amount;
-    }
-
-    public void setHealthStat(double health) {
-        this.stats.health.amount = health;
+    @Override
+    public double getMaxHealth() {
+        return this.stats.getHealth().get();
     }
 
     public double getPurse() {
@@ -297,66 +318,24 @@ public class PlayerSD extends PlayerClass {
         return this.getPersonalBank();
     }
 
-    public void give(ItemStack item, Object source) {
+    public void give(ItemStack item) {
+        if (item == null) return;
+
         int amount = item.getAmount();
 
         if (amount > 64){
             throw new IllegalArgumentException("Amount must be less than 64");
         }
-//        sendMessage("Give ITEMSD %s %s", item, source);
 
-        if (item instanceof Drop) {
-            ItemStack itemStack = ((Drop) item).generate(this, source);
-            if (itemStack != null)
-                this.player.getInventory().addItem(itemStack);
-        } else {
-            this.player.getInventory().addItem(item);
-        }
+        this.player.getInventory().addItem(item);
 
         PlayerGetItemEvent event = new PlayerGetItemEvent(this, item);
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
 
-    public void give(ItemStack item) {
-        this.give(item, null);
-    }
-
-    public void addItemStat(ItemStack item) {
-        try {
-            NBTItem nbtItem = new NBTItem(item);
-            NBTCompound nbt = nbtItem.getCompound("Item");
-            List<Double> stats = nbt.getDoubleList("Stats");
-            this.stats.add(stats);
-        } catch (NullPointerException ignored) {
-        }
-    }
-
-    public void addPetStats(Pet pet) {
-        try {
-            NBTItem nbtItem = new NBTItem(pet);
-            NBTCompound nbt = nbtItem.getCompound("Item");
-            List<Double> stats = nbt.getDoubleList("Stats");
-            this.stats.add(stats);
-        } catch (NullPointerException ignored) {
-        }
-    }
-
     public void applyStats(boolean manaRegan) {
-        Equipment equipment = this.getItems();
-
-        ItemStack tool = equipment.getTool();
-        ItemStack helmet = equipment.getHelmet();
-        ItemStack chestplate = equipment.getChestplate();
-        ItemStack leggings = equipment.getLeggings();
-        ItemStack boots = equipment.getBoots();
-
-        ToolMaterial toolMaterial = equipment.getToolMaterial();
-        ArmorMaterial helmetMaterial = equipment.getHelmetMaterial();
-        ArmorMaterial chestplateMaterial = equipment.getChestplateMaterial();
-        ArmorMaterial leggingsMaterial = equipment.getLeggingsMaterial();
-        ArmorMaterial bootsMaterial = equipment.getBootsMaterial();
-
-        String fullSet = equipment.getFullSet();
+        this.equipment.update();
+        PlayerEquipment equipment = getItems();
 
         if (this.getWorldSD().isType(WorldType.MINING)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, -1, false, false), true);
@@ -365,17 +344,7 @@ public class PlayerSD extends PlayerClass {
         }
 
         this.stats.reset();
-        this.stats.health.set(500); // no other way to have more base health so for now it will be that
-
-        // ALPHA BASE SKILLS
-        if (getSkill().get(SkillType.COMBAT).getLevel() < 15){
-            getSkill().get(SkillType.COMBAT).setLevel(15);
-        }
-        if (getSkill().get(SkillType.ENCHANTING).getLevel() < 40){
-            getSkill().get(SkillType.ENCHANTING).setLevel(40);
-        }
-
-        StatsMultiplayer statsMultiplayer = new StatsMultiplayer();
+        this.stats.getHealth().set(500); // no other way to have more base health so for now it will be that
 
         for (AbstractSkill skill : this.getSkill()) {
             this.stats.add(skill.getRewards().getStat(), skill.getRewards().getStatAmount() * skill.getLevel());
@@ -384,122 +353,64 @@ public class PlayerSD extends PlayerClass {
         this.stats.add(StatType.FARMING_FORTUNE, this.getSkill().getFarmingSkill().getLevel() * 4);
         this.stats.add(StatType.FORAGING_FORTUNE, this.getSkill().getForagingSkill().getLevel() * 4);
 
+        for (Item item : equipment) {
+            if (item.getMaterial() instanceof ItemRequirementAble && !((ItemRequirementAble) item.getMaterial()).getRequirements().hasRequirements(this)) continue;
+
+            stats.add(item.getStats());
+        }
+
+        UpdateStatsEvent event = new UpdateStatsEvent(stats);
+        Bukkit.getPluginManager().callEvent(event);
+
+        stats.applyMultipliers();
+
         if (getEnchantLevel(EnchantType.RESPIRATION) > 0)
             player.setMaximumAir((getEnchantLevel(EnchantType.RESPIRATION) * 200) + 200);
 
-        ArrayList<ItemFamily> accessoryFamilies = new ArrayList<>();
-        for (ItemStack accessory : this.accessoryBag.getItems()) {
-            if (Functions.getItemMaterial(accessory).getType() == ItemType.ACCESSORY && !accessoryFamilies.contains(Items.get(accessory).getFamily())) {
-                accessoryFamilies.add(Items.get(accessory).getFamily());
-                this.addItemStat(accessory);
-            }
+        // TODO: convert it to event
+        if (manaRegan && this.stats.getMana().get() < this.stats.getIntelligence().get()) {
+            this.stats.getMana().add(this.stats.getIntelligence().get() / 50);
         }
-
-        // tool
-        if (Functions.isNotAir(tool) && toolMaterial.getRequirements().stream().allMatch(r -> r.hasRequirement(this)))
-            if (toolMaterial.getType().isTool()) this.addItemStat(tool);
-
-        // helmet
-        if (Functions.isNotAir(helmet) && helmetMaterial.getRequirements().stream().allMatch(r -> r.hasRequirement(this)))
-            if (helmetMaterial.getType() == ItemType.HELMET) this.addItemStat(helmet);
-
-        // chestplate
-        if (Functions.isNotAir(chestplate) && chestplateMaterial.getRequirements().stream().allMatch(r -> r.hasRequirement(this)))
-            if (chestplateMaterial.getType() == ItemType.CHESTPLATE) this.addItemStat(chestplate);
-
-        // leggings
-        if (Functions.isNotAir(leggings) && leggingsMaterial.getRequirements().stream().allMatch(r -> r.hasRequirement(this)))
-            if (leggingsMaterial.getType() == ItemType.LEGGINGS) this.addItemStat(leggings);
-
-        // boots
-        if (Functions.isNotAir(boots) && bootsMaterial.getRequirements().stream().allMatch(r -> r.hasRequirement(this)))
-            if (bootsMaterial.getType() == ItemType.BOOTS) this.addItemStat(boots);
-
-        if (this.playerPet.activePet >= 0) {
-            this.addPetStats(this.getPetActive());
-        }
-
-        if (helmetMaterial == Items.get("ENDER_HELMET"))
-            statsMultiplayer.increase(5, 5, 5, 5, 5, 5);
-        if (helmetMaterial == Items.get("ENDER_CHESTPLATE"))
-            statsMultiplayer.increase(5, 5, 5, 5, 5, 5);
-        if (helmetMaterial == Items.get("ENDER_LEGGINGS"))
-            statsMultiplayer.increase(5, 5, 5, 5, 5, 5);
-        if (helmetMaterial == Items.get("ENDER_BOOTS"))
-            statsMultiplayer.increase(5, 5, 5, 5, 5, 5);
-
-        if (helmetMaterial == Items.get("ENDER_GUARD_HELMET"))
-            statsMultiplayer.increase(10, 10, 10, 10, 10, 10);
-        if (helmetMaterial == Items.get("ENDER_GUARD_CHESTPLATE"))
-            statsMultiplayer.increase(10, 10, 10, 10, 10, 10);
-        if (helmetMaterial == Items.get("ENDER_GUARD_LEGGINGS"))
-            statsMultiplayer.increase(10, 10, 10, 10, 10, 10);
-        if (helmetMaterial == Items.get("ENDER_GuARD_BOOTS"))
-            statsMultiplayer.increase(10, 10, 10, 10, 10, 10);
-
-
-        if (System.currentTimeMillis() - Atomsplit_Katana.atomsplitAbility.getOrDefault(player, 0L) <= 4000) {
-            this.stats.ferocity.amount += 400;
-        }
-
-        if (Functions.getId(tool).equals("TERMINATOR")) {
-            this.stats.critChance.amount = this.stats.critChance.amount / 4;
-        }
-
-        if (System.currentTimeMillis() - Rogue_Sword.rogueSwordLastTimeUsed.getOrDefault(this.player, 0L) <= 30000) {
-            this.stats.speed.amount += (Rogue_Sword.rogueSwordAmountUsed.get(this.player) + 1) * 10;
-        }
-
-
-        // Full Set
-        if (fullSet.equals("Old Blood")) {
-            statsMultiplayer.increase(StatType.HEALTH, 20);
-        }
-        if (fullSet.equals("Protector Blood") && player.getHealth() >= player.getMaxHealth() / 2) {
-            statsMultiplayer.increase(StatType.DEFENSE, 30);
-        }
-        if (fullSet.equals("Young Blood") && player.getHealth() >= player.getMaxHealth() / 2) {
-            this.stats.speed.amount += 70;
-        }
-        if (fullSet.equals("Superior Blood")) {
-            statsMultiplayer.increase(0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 5, 5, 0, 0);
-        }
-
-
-        // Pets
-        if (this.getPlayerPet().getActivePet() >= 0) {
-            if (this.getPetActive().getPetMaterial() == PetMaterial.get("ENDER_DRAGON")) {
-                double amount = this.getPetActive().getLevel() * 0.1;
-                statsMultiplayer.increase(0, amount, amount, amount, amount, 0, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, amount, 0);
-            }
-        }
-
-        statsMultiplayer.apply(this.stats);
-
-        if (manaRegan) {
-            if (this.stats.mana.amount < this.stats.intelligence.amount) {
-                this.stats.mana.amount += this.stats.intelligence.amount / 50;
-            }
-        }
-        if (this.stats.mana.amount > this.stats.intelligence.amount) {
-            this.stats.mana.amount = this.stats.intelligence.amount;
+        if (this.stats.getMana().get() > this.stats.getIntelligence().get()) {
+            this.stats.getMana().set(this.stats.getIntelligence().get());
         }
 
         this.stats.normalize();
 
-        if (this.getMaxHealth() != this.getHealthStat()) {
-            this.setMaxHealth(this.getHealthStat());
+        if (this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() != this.getMaxHealth()) {
+            this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers().clear();
+            this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(this.getMaxHealth());
         }
 
-        if (this.getHealth() * HEALTH_REGEN < this.getMaxHealth()) {
-            this.setHealth(this.getHealth() * HEALTH_REGEN);
-        } else if (this.getHealth() * HEALTH_REGEN > this.getMaxHealth()) {
-            this.setHealth(this.getHealth());
+        double amountToRegain = this.getMaxHealth() * HEALTH_REGEN;
+        if (this.getActivePowerOrb() != null) amountToRegain += this.getMaxHealth() * this.getActivePowerOrb().getHealthRegenPercent();
+
+        if (this.getHealth() + amountToRegain <= this.getMaxHealth()) {
+            this.setHealth(this.getHealth() + amountToRegain);
+        } else if (this.getHealth() != this.getMaxHealth()) {
+            this.setHealth(this.getMaxHealth());
         }
 
-        this.setWalkSpeed((float) (this.stats.speed.amount / 500));
+        this.setWalkSpeed((float) (this.stats.getSpeed().get() / 500));
+    }
 
-        Functions.sendActionBar(this);
+    public void sendActionBar() {
+        ActionBarSupplier defense = new ActionBarSupplier(ChatColor.GREEN.toString() + this.getStats().getDefense().get() + StatType.DEFENSE.getIcon(), 0);
+
+        ActionBarSupplier actionBar = this.actionBarQueue.getOrDefault(defense);
+        if (actionBar != null && SkyblockDragons.getCurrentTimeInSeconds() - actionBar.getStartedAt() > actionBar.getDuration()) {
+            this.actionBarQueue.remove();
+            actionBar = this.actionBarQueue.getOrDefault(defense);
+        }
+
+        this.sendActionBar(ChatColor.RED.toString() + (int) this.getHealth() + "/" + (int) this.getMaxHealth() + " " +
+                actionBar + " " +
+                ChatColor.AQUA + (int) this.getStats().getMana().get() + "/" + (int) this.getStats().getIntelligence().get()
+        );
+    }
+
+    public void addActionBar(String text, double duration) {
+        this.actionBarQueue.add(new ActionBarSupplier(text, duration));
     }
 
     public boolean manaCost(int manaCost, ItemStack item, String abilityName) {
@@ -508,37 +419,16 @@ public class PlayerSD extends PlayerClass {
         int cost = Functions.manaCostCalculator(manaCost, this);
         if (this.stats.mana.amount >= cost) {
             this.stats.mana.amount -= cost;
-            Functions.sendActionBar(this, abilityName + ChatColor.AQUA + "! (" + cost + " Mana)");
+//            Functions.sendActionBar(this, abilityName + ChatColor.AQUA + "! (" + cost + " Mana)");
             return false;
         }
         this.player.sendMessage(ChatColor.RED + "You don't have enough mana to use this item!");
         return true;
     }
 
-    public boolean manaCost(int manaCost, ItemStack item, int i) {
-        if (this.player.getGameMode() == GameMode.CREATIVE) return false;
-
-        int cost = Functions.manaCostCalculator(manaCost, this);
-        if (this.stats.mana.amount >= cost) {
-            this.stats.mana.amount -= cost;
-            Functions.sendActionBar(this, ((WeaponMaterial) Functions.getItemMaterial(item)).getAbilities().get(i).getName() + ChatColor.AQUA + "! (" + cost + " Mana)");
-            return false;
-        }
-        return true;
-    }
-
-    public boolean manaCost(ItemStack item, int i) {
-        if (this.player.getGameMode() == GameMode.CREATIVE) return false;
-
-        ToolMaterial material = (ToolMaterial) Functions.getItemMaterial(item);
-        int cost = manaCostCalculator(material.getAbilities().get(i).getManaCost(), this);
-        if (this.stats.mana.amount >= cost) {
-            this.stats.mana.amount -= cost;
-            Functions.sendActionBar(this, material.getAbilities().get(i).getName() + ChatColor.AQUA + "! (" + cost + " Mana)");
-            return false;
-        }
-        this.player.sendMessage(ChatColor.RED + "You don't have enough mana to use this item!");
-        return true;
+    @Override
+    public void kill() {
+        Bukkit.getPluginManager().callEvent(new PlayerDeathEvent(this));
     }
 
     public short getEnchantLevel(EnchantType enchant) {
@@ -560,7 +450,7 @@ public class PlayerSD extends PlayerClass {
             if (i > 39) continue;
             ItemStack itemStack = player.getInventory().getContents()[i];
 
-            if (!isNotAir(itemStack)) continue;
+            if (!Functions.isNotAir(itemStack)) continue;
 
             ItemMaterial itemMaterial = Items.get(itemStack);
             if (itemMaterial == Items.get("NULL") || Functions.nbtHasKey(itemStack, "NOTSD")) {
@@ -568,8 +458,8 @@ public class PlayerSD extends PlayerClass {
             }
 
             Item item = new Item(this, itemMaterial, itemStack);
-            copyNBTStack(item, itemStack);
-            if (!item.isSimilar(itemStack) && !getId(itemStack).contains("_PET") && !Functions.getId(item).equals("SKYBLOCK_MENU")) {
+            Functions.copyNBTStack(item, itemStack);
+            if (!item.isSimilar(itemStack) && !Functions.getId(itemStack).contains("_PET") && !Functions.getId(item).equals("SKYBLOCK_MENU")) {
                 player.getInventory().setItem(i, item);
             }
         }
@@ -579,24 +469,11 @@ public class PlayerSD extends PlayerClass {
     public void setSkyblockMenu() {
         ItemMaterial hand = Items.get(getEquipment().getItemInMainHand());
         if (hand instanceof BowMaterial){
-            Item menu = new Item(Items.get("SKYBLOCK_MENU_ARROW"), 64);
-            menuLores(menu);
-            player.getInventory().setItem(8, menu);
+            player.getInventory().setItem(8, Item.SKYBLOCK_MENU_ARROW);
         }
         else if (!Functions.isNotAir(player.getInventory().getItem(8)) || !Functions.getId(player.getInventory().getItem(8)).equals("SKYBLOCK_MENU")) {
-            Item menu = new Item(Items.get("SKYBLOCK_MENU"), 1);
-            menuLores(menu);
-            player.getInventory().setItem(8, menu);
+            player.getInventory().setItem(8, Item.SKYBLOCK_MENU);
         }
-    }
-
-    private void menuLores(Item menu) {
-        ItemMeta menuMeta = menu.getItemMeta();
-        List<String> lores = menuMeta.getLore();
-        lores.remove(lores.size() - 1);
-        lores.add(ChatColor.YELLOW + "Click to open!");
-        menuMeta.setLore(lores);
-        menu.setItemMeta(menuMeta);
     }
 
     public void sendActionBar(String message, boolean ignoreCooldown) {
@@ -697,13 +574,26 @@ public class PlayerSD extends PlayerClass {
         return Functions.chanceOf(percent * multiplier);
     }
 
-    public void makeDamage(Entity entity, Damage.DamageType damageType, double damage, double baseAbilityDamage, double abilityScaling) {
-        EntityDamageEntityEvent event = new EntityDamageEntityEvent(this, entity, damageType, damage, false, baseAbilityDamage, abilityScaling);
-        Bukkit.getServer().getPluginManager().callEvent(event);
+    public boolean ignoreItemRequirements() {
+        return this.getGameMode() == GameMode.CREATIVE;
     }
 
-    public void makeDamage(Entity entity, Damage.DamageType damageType, double damage) {
-        makeDamage(entity, damageType, damage, 0, 0);
+    public void sendNoRequirementsMessage() {
+        this.sendNoRequirementsMessage("Item");
+    }
+
+    public void sendNoRequirementsMessage(String whatToUse) {
+        this.sendMessage(ChatColor.RED + "You don't have the requirements to use this " + whatToUse + "!");
+    }
+
+    public void damage(EntityDamage damage) {
+        if (damage instanceof EntityDamageEntity) {
+            ((EntityDamageEntity) damage).setAttacker(this);
+            ((EntityDamageEntity) damage).setAttackerEquipment(this.getItems());
+        } else {
+            damage.setVictim(this);
+        }
+        Bukkit.getPluginManager().callEvent(new EntityDamageEvent(damage));
     }
 
     public void makePlayerSay(String message) {
@@ -719,9 +609,107 @@ public class PlayerSD extends PlayerClass {
         warp.warp(this);
     }
 
+    public List<EntitySD> getEntities(double radius) {
+        return Functions.loopEntities(this.getLocation(), radius).stream().map(EntitySD::get).collect(Collectors.toList());
+    }
+
+    /**
+     * @return the hit tik with the attack speed calculations in milliseconds
+     */
+    public int getHitTik() {
+        return (int) (500 - (500 * (this.stats.getAttackSpeed().get() / (this.stats.getAttackSpeed().get() + 100))));
+    }
+
+    public boolean isOnHitTick(EntitySD victim) {
+        return Functions.cooldown(victim, this.hitTick, this.getHitTik(), false);
+    }
+
     @Override
     public void giveExp(int amount) {
         amount *= 1 + (this.getSkill().getEnchantingSkill().getLevel() * 4 / 100);
         super.giveExp(amount);
+    }
+
+    public void heal(double amount) {
+        this.setHealth(this.getHealth() + amount);
+    }
+
+    @Override
+    public PlayerEquipment getItems() {
+        return (PlayerEquipment) super.getItems();
+    }
+
+    @Getter
+    public class PlayerEquipment extends Equipment {
+        private final AccessoryBag accessoryBag;
+        private Item pet;
+
+        public PlayerEquipment() {
+            super(PlayerSD.this);
+            this.accessoryBag = new AccessoryBag(PlayerSD.this);
+        }
+
+        public void setAccessoryBag(List<Item> items) {
+            accessoryBag.setItems(items);
+        }
+
+        public PetMaterial getPetMaterial() {
+            return (PetMaterial) pet.getMaterial();
+        }
+
+        @Override
+        public void save() {
+            this.accessoryBag.save();
+        }
+
+        @Override
+        public void update() {
+            super.update();
+            this.pet = PlayerSD.this.getPlayerPet().getActivePet();
+        }
+
+        @Override
+        public List<Item> toList() {
+            List<Item> list = super.toList();
+            list.addAll(this.accessoryBag.getItems());
+            if (this.pet != null) list.add(this.pet);
+            return list;
+        }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Entity)) {
+            return false;
+        }
+        return this.getUniqueId().equals(((Entity) other).getUniqueId());
+    }
+
+    @Override
+    @Utility
+    public Map<String, Object> serialize() {
+        Map<String, Object> result = new HashMap<>();
+        result.put("UUID", this.getUniqueId().toString());
+        return result;
+    }
+
+    public static PlayerSD deserialize(Map<String, Object> args) {
+        if (!args.containsKey("UUID") || args.get("UUID") == null)
+            return null;
+
+        return SkyblockDragons.getPlayer(UUID.fromString((String) args.get("UUID")));
+    }
+
+    private static <T> int sortPriorities(T t1, T t2) {
+        try {
+            Method method1 = t1.getClass().getMethod("updateStats", PlayerStats.class);
+            Method method2 = t2.getClass().getMethod("updateStats", PlayerStats.class);
+            int level1 = method1.isAnnotationPresent(Priority.class) ? method1.getAnnotation(Priority.class).level() : Priority.DEFAULT;
+            int level2 = method2.isAnnotationPresent(Priority.class) ? method2.getAnnotation(Priority.class).level() : Priority.DEFAULT;
+            return level1 - level2;
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return 1;
     }
 }

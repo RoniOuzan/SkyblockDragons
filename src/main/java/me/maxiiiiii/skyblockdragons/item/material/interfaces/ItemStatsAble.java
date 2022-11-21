@@ -1,7 +1,11 @@
 package me.maxiiiiii.skyblockdragons.item.material.interfaces;
 
-import me.maxiiiiii.skyblockdragons.item.objects.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 
 public interface ItemStatsAble extends ItemAble {
     Stats getStats();
+
+    default int getMaxCrystals() {
+        return 2;
+    }
 }

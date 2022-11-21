@@ -1,18 +1,23 @@
 package me.maxiiiiii.skyblockdragons.item.modifiers;
 
-import me.maxiiiiii.skyblockdragons.item.crystals.CrystalType;
+import me.maxiiiiii.skyblockdragons.item.crystals.Crystals;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.types.NecronBladeMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.SkinMaterial;
+import me.maxiiiiii.skyblockdragons.item.pet.PetSupplier;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import org.bukkit.inventory.ItemStack;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+/**
+ * To add a modifier create a class and extend ItemModifier
+ * Then add public static ItemModifier getModifier(ItemStack item) method
+ * And then create an instance in ItemModifiers of the class and add it to the method toArray() and to getModifiers()
+ */
 public class ItemModifiers implements Iterable<ItemModifier> {
     private final EnchantModifier enchants;
     private final HotPotatoModifier hotPotato;
@@ -21,8 +26,9 @@ public class ItemModifiers implements Iterable<ItemModifier> {
     private final ReforgeModifier reforge;
     private final SkinModifier skin;
     private final CrystalModifier crystals;
+    private final PetModifier pet;
 
-    public ItemModifiers(EnchantModifier enchants, HotPotatoModifier hotPotato, NecronBladeScrollsModifier necronBladeScrolls, RecombabulatorModifier recombabulator, ReforgeModifier reforge, SkinModifier skin, CrystalModifier crystals) {
+    public ItemModifiers(EnchantModifier enchants, HotPotatoModifier hotPotato, NecronBladeScrollsModifier necronBladeScrolls, RecombabulatorModifier recombabulator, ReforgeModifier reforge, SkinModifier skin, CrystalModifier crystals, PetModifier pet) {
         this.enchants = enchants;
         this.hotPotato = hotPotato;
         this.necronBladeScrolls = necronBladeScrolls;
@@ -30,6 +36,7 @@ public class ItemModifiers implements Iterable<ItemModifier> {
         this.reforge = reforge;
         this.skin = skin;
         this.crystals = crystals;
+        this.pet = pet;
     }
 
     public ItemModifiers(ItemModifier... modifiers) {
@@ -40,7 +47,9 @@ public class ItemModifiers implements Iterable<ItemModifier> {
                 (RecombabulatorModifier) getOrDefault(modifiers, RecombabulatorModifier.class, new RecombabulatorModifier()),
                 (ReforgeModifier) getOrDefault(modifiers, ReforgeModifier.class, new ReforgeModifier()),
                 (SkinModifier) getOrDefault(modifiers, SkinModifier.class, new SkinModifier()),
-                (CrystalModifier) getOrDefault(modifiers, CrystalModifier.class, new CrystalModifier()));
+                (CrystalModifier) getOrDefault(modifiers, CrystalModifier.class, new CrystalModifier()),
+                (PetModifier) getOrDefault(modifiers, PetModifier.class, new PetModifier())
+        );
     }
 
     public static ItemModifier[] override(ItemModifier[] itemModifiers, ItemModifier... modifiers) {
@@ -62,7 +71,7 @@ public class ItemModifiers implements Iterable<ItemModifier> {
         return this.enchants.get();
     }
 
-    public Map<CrystalType, Short> getCrystals() {
+    public Crystals getCrystals() {
         return this.crystals.get();
     }
 
@@ -86,6 +95,10 @@ public class ItemModifiers implements Iterable<ItemModifier> {
         return this.skin.get();
     }
 
+    public PetSupplier getPet() {
+        return this.pet.get();
+    }
+
     public ItemModifier[] toArray() {
         return new ItemModifier[]{
                 this.enchants,
@@ -93,7 +106,9 @@ public class ItemModifiers implements Iterable<ItemModifier> {
                 this.necronBladeScrolls,
                 this.recombabulator,
                 this.reforge,
-                this.skin
+                this.skin,
+                this.crystals,
+                this.pet
         };
     }
 
@@ -129,15 +144,14 @@ public class ItemModifiers implements Iterable<ItemModifier> {
     }
 
     public static ItemModifiers getModifiers(ItemStack item) {
-        List<ItemModifier> modifiers = new ArrayList<>();
-        for (Class<? extends ItemModifier> clazz : new ArrayList<>(ItemModifier.getClasses())) {
-            try {
-                ItemModifier modifier = (ItemModifier) clazz.getDeclaredMethod("getModifier", ItemStack.class).invoke(null, item);
-                modifiers.add(modifier);
-            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-        }
-        return new ItemModifiers(modifiers.toArray(new ItemModifier[0]));
+        return new ItemModifiers(EnchantModifier.getModifier(item),
+                HotPotatoModifier.getModifier(item),
+                NecronBladeScrollsModifier.getModifier(item),
+                RecombabulatorModifier.getModifier(item),
+                ReforgeModifier.getModifier(item),
+                SkinModifier.getModifier(item),
+                CrystalModifier.getModifier(item),
+                PetModifier.getModifier(item)
+        );
     }
 }

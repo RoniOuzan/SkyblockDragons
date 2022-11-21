@@ -21,7 +21,7 @@ public class DungeoneeringSkill extends AbstractSkill {
                 Functions.applySkull(Functions.createItem(Material.SKULL_ITEM, 3, ""), "3549f087-6655-4e1b-9b71-ecc1c59e59b7", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTI3MzcyODA5YjU2OTQ2NDZmNDRkN2E4MzdkNGZlNjZlNWVmNjJhZTcyNzAxMTcxNjUxYjNhNzgwY2IxZjljIn19fQ=="),
                 new SkillRewards(
                         "Catacomber",
-                        ChatColor.WHITE + "Increasing the stats of your dungeon items by " + ChatColor.DARK_GRAY + getLevelIncrease(level) + "➡" + ChatColor.GREEN + levelIncrease[level] + "% " + ChatColor.WHITE + "while in " + ChatColor.RED + "The Catacombs" + ChatColor.WHITE + ".",
+                        l -> ChatColor.WHITE + "Increasing the stats of your dungeon items by " + ChatColor.DARK_GRAY + getLevelIncrease(l) + "➡" + ChatColor.GREEN + levelIncrease[l] + "% " + ChatColor.WHITE + "while in " + ChatColor.RED + "The Catacombs" + ChatColor.WHITE + ".",
                         StatType.HEALTH,
                         1,
                         coinsAmount

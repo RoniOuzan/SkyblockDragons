@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.item.abilities;
 
 import lombok.Data;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.Cooldown;
+import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -66,7 +66,7 @@ public class MultiShot_Bow implements Listener {
                 ItemStack item = player.getEquipment().getItemInMainHand();
                 Projectile projectile = e.getEntity();
                 if (Functions.getId(item).equals(bow)){
-                    Long diff = cooldown.getCurrentCooldown(player);
+                    long diff = cooldown.getCurrentCooldown(player);
                     if (diff > maxPowerTime){
                         diff = maxPowerTime;
                     }

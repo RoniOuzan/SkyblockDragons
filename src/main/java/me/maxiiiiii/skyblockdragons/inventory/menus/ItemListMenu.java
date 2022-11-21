@@ -18,7 +18,7 @@ public class ItemListMenu extends PageMenu {
     private String search;
 
     public ItemListMenu(PlayerSD player, String search) {
-        super(player, "Item List", 6, InventoryGlassType.SURROUND, Items.itemMaterials.values().stream().sorted().filter(m -> m.getName().contains(search)).map(m -> new Item(player, m)).collect(Collectors.toList()), true);
+        super(player, "Item List", 6, InventoryGlassType.SURROUND, () -> Items.itemMaterials.values().stream().sorted().filter(m -> m.getName().toLowerCase().contains(search.toLowerCase())).map(m -> new Item(player, m)).collect(Collectors.toList()), true);
 
         this.search = search;
     }
@@ -26,8 +26,6 @@ public class ItemListMenu extends PageMenu {
     @Override
     public void update() {
         this.setItem(48, createItem(Material.SIGN, ChatColor.GREEN + "Search Items", "", ChatColor.YELLOW + "Click to search items!"));
-
-        super.items = Items.itemMaterials.values().stream().sorted().filter(m -> m.getName().toLowerCase().contains(search.toLowerCase())).map(m -> new Item(player, m)).collect(Collectors.toList());
 
         super.update();
     }

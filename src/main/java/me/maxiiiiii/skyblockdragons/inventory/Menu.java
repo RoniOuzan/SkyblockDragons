@@ -6,9 +6,13 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import net.minecraft.server.v1_12_R1.ChatMessage;
+import net.minecraft.server.v1_12_R1.EntityPlayer;
+import net.minecraft.server.v1_12_R1.PacketPlayOutOpenWindow;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -24,15 +28,15 @@ import java.util.UUID;
 
 /**
  *  00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08
- * ----+----+----+----+----+----+----+----+----
+ * ---+---+---+---+---+---+---+---+------------
  *  09 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17
- * ----+----+----+----+----+----+----+----+----
+ * ---+---+---+---+---+---+---+---+------------
  *  18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26
- * ----+----+----+----+----+----+----+----+----
+ * ---+---+---+---+---+---+---+---+------------
  *  27 | 28 | 29 | 30 | 31 | 32 | 33 | 34 | 35
- * ----+----+----+----+----+----+----+----+----
+ * ---+---+---+---+---+---+---+---+------------
  *  36 | 37 | 38 | 39 | 40 | 41 | 42 | 43 | 44
- * ----+----+----+----+----+----+----+----+----
+ * ---+---+---+---+---+---+---+---+------------
  *  45 | 46 | 47 | 48 | 49 | 50 | 51 | 52 | 53
  */
 @Getter
@@ -42,6 +46,7 @@ public abstract class Menu implements InventoryHolder {
     public final ItemStack GO_BACK = createItem(Material.ARROW, ChatColor.GREEN + "Go Back", "GO_BACK", "", ChatColor.YELLOW + "Click to go back!");
 
     protected Inventory inventory;
+    protected String title;
 
     protected final PlayerSD player;
 
@@ -50,6 +55,7 @@ public abstract class Menu implements InventoryHolder {
     protected Menu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, boolean autoUpdate, boolean utilButtons) {
         this.player = player;
         this.inventory = Bukkit.createInventory(this, rows * 9, title);
+        this.title = title;
         this.inventoryGlassType = inventoryGlassType;
 
         if (inventoryGlassType == InventoryGlassType.ALL) {
@@ -136,8 +142,16 @@ public abstract class Menu implements InventoryHolder {
 
     public void onInventoryDrag(InventoryDragEvent e) {}
 
+    protected void setTitle(String title) {
+        EntityPlayer ep = ((CraftPlayer) player.getPlayer()).getHandle();
+        PacketPlayOutOpenWindow packet = new PacketPlayOutOpenWindow(ep.activeContainer.windowId, "minecraft:chest", new ChatMessage(title), this.getRows() * 9);
+        ep.playerConnection.sendPacket(packet);
+        ep.updateInventory(ep.activeContainer);
+        this.title = title;
+    }
+
     protected String getTitle() {
-        return this.inventory.getTitle();
+        return this.title;
     }
 
     protected static ItemStack createItem(ItemStack item, String name, String nbt, List<String> lores) {
@@ -152,6 +166,10 @@ public abstract class Menu implements InventoryHolder {
         }
 
         return item;
+    }
+
+    protected static ItemStack createItem(ItemStack item, String name, String nbt, String... lores) {
+        return createItem(item, name, nbt, Arrays.asList(lores));
     }
 
     protected static ItemStack createItem(Material material, int data, String name, String nbt, List<String> lores) {
@@ -188,7 +206,8 @@ public abstract class Menu implements InventoryHolder {
         return "";
     }
 
-    public static ItemStack addNBT(ItemStack item, String nbt) {
+    public static ItemStack addNBT(ItemStack itemStack, String nbt) {
+        ItemStack item = itemStack.clone();
         NBTItem nbtItem = new NBTItem(item, true);
         nbtItem.setString("GuiButton", nbt);
         return item;
@@ -204,7 +223,26 @@ public abstract class Menu implements InventoryHolder {
         SkyblockDragons.getPlayer(uuid).getMenuHistory().remove(SkyblockDragons.getPlayer(uuid).getMenuHistory().size() - 1);
     }
 
-    protected void putItems(List<ItemStack> items, int firstSlot) {
+    private static final int[][] itemsSlots = new int[][]{
+            {},
+            {4},
+            {3, 5},
+            {3, 4, 5},
+            {2, 3, 5, 6},
+            {2, 3, 4, 5, 6},
+            {1, 2, 3, 5, 6, 7},
+            {1, 2, 3, 4, 5, 6, 7},
+            {0, 1, 2, 3, 5, 6, 7, 8},
+            {0, 1, 2, 3, 4, 5, 6, 7, 8}
+    };
 
+    protected void putItemsOnCenter(int line, List<ItemStack> items) {
+        this.putItemsOnCenter(line, items.toArray(new ItemStack[0]));
+    }
+
+    protected void putItemsOnCenter(int line, ItemStack... items) {
+        for (int i = 0; i < items.length; i++) {
+            this.setItem(((line - 1) * 9) + itemsSlots[items.length][i], items[i]);
+        }
     }
 }

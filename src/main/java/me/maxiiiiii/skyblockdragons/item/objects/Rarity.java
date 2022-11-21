@@ -1,7 +1,15 @@
 package me.maxiiiiii.skyblockdragons.item.objects;
 
+import de.tr7zw.changeme.nbtapi.NBTCompound;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
+import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
+import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
 import org.bukkit.ChatColor;
+import org.bukkit.inventory.ItemStack;
 
 @Getter
 public enum Rarity {
@@ -23,8 +31,64 @@ public enum Rarity {
         this.color = color;
     }
 
+    public static Rarity getRarity(int level) {
+        for (Rarity rarity : values()) {
+            if (rarity.getLevel() == level) {
+                return rarity;
+            }
+        }
+        return NONE;
+    }
+
+    public static Rarity getRarity(ChatColor color) {
+        for (Rarity rarity : values()) {
+            if (rarity.getColor().equals(color)) {
+                return rarity;
+            }
+        }
+        return NONE;
+    }
+
+    public static Rarity getRarity(ItemStack item) {
+        NBTItem nbtItem = new NBTItem(item);
+        NBTCompound nbt = nbtItem.getCompound("Item");
+
+        if (nbt == null) return Rarity.NONE;
+
+        return getRarity(nbt.getInteger("Rarity"));
+    }
+
     @Override
     public String toString() {
         return this.getColor() + "" + ChatColor.BOLD + this.name();
+    }
+
+    public static Rarity getBookRarity(int level) {
+        if (level == 5) {
+            return Rarity.UNCOMMON;
+        } else if (level == 6) {
+            return Rarity.RARE;
+        } else if (level == 7) {
+            return Rarity.EPIC;
+        } else if (level == 8) {
+            return Rarity.LEGENDARY;
+        } else if (level == 9 || level == 10) {
+            return Rarity.MYTHIC;
+        }
+        return Rarity.COMMON;
+    }
+
+    public static Rarity getBookRarity(ItemModifiers modifiers) {
+        short highest = 0;
+        for (EnchantType enchant : EnchantType.enchants.values()) {
+            if (modifiers.getEnchants().containsKey(enchant)) {
+                if (enchant instanceof UltimateEnchantType) {
+                    highest = 10;
+                } else if (modifiers.getEnchants().get(enchant) > highest) {
+                    highest = modifiers.getEnchants().get(enchant);
+                }
+            }
+        }
+        return getBookRarity(highest);
     }
 }

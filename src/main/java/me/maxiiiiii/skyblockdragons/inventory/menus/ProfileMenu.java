@@ -35,7 +35,7 @@ public class ProfileMenu extends Menu {
         this.setItem(19, Functions.isNotAir(target.getEquipment().getChestplate()) ? target.getEquipment().getChestplate() : Functions.createItem(Material.STAINED_GLASS_PANE, 1, 0, ChatColor.YELLOW + "Player Chestplate"));
         this.setItem(28, Functions.isNotAir(target.getEquipment().getLeggings()) ? target.getEquipment().getLeggings() : Functions.createItem(Material.STAINED_GLASS_PANE, 1, 0, ChatColor.YELLOW + "Player Leggings"));
         this.setItem(37, Functions.isNotAir(target.getEquipment().getBoots()) ? target.getEquipment().getBoots() : Functions.createItem(Material.STAINED_GLASS_PANE, 1, 0, ChatColor.YELLOW + "Player Boots"));
-        this.setItem(46, target.getPlayerPet().getActivePet() >= 0 ? target.getPetActive() : Functions.createItem(Material.STAINED_GLASS_PANE, 1, 0, ChatColor.YELLOW + "Player Pet"));
+        this.setItem(46, target.getPlayerPet().getActivePetSlot() >= 0 ? target.getActivePet() : Functions.createItem(Material.STAINED_GLASS_PANE, 1, 0, ChatColor.YELLOW + "Player Pet"));
     }
 
     @Override

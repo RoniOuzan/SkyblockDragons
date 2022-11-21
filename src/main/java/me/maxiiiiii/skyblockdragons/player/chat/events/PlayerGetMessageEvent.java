@@ -2,7 +2,7 @@ package me.maxiiiiii.skyblockdragons.player.chat.events;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.maxiiiiii.skyblockdragons.entity.PlayerSDEvent;
+import me.maxiiiiii.skyblockdragons.events.events.abstracts.playersd.PlayerSDEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.chat.ChatChannel;
 import org.bukkit.event.Cancellable;

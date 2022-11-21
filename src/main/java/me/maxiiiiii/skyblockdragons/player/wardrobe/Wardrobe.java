@@ -23,14 +23,14 @@ public class Wardrobe {
         for (int i = 0; i < 18; i++) {
             slots.add(new WardrobeSlot(
                     i,
-                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0) + (i < 9 ? 0 : 36), null),
-                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1) + (i < 9 ? 0 : 36), null),
-                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2) + (i < 9 ? 0 : 36), null),
-                    Variables.get(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3) + (i < 9 ? 0 : 36), null)
+                    Variables.getItemStack(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 0) + (i < 9 ? 0 : 36)),
+                    Variables.getItemStack(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 1) + (i < 9 ? 0 : 36)),
+                    Variables.getItemStack(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 2) + (i < 9 ? 0 : 36)),
+                    Variables.getItemStack(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, 3) + (i < 9 ? 0 : 36))
             ));
         }
         this.slots = slots;
-        this.equippedSlot = Variables.get(player.getUniqueId(), "EquippedSlot", 0, 0);
+        this.equippedSlot = Variables.getInt(player.getUniqueId(), "EquippedSlot", 0, 0);
     }
     public WardrobeSlot getSlot(int slot) {
         return this.slots.get(slot);

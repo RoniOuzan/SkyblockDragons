@@ -76,7 +76,7 @@ public class EnchantingTableCommand implements CommandExecutor, Listener {
                 int cost = Integer.parseInt(e.getCurrentItem().getItemMeta().getLore().stream().filter(s -> s.contains("Costs: ")).map(ChatColor::stripColor).collect(Collectors.toList()).get(0).split(" ")[1]);
                 Item requirementItem = new Item(SkyblockDragons.getPlayer(player), e.getCurrentItem());
                 if (player.getGameMode() != GameMode.CREATIVE) {
-                    for (EnchantType enchantType : requirementItem.getEnchants().keySet()) {
+                    for (EnchantType enchantType : requirementItem.getModifiers().getEnchants().keySet()) {
                         if (SkyblockDragons.getPlayer(player).getSkill().getEnchantingSkill().getLevel() < enchantType.getRequirement().getLevel()) {
                             player.sendMessage(ChatColor.RED + "You don't have the requirements to apply this enchant!");
                             player.closeInventory();

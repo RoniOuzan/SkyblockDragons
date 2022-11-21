@@ -1,43 +1,52 @@
 package me.maxiiiiii.skyblockdragons.player.accessorybag;
 
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.inventory.Menu;
+import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
 import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.types.AccessoryMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class AccessoryBagMenu {
-    public static void openAccessoryBag(Player player, Player arg) {
-        Inventory inv;
-        if (player.getName().equals(arg.getName())) {
-            inv = Bukkit.createInventory(player, 54, ChatColor.DARK_GRAY + "Accessory Bag");
-        } else {
-            inv = Bukkit.createInventory(player, 54, ChatColor.DARK_GRAY + "Accessory Bag " + arg.getName());
-        }
-        ItemStack item = Functions.createItem(Material.STAINED_GLASS_PANE, 15, ChatColor.RESET + "");
+public class AccessoryBagMenu extends Menu {
+    public AccessoryBagMenu(PlayerSD player) {
+        super(player, "Accessory Bag", 6, InventoryGlassType.NOTHING, false);
+    }
+
+    @Override
+    public void update() {
         for (int i = 45; i < 54; i++) {
-            inv.setItem(i, item);
+            if (i == 48 || i == 49) continue;
+            this.setItem(i, getGLASS());
         }
 
-        ItemStack close = Functions.createItem(Material.BARRIER, ChatColor.RED + "Close", new ArrayList<>(Arrays.asList("", ChatColor.YELLOW + "Click to close!")));
-        inv.setItem(49, close);
-
-        PlayerSD playerSD = SkyblockDragons.getPlayer(player);
-        List<ItemStack> accessories = playerSD.getAccessoryBag().getItems();
+        List<Item> accessories = player.getItems().getAccessoryBag().getItems();
         for (int i = 0; i < 45; i++) {
             if (i < accessories.size())
-                inv.setItem(i, accessories.get(i));
+                this.setItem(i, accessories.get(i));
         }
+    }
 
-        player.openInventory(inv);
+    @Override
+    public void onInventoryClick(InventoryClickEvent e) {
+        if (e.getSlot() < 45) e.setCancelled(false);
+    }
+
+    @Override
+    public void onInventoryClose(InventoryCloseEvent e) {
+        List<Item> accessories = new ArrayList<>();
+        for (int i = 0; i < 45; i++) {
+            if (!Functions.isNotAir(this.getItem(i))) continue;
+
+            Item item = new Item(e.getInventory().getItem(i));
+            if (Functions.isNotAir(item) && Functions.getItemMaterial(item) instanceof AccessoryMaterial) {
+                accessories.add(item);
+            }
+        }
+        player.getItems().setAccessoryBag(accessories);
     }
 }

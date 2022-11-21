@@ -1,14 +1,12 @@
 package me.maxiiiiii.skyblockdragons.player;
 
 import dev.jcsoftware.jscoreboards.JPerPlayerMethodBasedScoreboard;
-import dev.jcsoftware.jscoreboards.JScoreboardOptions;
-import dev.jcsoftware.jscoreboards.JScoreboardTabHealthStyle;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
-import me.maxiiiiii.skyblockdragons.worlds.end.DragonType;
-import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
-import me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland;
+import me.maxiiiiii.skyblockdragons.world.worlds.end.DragonType;
+import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
+import me.maxiiiiii.skyblockdragons.world.worlds.witherisland.WitherIsland;
 import org.bukkit.ChatColor;
 
 import java.text.SimpleDateFormat;
@@ -60,7 +58,7 @@ public class ScoreboardSD {
         scores.add(ChatColor.WHITE + "PCoin: " + ChatColor.DARK_GREEN + getNumberFormat(player.getBits()) + " " + bitsAdder);
         scores.add(" ");
         if (TheEnd.dragon != null) {
-            DragonType dragonType = DragonType.getDragonType(TheEnd.dragon.type.getName());
+            DragonType dragonType = DragonType.getDragonType(TheEnd.dragon.material.getName());
             if (player.getWorldSD() == WorldSD.THE_END && dragonType != null) {
                 scores.add(dragonType + " Dragon");
                 scores.add("  " + ChatColor.WHITE + "Dragon's Health: " + ChatColor.GREEN + Functions.getShortNumber(TheEnd.dragon.getHealth()) + StatType.HEALTH.getIcon());
@@ -69,7 +67,7 @@ public class ScoreboardSD {
             }
         }
         if(WitherIsland.wither != null){
-            String name = WitherIsland.wither.type.name;
+            String name = WitherIsland.wither.material.name;
             if (player.getWorldSD() == WorldSD.WITHER_ISLAND && name != null) {
                 scores.add(name);
                 scores.add("  " + ChatColor.WHITE + "Wither's Health: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.wither.getHealth()) + StatType.HEALTH.getIcon());
@@ -77,9 +75,9 @@ public class ScoreboardSD {
                 scores.add("  ");
             }
         }
-        if (player.playerPet.activePet >= 0) {
+        if (player.playerPet.getActivePetSlot() >= 0) {
             scores.add(ChatColor.WHITE + "Active Pet:");
-            scores.add("  " + player.getPetActive().getRarity().getColor() + player.getPetActive().getPetMaterial().getName());
+            scores.add("  " + player.getActivePet().getRarity().getColor() + player.getActivePetMaterial().getName());
             scores.add("   ");
         }
         scores.add(ChatColor.YELLOW + "sbdragons.ml");

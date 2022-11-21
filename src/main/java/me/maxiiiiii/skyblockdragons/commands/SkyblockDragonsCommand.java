@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.commands;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
@@ -10,11 +11,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,6 +29,10 @@ public class SkyblockDragonsCommand extends CommandSD {
     public void command(PlayerSD player, String[] args) {
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
+                player.sendMessage(ChatColor.GREEN + "You have been reloaded SkyblockDragons plugin.");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "plugman reload SkyblockDragons");
+                player.sendMessage(ChatColor.GREEN + "Successfully reloaded SkyblockDragons.");
+            } else if (args[0].equalsIgnoreCase("update")) {
                 player.sendMessage(ChatColor.GREEN + "You have been reloaded SkyblockDragons plugin.");
                 Functions.Loop(5, 20L, amount -> {
                     for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
@@ -108,7 +115,9 @@ public class SkyblockDragonsCommand extends CommandSD {
                     } catch (NullPointerException ignored) {}
                 }
             } else if (args[0].equalsIgnoreCase("test")) {
-
+                YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(SkyblockDragons.plugin.getDataFolder(), "Test.yml"));
+                config.set("Test", 3);
+                player.sendMessage("1. " + config.getKeys(false));
             }
         } else {
             player.sendMessage(ChatColor.RED + "Invalid arguments!");

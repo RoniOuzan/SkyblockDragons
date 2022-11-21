@@ -49,7 +49,7 @@ public class PlayerClass extends EntitySD implements Player {
 
     public void setPlayer(Player player) {
         this.player = player;
-        this.entity = player;
+        super.entity = player;
     }
 
     @Override
@@ -1460,11 +1460,6 @@ public class PlayerClass extends EntitySD implements Player {
     @Override
     public void damage(double amount, Entity source) {
         this.player.damage(amount, source);
-    }
-
-    @Override
-    public double getHealth() {
-        return this.player.getHealth();
     }
 
     @Override

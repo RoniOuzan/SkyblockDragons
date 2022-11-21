@@ -6,36 +6,40 @@ import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemDescriptionAble;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemEnchantAble;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
-import me.maxiiiiii.skyblockdragons.item.objects.*;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
+import me.maxiiiiii.skyblockdragons.item.objects.MaterialModifier;
+import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
+import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirements;
 import org.bukkit.Material;
 
 import java.util.List;
+import java.util.function.Function;
 
 @Getter
 @Setter
-public class ToolMaterial extends ItemMaterial implements ItemDescriptionAble, ItemAbilityAble, ItemEnchantAble, ItemRequirementAble {
-    public static final ToolMaterial NULL = new ToolMaterial(Material.BARRIER, ItemFamily.NULL,"Null", ItemType.NULL, Rarity.SPECIAL, "", "", "", new ItemAbility(AbilityAction.NONE, "", ""));
-
-    private String description;
-    private List<Requirement> requirements;
+public abstract class ToolMaterial extends ItemMaterial implements ItemDescriptionAble, ItemAbilityAble, ItemEnchantAble, ItemRequirementAble {
+    private Function<PlayerSD, String> description;
+    private Requirements requirements;
     private List<ItemAbility> abilities;
 
-    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, double sellPrice, String description, MaterialModifier... objects) {
-        super(material, family, name, type, rarity, id, nbt, sellPrice);
+    public ToolMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, Function<PlayerSD, String> description, MaterialModifier... objects) {
+        super(itemID, material, family, name, type, rarity);
         this.description = description;
-        this.requirements = Functions.splitList("me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement", objects);
-        this.abilities = Functions.splitList("me.maxiiiiii.skyblockdragons.item.objects.ItemAbility", objects);
-        if (this.abilities.size() == 0)
-            this.abilities.add(new ItemAbility(AbilityAction.NULL, "", ""));
+        this.requirements = new Requirements(Functions.splitList("me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement", objects));
+        this.abilities = Functions.splitList("me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility", objects);
     }
 
-    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String id, String nbt, String description, MaterialModifier... objects) {
-        this(material, family, name, type, rarity, id, nbt, 0, description, objects);
+    public ToolMaterial(String itemID, Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description, MaterialModifier... objects) {
+        this(itemID, material, family, name, type, rarity, p -> description, objects);
     }
 
-    public ToolMaterial(Material material, ItemFamily family, String name, ItemType type, Rarity rarity, String description, MaterialModifier... objects) {
-        this(material, family, name, type, rarity, "", "", 0, description, objects);
+    public String getDescription(PlayerSD player) {
+        if (player == null) return "HAVE TO BE A PLAYER!";
+
+        return description.apply(player);
     }
 }

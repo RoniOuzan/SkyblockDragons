@@ -6,12 +6,12 @@ import me.maxiiiiii.skyblockdragons.mining.Mining;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
-import me.maxiiiiii.skyblockdragons.worlds.deepermines.DeeperMines;
-import me.maxiiiiii.skyblockdragons.worlds.deepmines.DeepMines;
-import me.maxiiiiii.skyblockdragons.worlds.end.TheEnd;
-import me.maxiiiiii.skyblockdragons.worlds.griffin.GriffinIsland;
-import me.maxiiiiii.skyblockdragons.worlds.hub.Hub;
-import me.maxiiiiii.skyblockdragons.worlds.witherisland.WitherIsland;
+import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.DeeperMines;
+import me.maxiiiiii.skyblockdragons.world.worlds.deepmines.DeepMines;
+import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
+import me.maxiiiiii.skyblockdragons.world.worlds.griffin.GriffinIsland;
+import me.maxiiiiii.skyblockdragons.world.worlds.hub.Hub;
+import me.maxiiiiii.skyblockdragons.world.worlds.witherisland.WitherIsland;
 import org.bukkit.World;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -74,6 +74,12 @@ public abstract class WorldSD implements Listener {
                 world.spawnNPCs();
             }
         });
+    }
+
+    public void sendMessage(Object... messages) {
+        for (PlayerSD player : this.getPlayers()) {
+            player.sendMessage(messages);
+        }
     }
 
     public static WorldSD get(String worldName) {

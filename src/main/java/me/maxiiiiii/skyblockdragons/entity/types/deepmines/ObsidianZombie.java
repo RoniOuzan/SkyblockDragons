@@ -3,8 +3,8 @@ package me.maxiiiiii.skyblockdragons.entity.types.deepmines;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.objects.Drop;
-import me.maxiiiiii.skyblockdragons.item.objects.RareDrop;
+import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemDrop;
+import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemRareDrop;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,13 +25,13 @@ public class ObsidianZombie extends EntityMaterial {
                 0.2,
                 35,
                 4,
-                new Drop(Items.get("OBSIDIAN"), 1, 50),
-                new RareDrop(Items.get("ENCHANTED_OBSIDIAN"), 1, 2d),
-                new RareDrop(Items.get("OBSIDIAN_HELMET"), 1, 1.5d),
-                new RareDrop(Items.get("OBSIDIAN_LEGGINGS"), 1, 1.5d),
-                new RareDrop(Items.get("OBSIDIAN_LEGGINGS"), 1, 1.5d),
-                new RareDrop(Items.get("OBSIDIAN_BOOTS"), 1, 1.5d),
-                new RareDrop(Items.get("OBSIDIAN_TALISMAN"), 1, 0.5d)
+                new EntityItemDrop(Items.get("OBSIDIAN"), 1, 50),
+                new EntityItemRareDrop(Items.get("ENCHANTED_OBSIDIAN"), 1, 2d),
+                new EntityItemRareDrop(Items.get("OBSIDIAN_HELMET"), 1, 1.5d),
+                new EntityItemRareDrop(Items.get("OBSIDIAN_LEGGINGS"), 1, 1.5d),
+                new EntityItemRareDrop(Items.get("OBSIDIAN_LEGGINGS"), 1, 1.5d),
+                new EntityItemRareDrop(Items.get("OBSIDIAN_BOOTS"), 1, 1.5d),
+                new EntityItemRareDrop(Items.get("OBSIDIAN_TALISMAN"), 1, 0.5d)
         );
     }
 

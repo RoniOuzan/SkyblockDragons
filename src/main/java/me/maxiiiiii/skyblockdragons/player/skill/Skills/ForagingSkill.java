@@ -2,11 +2,13 @@ package me.maxiiiiii.skyblockdragons.player.skill.Skills;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.objects.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 
 @Getter
@@ -20,7 +22,7 @@ public class ForagingSkill extends AbstractSkill {
                 new ItemStack(Material.SAPLING, 1, (short) 3),
                 new SkillRewards(
                         "Logger,",
-                        ChatColor.WHITE + "Grants " + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + (level * 4) + "➡" + ChatColor.GREEN + ((level + 1) * 4) + " " + ChatColor.GOLD + "Foraging Fortune " + ChatColor.WHITE + ", which increase your chance for multiple logs.",
+                        l -> ChatColor.WHITE + "Grants " + ChatColor.GREEN + "+" + ChatColor.DARK_GRAY + (l * 4) + "➡" + ChatColor.GREEN + ((l + 1) * 4) + " " + ChatColor.GOLD + "Foraging Fortune " + ChatColor.WHITE + ", which increase your chance for multiple logs.",
                         StatType.STRENGTH,
                         2,
                         coinsAmount
@@ -29,5 +31,12 @@ public class ForagingSkill extends AbstractSkill {
                 50,
                 totalXp
         );
+    }
+
+    @EventHandler
+    public void updateStats(UpdateStatsEvent e) {
+        if (e.getPlayer() != this.getPlayer()) return;
+
+        e.getStats().add(StatType.FORAGING_FORTUNE, this.getLevel() * 4);
     }
 }

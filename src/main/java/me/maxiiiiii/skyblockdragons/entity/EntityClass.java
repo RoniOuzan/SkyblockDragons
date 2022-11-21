@@ -24,7 +24,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public class EntityClass implements LivingEntity {
-    public final LivingEntity entity;
+    public LivingEntity entity;
 
     public EntityClass(LivingEntity entity) {
         this.entity = entity;
