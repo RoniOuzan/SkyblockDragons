@@ -36,9 +36,4 @@ public class RedstonePigman extends EntityMaterial {
                 new EntityItemRareDrop(Items.get("REDSTONE_TALISMAN"), 1, 0.5d)
         );
     }
-
-    @Override
-    public void onSpawn(EntitySD entity) {
-
-    }
 }

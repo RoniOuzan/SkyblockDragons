@@ -32,9 +32,4 @@ public class GoldenSkeleton extends EntityMaterial {
                 new EntityItemDrop(Items.get("ARROW"), 2, 30)
         );
     }
-
-    @Override
-    public void onSpawn(EntitySD entity) {
-
-    }
 }

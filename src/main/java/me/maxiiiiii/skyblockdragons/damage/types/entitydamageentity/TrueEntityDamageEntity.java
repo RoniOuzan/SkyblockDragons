@@ -6,7 +6,7 @@ import me.maxiiiiii.skyblockdragons.damage.suppliers.FerocitySupplier;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 
 @Getter
-public class TrueEntityDamageEntity extends RangeEntityDamageEntity implements TrueDamage {
+public class TrueEntityDamageEntity extends NormalEntityDamageEntity implements TrueDamage {
     public TrueEntityDamageEntity(EntitySD attacker, EntitySD victim, FerocitySupplier isFerocity) {
         super(attacker, victim, isFerocity);
     }

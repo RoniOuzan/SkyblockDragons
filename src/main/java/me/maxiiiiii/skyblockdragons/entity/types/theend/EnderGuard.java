@@ -28,9 +28,4 @@ public class EnderGuard extends EntityMaterial {
                 new EntityItemRareDrop(Items.get("SUMMONING_EYE"), 1, 1)
         );
     }
-
-    @Override
-    public void onSpawn(EntitySD entity) {
-
-    }
 }
