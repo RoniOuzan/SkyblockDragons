@@ -2,12 +2,9 @@ package me.maxiiiiii.skyblockdragons.player.stats;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.commands.CommandSD;
-import me.maxiiiiii.skyblockdragons.item.stats.StatType;
-import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PlayerStatsAdminCommand extends CommandSD {
     @Override
