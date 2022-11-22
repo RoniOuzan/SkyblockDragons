@@ -17,14 +17,17 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class PlayerStatsAdminMenu extends UpdatingPageMenu {
-    public PlayerStatsAdminMenu(PlayerSD player) {
+    private final PlayerSD target;
+
+    public PlayerStatsAdminMenu(PlayerSD player, PlayerSD target) {
         super(player,
                 "Stats Admin",
                 6,
                 InventoryGlassType.ALL,
-                StatTypes.STATS.stream().map(s -> (Supplier<ItemStack>) () -> getItem(player, s)).collect(Collectors.toList()),
+                StatTypes.STATS.stream().map(s -> (Supplier<ItemStack>) () -> getItem(target, s)).collect(Collectors.toList()),
                 false
         );
+        this.target = target;
     }
 
     private static ItemStack getItem(PlayerSD player, StatType statType) {
@@ -46,11 +49,11 @@ public class PlayerStatsAdminMenu extends UpdatingPageMenu {
         String nbt = this.getNBT(e.getCurrentItem());
         if (nbt.contains("STAT_")) {
             StatType statType = StatTypes.get(nbt.replace("STAT_", ""));
-            player.openSign("Enter Number", lines -> {
+            target.openSign("Enter Number", lines -> {
                 if (lines[0].trim().isEmpty()) {
-                    player.getStats().getBaseStats().reset(statType);
+                    target.getStats().getBaseStats().reset(statType);
                     Functions.Wait(1L, () -> {
-                        player.applyStats(false);
+                        target.applyStats(false);
                         this.update();
                         this.open(false);
                     });
@@ -58,14 +61,14 @@ public class PlayerStatsAdminMenu extends UpdatingPageMenu {
                 }
 
                 try {
-                    player.getStats().getBaseStats().set(statType, Double.parseDouble(lines[0]));
+                    target.getStats().getBaseStats().set(statType, Double.parseDouble(lines[0]));
                     Functions.Wait(1L, () -> {
-                        player.applyStats(false);
+                        target.applyStats(false);
                         this.update();
                         this.open(false);
                     });
                 } catch (NumberFormatException ex) {
-                    player.sendMessage(ChatColor.RED + "Can't understand this number " + lines[0]);
+                    target.sendMessage(ChatColor.RED + "Can't understand this number " + lines[0]);
                 }
             });
         }
