@@ -26,7 +26,7 @@ public class ItemListMenu extends PageMenu {
     @Override
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Search Items") && e.getSlot() == 48) {
-            player.openSign("", "", "---------------", "Search Item", lines -> new ItemListMenu(player, lines[0] + lines[1]));
+            player.openSign("Search Item", lines -> new ItemListMenu(player, lines[0] + lines[1]));
         }
 
         if (this.getNBT(e.getCurrentItem()).equals("PAGE_ITEM"))

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PetMenu extends PageMenu {
-    private boolean isConvertToItem; // TODO: make more stats
+    private boolean isConvertToItem; // TODO: make more states
 
     public PetMenu(PlayerSD player) {
         super(player,

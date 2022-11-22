@@ -469,6 +469,10 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         menu.open(player);
     }
 
+    public void openSign(String line, Consumer<String[]> response) {
+        this.openSign("", "", "---------------", line, response);
+    }
+
     public Map<ItemMaterial, Integer> getAllItems() {
         Map<ItemMaterial, Integer> items = new HashMap<>();
         for (ItemStack item : this.getInventory().getContents()) {
