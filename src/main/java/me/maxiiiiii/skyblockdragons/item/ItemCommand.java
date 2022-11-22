@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.inventory.menus.ItemListMenu;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.ChatColor;
@@ -76,8 +77,7 @@ public class ItemCommand implements CommandExecutor, Listener, TabCompleter {
                     }
                 }
             } else {
-                player.sendMessage("bugged");
-//                new ItemListMenu(player, "");
+                new ItemListMenu(player, "");
             }
         }
         return true;

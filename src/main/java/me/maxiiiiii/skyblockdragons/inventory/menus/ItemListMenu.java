@@ -16,7 +16,7 @@ public class ItemListMenu extends PageMenu {
     private String search;
 
     public ItemListMenu(PlayerSD player, String search) {
-        super(player, "Item List", 6, InventoryGlassType.SURROUND, () -> Items.itemMaterials.values().stream().sorted().filter(m -> m.getName().toLowerCase().contains(search.toLowerCase())).map(m -> new Item(player, m)).collect(Collectors.toList()), false);
+        super(player, "Item List", 6, InventoryGlassType.SURROUND, Items.itemMaterials.values().stream().map(m -> new Item(player, m)).collect(Collectors.toList()), false);
 
         this.search = search;
     }
@@ -31,9 +31,11 @@ public class ItemListMenu extends PageMenu {
     @Override
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Search Items") && e.getSlot() == 48) {
-//            Functions.openSign(player, lines -> {
-//                this.search = lines.get(0);
-//            });
+            player.openSign("", "", "---------------", "Search Item", lines -> {
+                this.search = lines[0] + lines[1];
+                this.update();
+                this.open();
+            });
         }
 
         if (e.getSlot() % 9 != 0 && e.getSlot() % 9 != 8)

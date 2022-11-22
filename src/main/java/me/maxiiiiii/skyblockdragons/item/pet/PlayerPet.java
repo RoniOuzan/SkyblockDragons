@@ -31,7 +31,7 @@ public class PlayerPet {
             if (itemStack == null) {
                 continue;
             }
-            this.addPet(new Item(player, itemStack));
+            this.pets.add(new Item(player, itemStack));
         }
         Collections.sort(this.pets);
         this.hidePets = Variables.getBoolean(player.getUniqueId(), "HidePets", 0, false);
@@ -40,13 +40,45 @@ public class PlayerPet {
     }
 
     public void addPet(Item item) {
+        Item oldPet = null;
+        if (activePetSlot >= 0) {
+            this.getVisual().clear();
+            oldPet = this.getActivePet();
+        }
+
         this.pets.add(item);
         this.sort();
+
+        if (oldPet != null) {
+            for (int i = 0; i < this.pets.size(); i++) {
+                Item pet = this.pets.get(i);
+                if (pet.equals(oldPet)) {
+                    this.activePetSlot = i;
+                    i = 113;
+                }
+            }
+        }
     }
 
     public void removePet(Item item) {
+        Item oldPet = null;
+        if (activePetSlot >= 0) {
+            this.getVisual().clear();
+            oldPet = this.getActivePet();
+        }
+
         this.pets.remove(item);
         this.sort();
+
+        if (oldPet != null) {
+            for (int i = 0; i < this.pets.size(); i++) {
+                Item pet = this.pets.get(i);
+                if (pet.equals(oldPet)) {
+                    this.activePetSlot = i;
+                    i = 113;
+                }
+            }
+        }
     }
 
     private void sort() {
@@ -54,7 +86,8 @@ public class PlayerPet {
     }
 
     public void updateActivePet() {
-        pets.set(player.getPlayerPet().activePetSlot, player.getActivePet());
+        if (activePetSlot >= 0)
+            pets.set(player.getPlayerPet().activePetSlot, player.getActivePet());
         player.updatePlayerInventory();
     }
 
