@@ -21,7 +21,7 @@ public class PlayerStatsAdminMenu extends UpdatingPageMenu {
 
     public PlayerStatsAdminMenu(PlayerSD player, PlayerSD target) {
         super(player,
-                "Stats Admin",
+                player == target ? target.getName() + "'s Stats Admin" : "Stats Admin",
                 6,
                 InventoryGlassType.ALL,
                 StatTypes.STATS.stream().map(s -> (Supplier<ItemStack>) () -> getItem(target, s)).collect(Collectors.toList()),
@@ -49,7 +49,7 @@ public class PlayerStatsAdminMenu extends UpdatingPageMenu {
         String nbt = this.getNBT(e.getCurrentItem());
         if (nbt.contains("STAT_")) {
             StatType statType = StatTypes.get(nbt.replace("STAT_", ""));
-            target.openSign("Enter Number", lines -> {
+            player.openSign("Enter Number", lines -> {
                 if (lines[0].trim().isEmpty()) {
                     target.getStats().getBaseStats().reset(statType);
                     Functions.Wait(1L, () -> {
