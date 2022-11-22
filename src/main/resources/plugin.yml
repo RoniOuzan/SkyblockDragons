@@ -206,6 +206,8 @@ commands:
   kill:
     permission: skyblockdragons.kill
     usage: /<command> <player>
-  BaseStats:
+  StatsAdmin:
     permission: skyblockdragons.basestats
     usage: /<command>
+    aliases:
+      - sa

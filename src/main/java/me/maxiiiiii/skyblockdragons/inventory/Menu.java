@@ -208,11 +208,15 @@ public abstract class Menu implements InventoryHolder {
     }
 
     protected static ItemStack addLine(ItemStack itemStack, String... lores) {
+        return addLine(itemStack, Arrays.asList(lores));
+    }
+
+    protected static ItemStack addLine(ItemStack itemStack, List<String> lores) {
         ItemStack item = itemStack.clone();
         ItemMeta meta = item.getItemMeta();
         List<String> newLores = meta.getLore();
         if (newLores == null) newLores = new ArrayList<>();
-        newLores.addAll(Arrays.asList(lores));
+        newLores.addAll(lores);
         meta.setLore(newLores);
         item.setItemMeta(meta);
         return item;

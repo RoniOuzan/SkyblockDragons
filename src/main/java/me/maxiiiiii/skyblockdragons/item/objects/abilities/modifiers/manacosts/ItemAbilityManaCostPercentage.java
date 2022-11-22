@@ -1,6 +1,5 @@
 package me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts;
 
-import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 
 public interface ItemAbilityManaCostPercentage extends ItemAbilityManaCost {
@@ -14,9 +13,5 @@ public interface ItemAbilityManaCostPercentage extends ItemAbilityManaCost {
         if (player == null) return getBaseManaCostPercentage(null);
 
         return player.getStats().getIntelligence().get() * (getBaseManaCostPercentage(player) / 100);
-    }
-
-    static String getLine(ItemAbilityManaCostPercentage ability, PlayerSD player, Item item) {
-        return ItemAbilityManaCost.getLine(ability, player, item) + "%";
     }
 }

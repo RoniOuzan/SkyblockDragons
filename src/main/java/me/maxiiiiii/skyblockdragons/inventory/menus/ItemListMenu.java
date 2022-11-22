@@ -9,18 +9,28 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ItemListMenu extends PageMenu {
+    private final String search;
+
     public ItemListMenu(PlayerSD player, String search) {
-        super(player, "Item List", 6, InventoryGlassType.SURROUND, Items.itemMaterials.values().stream().filter(m -> m.name().toLowerCase().contains(search.trim().toLowerCase())).map(m -> new Item(player, m)).collect(Collectors.toList()), false);
+        super(player, "Item List", 6, InventoryGlassType.SURROUND, Items.itemMaterials.values().stream().filter(m -> m.getName().toLowerCase().contains(search.trim().toLowerCase()) || m.name().toLowerCase().contains(search.trim().toLowerCase())).map(m -> new Item(player, m)).collect(Collectors.toList()), false);
+        this.search = search == null ? "" : search.trim();
     }
 
     @Override
     public void update() {
         super.update();
 
-        this.setItem(48, createItem(Material.SIGN, ChatColor.GREEN + "Search Items", "", ChatColor.YELLOW + "Click to search items!"));
+        List<String> lores = new ArrayList<>();
+        if (!this.search.equals(""))
+            lores.add(ChatColor.GRAY + "Search: " + this.search);
+        lores.add("");
+        lores.add(ChatColor.YELLOW + "Click to search!");
+        this.setItem(48, createItem(Material.SIGN, ChatColor.GREEN + "Search Items", "", lores));
     }
 
     @Override

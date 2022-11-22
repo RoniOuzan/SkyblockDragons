@@ -2,11 +2,15 @@ package me.maxiiiiii.skyblockdragons.player.stats;
 
 import me.maxiiiiii.skyblockdragons.item.stats.StatType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.util.objects.Entry;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
-public class PlayerBaseStats {
+public class PlayerBaseStats implements Iterable<Entry<StatType, Double>> {
     private final PlayerSD player;
     private final Map<StatType, Double> stats;
 
@@ -23,7 +27,29 @@ public class PlayerBaseStats {
         this.stats.remove(statType);
     }
 
-    public double get(StatType type) {
-        return this.stats.getOrDefault(type, this.stats.getOrDefault(type, type.getBase(this.player)));
+    private List<Entry<StatType, Double>> toEntries() {
+        return this.stats.entrySet().stream().map(e -> new Entry<>(e.getKey(), e.getValue())).collect(Collectors.toList());
+    }
+
+    @Override
+    public Iterator<Entry<StatType, Double>> iterator() {
+        return toEntries().iterator();
+    }
+
+    @Override
+    public void forEach(Consumer<? super Entry<StatType, Double>> action) {
+        Objects.requireNonNull(action);
+        for (Entry<StatType, Double> e : this.toEntries()) {
+            action.accept(e);
+        }
+    }
+
+    @Override
+    public Spliterator<Entry<StatType, Double>> spliterator() {
+        return Spliterators.spliterator(this.toEntries(), Spliterator.ORDERED);
+    }
+
+    public Stream<Entry<StatType, Double>> stream() {
+        return StreamSupport.stream(spliterator(), false);
     }
 }

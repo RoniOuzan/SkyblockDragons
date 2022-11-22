@@ -341,7 +341,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         UpdateStatsEvent event = new UpdateStatsEvent(stats);
         Bukkit.getPluginManager().callEvent(event);
 
-        stats.applyMultipliers();
+        stats.update();
 
         if (getEnchantLevel(EnchantType.RESPIRATION) > 0)
             player.setMaximumAir((getEnchantLevel(EnchantType.RESPIRATION) * 200) + 200);
