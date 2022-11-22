@@ -10,19 +10,18 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Getter
 public abstract class PageMenu extends Menu {
-    protected Supplier<List<ItemStack>> items;
+    protected List<ItemStack> items;
     protected int page;
 
     protected int itemsInPage;
 
-    protected PageMenu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, Supplier<List<ItemStack>> items, boolean update) {
+    protected PageMenu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, List<? extends ItemStack> items, boolean update) {
         super(player, title, rows, inventoryGlassType, update);
-        this.items = () -> items.get().stream().peek(i -> {
+        this.items = items.stream().peek(i -> {
             if (this.getNBT(i).equals("")) {
                 NBTItem nbt = new NBTItem(i, true);
                 nbt.setString("GuiButton", "PAGE_ITEM");
@@ -37,10 +36,6 @@ public abstract class PageMenu extends Menu {
         this.itemsInPage = (this.getRows() - 2) * 7;
     }
 
-    protected PageMenu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, List<ItemStack> items, boolean update) {
-        this(player, title, rows, inventoryGlassType, () -> items, update);
-    }
-
     protected int getMaxItemsInPage() {
         return this.itemsInPage;
     }
@@ -50,10 +45,11 @@ public abstract class PageMenu extends Menu {
         int maxItems = this.getMaxItemsInPage();
         int adder = maxItems * (page - 1);
         for (int i = 0; i < maxItems; i++) {
-            if (i + adder >= items.get().size()) {
+            List<ItemStack> items = this.items;
+            if (i + adder >= items.size()) {
                 this.setItem(Functions.intToSlot(i), inventoryGlassType == InventoryGlassType.ALL ? getGLASS() : new ItemStack(Material.AIR));
             } else {
-                this.setItem(Functions.intToSlot(i), changeItem(items.get().get(i + adder)));
+                this.setItem(Functions.intToSlot(i), changeItem(items.get(i + adder)));
             }
         }
     }
@@ -64,7 +60,7 @@ public abstract class PageMenu extends Menu {
 
     public void nextPage() {
         int maxItems = this.getMaxItemsInPage();
-        if (this.page > (items.get().size() / maxItems)) {
+        if (this.page > (items.size() / maxItems)) {
             player.sendMessage(ChatColor.RED + "You can't go any further!");
             return;
         }
@@ -73,7 +69,7 @@ public abstract class PageMenu extends Menu {
     }
 
     public void lastPage() {
-        this.page = (int) Math.ceil(this.items.get().size() / 28d);
+        this.page = (int) Math.ceil(this.items.size() / 28d);
         this.update();
     }
 

@@ -21,7 +21,7 @@ public class PetMenu extends PageMenu {
                 "Pet Menu",
                 6,
                 InventoryGlassType.SURROUND,
-                () -> player.getPlayerPet().getPets().stream().map(pet -> {
+                player.getPlayerPet().getPets().stream().map(pet -> {
                     Item activePet = player.getActivePet();
                     if (pet.equals(activePet)) {
                         return addLine(addNBT(pet, "ACTIVE"), "", ChatColor.RED + "Click to despawn!");
@@ -69,9 +69,11 @@ public class PetMenu extends PageMenu {
         } else {
             if (player.getPlayerPet().getActivePetSlot() < 0 && this.getNBT(e.getCurrentItem()).equals("PAGE_ITEM")) {
                 player.give(new Item(player, e.getCurrentItem()));
-                this.player.getPlayerPet().removePet(new Item(player, e.getCurrentItem()));
-            } else
+                player.getPlayerPet().removePet(new Item(player, e.getCurrentItem()));
+                player.closeInventory();
+            } else {
                 player.sendMessage(ChatColor.RED + "You have to despawn this pet to convert it!");
+            }
         }
 
         this.update();
