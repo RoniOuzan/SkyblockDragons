@@ -1,10 +1,8 @@
 package me.maxiiiiii.skyblockdragons.player.bank;
 
-import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import org.bukkit.ChatColor;
+import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -56,16 +54,16 @@ public class BankCommand implements CommandExecutor, Listener {
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("20")) {
                 player.bank.deposit(player.getPurse() / 5, type);
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Specific")) {
-                BankAccount.Type finalType = type;
-                Functions.openSign(player, lines -> {
-                    if (!Functions.isDouble(lines.get(0))) {
-                        player.sendMessage(ChatColor.RED + "This is not a number!");
-                        player.closeInventory();
-                        return;
-                    }
-                    player.bank.deposit(Double.parseDouble(lines.get(0)), finalType);
-                    BankMenu.openBankDeposit(player, finalType);
-                });
+//                BankAccount.Type finalType = type; // TODO
+//                Functions.openSign(player, lines -> {
+//                    if (!Functions.isDouble(lines.get(0))) {
+//                        player.sendMessage(ChatColor.RED + "This is not a number!");
+//                        player.closeInventory();
+//                        return;
+//                    }
+//                    player.bank.deposit(Double.parseDouble(lines.get(0)), finalType);
+//                    BankMenu.openBankDeposit(player, finalType);
+//                });
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Go Back")) {
                 BankMenu.openBank(player, type);
             }
@@ -79,16 +77,16 @@ public class BankCommand implements CommandExecutor, Listener {
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("20")) {
                 player.bank.withdraw(player.getBankBalance(type) / 5, type);
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Specific")) {
-                BankAccount.Type finalType = type;
-                Functions.openSign(player, lines -> {
-                    if (!Functions.isDouble(lines.get(0))) {
-                        player.sendMessage(ChatColor.RED + "This is not a number!");
-                        player.closeInventory();
-                        return;
-                    }
-                    player.bank.withdraw(Double.parseDouble(lines.get(0)), finalType);
-                    BankMenu.openBankWithdraw(player, finalType);
-                });
+//                BankAccount.Type finalType = type; // TODO
+//                Functions.openSign(player, lines -> {
+//                    if (!Functions.isDouble(lines.get(0))) {
+//                        player.sendMessage(ChatColor.RED + "This is not a number!");
+//                        player.closeInventory();
+//                        return;
+//                    }
+//                    player.bank.withdraw(Double.parseDouble(lines.get(0)), finalType);
+//                    BankMenu.openBankWithdraw(player, finalType);
+//                });
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Go Back")) {
                 BankMenu.openBank(player, type);
             }

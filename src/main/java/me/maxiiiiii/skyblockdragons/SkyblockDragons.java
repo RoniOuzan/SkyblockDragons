@@ -62,10 +62,7 @@ import me.maxiiiiii.skyblockdragons.storage.VariableCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.AddonUtils;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.EntityHider;
-import me.maxiiiiii.skyblockdragons.util.objects.FlyTo;
-import me.maxiiiiii.skyblockdragons.util.objects.PickableItem;
-import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
+import me.maxiiiiii.skyblockdragons.util.objects.*;
 import me.maxiiiiii.skyblockdragons.util.particle.ParticlePacketUtil;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.npc.NPC;
@@ -102,6 +99,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static Economy economy = null;
     public static Logger logger = null;
     public static EntityHider entityHider = null;
+    public static SignMenuFactory signMenuFactory = null;
 
     private static long pluginStartedAt = 0;
 
@@ -110,6 +108,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         plugin = this;
         logger = this.getLogger();
         entityHider = new EntityHider(this, EntityHider.Policy.BLACKLIST);
+        signMenuFactory = new SignMenuFactory(this);
 
         if (!setupEconomy() ) {
             logger.severe("Disabled due to no Vault dependency found!");
