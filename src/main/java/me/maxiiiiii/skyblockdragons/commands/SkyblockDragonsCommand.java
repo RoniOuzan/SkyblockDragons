@@ -3,8 +3,6 @@ package me.maxiiiiii.skyblockdragons.commands;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
-import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
@@ -116,7 +114,8 @@ public class SkyblockDragonsCommand extends CommandSD {
                     } catch (NullPointerException ignored) {}
                 }
             } else if (args[0].equalsIgnoreCase("test")) {
-                new EntitySD(player.getLocation(), EntityMaterial.get("OLD_DRAGON"));
+                player.openSign("hi", "hello", "", "scam", lines -> {
+                });
             }
         } else {
             player.sendMessage(ChatColor.RED + "Invalid arguments!");

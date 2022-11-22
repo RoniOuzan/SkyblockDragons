@@ -30,8 +30,8 @@ import me.maxiiiiii.skyblockdragons.player.events.PlayerRegainHealthEvent;
 import me.maxiiiiii.skyblockdragons.player.objects.ActionBarSupplier;
 import me.maxiiiiii.skyblockdragons.player.party.Party;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
-import me.maxiiiiii.skyblockdragons.player.skill.Skills;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
+import me.maxiiiiii.skyblockdragons.player.skill.Skills;
 import me.maxiiiiii.skyblockdragons.player.skill.events.PlayerGetSkillXpEvent;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.player.storage.EnderChest;
@@ -41,6 +41,7 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.Priority;
 import me.maxiiiiii.skyblockdragons.util.objects.Queue;
+import me.maxiiiiii.skyblockdragons.util.objects.SignMenuFactory;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
@@ -62,12 +63,12 @@ import org.bukkit.potion.PotionEffectType;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
-import static me.maxiiiiii.skyblockdragons.util.Functions.getInt;
 
 @Getter
 @Setter
@@ -459,6 +460,13 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
             if (loc.getBlock().getType() != Material.AIR) break;
         }
         return null;
+    }
+
+    public void openSign(String line1, String line2, String line3, String line4, Consumer<String[]> response) {
+        SignMenuFactory.Menu menu = SkyblockDragons.signMenuFactory.newMenu(Arrays.asList(line1, line2, line3, line4))
+                .reopenIfFail(false)
+                .response((player, strings) -> response.accept(strings));
+        menu.open(player);
     }
 
     public Map<ItemMaterial, Integer> getAllItems() {
