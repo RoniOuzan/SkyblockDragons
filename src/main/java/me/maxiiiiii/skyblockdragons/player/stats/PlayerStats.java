@@ -6,6 +6,7 @@ import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.item.stats.StatType;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.util.objects.Entry;
 import me.maxiiiiii.skyblockdragons.util.objects.Multiplier;
 
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public class PlayerStats extends Stats {
 
     @Override
     protected double getDefaultValue(StatType type) {
-        return this.baseStats.get(type);
+        return type.getBase(this.player);
     }
 
     @Override
@@ -77,9 +78,13 @@ public class PlayerStats extends Stats {
         }
     }
 
-    public void applyMultipliers() {
+    public void update() {
         for (StatType statType : multiplayer.keySet()) {
             this.get(statType).set(multiplayer.get(statType).multiply(this.get(statType).get()));
+        }
+
+        for (Entry<StatType, Double> entry : baseStats) {
+            this.get(entry.getA()).set(entry.getB());
         }
     }
 }

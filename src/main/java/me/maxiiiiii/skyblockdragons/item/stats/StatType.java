@@ -58,7 +58,7 @@ public abstract class StatType {
         ItemStack item = this.getItemStack();
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(this.toString());
-        meta.setLore(Functions.loreBuilder(this.description));
+        if (!this.description.trim().isEmpty()) meta.setLore(Functions.loreBuilder(this.description));
         item.setItemMeta(meta);
         return item;
     }
