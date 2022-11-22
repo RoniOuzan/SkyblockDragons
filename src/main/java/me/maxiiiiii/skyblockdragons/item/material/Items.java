@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Items {
-    public static Map<String, ItemMaterial> items = new LinkedHashMap<>();
+    public static Map<String, ItemMaterial> items = new HashMap<>();
     public static Map<String, ItemMaterial> itemMaterials = new HashMap<>();
     public static Map<String, PetMaterial> pets = new HashMap<>();
     public static Map<String, ItemMaterial> vanillaMaterials = new HashMap<>();
@@ -100,6 +100,7 @@ public class Items {
         // Other Items
         items.put("NULL_OVOID", new QuickNormalMaterial(Material.MONSTER_EGG, ItemFamily.NULL, "Null Ovoid", ItemType.ITEM, Rarity.RARE, "58", "", true, true));
 
+        pets = Functions.sortByValue(pets);
         items.putAll(pets);
 
         for (String itemID : items.keySet()) {
@@ -111,6 +112,7 @@ public class Items {
         }
 
         itemMaterials = new HashMap<>(items);
+        itemMaterials = Functions.sortByValue(itemMaterials);
 
         for (Material material : Material.values()) {
             if (material == Material.AIR) continue;
@@ -184,6 +186,8 @@ public class Items {
         catch (Exception e) {
             e.printStackTrace();
         }
+
+        items = Functions.sortByValue(items);
 
         NULL = new QuickNormalMaterial(Material.BARRIER, ItemFamily.NULL, "Null", ItemType.NULL, Rarity.SPECIAL, ChatColor.GRAY + "" + ChatColor.ITALIC + "Null barrier that created by " + ChatColor.GRAY + "" + ChatColor.ITALIC + "ERROR with an item.");
         NULL.setItemID("NULL");
