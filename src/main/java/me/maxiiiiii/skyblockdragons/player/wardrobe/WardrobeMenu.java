@@ -9,15 +9,12 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
-import static me.maxiiiiii.skyblockdragons.SkyblockDragons.plugin;
 import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class WardrobeMenu extends Menu {
@@ -25,7 +22,6 @@ public class WardrobeMenu extends Menu {
 
     public WardrobeMenu(PlayerSD player, int page) {
         super(player, "Wardrobe", 6, InventoryGlassType.ALL, false);
-        player.sendMessage("§cDisabled!");
         this.page = page;
     }
 
@@ -57,19 +53,17 @@ public class WardrobeMenu extends Menu {
         }
 
         if (page > 1) {
-            ItemStack previousPage = createItem(Material.ARROW, 1, ChatColor.GREEN + "Previous Page", "PREVIOUS_PAGE", ChatColor.YELLOW + "Page 1");
+            ItemStack previousPage = createItem(Material.ARROW, ChatColor.GREEN + "Previous Page", "PREVIOUS_PAGE", ChatColor.YELLOW + "Page 1");
             this.setItem(45, previousPage);
         } else {
-            ItemStack nextPage = createItem(Material.ARROW, 1, ChatColor.GREEN + "Next Page", "NEXT_PAGE", ChatColor.YELLOW + "Page 2");
+            ItemStack nextPage = createItem(Material.ARROW, ChatColor.GREEN + "Next Page", "NEXT_PAGE", ChatColor.YELLOW + "Page 2");
             this.setItem(53, nextPage);
         }
     }
 
     @Override
     public void onInventoryClick(InventoryClickEvent e) {
-        PlayerSD player = SkyblockDragons.getPlayer((Player) e.getWhoClicked());
         if (e.getClickedInventory().getTitle().contains("Wardrobe")) {
-
             boolean secondPage = (e.getInventory().getTitle().contains("(2/2)"));
 
             if (e.getSlot() == 53 && e.getCurrentItem().getType() == Material.ARROW) {
@@ -91,20 +85,10 @@ public class WardrobeMenu extends Menu {
 
                 if (e.getCurrentItem().getType() != Material.STAINED_GLASS_PANE) {
                     int finalSlot = (e.getSlot() % 9) + ((secondPage) ? 9 : 0);
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            e.setCurrentItem(createItem(Material.STAINED_GLASS_PANE, WardrobeSlot.numberToWardrobeColor(e.getSlot()), ChatColor.GREEN + "Slot " + ((finalSlot % 9) + 1) + " " + getPeaceString(e.getSlot() / 9).toUpperCase(), "SLOT_" + getPeaceString(e.getSlot() / 9), ChatColor.GRAY + "Place a " + getPeaceString(e.getSlot() / 9) + " here to add", ChatColor.GRAY + "it to the armor set."));
-                        }
-                    }.runTaskLater(plugin, 1L);
+                    Functions.Wait(1L, () -> e.setCurrentItem(createItem(Material.STAINED_GLASS_PANE, WardrobeSlot.numberToWardrobeColor(e.getSlot()), ChatColor.GREEN + "Slot " + ((finalSlot % 9) + 1) + " " + getPeaceString(e.getSlot() / 9).toUpperCase(), "SLOT_" + getPeaceString(e.getSlot() / 9), ChatColor.GRAY + "Place a " + getPeaceString(e.getSlot() / 9) + " here to add", ChatColor.GRAY + "it to the armor set.")));
                 } else {
                     if ((e.getSlot() / 9 == 0 && getItemMaterial(e.getCursor()).getType() == ItemType.HELMET) || (e.getSlot() / 9 == 1 && getItemMaterial(e.getCursor()).getType() == ItemType.CHESTPLATE) || (e.getSlot() / 9 == 2 && getItemMaterial(e.getCursor()).getType() == ItemType.LEGGINGS) || (e.getSlot() / 9 == 3 && getItemMaterial(e.getCursor()).getType() == ItemType.BOOTS)) {
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                player.setItemOnCursor(new ItemStack(Material.AIR));
-                            }
-                        }.runTaskLater(plugin, 1L);
+                        Functions.Wait(1L, () -> player.setItemOnCursor(new ItemStack(Material.AIR)));
                     } else {
                         e.setCancelled(true);
                         return;
@@ -146,6 +130,7 @@ public class WardrobeMenu extends Menu {
                 }
             }
         } else {
+            e.setCancelled(false);
             if (e.getClick().isShiftClick()) {
                 int startValue = -1;
                 if (getItemMaterial(e.getCurrentItem()).getType() == ItemType.HELMET) startValue = 0;
@@ -164,13 +149,10 @@ public class WardrobeMenu extends Menu {
                 e.setCancelled(true);
             }
         }
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (player.getOpenInventory().getTitle().contains("Wardrobe"))
-                    updateSlots(player);
-            }
-        }.runTaskLater(plugin, 1L);
+        Functions.Wait(1L, () -> {
+            if (player.getOpenInventory().getTitle().contains("Wardrobe"))
+                updateSlots(player);
+        });
     }
 
     @Override
@@ -210,12 +192,6 @@ public class WardrobeMenu extends Menu {
             }
     }
 
-    @Override
-    public void open() {
-        player.sendMessage("§cDisabled!");
-        player.closeInventory();
-    }
-
     public static String getPeaceString(int peace) {
         if (peace == 0) return "Helmet";
         if (peace == 1) return "Chestplate";
@@ -227,14 +203,15 @@ public class WardrobeMenu extends Menu {
     public static class Command extends CommandSD {
         @Override
         public void command(PlayerSD player, String[] args) {
+            PlayerSD target = player;
             if (args.length > 0) {
                 if (isPlayerName(args[0])) {
-                    player = SkyblockDragons.getPlayer(args[0]);
+                    target = SkyblockDragons.getPlayer(args[0]);
                 } else {
                     player.sendMessage(ChatColor.RED + "There is no player with name " + args[0]);
                 }
             }
-            new WardrobeMenu(player, 1);
+            new WardrobeMenu(target, 1);
         }
 
         @Override
