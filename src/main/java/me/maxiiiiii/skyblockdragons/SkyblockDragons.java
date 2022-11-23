@@ -57,6 +57,7 @@ import me.maxiiiiii.skyblockdragons.player.stats.PlayerStatsAdminCommand;
 import me.maxiiiiii.skyblockdragons.player.stats.StatCommand;
 import me.maxiiiiii.skyblockdragons.player.storage.EnderChestMenu;
 import me.maxiiiiii.skyblockdragons.player.storage.StorageMenu;
+import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeListeners;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.WardrobeMenu;
 import me.maxiiiiii.skyblockdragons.storage.VariableCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
@@ -367,6 +368,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerEvents(new CrystalModifier.Listener(), this);
         registerEvents(new EnchantListeners(), this);
         registerEvents(new PowerOrbAbilityListener(), this);
+        registerEvents(new WardrobeListeners(), this);
 
         registerEvents(new PlayerWarpListener(), this);
         registerEvents(new ChatListener(), this);

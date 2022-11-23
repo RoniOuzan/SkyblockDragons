@@ -21,7 +21,7 @@ public class PlayerStatsAdminMenu extends UpdatingPageMenu {
 
     public PlayerStatsAdminMenu(PlayerSD player, PlayerSD target) {
         super(player,
-                player == target ? target.getName() + "'s Stats Admin" : "Stats Admin",
+                player == target ? "Stats Admin" : target.getName() + "'s Stats Admin",
                 6,
                 InventoryGlassType.ALL,
                 StatTypes.STATS.stream().map(s -> (Supplier<ItemStack>) () -> getItem(target, s)).collect(Collectors.toList()),
