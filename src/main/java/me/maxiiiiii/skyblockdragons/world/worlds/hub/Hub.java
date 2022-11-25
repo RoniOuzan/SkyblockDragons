@@ -11,7 +11,7 @@ public class Hub extends WorldSD {
     public static final World world = Bukkit.getWorld("Hub");
 
     public Hub(JavaPlugin plugin) {
-        super(world, "Hub", Warp.HUB, WorldType.HUB);
+        super(world, "Hub", Warp.HUB, WorldType.HUB, WorldType.COMBAT, WorldType.MINING);
         plugin.getCommand("Hub").setExecutor(new HubCommand());
     }
 }
