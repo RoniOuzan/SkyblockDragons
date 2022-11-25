@@ -16,7 +16,6 @@ import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.Player;
 
 public class AspectOfTheEnd extends SwordMaterial {
     public AspectOfTheEnd() {
@@ -51,7 +50,7 @@ public class AspectOfTheEnd extends SwordMaterial {
         @Override
         public PlayerAbilityRunnable setupAbility() {
             return e -> {
-                Player player = e.getPlayer();
+                PlayerSD player = e.getPlayer();
 
                 player.playSound(player.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 1f, 1f);
                 Functions.teleportForward(player, blocks);

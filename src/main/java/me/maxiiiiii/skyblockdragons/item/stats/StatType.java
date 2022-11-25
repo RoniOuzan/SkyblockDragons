@@ -79,8 +79,12 @@ public abstract class StatType {
         return this + " " + ChatColor.WHITE + Functions.getNumberFormat(statAmount) + (this instanceof PercentageStat ? "%" : "");
     }
 
+    public String toAddLore(double statAmount) {
+        return (this.color + "+" + statAmount + " " + this).replace(".0", "");
+    }
+
     public String toString(double statAmount) {
-        return (this.color.toString() + statAmount + this.icon + " " + this.getName()).replace(".0", "");
+        return (this.color.toString() + statAmount + this).replace(".0", "");
     }
 
     @Override

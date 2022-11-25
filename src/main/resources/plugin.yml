@@ -211,3 +211,8 @@ commands:
     usage: /<command>
     aliases:
       - sa
+  PowerStone:
+    permission: skyblockdragons.powerstone.menu
+    usage: /<command>
+    aliases:
+      - ps

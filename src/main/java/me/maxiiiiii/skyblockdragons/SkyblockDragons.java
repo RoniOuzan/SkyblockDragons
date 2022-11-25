@@ -39,6 +39,7 @@ import me.maxiiiiii.skyblockdragons.item.pet.PetMenu;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeCommand;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
+import me.maxiiiiii.skyblockdragons.player.accessorybag.PowerStoneMenu;
 import me.maxiiiiii.skyblockdragons.player.bank.BankCommand;
 import me.maxiiiiii.skyblockdragons.player.chat.ChatCommand;
 import me.maxiiiiii.skyblockdragons.player.chat.listeners.ChatListener;
@@ -334,6 +335,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerCommand("Kill", new KillCommand());
         registerCommand("CrystalGrinder", new CrystalGrinderMenu.Command());
         registerCommand("StatsAdmin", new PlayerStatsAdminCommand());
+        registerCommand("PowerStone", new PowerStoneMenu.Command());
     }
 
     private void registerAllEvents() {

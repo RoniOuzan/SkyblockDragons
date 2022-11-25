@@ -9,6 +9,10 @@ import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 public enum Rarity {
     NONE(0, ChatColor.DARK_GRAY),
@@ -34,6 +38,10 @@ public enum Rarity {
         if (this.ordinal() + adder >= values().length) return Rarity.SPECIAL;
 
         return values()[this.ordinal() + adder];
+    }
+
+    public static List<Rarity> getRarities() {
+        return Arrays.stream(values()).filter(r -> r != NONE).collect(Collectors.toList());
     }
 
     public static Rarity getRarity(int level) {
