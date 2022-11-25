@@ -117,15 +117,15 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
         this.stats = new PlayerStats(this);
 
-        this.chatChannel = (ChatChannel) Variables.get(player.getUniqueId(), "ChatChannel", 0, ChatChannel.ALL);
+        this.chatChannel = ChatChannel.valueOf(Variables.getString(player.getUniqueId(), "ChatChannel", "ALL"));
 
-        this.tracked = Variables.getBoolean(player.getUniqueId(), "Tracked", 0, true);
+        this.tracked = Variables.getBoolean(player.getUniqueId(), "Tracked", true);
 //        setupLogger();
 
         this.party = null;
 
-        this.playTime = Variables.getInt(player.getUniqueId(), "PlayTime", 0, 0);
-        this.bits = Variables.getInt(player.getUniqueId(), "Bits", 0, 0);
+        this.playTime = Variables.getInt(player.getUniqueId(), "PlayTime", 0);
+        this.bits = Variables.getInt(player.getUniqueId(), "Bits", 0);
 
         this.wardrobe = new Wardrobe(this);
         this.skills = new Skills(this);
@@ -181,11 +181,11 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public void save() {
-        Variables.set(player.getUniqueId(), "PlayTime", 0, this.playTime);
-        Variables.set(player.getUniqueId(), "Bits", 0, this.bits);
+        Variables.set(player.getUniqueId(), "PlayTime", this.playTime);
+        Variables.set(player.getUniqueId(), "Bits", this.bits);
 
-//        Variables.set(player.getUniqueId(), "ChatChannel", 0, this.chatChannel);
-        Variables.set(player.getUniqueId(), "Tracked", 0, this.tracked);
+        Variables.set(player.getUniqueId(), "ChatChannel", this.chatChannel.name());
+        Variables.set(player.getUniqueId(), "Tracked", this.tracked);
 
         this.wardrobe.save();
         this.skills.save();
@@ -337,6 +337,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
             stats.add(item.getStats());
         }
+        stats.add(equipment.getAccessoryBag().getStats());
 
         UpdateStatsEvent event = new UpdateStatsEvent(stats);
         Bukkit.getPluginManager().callEvent(event);
@@ -619,6 +620,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
         @Override
         public void save() {
+            super.save();
             this.accessoryBag.save();
         }
 

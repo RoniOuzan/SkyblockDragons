@@ -120,6 +120,10 @@ public class Stats implements Iterable<Stat> {
         }
     }
 
+    public boolean isEmpty() {
+        return this.stats.values().stream().mapToDouble(Stat::get).sum() == 0;
+    }
+
     public List<Stat> toCombatList() {
         return this.toList().stream().filter(s -> s.getType() instanceof CombatStat).collect(Collectors.toList());
     }

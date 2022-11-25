@@ -187,15 +187,69 @@ public class Variables {
         return getVector(name, data, null);
     }
 
+    public static String getString(UUID uuid, String name, int data, String defaultObject) {
+        if (!playerVariables.containsKey(uuid))
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+
+        return playerVariables.get(uuid).getString(name + "." + data, defaultObject);
+    }
+
+    public static String getString(UUID uuid, String name, String defaultObject) {
+        if (!playerVariables.containsKey(uuid))
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+
+        return playerVariables.get(uuid).getString(name, defaultObject);
+    }
+
+    public static String getString(UUID uuid, String name, int data) {
+        return getString(uuid, name, data, null);
+    }
+
+    public static String getString(String name, int data, String defaultObject) {
+        return variables.getString(name + "." + data, defaultObject);
+    }
+
+    public static String getString(String name, int data) {
+        return getString(name, data, null);
+    }
+
     public static boolean getBoolean(UUID uuid, String name, int data, boolean defaultObject) {
         if (!playerVariables.containsKey(uuid))
             playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
 
         return playerVariables.get(uuid).getBoolean(name + "." + data, defaultObject);
     }
-    
+
+    public static boolean getBoolean(UUID uuid, String name, boolean defaultObject) {
+        if (!playerVariables.containsKey(uuid))
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+
+        return playerVariables.get(uuid).getBoolean(name, defaultObject);
+    }
+
     public static boolean getBoolean(String name, int data, boolean defaultObject) {
         return variables.getBoolean(name + "." + data, defaultObject);
+    }
+
+    public static Enum<?> getEnum(UUID uuid, String name, int data, Enum<?> defaultObject) {
+        if (!playerVariables.containsKey(uuid))
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+
+        String value = playerVariables.get(uuid).getString(name + "." + data, "");
+        return value.isEmpty() ? defaultObject : Enum.valueOf(defaultObject.getClass(), value);
+    }
+
+    public static Enum<?> getEnum(UUID uuid, String name, Enum<?> defaultObject) {
+        if (!playerVariables.containsKey(uuid))
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+
+        String value = playerVariables.get(uuid).getString(name, "");
+        return value.isEmpty() ? defaultObject : Enum.valueOf(defaultObject.getClass(), value);
+    }
+
+    public static Enum<?> getEnum(String name, int data, Enum<?> defaultObject) {
+        String value = variables.getString(name + "." + data, "");
+        return value.isEmpty() ? defaultObject : Enum.valueOf(defaultObject.getClass(), value);
     }
 
     private static CustomConfig get(UUID uuid) {

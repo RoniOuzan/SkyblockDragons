@@ -74,6 +74,10 @@ public class Stat {
         return this.type.toStringLore(this.amount);
     }
 
+    public String toAddLore() {
+        return this.type.toAddLore(this.amount);
+    }
+
     @Override
     public String toString() {
         return this.type.toString(this.amount);
