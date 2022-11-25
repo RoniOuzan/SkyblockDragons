@@ -17,7 +17,7 @@ public class AccessoryBag implements Iterable<Item> {
     private final PlayerSD player;
     private List<Item> items;
     private PowerStone powerStone;
-    private final List<PowerStone> unlockedPowerStones;
+    private final List<PowerStone> learnedPowerStones;
     private int magicalPower;
     private final Map<StatType, Integer> tuning;
 
@@ -32,14 +32,14 @@ public class AccessoryBag implements Iterable<Item> {
         }
 
         this.powerStone = PowerStone.valueOf(Variables.getString(player.getUniqueId(), "PowerStone", "NONE"));
-        this.unlockedPowerStones = PowerStone.getStarterPowerStones();
-//        for (int i = 0; i < PowerStone.values().length; i++) {
-//            String powerStone = Variables.getString(player.getUniqueId(), "UnlockedPowerStone", i, "");
-//            if (powerStone.isEmpty()) {
-//                break;
-//            }
-//            this.unlockedPowerStones.add(PowerStone.valueOf(powerStone));
-//        }
+        this.learnedPowerStones = PowerStone.getStarterPowerStones();
+        for (int i = 0; i < PowerStone.values().length; i++) {
+            String powerStone = Variables.getString(player.getUniqueId(), "LearnedPowerStone", i, "");
+            if (powerStone.isEmpty()) {
+                break;
+            }
+            this.learnedPowerStones.add(PowerStone.valueOf(powerStone));
+        }
         this.updateMagicalPower();
 
         this.tuning = new HashMap<>();
@@ -104,12 +104,12 @@ public class AccessoryBag implements Iterable<Item> {
         return powerStone;
     }
 
-    public List<PowerStone> getUnlockedPowerStones() {
-        return unlockedPowerStones;
+    public List<PowerStone> getLearnedPowerStones() {
+        return learnedPowerStones;
     }
 
-    public void addUnlockedPowerStone(PowerStone powerStone) {
-        this.unlockedPowerStones.add(powerStone);
+    public void learnPowerStone(PowerStone powerStone) {
+        this.learnedPowerStones.add(powerStone);
     }
 
     public void setPowerStone(PowerStone powerStone) {
@@ -124,9 +124,9 @@ public class AccessoryBag implements Iterable<Item> {
             Variables.set(player.getUniqueId(), "AccessoryBag", i, items.get(i));
         }
         Variables.set(player.getUniqueId(), "PowerStone", this.powerStone.name());
-        List<PowerStone> unlockedStones = this.unlockedPowerStones.stream().filter(p -> !p.isStarter()).collect(Collectors.toList());
-        for (int i = 0; i < unlockedStones.size(); i++) {
-            Variables.set(player.getUniqueId(), "UnlockedPowerStone", i, unlockedStones.get(i).name());
+        List<PowerStone> learnedStones = this.learnedPowerStones.stream().filter(p -> !p.isStarter()).collect(Collectors.toList());
+        for (int i = 0; i < learnedStones.size(); i++) {
+            Variables.set(player.getUniqueId(), "LearnedPowerStone", i, learnedStones.get(i).name());
         }
     }
 
