@@ -33,13 +33,13 @@ public class AccessoryBag implements Iterable<Item> {
 
         this.powerStone = PowerStone.valueOf(Variables.getString(player.getUniqueId(), "PowerStone", "NONE"));
         this.unlockedPowerStones = PowerStone.getStarterPowerStones();
-        for (int i = 0; i < PowerStone.values().length; i++) {
-            String powerStone = Variables.getString(player.getUniqueId(), "UnlockedPowerStone", i, "");
-            if (powerStone.isEmpty()) {
-                break;
-            }
-            this.addUnlockedPowerStone(PowerStone.valueOf(powerStone));
-        }
+//        for (int i = 0; i < PowerStone.values().length; i++) {
+//            String powerStone = Variables.getString(player.getUniqueId(), "UnlockedPowerStone", i, "");
+//            if (powerStone.isEmpty()) {
+//                break;
+//            }
+//            this.unlockedPowerStones.add(PowerStone.valueOf(powerStone));
+//        }
         this.updateMagicalPower();
 
         this.tuning = new HashMap<>();

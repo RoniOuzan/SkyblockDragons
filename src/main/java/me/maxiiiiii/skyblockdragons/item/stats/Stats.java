@@ -302,7 +302,7 @@ public class Stats implements Iterable<Stat> {
     public Stats(double damage, double strength, double critDamage, double critChance, double attackSpeed, double ferocity, double health, double defense, double speed, double intelligence) {
         this(new ArrayList<>(Arrays.asList(
                 new Stat(StatTypes.DAMAGE, damage),
-                new Stat(StatTypes.SPEED, strength),
+                new Stat(StatTypes.STRENGTH, strength),
                 new Stat(StatTypes.CRIT_DAMAGE, critDamage),
                 new Stat(StatTypes.CRIT_CHANCE, critChance),
                 new Stat(StatTypes.ATTACK_SPEED, attackSpeed),

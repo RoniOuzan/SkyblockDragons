@@ -30,9 +30,7 @@ public class MenuListener implements Listener {
                 }
                 if (nbt.getString("GuiButton").equals("GO_BACK")) {
                     Menu.removeLastHistory(e.getWhoClicked().getUniqueId());
-                    if (player.getMenuHistory().size() > 0) {
-                        player.getMenuHistory().get(player.getMenuHistory().size() - 1).open(false);
-                    }
+                    menu.onGoBack();
                 }
 
                 if (menu instanceof PageMenu) {

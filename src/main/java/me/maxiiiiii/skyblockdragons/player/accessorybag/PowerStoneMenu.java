@@ -4,6 +4,8 @@ import me.maxiiiiii.skyblockdragons.commands.CommandSD;
 import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.inventory.PageMenu;
 import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.stats.StatType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
@@ -13,6 +15,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -187,6 +190,11 @@ public class PowerStoneMenu extends PageMenu {
                 }
             }
         }
+
+        @Override
+        public void onGoBack() {
+            new PowerStoneMenu(player);
+        }
     }
 
     public class Learn extends Menu {
@@ -214,24 +222,43 @@ public class PowerStoneMenu extends PageMenu {
                 lores.add(ChatColor.RED + "Missing some stones!");
 
             this.setItem(20, Functions.applySkull(createItem(Material.SKULL_ITEM, 3, ChatColor.GREEN + "Learn New Power", "LEARN", lores), "04631294-8d69-4aa1-8f47-7b0a3bd07fba", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzFlMWY2MTYyZGI0MjI0NTYzOTYwOWY3MjhhNGUxMzRlZDdiZDdkZTNjMTVhNzc5MmQyMTlhNmUyYTlkYiJ9fX0="));
+
+            for (int i = 0; i < 9; i++) {
+                this.setItem(13 + (i % 3) + (9 * (i / 3)), new ItemStack(Material.AIR));
+            }
         }
 
         @Override
         public void onInventoryClick(InventoryClickEvent e) {
+            if (e.getSlot() % 9 == 4 || e.getSlot() % 9 == 5 || e.getSlot() % 9 == 6 || e.getClickedInventory().getType() == InventoryType.PLAYER) {
+                e.setCancelled(false);
+            }
+
             if (this.getNBT(e.getCurrentItem()).equals("LEARN")) {
                 if (isFull()) {
-
+                    player.getItems().getAccessoryBag().addUnlockedPowerStone(PowerStone.valueOf(Items.get(this.getItem(13))));
+                    player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 1f, 1f);
+                    new PowerStoneMenu(player);
+                } else {
+                    player.sendMessage(ChatColor.RED + "Fill all slots in the grid with power stones to learn their power!");
                 }
             }
         }
 
         private boolean isFull() {
-            int amount = 0;
+            ItemMaterial material = null;
             for (int i = 0; i < 9; i++) {
-                if (Functions.isNotAir(this.getItem(13 + i + (9 * (i / 3)))))
-                    amount++;
+                ItemStack item = this.getItem(13 + (i % 3) + (9 * (i / 3)));
+                if (!Functions.isNotAir(item)) return false;
+                if (material == null) material = Items.get(item);
+                else if (material != Items.get(item)) return false;
             }
-            return amount == 9;
+            return true;
+        }
+
+        @Override
+        public void onGoBack() {
+            new PowerStoneMenu(player);
         }
     }
 

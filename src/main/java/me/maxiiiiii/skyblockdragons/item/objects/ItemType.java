@@ -18,6 +18,7 @@ public enum ItemType {
     HOE,
     ROD,
     REFORGE_STONE,
+    POWER_STONE,
     SKIN,
     BOOK,
     ACCESSORY,
