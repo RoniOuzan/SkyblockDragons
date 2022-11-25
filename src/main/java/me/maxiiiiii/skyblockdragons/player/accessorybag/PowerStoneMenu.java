@@ -27,7 +27,7 @@ public class PowerStoneMenu extends PageMenu {
                 "Power Stone Selector",
                 6,
                 InventoryGlassType.SURROUND,
-                player.getItems().getAccessoryBag().getUnlockedPowerStones().stream().sorted(PowerStone::compare).map(p -> {
+                player.getItems().getAccessoryBag().getLearnedPowerStones().stream().sorted(PowerStone::compare).map(p -> {
                     if (p == player.getItems().getAccessoryBag().getPowerStone())
                         return addLine(addNBT(p.getItemStack(player), "SELECTED_POWER_" + p.name()), "", ChatColor.RED + "Click to unselect!");
                     return addLine(addNBT(p.getItemStack(player), "POWER_" + p.name()), "", ChatColor.YELLOW + "Click to select!");
@@ -49,7 +49,7 @@ public class PowerStoneMenu extends PageMenu {
         accessoryLores.add(ChatColor.GRAY + "Total: " + ChatColor.GOLD + accessoryBag.getMagicalPower() + " Magical Power");
         this.setItem(48, createItem(Material.PAPER, ChatColor.GREEN + "Accessories Breakdown", "BREAKDOWN", accessoryLores));
 
-        this.setItem(50, Functions.applySkull(createItem(Material.SKULL_ITEM, 3, ChatColor.GREEN + "Learn Power from Stones", "LEARN", ChatColor.GRAY + "Combine " + ChatColor.GREEN + "9x " + ChatColor.GRAY + "identical " + ChatColor.BLUE + "Power", ChatColor.BLUE + "Stones " + ChatColor.GRAY + "that you may find across ", ChatColor.GREEN + "Skyblock " + ChatColor.GRAY + "to " + ChatColor.GRAY + "permanently unlock", ChatColor.GRAY + "their " + ChatColor.GREEN + "power" + ChatColor.GRAY + ".", "", ChatColor.YELLOW + "Click to combine!"), "04631294-8d69-4aa1-8f47-7b0a3bd07fba", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzFlMWY2MTYyZGI0MjI0NTYzOTYwOWY3MjhhNGUxMzRlZDdiZDdkZTNjMTVhNzc5MmQyMTlhNmUyYTlkYiJ9fX0="));
+        this.setItem(50, Functions.applySkull(createItem(Material.SKULL_ITEM, 3, ChatColor.GREEN + "Learn Power from Stones", "LEARN", ChatColor.GRAY + "Combine " + ChatColor.GREEN + "9x " + ChatColor.GRAY + "identical " + ChatColor.BLUE + "Power", ChatColor.BLUE + "Stones " + ChatColor.GRAY + "that you may find across ", ChatColor.GREEN + "Skyblock " + ChatColor.GRAY + "to " + ChatColor.GRAY + "permanently learn", ChatColor.GRAY + "their " + ChatColor.GREEN + "power" + ChatColor.GRAY + ".", "", ChatColor.YELLOW + "Click to combine!"), "04631294-8d69-4aa1-8f47-7b0a3bd07fba", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzFlMWY2MTYyZGI0MjI0NTYzOTYwOWY3MjhhNGUxMzRlZDdiZDdkZTNjMTVhNzc5MmQyMTlhNmUyYTlkYiJ9fX0="));
 
         List<String> tuningLores = new ArrayList<>(Arrays.asList(
                 ChatColor.GRAY + "Optimize your build to your liking",
@@ -212,7 +212,7 @@ public class PowerStoneMenu extends PageMenu {
             List<String> lores = new ArrayList<>(Arrays.asList(
                     ChatColor.GRAY + "Fill all the slots on the right",
                     ChatColor.GRAY + "with identical " + ChatColor.BLUE + "Power Stones",
-                    ChatColor.GRAY + "to permanently unlock their",
+                    ChatColor.GRAY + "to permanently learn their",
                     ChatColor.GREEN + "power" + ChatColor.GRAY + ".",
                     ""
             ));
@@ -236,7 +236,12 @@ public class PowerStoneMenu extends PageMenu {
 
             if (this.getNBT(e.getCurrentItem()).equals("LEARN")) {
                 if (isFull()) {
-                    player.getItems().getAccessoryBag().addUnlockedPowerStone(PowerStone.valueOf(Items.get(this.getItem(13))));
+                    PowerStone powerStone = PowerStone.valueOf(Items.get(this.getItem(13)));
+                    if (player.getItems().getAccessoryBag().getLearnedPowerStones().contains(powerStone)) {
+                        player.sendMessage(ChatColor.RED + "You have already learned this power stone!");
+                        return;
+                    }
+                    player.getItems().getAccessoryBag().learnPowerStone(powerStone);
                     player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 1f, 1f);
                     new PowerStoneMenu(player);
                 } else {
