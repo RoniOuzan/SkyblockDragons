@@ -43,7 +43,7 @@ import java.util.UUID;
 @Getter
 public abstract class Menu implements InventoryHolder {
     public final ItemStack GLASS = createItem(Material.STAINED_GLASS_PANE, 15, ChatColor.RESET + "", "GLASS");
-    public final ItemStack CLOSE = createItem(Material.BARRIER, ChatColor.RED + "Close", "CLOSE", "", ChatColor.YELLOW + "Click to close!");
+    public final ItemStack CLOSE = createItem(Material.BARRIER, ChatColor.RED + "go", "CLOSE", "", ChatColor.YELLOW + "Click to close!");
     public final ItemStack GO_BACK = createItem(Material.ARROW, ChatColor.GREEN + "Go Back", "GO_BACK", "", ChatColor.YELLOW + "Click to go back!");
 
     protected Inventory inventory;
@@ -90,7 +90,7 @@ public abstract class Menu implements InventoryHolder {
                 Functions.While(() -> player.getOpenInventory().getTopInventory().getHolder() == this, 1L, i -> this.update());
             } else
                 this.update();
-            this.open();
+            this.open(true);
         });
     }
 
@@ -107,8 +107,14 @@ public abstract class Menu implements InventoryHolder {
 
     public abstract void update();
 
+    public void onGoBack() {
+        if (player.getMenuHistory().size() > 0) {
+            player.getMenuHistory().get(player.getMenuHistory().size() - 1).open();
+        }
+    }
+
     public void open() {
-        this.open(true);
+        this.open(false);
     }
 
     public void open(boolean addToHistory) {

@@ -92,17 +92,17 @@ public abstract class PageMenu extends Menu {
             return;
         }
         this.page--;
-        this.open();
+        this.open(true);
     }
 
     public void firstPage() {
         this.page = 1;
-        this.open();
+        this.open(true);
     }
 
     @Override
     public void open() {
         this.update();
-        super.open();
+        super.open(true);
     }
 }

@@ -55,7 +55,7 @@ public class PlayerStatsAdminMenu extends UpdatingPageMenu {
                     Functions.Wait(1L, () -> {
                         target.applyStats(false);
                         this.update();
-                        this.open(false);
+                        this.open();
                     });
                     return;
                 }
@@ -65,7 +65,7 @@ public class PlayerStatsAdminMenu extends UpdatingPageMenu {
                     Functions.Wait(1L, () -> {
                         target.applyStats(false);
                         this.update();
-                        this.open(false);
+                        this.open();
                     });
                 } catch (NumberFormatException ex) {
                     target.sendMessage(ChatColor.RED + "Can't understand this number " + lines[0]);
