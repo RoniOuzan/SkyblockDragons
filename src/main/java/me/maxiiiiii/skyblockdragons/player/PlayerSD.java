@@ -601,7 +601,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     @Getter
-    public class PlayerEquipment extends Equipment {
+    public class PlayerEquipment extends Equipment implements Cloneable {
         private final AccessoryBag accessoryBag;
         private Item pet;
 
@@ -636,6 +636,15 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
             list.addAll(this.accessoryBag.getItems());
             if (this.pet != null) list.add(this.pet);
             return list;
+        }
+
+        @Override
+        public PlayerEquipment clone() {
+            try {
+                return (PlayerEquipment) super.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new AssertionError();
+            }
         }
     }
 

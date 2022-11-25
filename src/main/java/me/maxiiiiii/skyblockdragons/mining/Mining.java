@@ -65,7 +65,6 @@ public class Mining implements Listener {
         if (blockMaterial == null) return;
 
         double miningTime = ((blockMaterial.blockStrength * 30) / Math.max(player.getStats().getMiningSpeed().get(), 1)) * 50;
-//        player.sendMessage("Trying to break %s at speed %s", blockMaterial, miningTime);
 
         if (miningTime <= 50) {
             breakBlock(player, block, blockMaterial);
@@ -73,7 +72,6 @@ public class Mining implements Listener {
         }
 
         if (player.getBreakingPower() >= blockMaterial.breakingPower) {
-//            player.sendMessage("Pro Breaking Power %s %s", player.getBreakingPower(), blockMaterial.breakingPower);
             playerDigging.put(player.getUniqueId(), block);
 
             new MiningThread(player, block, miningTime);
@@ -88,7 +86,6 @@ public class Mining implements Listener {
             Bukkit.getServer().getPluginManager().callEvent(event);
         });
     }
-
 
     private static class MiningThread extends Thread {
         private final PlayerSD player;
@@ -109,14 +106,14 @@ public class Mining implements Listener {
         @Override
         public void run() {
             for (int i = 0; i < 9; i++) {
-                if (this.cancel()) return;
+                if (this.isCancelled()) return;
 
                 BlockAnimationPacket packet = new BlockAnimationPacket(player, block, (byte) i);
                 packet.send(player);
 
                 long now = System.currentTimeMillis();
                 while (!this.isInterrupted() && System.currentTimeMillis() - now < miningTime / 9) {
-                    if (this.cancel()) return;
+                    if (this.isCancelled()) return;
 
                     packet.send(player);
                     try {
@@ -140,7 +137,7 @@ public class Mining implements Listener {
             Mining.breakBlock(player, block, blockMaterial);
         }
 
-        private boolean cancel() {
+        private boolean isCancelled() {
             if (playerDigging.get(player.getUniqueId()).getY() < 0) {
                 playerDigging.put(player.getUniqueId(), null);
                 BlockAnimationPacket packet = new BlockAnimationPacket(player, block, (byte) -1);

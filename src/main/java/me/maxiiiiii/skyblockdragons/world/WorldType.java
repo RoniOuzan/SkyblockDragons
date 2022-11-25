@@ -5,6 +5,5 @@ public enum WorldType {
     FARMING,
     ISLAND,
     HUB,
-    COMBAT,
-    ;
+    COMBAT
 }

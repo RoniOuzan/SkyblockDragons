@@ -28,9 +28,9 @@ public enum BlockMaterial {
     SAND_STONE(Material.SANDSTONE, 200, 3, 30, 0, new BlockItemDrop(Items.get("ENDER_STONE"), 1), new BlockItemRareDrop(Items.get("ENCHANTED_ENDER_STONE"), 1, 0.5)),
 
     COBALT_ORE(Material.PRISMARINE, 400, 4, 25, 2, new BlockItemDrop(Items.get("COBALT"), 1)),
-    CHLOROPHYTE_ORE(Material.CONCRETE, 5, 600, 5, 35, 4, new BlockItemDrop(Items.get("CHLOROPHYTE"), 1)),
+    CHLOROPHYTE_ORE(Material.CONCRETE, 5, 600, 5, 35, 4, Material.BEDROCK, new BlockItemDrop(Items.get("CHLOROPHYTE"), 1)),
     LUMINATE_ORE(Material.QUARTZ_BLOCK, 900, 6, 50, 5, new BlockItemDrop(Items.get("LUMINATE"), 1)),
-    DERNIC_ORE(Material.STAINED_CLAY, 7, 1300, 6, 80, 7, new BlockItemDrop(Items.get("DERNIC"), 1)),
+    DERNIC_ORE(Material.STAINED_CLAY, 7, 1300, 6, 80, 7, Material.BEDROCK, new BlockItemDrop(Items.get("DERNIC"), 1)),
     HEMATITE_ORE(Material.NETHER_BRICK, 1600, 8, 120, 9, new BlockItemDrop(Items.get("HEMATITE"), 1)),
     VOID_CRYSTAL_ORE(Material.SEA_LANTERN, 2500, 9, 180, 15, new BlockItemDrop(Items.get("VOID_CRYSTAL"), 1))
     ;
@@ -42,23 +42,25 @@ public enum BlockMaterial {
     public final double miningXp;
     public final int xp;
     public List<BlockDrop> drops;
+    private final Material breaksTo;
 
-    BlockMaterial(Material material, int materialData, int blockStrength, int breakingPower, double miningXp, int xp, BlockDrop... drops) {
+    BlockMaterial(Material material, int materialData, int blockStrength, int breakingPower, double miningXp, int xp, Material breaksTo, BlockDrop... drops) {
         this.material = material;
         this.materialData = materialData;
         this.blockStrength = blockStrength;
         this.breakingPower = breakingPower;
         this.miningXp = miningXp;
         this.xp = xp;
+        this.breaksTo = breaksTo;
         this.drops = Arrays.asList(drops);
     }
 
     BlockMaterial(Material material, int blockStrength, int breakingPower, double miningXp, int xp, BlockDrop... drops) {
-        this(material, 1, blockStrength, breakingPower, miningXp, xp, drops);
+        this(material, 1, blockStrength, breakingPower, miningXp, xp, Material.BEDROCK, drops);
     }
 
     BlockMaterial(int blockStrength, int breakingPower, double miningXp, int xp, BlockDrop... drops) {
-        this(null, 0, blockStrength, breakingPower, miningXp, xp, drops);
+        this(null, 0, blockStrength, breakingPower, miningXp, xp, Material.BEDROCK, drops);
         this.material = Material.getMaterial(this.name());
     }
 
