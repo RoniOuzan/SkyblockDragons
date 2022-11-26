@@ -13,7 +13,8 @@ public class WarpCommand extends CommandSD {
     @Override
     public void command(PlayerSD player, String[] args) {
         if (args.length == 0) {
-            player.sendMessage(ChatColor.RED + "Invalid arguments");
+            new FastTravelMenu(player);
+//            player.sendMessage(ChatColor.RED + "Invalid arguments");
             return;
         }
 

@@ -10,6 +10,7 @@ import me.maxiiiiii.skyblockdragons.world.worlds.deepmines.DeepMines;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.world.worlds.griffin.GriffinIsland;
 import me.maxiiiiii.skyblockdragons.world.worlds.hub.Hub;
+import me.maxiiiiii.skyblockdragons.world.worlds.thebarn.TheBarn;
 import me.maxiiiiii.skyblockdragons.world.worlds.witherisland.WitherIsland;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -31,6 +32,7 @@ public enum Warp {
     GRIFFIN_ISLAND(new Location(GriffinIsland.world, 0, 100, 0), "griffin", Functions.applySkull("357dc70d-fd29-3615-88fb-b465ade33f19", "ewogICJ0aW1lc3RhbXAiIDogMTU5ODQ0Njc0MjE0MSwKICAicHJvZmlsZUlkIiA6ICI0MWQzYWJjMmQ3NDk0MDBjOTA5MGQ1NDM0ZDAzODMxYiIsCiAgInByb2ZpbGVOYW1lIiA6ICJNZWdha2xvb24iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGMyN2UzY2I1MmE2NDk2OGU2MGM4NjFlZjFhYjg0ZTBhMGNiNWYwN2JlMTAzYWM3OGRhNjc3NjE3MzFmMDBjOCIKICAgIH0KICB9Cn0=")),
 
     WITHER_ISLAND(new Location(WitherIsland.world, -109.500,65.00000, 139.500), "wither", Functions.applySkull("d928ce5e-e75e-3cdc-aaf1-0c93d49b5c31", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjVlYzk2NDY0NWE4ZWZhYzc2YmUyZjE2MGQ3Yzk5NTYzNjJmMzJiNjUxNzM5MGM1OWMzMDg1MDM0ZjA1MGNmZiJ9fX0=")),
+    THE_BARN(new Location(TheBarn.world, 66 ,6, 266), "barn", new ItemStack(Material.HAY_BLOCK)),
 
     BEAR_ISLAND(new Location(BearIsland.world, -51.614, 90.00000, 212.448), "bear", Functions.applySkull("877042bf-3a95-4a20-8c42-aaa234bfea69", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWIxMjUwM2Q2MWM0OWY3MDFmZWU4NjdkNzkzZjFkY2M1MjJlNGQ3YzVjNDFhNjhmMjk1MTU3OWYyNGU3Y2IyYSJ9fX0=")),
 

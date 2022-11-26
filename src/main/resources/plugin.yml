@@ -136,6 +136,8 @@ commands:
   Warp:
     permission: skyblockdragons.warp
     usage: /<command> <warp>
+    aliases:
+      - warps
   Hub:
     permission: skyblockdragons.hub
     usage: /<command>

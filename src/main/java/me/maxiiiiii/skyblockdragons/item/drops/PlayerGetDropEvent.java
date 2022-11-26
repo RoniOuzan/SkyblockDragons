@@ -20,7 +20,7 @@ public class PlayerGetDropEvent extends PlayerSDEvent {
         this.drop = drop;
         this.source = source;
 
-        this.isTelekinesis = false;
+        this.isTelekinesis = true; // please just keep it like that!
     }
 
     @Override

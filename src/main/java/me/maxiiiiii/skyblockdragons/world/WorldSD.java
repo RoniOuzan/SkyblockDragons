@@ -11,6 +11,7 @@ import me.maxiiiiii.skyblockdragons.world.worlds.deepmines.DeepMines;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.world.worlds.griffin.GriffinIsland;
 import me.maxiiiiii.skyblockdragons.world.worlds.hub.Hub;
+import me.maxiiiiii.skyblockdragons.world.worlds.thebarn.TheBarn;
 import me.maxiiiiii.skyblockdragons.world.worlds.witherisland.WitherIsland;
 import org.bukkit.World;
 import org.bukkit.event.Listener;
@@ -31,6 +32,7 @@ public abstract class WorldSD implements Listener {
     public static DeeperMines DEEPER_MINES = null;
     public static GriffinIsland GRIFFIN_ISLAND = null;
     public static WitherIsland WITHER_ISLAND = null;
+    public static TheBarn THE_BARN = null;
 
     private final World world;
     private final String name;
@@ -61,6 +63,7 @@ public abstract class WorldSD implements Listener {
         DEEPER_MINES = new DeeperMines(plugin);
         GRIFFIN_ISLAND = new GriffinIsland(plugin);
         WITHER_ISLAND = new WitherIsland(plugin);
+        THE_BARN = new TheBarn(plugin);
 
         worlds.add(HUB);
         worlds.add(DEEP_MINES);
@@ -68,6 +71,7 @@ public abstract class WorldSD implements Listener {
         worlds.add(DEEPER_MINES);
         worlds.add(GRIFFIN_ISLAND);
         worlds.add(WITHER_ISLAND);
+        worlds.add(THE_BARN);
 
         Functions.Wait(5L, () -> {
             for (WorldSD world : worlds) {

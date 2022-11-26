@@ -77,6 +77,14 @@ dependencies {
     compileOnly 'com.sk89q.worldedit:worldedit-bukkit:6.1.4-SNAPSHOT'
     compileOnly 'com.sk89q.worldedit:worldedit-core:6.1.4-SNAPSHOT'
     implementation 'org.reflections:reflections:0.10.2'
+    implementation 'com.github.Revxrsal.Lamp:common:3.1.0'
+    implementation 'com.github.Revxrsal.Lamp:bukkit:3.1.0'
+}
+
+compileJava { // Preserve parameter names in the bytecode
+    options.compilerArgs += ["-parameters"]
+    options.fork = true
+    options.forkOptions.executable = "javac"
 }
 
 tasks.jar.configure {

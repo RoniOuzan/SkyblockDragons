@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.commands.*;
 import me.maxiiiiii.skyblockdragons.damage.listeners.DamageListener;
 import me.maxiiiiii.skyblockdragons.damage.listeners.EntityDeathListener;
@@ -90,6 +91,9 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import revxrsal.commands.bukkit.BukkitCommandHandler;
+import revxrsal.commands.exception.CommandErrorException;
+import revxrsal.commands.process.SenderResolver;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -104,6 +108,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static Economy economy = null;
     public static Logger logger = null;
     public static EntityHider entityHider = null;
+    private @Getter BukkitCommandHandler commandHandler = null;
 
     private static long pluginStartedAt = 0;
 
@@ -111,6 +116,16 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public void onEnable() {
         plugin = this;
         logger = this.getLogger();
+        commandHandler = BukkitCommandHandler.create(this);
+        getCommandHandler().setHelpWriter((command, actor) -> String.format("%s %s - %s", command.getPath().toRealString(), command.getUsage(), command.getDescription()));
+        commandHandler.registerValueResolver(PlayerSD.class, context -> {
+            String player = context.pop();
+            PlayerSD playerSD = getPlayer(player);
+            if (playerSD == null) {
+                throw new CommandErrorException("player %s not found!");
+            }
+            return playerSD;
+        });
         entityHider = new EntityHider(this, EntityHider.Policy.BLACKLIST);
 
         if (!setupEconomy() ) {
