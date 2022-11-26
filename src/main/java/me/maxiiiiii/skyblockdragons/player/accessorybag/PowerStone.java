@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -94,8 +95,12 @@ public enum PowerStone {
         return this.getName().compareTo(o.getName());
     }
 
-    public static List<PowerStone> getStarterPowerStones() {
-        return Arrays.stream(PowerStone.values()).filter(PowerStone::isStarter).collect(Collectors.toList());
+    public static Set<PowerStone> getStarterPowerStones() {
+        return Arrays.stream(PowerStone.values()).filter(PowerStone::isStarter).collect(Collectors.toSet());
+    }
+
+    public static Set<PowerStone> getLearnPowerStones() {
+        return Arrays.stream(PowerStone.values()).filter(p -> !p.isStarter() && p != NONE).collect(Collectors.toSet());
     }
 
     public static int getRarityMagicalPower(Rarity rarity) {

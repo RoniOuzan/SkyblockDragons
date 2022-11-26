@@ -79,7 +79,7 @@ public class SkyblockMenu extends Menu {
                 ChatColor.GRAY + "Selected Power Stone: " + ChatColor.GREEN + accessoryBag.getPowerStone().getName()
         ));
         if (accessoryBag.getPowerStone() != PowerStone.NONE) {
-            accessoryBagLores.addAll(accessoryBag.getStats().stream().map(Stat::toAddLore).collect(Collectors.toList()));
+            accessoryBagLores.addAll(accessoryBag.getStats().stream().filter(s -> !s.isEmpty()).map(Stat::toAddLore).collect(Collectors.toList()));
         }
         accessoryBagLores.add("");
         accessoryBagLores.add(ChatColor.YELLOW + "Click to view!");
