@@ -8,7 +8,7 @@ import me.maxiiiiii.skyblockdragons.player.accessorybag.PowerStone;
 import org.bukkit.Material;
 
 @Getter
-public class PowerStoneMaterial extends ItemMaterial {
+public abstract class PowerStoneMaterial extends ItemMaterial {
     private final PowerStone powerStone;
 
     public PowerStoneMaterial(String itemID, Material material, ItemFamily family, String name, Rarity rarity, PowerStone powerStone) {

@@ -69,6 +69,7 @@ import me.maxiiiiii.skyblockdragons.util.objects.*;
 import me.maxiiiiii.skyblockdragons.util.particle.ParticlePacketUtil;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.npc.NPC;
+import me.maxiiiiii.skyblockdragons.world.npc.NPCListeners;
 import me.maxiiiiii.skyblockdragons.world.warp.PlayerWarpListener;
 import me.maxiiiiii.skyblockdragons.world.warp.WarpCommand;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.forge.Forge;
@@ -386,6 +387,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerEvents(new PlayerGetSkillXpListener(), this);
 
         registerEvents(new MenuListener(), this);
+        registerEvents(new NPCListeners(), this);
 
         // Abilities
         registerEvents(new Wither_Impact(), this);

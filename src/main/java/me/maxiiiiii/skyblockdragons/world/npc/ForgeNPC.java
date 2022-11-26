@@ -6,7 +6,7 @@ import org.bukkit.Location;
 
 public class ForgeNPC extends NPC {
     public ForgeNPC(Location location) {
-        super(ChatColor.YELLOW + "Forge", location);
+        super(ChatColor.YELLOW + "Forge", location, "999kuo");
     }
 
     @Override

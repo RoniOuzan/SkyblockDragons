@@ -216,3 +216,8 @@ commands:
     usage: /<command>
     aliases:
       - ps
+  PowerStoneAdmin:
+    permission: skyblockdragons.powerstone.admin
+    usage: /<command> <text> [<player>]
+    aliases:
+      - psa

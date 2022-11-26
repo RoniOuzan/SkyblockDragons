@@ -69,7 +69,7 @@ public class Forge {
     }
 
     public class View extends Menu {
-        public View() {
+        public  View() {
             super(Forge.this.player, "Forge", 6, InventoryGlassType.ALL, true);
         }
 
