@@ -17,7 +17,7 @@ public class AccessoryBag implements Iterable<Item> {
     private final PlayerSD player;
     private List<Item> items;
     private PowerStone powerStone;
-    private final List<PowerStone> learnedPowerStones;
+    private final Set<PowerStone> learnedPowerStones;
     private int magicalPower;
     private final Map<StatType, Integer> tuning;
 
@@ -104,7 +104,7 @@ public class AccessoryBag implements Iterable<Item> {
         return powerStone;
     }
 
-    public List<PowerStone> getLearnedPowerStones() {
+    public Set<PowerStone> getLearnedPowerStones() {
         return learnedPowerStones;
     }
 
