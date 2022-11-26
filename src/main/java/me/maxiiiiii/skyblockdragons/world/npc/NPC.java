@@ -14,25 +14,31 @@ import java.util.UUID;
 public abstract class NPC {
     public static final Map<UUID, NPC> npcs = new HashMap<>();
 
-    protected final net.citizensnpcs.api.npc.NPC npc;
-    protected Location location;
+    private final net.citizensnpcs.api.npc.NPC npc;
+    private final Location location;
 
-    protected NPC(String name, Location location, EntityType type) {
+    protected NPC(String name, Location location, EntityType type, String skin) {
         this.location = location;
         this.npc = CitizensAPI.getNPCRegistry().createNPC(type, name);
         this.npc.setAlwaysUseNameHologram(true);
         this.npc.data().set("SkyblockDragons", true);
 
-//        this.npc.data().set(net.citizensnpcs.api.npc.NPC.PLAYER_SKIN_UUID_METADATA, skin);
-//        this.npc.data().set(net.citizensnpcs.api.npc.NPC.PLAYER_SKIN_USE_LATEST, false);
+        if (skin != null) {
+            this.npc.data().set(net.citizensnpcs.api.npc.NPC.PLAYER_SKIN_UUID_METADATA, skin);
+            this.npc.data().set(net.citizensnpcs.api.npc.NPC.PLAYER_SKIN_USE_LATEST, false);
+        }
 
         npcs.put(this.npc.getUniqueId(), this);
 
         this.spawn();
     }
 
+    protected NPC(String name, Location location, String skin) {
+        this(name, location, EntityType.PLAYER, skin);
+    }
+
     protected NPC(String name, Location location) {
-        this(name, location, EntityType.PLAYER);
+        this(name, location, "");
     }
 
     public String getName() {
@@ -53,8 +59,12 @@ public abstract class NPC {
 
     public void onClick(PlayerClickOnNPCEvent e) {}
 
+    public Location getLocation() {
+        return location;
+    }
+
     public static void despawnAllNPCS(){
-        for(NPC npc : npcs.values()){
+        for (NPC npc : npcs.values()) {
             npc.npc.despawn();
             npc.npc.destroy();
         }
