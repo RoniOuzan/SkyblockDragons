@@ -62,6 +62,8 @@ public enum PowerStone {
     }
 
     public Stats getStats(PlayerSD player) {
+        if (player == null) return stats;
+
         Stats stats = new Stats(this.getStats().toList());
         for (Stat stat : stats) {
             double amount = stat.get();
