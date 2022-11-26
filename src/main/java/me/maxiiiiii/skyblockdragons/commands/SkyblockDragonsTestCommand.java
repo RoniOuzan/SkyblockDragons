@@ -22,6 +22,7 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.TextMessage;
 import org.bukkit.ChatColor;
+import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -138,6 +139,10 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
         }));
         addSubCommand(new QuickSubCommand("sendFood", (player, args) -> {
             player.sendMessage(player.food);
+        }));
+        addSubCommand(new QuickSubCommand("target-block", (player, args) -> {
+            Block block = player.getTargetBlock(null,50);
+            player.sendMessage(block.getType());
         }));
     }
 }

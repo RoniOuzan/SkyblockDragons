@@ -3,8 +3,10 @@ package me.maxiiiiii.skyblockdragons.events.listeners;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.mining.BlockMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.world.worlds.thebarn.TheBarn;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -18,7 +20,8 @@ public class BlockListener implements Listener {
         PlayerSD player = SkyblockDragons.getPlayer(event.getPlayer());
         Material brokeMaterial = event.getBlock().getType();
         BlockMaterial blockMaterial = BlockMaterial.get(brokeMaterial);
-        if (!player.getWorld().getName().contains("ASkyBlock") && player.getGameMode() != GameMode.CREATIVE && blockMaterial == null){
+        World world = player.getWorld();
+        if (!world.getName().contains("ASkyBlock") && player.getGameMode() != GameMode.CREATIVE && blockMaterial == null){
             SkyblockDragons.logger.info(String.format("Player %s NOT Broke Block %s at %s", player.getName(), brokeMaterial, event.getBlock().getLocation()));
             player.sendMessage("§4You can't break this block! [UNKNOWN]");
             event.setCancelled(true);

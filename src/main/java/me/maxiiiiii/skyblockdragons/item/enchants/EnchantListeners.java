@@ -24,6 +24,7 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetCoinsFromEntityEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetExperienceEvent;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.world.worlds.thebarn.TheBarn;
 import org.bukkit.CropState;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -297,6 +298,7 @@ public class EnchantListeners implements Listener {
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
         Map<EnchantType, Short> enchants = player.getItems().getTool().getModifiers().getEnchants();
         enchant(player, enchants, REPLANT, s -> {
+            if (player.getWorld() == TheBarn.world) return;
             Material type = e.getBlock().getType();
             BlockState state = e.getBlock().getState();
             MaterialData data = state.getData().clone();
