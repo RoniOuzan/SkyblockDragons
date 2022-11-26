@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.world.worlds.thebarn;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.item.drops.Drop;
 import me.maxiiiiii.skyblockdragons.item.material.types.FarmingMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -8,17 +9,13 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
-import org.bukkit.Bukkit;
-import org.bukkit.CropState;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.material.Crops;
 import org.bukkit.material.MaterialData;
-import org.bukkit.material.NetherWarts;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Map;
@@ -39,7 +36,7 @@ public class TheBarn extends WorldSD {
             if (toolMaterial instanceof FarmingMaterial) {
 
                 FarmingMaterial farmingMaterial = (FarmingMaterial) toolMaterial;
-                Map<Material, Integer> cropAdder = farmingMaterial.getCropAdder();
+                Map<Material, Drop> cropAdder = farmingMaterial.getCropAdder();
                 player.sendMessage(cropAdder);
 
                 Block block = e.getBlock();
@@ -51,6 +48,19 @@ public class TheBarn extends WorldSD {
                         e.setCancelled(true);
                         return;
                     }
+                    e.setDropItems(false);
+                    boolean dropped = false;
+                    for (Material material : cropAdder.keySet()) {
+                        if (material == block.getType()) {
+                            Drop drop = cropAdder.get(material);
+                            drop.drop(player, block);
+                            dropped = true;
+                        }
+                    }
+                    if (!dropped){
+                        e.setCancelled(true);
+                        return;
+                    }
                     Functions.Wait(1L, () -> {
                         block.setType(type);
                         setCropState(block, CropState.VERY_TALL);
@@ -59,6 +69,9 @@ public class TheBarn extends WorldSD {
                         setCropState(block, CropState.RIPE);
                     });
                 }
+            }
+            else if (player.getGameMode() != GameMode.CREATIVE){
+                e.setCancelled(true);
             }
         }
     }

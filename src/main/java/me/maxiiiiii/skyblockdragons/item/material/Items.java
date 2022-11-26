@@ -26,6 +26,9 @@ public class Items {
     public static ItemMaterial NULL = null;
 
     public static void registerItems() {
+
+        registerVanillaItems();
+
         Set<Class<? extends ItemMaterial>> materials = new Reflections("me.maxiiiiii").getSubTypesOf(ItemMaterial.class).stream().filter(c -> !Modifier.isAbstract(c.getModifiers())).collect(Collectors.toSet());
         for (Class<? extends ItemMaterial> materialClass : materials) {
             if (materialClass.isAnnotationPresent(MaterialUnregisters.class) ||
@@ -111,6 +114,43 @@ public class Items {
 
         itemMaterials = new HashMap<>(items);
 
+        List<String> keys = new ArrayList<>();
+        try {
+            for (String material : Items.items.keySet()) {
+                ItemMaterial item = Items.items.get(material);
+                if (item.getType() == ItemType.ITEM && !material.contains("ENCHANTED_") && !material.contains("BOOK") && !material.contains("BARDING") && !(item instanceof ItemAbilityAble)) {
+                    keys.add(material);
+                }
+            }
+            for (String material : keys) {
+                ItemMaterial item = Items.get(material);
+                int rarityAdder = 1;
+                if (item.getMaterial().isBlock()) rarityAdder++;
+                String itemID = "ENCHANTED_" + material;
+                items.put(itemID, new QuickNormalMaterial(
+                        itemID,
+                        item.getMaterial(),
+                        ItemFamily.ENCHANTED_ITEM,
+                        "Enchanted " + item.getName(),
+                        ItemType.ITEM,
+                        Rarity.values()[item.getRarity().getLevel() + rarityAdder],
+                        item.getItemSkull().getId(),
+                        item.getItemSkull().getValue(),
+                        true,
+                        true,
+                        true
+                ));
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        NULL = new QuickNormalMaterial(Material.BARRIER, ItemFamily.NULL, "Null", ItemType.NULL, Rarity.SPECIAL, ChatColor.GRAY + "" + ChatColor.ITALIC + "Null barrier that created by " + ChatColor.GRAY + "" + ChatColor.ITALIC + "ERROR with an item.");
+        NULL.setItemID("NULL");
+    }
+
+    private static void registerVanillaItems() {
         for (Material material : Material.values()) {
             if (material == Material.AIR) continue;
             if (!material.isItem()) continue;
@@ -151,41 +191,6 @@ public class Items {
         vanillaMaterials.remove("BLUE_DYE");
 
         items.putAll(vanillaMaterials);
-
-        List<String> keys = new ArrayList<>();
-        try {
-            for (String material : Items.items.keySet()) {
-                ItemMaterial item = Items.items.get(material);
-                if (item.getType() == ItemType.ITEM && !material.contains("ENCHANTED_") && !material.contains("BOOK") && !material.contains("BARDING") && !(item instanceof ItemAbilityAble)) {
-                    keys.add(material);
-                }
-            }
-            for (String material : keys) {
-                ItemMaterial item = Items.get(material);
-                int rarityAdder = 1;
-                if (item.getMaterial().isBlock()) rarityAdder++;
-                String itemID = "ENCHANTED_" + material;
-                items.put(itemID, new QuickNormalMaterial(
-                        itemID,
-                        item.getMaterial(),
-                        ItemFamily.ENCHANTED_ITEM,
-                        "Enchanted " + item.getName(),
-                        ItemType.ITEM,
-                        Rarity.values()[item.getRarity().getLevel() + rarityAdder],
-                        item.getItemSkull().getId(),
-                        item.getItemSkull().getValue(),
-                        true,
-                        true,
-                        true
-                ));
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        NULL = new QuickNormalMaterial(Material.BARRIER, ItemFamily.NULL, "Null", ItemType.NULL, Rarity.SPECIAL, ChatColor.GRAY + "" + ChatColor.ITALIC + "Null barrier that created by " + ChatColor.GRAY + "" + ChatColor.ITALIC + "ERROR with an item.");
-        NULL.setItemID("NULL");
     }
 
     public static ItemMaterial get(String name) {

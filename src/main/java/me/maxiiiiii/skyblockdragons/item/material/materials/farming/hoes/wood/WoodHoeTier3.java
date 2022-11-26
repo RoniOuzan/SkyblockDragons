@@ -1,33 +1,30 @@
-package me.maxiiiiii.skyblockdragons.item.material.materials.vanila.hoes;
+package me.maxiiiiii.skyblockdragons.item.material.materials.farming.hoes.wood;
 
-import com.google.common.collect.Lists;
+import me.maxiiiiii.skyblockdragons.item.drops.types.block.BlockItemDrop;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.FarmingMaterial;
-import me.maxiiiiii.skyblockdragons.item.material.types.MiningMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.stats.Stat;
-import me.maxiiiiii.skyblockdragons.item.stats.StatType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
-import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import org.bukkit.Material;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
-public class WoodHoe extends FarmingMaterial {
-    public WoodHoe() {
-        super("WOOD_HOE",
+public class WoodHoeTier3 extends FarmingMaterial {
+    public WoodHoeTier3() {
+        super("WOOD_HOE_3",
                 Material.WOOD_HOE,
                 ItemFamily.WOOD,
-                "Wood Hoe",
+                "Wood Hoe Tier 3",
                 ItemType.HOE,
                 Rarity.COMMON,
                 new Stats(Arrays.asList(new Stat(StatTypes.FARMING_FORTUNE, 20))),
                 1,
                 ""
         );
-        cropAdder.put(Material.CROPS, 1);
+        cropAdder.put(Material.CROPS, new BlockItemDrop(Items.get("WHEAT"), 3));
     }
 }
