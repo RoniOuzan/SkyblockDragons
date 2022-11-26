@@ -7,11 +7,9 @@ import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirements;
-import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -24,13 +22,11 @@ import java.util.stream.Collectors;
 
 @Getter
 public enum PowerStone {
-    TEST(new Stats(0, 0.35, 0.3, 0.075, 0, 0, 0.1, 0, 0.05, 0), new Stats(0, 10, 0, 0, 0, 0), new ItemStack(Material.STONE), new SkillRequirement(SkillType.COMBAT, 3)),
-
-    WARRIOR(new Stats(0, 0.35, 0.3, 0.075, 0, 0, 0.1, 0, 0.05, 0), new ItemStack(Material.IRON_SWORD), true),
-    PROTECTED(new Stats(0, 0, 0.15, 0.025, 0, 0, 0.2, 0.3, 0, 0.1), new ItemStack(Material.IRON_CHESTPLATE), true),
-    DISCIPLINED(new Stats(0, 0.25, 0.25, 0.1, 0, 0, 0.15, 0.15, 0.025, 0.1), new ItemStack(Material.DIAMOND), true),
-    ROBUST(new Stats(0, 0.1, 0.05, 0.05, 0, 0, 0.25, 0.25, 0.05, 0), new ItemStack(Material.APPLE), true),
-    WARLOCK(new Stats(0, 0.1, 0.1, 0.075, 0, 0, 0.1, 0.1, 0.05, 0.4), new ItemStack(Material.INK_SACK, 1, (short) 4), true),
+    WARRIOR(new Stats(0, 8, 7, 1.5, 0, 0, 2.5, 0, 1, 0), new ItemStack(Material.IRON_SWORD), true),
+    PROTECTED(new Stats(0, 0, 3.5, 0.5, 0, 0, 5, 7, 0, 2.5), new ItemStack(Material.IRON_CHESTPLATE), true),
+    DISCIPLINED(new Stats(0, 6, 6, 2.5, 0, 0, 3.5, 3.5, 0.5, 2.5), new ItemStack(Material.DIAMOND), true),
+    ROBUST(new Stats(0, 2.5, 1, 1.5, 0, 0, 6, 6, 1, 0), new ItemStack(Material.APPLE), true),
+    WARLOCK(new Stats(0, 2.5, 2.5, 1.5, 0, 0, 2.5, 2.5, 1, 10), new ItemStack(Material.INK_SACK, 1, (short) 4), true),
 
     NONE(new Stats(), new ItemStack(Material.BARRIER), false),
     ;
@@ -68,7 +64,8 @@ public enum PowerStone {
         for (Stat stat : stats) {
             double amount = stat.get();
             double magical = player.getItems().getAccessoryBag().getMagicalPower();
-            stat.set(Math.round(magical * (-0.0002 * amount * magical + amount))); // m(-0.0002sm + s) https://www.desmos.com/calculator/kmiikc5qum
+            stat.set(Math.round(amount * 29.97 * Math.pow(Functions.ln(0.0019 * magical + 1), 1.2))); // s29.97(ln(0.0019x+1))^1.2 https://www.desmos.com/calculator/uodz1hkm1s
+//            stat.set(Math.round(magical * (-0.0002 * amount * magical + amount))); // m(-0.0002sm + s) https://www.desmos.com/calculator/kmiikc5qum
         }
         return stats;
     }

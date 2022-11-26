@@ -1626,6 +1626,10 @@ public class Functions {
         return new Vector(x * Math.cos(degrees) - z * Math.sin(degrees), y, x * Math.sin(degrees) + y * Math.cos(degrees));
     }
 
+    public static double ln(double num) {
+        return Math.log(num) / Math.log(Math.E);
+    }
+
     public static double range(double value, double min, double max) {
         return Math.max(Math.min(value, max), min);
     }
