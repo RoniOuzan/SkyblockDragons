@@ -33,7 +33,7 @@ public class AccessoryBag implements Iterable<Item> {
 
         this.powerStone = PowerStone.valueOf(Variables.getString(player.getUniqueId(), "PowerStone", "NONE"));
         this.learnedPowerStones = PowerStone.getStarterPowerStones();
-        for (int i = 0; i < PowerStone.values().length; i++) {
+        for (int i = 0; i < PowerStone.getLearnPowerStones().size(); i++) {
             String powerStone = Variables.getString(player.getUniqueId(), "LearnedPowerStone", i, "");
             if (powerStone.isEmpty()) {
                 break;

@@ -213,9 +213,11 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
                 lores.add("");
                 lores.add(ChatColor.GRAY + "Stats");
                 lores.addAll(material.getPowerStone().getStats(player).stream().filter(s -> !s.isEmpty()).map(Stat::toAddLore).collect(Collectors.toList()));
-                lores.add("");
-                lores.add(ChatColor.GRAY + "Unique Stats");
-                lores.addAll(material.getPowerStone().getUniqueStats().stream().filter(s -> !s.isEmpty()).map(Stat::toAddLore).collect(Collectors.toList()));
+                if (!material.getPowerStone().getUniqueStats().isEmpty()) {
+                    lores.add("");
+                    lores.add(ChatColor.GRAY + "Unique Stats");
+                    lores.addAll(material.getPowerStone().getUniqueStats().stream().filter(s -> !s.isEmpty()).map(Stat::toAddLore).collect(Collectors.toList()));
+                }
                 if (material.getPowerStone().getRequirements().getRequirements().size() > 0) {
                     lores.add("");
                     lores.addAll(material.getPowerStone().getRequirements().getRequirements().stream().map(Requirement::toString).collect(Collectors.toList()));
