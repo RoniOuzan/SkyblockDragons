@@ -12,7 +12,6 @@ public class TamingWisdomStat extends WisdomStat implements PercentageStat {
         super("Taming Wisdom",
                 "☯",
                 ChatColor.DARK_AQUA,
-                "",
                 SkillType.TAMING
         );
     }

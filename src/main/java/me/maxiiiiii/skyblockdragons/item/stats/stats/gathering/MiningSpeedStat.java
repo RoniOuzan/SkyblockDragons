@@ -10,7 +10,7 @@ public class MiningSpeedStat extends GatheringStat {
         super("Mining Speed",
                 "⸕",
                 ChatColor.GOLD,
-                ""
+                "Increases the speed of breaking mining blocks."
         );
     }
 

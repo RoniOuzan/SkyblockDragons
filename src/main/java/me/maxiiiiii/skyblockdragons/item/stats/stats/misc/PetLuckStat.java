@@ -11,7 +11,7 @@ public class PetLuckStat extends MiscStat implements PercentageStat {
         super("Pet Luck",
                 "♣",
                 ChatColor.LIGHT_PURPLE,
-                ""
+                "Pet Luck increases how many pets you find and gives you better luck when crafting pets."
         );
     }
 

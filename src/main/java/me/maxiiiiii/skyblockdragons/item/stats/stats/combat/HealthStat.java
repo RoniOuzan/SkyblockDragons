@@ -10,7 +10,7 @@ public class HealthStat extends CombatStat {
         super("Health",
                 "❤",
                 ChatColor.RED,
-                "",
+                "Your Health Stat increases your maximum health.",
                 100
         );
     }

@@ -10,7 +10,7 @@ public class FarmingFortuneStat extends GatheringStat {
         super("Farming Fortune",
                 "☘",
                 ChatColor.GOLD,
-                ""
+                "Farming Fortune is the chance to gain multiple drops from crops."
         );
     }
 

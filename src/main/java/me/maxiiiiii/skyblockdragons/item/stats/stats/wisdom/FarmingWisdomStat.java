@@ -12,7 +12,6 @@ public class FarmingWisdomStat extends WisdomStat implements PercentageStat {
         super("Farming Wisdom",
                 "☯",
                 ChatColor.DARK_AQUA,
-                "",
                 SkillType.FARMING
         );
     }

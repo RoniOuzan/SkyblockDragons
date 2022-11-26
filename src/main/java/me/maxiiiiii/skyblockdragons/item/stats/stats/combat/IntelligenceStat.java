@@ -14,7 +14,7 @@ public class IntelligenceStat extends CombatStat implements FilledStat {
         super("Intelligence",
                 "✎",
                 ChatColor.AQUA,
-                "",
+                "Intelligence increases the damage of your magical items and your mana pool.",
                 100
         );
         this.mana = new ManaStat();

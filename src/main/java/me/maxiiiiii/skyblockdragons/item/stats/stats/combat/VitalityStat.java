@@ -10,7 +10,7 @@ public class VitalityStat extends CombatStat {
         super("Vitality",
                 "♨",
                 ChatColor.DARK_RED,
-                "",
+                "Vitality increases the amount of health that you regenerate over time.",
                 0
         );
     }

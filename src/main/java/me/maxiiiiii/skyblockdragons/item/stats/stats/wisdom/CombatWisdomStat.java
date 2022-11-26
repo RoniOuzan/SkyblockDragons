@@ -12,7 +12,6 @@ public class CombatWisdomStat extends WisdomStat implements PercentageStat {
         super("Combat Wisdom",
                 "☯",
                 ChatColor.DARK_AQUA,
-                "",
                 SkillType.COMBAT
         );
     }

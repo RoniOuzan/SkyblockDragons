@@ -11,7 +11,7 @@ public class AbilityDamageStat extends CombatStat implements PercentageStat {
         super("Ability Damage",
                 "๑",
                 ChatColor.RED,
-                "",
+                "Ability Damage increases the damage applied by certain spells and item abilities.",
                 0
         );
     }

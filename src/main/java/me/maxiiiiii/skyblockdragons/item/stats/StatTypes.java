@@ -5,10 +5,7 @@ import me.maxiiiiii.skyblockdragons.item.stats.stats.gathering.FarmingFortuneSta
 import me.maxiiiiii.skyblockdragons.item.stats.stats.gathering.ForagingFortuneStat;
 import me.maxiiiiii.skyblockdragons.item.stats.stats.gathering.MiningFortuneStat;
 import me.maxiiiiii.skyblockdragons.item.stats.stats.gathering.MiningSpeedStat;
-import me.maxiiiiii.skyblockdragons.item.stats.stats.misc.FishingSpeedStat;
-import me.maxiiiiii.skyblockdragons.item.stats.stats.misc.MagicFindStat;
-import me.maxiiiiii.skyblockdragons.item.stats.stats.misc.PetLuckStat;
-import me.maxiiiiii.skyblockdragons.item.stats.stats.misc.SeaCreatureChanceStat;
+import me.maxiiiiii.skyblockdragons.item.stats.stats.misc.*;
 import me.maxiiiiii.skyblockdragons.item.stats.stats.wisdom.*;
 
 import java.util.ArrayList;
