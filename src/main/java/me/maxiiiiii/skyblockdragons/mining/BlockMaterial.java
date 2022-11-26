@@ -27,8 +27,6 @@ public enum BlockMaterial {
     END_STONE(Material.ENDER_STONE, 200, 3, 30, 0, new BlockItemDrop(Items.get("ENDER_STONE"), 1), new BlockItemRareDrop(Items.get("ENCHANTED_ENDER_STONE"), 1, 0.5)),
     SAND_STONE(Material.SANDSTONE, 200, 3, 30, 0, new BlockItemDrop(Items.get("ENDER_STONE"), 1), new BlockItemRareDrop(Items.get("ENCHANTED_ENDER_STONE"), 1, 0.5)),
 
-    WHEAT(Material.CROPS, 10, 1, 0, 0, new BlockItemDrop(Items.get("WHEAT"), 1)),
-
     COBALT_ORE(Material.PRISMARINE, 400, 4, 25, 2, new BlockItemDrop(Items.get("COBALT"), 1)),
     CHLOROPHYTE_ORE(Material.CONCRETE, 5, 600, 5, 35, 4, new BlockItemDrop(Items.get("CHLOROPHYTE"), 1)),
     LUMINATE_ORE(Material.QUARTZ_BLOCK, 900, 6, 50, 5, new BlockItemDrop(Items.get("LUMINATE"), 1)),

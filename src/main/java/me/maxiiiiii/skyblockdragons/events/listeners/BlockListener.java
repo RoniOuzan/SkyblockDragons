@@ -21,7 +21,7 @@ public class BlockListener implements Listener {
         Material brokeMaterial = event.getBlock().getType();
         BlockMaterial blockMaterial = BlockMaterial.get(brokeMaterial);
         World world = player.getWorld();
-        if (!world.getName().contains("ASkyBlock") && player.getGameMode() != GameMode.CREATIVE && blockMaterial == null){
+        if (!world.getName().contains("ASkyBlock") && world != TheBarn.world && player.getGameMode() != GameMode.CREATIVE && blockMaterial == null){
             SkyblockDragons.logger.info(String.format("Player %s NOT Broke Block %s at %s", player.getName(), brokeMaterial, event.getBlock().getLocation()));
             player.sendMessage("§4You can't break this block! [UNKNOWN]");
             event.setCancelled(true);
