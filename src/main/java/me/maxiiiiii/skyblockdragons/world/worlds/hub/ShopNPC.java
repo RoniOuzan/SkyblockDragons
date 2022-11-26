@@ -2,16 +2,16 @@ package me.maxiiiiii.skyblockdragons.world.worlds.hub;
 
 import me.maxiiiiii.skyblockdragons.player.events.PlayerClickOnNPCEvent;
 import me.maxiiiiii.skyblockdragons.world.npc.NPC;
-import me.maxiiiiii.skyblockdragons.world.warp.FastTravelMenu;
 import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
 
-public class WarpNPC extends NPC {
-    public WarpNPC(Location location) {
-        super("Warp", location, "SMPEarthPublic");
+public class ShopNPC extends NPC {
+    protected ShopNPC(Location location) {
+        super("Shop", location, EntityType.VILLAGER, "virusing");
     }
 
     @Override
     public void onClick(PlayerClickOnNPCEvent e) {
-        new FastTravelMenu(e.getPlayer());
+        e.getPlayer().chat("/shop");
     }
 }
