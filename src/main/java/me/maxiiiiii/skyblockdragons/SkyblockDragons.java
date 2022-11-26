@@ -434,7 +434,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             if (!entity.isDead())
                 entity.remove();
         }
-        NPC.despawnAllNPCS();
+        NPC.despawnNPCS();
         Variables.save();
         AddonUtils.disableAddons();
     }

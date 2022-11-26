@@ -20,7 +20,8 @@ public class Hub extends WorldSD {
     @Override
     protected void spawnNPCs() {
         new WarpNPC(new Location(world, 4.5, 70, -94.5));
-
+        new DailyNPC(new Location(world, -18.5, 70, -90, -90, 0));
+        new ShopNPC(new Location(world, -18.5, 70, -77, -90, 0));
         new ReforgeNPC(new Location(world, -19.5, 71, -123.5, -90, 0));
     }
 }

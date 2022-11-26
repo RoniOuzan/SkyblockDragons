@@ -97,7 +97,7 @@ public class SkyblockMenu extends Menu {
         } else if (this.getNBT(e.getCurrentItem()).equals("RECIPE_BOOK")) {
             new RecipesMenu(player);
         } else if (this.getNBT(e.getCurrentItem()).equals("SHOP")) {
-            player.performCommand("shop");
+            player.chat("/shop");
         } else if (this.getNBT(e.getCurrentItem()).equals("QUESTS")) {
 //            player.performCommand("quests");
             player.sendMessage("§cComing soon...");

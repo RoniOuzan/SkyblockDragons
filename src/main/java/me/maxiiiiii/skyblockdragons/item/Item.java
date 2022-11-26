@@ -328,7 +328,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
         }
 
         if (player != null) {
-            UpdateItemStatsEvent event = new UpdateItemStatsEvent(player, stats);
+            UpdateItemStatsEvent event = new  UpdateItemStatsEvent(player, stats);
             Bukkit.getPluginManager().callEvent(event);
 
             stats.applyMultipliers();
