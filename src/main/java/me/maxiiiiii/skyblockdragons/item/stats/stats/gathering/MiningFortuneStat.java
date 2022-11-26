@@ -10,7 +10,7 @@ public class MiningFortuneStat extends GatheringStat {
         super("Mining Fortune",
                 "☘",
                 ChatColor.GOLD,
-                ""
+                "Mining Fortune is the chance to get multiple drops from ores."
         );
     }
 

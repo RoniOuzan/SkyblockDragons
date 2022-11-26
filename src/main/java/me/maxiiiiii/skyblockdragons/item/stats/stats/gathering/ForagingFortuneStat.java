@@ -10,7 +10,7 @@ public class ForagingFortuneStat extends GatheringStat {
         super("Foraging Fortune",
                 "☘",
                 ChatColor.GOLD,
-                ""
+                "Foraging Fortune is the chance to gain multiple drops from logs"
         );
     }
 

@@ -12,7 +12,6 @@ public class EnchantingWisdomStat extends WisdomStat implements PercentageStat {
         super("Enchanting Wisdom",
                 "☯",
                 ChatColor.DARK_AQUA,
-                "",
                 SkillType.ENCHANTING
         );
     }

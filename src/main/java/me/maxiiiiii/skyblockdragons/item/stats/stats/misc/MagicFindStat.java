@@ -11,7 +11,7 @@ public class MagicFindStat extends MiscStat implements PercentageStat {
         super("Magic Find",
                 "✯",
                 ChatColor.AQUA,
-                ""
+                "Magic Find increases how many rare items you find."
         );
     }
 

@@ -10,7 +10,7 @@ public class DefenseStat extends CombatStat {
         super("Defense",
                 "❈",
                 ChatColor.GREEN,
-                "",
+                "Your Defense Stat reduces the damage that you take from enemies",
                 0
         );
     }

@@ -10,7 +10,7 @@ public class TrueDefenseStat extends CombatStat {
         super("True Defense",
                 "❂",
                 ChatColor.WHITE,
-                "",
+                "True Defense is defense which works against true damage.",
                 0
         );
     }

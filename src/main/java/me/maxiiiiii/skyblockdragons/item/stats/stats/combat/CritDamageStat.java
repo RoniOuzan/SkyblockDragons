@@ -11,7 +11,7 @@ public class CritDamageStat extends CombatStat implements PercentageStat {
         super("Crit Damage",
                 "☠",
                 ChatColor.BLUE,
-                "",
+                "Critical Damage multiplies the damage that you deal when you land a Critical Hit.",
                 0
         );
     }

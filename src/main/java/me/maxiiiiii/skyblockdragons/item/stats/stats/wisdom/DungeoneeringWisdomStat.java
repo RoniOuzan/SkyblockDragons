@@ -12,7 +12,6 @@ public class DungeoneeringWisdomStat extends WisdomStat implements PercentageSta
         super("Dungeoneering Wisdom",
                 "☯",
                 ChatColor.DARK_AQUA,
-                "",
                 SkillType.DUNGEONEERING
         );
     }

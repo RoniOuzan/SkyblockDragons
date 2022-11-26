@@ -12,7 +12,6 @@ public class FishingWisdomStat extends WisdomStat implements PercentageStat {
         super("Fishing Wisdom",
                 "☯",
                 ChatColor.DARK_AQUA,
-                "",
                 SkillType.FISHING
         );
     }

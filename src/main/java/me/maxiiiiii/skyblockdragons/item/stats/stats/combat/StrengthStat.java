@@ -10,7 +10,7 @@ public class StrengthStat extends CombatStat {
         super("Strength",
                 "❁",
                 ChatColor.RED,
-                "",
+                "Strength increases the damage you deal.",
                 0
         );
     }

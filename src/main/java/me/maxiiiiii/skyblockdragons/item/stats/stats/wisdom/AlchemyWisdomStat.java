@@ -12,7 +12,6 @@ public class AlchemyWisdomStat extends WisdomStat implements PercentageStat {
         super("Alchemy Wisdom",
                 "☯",
                 ChatColor.DARK_AQUA,
-                "",
                 SkillType.ALCHEMY
         );
     }

@@ -11,7 +11,7 @@ public class FerocityStat extends CombatStat implements PercentageStat {
         super("Ferocity",
                 "๑",
                 ChatColor.RED,
-                "",
+                "Ferocity grants percent chance to double-strike enemies. Increments of 100 increases the base number of strikes.",
                 0
         );
     }
