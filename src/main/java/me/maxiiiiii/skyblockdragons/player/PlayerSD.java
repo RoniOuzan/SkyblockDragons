@@ -39,7 +39,6 @@ import me.maxiiiiii.skyblockdragons.player.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
-import me.maxiiiiii.skyblockdragons.util.objects.Priority;
 import me.maxiiiiii.skyblockdragons.util.objects.Queue;
 import me.maxiiiiii.skyblockdragons.util.objects.SignMenuFactory;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
@@ -61,7 +60,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.logging.FileHandler;
@@ -117,6 +115,12 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
         this.stats = new PlayerStats(this);
 
+        this.skills = new Skills(this);
+        this.wardrobe = new Wardrobe(this);
+        this.bank = new BankAccount(this, 50_000_000);
+        this.playerPet = new PlayerPet(this);
+        this.enderChestSD = new EnderChest(this);
+
         this.chatChannel = ChatChannel.valueOf(Variables.getString(player.getUniqueId(), "ChatChannel", "ALL"));
 
         this.tracked = Variables.getBoolean(player.getUniqueId(), "Tracked", true);
@@ -126,12 +130,6 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
         this.playTime = Variables.getInt(player.getUniqueId(), "PlayTime", 0);
         this.bits = Variables.getInt(player.getUniqueId(), "Bits", 0);
-
-        this.wardrobe = new Wardrobe(this);
-        this.skills = new Skills(this);
-        this.bank = new BankAccount(this, 50_000_000);
-        this.playerPet = new PlayerPet(this);
-        this.enderChestSD = new EnderChest(this);
 
         this.forge = new Forge(this);
 
@@ -539,12 +537,6 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         }
     }
 
-    public boolean chanceOf(double percent, Object... other) {
-        double multiplier = 1;
-        multiplier += this.getStats().getMagicFind().get() / 100;
-        return Functions.chanceOf(percent * multiplier);
-    }
-
     public boolean ignoreItemRequirements() {
         return this.getGameMode() == GameMode.CREATIVE;
     }
@@ -669,18 +661,5 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
             return null;
 
         return SkyblockDragons.getPlayer(UUID.fromString((String) args.get("UUID")));
-    }
-
-    private static <T> int sortPriorities(T t1, T t2) {
-        try {
-            Method method1 = t1.getClass().getMethod("updateStats", PlayerStats.class);
-            Method method2 = t2.getClass().getMethod("updateStats", PlayerStats.class);
-            int level1 = method1.isAnnotationPresent(Priority.class) ? method1.getAnnotation(Priority.class).level() : Priority.DEFAULT;
-            int level2 = method2.isAnnotationPresent(Priority.class) ? method2.getAnnotation(Priority.class).level() : Priority.DEFAULT;
-            return level1 - level2;
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        return 1;
     }
 }
