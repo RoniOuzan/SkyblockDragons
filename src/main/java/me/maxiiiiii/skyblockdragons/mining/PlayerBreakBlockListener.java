@@ -7,6 +7,7 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -39,7 +40,10 @@ public class PlayerBreakBlockListener implements Listener {
         player.giveSkill(SkillType.MINING, e.getMaterial().getMiningXp());
         if (player.getWorldSD() == WorldSD.DEEPER_MINES) {
             if (e.getMaterial() == BlockMaterial.HEMATITE_ORE) {
-                if (player.chanceOf(1, e.getMaterial())) {
+                UpdateVoidCrystalChanceEvent event = new UpdateVoidCrystalChanceEvent(player, 1, block, e.getMaterial());
+                Bukkit.getPluginManager().callEvent(event);
+
+                if (Math.random() <= event.getMultiplier().multiply(event.getBaseChance()) / 100) {
                     Functions.Wait(1L, () -> e.getBlock().setType(Material.OBSIDIAN));
                     return;
                 }
