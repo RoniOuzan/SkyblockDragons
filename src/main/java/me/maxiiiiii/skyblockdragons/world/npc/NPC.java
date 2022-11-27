@@ -9,7 +9,6 @@ import net.citizensnpcs.api.event.NPCSpawnEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +36,8 @@ public abstract class NPC {
 
         this.spawn();
 
-        this.hologram = Functions.createHologram(((LivingEntity) npc.getEntity()).getEyeLocation().add(0, 1, 0), name);
+        npc.getEntity().addScoreboardTag("NPC");
+        this.hologram = Functions.createHologram(npc.getEntity().getLocation().add(0, npc.getEntity().getHeight() + 0.85, 0), name);
     }
 
     protected NPC(String name, Location location, EntityType type) {

@@ -125,7 +125,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         }
 
         for (World world : Bukkit.getWorlds()) {
-            world.getLivingEntities().stream().filter(e -> e.getScoreboardTags().contains("EntitySD") || e.getScoreboardTags().contains("Pet") || e.getScoreboardTags().contains("PickableItem") || e.getScoreboardTags().contains("EntityHealth")).forEach(Entity::remove);
+            world.getLivingEntities().stream().filter(e -> e.getScoreboardTags().contains("EntitySD") || e.getScoreboardTags().contains("Pet") || e.getScoreboardTags().contains("PickableItem") || e.getScoreboardTags().contains("EntityHealth") || e.getScoreboardTags().contains("NPC")).forEach(Entity::remove);
         }
 
         Bukkit.getScheduler().runTask(this, TheEnd::resetEyes);
