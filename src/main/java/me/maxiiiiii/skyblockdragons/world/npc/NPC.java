@@ -28,7 +28,7 @@ public abstract class NPC {
         this.npc.setAlwaysUseNameHologram(true);
         this.npc.data().set("SkyblockDragons", true);
 
-        if (skin != null) {
+        if (skin != null && !skin.isEmpty()) {
             this.npc.data().set(net.citizensnpcs.api.npc.NPC.PLAYER_SKIN_UUID_METADATA, skin);
             this.npc.data().set(net.citizensnpcs.api.npc.NPC.PLAYER_SKIN_USE_LATEST, false);
         }
@@ -38,6 +38,10 @@ public abstract class NPC {
         this.spawn();
 
         this.hologram = Functions.createHologram(((LivingEntity) npc.getEntity()).getEyeLocation().add(0, 1, 0), name);
+    }
+
+    protected NPC(String name, Location location, EntityType type) {
+        this(name, location, type, null);
     }
 
     protected NPC(String name, Location location, String skin) {
