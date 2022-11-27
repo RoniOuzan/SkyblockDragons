@@ -23,5 +23,6 @@ public class Hub extends WorldSD {
         new DailyNPC(new Location(world, -18.5, 70, -90, -90, 0));
         new ShopNPC(new Location(world, -18.5, 70, -77, -90, 0));
         new ReforgeNPC(new Location(world, -19.5, 71, -123.5, -90, 0));
+        new AuctionMasterNPC(new Location(world, 17.5, 71, -78.5, 90, 0));
     }
 }
