@@ -1,29 +1,22 @@
 package me.maxiiiiii.skyblockdragons.player.skill.events;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.events.events.abstracts.playersd.PlayerSDEvent;
+import me.maxiiiiii.skyblockdragons.events.events.abstracts.playersd.MultiplierUpdateEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import org.bukkit.event.HandlerList;
 
 @Getter
-public class PlayerGetSkillXpEvent extends PlayerSDEvent {
+public class UpdateSkillXpEvent extends MultiplierUpdateEvent {
     private static final HandlerList handlerList = new HandlerList();
 
-    private final SkillType skillType;
+    private final SkillType skill;
     private final double baseAmount;
-    private final double finalAmount;
 
-    public PlayerGetSkillXpEvent(PlayerSD player, SkillType type, double baseAmount, double finalAmount) {
+    public UpdateSkillXpEvent(PlayerSD player, SkillType skill, double baseAmount) {
         super(player);
-        this.skillType = type;
+        this.skill = skill;
         this.baseAmount = baseAmount;
-        this.finalAmount = finalAmount;
-    }
-
-    public AbstractSkill getSkill() {
-        return this.player.getSkills().get(this.skillType);
     }
 
     @Override

@@ -3,7 +3,10 @@ package me.maxiiiiii.skyblockdragons.player.slayer;
 import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,9 +22,14 @@ public class SlayerMenu extends Menu {
 
     @Override
     public void update() {
-        this.setItem(11, getItem(SlayerType.REVENANT));
-        this.setItem(13, getItem(SlayerType.TARANTULA));
-        this.setItem(15, getItem(SlayerType.SVEN));
+        if (player.getSlayers().getQuest() == null) {
+            this.setItem(11, getItem(SlayerType.REVENANT));
+            this.setItem(13, getItem(SlayerType.TARANTULA));
+            this.setItem(15, getItem(SlayerType.SVEN));
+        } else {
+            ChatColor color = SlayerType.getTiersColors(player.getSlayers().getQuest().getTier());
+            this.setItem(13, createItem(Material.RED_GLAZED_TERRACOTTA, 14, ChatColor.RED + "Cancel Slayer Quest", "CANCEL", Functions.loreBuilder("You have started " + color + player.getSlayers().getQuest().getType().getName() + color + " Tier " + color + player.getSlayers().getQuest().getTier() + ChatColor.GRAY + ", you can cancel this quest but you will not get refunds!" + " NEW_LINE NEW_LINE " + ChatColor.YELLOW + "Click to cancel!")));
+        }
     }
 
     @Override
@@ -30,6 +38,11 @@ public class SlayerMenu extends Menu {
         if (nbt.contains("SLAYER_")) {
             SlayerType slayerType = SlayerType.valueOf(nbt.replace("SLAYER_", ""));
             new SlayerTypeMenu(slayerType);
+        } else if (nbt.equals("CANCEL")) {
+            player.getSlayers().cancelQuest();
+            player.sendMessage(ChatColor.RED + "You have cancelled the slayer quest!");
+            player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
+            this.update();
         }
     }
 
@@ -72,6 +85,8 @@ public class SlayerMenu extends Menu {
                 player.getSlayers().startQuest(slayerType, tier);
                 player.sendMessage(ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "  SLAYER QUEST STARTED!");
                 player.sendMessage(ChatColor.DARK_PURPLE + "   » " + ChatColor.GRAY + "Slay " + ChatColor.RED + slayerType.getNeedXp(tier) + " Combat XP " + ChatColor.GRAY + "worth of Zombies.");
+                player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_AMBIENT, 1f, 2f);
+                player.closeInventory();
             }
         }
     }

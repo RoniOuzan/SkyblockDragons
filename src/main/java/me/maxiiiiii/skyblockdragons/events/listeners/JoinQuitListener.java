@@ -48,7 +48,7 @@ public class JoinQuitListener implements Listener {
         if (player.getPlayerPet().getActivePetSlot() >= 0) {
             player.getPlayerPet().getVisual().remove();
         }
-        player.logLogout();
+//        player.logLogout();
         player.save();
     }
 }
