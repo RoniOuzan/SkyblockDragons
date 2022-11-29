@@ -33,6 +33,7 @@ import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.skill.Skills;
 import me.maxiiiiii.skyblockdragons.player.skill.events.PlayerGetSkillXpEvent;
+import me.maxiiiiii.skyblockdragons.player.skill.events.UpdateSkillXpEvent;
 import me.maxiiiiii.skyblockdragons.player.slayer.Slayers;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.player.storage.EnderChest;
@@ -207,7 +208,9 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public void giveSkill(SkillType skillType, double amount) {
-        Bukkit.getPluginManager().callEvent(new PlayerGetSkillXpEvent(this, skillType, amount));
+        UpdateSkillXpEvent event = new UpdateSkillXpEvent(this, skillType, amount);
+        Bukkit.getPluginManager().callEvent(event);
+        Bukkit.getPluginManager().callEvent(new PlayerGetSkillXpEvent(this, skillType, amount, event.getMultiplier().multiply(event.getBaseAmount())));
     }
 
     public void addPlayTime(int amount) {

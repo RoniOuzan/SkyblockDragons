@@ -37,6 +37,8 @@ public abstract class Slayer {
             levelledUp = true;
             this.level++;
         }
+
+        // TODO
     }
 
     public void save(PlayerSD player) {
@@ -69,5 +71,14 @@ public abstract class Slayer {
             return NEED_XP[COSTS_TO_START.length - 1];
 
         return NEED_XP[level - 1];
+    }
+
+    @Override
+    public String toString() {
+        return "Slayer{" +
+                "type=" + type +
+                ", level=" + level +
+                ", totalXp=" + totalXp +
+                '}';
     }
 }

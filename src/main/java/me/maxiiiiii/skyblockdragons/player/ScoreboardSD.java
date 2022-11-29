@@ -2,6 +2,8 @@ package me.maxiiiiii.skyblockdragons.player;
 
 import dev.jcsoftware.jscoreboards.JPerPlayerMethodBasedScoreboard;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
+import me.maxiiiiii.skyblockdragons.player.slayer.SlayerQuest;
+import me.maxiiiiii.skyblockdragons.player.slayer.SlayerType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.DragonType;
@@ -35,7 +37,7 @@ public class ScoreboardSD {
         Date now = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy");
         scores.add(ChatColor.GRAY + format.format(now) + ChatColor.DARK_GRAY + " " + player.getWorldSD().getName());
-        scores.add("");
+        scores.add(""); // 0
         scores.add(ChatColor.WHITE + "Player: " + ChatColor.GREEN + player.getName());
         if (player.getLastCoins() != player.getCoins()) {
             player.setCoins(player.getCoins());
@@ -56,29 +58,32 @@ public class ScoreboardSD {
             }
         }
         scores.add(ChatColor.WHITE + "PCoin: " + ChatColor.DARK_GREEN + getNumberFormat(player.getBits()) + " " + bitsAdder);
-        scores.add(" ");
-        if (TheEnd.dragon != null) {
-            DragonType dragonType = DragonType.getDragonType(TheEnd.dragon.material.getName());
-            if (player.getWorldSD() == WorldSD.THE_END && dragonType != null) {
-                scores.add(dragonType + " Dragon");
-                scores.add("  " + ChatColor.WHITE + "Dragon's Health: " + ChatColor.GREEN + Functions.getShortNumber(TheEnd.dragon.getHealth()) + StatTypes.HEALTH.getIcon());
-                scores.add("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getShortNumber(TheEnd.dragonDamage.getOrDefault(this.player, 0d)));
-                scores.add("  ");
-            }
-        }
-        if(WitherIsland.wither != null){
-            String name = WitherIsland.wither.material.name;
-            if (player.getWorldSD() == WorldSD.WITHER_ISLAND && name != null) {
-                scores.add(name);
-                scores.add("  " + ChatColor.WHITE + "Wither's Health: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.wither.getHealth()) + StatTypes.HEALTH.getIcon());
-                scores.add("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.witherDamage.getOrDefault(player.getUniqueId(), 0d)));
-                scores.add("  ");
-            }
-        }
+        scores.add(" "); // 1
+
         if (player.playerPet.getActivePetSlot() >= 0) {
             scores.add(ChatColor.WHITE + "Active Pet:");
             scores.add("  " + player.getActivePet().getRarity().getColor() + player.getActivePetMaterial().getName());
-            scores.add("   ");
+            scores.add("  "); // 2
+        }
+
+        if (player.getSlayers().getQuest() != null) {
+            SlayerQuest quest = player.getSlayers().getQuest();
+            scores.add(ChatColor.WHITE + "Slayer Quest");
+            scores.add(SlayerType.getTiersColors(quest.getTier()) + quest.getType().getName() + " " + quest.getTier());
+            scores.add(ChatColor.GRAY + "(" + ChatColor.YELLOW + Functions.getNumberFormat(quest.getCurrentXp()) + ChatColor.GRAY + "/" + ChatColor.RED + Functions.getNumberFormat(quest.getNeedXp()) + ChatColor.GRAY + ") Combat XP");
+            scores.add("   "); // 3
+        }
+
+        if (TheEnd.dragon != null && player.getWorldSD() == WorldSD.THE_END) {
+            scores.add(DragonType.getDragonType(TheEnd.dragon.material.getName()) + " Dragon");
+            scores.add("  " + ChatColor.WHITE + "Dragon's Health: " + ChatColor.GREEN + Functions.getShortNumber(TheEnd.dragon.getHealth()) + StatTypes.HEALTH.getIcon());
+            scores.add("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getShortNumber(TheEnd.dragonDamage.getOrDefault(this.player, 0d)));
+            scores.add("   "); // 4
+        } else if(WitherIsland.wither != null && player.getWorldSD() == WorldSD.WITHER_ISLAND) {
+            scores.add(WitherIsland.wither.getMaterial().getName());
+            scores.add("  " + ChatColor.WHITE + "Wither's Health: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.wither.getHealth()) + StatTypes.HEALTH.getIcon());
+            scores.add("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.witherDamage.getOrDefault(player.getUniqueId(), 0d)));
+            scores.add("   "); // 4
         }
         scores.add(ChatColor.YELLOW + "sbdragons.ml");
 

@@ -52,38 +52,16 @@ public abstract class Menu implements InventoryHolder {
     protected final PlayerSD player;
 
     protected final InventoryGlassType inventoryGlassType;
+    protected final boolean utilButtons;
 
     protected Menu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, boolean autoUpdate, boolean utilButtons) {
         this.player = player;
         this.inventory = Bukkit.createInventory(this, rows * 9, title);
         this.title = title;
         this.inventoryGlassType = inventoryGlassType;
+        this.utilButtons = utilButtons;
 
-        if (inventoryGlassType == InventoryGlassType.ALL) {
-            Functions.putGlasses(inventory);
-        } else if (inventoryGlassType == InventoryGlassType.SURROUND) {
-            for (int i = 0; i < 9; i++) {
-                this.setItem(i, GLASS);
-            }
-
-            for (int i = rows * 9 - 9; i < rows * 9; i++) {
-                this.setItem(i, GLASS);
-            }
-
-            for (int i = 1; i < rows; i++) {
-                this.setItem(i * 9, GLASS);
-            }
-
-            for (int i = 1; i < rows; i++) {
-                this.setItem(i * 9 + 8, GLASS);
-            }
-        }
-
-        if (utilButtons) {
-            this.setItem(this.getRows() * 9 - 5, CLOSE);
-            if (player.getMenuHistory().size() > 0)
-                this.setItem(this.getRows() * 9 - 6, GO_BACK);
-        }
+        this.reset();
 
         Functions.Wait(1, () -> {
             if (autoUpdate) {
@@ -106,6 +84,35 @@ public abstract class Menu implements InventoryHolder {
     }
 
     public abstract void update();
+
+    protected void reset() {
+        if (inventoryGlassType == InventoryGlassType.ALL) {
+            Functions.putGlasses(inventory);
+        } else if (inventoryGlassType == InventoryGlassType.SURROUND) {
+            for (int i = 0; i < 9; i++) {
+                this.setItem(i, GLASS);
+            }
+
+            int rows = getRows();
+            for (int i = rows * 9 - 9; i < rows * 9; i++) {
+                this.setItem(i, GLASS);
+            }
+
+            for (int i = 1; i < rows; i++) {
+                this.setItem(i * 9, GLASS);
+            }
+
+            for (int i = 1; i < rows; i++) {
+                this.setItem(i * 9 + 8, GLASS);
+            }
+        }
+
+        if (utilButtons) {
+            this.setItem(this.getRows() * 9 - 5, CLOSE);
+            if (player.getMenuHistory().size() > 0)
+                this.setItem(this.getRows() * 9 - 6, GO_BACK);
+        }
+    }
 
     public void onGoBack() {
         if (player.getMenuHistory().size() > 0) {
