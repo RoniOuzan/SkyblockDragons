@@ -15,6 +15,15 @@ import me.maxiiiiii.skyblockdragons.entity.types.other.DragonTest;
 import me.maxiiiiii.skyblockdragons.entity.types.other.Dummy;
 import me.maxiiiiii.skyblockdragons.entity.types.other.NullEntity;
 import me.maxiiiiii.skyblockdragons.entity.types.other.PlayerEntity;
+import me.maxiiiiii.skyblockdragons.entity.types.slayer.revenant.*;
+import me.maxiiiiii.skyblockdragons.entity.types.slayer.sven.SvenPackmasterTier1;
+import me.maxiiiiii.skyblockdragons.entity.types.slayer.sven.SvenPackmasterTier2;
+import me.maxiiiiii.skyblockdragons.entity.types.slayer.sven.SvenPackmasterTier3;
+import me.maxiiiiii.skyblockdragons.entity.types.slayer.sven.SvenPackmasterTier4;
+import me.maxiiiiii.skyblockdragons.entity.types.slayer.tarantula.TarantulaBroodfatherTier1;
+import me.maxiiiiii.skyblockdragons.entity.types.slayer.tarantula.TarantulaBroodfatherTier2;
+import me.maxiiiiii.skyblockdragons.entity.types.slayer.tarantula.TarantulaBroodfatherTier3;
+import me.maxiiiiii.skyblockdragons.entity.types.slayer.tarantula.TarantulaBroodfatherTier4;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EnderGuard;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EndermanTier1;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EndermanTier2;
@@ -77,6 +86,10 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         this(entityType, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, true, combatXp, coins, drops);
     }
 
+    public EntityType getPassenger() {
+        return null;
+    }
+
     public void onSpawn(EntitySD entity) {
     }
 
@@ -137,6 +150,22 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         entities.put("POLAR__BEAR_BOSS", new Polar_Bear_Boss());
         entities.put("KOALA_BEAR_BOSS", new Koala_Bear_Boss());
         entities.put("PANDA_BOSS", new Panda_Bear_Boss());
+
+        entities.put("REVENANT_HORROR_TIER_1", new RevenantHorrorTier1());
+        entities.put("REVENANT_HORROR_TIER_2", new RevenantHorrorTier2());
+        entities.put("REVENANT_HORROR_TIER_3", new RevenantHorrorTier3());
+        entities.put("REVENANT_HORROR_TIER_4", new RevenantHorrorTier4());
+        entities.put("REVENANT_HORROR_TIER_5", new RevenantHorrorTier5());
+
+        entities.put("TARANTULA_BROODFATHER_TIER_1", new TarantulaBroodfatherTier1());
+        entities.put("TARANTULA_BROODFATHER_TIER_2", new TarantulaBroodfatherTier2());
+        entities.put("TARANTULA_BROODFATHER_TIER_3", new TarantulaBroodfatherTier3());
+        entities.put("TARANTULA_BROODFATHER_TIER_4", new TarantulaBroodfatherTier4());
+
+        entities.put("SVEN_PACKMASTER_TIER_1", new SvenPackmasterTier1());
+        entities.put("SVEN_PACKMASTER_TIER_2", new SvenPackmasterTier2());
+        entities.put("SVEN_PACKMASTER_TIER_3", new SvenPackmasterTier3());
+        entities.put("SVEN_PACKMASTER_TIER_4", new SvenPackmasterTier4());
 
         entities.put("PLAYER", new PlayerEntity());
 

@@ -1,5 +1,7 @@
 package me.maxiiiiii.skyblockdragons.util.objects;
 
+import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
@@ -25,12 +27,23 @@ public class Equipment implements ConfigurationSerializable {
     }
 
     public Equipment(Material helmet, Material chestplate, Material leggings, Material boots, Material hand, Material offHand) {
-        this.helmet = helmet == null ? null : new ItemStack(helmet);
-        this.chestplate = chestplate == null ? null : new ItemStack(chestplate);
-        this.leggings = leggings == null ? null : new ItemStack(leggings);
-        this.boots = boots == null ? null : new ItemStack(boots);
-        this.hand = hand == null ? null : new ItemStack(hand);
-        this.offHand = offHand == null ? null : new ItemStack(offHand);
+        this(helmet == null ? null : new ItemStack(helmet),
+                chestplate == null ? null : new ItemStack(chestplate),
+                leggings == null ? null : new ItemStack(leggings),
+                boots == null ? null : new ItemStack(boots),
+                hand == null ? null : new ItemStack(hand),
+                offHand == null ? null : new ItemStack(offHand)
+        );
+    }
+
+    public Equipment(ItemSkull itemSkull, Material chestplate, Material leggings, Material boots, Material hand) {
+        this(Functions.applySkull(new ItemStack(Material.SKULL_ITEM, 1, (short) 3), itemSkull.getId(), itemSkull.getValue()),
+                new ItemStack(chestplate),
+                new ItemStack(leggings),
+                new ItemStack(boots),
+                new ItemStack(hand),
+                null
+        );
     }
 
     public Equipment() {
@@ -50,8 +63,6 @@ public class Equipment implements ConfigurationSerializable {
             map.put("boots", boots);
         if (hand != null)
             map.put("hand", hand);
-        if (offHand != null)
-            map.put("offHand", offHand);
         return map;
     }
 

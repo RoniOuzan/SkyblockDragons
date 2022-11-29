@@ -23,9 +23,9 @@ public abstract class Slayer {
     }
 
     protected Slayer(SlayerType type, PlayerSD player) {
-        this(type,
-                Variables.getInt(player.getUniqueId(), "Slayer" + type.getName(), 0, 0),
-                Variables.getInt(player.getUniqueId(), "Slayer" + type.getName(), 1, 0)
+        this(type, 0, 0
+//                Variables.getInt(player.getUniqueId(), "Slayer" + type.getName(), 0, 0),
+//                Variables.getInt(player.getUniqueId(), "Slayer" + type.getName(), 1, 0)
         );
     }
 

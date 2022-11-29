@@ -33,6 +33,7 @@ import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.skill.Skills;
 import me.maxiiiiii.skyblockdragons.player.skill.events.PlayerGetSkillXpEvent;
+import me.maxiiiiii.skyblockdragons.player.slayer.Slayers;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.player.storage.EnderChest;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.Wardrobe;
@@ -86,6 +87,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     public int bits;
 
     public Skills skills;
+    public Slayers slayers;
     public Wardrobe wardrobe;
     public BankAccount bank;
     public PlayerPet playerPet;
@@ -116,6 +118,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.stats = new PlayerStats(this);
 
         this.skills = new Skills(this);
+        this.slayers = new Slayers(this);
         this.wardrobe = new Wardrobe(this);
         this.bank = new BankAccount(this, 50_000_000);
         this.playerPet = new PlayerPet(this);
