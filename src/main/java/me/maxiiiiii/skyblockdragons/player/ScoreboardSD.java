@@ -69,8 +69,13 @@ public class ScoreboardSD {
         if (player.getSlayers().getQuest() != null) {
             SlayerQuest quest = player.getSlayers().getQuest();
             scores.add(ChatColor.WHITE + "Slayer Quest");
-            scores.add(SlayerType.getTiersColors(quest.getTier()) + quest.getType().getName() + " " + quest.getTier());
-            scores.add(ChatColor.GRAY + "(" + ChatColor.YELLOW + Functions.getNumberFormat(quest.getCurrentXp()) + ChatColor.GRAY + "/" + ChatColor.RED + Functions.getNumberFormat(quest.getNeedXp()) + ChatColor.GRAY + ") Combat XP");
+            if (quest.isBossSpawned()) {
+                scores.add(SlayerType.getTiersColors(quest.getTier()) + quest.getType().getName() + " " + quest.getTier());
+                scores.add(ChatColor.WHITE + "Slay the boss!");
+            } else {
+                scores.add(SlayerType.getTiersColors(quest.getTier()) + quest.getType().getName() + " " + quest.getTier());
+                scores.add(ChatColor.GRAY + "(" + ChatColor.YELLOW + Functions.getNumberFormat(quest.getCurrentXp()) + ChatColor.GRAY + "/" + ChatColor.RED + Functions.getNumberFormat(quest.getNeedXp()) + ChatColor.GRAY + ") Combat XP");
+            }
             scores.add("   "); // 3
         }
 
