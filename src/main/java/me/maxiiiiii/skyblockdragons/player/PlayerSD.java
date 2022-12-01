@@ -31,6 +31,7 @@ import me.maxiiiiii.skyblockdragons.player.objects.ActionBarSupplier;
 import me.maxiiiiii.skyblockdragons.player.party.Party;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSource;
 import me.maxiiiiii.skyblockdragons.player.skill.Skills;
 import me.maxiiiiii.skyblockdragons.player.skill.events.PlayerGetSkillXpEvent;
 import me.maxiiiiii.skyblockdragons.player.skill.events.UpdateSkillXpEvent;
@@ -61,12 +62,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.logging.FileHandler;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
 
@@ -145,37 +143,37 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.equipment = new PlayerEquipment();
     }
 
-    private void setupLogger() {
-        this.logger = Logger.getLogger("PlayerLogger");
-        FileHandler fh;
-        try {
-
-            // This block configures the logger with handler and formatter
-            fh = new FileHandler(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/PlayersLogs/" + getUniqueId() + ".log", 0,1, true);
-            logger.addHandler(fh);
-            SimpleFormatter formatter = new SimpleFormatter();
-            fh.setFormatter(formatter);
-
-            // don't log to console
-            logger.setUseParentHandlers(false);
-            // the following statement is used to log any messages
-            logger.info("Init Logger: " + getUniqueId());
-            logLogin();
-
-        } catch (SecurityException | IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+//    private void setupLogger() {
+//        this.logger = Logger.getLogger("PlayerLogger");
+//        FileHandler fh;
+//        try {
+//
+//            // This block configures the logger with handler and formatter
+//            fh = new FileHandler(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/PlayersLogs/" + getUniqueId() + ".log", 0,1, true);
+//            logger.addHandler(fh);
+//            SimpleFormatter formatter = new SimpleFormatter();
+//            fh.setFormatter(formatter);
+//
+//            // don't log to console
+//            logger.setUseParentHandlers(false);
+//            // the following statement is used to log any messages
+//            logger.info("Init Logger: " + getUniqueId());
+//            logLogin();
+//
+//        } catch (SecurityException | IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
     public void logLogin() {
         logger.info("Player Login: " + player.getName());
         logger.info("Player location: " + player.getLocation());
     }
-
-    public void logLogout() {
-        logger.info("Player Logout: " + player.getName());
-        logger.info("Player location: " + player.getLocation());
-    }
+//
+//    public void logLogout() {
+//        logger.info("Player Logout: " + player.getName());
+//        logger.info("Player location: " + player.getLocation());
+//    }
 
     public void update(Player player) {
         this.setPlayer(player);
@@ -207,10 +205,14 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         return activePowerOrb;
     }
 
-    public void giveSkill(SkillType skillType, double amount) {
+    public <T> void giveSkill(SkillType skillType, double amount, SkillXpSource<T> source) {
         UpdateSkillXpEvent event = new UpdateSkillXpEvent(this, skillType, amount);
         Bukkit.getPluginManager().callEvent(event);
-        Bukkit.getPluginManager().callEvent(new PlayerGetSkillXpEvent(this, skillType, amount, event.getMultiplier().multiply(event.getBaseAmount())));
+        Bukkit.getPluginManager().callEvent(new PlayerGetSkillXpEvent(this, skillType, amount, event.getMultiplier().multiply(event.getBaseAmount()), source));
+    }
+
+    public void giveSkill(SkillType skillType, double amount) {
+        this.giveSkill(skillType, amount, null);
     }
 
     public void addPlayTime(int amount) {

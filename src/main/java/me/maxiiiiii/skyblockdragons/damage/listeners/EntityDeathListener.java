@@ -7,6 +7,8 @@ import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityDrop;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerDeathEvent;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSource;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSourceType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,7 +28,7 @@ public class EntityDeathListener implements Listener {
         if (e.getKiller() instanceof PlayerSD) {
             EntitySD entity = e.getEntity();
             PlayerSD killer = (PlayerSD) e.getKiller();
-            killer.giveSkill(SkillType.COMBAT, entity.material.getCombatXp());
+            killer.giveSkill(SkillType.COMBAT, entity.material.getCombatXp(), new SkillXpSource<>(SkillXpSourceType.ENTITY, entity));
             killer.giveExp((int) (entity.material.getCoins() / 100));
 
             for (EntityDrop drop : entity.material.getDrops()) {

@@ -2,8 +2,10 @@ package me.maxiiiiii.skyblockdragons.player.slayer;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSourceType;
 import me.maxiiiiii.skyblockdragons.player.skill.events.PlayerGetSkillXpEvent;
 import me.maxiiiiii.skyblockdragons.player.slayer.slayers.RevenantSlayer;
 import me.maxiiiiii.skyblockdragons.player.slayer.slayers.SvenSlayer;
@@ -56,8 +58,8 @@ public class Slayers implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerGetSkillXP(PlayerGetSkillXpEvent e) {
-        if (this.quest != null && e.getSkillType() == SkillType.COMBAT) {
-            this.quest.giveXp(e.getFinalAmount());
+        if (this.quest != null && e.getSkillType() == SkillType.COMBAT && e.getSource().getType() == SkillXpSourceType.ENTITY) {
+            this.quest.giveXp(e.getFinalAmount(), (EntitySD) e.getSource().getSource());
             this.player.getScoreboardSD().update();
         }
     }

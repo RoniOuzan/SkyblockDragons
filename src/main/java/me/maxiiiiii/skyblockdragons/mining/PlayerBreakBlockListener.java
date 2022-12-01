@@ -5,6 +5,8 @@ import me.maxiiiiii.skyblockdragons.item.drops.types.block.BlockDrop;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSource;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSourceType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import org.bukkit.Bukkit;
@@ -37,7 +39,7 @@ public class PlayerBreakBlockListener implements Listener {
         if (player.getEnchantLevel(EnchantType.EXPERIENCE) > 0)
             if (Functions.chanceOf(12.5 * player.getEnchantLevel(EnchantType.EXPERIENCE)))
                 player.giveExp(e.getMaterial().getXp());
-        player.giveSkill(SkillType.MINING, e.getMaterial().getMiningXp());
+        player.giveSkill(SkillType.MINING, e.getMaterial().getMiningXp(), new SkillXpSource<>(SkillXpSourceType.BLOCK, block));
         if (player.getWorldSD() == WorldSD.DEEPER_MINES) {
             if (e.getMaterial() == BlockMaterial.HEMATITE_ORE) {
                 UpdateVoidCrystalChanceEvent event = new UpdateVoidCrystalChanceEvent(player, 1, block, e.getMaterial());
