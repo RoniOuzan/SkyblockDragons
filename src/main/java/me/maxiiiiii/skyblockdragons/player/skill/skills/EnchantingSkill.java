@@ -3,10 +3,12 @@ package me.maxiiiiii.skyblockdragons.player.skill.skills;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.events.PlayerGetExperienceEvent;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
 
 @Getter
 public class EnchantingSkill extends AbstractSkill {
@@ -28,5 +30,8 @@ public class EnchantingSkill extends AbstractSkill {
         );
     }
 
-    // TODO: passive
+    @EventHandler
+    public void updateExp(PlayerGetExperienceEvent e) {
+        e.getMultiplier().addPost(this.getLevel() * 4);
+    }
 }

@@ -69,7 +69,7 @@ public class ScoreboardSD {
         if (player.getSlayers().getQuest() != null) {
             SlayerQuest quest = player.getSlayers().getQuest();
             scores.add(ChatColor.WHITE + "Slayer Quest");
-            if (quest.isBossSpawned()) {
+            if (quest.getState() == SlayerQuest.SlayerQuestState.SPAWNED) {
                 scores.add(SlayerType.getTiersColors(quest.getTier()) + quest.getType().getName() + " " + quest.getTier());
                 scores.add(ChatColor.WHITE + "Slay the boss!");
             } else {
