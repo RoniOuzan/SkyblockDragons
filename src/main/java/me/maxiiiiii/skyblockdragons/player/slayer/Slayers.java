@@ -1,22 +1,13 @@
 package me.maxiiiiii.skyblockdragons.player.slayer;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
-import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSourceType;
-import me.maxiiiiii.skyblockdragons.player.skill.events.PlayerGetSkillXpEvent;
 import me.maxiiiiii.skyblockdragons.player.slayer.slayers.RevenantSlayer;
 import me.maxiiiiii.skyblockdragons.player.slayer.slayers.SvenSlayer;
 import me.maxiiiiii.skyblockdragons.player.slayer.slayers.TarantulaSlayer;
-import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 
 @Getter
-public class Slayers implements Listener {
+public class Slayers {
     private final PlayerSD player;
 
     private final RevenantSlayer revenant;
@@ -32,15 +23,23 @@ public class Slayers implements Listener {
         this.sven = new SvenSlayer(player);
 
         this.quest = null;
-
-        Bukkit.getPluginManager().registerEvents(this, SkyblockDragons.plugin);
     }
 
     public void startQuest(SlayerType slayerType, int level) {
-        this.quest = new SlayerQuest(slayerType, level);
+        this.quest = new SlayerQuest(player, slayerType, level);
     }
 
     public void cancelQuest() {
+        this.quest.cancel();
+        this.quest = null;
+    }
+
+    public void giveXp(SlayerType slayerType, double amount) {
+        this.get(slayerType).giveXp(amount);
+    }
+
+    public void complete() {
+        this.quest.complete();
         this.quest = null;
     }
 
@@ -54,14 +53,6 @@ public class Slayers implements Listener {
                 return this.sven;
         }
         return null;
-    }
-
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void onPlayerGetSkillXP(PlayerGetSkillXpEvent e) {
-        if (this.quest != null && e.getSkillType() == SkillType.COMBAT && e.getSource().getType() == SkillXpSourceType.ENTITY) {
-            this.quest.giveXp(e.getFinalAmount(), (EntitySD) e.getSource().getSource());
-            this.player.getScoreboardSD().update();
-        }
     }
 
     @Override

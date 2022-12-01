@@ -51,18 +51,19 @@ public class MaddoxBatphone extends PhoneMaterial {
                 PlayerSD player = e.getPlayer();
                 player.sendMessage(ChatColor.YELLOW + "Ring!");
             Functions.Loop(12, 1, i1 ->
-                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 1f, 1f)
+                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 0.8f, 15f)
                 , i1 -> Functions.Wait(8, () ->  {
                     player.sendMessage(ChatColor.YELLOW + "Ring! Ring!");
                     Functions.Loop(12, 1, i2 ->
-                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 1f, 1f)
+                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 0.8f, 15f)
                     , i2 -> Functions.Wait(8, () ->  {
                         player.sendMessage(ChatColor.YELLOW + "Ring! Ring! Ring!");
                         Functions.Loop(12, 1, i3 ->
-                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_XYLOPHONE, 1f, 1f)
+                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 0.8f, 15f)
                         , i3 -> Functions.Wait(8, () -> {
                             new SlayerMenu(player);
-                            player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 2f);
+                            player.playSound(player.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_ON, 0.8f, 0.7f);
+                            player.playSound(player.getLocation(), Sound.BLOCK_WOOD_BUTTON_CLICK_OFF, 0.8f, 0.7f);
                         }));
                     }));
                 }));

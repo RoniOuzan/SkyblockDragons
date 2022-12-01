@@ -32,13 +32,9 @@ public abstract class Slayer {
     public void giveXp(double amount) {
         this.totalXp += amount;
 
-        boolean levelledUp = false;
         while (this.totalXp >= this.getNeedXP(this.level)) {
-            levelledUp = true;
             this.level++;
         }
-
-        // TODO
     }
 
     public void save(PlayerSD player) {

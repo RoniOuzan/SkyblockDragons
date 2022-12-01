@@ -26,9 +26,15 @@ public class SlayerMenu extends Menu {
             this.setItem(11, getItem(SlayerType.REVENANT));
             this.setItem(13, getItem(SlayerType.TARANTULA));
             this.setItem(15, getItem(SlayerType.SVEN));
+        } else if (player.getSlayers().getQuest().getState() == SlayerQuest.SlayerQuestState.SLAYED) {
+            ChatColor color = SlayerType.getTiersColors(player.getSlayers().getQuest().getTier());
+            this.setItem(13, createItem(Material.WHITE_GLAZED_TERRACOTTA, 5, ChatColor.GREEN + "Slayer Quest Completed", "COMPLETED", Functions.loreBuilder("You completed the slayer quest " + color + player.getSlayers().getQuest().getType().getName() + color + " Tier " + color + player.getSlayers().getQuest().getTier() + ChatColor.GRAY + ", now you can claim the rewards and progress!" + " RESET_LENGTH NEW_LINE NEW_LINE " + ChatColor.YELLOW + "Click to claim!")));
+        } else if (player.getSlayers().getQuest().getState() != SlayerQuest.SlayerQuestState.FAILED) {
+            ChatColor color = SlayerType.getTiersColors(player.getSlayers().getQuest().getTier());
+            this.setItem(13, createItem(Material.WHITE_GLAZED_TERRACOTTA, 14, ChatColor.RED + "Cancel Slayer Quest", "CANCEL", Functions.loreBuilder("You have started " + color + player.getSlayers().getQuest().getType().getName() + color + "Tier " + color + player.getSlayers().getQuest().getTier() + ChatColor.GRAY + ", you can cancel this quest but you will not get refunds!" + " NEW_LINE NEW_LINE " + ChatColor.YELLOW + "Click to cancel!")));
         } else {
             ChatColor color = SlayerType.getTiersColors(player.getSlayers().getQuest().getTier());
-            this.setItem(13, createItem(Material.RED_GLAZED_TERRACOTTA, 14, ChatColor.RED + "Cancel Slayer Quest", "CANCEL", Functions.loreBuilder("You have started " + color + player.getSlayers().getQuest().getType().getName() + color + " Tier " + color + player.getSlayers().getQuest().getTier() + ChatColor.GRAY + ", you can cancel this quest but you will not get refunds!" + " NEW_LINE NEW_LINE " + ChatColor.YELLOW + "Click to cancel!")));
+            this.setItem(13, createItem(Material.WHITE_GLAZED_TERRACOTTA, 14, ChatColor.RED + "Failed The Quest", "FAILED", Functions.loreBuilder("You have started " + color + player.getSlayers().getQuest().getType().getName() + color + "Tier " + color + player.getSlayers().getQuest().getTier() + ChatColor.GRAY + ", but you failed to slay it!" + " NEW_LINE NEW_LINE " + ChatColor.YELLOW + "Click to continue!")));
         }
     }
 
@@ -38,10 +44,18 @@ public class SlayerMenu extends Menu {
         if (nbt.contains("SLAYER_")) {
             SlayerType slayerType = SlayerType.valueOf(nbt.replace("SLAYER_", ""));
             new SlayerTypeMenu(slayerType);
+        } else if (nbt.equals("COMPLETED")) {
+            player.getSlayers().complete();
+            this.update();
         } else if (nbt.equals("CANCEL")) {
             player.getSlayers().cancelQuest();
             player.sendMessage(ChatColor.RED + "You have cancelled the slayer quest!");
-            player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
+            player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 10f);
+            this.update();
+        } else if (nbt.equals("FAILED")) {
+            player.getSlayers().cancelQuest();
+            player.sendMessage(ChatColor.RED + "You have failed the slayer quest!");
+            player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 10f);
             this.update();
         }
     }

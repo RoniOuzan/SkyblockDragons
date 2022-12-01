@@ -110,6 +110,7 @@ public class EnchantListeners implements Listener {
 
             enchant(attacker, enchants, SNIPE, s -> e.getDamage().getMultiplier().addBase(Math.floor(attacker.getLocation().distance(e.getVictim().getLocation())) * s));
         }
+        attacker.sendMessage(e.getDamage());
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
