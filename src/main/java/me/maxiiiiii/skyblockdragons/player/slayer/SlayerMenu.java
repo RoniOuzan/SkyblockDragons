@@ -27,6 +27,7 @@ public class SlayerMenu extends Menu {
 
     @Override
     public void update() {
+        this.reset();
         if (!player.getSlayers().getQuest().isActive()) {
             this.setItem(11, createItem(SlayerType.REVENANT));
             this.setItem(12, createItem(SlayerType.TARANTULA));
@@ -34,13 +35,13 @@ public class SlayerMenu extends Menu {
             this.setItem(15, createItem(SlayerType.VOIDGLOOM));
         } else if (player.getSlayers().getQuest().getState() == SlayerQuest.SlayerQuestState.SLAIN) {
             ChatColor color = SlayerType.getTiersColors(player.getSlayers().getQuest().getTier());
-            this.setItem(13, createItem(Material.WHITE_GLAZED_TERRACOTTA, 5, ChatColor.GREEN + "Slayer Quest Completed", "SLAYED", "You have slain the boss!", "", ChatColor.GRAY + "Boss: " + color + player.getSlayers().getQuest().getType().getName() + player.getSlayers().getQuest().getTier(), "", ChatColor.GRAY + "Reward: " + player.getSlayers().getQuest().getReward() + " " + player.getSlayers().getQuest().getType().toString() + " Slayer XP", "", ChatColor.YELLOW + "Click to claim!"));
+            this.setItem(13, createItem(Material.WHITE_GLAZED_TERRACOTTA, 5, ChatColor.GREEN + "Slayer Quest Completed", "SLAYED", ChatColor.GRAY + "You have slain the boss!", "", ChatColor.GRAY + "Boss: " + color + player.getSlayers().getQuest().getType().getName() + player.getSlayers().getQuest().getTier(), "", ChatColor.GRAY + "Reward: " + ChatColor.DARK_PURPLE + Functions.getNumberFormat(player.getSlayers().getQuest().getReward()) + " " + player.getSlayers().getQuest().getType().toString() + " Slayer XP", "", ChatColor.YELLOW + "Click to claim!"));
         } else if (player.getSlayers().getQuest().getState() != SlayerQuest.SlayerQuestState.FAILED) {
             ChatColor color = SlayerType.getTiersColors(player.getSlayers().getQuest().getTier());
-            this.setItem(13, createItem(Material.WHITE_GLAZED_TERRACOTTA, 14, ChatColor.RED + "Cancel Slayer Quest", "CANCEL", Functions.loreBuilder("You have started " + color + player.getSlayers().getQuest().getType().getName() + color + "Tier " + color + player.getSlayers().getQuest().getTier() + ChatColor.GRAY + ", you can cancel this quest but you will not get refunds!" + " NEW_LINE NEW_LINE " + ChatColor.YELLOW + "Click to cancel!")));
+            this.setItem(13, createItem(Material.WHITE_GLAZED_TERRACOTTA, 14, ChatColor.RED + "Cancel Slayer Quest", "CANCEL", Functions.loreBuilder("You have started " + color + player.getSlayers().getQuest().getType().getName() + color + " Tier " + color + player.getSlayers().getQuest().getTier() + ChatColor.GRAY + ", you can cancel this quest but you will not get refunds!" + " NEW_LINE NEW_LINE " + ChatColor.YELLOW + "Click to cancel!")));
         } else {
             ChatColor color = SlayerType.getTiersColors(player.getSlayers().getQuest().getTier());
-            this.setItem(13, createItem(Material.WHITE_GLAZED_TERRACOTTA, 14, ChatColor.RED + "Failed The Quest", "FAILED", Functions.loreBuilder("You have started " + color + player.getSlayers().getQuest().getType().getName() + color + "Tier " + color + player.getSlayers().getQuest().getTier() + ChatColor.GRAY + ", but you failed to slay it!" + " NEW_LINE NEW_LINE " + ChatColor.YELLOW + "Click to continue!")));
+            this.setItem(13, createItem(Material.WHITE_GLAZED_TERRACOTTA, 14, ChatColor.RED + "Failed The Quest", "FAILED", Functions.loreBuilder("You have started " + color + player.getSlayers().getQuest().getType().getName() + color + "  Tier " + color + player.getSlayers().getQuest().getTier() + ChatColor.GRAY + ", but you failed to slay it!" + " NEW_LINE NEW_LINE " + ChatColor.YELLOW + "Click to continue!")));
         }
 
         this.setItem(30, createItem(
@@ -120,7 +121,7 @@ public class SlayerMenu extends Menu {
 
         private ItemStack createItem(int tier) {
             SlayerBoss boss = (SlayerBoss) EntityMaterial.get(slayerType.getBossId() + "_TIER_" + tier);
-            return createItem(slayerType.getItemStack(),
+            return createItem(slayerType.getItemStack().clone(),
                     ChatColor.RED + slayerType.getName() + " " + tier,
                     tier,
                     "TIER_" + tier,

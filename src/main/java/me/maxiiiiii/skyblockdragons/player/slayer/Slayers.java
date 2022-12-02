@@ -54,6 +54,8 @@ public class Slayers {
                 return this.tarantula;
             case SVEN:
                 return this.sven;
+            case VOIDGLOOM:
+                return this.voidgloom;
         }
         return null;
     }
