@@ -20,7 +20,7 @@ public class DiamondHoe extends FarmingMaterial {
         super("DIAMOND_HOE",
                 Material.DIAMOND_HOE,
                 ItemFamily.DIAMOND,
-                "Diamond Hoe",
+                "Diamond Hoe Tier 1",
                 ItemType.HOE,
                 Rarity.UNCOMMON,
                 new Stats(Arrays.asList(new Stat(StatTypes.FARMING_FORTUNE, 150))),

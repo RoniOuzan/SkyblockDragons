@@ -58,15 +58,23 @@ public class TheBarn extends WorldSD {
                         }
                     }
                     if (!dropped){
+                        player.sendMessage(ChatColor.RED + "You need a better hoe to break this!");
                         e.setCancelled(true);
                         return;
                     }
+
+                    CropState cropState = crop.getState();
+                    if (block.getType() == Material.BEETROOT_BLOCK){
+                        cropState = CropState.values()[3];
+                    }
+                    player.sendMessage(cropState);
+                    CropState finalCropState = cropState;
                     Functions.Wait(1L, () -> {
                         block.setType(type);
-                        setCropState(block, CropState.VERY_TALL);
+                        setCropState(block, CropState.values()[finalCropState.ordinal() - 1]);
                     });
                     Functions.Wait(100L, () -> {
-                        setCropState(block, CropState.RIPE);
+                        setCropState(block, CropState.values()[finalCropState.ordinal()]);
                     });
                 }
             }

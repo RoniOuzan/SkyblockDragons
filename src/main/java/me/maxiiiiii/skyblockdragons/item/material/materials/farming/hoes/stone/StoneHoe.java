@@ -20,7 +20,7 @@ public class StoneHoe extends FarmingMaterial {
         super("STONE_HOE",
                 Material.STONE_HOE,
                 ItemFamily.STONE,
-                "Stone Hoe",
+                "Stone Hoe Tier 1",
                 ItemType.HOE,
                 Rarity.COMMON,
                 new Stats(Arrays.asList(new Stat(StatTypes.FARMING_FORTUNE, 50))),

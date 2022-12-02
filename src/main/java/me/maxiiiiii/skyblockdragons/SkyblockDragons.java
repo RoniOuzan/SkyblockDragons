@@ -40,6 +40,8 @@ import me.maxiiiiii.skyblockdragons.item.pet.PetMenu;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeCommand;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
+import me.maxiiiiii.skyblockdragons.player.accessorybag.PowerStoneAdminCommand;
+import me.maxiiiiii.skyblockdragons.player.accessorybag.PowerStoneMenu;
 import me.maxiiiiii.skyblockdragons.player.bank.BankCommand;
 import me.maxiiiiii.skyblockdragons.player.chat.ChatCommand;
 import me.maxiiiiii.skyblockdragons.player.chat.listeners.ChatListener;
@@ -57,6 +59,7 @@ import me.maxiiiiii.skyblockdragons.player.party.PartyListCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillAdminCommand;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillListener;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillMenu;
+import me.maxiiiiii.skyblockdragons.player.stats.PlayerStatsAdminCommand;
 import me.maxiiiiii.skyblockdragons.player.stats.StatCommand;
 import me.maxiiiiii.skyblockdragons.player.storage.EnderChestMenu;
 import me.maxiiiiii.skyblockdragons.player.storage.StorageMenu;
@@ -65,10 +68,7 @@ import me.maxiiiiii.skyblockdragons.storage.VariableCommand;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.AddonUtils;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.EntityHider;
-import me.maxiiiiii.skyblockdragons.util.objects.FlyTo;
-import me.maxiiiiii.skyblockdragons.util.objects.PickableItem;
-import me.maxiiiiii.skyblockdragons.util.objects.SoundUtil;
+import me.maxiiiiii.skyblockdragons.util.objects.*;
 import me.maxiiiiii.skyblockdragons.util.particle.ParticlePacketUtil;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.npc.NPC;
@@ -293,11 +293,11 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
                         }
                     }
                 //food
-                AbstractFood food = player.food;
+                AbstractFood food = player.getFood();
                 if (food != null) {
                     food.second();
                     if (food.getDuration() <= 0){
-                        player.food = null;
+                        player.setFood(null);
                     }
                 }
             }

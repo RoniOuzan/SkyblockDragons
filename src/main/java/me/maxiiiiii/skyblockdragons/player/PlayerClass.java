@@ -873,7 +873,7 @@ public class PlayerClass extends EntitySD implements Player {
         return this.player.isValid();
     }
 
-    public void sendMessage(String message, Object... args) {
+    public void sendMessageFormat(String message, Object... args) {
         this.sendMessage(String.format(message, args));
     }
 

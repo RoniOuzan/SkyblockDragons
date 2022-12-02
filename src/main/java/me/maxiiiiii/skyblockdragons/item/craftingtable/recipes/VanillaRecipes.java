@@ -13,6 +13,7 @@ public class VanillaRecipes extends RecipeRegister {
     public static void registerRecipes() {
         for (Material material : Material.values()) {
             if (material.name().contains("_NUGGET")) continue;
+            if (material.name().contains("HOE")) continue;
 
             for (org.bukkit.inventory.Recipe recipe : Bukkit.getRecipesFor(new ItemStack(material))) {
                 if (recipe instanceof ShapelessRecipe) {
@@ -31,7 +32,7 @@ public class VanillaRecipes extends RecipeRegister {
                         if (row.length() == 3) {
                             for (String slot : row.split("")) {
                                 if (shaped.getIngredientMap().get(slot.charAt(0)) != null) {
-                                    items[i] = new Item(shaped.getIngredientMap().get(slot.charAt(0)));
+                                    items[i] = new Item(Items.get(shaped.getIngredientMap().get(slot.charAt(0)).getType().name()));
                                 }
                                 i++;
                             }
@@ -39,7 +40,7 @@ public class VanillaRecipes extends RecipeRegister {
                             for (String slot : row.split("")) {
 //                                if (material.toString().contains("HOE"))
                                 if (shaped.getIngredientMap().get(slot.charAt(0)) != null)
-                                    items[i] = new Item(shaped.getIngredientMap().get(slot.charAt(0)));
+                                    items[i] = new Item(Items.get(shaped.getIngredientMap().get(slot.charAt(0)).getType().name()));
 //                                if (!material.toString().contains("HOE"))
 //                                    i += 2;
                                 i++;
@@ -50,7 +51,7 @@ public class VanillaRecipes extends RecipeRegister {
                             i++;
                         } else {
                             if (shaped.getIngredientMap().get(row.charAt(0)) != null)
-                                items[i + 1] = new Item(shaped.getIngredientMap().get(row.charAt(0)));
+                                items[i + 1] = new Item(Items.get(shaped.getIngredientMap().get(row.charAt(0)).getType().name()));
                             i += 3;
                         }
                     }

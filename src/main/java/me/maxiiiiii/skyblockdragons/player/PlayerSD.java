@@ -27,6 +27,7 @@ import me.maxiiiiii.skyblockdragons.player.chat.ChatChannel;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerDeathEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerRegainHealthEvent;
+import me.maxiiiiii.skyblockdragons.player.food.AbstractFood;
 import me.maxiiiiii.skyblockdragons.player.objects.ActionBarSupplier;
 import me.maxiiiiii.skyblockdragons.player.party.Party;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
@@ -72,6 +73,8 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
 @Setter
 public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     public PlayerStats stats;
+
+    private AbstractFood food;
 
     private ScoreboardSD scoreboardSD;
 

@@ -120,15 +120,16 @@ public class Recipe extends RecipeRegister implements Comparable<Recipe> {
     }
 
     public static void registerRecipes() {
+
+        VanillaRecipes.registerRecipes();
+
+        recipes.putAll(vanillaRecipes);
+
         DeepMinesRecipes.registerRecipes();
         TheEndRecipes.registerRecipes();
         DragonRecipes.registerRecipes();
         DeeperMinesRecipes.registerRecipes();
         BowsRecipes.registerRecipes();
-
-        VanillaRecipes.registerRecipes();
-
-        recipes.putAll(vanillaRecipes);
 
         sorted = new ArrayList<>(recipes.values());
         sorted.sort(Collections.reverseOrder());

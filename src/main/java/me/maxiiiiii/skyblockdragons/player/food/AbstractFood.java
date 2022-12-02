@@ -3,7 +3,6 @@ package me.maxiiiiii.skyblockdragons.player.food;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
-import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -24,7 +23,7 @@ public abstract class AbstractFood implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onUpdateStats(UpdateStatsEvent event) {
-        if (event.getPlayer().food == this){
+        if (event.getPlayer().getFood() == this){
             apply(event);
         }
     }

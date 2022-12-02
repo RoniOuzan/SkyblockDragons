@@ -27,9 +27,9 @@ public class GoldHoe extends FarmingMaterial {
                 1,
                 ""
         );
-        cropAdder.put(Material.CROPS, new BlockItemDrop(Items.get("WHEAT"), 5));
-        cropAdder.put(Material.CARROT, new BlockItemDrop(Items.get("CARROT_ITEM"), 5));
-        cropAdder.put(Material.POTATO, new BlockItemDrop(Items.get("POTATO_ITEM"), 5));
-        cropAdder.put(Material.BEETROOT_BLOCK, new BlockItemDrop(Items.get("BEETROOT"), 5));
+        cropAdder.put(Material.CROPS, new BlockItemDrop(Items.get("WHEAT"), 6));
+        cropAdder.put(Material.CARROT, new BlockItemDrop(Items.get("CARROT_ITEM"), 6));
+        cropAdder.put(Material.POTATO, new BlockItemDrop(Items.get("POTATO_ITEM"), 6));
+        cropAdder.put(Material.BEETROOT_BLOCK, new BlockItemDrop(Items.get("BEETROOT"), 6));
     }
 }
