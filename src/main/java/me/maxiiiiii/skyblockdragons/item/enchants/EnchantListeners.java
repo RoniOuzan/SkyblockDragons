@@ -64,7 +64,8 @@ public class EnchantListeners implements Listener {
                 if (e.getVictim().isImpaled())
                     e.getDamage().getMultiplier().addBase(s);
             });
-        } else if (e.getDamage() instanceof MeleeEntityDamageEntity) {
+        }
+        if (e.getDamage() instanceof MeleeEntityDamageEntity) {
             enchant(attacker, enchants, BANE_OF_ARTHROPODS, s -> {
                 if (e.getVictim().isBaneOfArthropods())
                     e.getDamage().getMultiplier().addBase(s);
@@ -105,17 +106,17 @@ public class EnchantListeners implements Listener {
                 if (e.getVictim().getHealthPercentage() > 0.67)
                     e.getDamage().getMultiplier().addBase(s);
             });
-        } else if (e.getDamage() instanceof ProjectileEntityDamageEntity) {
+        }
+        if (e.getDamage() instanceof ProjectileEntityDamageEntity) {
             enchant(attacker, enchants, POWER, s -> e.getDamage().getMultiplier().addBase(s));
 
             enchant(attacker, enchants, SNIPE, s -> e.getDamage().getMultiplier().addBase(Math.floor(attacker.getLocation().distance(e.getVictim().getLocation())) * s));
         }
-        attacker.sendMessage(e.getDamage());
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void updateDamage(UpdateEntityDamageEvent e) {
-        if (e.getVictim() instanceof PlayerSD) return;
+        if (!(e.getVictim() instanceof PlayerSD)) return;
 
         PlayerSD victim = (PlayerSD) e.getVictim();
 

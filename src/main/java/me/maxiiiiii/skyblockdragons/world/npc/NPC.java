@@ -6,8 +6,10 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.NPCDespawnEvent;
 import net.citizensnpcs.api.event.NPCSpawnEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 import java.util.HashMap;
@@ -80,5 +82,9 @@ public abstract class NPC {
             npc.npc.destroy();
             npc.hologram.delete();
         }
+    }
+
+    public static boolean isNPC(Entity entity) {
+        return npcs.containsKey(entity.getUniqueId()) || (entity.getType() == EntityType.PLAYER && Bukkit.getPlayer(entity.getUniqueId()) == null);
     }
 }

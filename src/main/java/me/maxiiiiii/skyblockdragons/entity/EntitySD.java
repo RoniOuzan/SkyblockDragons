@@ -282,10 +282,12 @@ public class EntitySD extends EntityClass {
 
     public void removeHealth(double amount) {
         if (this.getHealth() - amount <= 0) {
-            if (this instanceof PlayerSD)
-                Bukkit.getPluginManager().callEvent(new PlayerDeathEvent((PlayerSD) this));
-            else
-                Bukkit.getPluginManager().callEvent(new EntityDeathEvent(this, this.getAttacker()));
+            if (!this.isDead()) {
+                if (this instanceof PlayerSD)
+                    Bukkit.getPluginManager().callEvent(new PlayerDeathEvent((PlayerSD) this));
+                else
+                    Bukkit.getPluginManager().callEvent(new EntityDeathEvent(this, this.getAttacker()));
+            }
         } else {
             this.damage(0);
             this.setHealth(this.getHealth() - amount);

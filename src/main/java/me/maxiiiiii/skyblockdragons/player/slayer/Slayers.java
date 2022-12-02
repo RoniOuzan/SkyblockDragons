@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.slayer.slayers.RevenantSlayer;
 import me.maxiiiiii.skyblockdragons.player.slayer.slayers.SvenSlayer;
 import me.maxiiiiii.skyblockdragons.player.slayer.slayers.TarantulaSlayer;
+import org.bukkit.ChatColor;
 
 @Getter
 public class Slayers {
@@ -26,6 +27,11 @@ public class Slayers {
     }
 
     public void startQuest(SlayerType slayerType, int tier) {
+        if (player.getPurse() < Slayer.getCostToStart(tier)) {
+            player.sendMessage(ChatColor.RED + "You don't have enough money to start the quest!");
+            return;
+        }
+
         this.quest.start(slayerType, tier);
     }
 

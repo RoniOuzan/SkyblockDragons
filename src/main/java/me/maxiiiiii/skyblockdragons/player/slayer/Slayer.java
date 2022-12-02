@@ -29,10 +29,6 @@ public abstract class Slayer {
         );
     }
 
-    public void giveXpReward(int tier) {
-        this.giveXp(XP[tier - 1]);
-    }
-
     public void giveXp(double amount) {
         this.totalXp += amount;
 
@@ -55,6 +51,15 @@ public abstract class Slayer {
         return NEED_XP[level - 1];
     }
 
+    public int getRewardXP(int tier) {
+        if (tier <= 0)
+            return XP[0];
+        else if (tier > XP.length)
+            return XP[XP.length - 1];
+
+        return XP[tier - 1];
+    }
+
     @Override
     public String toString() {
         return "Slayer{" +
@@ -64,12 +69,12 @@ public abstract class Slayer {
                 '}';
     }
 
-    public static int getCostToStart(int level) {
-        if (level <= 0)
+    public static int getCostToStart(int tier) {
+        if (tier <= 0)
             return COSTS_TO_START[0];
-        else if (level > COSTS_TO_START.length)
+        else if (tier > COSTS_TO_START.length)
             return COSTS_TO_START[COSTS_TO_START.length - 1];
 
-        return COSTS_TO_START[level - 1];
+        return COSTS_TO_START[tier - 1];
     }
 }

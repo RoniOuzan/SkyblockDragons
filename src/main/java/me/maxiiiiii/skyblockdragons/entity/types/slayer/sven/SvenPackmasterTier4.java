@@ -12,7 +12,7 @@ public class SvenPackmasterTier4 extends SvenPackmaster {
                 new Equipment(),
                 110,
                 0.15,
-                1200,
+                920,
                 1,
                 4
         );
