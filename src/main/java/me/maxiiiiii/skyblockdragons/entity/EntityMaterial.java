@@ -18,6 +18,7 @@ import me.maxiiiiii.skyblockdragons.entity.types.other.PlayerEntity;
 import me.maxiiiiii.skyblockdragons.entity.types.slayer.revenant.*;
 import me.maxiiiiii.skyblockdragons.entity.types.slayer.sven.*;
 import me.maxiiiiii.skyblockdragons.entity.types.slayer.tarantula.*;
+import me.maxiiiiii.skyblockdragons.entity.types.slayer.voidgloom.*;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EnderGuard;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EndermanTier1;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EndermanTier2;
@@ -162,6 +163,12 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         entities.put("SVEN_PACKMASTER_TIER_3", new SvenPackmasterTier3());
         entities.put("SVEN_PACKMASTER_TIER_4", new SvenPackmasterTier4());
         entities.put("SVEN_PACKMASTER_TIER_5", new SvenPackmasterTier5());
+
+        entities.put("VOIDGLOOM_SERAPH_TIER_1", new VoidgloomSeraphTier1());
+        entities.put("VOIDGLOOM_SERAPH_TIER_2", new VoidgloomSeraphTier2());
+        entities.put("VOIDGLOOM_SERAPH_TIER_3", new VoidgloomSeraphTier3());
+        entities.put("VOIDGLOOM_SERAPH_TIER_4", new VoidgloomSeraphTier4());
+        entities.put("VOIDGLOOM_SERAPH_TIER_5", new VoidgloomSeraphTier5());
 
         entities.put("PLAYER", new PlayerEntity());
 

@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.slayer.slayers.RevenantSlayer;
 import me.maxiiiiii.skyblockdragons.player.slayer.slayers.SvenSlayer;
 import me.maxiiiiii.skyblockdragons.player.slayer.slayers.TarantulaSlayer;
+import me.maxiiiiii.skyblockdragons.player.slayer.slayers.VoidgloomSlayer;
 import org.bukkit.ChatColor;
 
 @Getter
@@ -14,6 +15,7 @@ public class Slayers {
     private final RevenantSlayer revenant;
     private final TarantulaSlayer tarantula;
     private final SvenSlayer sven;
+    private final VoidgloomSlayer voidgloom;
 
     private final SlayerQuest quest;
 
@@ -22,6 +24,7 @@ public class Slayers {
         this.revenant = new RevenantSlayer(player);
         this.tarantula = new TarantulaSlayer(player);
         this.sven = new SvenSlayer(player);
+        this.voidgloom = new VoidgloomSlayer(player);
 
         this.quest = new SlayerQuest(player);
     }
@@ -53,6 +56,14 @@ public class Slayers {
                 return this.sven;
         }
         return null;
+    }
+
+    public void save() {
+        this.revenant.save(player);
+        this.tarantula.save(player);
+        this.sven.save(player);
+        this.voidgloom.save(player);
+        this.quest.save();
     }
 
     @Override

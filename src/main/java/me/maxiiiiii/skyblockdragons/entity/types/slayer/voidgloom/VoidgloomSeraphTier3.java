@@ -1,18 +1,18 @@
-package me.maxiiiiii.skyblockdragons.entity.types.slayer.tarantula;
+package me.maxiiiiii.skyblockdragons.entity.types.slayer.voidgloom;
 
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 
-public class TarantulaBroodfatherTier3 extends TarantulaBroodfather {
-    public TarantulaBroodfatherTier3() {
+public class VoidgloomSeraphTier3 extends VoidgloomSeraph {
+    public VoidgloomSeraphTier3() {
         super(300,
                 250_000,
                 0,
-                200,
+                500,
                 0,
                 new Equipment(),
-                140,
+                180,
                 0,
-                400,
+                760,
                 1,
                 3
         );

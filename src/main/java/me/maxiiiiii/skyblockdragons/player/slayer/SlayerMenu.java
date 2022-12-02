@@ -29,8 +29,9 @@ public class SlayerMenu extends Menu {
     public void update() {
         if (!player.getSlayers().getQuest().isActive()) {
             this.setItem(11, createItem(SlayerType.REVENANT));
-            this.setItem(13, createItem(SlayerType.TARANTULA));
-            this.setItem(15, createItem(SlayerType.SVEN));
+            this.setItem(12, createItem(SlayerType.TARANTULA));
+            this.setItem(14, createItem(SlayerType.SVEN));
+            this.setItem(15, createItem(SlayerType.VOIDGLOOM));
         } else if (player.getSlayers().getQuest().getState() == SlayerQuest.SlayerQuestState.SLAIN) {
             ChatColor color = SlayerType.getTiersColors(player.getSlayers().getQuest().getTier());
             this.setItem(13, createItem(Material.WHITE_GLAZED_TERRACOTTA, 5, ChatColor.GREEN + "Slayer Quest Completed", "SLAYED", "You have slain the boss!", "", ChatColor.GRAY + "Boss: " + color + player.getSlayers().getQuest().getType().getName() + player.getSlayers().getQuest().getTier(), "", ChatColor.GRAY + "Reward: " + player.getSlayers().getQuest().getReward() + " " + player.getSlayers().getQuest().getType().toString() + " Slayer XP", "", ChatColor.YELLOW + "Click to claim!"));
