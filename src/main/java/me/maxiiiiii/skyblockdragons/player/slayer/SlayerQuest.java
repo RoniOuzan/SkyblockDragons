@@ -141,11 +141,15 @@ public class SlayerQuest implements Listener {
         this.player.playSound(Sound.ENTITY_ARROW_SHOOT, 0.05, 100);
     }
 
-    public void giveReward() {
-        this.player.getSlayers().get(this.type).giveXpReward(this.tier);
+    public double getReward() {
+        return this.player.getSlayers().get(this.type).getRewardXP(this.tier);
     }
 
-    public void slayed() {
+    public void giveReward() {
+        this.player.getSlayers().get(this.type).giveXp(this.getReward());
+    }
+
+    public void slain() {
         if (this.isAutoSlayer()) {
             this.reset();
             this.complete();
@@ -187,7 +191,7 @@ public class SlayerQuest implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onBossDeath(EntityDeathEvent e) {
         if (e.getEntity() == this.boss)
-            this.slayed();
+            this.slain();
             Bukkit.getPluginManager().callEvent(new SlayerBossSlayedEvent(this.player,
                     this.boss,
                     e.getKiller() instanceof PlayerSD ? (PlayerSD) e.getKiller() : this.player)

@@ -2,19 +2,19 @@ package me.maxiiiiii.skyblockdragons.entity.types.slayer.sven;
 
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 
-public class SvenPackmasterTier3 extends SvenPackmaster {
-    public SvenPackmasterTier3() {
-        super(300,
-                400_000,
+public class SvenPackmasterTier5 extends SvenPackmaster {
+    public SvenPackmasterTier5() {
+        super(520,
+                10_000_000,
                 0,
-                100,
-                80,
+                320,
+                400,
                 new Equipment(),
                 110,
                 0.15,
-                450,
+                1300,
                 1,
-                3
+                4
         );
     }
 }
