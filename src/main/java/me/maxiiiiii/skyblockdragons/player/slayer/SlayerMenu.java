@@ -13,6 +13,8 @@ import org.bukkit.Sound;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 public class SlayerMenu extends Menu {
     public SlayerMenu(PlayerSD player) {
         super(player,
@@ -39,6 +41,7 @@ public class SlayerMenu extends Menu {
             ChatColor color = SlayerType.getTiersColors(player.getSlayers().getQuest().getTier());
             this.setItem(13, createItem(Material.WHITE_GLAZED_TERRACOTTA, 14, ChatColor.RED + "Failed The Quest", "FAILED", Functions.loreBuilder("You have started " + color + player.getSlayers().getQuest().getType().getName() + color + "Tier " + color + player.getSlayers().getQuest().getTier() + ChatColor.GRAY + ", but you failed to slay it!" + " NEW_LINE NEW_LINE " + ChatColor.YELLOW + "Click to continue!")));
         }
+
         this.setItem(30, createItem(
                 Material.INK_SACK,
                 player.getSlayers().getQuest().isAutoSlayer() ? 10 : 8,
@@ -83,12 +86,13 @@ public class SlayerMenu extends Menu {
     }
 
     private ItemStack createItem(SlayerType slayer) {
-        return addLine(addNBT(slayer.getItem(), "SLAYER_" + slayer.name()),
-                "",
-                ChatColor.GRAY + slayer.getName() + " Slayer: " + ChatColor.YELLOW + "LVL " + player.getSlayers().get(slayer).getLevel(),
-                "",
-                ChatColor.YELLOW + "Click to view boss!"
-        );
+        List<String> lores = Functions.loreBuilder(slayer.getDescription());
+        lores.add("");
+        lores.add(ChatColor.GRAY + slayer.getName() + " Slayer: " + ChatColor.YELLOW + "LVL " + player.getSlayers().get(slayer).getLevel());
+        lores.add("");
+        lores.add(ChatColor.YELLOW + "Click to view boss!");
+
+        return createItem(slayer.getItem(), ChatColor.RED + slayer.getName(), "SLAYER_" + slayer.name(), lores);
     }
 
     private class SlayerTypeMenu extends Menu {
