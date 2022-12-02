@@ -17,7 +17,9 @@ public class SkillRequirement extends Requirement {
 
     @Override
     public boolean hasRequirement(PlayerSD player) {
-        return player.getSkill().get(skillType).getLevel() >= this.level;
+        if (player == null) return false;
+
+        return player.getSkills().get(skillType).getLevel() >= this.level;
     }
 
     @Override

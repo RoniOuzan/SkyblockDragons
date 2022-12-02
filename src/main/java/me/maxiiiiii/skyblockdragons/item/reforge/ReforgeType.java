@@ -4,7 +4,6 @@ import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemTypeGroup;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
-import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 
 import java.util.ArrayList;
@@ -54,14 +53,14 @@ public enum ReforgeType {
     SMART(new ArrayList<>(Arrays.asList(new Stats(4, 4, 0, 20), new Stats(6, 6, 0, 40), new Stats(9, 9, 0, 60), new Stats(12, 12, 0, 80), new Stats(15, 15, 0, 100), new Stats(20, 20, 0, 120))), ItemTypeGroup.ARMOR.toType(), false),
     WISE(new ArrayList<>(Arrays.asList(new Stats(6, 0, 1, 25), new Stats(8, 0, 1, 50), new Stats(10, 0, 1, 75), new Stats(12, 0, 2, 100), new Stats(15, 0, 2, 12), new Stats(2, 0, 3, 150))), ItemTypeGroup.ARMOR.toType(), false),
     // Accessories
-    BIZARRE(new ArrayList<>(Arrays.asList(new Stats(0, 1, -1, 0, 0, 0, 1, 0, 0, 6), new Stats(0, 2, -2, 0, 0, 0, 1, 0, 0, 25), new Stats(0, 2, -2, 0, 0, 0, 1, 0, 0, 10), new Stats(0, 3, -3, 0, 0, 0, 1, 0, 0, 14), new Stats(0, 5, -5, 0, 0, 0, 1, 0, 0, 20), new Stats(0, 7, -7, 0, 0, 0, 2, 0, 0, 30))), new ArrayList<>(Arrays.asList(ItemType.ACCESSORY)), false),
-    FORCEFUL(new ArrayList<>(Arrays.asList(new Stats(0, 4, 0, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 5, 0, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 7, 0, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 10, 0, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 15, 0, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 20, 0, 0, 0, 0, 0, 0, 0, 0))), new ArrayList<>(Arrays.asList(ItemType.ACCESSORY)), false),
-    HURTFUL(new ArrayList<>(Arrays.asList(new Stats(0, 0, 4, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 0, 5, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 0, 7, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 0, 10, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 0, 15, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 0, 20, 0, 0, 0, 0, 0, 0, 0))), new ArrayList<>(Arrays.asList(ItemType.ACCESSORY)), false),
-    ITCHY(new ArrayList<>(Arrays.asList(new Stats(0, 1, 3, 0, 0, 0), new Stats(0, 1, 4, 0, 0, 0), new Stats(0, 1, 5, 0, 1, 0), new Stats(0, 2, 7, 0, 1, 0), new Stats(0, 3, 10, 0, 1, 0), new Stats(0, 4, 15, 0, 1, 0))), new ArrayList<>(Arrays.asList(ItemType.ACCESSORY)), false),
-    PLEASANT(new ArrayList<>(Arrays.asList(new Stats(0, 4, 0, 0), new Stats(0, 5, 0, 0), new Stats(0, 7, 0, 0), new Stats(0, 10, 0, 0), new Stats(0, 15, 0, 0), new Stats(0, 20, 0, 0))), new ArrayList<>(Arrays.asList(ItemType.ACCESSORY)), false),
-    STRANGE(new ArrayList<>(Arrays.asList(new Stats(0, 2, 1, 0, -1, 0, 1, 0, 1, 1), new Stats(0, 1, 2, 0, 2, 0, 0, 3, 0, -1), new Stats(0, -1, 0, 0, 0, 0, 0, 2, 1, 2), new Stats(0, 3, 1, 0, 4, 0, 0, -1, 0, 0), new Stats(0, 0, 7, 0, 0, 0, 0, 1, 3, 8), new Stats(0, 4, 9, 0, 5, 0, 0, 1, 3, 11))), new ArrayList<>(Arrays.asList(ItemType.ACCESSORY)), false),
-    STRONG(new ArrayList<>(Arrays.asList(new Stats(0, 1, 1, 0, 0, 0), new Stats(0, 2, 2, 0, 0, 0), new Stats(0, 3, 3, 0, 1, 0, 0, 1, 0, 0), new Stats(0, 5, 5, 0, 0, 0, 0, 2, 0, 0), new Stats(0, 8, 8, 0, 0, 0, 0, 3, 0, 0), new Stats(0, 12, 12, 0, 0, 0, 0, 4, 0, 0))), new ArrayList<>(Arrays.asList(ItemType.ACCESSORY)), false),
-    UNPLEASANT(new ArrayList<>(Arrays.asList(new Stats(0, 0, 0, 1, 0, 0), new Stats(0, 0, 0, 1, 0, 0), new Stats(0, 0, 0, 1, 0, 0), new Stats(0, 0, 0, 2, 0, 0), new Stats(0, 0, 0, 2, 0, 0), new Stats(0, 0, 0, 3, 0, 0))), new ArrayList<>(Arrays.asList(ItemType.ACCESSORY)), false),
+//    BIZARRE(new ArrayList<>(Arrays.asList(new Stats(0, 1, -1, 0, 0, 0, 1, 0, 0, 6), new Stats(0, 2, -2, 0, 0, 0, 1, 0, 0, 25), new Stats(0, 2, -2, 0, 0, 0, 1, 0, 0, 10), new Stats(0, 3, -3, 0, 0, 0, 1, 0, 0, 14), new Stats(0, 5, -5, 0, 0, 0, 1, 0, 0, 20), new Stats(0, 7, -7, 0, 0, 0, 2, 0, 0, 30))), new ArrayList<>(Arrays.asList(ItemType.ACCESSORY)), false),
+//    FORCEFUL(new ArrayList<>(Arrays.asList(new Stats(0, 4, 0, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 5, 0, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 7, 0, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 10, 0, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 15, 0, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 20, 0, 0, 0, 0, 0, 0, 0, 0))), new ArrayList<>(Arrays.asList(ItemType.ACCESSORY)), false),
+//    HURTFUL(new ArrayList<>(Arrays.asList(new Stats(0, 0, 4, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 0, 5, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 0, 7, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 0, 10, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 0, 15, 0, 0, 0, 0, 0, 0, 0), new Stats(0, 0, 20, 0, 0, 0, 0, 0, 0, 0))), new ArrayList<>(Arrays.asList(ItemType.ACCESSORY)), false),
+//    ITCHY(new ArrayList<>(Arrays.asList(new Stats(0, 1, 3, 0, 0, 0), new Stats(0, 1, 4, 0, 0, 0), new Stats(0, 1, 5, 0, 1, 0), new Stats(0, 2, 7, 0, 1, 0), new Stats(0, 3, 10, 0, 1, 0), new Stats(0, 4, 15, 0, 1, 0))), new ArrayList<>(Arrays.asList(ItemType.ACCESSORY)), false),
+//    PLEASANT(new ArrayList<>(Arrays.asList(new Stats(0, 4, 0, 0), new Stats(0, 5, 0, 0), new Stats(0, 7, 0, 0), new Stats(0, 10, 0, 0), new Stats(0, 15, 0, 0), new Stats(0, 20, 0, 0))), new ArrayList<>(Arrays.asList(ItemType.ACCESSORY)), false),
+//    STRANGE(new ArrayList<>(Arrays.asList(new Stats(0, 2, 1, 0, -1, 0, 1, 0, 1, 1), new Stats(0, 1, 2, 0, 2, 0, 0, 3, 0, -1), new Stats(0, -1, 0, 0, 0, 0, 0, 2, 1, 2), new Stats(0, 3, 1, 0, 4, 0, 0, -1, 0, 0), new Stats(0, 0, 7, 0, 0, 0, 0, 1, 3, 8), new Stats(0, 4, 9, 0, 5, 0, 0, 1, 3, 11))), new ArrayList<>(Arrays.asList(ItemType.ACCESSORY)), false),
+//    STRONG(new ArrayList<>(Arrays.asList(new Stats(0, 1, 1, 0, 0, 0), new Stats(0, 2, 2, 0, 0, 0), new Stats(0, 3, 3, 0, 1, 0, 0, 1, 0, 0), new Stats(0, 5, 5, 0, 0, 0, 0, 2, 0, 0), new Stats(0, 8, 8, 0, 0, 0, 0, 3, 0, 0), new Stats(0, 12, 12, 0, 0, 0, 0, 4, 0, 0))), new ArrayList<>(Arrays.asList(ItemType.ACCESSORY)), false),
+//    UNPLEASANT(new ArrayList<>(Arrays.asList(new Stats(0, 0, 0, 1, 0, 0), new Stats(0, 0, 0, 1, 0, 0), new Stats(0, 0, 0, 1, 0, 0), new Stats(0, 0, 0, 2, 0, 0), new Stats(0, 0, 0, 2, 0, 0), new Stats(0, 0, 0, 3, 0, 0))), new ArrayList<>(Arrays.asList(ItemType.ACCESSORY)), false),
 
     // Null
     NULL(new ArrayList<>(Arrays.asList(new Stats())), new ArrayList<>(Arrays.asList(ItemType.NULL)), false);

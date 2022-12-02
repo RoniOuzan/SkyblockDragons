@@ -22,6 +22,7 @@ public class UpdateDropChanceEvent extends UpdateEvent {
         this.source = source;
 
         this.chanceMultiplier = new Multiplier();
+        this.chanceMultiplier.addPost(player.getStats().getMagicFind().get());
         this.amountMultiplier = new Multiplier();
     }
 

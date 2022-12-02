@@ -11,7 +11,7 @@ public class AttackSpeedStat extends CombatStat implements PercentageStat {
         super("Attack Speed",
                 "⚔",
                 ChatColor.YELLOW,
-                "",
+                "Attack Speed decreases the time between hits on your opponent.",
                 0
         );
     }

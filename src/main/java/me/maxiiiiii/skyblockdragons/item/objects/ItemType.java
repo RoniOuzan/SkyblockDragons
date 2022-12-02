@@ -18,12 +18,14 @@ public enum ItemType {
     HOE,
     ROD,
     REFORGE_STONE,
+    POWER_STONE,
     SKIN,
     BOOK,
     ACCESSORY,
     PET,
     POWER_ORB,
     CRYSTAL,
+    PHONE,
     NULL;
 
     @Override

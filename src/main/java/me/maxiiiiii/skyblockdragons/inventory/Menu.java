@@ -22,6 +22,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -51,13 +52,40 @@ public abstract class Menu implements InventoryHolder {
     protected final PlayerSD player;
 
     protected final InventoryGlassType inventoryGlassType;
+    protected final boolean utilButtons;
 
     protected Menu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, boolean autoUpdate, boolean utilButtons) {
         this.player = player;
         this.inventory = Bukkit.createInventory(this, rows * 9, title);
         this.title = title;
         this.inventoryGlassType = inventoryGlassType;
+        this.utilButtons = utilButtons;
 
+        this.reset();
+
+        Functions.Wait(1, () -> {
+            if (autoUpdate) {
+                Functions.While(() -> player.getOpenInventory().getTopInventory().getHolder() == this, 1L, i -> this.update());
+            } else
+                this.update();
+            this.open(true);
+        });
+    }
+
+    protected Menu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, boolean autoUpdate) {
+        this(player, title, rows, inventoryGlassType, autoUpdate, true);
+    }
+    public void setItem(int slot, ItemStack item) {
+        this.inventory.setItem(slot, item);
+    }
+
+    public ItemStack getItem(int slot) {
+        return this.inventory.getItem(slot);
+    }
+
+    public abstract void update();
+
+    protected void reset() {
         if (inventoryGlassType == InventoryGlassType.ALL) {
             Functions.putGlasses(inventory);
         } else if (inventoryGlassType == InventoryGlassType.SURROUND) {
@@ -65,6 +93,7 @@ public abstract class Menu implements InventoryHolder {
                 this.setItem(i, GLASS);
             }
 
+            int rows = getRows();
             for (int i = rows * 9 - 9; i < rows * 9; i++) {
                 this.setItem(i, GLASS);
             }
@@ -83,31 +112,16 @@ public abstract class Menu implements InventoryHolder {
             if (player.getMenuHistory().size() > 0)
                 this.setItem(this.getRows() * 9 - 6, GO_BACK);
         }
-
-        Functions.Wait(1, () -> {
-            if (autoUpdate) {
-                Functions.While(() -> player.getOpenInventory().getTopInventory().getHolder() == this, 1L, i -> this.update());
-            } else
-                this.update();
-            this.open();
-        });
     }
 
-    protected Menu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, boolean autoUpdate) {
-        this(player, title, rows, inventoryGlassType, autoUpdate, true);
+    public void onGoBack() {
+        if (player.getMenuHistory().size() > 0) {
+            player.getMenuHistory().get(player.getMenuHistory().size() - 1).open();
+        }
     }
-    public void setItem(int slot, ItemStack item) {
-        this.inventory.setItem(slot, item);
-    }
-
-    public ItemStack getItem(int slot) {
-        return this.inventory.getItem(slot);
-    }
-
-    public abstract void update();
 
     public void open() {
-        this.open(true);
+        this.open(false);
     }
 
     public void open(boolean addToHistory) {
@@ -172,6 +186,12 @@ public abstract class Menu implements InventoryHolder {
         return createItem(item, name, nbt, Arrays.asList(lores));
     }
 
+    protected static ItemStack createItem(ItemStack item, String name, int amount, String nbt, String... lores) {
+        ItemStack itemStack = createItem(item, name, nbt, Arrays.asList(lores));
+        itemStack.setAmount(amount);
+        return itemStack;
+    }
+
     protected static ItemStack createItem(Material material, int data, String name, String nbt, List<String> lores) {
         ItemStack item = new ItemStack(material, 1, (short) data);
         ItemMeta meta = item.getItemMeta();
@@ -204,6 +224,21 @@ public abstract class Menu implements InventoryHolder {
         if (nbtItem.hasKey("GuiButton"))
             return nbtItem.getString("GuiButton");
         return "";
+    }
+
+    protected static ItemStack addLine(ItemStack itemStack, String... lores) {
+        return addLine(itemStack, Arrays.asList(lores));
+    }
+
+    protected static ItemStack addLine(ItemStack itemStack, List<String> lores) {
+        ItemStack item = itemStack.clone();
+        ItemMeta meta = item.getItemMeta();
+        List<String> newLores = meta.getLore();
+        if (newLores == null) newLores = new ArrayList<>();
+        newLores.addAll(lores);
+        meta.setLore(newLores);
+        item.setItemMeta(meta);
+        return item;
     }
 
     public static ItemStack addNBT(ItemStack itemStack, String nbt) {

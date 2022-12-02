@@ -183,6 +183,18 @@ public class PlayerClass extends EntitySD implements Player {
         this.player.playNote(loc, instrument, note);
     }
 
+    public void playSound(Sound sound, double volume, double pitch) {
+        this.playSound(this.getLocation(), sound, (float) volume, (float) pitch);
+    }
+
+    public void playSound(Sound sound, double volume) {
+        this.playSound(sound, volume, 1);
+    }
+
+    public void playSound(Sound sound) {
+        this.playSound(sound, 1, 1);
+    }
+
     @Override
     public void playSound(Location location, Sound sound, float volume, float pitch) {
         this.player.playSound(location, sound, volume, pitch);
@@ -861,17 +873,17 @@ public class PlayerClass extends EntitySD implements Player {
         return this.player.isValid();
     }
 
-    public void sendMessageFormat(String message, Object... args) {
-        this.player.sendMessage(String.format(message, args));
+    public void sendMessage(String message, Object... args) {
+        this.sendMessage(String.format(message, args));
     }
 
     @Override
     public void sendMessage(String message) {
-        this.player.sendMessage(message);
+        this.player.sendMessage(message.replace(".0", ""));
     }
 
     public void sendMessage(Object message) {
-        this.player.sendMessage(String.valueOf(message));
+        this.sendMessage(String.valueOf(message));
     }
 
     public void sendMessage(Object... messages) {
@@ -885,7 +897,7 @@ public class PlayerClass extends EntitySD implements Player {
             message.append(", ").append(value);
         }
         message = new StringBuilder(message.toString().replace(",, ", ""));
-        this.player.sendMessage(message.toString());
+        this.sendMessage(message.toString());
     }
 
     @Override

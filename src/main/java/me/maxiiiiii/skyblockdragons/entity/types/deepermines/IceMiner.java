@@ -33,9 +33,4 @@ public class IceMiner extends EntityMaterial {
                 new EntityItemRareDrop(Items.get("LUMINATE_SHARD"), 1, 0.1)
         );
     }
-
-    @Override
-    public void onSpawn(EntitySD entity) {
-
-    }
 }

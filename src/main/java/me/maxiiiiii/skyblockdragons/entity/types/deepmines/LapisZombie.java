@@ -31,9 +31,4 @@ public class LapisZombie extends EntityMaterial {
                 new EntityItemRareDrop(Items.get("LAPIS_TALISMAN"), 1, 0.5d)
         );
     }
-
-    @Override
-    public void onSpawn(EntitySD entity) {
-
-    }
 }

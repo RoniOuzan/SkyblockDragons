@@ -39,6 +39,7 @@ public abstract class ItemRareDrop extends ItemDrop {
         this.send(player);
     }
 
+    @Override
     public void dropItem(PlayerSD player, Location location) {
         super.dropItem(player, location);
         this.send(player);

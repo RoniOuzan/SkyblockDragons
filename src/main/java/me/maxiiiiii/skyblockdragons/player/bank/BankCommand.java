@@ -1,9 +1,8 @@
 package me.maxiiiiii.skyblockdragons.player.bank;
 
-import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.player.bank.objects.BankAccount;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -57,14 +56,13 @@ public class BankCommand implements CommandExecutor, Listener {
                 player.bank.deposit(player.getPurse() / 5, type);
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Specific")) {
                 BankAccount.Type finalType = type;
-                Functions.openSign(player, lines -> {
-                    if (!Functions.isDouble(lines.get(0))) {
-                        player.sendMessage(ChatColor.RED + "This is not a number!");
-                        player.closeInventory();
-                        return;
+                player.openSign("Enter Number", lines -> {
+                    try {
+                        player.bank.deposit(Double.parseDouble(lines[0]), finalType);
+                        BankMenu.openBankDeposit(player, finalType);
+                    } catch (NumberFormatException ex) {
+                        player.sendMessage(ChatColor.RED + "Can't understand this number " + lines[0]);
                     }
-                    player.bank.deposit(Double.parseDouble(lines.get(0)), finalType);
-                    BankMenu.openBankDeposit(player, finalType);
                 });
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Go Back")) {
                 BankMenu.openBank(player, type);
@@ -80,14 +78,13 @@ public class BankCommand implements CommandExecutor, Listener {
                 player.bank.withdraw(player.getBankBalance(type) / 5, type);
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Specific")) {
                 BankAccount.Type finalType = type;
-                Functions.openSign(player, lines -> {
-                    if (!Functions.isDouble(lines.get(0))) {
-                        player.sendMessage(ChatColor.RED + "This is not a number!");
-                        player.closeInventory();
-                        return;
+                player.openSign("Enter Number", lines -> {
+                    try {
+                        player.bank.withdraw(Double.parseDouble(lines[0]), finalType);
+                        BankMenu.openBankDeposit(player, finalType);
+                    } catch (NumberFormatException ex) {
+                        player.sendMessage(ChatColor.RED + "Can't understand this number " + lines[0]);
                     }
-                    player.bank.withdraw(Double.parseDouble(lines.get(0)), finalType);
-                    BankMenu.openBankWithdraw(player, finalType);
                 });
             } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("Go Back")) {
                 BankMenu.openBank(player, type);

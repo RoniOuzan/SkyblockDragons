@@ -31,9 +31,4 @@ public class DiamondZombie extends EntityMaterial {
                 new EntityItemRareDrop(Items.get("DIAMOND_BLOCK_TALISMAN"), 1, 0.1d)
         );
     }
-
-    @Override
-    public void onSpawn(EntitySD entity) {
-
-    }
 }

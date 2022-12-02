@@ -3,23 +3,17 @@ package me.maxiiiiii.skyblockdragons.commands;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
-import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -116,7 +110,7 @@ public class SkyblockDragonsCommand extends CommandSD {
                     } catch (NullPointerException ignored) {}
                 }
             } else if (args[0].equalsIgnoreCase("test")) {
-                new EntitySD(player.getLocation(), EntityMaterial.get("OLD_DRAGON"));
+                player.openSign("hi", "hello", "", "scam", lines -> {});
             }
         } else {
             player.sendMessage(ChatColor.RED + "Invalid arguments!");
@@ -127,20 +121,5 @@ public class SkyblockDragonsCommand extends CommandSD {
     public List<Argument> tabComplete(PlayerSD player, List<Argument> tabs) {
         tabs.add(new Argument(0, "sound", Arrays.stream(Sound.values()).map(Enum::name).sorted().collect(Collectors.toList())));
         return tabs;
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        ArrayList<String> tabs = new ArrayList<>();
-        if (args.length > 1 && args[0].equalsIgnoreCase("sound")) {
-            for (Sound sound : Sound.values()) {
-                if (sound.name().contains(args[1].toUpperCase())) {
-                    tabs.add(sound.name());
-                }
-            }
-            Collections.sort(tabs);
-            return tabs;
-        }
-        return null;
     }
 }

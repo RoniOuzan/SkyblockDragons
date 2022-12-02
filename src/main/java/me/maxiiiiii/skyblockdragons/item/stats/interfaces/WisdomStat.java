@@ -12,18 +12,18 @@ import java.util.function.Function;
 public abstract class WisdomStat extends StatType {
     private final SkillType skill;
 
-    public WisdomStat(String name, String icon, ChatColor color, String description, Function<PlayerSD, Double> maxLevel, Function<PlayerSD, Double> base, SkillType skill) {
-        super(name, icon, color, description, maxLevel, base);
+    public WisdomStat(String name, String icon, ChatColor color, Function<PlayerSD, Double> maxLevel, Function<PlayerSD, Double> base, SkillType skill) {
+        super(name, icon, color, skill.toString() + " Wisdom increases how much " + skill + " Skill XP that you gain.", maxLevel, base);
         this.skill = skill;
     }
 
-    public WisdomStat(String name, String icon, ChatColor color, String description, double base, SkillType skill) {
-        super(name, icon, color, description, base);
+    public WisdomStat(String name, String icon, ChatColor color, double base, SkillType skill) {
+        super(name, icon, color, skill.toString() + " Wisdom increases how much " + skill + " Skill XP that you gain.", base);
         this.skill = skill;
     }
 
-    public WisdomStat(String name, String icon, ChatColor color, String description, SkillType skill) {
-        super(name, icon, color, description);
+    public WisdomStat(String name, String icon, ChatColor color, SkillType skill) {
+        super(name, icon, color, skill.toString() + " Wisdom increases how much " + skill + " Skill XP that you gain.");
         this.skill = skill;
     }
 }

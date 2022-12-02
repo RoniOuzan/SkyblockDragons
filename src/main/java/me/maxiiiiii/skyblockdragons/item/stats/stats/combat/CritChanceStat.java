@@ -11,7 +11,7 @@ public class CritChanceStat extends CombatStat implements PercentageStat {
         super("Crit Chance",
                 "☣",
                 ChatColor.BLUE,
-                "",
+                "Critical Chance is the percent chance that you land a Critical Hit when damaging an enemy.",
                 10
         );
     }

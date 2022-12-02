@@ -208,3 +208,18 @@ commands:
   kill:
     permission: skyblockdragons.kill
     usage: /<command> <player>
+  StatsAdmin:
+    permission: skyblockdragons.basestats
+    usage: /<command>
+    aliases:
+      - sa
+  PowerStone:
+    permission: skyblockdragons.powerstone.menu
+    usage: /<command>
+    aliases:
+      - ps
+  PowerStoneAdmin:
+    permission: skyblockdragons.powerstone.admin
+    usage: /<command> <text> [<player>]
+    aliases:
+      - psa

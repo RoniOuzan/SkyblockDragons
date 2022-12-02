@@ -19,9 +19,4 @@ public class ProtectorDragon extends EntityDragon {
                 1
         );
     }
-
-    @Override
-    public void onSpawn(EntitySD entity) {
-
-    }
 }

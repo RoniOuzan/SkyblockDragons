@@ -1,6 +1,5 @@
 package me.maxiiiiii.skyblockdragons.entity.types.theend.dragon;
 
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.ChatColor;
@@ -18,10 +17,5 @@ public class OldDragon extends EntityDragon {
                 100,
                 1
         );
-    }
-
-    @Override
-    public void onSpawn(EntitySD entity) {
-
     }
 }

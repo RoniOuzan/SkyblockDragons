@@ -32,6 +32,7 @@ public class PetListener implements Listener {
             return;
         }
 
+        e.setCancelled(true);
         player.getPlayerPet().addPet(new Item(player, item));
         player.getEquipment().setItemInMainHand(null);
         player.sendMessage(ChatColor.GREEN + "You have added your " + item.getItemMeta().getDisplayName() + ChatColor.GREEN + " to your pet menu.");

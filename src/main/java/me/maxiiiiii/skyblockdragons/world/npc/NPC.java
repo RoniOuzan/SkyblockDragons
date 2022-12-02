@@ -1,10 +1,15 @@
 package me.maxiiiiii.skyblockdragons.world.npc;
 
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerClickOnNPCEvent;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.NPCDespawnEvent;
 import net.citizensnpcs.api.event.NPCSpawnEvent;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 import java.util.HashMap;
@@ -14,25 +19,39 @@ import java.util.UUID;
 public abstract class NPC {
     public static final Map<UUID, NPC> npcs = new HashMap<>();
 
-    protected final net.citizensnpcs.api.npc.NPC npc;
-    protected Location location;
+    private final net.citizensnpcs.api.npc.NPC npc;
+    private final Hologram hologram;
+    private final Location location;
 
-    protected NPC(String name, Location location, EntityType type) {
+    protected NPC(String name, Location location, EntityType type, String skin) {
         this.location = location;
-        this.npc = CitizensAPI.getNPCRegistry().createNPC(type, name);
+        this.npc = CitizensAPI.getNPCRegistry().createNPC(type, ChatColor.YELLOW + "" + ChatColor.BOLD + "CLICK");
         this.npc.setAlwaysUseNameHologram(true);
         this.npc.data().set("SkyblockDragons", true);
 
-//        this.npc.data().set(net.citizensnpcs.api.npc.NPC.PLAYER_SKIN_UUID_METADATA, skin);
-//        this.npc.data().set(net.citizensnpcs.api.npc.NPC.PLAYER_SKIN_USE_LATEST, false);
+        if (skin != null && !skin.isEmpty()) {
+            this.npc.data().set(net.citizensnpcs.api.npc.NPC.PLAYER_SKIN_UUID_METADATA, skin);
+            this.npc.data().set(net.citizensnpcs.api.npc.NPC.PLAYER_SKIN_USE_LATEST, false);
+        }
 
         npcs.put(this.npc.getUniqueId(), this);
 
         this.spawn();
+
+        npc.getEntity().addScoreboardTag("NPC");
+        this.hologram = Functions.createHologram(npc.getEntity().getLocation().add(0, npc.getEntity().getHeight() + 0.85, 0), name);
+    }
+
+    protected NPC(String name, Location location, EntityType type) {
+        this(name, location, type, null);
+    }
+
+    protected NPC(String name, Location location, String skin) {
+        this(name, location, EntityType.PLAYER, skin);
     }
 
     protected NPC(String name, Location location) {
-        this(name, location, EntityType.PLAYER);
+        this(name, location, "");
     }
 
     public String getName() {
@@ -53,10 +72,19 @@ public abstract class NPC {
 
     public void onClick(PlayerClickOnNPCEvent e) {}
 
-    public static void despawnAllNPCS(){
-        for(NPC npc : npcs.values()){
+    public Location getLocation() {
+        return location;
+    }
+
+    public static void despawnNPCS(){
+        for (NPC npc : npcs.values()) {
             npc.npc.despawn();
             npc.npc.destroy();
+            npc.hologram.delete();
         }
+    }
+
+    public static boolean isNPC(Entity entity) {
+        return npcs.containsKey(entity.getUniqueId()) || (entity.getType() == EntityType.PLAYER && Bukkit.getPlayer(entity.getUniqueId()) == null);
     }
 }

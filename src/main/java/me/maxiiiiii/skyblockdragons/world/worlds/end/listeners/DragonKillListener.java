@@ -48,6 +48,7 @@ public class DragonKillListener implements Listener {
         }
 
         Map<PlayerSD, Integer> positions = new HashMap<>();
+        Map<PlayerSD, Double> playerQuality = new LinkedHashMap<>();
 
         // 1 to make the place be easier to see
         for (int i = 1; i < killers.size() + 1; i++) {
@@ -76,6 +77,7 @@ public class DragonKillListener implements Listener {
 
 //            double quality = placeQuality + ((damage / killers.get(0).damage) * 100) + (eyes * 100);
             double quality = placeQuality + (eyes * 100);
+            playerQuality.put(player, quality);
 
             ItemStack uniqueDrop = getPlayerUniqueDrop(dragonType, eyes, quality);
 
@@ -89,6 +91,14 @@ public class DragonKillListener implements Listener {
             new PickableItem(player, NORMAL_DROP_LOCATION, new Item(Items.get(dragonType.name() + "_DRAGON_FRAGMENT"), normalAmount), false);
 
             positions.put(player, i);
+        }
+
+        playerQuality = Functions.sortByValue(playerQuality);
+        if (dragonType == DragonType.ERROR) {
+            for (PlayerSD playerSD : playerQuality.keySet()) {
+                new PickableItem(playerSD, NORMAL_DROP_LOCATION, new Item(Items.get("ERROR_SCYTHE"), 1), true);
+                break;
+            }
         }
 
         for (Player player : Bukkit.getOnlinePlayers().stream().filter(p -> p.getWorld().getName().equals("TheEnd")).collect(Collectors.toList())) {

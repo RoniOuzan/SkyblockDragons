@@ -11,7 +11,7 @@ public class SeaCreatureChanceStat extends MiscStat implements PercentageStat {
         super("Sea Creature Chance",
                 "α",
                 ChatColor.DARK_AQUA,
-                ""
+                "Sea Creature Chance is your chance to catch Sea Creatures while fishing."
         );
     }
 

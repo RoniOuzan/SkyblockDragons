@@ -12,7 +12,6 @@ public class ForagingWisdomStat extends WisdomStat implements PercentageStat {
         super("Foraging Wisdom",
                 "☯",
                 ChatColor.DARK_AQUA,
-                "",
                 SkillType.FORAGING
         );
     }

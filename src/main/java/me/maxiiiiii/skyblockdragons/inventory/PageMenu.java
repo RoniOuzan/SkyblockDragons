@@ -10,19 +10,31 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+/**
+ *  00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08
+ * ---+---+---+---+---+---+---+---+------------
+ *  09 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17
+ * ---+---+---+---+---+---+---+---+------------
+ *  18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26
+ * ---+---+---+---+---+---+---+---+------------
+ *  27 | 28 | 29 | 30 | 31 | 32 | 33 | 34 | 35
+ * ---+---+---+---+---+---+---+---+------------
+ *  36 | 37 | 38 | 39 | 40 | 41 | 42 | 43 | 44
+ * ---+---+---+---+---+---+---+---+------------
+ *  45 | 46 | 47 | 48 | 49 | 50 | 51 | 52 | 53
+ */
 @Getter
 public abstract class PageMenu extends Menu {
-    protected Supplier<List<ItemStack>> items;
+    protected List<ItemStack> items;
     protected int page;
 
     protected int itemsInPage;
 
-    protected PageMenu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, Supplier<List<ItemStack>> items, boolean update) {
+    protected PageMenu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, List<? extends ItemStack> items, boolean update) {
         super(player, title, rows, inventoryGlassType, update);
-        this.items = () -> items.get().stream().peek(i -> {
+        this.items = items.stream().peek(i -> {
             if (this.getNBT(i).equals("")) {
                 NBTItem nbt = new NBTItem(i, true);
                 nbt.setString("GuiButton", "PAGE_ITEM");
@@ -37,10 +49,6 @@ public abstract class PageMenu extends Menu {
         this.itemsInPage = (this.getRows() - 2) * 7;
     }
 
-    protected PageMenu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, List<ItemStack> items, boolean update) {
-        this(player, title, rows, inventoryGlassType, () -> items, update);
-    }
-
     protected int getMaxItemsInPage() {
         return this.itemsInPage;
     }
@@ -50,11 +58,12 @@ public abstract class PageMenu extends Menu {
         int maxItems = this.getMaxItemsInPage();
         int adder = maxItems * (page - 1);
         for (int i = 0; i < maxItems; i++) {
-            if (i + adder >= items.get().size())
-                continue;
-//                this.setItem(Functions.intToSlot(i), new ItemStack(Material.AIR));
-
-            this.setItem(Functions.intToSlot(i), changeItem(items.get().get(i + adder)));
+            List<ItemStack> items = this.items;
+            if (i + adder >= items.size()) {
+                this.setItem(Functions.intToSlot(i), inventoryGlassType == InventoryGlassType.ALL ? getGLASS() : new ItemStack(Material.AIR));
+            } else {
+                this.setItem(Functions.intToSlot(i), changeItem(items.get(i + adder)));
+            }
         }
     }
 
@@ -64,7 +73,7 @@ public abstract class PageMenu extends Menu {
 
     public void nextPage() {
         int maxItems = this.getMaxItemsInPage();
-        if (this.page > (items.get().size() / maxItems)) {
+        if (this.page > (items.size() / maxItems)) {
             player.sendMessage(ChatColor.RED + "You can't go any further!");
             return;
         }
@@ -73,7 +82,7 @@ public abstract class PageMenu extends Menu {
     }
 
     public void lastPage() {
-        this.page = (int) Math.ceil(this.items.get().size() / 28d);
+        this.page = (int) Math.ceil(this.items.size() / 28d);
         this.update();
     }
 
@@ -83,17 +92,17 @@ public abstract class PageMenu extends Menu {
             return;
         }
         this.page--;
-        this.open();
+        this.open(true);
     }
 
     public void firstPage() {
         this.page = 1;
-        this.open();
+        this.open(true);
     }
 
     @Override
     public void open() {
         this.update();
-        super.open();
+        super.open(true);
     }
 }

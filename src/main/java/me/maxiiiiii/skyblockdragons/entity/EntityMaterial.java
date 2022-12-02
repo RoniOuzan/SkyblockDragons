@@ -11,9 +11,13 @@ import me.maxiiiiii.skyblockdragons.entity.types.eternity.ERROR_Infinity;
 import me.maxiiiiii.skyblockdragons.entity.types.eternity.EternityBoss;
 import me.maxiiiiii.skyblockdragons.entity.types.eternity.Infinity;
 import me.maxiiiiii.skyblockdragons.entity.types.eternity.Super_Infinity;
+import me.maxiiiiii.skyblockdragons.entity.types.other.DragonTest;
 import me.maxiiiiii.skyblockdragons.entity.types.other.Dummy;
 import me.maxiiiiii.skyblockdragons.entity.types.other.NullEntity;
 import me.maxiiiiii.skyblockdragons.entity.types.other.PlayerEntity;
+import me.maxiiiiii.skyblockdragons.entity.types.slayer.revenant.*;
+import me.maxiiiiii.skyblockdragons.entity.types.slayer.sven.*;
+import me.maxiiiiii.skyblockdragons.entity.types.slayer.tarantula.*;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EnderGuard;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EndermanTier1;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EndermanTier2;
@@ -76,7 +80,12 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         this(entityType, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, true, combatXp, coins, drops);
     }
 
-    public abstract void onSpawn(EntitySD entity);
+    public EntityType getPassenger() {
+        return null;
+    }
+
+    public void onSpawn(EntitySD entity) {
+    }
 
     public void onTick(EntitySD entity){
     }
@@ -102,7 +111,8 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         entities.put("YOUNG_DRAGON", new YoungDragon());
         entities.put("STRONG_DRAGON", new StrongDragon());
         entities.put("SUPERIOR_DRAGON", new SuperiorDragon());
-        entities.put("ERROR_DRAGON", new ERRORDragon());
+        entities.put("ERROR_DRAGON", new ErrorDragon());
+        entities.put("DRAGON_TEST", new DragonTest());
 
         entities.put("ICE_MINER", new IceMiner());
         entities.put("GHOST", new Ghost());
@@ -134,6 +144,24 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         entities.put("POLAR__BEAR_BOSS", new Polar_Bear_Boss());
         entities.put("KOALA_BEAR_BOSS", new Koala_Bear_Boss());
         entities.put("PANDA_BOSS", new Panda_Bear_Boss());
+
+        entities.put("REVENANT_HORROR_TIER_1", new RevenantHorrorTier1());
+        entities.put("REVENANT_HORROR_TIER_2", new RevenantHorrorTier2());
+        entities.put("REVENANT_HORROR_TIER_3", new RevenantHorrorTier3());
+        entities.put("REVENANT_HORROR_TIER_4", new RevenantHorrorTier4());
+        entities.put("REVENANT_HORROR_TIER_5", new RevenantHorrorTier5());
+
+        entities.put("TARANTULA_BROODFATHER_TIER_1", new TarantulaBroodfatherTier1());
+        entities.put("TARANTULA_BROODFATHER_TIER_2", new TarantulaBroodfatherTier2());
+        entities.put("TARANTULA_BROODFATHER_TIER_3", new TarantulaBroodfatherTier3());
+        entities.put("TARANTULA_BROODFATHER_TIER_4", new TarantulaBroodfatherTier4());
+        entities.put("TARANTULA_BROODFATHER_TIER_5", new TarantulaBroodfatherTier5());
+
+        entities.put("SVEN_PACKMASTER_TIER_1", new SvenPackmasterTier1());
+        entities.put("SVEN_PACKMASTER_TIER_2", new SvenPackmasterTier2());
+        entities.put("SVEN_PACKMASTER_TIER_3", new SvenPackmasterTier3());
+        entities.put("SVEN_PACKMASTER_TIER_4", new SvenPackmasterTier4());
+        entities.put("SVEN_PACKMASTER_TIER_5", new SvenPackmasterTier5());
 
         entities.put("PLAYER", new PlayerEntity());
 

@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.player.wardrobe;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -45,10 +46,10 @@ public class WardrobeSlot implements ConfigurationSerializable {
     }
 
     public void setPeace(ItemStack item, int peace) {
-        if (peace == 0) if (item == null) this.helmet = createItem(Material.STAINED_GLASS_PANE, 1, numberToWardrobeColor(this.slot), ChatColor.GREEN + "Slot " + (this.slot + 1) + " Helmet", ChatColor.GRAY + "Place a helmet here to add", ChatColor.GRAY + "it to the armor set."); else this.helmet = item;
-        if (peace == 1) if (item == null) this.chestplate = createItem(Material.STAINED_GLASS_PANE, 1, numberToWardrobeColor(this.slot), ChatColor.GREEN + "Slot " + (this.slot + 1) + " Chestplate", ChatColor.GRAY + "Place a chestplate here to add", ChatColor.GRAY + "it to the armor set."); else this.chestplate = item;
-        if (peace == 2) if (item == null) this.leggings = createItem(Material.STAINED_GLASS_PANE, 1, numberToWardrobeColor(this.slot), ChatColor.GREEN + "Slot " + (this.slot + 1) + " Leggings", ChatColor.GRAY + "Place a leggings here to add", ChatColor.GRAY + "it to the armor set."); else this.leggings = item;
-        if (peace == 3) if (item == null) this.boots = createItem(Material.STAINED_GLASS_PANE, 1, numberToWardrobeColor(this.slot), ChatColor.GREEN + "Slot " + (this.slot + 1) + " Boots", ChatColor.GRAY + "Place a boots here to add", ChatColor.GRAY + "it to the armor set."); else this.boots = item;
+        if (peace == 0) if (!Functions.isNotAir(item)) this.helmet = createItem(Material.STAINED_GLASS_PANE, 1, numberToWardrobeColor(this.slot), ChatColor.GREEN + "Slot " + (this.slot + 1) + " Helmet", ChatColor.GRAY + "Place a helmet here to add", ChatColor.GRAY + "it to the armor set."); else this.helmet = item;
+        else if (peace == 1) if (!Functions.isNotAir(item)) this.chestplate = createItem(Material.STAINED_GLASS_PANE, 1, numberToWardrobeColor(this.slot), ChatColor.GREEN + "Slot " + (this.slot + 1) + " Chestplate", ChatColor.GRAY + "Place a chestplate here to add", ChatColor.GRAY + "it to the armor set."); else this.chestplate = item;
+        else if (peace == 2) if (!Functions.isNotAir(item)) this.leggings = createItem(Material.STAINED_GLASS_PANE, 1, numberToWardrobeColor(this.slot), ChatColor.GREEN + "Slot " + (this.slot + 1) + " Leggings", ChatColor.GRAY + "Place a leggings here to add", ChatColor.GRAY + "it to the armor set."); else this.leggings = item;
+        else if (peace == 3) if (!Functions.isNotAir(item)) this.boots = createItem(Material.STAINED_GLASS_PANE, 1, numberToWardrobeColor(this.slot), ChatColor.GREEN + "Slot " + (this.slot + 1) + " Boots", ChatColor.GRAY + "Place a boots here to add", ChatColor.GRAY + "it to the armor set."); else this.boots = item;
     }
 
     public static int numberToWardrobeColor(int slot) {

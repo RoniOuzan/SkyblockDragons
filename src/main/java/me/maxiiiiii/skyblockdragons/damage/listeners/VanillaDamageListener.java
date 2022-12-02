@@ -8,9 +8,11 @@ import me.maxiiiiii.skyblockdragons.damage.types.entitydamage.PreciseFallEntityD
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamage.PreciseFireEntityDamage;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.MeleeEntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.ProjectileEntityDamageEntity;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.TrueEntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
+import me.maxiiiiii.skyblockdragons.world.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -30,12 +32,21 @@ public class VanillaDamageListener implements Listener {
     public void onDamage(org.bukkit.event.entity.EntityDamageEvent e) {
         e.setDamage(0);
 
-        if (e.getEntity() instanceof LivingEntity) {
+        if (e.getEntity() instanceof LivingEntity && !NPC.isNPC(e.getEntity())) {
             EntitySD victim = EntitySD.get(e.getEntity());
+            if (victim == null) {
+                if (!e.getEntity().isDead()) {
+                    SkyblockDragons.logger.info("Killed not EntitySD " + e.getEntityType());
+                    e.getEntity().remove();
+                }
+                return;
+            }
+
             victim.setNoDamageTicks(0);
             victim.setMaximumNoDamageTicks(0);
 
             EntityDamage damage = null;
+            EntityDamage damage2 = null;
             if (isFireDamage(victim, e)) {
                 damage = new PreciseFireEntityDamage(victim);
             } else if (isFallDamage(e)) {
@@ -52,6 +63,8 @@ public class VanillaDamageListener implements Listener {
 
                     EntitySD attacker = EntitySD.get(event.getDamager());
                     damage = new MeleeEntityDamageEntity(attacker, victim);
+                    if (attacker.getMaterial().getTrueDamage() > 0)
+                        damage2 = new TrueEntityDamageEntity(attacker, victim);
                 } else {
                     if (event.getDamager() instanceof Projectile && ((Projectile) event.getDamager()).getShooter() instanceof Player) {
                         if (event.getDamager() instanceof Player && SkyblockDragons.getPlayer((Player) ((Projectile) event.getDamager()).getShooter()).isOnHitTick(victim)) {
@@ -62,6 +75,8 @@ public class VanillaDamageListener implements Listener {
                         Projectile projectile = (Projectile) event.getDamager();
                         EntitySD attacker = EntitySD.get((Entity) projectile.getShooter());
                         damage = new ProjectileEntityDamageEntity(attacker, victim, projectile);
+                        if (attacker.getMaterial().getTrueDamage() > 0)
+                            damage2 = new TrueEntityDamageEntity(attacker, victim);
                     }
                 }
             }
@@ -71,6 +86,9 @@ public class VanillaDamageListener implements Listener {
                 return;
             }
             Bukkit.getPluginManager().callEvent(new EntityDamageEvent(damage));
+            if (damage2 != null) {
+                Bukkit.getPluginManager().callEvent(new EntityDamageEvent(damage2));
+            }
         }
     }
 

@@ -32,6 +32,8 @@ public class GoldenSkeletonHelmet extends ArmorMaterial {
 
     @EventHandler
     public void updateDamage(UpdateEntityDamageEntityEvent e) {
+        if (!(e.getDamage().getAttackerEquipment().getHelmetMaterial() instanceof GoldenSkeletonHelmet)) return;
+
         if (e.getDamage().getAttackerEquipment().getToolMaterial() instanceof GoldenSkeletonBow) {
             e.getDamage().getMultiplier().addBase(20);
         }

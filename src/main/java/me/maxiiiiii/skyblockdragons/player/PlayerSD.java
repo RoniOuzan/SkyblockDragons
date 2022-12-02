@@ -27,20 +27,23 @@ import me.maxiiiiii.skyblockdragons.player.chat.ChatChannel;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerDeathEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerRegainHealthEvent;
-import me.maxiiiiii.skyblockdragons.player.food.AbstractFood;
 import me.maxiiiiii.skyblockdragons.player.objects.ActionBarSupplier;
 import me.maxiiiiii.skyblockdragons.player.party.Party;
 import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
-import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSource;
+import me.maxiiiiii.skyblockdragons.player.skill.Skills;
+import me.maxiiiiii.skyblockdragons.player.skill.events.PlayerGetSkillXpEvent;
+import me.maxiiiiii.skyblockdragons.player.skill.events.UpdateSkillXpEvent;
+import me.maxiiiiii.skyblockdragons.player.slayer.Slayers;
 import me.maxiiiiii.skyblockdragons.player.stats.PlayerStats;
 import me.maxiiiiii.skyblockdragons.player.storage.EnderChest;
 import me.maxiiiiii.skyblockdragons.player.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
-import me.maxiiiiii.skyblockdragons.util.objects.Priority;
 import me.maxiiiiii.skyblockdragons.util.objects.Queue;
+import me.maxiiiiii.skyblockdragons.util.objects.SignMenuFactory;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
@@ -59,15 +62,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.*;
-import java.util.logging.FileHandler;
+import java.util.function.Consumer;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
-import static me.maxiiiiii.skyblockdragons.util.Functions.getInt;
 
 @Getter
 @Setter
@@ -86,7 +85,8 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     public int playTime;
     public int bits;
 
-    public Skill skill;
+    public Skills skills;
+    public Slayers slayers;
     public Wardrobe wardrobe;
     public BankAccount bank;
     public PlayerPet playerPet;
@@ -95,8 +95,6 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     public Forge forge;
 
     public Griffin griffin;
-
-    public AbstractFood food;
 
     private PowerOrbDeployAbility.PowerOrbType activePowerOrb = null;
 
@@ -118,21 +116,22 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
         this.stats = new PlayerStats(this);
 
-        this.chatChannel = (ChatChannel) Variables.get(player.getUniqueId(), "ChatChannel", 0, ChatChannel.ALL);
+        this.skills = new Skills(this);
+        this.slayers = new Slayers(this);
+        this.wardrobe = new Wardrobe(this);
+        this.bank = new BankAccount(this, 50_000_000);
+        this.playerPet = new PlayerPet(this);
+        this.enderChestSD = new EnderChest(this);
 
-        this.tracked = Variables.getBoolean(player.getUniqueId(), "Tracked", 0, true);
+        this.chatChannel = ChatChannel.valueOf(Variables.getString(player.getUniqueId(), "ChatChannel", "ALL"));
+
+        this.tracked = Variables.getBoolean(player.getUniqueId(), "Tracked", true);
 //        setupLogger();
 
         this.party = null;
 
-        this.playTime = Variables.getInt(player.getUniqueId(), "PlayTime", 0, 0);
-        this.bits = Variables.getInt(player.getUniqueId(), "Bits", 0, 0);
-
-        this.wardrobe = new Wardrobe(this);
-        this.skill = new Skill(this);
-        this.bank = new BankAccount(this, 50_000_000);
-        this.playerPet = new PlayerPet(this);
-        this.enderChestSD = new EnderChest(this);
+        this.playTime = Variables.getInt(player.getUniqueId(), "PlayTime", 0);
+        this.bits = Variables.getInt(player.getUniqueId(), "Bits", 0);
 
         this.forge = new Forge(this);
 
@@ -144,38 +143,37 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.equipment = new PlayerEquipment();
     }
 
-    private void setupLogger() {
-        this.logger = Logger.getLogger("PlayerLogger");
-        FileHandler fh;
-        try {
-
-            // don't log to console
-            logger.setUseParentHandlers(false);
-
-            // This block configures the logger with handler and formatter
-            fh = new FileHandler(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/PlayersLogs/" + getUniqueId() + ".log", 0,1, true);
-            logger.addHandler(fh);
-            SimpleFormatter formatter = new SimpleFormatter();
-            fh.setFormatter(formatter);
-
-            // the following statement is used to log any messages
-            logger.info("Init Logger: " + getUniqueId());
-            logLogin();
-
-        } catch (SecurityException | IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+//    private void setupLogger() {
+//        this.logger = Logger.getLogger("PlayerLogger");
+//        FileHandler fh;
+//        try {
+//
+//            // This block configures the logger with handler and formatter
+//            fh = new FileHandler(SkyblockDragons.plugin.getDataFolder().getAbsoluteFile() + "/PlayersLogs/" + getUniqueId() + ".log", 0,1, true);
+//            logger.addHandler(fh);
+//            SimpleFormatter formatter = new SimpleFormatter();
+//            fh.setFormatter(formatter);
+//
+//            // don't log to console
+//            logger.setUseParentHandlers(false);
+//            // the following statement is used to log any messages
+//            logger.info("Init Logger: " + getUniqueId());
+//            logLogin();
+//
+//        } catch (SecurityException | IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
     public void logLogin() {
         logger.info("Player Login: " + player.getName());
         logger.info("Player location: " + player.getLocation());
     }
-
-    public void logLogout() {
-        logger.info("Player Logout: " + player.getName());
-        logger.info("Player location: " + player.getLocation());
-    }
+//
+//    public void logLogout() {
+//        logger.info("Player Logout: " + player.getName());
+//        logger.info("Player location: " + player.getLocation());
+//    }
 
     public void update(Player player) {
         this.setPlayer(player);
@@ -183,14 +181,14 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public void save() {
-        Variables.set(player.getUniqueId(), "PlayTime", 0, this.playTime);
-        Variables.set(player.getUniqueId(), "Bits", 0, this.bits);
+        Variables.set(player.getUniqueId(), "PlayTime", this.playTime);
+        Variables.set(player.getUniqueId(), "Bits", this.bits);
 
-//        Variables.set(player.getUniqueId(), "ChatChannel", 0, this.chatChannel);
-        Variables.set(player.getUniqueId(), "Tracked", 0, this.tracked);
+        Variables.set(player.getUniqueId(), "ChatChannel", this.chatChannel.name());
+        Variables.set(player.getUniqueId(), "Tracked", this.tracked);
 
         this.wardrobe.save();
-        this.skill.save();
+        this.skills.save();
         this.bank.save();
         this.playerPet.save();
         this.getItems().save();
@@ -207,10 +205,14 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         return activePowerOrb;
     }
 
+    public <T> void giveSkill(SkillType skillType, double amount, SkillXpSource<T> source) {
+        UpdateSkillXpEvent event = new UpdateSkillXpEvent(this, skillType, amount);
+        Bukkit.getPluginManager().callEvent(event);
+        Bukkit.getPluginManager().callEvent(new PlayerGetSkillXpEvent(this, skillType, amount, event.getMultiplier().multiply(event.getBaseAmount()), source));
+    }
+
     public void giveSkill(SkillType skillType, double amount) {
-        this.skill.get(skillType.name()).giveXp(amount);
-        String message = ChatColor.DARK_AQUA + "+" + getInt(amount + "") + " " + skillType + " (" + Math.floor(this.getSkill().get(skillType).getCurrentXp() / this.getSkill().get(skillType).getCurrentNeedXp() * 1000d) / 10d + "%)";
-        this.actionBarQueue.add(new ActionBarSupplier(message, 2));
+        this.giveSkill(skillType, amount, null);
     }
 
     public void addPlayTime(int amount) {
@@ -326,12 +328,12 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
         this.stats.reset();
 
-        for (AbstractSkill skill : this.getSkill()) {
+        for (AbstractSkill skill : this.getSkills()) {
             this.stats.add(skill.getRewards().getStat(), skill.getRewards().getStatAmount() * skill.getLevel());
         }
-        this.stats.add(StatTypes.MINING_FORTUNE, this.getSkill().getMiningSkill().getLevel() * 4);
-        this.stats.add(StatTypes.FARMING_FORTUNE, this.getSkill().getFarmingSkill().getLevel() * 4);
-        this.stats.add(StatTypes.FORAGING_FORTUNE, this.getSkill().getForagingSkill().getLevel() * 4);
+        this.stats.add(StatTypes.MINING_FORTUNE, this.getSkills().getMiningSkill().getLevel() * 4);
+        this.stats.add(StatTypes.FARMING_FORTUNE, this.getSkills().getFarmingSkill().getLevel() * 4);
+        this.stats.add(StatTypes.FORAGING_FORTUNE, this.getSkills().getForagingSkill().getLevel() * 4);
 
         for (Item item : equipment) {
             if (item.getMaterial().name().equals("NULL") ||
@@ -341,11 +343,12 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
             stats.add(item.getStats());
         }
+        stats.add(equipment.getAccessoryBag().getStats());
 
         UpdateStatsEvent event = new UpdateStatsEvent(stats);
         Bukkit.getPluginManager().callEvent(event);
 
-        stats.applyMultipliers();
+        stats.update();
 
         if (getEnchantLevel(EnchantType.RESPIRATION) > 0)
             player.setMaximumAir((getEnchantLevel(EnchantType.RESPIRATION) * 200) + 200);
@@ -395,13 +398,13 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public short getEnchantLevel(EnchantType enchant) {
-        if (skill.getEnchantingSkill().getLevel() < enchant.getRequirements().getRequirement(0).getLevel() && this.getGameMode() != GameMode.CREATIVE)
+        if (skills.getEnchantingSkill().getLevel() < enchant.getRequirements().getRequirement(0).getLevel() && this.getGameMode() != GameMode.CREATIVE)
             return 0;
         return Functions.getEnchantLevel(player.getEquipment().getItemInMainHand(), enchant);
     }
 
     public short getEnchantLevel(EnchantType enchant, Condition condition) {
-        if (skill.getEnchantingSkill().getLevel() < enchant.getRequirements().getRequirement(0).getLevel() && this.getGameMode() != GameMode.CREATIVE)
+        if (skills.getEnchantingSkill().getLevel() < enchant.getRequirements().getRequirement(0).getLevel() && this.getGameMode() != GameMode.CREATIVE)
             return 0;
         if (!condition.check())
             return 0;
@@ -464,6 +467,17 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
             if (loc.getBlock().getType() != Material.AIR) break;
         }
         return null;
+    }
+
+    public void openSign(String line1, String line2, String line3, String line4, Consumer<String[]> response) {
+        SignMenuFactory.Menu menu = SkyblockDragons.signMenuFactory.newMenu(Arrays.asList(line1, line2, line3, line4))
+                .reopenIfFail(false)
+                .response((player, strings) -> response.accept(strings));
+        menu.open(player);
+    }
+
+    public void openSign(String line, Consumer<String[]> response) {
+        this.openSign("", "", "---------------", line, response);
     }
 
     public Map<ItemMaterial, Integer> getAllItems() {
@@ -531,12 +545,6 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         }
     }
 
-    public boolean chanceOf(double percent, Object... other) {
-        double multiplier = 1;
-        multiplier += this.getStats().getMagicFind().get() / 100;
-        return Functions.chanceOf(percent * multiplier);
-    }
-
     public boolean ignoreItemRequirements() {
         return this.getGameMode() == GameMode.CREATIVE;
     }
@@ -593,7 +601,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     @Getter
-    public class PlayerEquipment extends Equipment {
+    public class PlayerEquipment extends Equipment implements Cloneable {
         private final AccessoryBag accessoryBag;
         private Item pet;
 
@@ -612,6 +620,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
         @Override
         public void save() {
+            super.save();
             this.accessoryBag.save();
         }
 
@@ -627,6 +636,15 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
             list.addAll(this.accessoryBag.getItems());
             if (this.pet != null) list.add(this.pet);
             return list;
+        }
+
+        @Override
+        public PlayerEquipment clone() {
+            try {
+                return (PlayerEquipment) super.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new AssertionError();
+            }
         }
     }
 
@@ -651,18 +669,5 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
             return null;
 
         return SkyblockDragons.getPlayer(UUID.fromString((String) args.get("UUID")));
-    }
-
-    private static <T> int sortPriorities(T t1, T t2) {
-        try {
-            Method method1 = t1.getClass().getMethod("updateStats", PlayerStats.class);
-            Method method2 = t2.getClass().getMethod("updateStats", PlayerStats.class);
-            int level1 = method1.isAnnotationPresent(Priority.class) ? method1.getAnnotation(Priority.class).level() : Priority.DEFAULT;
-            int level2 = method2.isAnnotationPresent(Priority.class) ? method2.getAnnotation(Priority.class).level() : Priority.DEFAULT;
-            return level1 - level2;
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        return 1;
     }
 }

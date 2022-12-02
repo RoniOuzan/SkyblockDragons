@@ -6,8 +6,9 @@ import me.maxiiiiii.skyblockdragons.entity.events.EntityDeathEvent;
 import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityDrop;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerDeathEvent;
-import me.maxiiiiii.skyblockdragons.player.events.PlayerGetCoinsFromEntityEvent;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSource;
+import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSourceType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,15 +28,16 @@ public class EntityDeathListener implements Listener {
         if (e.getKiller() instanceof PlayerSD) {
             EntitySD entity = e.getEntity();
             PlayerSD killer = (PlayerSD) e.getKiller();
-            killer.giveSkill(SkillType.COMBAT, entity.material.getCombatXp());
+            killer.giveSkill(SkillType.COMBAT, entity.material.getCombatXp(), new SkillXpSource<>(SkillXpSourceType.ENTITY, entity));
             killer.giveExp((int) (entity.material.getCoins() / 100));
 
             for (EntityDrop drop : entity.material.getDrops()) {
                 drop.drop(killer, entity);
             }
 
-            PlayerGetCoinsFromEntityEvent event = new PlayerGetCoinsFromEntityEvent(killer, entity, entity.material.getCoins());
-            Bukkit.getPluginManager().callEvent(event);
+            Functions.createHologram(entity.getLocation().add(0, 3, 0), new ArrayList<>(Arrays.asList(ChatColor.GOLD + killer.getName(), ChatColor.GOLD + "+" + Functions.getNumberFormat(entity.material.getCoins()))), 40);
+            double coins = entity.material.getCoins();
+            killer.giveCoins(coins);
         }
     }
 
@@ -43,7 +45,7 @@ public class EntityDeathListener implements Listener {
     public void onDeath(org.bukkit.event.entity.EntityDeathEvent e) {
         e.getDrops().clear();
 
-        if (e.getEntity() instanceof Creature) {
+        if (e.getEntity() instanceof Creature && !e.getEntity().isDead()) {
             EntitySD entity = EntitySD.get(e.getEntity().getUniqueId());
 
             if (entity == null || entity.getAttacker() == null) return;

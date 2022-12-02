@@ -93,7 +93,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 import revxrsal.commands.exception.CommandErrorException;
-import revxrsal.commands.process.SenderResolver;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -109,6 +108,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public static Logger logger = null;
     public static EntityHider entityHider = null;
     private @Getter BukkitCommandHandler commandHandler = null;
+    public static SignMenuFactory signMenuFactory = null;
 
     private static long pluginStartedAt = 0;
 
@@ -116,6 +116,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public void onEnable() {
         plugin = this;
         logger = this.getLogger();
+        entityHider = new EntityHider(this, EntityHider.Policy.BLACKLIST);
         commandHandler = BukkitCommandHandler.create(this);
         getCommandHandler().setHelpWriter((command, actor) -> String.format("%s %s - %s", command.getPath().toRealString(), command.getUsage(), command.getDescription()));
         commandHandler.registerValueResolver(PlayerSD.class, context -> {
@@ -126,7 +127,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             }
             return playerSD;
         });
-        entityHider = new EntityHider(this, EntityHider.Policy.BLACKLIST);
+        signMenuFactory = new SignMenuFactory(this);
 
         if (!setupEconomy() ) {
             logger.severe("Disabled due to no Vault dependency found!");
@@ -358,6 +359,9 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerCommand("PartyList", new PartyListCommand());
         registerCommand("Kill", new KillCommand());
         registerCommand("CrystalGrinder", new CrystalGrinderMenu.Command());
+        registerCommand("StatsAdmin", new PlayerStatsAdminCommand());
+        registerCommand("PowerStone", new PowerStoneMenu.Command());
+        registerCommand("PowerStoneAdmin", new PowerStoneAdminCommand());
     }
 
     private void registerAllEvents() {
@@ -449,7 +453,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             if (!entity.isDead())
                 entity.remove();
         }
-        NPC.despawnAllNPCS();
+        NPC.despawnNPCS();
         Variables.save();
         AddonUtils.disableAddons();
     }

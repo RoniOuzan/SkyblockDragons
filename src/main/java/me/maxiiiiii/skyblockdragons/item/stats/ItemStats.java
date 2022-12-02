@@ -3,7 +3,6 @@ package me.maxiiiiii.skyblockdragons.item.stats;
 import lombok.AccessLevel;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.Item;
-import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.Multiplier;
 
 import java.util.*;
@@ -25,6 +24,27 @@ public class ItemStats extends Stats {
     @Override
     public void reset() {
         multiplayer.clear();
+    }
+
+    public void addModifier(StatModifier modifier) {
+        if (modifiers.contains(modifier)) {
+            double amount = 0;
+            int i = 0;
+            for (; i < modifiers.size(); i++) {
+                StatModifier statModifier = modifiers.get(i);
+
+                if (statModifier.equals(modifier)) {
+                    amount = statModifier.getStat().get();
+                    break;
+                }
+            }
+
+            modifiers.remove(i);
+            StatModifier newModifier = new StatModifier(modifier.getType(), modifier.getText(), new Stat(modifier.getStat().getType(), modifier.getStat().get() + amount));
+            modifiers.add(newModifier);
+        } else {
+            modifiers.add(modifier);
+        }
     }
 
     public void addMultiplier(StatType statType, double base, double post) {

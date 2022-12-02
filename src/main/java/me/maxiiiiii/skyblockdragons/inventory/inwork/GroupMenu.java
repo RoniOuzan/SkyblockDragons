@@ -69,7 +69,7 @@ public abstract class GroupMenu extends Menu {
 
         this.update();
 
-        this.open();
+        this.open(true);
     }
 
     @Override

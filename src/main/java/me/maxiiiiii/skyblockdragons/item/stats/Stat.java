@@ -1,6 +1,8 @@
 package me.maxiiiiii.skyblockdragons.item.stats;
 
+import me.maxiiiiii.skyblockdragons.item.stats.interfaces.PercentageStat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.inventory.ItemStack;
 
 public class Stat {
@@ -29,7 +31,7 @@ public class Stat {
     }
 
     public String getString() {
-        return (this.amount + "").replace(".0", "");
+        return Functions.getNumberFormat(this.amount) + (this instanceof PercentageStat ? "%" : "");
     }
 
     public void set(double amount) {
@@ -72,8 +74,19 @@ public class Stat {
         return this.type.toStringLore(this.amount);
     }
 
+    public String toAddLore() {
+        return this.type.toAddLore(this.amount);
+    }
+
     @Override
     public String toString() {
         return this.type.toString(this.amount);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Stat)) return false;
+
+        return this.getType() == ((Stat) other).getType() && this.get() == ((Stat) other).get();
     }
 }

@@ -34,9 +34,4 @@ public class ObsidianZombie extends EntityMaterial {
                 new EntityItemRareDrop(Items.get("OBSIDIAN_TALISMAN"), 1, 0.5d)
         );
     }
-
-    @Override
-    public void onSpawn(EntitySD entity) {
-
-    }
 }

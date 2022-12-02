@@ -57,6 +57,10 @@ public class EntitySD extends EntityClass {
             this.entity.getEquipment().setItemInOffHand(this.material.equipment.offHand);
         this.entity.getEquipment().setBootsDropChance(0);
 
+        if (this.material.getPassenger() != null) {
+            this.entity.addPassenger(this.entity.getWorld().spawnEntity(this.entity.getLocation(), this.material.getPassenger()));
+        }
+
         this.entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(this.material.speed / 500);
         this.entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(this.material.health);
         this.entity.setHealth(this.material.health);
@@ -191,8 +195,22 @@ public class EntitySD extends EntityClass {
     public void kill() {
         if (this.hologram != null)
             this.hologram.remove();
+        if (this.material.getPassenger() != null) {
+            this.entity.getPassengers().forEach(Entity::remove);
+        }
         entities.remove(this.entity.getUniqueId());
         Functions.Wait(1L, () -> this.entity.setHealth(0));
+    }
+
+    @Override
+    public void remove() {
+        if (this.hologram != null)
+            this.hologram.remove();
+        if (this.material.getPassenger() != null) {
+            this.entity.getPassengers().forEach(Entity::remove);
+        }
+        entities.remove(this.entity.getUniqueId());
+        super.remove();
     }
 
     public void setAttacker(EntitySD attacker) {
@@ -264,10 +282,12 @@ public class EntitySD extends EntityClass {
 
     public void removeHealth(double amount) {
         if (this.getHealth() - amount <= 0) {
-            if (this instanceof PlayerSD)
-                Bukkit.getPluginManager().callEvent(new PlayerDeathEvent((PlayerSD) this));
-            else
-                Bukkit.getPluginManager().callEvent(new EntityDeathEvent(this, this.getAttacker()));
+            if (!this.isDead()) {
+                if (this instanceof PlayerSD)
+                    Bukkit.getPluginManager().callEvent(new PlayerDeathEvent((PlayerSD) this));
+                else
+                    Bukkit.getPluginManager().callEvent(new EntityDeathEvent(this, this.getAttacker()));
+            }
         } else {
             this.damage(0);
             this.setHealth(this.getHealth() - amount);

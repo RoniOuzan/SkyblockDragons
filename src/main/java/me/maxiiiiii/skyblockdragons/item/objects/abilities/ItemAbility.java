@@ -10,7 +10,6 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbility
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown.ItemAbilityNoMessageCooldown;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown.ItemAbilitySilentCooldown;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.ItemAbilityManaCost;
-import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.ItemAbilityManaCostPercentage;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
@@ -66,14 +65,12 @@ public abstract class ItemAbility implements MaterialModifier {
         boolean output = true;
         if (this instanceof ItemAbilitySilentCooldown) output = ((ItemAbilitySilentCooldown) this).get(player, item, getAbilityOfPlayer(player));
         if (output && this instanceof ItemAbilityManaCost) output = ((ItemAbilityManaCost) this).get(player, item);
-        if (output && this instanceof ItemAbilityManaCostPercentage) output = ((ItemAbilityManaCostPercentage) this).get(player, item);
         return output;
     }
 
     public void applyCosts(PlayerSD player, Item item) {
         if (this instanceof ItemAbilitySilentCooldown) ((ItemAbilitySilentCooldown) this).applyCost(getAbilityOfPlayer(player));
         if (this instanceof ItemAbilityManaCost) ((ItemAbilityManaCost) this).applyCost(player, this, item);
-        if (this instanceof ItemAbilityManaCostPercentage) ((ItemAbilityManaCostPercentage) this).applyCost(player, this, item);
     }
 
     protected abstract PlayerAbilityRunnable setupAbility();
@@ -107,7 +104,6 @@ public abstract class ItemAbility implements MaterialModifier {
         List<String> lores = new ArrayList<>();
         if (this instanceof ItemAbilityNoMessageCooldown) lores.add(ItemAbilityNoMessageCooldown.getLine((ItemAbilityNoMessageCooldown) this, item, player));
         if (this instanceof ItemAbilityManaCost) lores.add(ItemAbilityManaCost.getLine((ItemAbilityManaCost) this, player, item));
-        if (this instanceof ItemAbilityManaCostPercentage) lores.add(ItemAbilityManaCostPercentage.getLine((ItemAbilityManaCostPercentage) this, player, item));
         return lores;
     }
 

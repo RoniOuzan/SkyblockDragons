@@ -5,11 +5,13 @@ import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
-import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public enum Rarity {
@@ -29,6 +31,17 @@ public enum Rarity {
     Rarity(int level, ChatColor color) {
         this.level = level;
         this.color = color;
+    }
+
+    public Rarity add(int adder) {
+        if (this.ordinal() + adder < 0) return Rarity.NONE;
+        if (this.ordinal() + adder >= values().length) return Rarity.SPECIAL;
+
+        return values()[this.ordinal() + adder];
+    }
+
+    public static List<Rarity> getRarities() {
+        return Arrays.stream(values()).filter(r -> r != NONE).collect(Collectors.toList());
     }
 
     public static Rarity getRarity(int level) {

@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class FishingSpeedStat extends MiscStat implements PercentageStat {
     public FishingSpeedStat() {
-        super("Fishing SPeed",
+        super("Fishing Speed",
                 "☂",
                 ChatColor.AQUA,
                 ""

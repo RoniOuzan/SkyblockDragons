@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.damage.listeners;
 
 import me.maxiiiiii.skyblockdragons.damage.events.EntityDamageEvent;
 import me.maxiiiiii.skyblockdragons.damage.interfaces.DamageCritable;
+import me.maxiiiiii.skyblockdragons.damage.interfaces.DamagePing;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.EntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.MagicEntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
@@ -20,11 +21,12 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 public class DamageListener implements Listener {
     private static final long FEROCITY_DELAY = 5L;
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onDamage(EntityDamageEvent e) {
         long damage = e.getFinalDamage();
+        if (e.getAttacker() instanceof PlayerSD && e.getDamage() instanceof DamagePing)
+            ((PlayerSD) e.getAttacker()).playSound(e.getAttacker().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
 
-        e.getVictim().setAttacker(e.getAttacker());
         e.getVictim().removeHealth(damage);
 
         String damageDisplay = ChatColor.GRAY + "" + Functions.getNumberFormat(damage);

@@ -12,7 +12,6 @@ public class MiningWisdomStat extends WisdomStat implements PercentageStat {
         super("Mining Wisdom",
                 "☯",
                 ChatColor.DARK_AQUA,
-                "",
                 SkillType.MINING
         );
     }

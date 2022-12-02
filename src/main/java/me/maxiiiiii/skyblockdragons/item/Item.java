@@ -179,7 +179,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
                     if (enchantType.getRequirements().getRequirement(0).getLevel() >= levelRequirement)
                         levelRequirement = enchantType.getRequirements().getRequirement(0).getLevel();
                 }
-                if (player == null || player.getSkill().getEnchantingSkill().getLevel() < levelRequirement) {
+                if (player == null || player.getSkills().getEnchantingSkill().getLevel() < levelRequirement) {
                     lores.add("");
                     lores.add(SkillRequirement.toString(SkillType.ENCHANTING, levelRequirement));
                 }
@@ -204,6 +204,24 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
                 lores.add("");
                 lores.add(ChatColor.GRAY + "This skin can be applied to");
                 lores.add(Items.items.get(material.name().replaceAll("_SKIN", "")).getRarity().getColor() + Items.items.get(material.name().replaceAll("_SKIN", "")).getName());
+            } else if (this.material instanceof PowerStoneMaterial) {
+                PowerStoneMaterial material = (PowerStoneMaterial) this.material;
+
+                lores.add(ChatColor.GRAY + "Combine " + ChatColor.GREEN + "9x " + ChatColor.GRAY + "of this stone at the");
+                lores.add(ChatColor.GOLD + "Power Stone Menu " + ChatColor.GRAY + "to permanently");
+                lores.add(ChatColor.GRAY + "unlock the " + ChatColor.GREEN + material.getPowerStone().getName() + ChatColor.GRAY + " power.");
+                lores.add("");
+                lores.add(ChatColor.GRAY + "Stats");
+                lores.addAll(material.getPowerStone().getStats(player).stream().filter(s -> !s.isEmpty()).map(Stat::toAddLore).collect(Collectors.toList()));
+                if (!material.getPowerStone().getUniqueStats().isEmpty()) {
+                    lores.add("");
+                    lores.add(ChatColor.GRAY + "Unique Stats");
+                    lores.addAll(material.getPowerStone().getUniqueStats().stream().filter(s -> !s.isEmpty()).map(Stat::toAddLore).collect(Collectors.toList()));
+                }
+                if (material.getPowerStone().getRequirements().getRequirements().size() > 0) {
+                    lores.add("");
+                    lores.addAll(material.getPowerStone().getRequirements().getRequirements().stream().map(Requirement::toString).collect(Collectors.toList()));
+                }
             } else if (this.material instanceof NormalMaterial) {
                 NormalMaterial material = (NormalMaterial) this.material;
 
@@ -310,7 +328,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
         }
 
         if (player != null) {
-            UpdateItemStatsEvent event = new UpdateItemStatsEvent(player, stats);
+            UpdateItemStatsEvent event = new  UpdateItemStatsEvent(player, stats);
             Bukkit.getPluginManager().callEvent(event);
 
             stats.applyMultipliers();
@@ -389,7 +407,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
                 crystalLore.append(ChatColor.GRAY).append("[✧] ");
             } else {
                 Crystal crystal = crystals.get(i);
-                crystalLore.append(Rarity.getRarity(crystal.getLevel()).getColor()).append("[").append(ChatColor.LIGHT_PURPLE).append(crystal.getCrystal().getStatType().getIcon()).append(Rarity.getRarity(crystal.getLevel()).getColor()).append("] ");
+                crystalLore.append(Rarity.getRarity(crystal.getLevel()).getColor()).append("[").append(crystal.getCrystal().getStatType().getColor()).append(crystal.getCrystal().getStatType().getIcon()).append(Rarity.getRarity(crystal.getLevel()).getColor()).append("] ");
             }
         }
         lores.add(crystalLore.toString());

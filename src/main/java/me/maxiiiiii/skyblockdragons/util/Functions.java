@@ -23,7 +23,6 @@ import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.item.stats.interfaces.PercentageStat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.interfaces.While;
-import me.maxiiiiii.skyblockdragons.util.objects.SignMenu;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.SlotCooldown;
 import me.maxiiiiii.skyblockdragons.util.reflection.MinecraftReflectionProvider;
@@ -675,35 +674,8 @@ public class Functions {
         return slot - 10 - (((slot / 9) - 1) * 2) + (28 * (page - 1));
     }
 
-    public static void openSign(Player player, ArrayList<String> strings) {
-        new SignMenu(SkyblockDragons.plugin).
-                open(player.getUniqueId(), new String[]{"", "", "", ""},
-                        (player1, text) ->
-                                Arrays.stream(text).forEach(t -> {
-                                    if (!t.equals("")) {
-                                        strings.set(0, t);
-                                        System.out.println(strings.get(0));
-                                    }
-                                }));
-    }
-
     public interface SignRunnable {
         void run(ArrayList<String> lines);
-    }
-
-    public static void openSign(Player player, SignRunnable runnable) {
-        ArrayList<String> lines = new ArrayList<>();
-        lines.add("");
-        openSign(player, lines);
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (!lines.get(0).equals("")) {
-                    runnable.run(lines);
-                    cancel();
-                }
-            }
-        }.runTaskTimer(SkyblockDragons.plugin, 0L, 10L);
     }
 
     public static String getNumSymbol(Stat stat) {
@@ -1652,6 +1624,10 @@ public class Functions {
         double y = vector.getY();
         double z = vector.getZ();
         return new Vector(x * Math.cos(degrees) - z * Math.sin(degrees), y, x * Math.sin(degrees) + y * Math.cos(degrees));
+    }
+
+    public static double ln(double num) {
+        return Math.log(num) / Math.log(Math.E);
     }
 
     public static double range(double value, double min, double max) {

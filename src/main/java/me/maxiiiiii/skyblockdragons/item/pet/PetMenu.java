@@ -9,22 +9,19 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class PetMenu extends PageMenu {
-    private boolean isConvertToItem; // TODO: make more stats
+    private boolean isConvertToItem; // TODO: make more states
 
     public PetMenu(PlayerSD player) {
         super(player,
                 "Pet Menu",
                 6,
                 InventoryGlassType.SURROUND,
-                () -> player.getPlayerPet().getPets().stream().map(pet -> {
+                player.getPlayerPet().getPets().stream().map(pet -> {
                     Item activePet = player.getActivePet();
                     if (pet.equals(activePet)) {
                         return addLine(addNBT(pet, "ACTIVE"), "", ChatColor.RED + "Click to despawn!");
@@ -72,22 +69,14 @@ public class PetMenu extends PageMenu {
         } else {
             if (player.getPlayerPet().getActivePetSlot() < 0 && this.getNBT(e.getCurrentItem()).equals("PAGE_ITEM")) {
                 player.give(new Item(player, e.getCurrentItem()));
-                this.player.getPlayerPet().removePet(new Item(player, e.getCurrentItem()));
-            } else
+                player.getPlayerPet().removePet(new Item(player, e.getCurrentItem()));
+                player.closeInventory();
+            } else {
                 player.sendMessage(ChatColor.RED + "You have to despawn this pet to convert it!");
+            }
         }
 
         this.update();
-    }
-
-    private static ItemStack addLine(ItemStack itemStack, String... lores) {
-        ItemStack item = itemStack.clone();
-        ItemMeta meta = item.getItemMeta();
-        List<String> newLores = meta.getLore();
-        newLores.addAll(Arrays.asList(lores));
-        meta.setLore(newLores);
-        item.setItemMeta(meta);
-        return item;
     }
 
     public static class Command extends CommandSD {

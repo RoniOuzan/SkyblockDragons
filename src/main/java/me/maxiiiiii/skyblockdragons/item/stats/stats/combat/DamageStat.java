@@ -10,7 +10,7 @@ public class DamageStat extends CombatStat {
         super("Damage",
                 "❁",
                 ChatColor.RED,
-                "",
+                "Damage increases the base damage you deal.",
                 0
         );
     }

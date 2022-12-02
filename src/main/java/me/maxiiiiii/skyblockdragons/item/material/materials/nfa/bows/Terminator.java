@@ -33,7 +33,7 @@ public class Terminator extends ShortBowMaterial {
     public void updateStats(UpdateStatsEvent e) {
         if (e.isNotThisItem(this)) return;
         
-        e.getStats().addMultiplier(StatTypes.CRIT_CHANCE, -300, 0);
+        e.getStats().addMultiplier(StatTypes.CRIT_CHANCE, -75, 0);
     }
 
     private static class Salvation extends ItemAbility implements ItemAbilityNoMessageCooldown {

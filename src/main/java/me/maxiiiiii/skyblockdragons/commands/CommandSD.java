@@ -17,7 +17,7 @@ public abstract class CommandSD implements TabExecutor {
     public abstract void command(PlayerSD player, String[] args);
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             this.command(SkyblockDragons.getPlayer((Player) sender), args);
         }
@@ -61,7 +61,7 @@ public abstract class CommandSD implements TabExecutor {
     public abstract List<Argument> tabComplete(PlayerSD player, List<Argument> tabs);
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public final List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (!(sender instanceof Player))
             return null;
 //        SkyblockDragons.logger.info("onTabComplete CommandSD called with player " + sender.getName() + ", alias " + alias + ", args " + Arrays.toString(args));

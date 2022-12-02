@@ -8,6 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,29 +19,36 @@ public class SkillAdminCommand extends CommandSD {
     public void command(PlayerSD player, String[] args) {
         if (args.length > 2) {
             if (Functions.isSkillName(args[0])) {
-                if (args.length > 3 && Functions.isPlayerName(args[3])) {
-                    player = SkyblockDragons.getPlayer(args[3]);
-                }
+                List<String> modifiers = new ArrayList<>(Arrays.asList(args).subList(2, args.length));
+                PlayerSD target = SkyblockDragons.getPlayer(modifiers.stream().filter(s -> Bukkit.getPlayer(s) != null).findFirst().orElse(player.getName()));
+                SkillType skillType = SkillType.valueOf(args[0].toUpperCase());
                 if (args[1].equalsIgnoreCase("give")) {
                     try {
                         double amount = Double.parseDouble(args[2]);
-                        player.getSkill().get(args[0]).giveXp(amount);
-                        player.sendMessage(ChatColor.GREEN + "Gave " + args[2] + " " + Functions.setTitleCase(args[0]) + " xp to " + player.getName() + ".");
+                        if (modifiers.contains("-s"))
+                            target.getSkills().get(args[0]).giveXp(amount);
+                        else {
+                            SkillXpSource<?> source = new SkillXpSource<>(SkillXpSourceType.ADMIN, player);
+                            if (modifiers.contains("-e"))
+                                source = new SkillXpSource<>(SkillXpSourceType.ENTITY, player);
+                            target.giveSkill(skillType, amount, source);
+                        }
+                        player.sendMessage(ChatColor.GREEN + "Gave " + args[2] + " " + Functions.setTitleCase(args[0]) + " xp to " + target.getName() + ".");
                     } catch (NumberFormatException ex) {
                         player.sendMessage(ChatColor.RED + "Can't understand this number!");
                     }
                 } else if (args[1].equalsIgnoreCase("set") || args[1].equalsIgnoreCase("setXp")) {
                     try {
-                        player.getSkill().get(args[0]).setXp(Math.max(Double.parseDouble(args[2]), 0));
-                        player.sendMessage(ChatColor.GREEN + "Set " + args[2] + " " + Functions.setTitleCase(args[0]) + " xp to " + player.getName() + ".");
+                        target.getSkills().get(args[0]).setXp(Math.max(Double.parseDouble(args[2]), 0));
+                        player.sendMessage(ChatColor.GREEN + "Set " + args[2] + " " + Functions.setTitleCase(args[0]) + " xp to " + target.getName() + ".");
                     } catch (NumberFormatException ex) {
                         player.sendMessage(ChatColor.RED + "Can't understand this number!");
                     }
                 } else if (args[1].equalsIgnoreCase("setLevel") || args[1].equalsIgnoreCase("setLVL")) {
                     try {
-                        int level = Functions.range(Integer.parseInt(args[2]), 0, player.getSkill().get(args[0]).getMaxLevel());
-                        player.getSkill().get(args[0]).setLevel(level);
-                        player.sendMessage(ChatColor.GREEN + "Set " + args[2] + " " + Functions.setTitleCase(args[0]) + " level to " + player.getName() + ".");
+                        int level = Functions.range(Integer.parseInt(args[2]), 0, target.getSkills().get(args[0]).getMaxLevel());
+                        target.getSkills().get(args[0]).setLevel(level);
+                        player.sendMessage(ChatColor.GREEN + "Set " + args[2] + " " + Functions.setTitleCase(args[0]) + " level to " + target.getName() + ".");
                     } catch (NumberFormatException ex) {
                         player.sendMessage(ChatColor.RED + "Can't understand this number!");
                     }
@@ -48,7 +57,7 @@ public class SkillAdminCommand extends CommandSD {
                 player.sendMessage(ChatColor.RED + "Can't understand the skill " + args[0] + "!");
             }
         } else {
-            player.sendMessage(ChatColor.RED + "Invalid arguments! use /skilladmin <skill> give/set/setLevel/setLVL <number> [<player>]");
+            player.sendMessage(ChatColor.RED + "Invalid arguments! use /skilladmin <skill> give/set/setLevel/setLVL <number> [<modifiers...>]");
         }
     }
 

@@ -2,12 +2,11 @@ package me.maxiiiiii.skyblockdragons.item.stats;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.stats.interfaces.PercentageStat;
+import me.maxiiiiii.skyblockdragons.item.stats.stats.combat.ManaStat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -30,11 +29,8 @@ public abstract class StatType {
         this.maxLevel = maxLevel;
         this.base = base;
 
-        StatTypes.STATS.add(this);
-
-        if (this instanceof Listener) {
-            SkyblockDragons.plugin.registerEvents((Listener) this);
-        }
+        if (!(this instanceof ManaStat))
+            StatTypes.STATS.add(this);
     }
 
     public StatType(String name, String icon, ChatColor color, String description, double base) {
@@ -45,11 +41,24 @@ public abstract class StatType {
         this(name, icon, color, description, null, p -> 0.0);
     }
 
+    public String name() {
+        return this.getName().toUpperCase().replace(" ", "_");
+    }
+
     public ItemStack getItem(double stat) {
         ItemStack item = this.getItemStack();
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(this.toString(stat));
         meta.setLore(Functions.loreBuilder(this.description));
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    public ItemStack getItem() {
+        ItemStack item = this.getItemStack();
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(this.toString());
+        if (!this.description.trim().isEmpty()) meta.setLore(Functions.loreBuilder(this.description));
         item.setItemMeta(meta);
         return item;
     }
@@ -67,11 +76,15 @@ public abstract class StatType {
     public abstract ItemStack getItemStack();
 
     public String toStringLore(double statAmount) {
-        return this + " " + ChatColor.WHITE + Functions.getNumberFormat(statAmount) + " " + (this instanceof PercentageStat ? "%" : "");
+        return this + " " + ChatColor.WHITE + Functions.getNumberFormat(statAmount) + (this instanceof PercentageStat ? "%" : "");
+    }
+
+    public String toAddLore(double statAmount) {
+        return (this.color + "+" + statAmount + " " + this).replace(".0", "");
     }
 
     public String toString(double statAmount) {
-        return (this.color.toString() + statAmount + this.icon + " " + this.getName()).replace(".0", "");
+        return (this.color.toString() + statAmount + this).replace(".0", "");
     }
 
     @Override

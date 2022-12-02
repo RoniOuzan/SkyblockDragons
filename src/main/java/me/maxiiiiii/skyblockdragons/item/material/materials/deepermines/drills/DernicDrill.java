@@ -8,7 +8,7 @@ import org.bukkit.Material;
 
 public class DernicDrill extends DrillMaterial {
     public DernicDrill() {
-        super("COBALT_DRILL",
+        super("DERNIC_DRILL",
                 Material.PRISMARINE_SHARD,
                 ItemFamily.DERNIC,
                 "Dernic Drill",
