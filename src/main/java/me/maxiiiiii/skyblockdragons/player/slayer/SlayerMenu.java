@@ -22,13 +22,26 @@ public class SlayerMenu extends Menu {
 
     @Override
     public void update() {
-        if (player.getSlayers().getQuest() == null) {
+        if (!player.getSlayers().getQuest().isActive()) {
             this.setItem(11, getItem(SlayerType.REVENANT));
             this.setItem(13, getItem(SlayerType.TARANTULA));
             this.setItem(15, getItem(SlayerType.SVEN));
-        } else if (player.getSlayers().getQuest().getState() == SlayerQuest.SlayerQuestState.SLAYED) {
+            this.setItem(30, createItem(
+                    Material.INK_SACK,
+                    player.getSlayers().getQuest().isAutoSlayer() ? 10 : 8,
+                    ChatColor.AQUA + "Auto Slayer",
+                    "AUTO_SLAYER",
+                    ChatColor.GRAY + "Upon defeating a boss, " + ChatColor.GREEN + "automatically " + ChatColor.GRAY + "completes the",
+                    "quest and starts another of the",
+                    ChatColor.GRAY + "same type if you have enough " + ChatColor.GOLD + "coins " + ChatColor.GRAY + "in your purse.",
+                    "",
+                    ChatColor.GRAY + "Currently: " + (player.getSlayers().getQuest().isAutoSlayer() ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"),
+                    "",
+                    ChatColor.YELLOW + "Click to disable!")
+            );
+        } else if (player.getSlayers().getQuest().getState() == SlayerQuest.SlayerQuestState.SLAIN) {
             ChatColor color = SlayerType.getTiersColors(player.getSlayers().getQuest().getTier());
-            this.setItem(13, createItem(Material.WHITE_GLAZED_TERRACOTTA, 5, ChatColor.GREEN + "Slayer Quest Completed", "COMPLETED", Functions.loreBuilder("You completed the slayer quest " + color + player.getSlayers().getQuest().getType().getName() + color + " Tier " + color + player.getSlayers().getQuest().getTier() + ChatColor.GRAY + ", now you can claim the rewards and progress!" + " RESET_LENGTH NEW_LINE NEW_LINE " + ChatColor.YELLOW + "Click to claim!")));
+            this.setItem(13, createItem(Material.WHITE_GLAZED_TERRACOTTA, 5, ChatColor.GREEN + "Slayer Quest Completed", "SLAYED", Functions.loreBuilder("You completed the slayer quest " + color + player.getSlayers().getQuest().getType().getName() + color + " Tier " + color + player.getSlayers().getQuest().getTier() + ChatColor.GRAY + ", now you can claim the rewards and progress!" + " RESET_LENGTH NEW_LINE NEW_LINE " + ChatColor.YELLOW + "Click to claim!")));
         } else if (player.getSlayers().getQuest().getState() != SlayerQuest.SlayerQuestState.FAILED) {
             ChatColor color = SlayerType.getTiersColors(player.getSlayers().getQuest().getTier());
             this.setItem(13, createItem(Material.WHITE_GLAZED_TERRACOTTA, 14, ChatColor.RED + "Cancel Slayer Quest", "CANCEL", Functions.loreBuilder("You have started " + color + player.getSlayers().getQuest().getType().getName() + color + "Tier " + color + player.getSlayers().getQuest().getTier() + ChatColor.GRAY + ", you can cancel this quest but you will not get refunds!" + " NEW_LINE NEW_LINE " + ChatColor.YELLOW + "Click to cancel!")));
@@ -44,7 +57,10 @@ public class SlayerMenu extends Menu {
         if (nbt.contains("SLAYER_")) {
             SlayerType slayerType = SlayerType.valueOf(nbt.replace("SLAYER_", ""));
             new SlayerTypeMenu(slayerType);
-        } else if (nbt.equals("COMPLETED")) {
+        } else if (nbt.equals("AUTO_SLAYER")) {
+            player.getSlayers().getQuest().toggleAutoSlayer();
+            this.update();
+        } else if (nbt.equals("SLAYED")) {
             player.getSlayers().complete();
             this.update();
         } else if (nbt.equals("CANCEL")) {
@@ -97,9 +113,6 @@ public class SlayerMenu extends Menu {
             if (nbt.contains("TIER_")) {
                 int tier = Integer.parseInt(nbt.replace("TIER_", ""));
                 player.getSlayers().startQuest(slayerType, tier);
-                player.sendMessage(ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "  SLAYER QUEST STARTED!");
-                player.sendMessage(ChatColor.DARK_PURPLE + "   » " + ChatColor.GRAY + "Slay " + ChatColor.RED + slayerType.getNeedXp(tier) + " Combat XP " + ChatColor.GRAY + "worth of Zombies.");
-                player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_AMBIENT, 1f, 2f);
                 player.closeInventory();
             }
         }

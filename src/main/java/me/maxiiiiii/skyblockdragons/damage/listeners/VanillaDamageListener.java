@@ -33,6 +33,12 @@ public class VanillaDamageListener implements Listener {
 
         if (e.getEntity() instanceof LivingEntity) {
             EntitySD victim = EntitySD.get(e.getEntity());
+            if (victim == null) {
+                SkyblockDragons.logger.info("Killed not EntitySD " + e.getEntityType());
+                e.getEntity().remove();
+                return;
+            }
+
             victim.setNoDamageTicks(0);
             victim.setMaximumNoDamageTicks(0);
 
