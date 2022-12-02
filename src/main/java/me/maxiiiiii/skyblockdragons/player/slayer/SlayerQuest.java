@@ -14,10 +14,8 @@ import me.maxiiiiii.skyblockdragons.player.slayer.events.PlayerCompleteSlayerQue
 import me.maxiiiiii.skyblockdragons.player.slayer.events.PlayerFailSlayerQuestEvent;
 import me.maxiiiiii.skyblockdragons.player.slayer.events.SlayerBossSlayedEvent;
 import me.maxiiiiii.skyblockdragons.player.slayer.events.SlayerBossSpawnEvent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import me.maxiiiiii.skyblockdragons.util.Functions;
+import org.bukkit.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -25,33 +23,58 @@ import org.bukkit.event.Listener;
 @Getter
 public class SlayerQuest implements Listener {
     public enum SlayerQuestState {
-        STARTED, SPAWNED, SLAYED, COMPLETED, FAILED
+        NOT_ACTIVE, STARTED, SPAWNED, SLAIN, FAILED
     }
 
     private final PlayerSD player;
-    private final SlayerType type;
-    private final int tier;
+    private boolean isAutoSlayer;
+    private SlayerType type;
+    private int tier;
     private double currentXp;
-    private final double needXp;
+    private double needXp;
     private SlayerQuestState state;
     private EntitySD boss;
-    private boolean isAutoSlayer;
 
-    public SlayerQuest(PlayerSD player, SlayerType type, int tier) {
+    public SlayerQuest(PlayerSD player) {
         this.player = player;
-        this.type = type;
-        this.tier = tier;
-        this.currentXp = 0;
-        this.needXp = this.type.getNeedXp(this.tier);
-        this.state = SlayerQuestState.STARTED;
-        this.boss = null;
         this.isAutoSlayer = false;
+        this.type = null;
+        this.tier = 0;
+        this.currentXp = -1;
+        this.needXp = 0;
+        this.state = SlayerQuestState.NOT_ACTIVE;
+        this.boss = null;
 
         Bukkit.getPluginManager().registerEvents(this, SkyblockDragons.plugin);
     }
 
-    public void setAutoSlayer(boolean autoSlayer) {
-        this.isAutoSlayer = autoSlayer;
+    public void start(SlayerType slayerType, int tier) {
+        this.type = slayerType;
+        this.tier = tier;
+        this.currentXp = 0;
+        this.needXp = this.type.getNeedXp(this.tier);
+        this.state = SlayerQuestState.STARTED;
+
+        if (this.boss != null) {
+            this.boss.remove();
+            this.boss = null;
+        }
+
+        player.sendMessage(ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "  SLAYER QUEST STARTED!");
+        player.sendMessage(ChatColor.DARK_PURPLE + "   » " + ChatColor.GRAY + "Slay " + ChatColor.RED + slayerType.getNeedXp(tier) + " Combat XP " + ChatColor.GRAY + "worth of Zombies.");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_AMBIENT, 1f, 2f);
+    }
+
+    public void reset() {
+        this.start(this.type, this.tier);
+    }
+
+    public boolean isActive() {
+        return this.state != SlayerQuestState.NOT_ACTIVE;
+    }
+
+    public void toggleAutoSlayer() {
+        this.isAutoSlayer = !this.isAutoSlayer;
     }
 
     public boolean isBossSpawned() {
@@ -67,33 +90,67 @@ public class SlayerQuest implements Listener {
     }
 
     public void cancel() {
+        this.state = SlayerQuestState.NOT_ACTIVE;
         if (this.boss != null) this.boss.remove();
     }
 
     public void spawn(Location location) {
         this.state = SlayerQuestState.SPAWNED;
-        this.boss = new EntitySD(location, EntityMaterial.get(this.type.getBossId() + "_TIER_" + this.tier));
 
-        Bukkit.getPluginManager().callEvent(new SlayerBossSpawnEvent(this.player, this.boss));
+        this.playSpawnParticles(location);
+        this.player.playSound(Sound.ITEM_FLINTANDSTEEL_USE, 0.8);
+        Functions.Wait(2, () -> {
+            this.player.playSound(Sound.ITEM_FLINTANDSTEEL_USE, 0.8);
+            Functions.Loop(6, 1,
+                    i1 -> this.playSpawnParticles(location)
+                    , i1 -> Functions.Loop(4, 3, i2 -> {
+                        playSpawnParticles(location);
+                        playSpawnSounds();
+                    }, i2 -> {
+                        playSpawnParticles(location);
+                        Functions.Wait(2, () -> {
+                            playSpawnParticles(location);
+                            Functions.Loop(4, 3, i -> {
+                                playSpawnParticles(location);
+                                playSpawnSounds();
+                            }, i -> {
+                                playSpawnParticles(location);
+                                this.player.playSound(Sound.ENTITY_GENERIC_EXPLODE, 0.8, 0);
+                                Functions.Wait(2, () -> {
+                                    this.player.playSound(Sound.ENTITY_WITHER_SPAWN, 0.8);
+                                    this.boss = new EntitySD(location, EntityMaterial.get(this.type.getBossId() + "_TIER_" + this.tier));
+
+                                    Bukkit.getPluginManager().callEvent(new SlayerBossSpawnEvent(this.player, this.boss));
+                                });
+                            });
+                        });
+                    })
+            );
+        });
     }
 
-    public void reset() {
-        this.state = SlayerQuestState.STARTED;
-        this.currentXp = 0;
+    private void playSpawnParticles(Location location) {
+        this.player.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, location.clone().add(0, 0.5, 0), 150, 0.5, 1, 0.5, 0.2);
+        this.player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, location.clone().add(0, 1, 0), 10, 0.2, 0.2, 0.2, 0);
+        this.player.getWorld().spawnParticle(Particle.SPELL_WITCH, location.clone().add(0, 1, 0), 50, 0.3, 0.3, 0.3, 1);
+    }
 
-        if (this.boss != null) this.boss.remove();
+    private void playSpawnSounds() {
+        this.player.playSound(Sound.ENTITY_WITHER_SHOOT, 0.4, 4.8);
+        this.player.playSound(Sound.ENTITY_ARROW_SHOOT, 0.05, 100);
+        this.player.playSound(Sound.ENTITY_ARROW_SHOOT, 0.05, 100);
     }
 
     public void giveReward() {
-        this.player.getSlayers().giveXp(this.type, this.type.getXpReward(this.tier));
+        this.player.getSlayers().get(this.type).giveXpReward(this.tier);
     }
 
     public void slayed() {
         if (this.isAutoSlayer()) {
             this.reset();
-            this.giveReward();
+            this.complete();
         } else {
-            this.state = SlayerQuestState.SLAYED;
+            this.state = SlayerQuestState.SLAIN;
             this.player.sendMessage("  " + ChatColor.GREEN + "" + ChatColor.BOLD + "NICE! SLAYER BOSS SLAIN");
             this.player.sendMessage("   " + ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "⇨ " + ChatColor.GRAY + "Talk to Maddox to claim your " + this.type.toString() + " Slayer XP!");
             this.player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
@@ -103,7 +160,7 @@ public class SlayerQuest implements Listener {
     }
 
     public void complete() {
-        this.state = SlayerQuestState.COMPLETED;
+        this.state = this.isAutoSlayer() ? SlayerQuestState.STARTED : SlayerQuestState.NOT_ACTIVE;
         this.player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
         int level = this.player.getSlayers().get(this.type).getLevel();
         this.giveReward();
@@ -111,8 +168,10 @@ public class SlayerQuest implements Listener {
         if (this.player.getSlayers().get(this.type).getLevel() > level) {
             this.player.sendMessage("   " + ChatColor.GREEN + "" + ChatColor.BOLD + "LVL UP! " + ChatColor.DARK_PURPLE + "⇨ " + ChatColor.YELLOW + this.type + " Slayer LVL " + this.player.getSlayers().get(this.type).getLevel());
         } else {
-            this.player.sendMessage("   " + ChatColor.YELLOW + this.type + " Slayer LVL " + this.player.getSlayers().get(this.type).getLevel() + ChatColor.GRAY + " - Next LVL in " + ChatColor.AQUA + (this.getNeedXp() - this.getCurrentXp()));
+            this.player.sendMessage("   " + ChatColor.YELLOW + this.type + " Slayer LVL " + this.player.getSlayers().get(this.type).getLevel() + ChatColor.GRAY + " - Next LVL in " + ChatColor.AQUA + Functions.getNumberFormat(this.player.getSlayers().get(this.type).getNeedXP() - this.player.getSlayers().get(this.type).getTotalXp()));
         }
+        this.player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
+        Functions.Wait(5L, () -> this.player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f));
 
         Bukkit.getPluginManager().callEvent(new PlayerCompleteSlayerQuestEvent(this.player));
     }

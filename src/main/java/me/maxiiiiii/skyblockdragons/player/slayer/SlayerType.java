@@ -19,7 +19,6 @@ public enum SlayerType {
     SVEN("Sven Packmaster", "SVEN_PACKMASTER", EntityType.WOLF, "Rabid Wolf genetically modified by a famous mad scientist. Eats bones and flesh.", new ItemStack(Material.MUTTON), new double[]{250, 650, 1500, 3000, 4500});
 
     private static final ChatColor[] TIERS_COLORS = {ChatColor.GREEN, ChatColor.YELLOW, ChatColor.RED, ChatColor.DARK_RED, ChatColor.DARK_PURPLE};
-    private static final double[] XP_REWARDS = {5, 25, 100, 500, 1500};
 
     private final String name;
     private final String bossId;
@@ -43,10 +42,6 @@ public enum SlayerType {
 
     public double getNeedXp(int tier) {
         return this.needXp[tier - 1];
-    }
-
-    public double getXpReward(int tier) {
-        return XP_REWARDS[tier - 1];
     }
 
     public ItemStack getItem() {

@@ -183,6 +183,18 @@ public class PlayerClass extends EntitySD implements Player {
         this.player.playNote(loc, instrument, note);
     }
 
+    public void playSound(Sound sound, double volume, double pitch) {
+        this.playSound(this.getLocation(), sound, (float) volume, (float) pitch);
+    }
+
+    public void playSound(Sound sound, double volume) {
+        this.playSound(sound, volume, 1);
+    }
+
+    public void playSound(Sound sound) {
+        this.playSound(sound, 1, 1);
+    }
+
     @Override
     public void playSound(Location location, Sound sound, float volume, float pitch) {
         this.player.playSound(location, sound, volume, pitch);

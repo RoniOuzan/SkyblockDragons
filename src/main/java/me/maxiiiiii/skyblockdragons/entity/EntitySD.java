@@ -202,6 +202,17 @@ public class EntitySD extends EntityClass {
         Functions.Wait(1L, () -> this.entity.setHealth(0));
     }
 
+    @Override
+    public void remove() {
+        if (this.hologram != null)
+            this.hologram.remove();
+        if (this.material.getPassenger() != null) {
+            this.entity.getPassengers().forEach(Entity::remove);
+        }
+        entities.remove(this.entity.getUniqueId());
+        super.remove();
+    }
+
     public void setAttacker(EntitySD attacker) {
         this.attacker = attacker;
     }

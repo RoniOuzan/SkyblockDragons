@@ -14,7 +14,7 @@ public class Slayers {
     private final TarantulaSlayer tarantula;
     private final SvenSlayer sven;
 
-    private SlayerQuest quest;
+    private final SlayerQuest quest;
 
     public Slayers(PlayerSD player) {
         this.player = player;
@@ -22,25 +22,19 @@ public class Slayers {
         this.tarantula = new TarantulaSlayer(player);
         this.sven = new SvenSlayer(player);
 
-        this.quest = null;
+        this.quest = new SlayerQuest(player);
     }
 
-    public void startQuest(SlayerType slayerType, int level) {
-        this.quest = new SlayerQuest(player, slayerType, level);
+    public void startQuest(SlayerType slayerType, int tier) {
+        this.quest.start(slayerType, tier);
     }
 
     public void cancelQuest() {
         this.quest.cancel();
-        this.quest = null;
-    }
-
-    public void giveXp(SlayerType slayerType, double amount) {
-        this.get(slayerType).giveXp(amount);
     }
 
     public void complete() {
         this.quest.complete();
-        this.quest = null;
     }
 
     public Slayer get(SlayerType slayerType) {

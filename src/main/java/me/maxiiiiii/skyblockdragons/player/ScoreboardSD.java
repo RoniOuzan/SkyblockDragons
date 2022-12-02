@@ -66,17 +66,20 @@ public class ScoreboardSD {
             scores.add("  "); // 2
         }
 
-        if (player.getSlayers().getQuest() != null) {
+        if (player.getSlayers().getQuest().isActive()) {
             SlayerQuest quest = player.getSlayers().getQuest();
             scores.add(ChatColor.WHITE + "Slayer Quest");
+            scores.add(SlayerType.getTiersColors(quest.getTier()) + quest.getType().getName() + " " + quest.getTier());
             if (quest.getState() == SlayerQuest.SlayerQuestState.SPAWNED) {
-                scores.add(SlayerType.getTiersColors(quest.getTier()) + quest.getType().getName() + " " + quest.getTier());
-                scores.add(ChatColor.WHITE + "Slay the boss!");
-            } else {
-                scores.add(SlayerType.getTiersColors(quest.getTier()) + quest.getType().getName() + " " + quest.getTier());
-                scores.add(ChatColor.GRAY + "(" + ChatColor.YELLOW + Functions.getNumberFormat(quest.getCurrentXp()) + ChatColor.GRAY + "/" + ChatColor.RED + Functions.getNumberFormat(quest.getNeedXp()) + ChatColor.GRAY + ") Combat XP");
+                scores.add(ChatColor.YELLOW + "Slay the boss!");
+            } else if (quest.getState() == SlayerQuest.SlayerQuestState.SLAIN) {
+                scores.add(ChatColor.YELLOW + "Boss Slain!");
+            } else if (quest.getState() == SlayerQuest.SlayerQuestState.STARTED) {
+                scores.add(ChatColor.YELLOW + Functions.getNumberFormat(quest.getCurrentXp()) + ChatColor.GRAY + "/" + ChatColor.RED + Functions.getNumberFormat(quest.getNeedXp()) + ChatColor.GRAY + " Combat XP");
+            } else if (quest.getState() == SlayerQuest.SlayerQuestState.FAILED) {
+                scores.add(ChatColor.RED + "Boss Failed!");
             }
-            scores.add("   "); // 3
+            scores.add("   ");
         }
 
         if (TheEnd.dragon != null && player.getWorldSD() == WorldSD.THE_END) {

@@ -29,10 +29,14 @@ public abstract class Slayer {
         );
     }
 
+    public void giveXpReward(int tier) {
+        this.giveXp(XP[tier - 1]);
+    }
+
     public void giveXp(double amount) {
         this.totalXp += amount;
 
-        while (this.totalXp >= this.getNeedXP(this.level)) {
+        while (this.totalXp >= this.getNeedXP()) {
             this.level++;
         }
     }
@@ -42,29 +46,11 @@ public abstract class Slayer {
         Variables.set(player.getUniqueId(), "Slayer" + this.getType().getName(), 1, this.totalXp);
     }
 
-    public int getCostToStart(int level) {
-        if (level <= 0)
-            return COSTS_TO_START[0];
-        else if (level > COSTS_TO_START.length)
-            return COSTS_TO_START[COSTS_TO_START.length - 1];
-
-        return COSTS_TO_START[level - 1];
-    }
-
-    public int getXP(int level) {
-        if (level <= 0)
-            return COSTS_TO_START[0];
-        else if (level > COSTS_TO_START.length)
-            return COSTS_TO_START[COSTS_TO_START.length - 1];
-
-        return COSTS_TO_START[level - 1];
-    }
-
-    public int getNeedXP(int level) {
+    public int getNeedXP() {
         if (level <= 0)
             return NEED_XP[0];
-        else if (level > COSTS_TO_START.length)
-            return NEED_XP[COSTS_TO_START.length - 1];
+        else if (level > NEED_XP.length)
+            return NEED_XP[NEED_XP.length - 1];
 
         return NEED_XP[level - 1];
     }
@@ -76,5 +62,14 @@ public abstract class Slayer {
                 ", level=" + level +
                 ", totalXp=" + totalXp +
                 '}';
+    }
+
+    public static int getCostToStart(int level) {
+        if (level <= 0)
+            return COSTS_TO_START[0];
+        else if (level > COSTS_TO_START.length)
+            return COSTS_TO_START[COSTS_TO_START.length - 1];
+
+        return COSTS_TO_START[level - 1];
     }
 }
