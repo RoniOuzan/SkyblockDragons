@@ -189,6 +189,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
         this.wardrobe.save();
         this.skills.save();
+        this.slayers.save();
         this.bank.save();
         this.playerPet.save();
         this.getItems().save();

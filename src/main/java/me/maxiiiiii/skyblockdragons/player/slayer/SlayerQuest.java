@@ -14,6 +14,7 @@ import me.maxiiiiii.skyblockdragons.player.slayer.events.PlayerCompleteSlayerQue
 import me.maxiiiiii.skyblockdragons.player.slayer.events.PlayerFailSlayerQuestEvent;
 import me.maxiiiiii.skyblockdragons.player.slayer.events.SlayerBossSlayedEvent;
 import me.maxiiiiii.skyblockdragons.player.slayer.events.SlayerBossSpawnEvent;
+import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.*;
 import org.bukkit.event.EventHandler;
@@ -37,7 +38,7 @@ public class SlayerQuest implements Listener {
 
     public SlayerQuest(PlayerSD player) {
         this.player = player;
-        this.isAutoSlayer = false;
+        this.isAutoSlayer = Variables.getBoolean(player.getUniqueId(), "AutoSlayer", false);
         this.type = null;
         this.tier = 0;
         this.currentXp = -1;
@@ -52,7 +53,7 @@ public class SlayerQuest implements Listener {
         this.type = slayerType;
         this.tier = tier;
         this.currentXp = 0;
-        this.needXp = this.type.getNeedXp(this.tier);
+        this.needXp = this.type.getQuestNeedXp(this.tier);
         this.state = SlayerQuestState.STARTED;
 
         if (this.boss != null) {
@@ -61,7 +62,7 @@ public class SlayerQuest implements Listener {
         }
 
         player.sendMessage(ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "  SLAYER QUEST STARTED!");
-        player.sendMessage(ChatColor.DARK_PURPLE + "   » " + ChatColor.GRAY + "Slay " + ChatColor.RED + slayerType.getNeedXp(tier) + " Combat XP " + ChatColor.GRAY + "worth of Zombies.");
+        player.sendMessage(ChatColor.DARK_PURPLE + "   » " + ChatColor.GRAY + "Slay " + ChatColor.RED + slayerType.getQuestNeedXp(tier) + " Combat XP " + ChatColor.GRAY + "worth of Zombies.");
         player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_AMBIENT, 1f, 2f);
     }
 
@@ -211,6 +212,10 @@ public class SlayerQuest implements Listener {
             this.giveXp(e.getFinalAmount(), (EntitySD) e.getSource().getSource());
             this.player.getScoreboardSD().update();
         }
+    }
+
+    public void save() {
+        Variables.set(player.getUniqueId(), "AutoSlayer", this.isAutoSlayer);
     }
 
     @Override
