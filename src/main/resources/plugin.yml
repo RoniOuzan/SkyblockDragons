@@ -67,6 +67,10 @@ commands:
   ViewRecipe:
     permission: skyblockdragons.viewrecipe
     usage: /<command> <recipe>
+    aliases:
+      - recipe
+      - showrecipe
+      - recipesd
   CraftingTable:
     permission: skyblockdragons.craftingtable
     usage: /<command>

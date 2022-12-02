@@ -17,6 +17,8 @@ import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static me.maxiiiiii.skyblockdragons.SkyblockDragons.plugin;
+
 public class Items {
     public static Map<String, ItemMaterial> items = new LinkedHashMap<>();
     public static Map<String, ItemMaterial> itemMaterials = new HashMap<>();
@@ -188,7 +190,9 @@ public class Items {
             vanillaMaterials.put(itemID, new VanillaMaterial(itemID, material, ItemFamily.VANILLA, localName, ItemType.ITEM, rarity, false, false));
         }
         vanillaMaterials.put("LAPIS", new VanillaMaterial("LAPIS", Material.INK_SACK, ItemFamily.VANILLA, "Lapis Lazuli", ItemType.ITEM, Rarity.COMMON, false, false).setData(4));
+        vanillaMaterials.put("NETHER_WART", new VanillaMaterial("NETHER_WART", Material.NETHER_STALK, ItemFamily.VANILLA, "Nether Wart", ItemType.ITEM, Rarity.COMMON, false, false));
         vanillaMaterials.remove("BLUE_DYE");
+        vanillaMaterials.remove("NETHER_STALK");
 
         items.putAll(vanillaMaterials);
     }

@@ -81,11 +81,11 @@ dependencies {
     implementation 'com.github.Revxrsal.Lamp:bukkit:3.1.0'
 }
 
-compileJava { // Preserve parameter names in the bytecode
+/*compileJava { // Preserve parameter names in the bytecode
     options.compilerArgs += ["-parameters"]
     options.fork = true
     options.forkOptions.executable = "javac"
-}
+}*/
 
 tasks.jar.configure {
     classifier = 'default'
@@ -103,7 +103,6 @@ shadowJar {
 group = 'me.maxiiiiii'
 version = '1.0'
 description = 'SkyblockDragons'
-java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 publishing {
     publications {

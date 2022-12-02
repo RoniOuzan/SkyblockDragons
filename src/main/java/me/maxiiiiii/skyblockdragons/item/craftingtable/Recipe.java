@@ -19,6 +19,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -130,6 +131,7 @@ public class Recipe extends RecipeRegister implements Comparable<Recipe> {
         DragonRecipes.registerRecipes();
         DeeperMinesRecipes.registerRecipes();
         BowsRecipes.registerRecipes();
+        FarmingRecipes.registerRecipes();
 
         sorted = new ArrayList<>(recipes.values());
         sorted.sort(Collections.reverseOrder());
@@ -186,6 +188,11 @@ public class Recipe extends RecipeRegister implements Comparable<Recipe> {
     public static List<Recipe> getRecipesFor(ItemStack item) {
         String itemId = Functions.getId(item);
         if (itemId.isEmpty()) return new ArrayList<>();
+        return getRecipesFor(itemId);
+    }
+
+    @NotNull
+    public static List<Recipe> getRecipesFor(String itemId) {
         List<Recipe> recipesFor = new ArrayList<>();
         for (Recipe recipe : sorted) {
             if (Functions.getId(recipe.getItem()).equals(itemId))
@@ -197,6 +204,11 @@ public class Recipe extends RecipeRegister implements Comparable<Recipe> {
     public static List<Recipe> getRecipesWith(ItemStack item) {
         String itemId = Functions.getId(item);
         if (itemId.isEmpty()) return new ArrayList<>();
+        return getRecipesWith(itemId);
+    }
+
+    @NotNull
+    public static List<Recipe> getRecipesWith(String itemId) {
         List<Recipe> recipesFor = new ArrayList<>();
         for (Recipe recipe : sorted) {
             if (Functions.getId(recipe.getItem()).equals(itemId) || Arrays.stream(recipe.getItems().clone()).map(Functions::getId).collect(Collectors.toList()).contains(itemId))
@@ -207,16 +219,9 @@ public class Recipe extends RecipeRegister implements Comparable<Recipe> {
 
     public static List<Recipe> getRecipesCanCraft(PlayerSD player, int maxTimes) {
         List<Recipe> output = new ArrayList<>();
-        for (Recipe recipe : sorted.stream().filter(r -> r.getSlotToUpgrade() >= 0).collect(Collectors.toList())) {
-            Map<ItemMaterial, Integer> items = recipe.getAllItems();
-            boolean stopped = false;
-            for (ItemMaterial material : items.keySet()) {
-                if (!player.hasItem(material, items.get(material))) {
-                    stopped = true;
-                    break;
-                }
-            }
-            if (!stopped) {
+        for (Recipe recipe : sorted.stream().filter(r -> r.getSlotToUpgrade() == -1).collect(Collectors.toList())) {
+            boolean canCraft = canCraft(player, recipe);
+            if (canCraft) {
                 output.add(recipe);
             }
             if (output.size() >= maxTimes)
@@ -226,8 +231,51 @@ public class Recipe extends RecipeRegister implements Comparable<Recipe> {
         return output;
     }
 
+    public static boolean canCraft(PlayerSD player, Recipe recipe) {
+        Map<ItemMaterial, Integer> items = recipe.getAllItems();
+        boolean can = true;
+        for (ItemMaterial material : items.keySet()) {
+            if (!player.hasItem(material, items.get(material))) {
+                can = false;
+                break;
+            }
+        }
+        return can;
+    }
+
+    public static boolean craftItem(PlayerSD player, String itemName){
+        List<Recipe> recipes = Recipe.getRecipesFor(itemName);
+        for (Recipe recipe : recipes) {
+            if (Recipe.craftRecipe(player, recipe)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean craftRecipe(PlayerSD player, Recipe recipe) {
+        Map<ItemMaterial, Integer> items = recipe.getAllItems();
+        if (canCraft(player, recipe)){
+            player.removeItems(items);
+            player.give(recipe.getItem());
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public int compareTo(Recipe recipe) {
         return this.getSize() - recipe.getSize();
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "item=" + Functions.getId(item) +
+                ", items=" + Arrays.toString(items) +
+                ", slotToUpgrade=" + slotToUpgrade +
+                ", viewable=" + viewable +
+                ", shapeless=" + shapeless +
+                '}';
     }
 }

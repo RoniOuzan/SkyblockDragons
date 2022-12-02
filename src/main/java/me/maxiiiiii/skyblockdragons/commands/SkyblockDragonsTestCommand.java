@@ -10,6 +10,7 @@ import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.types.witherisland.EntityWither;
 import me.maxiiiiii.skyblockdragons.events.listeners.JoinQuitListener;
 import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.item.crystals.CrystalType;
 import me.maxiiiiii.skyblockdragons.item.crystals.Crystals;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
@@ -22,9 +23,16 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.TextMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.world.worlds.witherisland.WitherIsland.wither;
 
@@ -143,5 +151,32 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
             Block block = player.getTargetBlock(null,50);
             player.sendMessage(block.getType());
         }));
+        addSubCommand(new QuickSubCommand("craft", (player, args) -> {
+            if (args.length < 2){
+                player.sendMessage(ChatColor.RED + "Usage: /sdtest craft <recipe>");
+                return;
+            }
+            String itemName = args[1];
+            List<Recipe> recipes = Recipe.getRecipesFor(itemName);
+            for (Recipe recipe : recipes) {
+                if (Recipe.craftRecipe(player, recipe)){
+                    player.sendMessage("Craft Worked! used recipe: " + recipe.name());
+                }
+            }
+        }));
+        addSubCommand(new QuickSubCommand("can-craft", (player, args) -> {
+            player.sendMessage(Recipe.getRecipesCanCraft(player, 3));
+        }));
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (args.length == 1){
+            return super.onTabComplete(sender, command, label, args);
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("craft")) {
+            return Recipe.abcSorted.stream().map(Recipe::name).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
+        }
+
+        return null;
     }
 }

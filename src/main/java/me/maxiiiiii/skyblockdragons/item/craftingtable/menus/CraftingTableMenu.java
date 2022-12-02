@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 public class CraftingTableMenu extends Menu {
     public ItemStack recipeRequired = createItem(Material.BARRIER, ChatColor.RED + "Recipe Required", "RECIPE", ChatColor.GRAY + "Add the items for valid recipe", ChatColor.GRAY + "in the crafting grid to the", ChatColor.GRAY + "left!");
     public ItemStack quickCraft = createItem(Material.STAINED_GLASS_PANE, 7, ChatColor.RED + "Quick Craft Slot", "QUICK_CRAFT", ChatColor.GRAY + "Quick crafting allows you to", ChatColor.GRAY + "craft items without assembling", ChatColor.GRAY + "the recipe.");
+    public List<Integer> quickCraftSlots = Arrays.asList(16, 25, 34);
     
     public CraftingTableMenu(PlayerSD player) {
         super(player, "Craft Item", 6, InventoryGlassType.ALL, false);
@@ -40,9 +41,11 @@ public class CraftingTableMenu extends Menu {
 
         this.setItem(23, recipeRequired);
 
-        this.setItem(16, quickCraft);
-        this.setItem(16, quickCraft);
-        this.setItem(16, quickCraft);
+        for (int quickCraftSlot : quickCraftSlots) {
+            this.setItem(quickCraftSlot, quickCraft);
+        }
+
+        Functions.Wait(1L, () -> updateInventory(player));
     }
     
     public void updateLines(boolean red) {
@@ -84,6 +87,20 @@ public class CraftingTableMenu extends Menu {
         PlayerSD player = SkyblockDragons.getPlayer((Player) e.getWhoClicked());
         if ((e.getSlot() % 9 == 1 || e.getSlot() % 9 == 2 || e.getSlot() % 9 == 3) && (e.getSlot() / 9 == 1 || e.getSlot() / 9 == 2 || e.getSlot() / 9 == 3))
             e.setCancelled(false);
+
+        if (quickCraftSlots.contains(e.getSlot())) {
+
+            List<Recipe> recipesCanCraft = Recipe.getRecipesCanCraft(player, 3);
+            int index = quickCraftSlots.indexOf(e.getSlot());
+            if (index <= recipesCanCraft.size()) {
+                Recipe recipe = recipesCanCraft.get(index);
+                Recipe.craftRecipe(player, recipe);
+            }
+
+
+
+        }
+
         if (!Functions.isNotAir(e.getCurrentItem())) return;
 
         if (e.getSlot() == 23) {
@@ -113,30 +130,6 @@ public class CraftingTableMenu extends Menu {
                 }
             }
         }
-        if (Functions.isNotAir(e.getCurrentItem()) && this.getNBT(e.getCurrentItem()).equals("QUICK_CRAFT_RESULT")) {
-            int row = e.getSlot() / 9;
-
-            Recipe recipe = Recipe.getRecipesCanCraft(player, 3).get(row - 1);
-
-            if (e.getClick().isShiftClick()) {
-                player.getInventory().addItem(recipe.getItem());
-
-                player.removeItems(recipe.getAllItems());
-            } else {
-                if (Functions.isNotAir(e.getCursor())) {
-                    if (recipe.getItem().isSimilar(e.getCursor()) && e.getCursor().getAmount() + recipe.getItem().getAmount() <= recipe.getItem().getType().getMaxStackSize()) {
-                        e.getCursor().setAmount(e.getCursor().getAmount() + recipe.getItem().getAmount());
-                        player.setItemOnCursor(e.getCursor());
-
-                        player.removeItems(recipe.getAllItems());
-                    }
-                } else {
-                    player.setItemOnCursor(recipe.getItem());
-
-                    player.removeItems(recipe.getAllItems());
-                }
-            }
-        }
 
         Functions.Wait(1L, () -> updateInventory(player));
     }
@@ -154,7 +147,7 @@ public class CraftingTableMenu extends Menu {
     }
 
     public void updateInventory(Player player) {
-        Inventory inventory = player.getOpenInventory().getTopInventory();
+//        Inventory inventory = player.getOpenInventory().getTopInventory();
         Recipe recipe = getRecipe(inventory);
 
         if (recipe == null) {
@@ -172,18 +165,19 @@ public class CraftingTableMenu extends Menu {
             updateLines(false);
         }
         List<Recipe> recipes = Recipe.getRecipesCanCraft(SkyblockDragons.getPlayer(player), 3);
-        if (recipes.size() > 0)
+        if (recipes.size() > 0) {
             inventory.setItem(16, addNBT(recipes.get(0).getItem(), "QUICK_SLOT_RESULT"));
+        }
         else
             inventory.setItem(16, quickCraft);
         if (recipes.size() > 1)
             inventory.setItem(25, addNBT(recipes.get(1).getItem(), "QUICK_SLOT_RESULT"));
         else
-            inventory.setItem(16, quickCraft);
+            inventory.setItem(25, quickCraft);
         if (recipes.size() > 2)
             inventory.setItem(34, addNBT(recipes.get(2).getItem(), "QUICK_SLOT_RESULT"));
         else
-            inventory.setItem(16, quickCraft);
+            inventory.setItem(34, quickCraft);
     }
 
     public Recipe getRecipe(Inventory inventory) {
