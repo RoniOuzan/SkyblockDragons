@@ -17,7 +17,7 @@ public enum SlayerType {
     REVENANT("Revenant Horror", "REVENANT_HORROR", EntityType.ZOMBIE, "Abhorrent Zombie stuck between life and death for an eternity.", new ItemStack(Material.ROTTEN_FLESH), new double[]{150, 1440, 2400, 4800, 6000}),
     TARANTULA("Tarantula Broodfather", "TARANTULA_BROODFATHER", Arrays.asList(EntityType.SPIDER, EntityType.CAVE_SPIDER), "Monstrous Spider who poisons and devours its victims.", new ItemStack(Material.WEB), new double[]{250, 6600, 1000, 2000, 3500}),
     SVEN("Sven Packmaster", "SVEN_PACKMASTER", EntityType.WOLF, "Rabid Wolf genetically modified by a famous mad scientist. Eats bones and flesh.", new ItemStack(Material.MUTTON), new double[]{250, 650, 1500, 3000, 4500}),
-    VOIDGLOOM("Voidglooom Seraph", "VOIDGLOOM_SERAPH", EntityType.WOLF, "", new ItemStack(Material.ENDER_PEARL), new double[]{2750, 6600, 11000, 22000, 35000});
+    VOIDGLOOM("Voidglooom Seraph", "VOIDGLOOM_SERAPH", EntityType.WOLF, "If Necron is the right-hand of the Wither King, this dark demigod is the left-hand.", new ItemStack(Material.ENDER_PEARL), new double[]{2750, 6600, 11000, 22000, 35000});
 
     private static final ChatColor[] TIERS_COLORS = {ChatColor.GREEN, ChatColor.YELLOW, ChatColor.RED, ChatColor.DARK_RED, ChatColor.DARK_PURPLE};
 
