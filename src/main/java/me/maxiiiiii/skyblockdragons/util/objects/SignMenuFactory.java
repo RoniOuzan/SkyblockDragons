@@ -22,8 +22,7 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 
-public final class SignMenuFactory {
-
+public class SignMenuFactory {
     private static final int ACTION_INDEX = 9;
     private static final int SIGN_LINES = 4;
 

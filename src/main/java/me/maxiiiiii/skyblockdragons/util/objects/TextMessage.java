@@ -5,9 +5,6 @@ package me.maxiiiiii.skyblockdragons.util.objects;//Created by Justis Root. Rele
 //Modifications not expressly accepted by the author should be noted in the license of any forks.
 //No warranty for any purpose whatsoever is implied or expressed,
 //and the author shall not be held liable for any losses, direct or indirect as a result of using this software.
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,12 +12,18 @@ import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONObject;
 
+import java.util.Locale;
+
 /**
  *  Any questions, comments, or suggestions, feel free to contact me at justis.root@gmail.com
  *  Version 2.3.0
  */
 
 public class TextMessage {
+
+	public enum Modifier {
+		HOVER_AS_TOOLTIP, URL, SUGGEST_MESSAGE, MESSAGE,
+	}
 
 	private String msg;
 
@@ -35,9 +38,7 @@ public class TextMessage {
 	 * Send the json string to all players on the server.
 	 */
 	public void send() {
-		List<Object> players = new ArrayList<>();
-		for (Player p : Bukkit.getOnlinePlayers()) players.add(p);
-		send(players.toArray(new Player[players.size()]));
+		send(Bukkit.getOnlinePlayers().toArray(new Player[0]));
 	}
 
 	/**
@@ -79,7 +80,6 @@ public class TextMessage {
 	public static class TextBuilder {
 
 		private final TextMessage message;
-		private final String string = ",{\"text\":\"\",\"extra\":[";
 		private final String[] strings;
 		private String hover = "", click = "";
 
@@ -102,7 +102,7 @@ public class TextMessage {
 			StringBuilder builder = new StringBuilder();
 			for (int i = 0; i < lore.length; i++)
 				if (i + 1 == lore.length) builder.append(lore[i]);
-				else builder.append(lore[i] + "\n");
+				else builder.append(lore[i]).append("\n");
 			hover = ",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + esc(builder.toString()) + "\"}";
 			return this;
 		}
@@ -129,8 +129,6 @@ public class TextMessage {
 
 		/**
 		 * Set the click event's action as executing a command
-		 * @param cmd
-		 * @return
 		 */
 		public TextBuilder setClickAsExecuteCmd(String cmd) {
 			click = ",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + esc(cmd) + "\"}";
@@ -139,20 +137,20 @@ public class TextMessage {
 
 		/**
 		 * Finalize the appending of the text, with settings.
-		 * @return
 		 */
 		public TextMessage save() {
-			StringBuilder builder = new StringBuilder(message.msg + string);
+			String string1 = ",{\"text\":\"\",\"extra\":[";
+			StringBuilder builder = new StringBuilder(message.msg).append(string1);
 			for (String string : strings) {
 				builder.append(string);
 			}
-			builder.append("]" + hover + click + "}");
+			builder.append("]").append(hover).append(click).append("}");
 			message.msg = builder.toString();
 			return message;
 		}
 	}
 
-	private static final String[] colorized(String text) {
+	private static String[] colorized(String text) {
 		String[] colors = text.split(String.valueOf(ChatColor.COLOR_CHAR));
 		boolean bold = false, italic = false, magic = false, underlined = false, strikethrough = false;
 		ChatColor color = ChatColor.WHITE;
@@ -190,13 +188,13 @@ public class TextMessage {
 				default:
 					color = decoded;
 				}
-				StringBuilder builder = new StringBuilder("{\"text\":\"" + colors[i].substring(1, colors[i].length()) + "\"");
-				if (color != ChatColor.WHITE) builder.append(",\"color\":\"" + color.name().toLowerCase(Locale.US) + "\"");
-				if (bold) builder.append(",\"bold\":\"" + bold + "\"");
-				if (italic) builder.append(",\"italic\":\"" + italic + "\"");
-				if (magic) builder.append(",\"obfuscated\":\"" + magic + "\"");
-				if (underlined) builder.append(",\"underlined\":\"" + underlined + "\"");
-				if (strikethrough) builder.append(",\"strikethrough\":\"" + strikethrough + "\"");
+				StringBuilder builder = new StringBuilder("{\"text\":\"" + colors[i].substring(1) + "\"");
+				if (color != ChatColor.WHITE) builder.append(",\"color\":\"").append(color.name().toLowerCase(Locale.US)).append("\"");
+				if (bold) builder.append(",\"bold\":\"").append(true).append("\"");
+				if (italic) builder.append(",\"italic\":\"").append(true).append("\"");
+				if (magic) builder.append(",\"obfuscated\":\"").append(true).append("\"");
+				if (underlined) builder.append(",\"underlined\":\"").append(true).append("\"");
+				if (strikethrough) builder.append(",\"strikethrough\":\"").append(true).append("\"");
 				colors[i] = builder.append("}").toString();
 			}
 			if (i + 1 < colors.length) colors[i] = colors[i] + ",";

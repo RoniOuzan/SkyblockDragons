@@ -7,6 +7,8 @@ import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.objects.MessageModifier;
+import me.maxiiiiii.skyblockdragons.util.objects.TextMessage;
 import net.minecraft.server.v1_12_R1.EntityPlayer;
 import net.minecraft.server.v1_12_R1.Packet;
 import org.bukkit.*;
@@ -903,6 +905,14 @@ public class PlayerClass extends EntitySD implements Player {
     @Override
     public void sendMessage(String[] messages) {
         this.player.sendMessage(messages);
+    }
+
+    public void sendMessage(MessageModifier... message) {
+        TextMessage textMessage = new TextMessage();
+        for (MessageModifier modifier : message) {
+            modifier.applyModifiers(textMessage);
+        }
+        textMessage.send(this.player);
     }
 
     public void sendCenteredMessage(String message) {

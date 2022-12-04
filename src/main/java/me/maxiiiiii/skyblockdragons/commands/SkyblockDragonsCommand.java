@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.commands;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
@@ -107,8 +108,13 @@ public class SkyblockDragonsCommand extends CommandSD {
                             entity.remove();
                             player.sendMessage(ChatColor.WHITE + "Killed " + entity.getCustomName());
                         }
-                    } catch (NullPointerException ignored) {}
+                    } catch (NullPointerException ignored) {
+                    }
                 }
+            } else if (args[0].equalsIgnoreCase("uuid")) {
+                PlayerSD target = args.length > 1 ? SkyblockDragons.getPlayer(args[1]) : player;
+                player.sendMessage(target.getUniqueId());
+                player.sendMessage();
             } else if (args[0].equalsIgnoreCase("test")) {
                 player.openSign("hi", "hello", "", "scam", lines -> {});
             }

@@ -4,6 +4,8 @@ import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.chat.ChatChannel;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.objects.Entry;
+import me.maxiiiiii.skyblockdragons.util.objects.MessageModifier;
 import me.maxiiiiii.skyblockdragons.util.objects.TextMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -94,7 +96,7 @@ public class Party implements Iterable<PlayerSD> {
         this.sendLine();
 
         player.sendMessage(LINE);
-        new TextMessage().append(ChatColor.YELLOW + inverter.getDisplayName() + ChatColor.YELLOW + " invited you to " + this.leader.getDisplayName() + ChatColor.YELLOW + "'s party ").save().append(ChatColor.YELLOW + "" + ChatColor.BOLD + "CLICK HERE TO JOIN!").setClickAsExecuteCmd("/party accept " + leader.getName()).save().send(player);
+        player.sendMessage(new MessageModifier(ChatColor.YELLOW + inverter.getDisplayName() + ChatColor.YELLOW + " invited you to " + this.leader.getDisplayName() + ChatColor.YELLOW + "'s party "), new MessageModifier(ChatColor.YELLOW + "" + ChatColor.BOLD + "CLICK HERE TO JOIN!", new Entry<>(TextMessage.Modifier.MESSAGE, "/party accept " + leader.getName())));
         player.sendMessage(LINE);
 
         Functions.Wait(1200L, () -> {
