@@ -1,8 +1,6 @@
 package me.maxiiiiii.skyblockdragons.player.skill.skills;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.item.stats.StatAdd;
-import me.maxiiiiii.skyblockdragons.item.stats.StatAddType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -38,6 +36,6 @@ public class FarmingSkill extends Skill {
     public void updateStats(UpdateStatsEvent e) {
         if (e.getPlayer() != this.getPlayer()) return;
 
-        e.getStats().add(StatTypes.FARMING_FORTUNE, this.getLevel() * 4, new StatAdd<>(StatAddType.SKILL, this));
+        e.getStats().add(StatTypes.FARMING_FORTUNE, this.getLevel() * 4);
     }
 }
