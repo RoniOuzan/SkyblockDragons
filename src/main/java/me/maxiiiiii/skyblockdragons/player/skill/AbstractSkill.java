@@ -116,8 +116,8 @@ public abstract class AbstractSkill implements Listener {
     }
 
     public void save(PlayerSD player) {
-        Variables.set(player.getUniqueId(), "Skill" + name, 0, this.level);
-        Variables.set(player.getUniqueId(), "Skill" + name, 1, this.totalXp);
+        Variables.set(player.getUniqueId(), "Skill", name + ".level", this.level);
+        Variables.set(player.getUniqueId(), "Skill", name + ".xp", this.totalXp);
     }
 
     @Override

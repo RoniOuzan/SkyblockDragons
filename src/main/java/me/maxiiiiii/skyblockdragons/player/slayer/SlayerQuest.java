@@ -38,7 +38,7 @@ public class SlayerQuest implements Listener {
 
     public SlayerQuest(PlayerSD player) {
         this.player = player;
-        this.isAutoSlayer = Variables.getBoolean(player.getUniqueId(), "AutoSlayer", false);
+        this.isAutoSlayer = Variables.getBoolean(player.getUniqueId(), "Slayer", "autoslayer", false);
         this.type = null;
         this.tier = 0;
         this.currentXp = -1;
@@ -215,7 +215,7 @@ public class SlayerQuest implements Listener {
     }
 
     public void save() {
-        Variables.set(player.getUniqueId(), "AutoSlayer", this.isAutoSlayer);
+        Variables.set(player.getUniqueId(), "Slayer", "autoslayer", this.isAutoSlayer);
     }
 
     @Override

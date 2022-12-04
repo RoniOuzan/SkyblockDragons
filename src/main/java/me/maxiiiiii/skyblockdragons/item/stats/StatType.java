@@ -48,7 +48,7 @@ public abstract class StatType {
     public ItemStack getItem(double stat) {
         ItemStack item = this.getItemStack();
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(this.toString(stat));
+        meta.setDisplayName(this.toStringLore(stat));
         meta.setLore(Functions.loreBuilder(this.description));
         item.setItemMeta(meta);
         return item;

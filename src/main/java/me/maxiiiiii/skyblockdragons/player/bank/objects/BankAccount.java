@@ -24,8 +24,8 @@ public class BankAccount {
 
     public BankAccount(PlayerSD player, double limit) {
         this.player = player;
-        this.personal = Variables.getDouble(player.getUniqueId(), "BankPersonal", 0, 0d);
-        this.coop = Variables.getDouble(player.getUniqueId(), "BankCoop", 0, 0d);
+        this.personal = Variables.getDouble(player.getUniqueId(), "Bank", "Personal", 0d);
+        this.coop = Variables.getDouble(player.getUniqueId(), "Bank", "Coop", 0d);
 
         this.limit = limit;
     }
@@ -129,7 +129,7 @@ public class BankAccount {
     }
 
     public void save() {
-        Variables.set(player.getUniqueId(), "BankPersonal", 0, this.personal);
-        Variables.set(player.getUniqueId(), "BankCoop", 0, this.coop);
+        Variables.set(player.getUniqueId(), "Bank", "Personal", this.personal);
+        Variables.set(player.getUniqueId(), "Bank", "Coop", this.coop);
     }
 }

@@ -24,8 +24,8 @@ public abstract class Slayer {
 
     protected Slayer(SlayerType type, PlayerSD player) {
         this(type,
-                Variables.getInt(player.getUniqueId(), "Slayer" + type.getName(), 0, 0),
-                Variables.getInt(player.getUniqueId(), "Slayer" + type.getName(), 1, 0)
+                Variables.getInt(player.getUniqueId(), "Slayer", type + ".level", 0),
+                Variables.getInt(player.getUniqueId(), "Slayer", type + ".xp", 0)
         );
     }
 
@@ -38,8 +38,8 @@ public abstract class Slayer {
     }
 
     public void save(PlayerSD player) {
-        Variables.set(player.getUniqueId(), "Slayer" + this.getType().getName(), 0, this.level);
-        Variables.set(player.getUniqueId(), "Slayer" + this.getType().getName(), 1, this.totalXp);
+        Variables.set(player.getUniqueId(), "Slayer", this.type + ".level", this.level);
+        Variables.set(player.getUniqueId(), "Slayer", this.type + ".xp", this.totalXp);
     }
 
     public int getNeedXP() {

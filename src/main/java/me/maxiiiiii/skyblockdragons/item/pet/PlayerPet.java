@@ -24,7 +24,7 @@ public class PlayerPet {
 
     public PlayerPet(PlayerSD player) {
         this.player = player;
-        this.activePetSlot = Variables.getInt(player.getUniqueId(), "ActivePet", 0, -1);
+        this.activePetSlot = Variables.getInt(player.getUniqueId(), "Pets", "Active", -1);
         this.pets = new ArrayList<>();
         for (int i = 0; i < 112; i++) {
             ItemStack itemStack = Variables.getItemStack(player.getUniqueId(), "Pets", i);
@@ -34,7 +34,7 @@ public class PlayerPet {
             this.pets.add(new Item(player, itemStack));
         }
         Collections.sort(this.pets);
-        this.hidePets = Variables.getBoolean(player.getUniqueId(), "HidePets", 0, false);
+        this.hidePets = Variables.getBoolean(player.getUniqueId(), "Pets", "HidePets", false);
         
         this.updateVisual();
     }
@@ -137,11 +137,11 @@ public class PlayerPet {
     }
 
     public void save() {
-        Variables.set(player.getUniqueId(), "ActivePet", 0, this.activePetSlot);
+        Variables.set(player.getUniqueId(), "Pets", "Active", this.activePetSlot);
         Variables.delete(player.getUniqueId(), "Pets");
         for (int i = 0; i < this.pets.size(); i++) {
             Variables.set(player.getUniqueId(), "Pets", i, this.pets.get(i));
         }
-        Variables.set(player.getUniqueId(), "HidePets", 0, hidePets ? 1 : 0);
+        Variables.set(player.getUniqueId(), "Pets", "HidePets", hidePets ? 1 : 0);
     }
 }

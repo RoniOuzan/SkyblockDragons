@@ -30,7 +30,7 @@ public class Wardrobe {
             ));
         }
         this.slots = slots;
-        this.equippedSlot = Variables.getInt(player.getUniqueId(), "WardrobeSlot", 0);
+        this.equippedSlot = Variables.getInt(player.getUniqueId(), "Wardrobe", "EquippedSlot", 0);
     }
 
     public WardrobeSlot getSlot(int slot) {
@@ -47,6 +47,6 @@ public class Wardrobe {
                 Variables.set(player.getUniqueId(), "Wardrobe", numberToItemSlot(i, j) + (i < 9 ? 0 : 36), getSlot(i).getPeace(j));
             }
         }
-        Variables.set(player.getUniqueId(), "WardrobeSlot", equippedSlot);
+        Variables.set(player.getUniqueId(), "Wardrobe", "EquippedSlot", equippedSlot);
     }
 }

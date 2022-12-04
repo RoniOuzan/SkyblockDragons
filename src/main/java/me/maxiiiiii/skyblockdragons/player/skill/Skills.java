@@ -23,15 +23,15 @@ public class Skills implements Iterable<AbstractSkill> {
 
     public Skills(PlayerSD player) {
         this.player = player;
-        this.farmingSkill = new FarmingSkill(player, Variables.getInt(player.getUniqueId(), "SkillFarming", 0, 0), Variables.getDouble(player.getUniqueId(), "SkillFarming", 1, 0d));
-        this.miningSkill = new MiningSkill(player, Variables.getInt(player.getUniqueId(), "SkillMining", 0, 0), Variables.getDouble(player.getUniqueId(), "SkillMining", 1, 0d));
-        this.combatSkill = new CombatSkill(player, Variables.getInt(player.getUniqueId(), "SkillCombat", 0, 0), Variables.getDouble(player.getUniqueId(), "SkillCombat", 1, 0d));
-        this.foragingSkill = new ForagingSkill(player, Variables.getInt(player.getUniqueId(), "SkillForaging", 0, 0), Variables.getDouble(player.getUniqueId(), "SkillForaging", 1, 0d));
-        this.fishingSkill = new FishingSkill(player, Variables.getInt(player.getUniqueId(), "SkillFishing", 0, 0), Variables.getDouble(player.getUniqueId(), "SkillFishing", 1, 0d));
-        this.enchantingSkill = new EnchantingSkill(player, Variables.getInt(player.getUniqueId(), "SkillEnchanting", 0, 0), Variables.getDouble(player.getUniqueId(), "SkillEnchanting", 1, 0d));
-        this.alchemySkill = new AlchemySkill(player, Variables.getInt(player.getUniqueId(), "SkillAlchemy", 0, 0), Variables.getDouble(player.getUniqueId(), "SkillAlchemy", 1, 0d));
-        this.tamingSkill = new TamingSkill(player, Variables.getInt(player.getUniqueId(), "SkillTaming", 0, 0), Variables.getDouble(player.getUniqueId(), "SkillTaming", 1, 0d));
-        this.dungeoneeringSkill = new DungeoneeringSkill(player, Variables.getInt(player.getUniqueId(), "SkillDungeoneering", 0, 0), Variables.getDouble(player.getUniqueId(), "SkillDungeoneering", 1, 0d));
+        this.farmingSkill = new FarmingSkill(player, Variables.getInt(player.getUniqueId(), "Skill", "Farming.level", 0), Variables.getDouble(player.getUniqueId(), "Skill", "Farming.xp", 0d));
+        this.miningSkill = new MiningSkill(player, Variables.getInt(player.getUniqueId(), "Skill", "Mining.level", 0), Variables.getDouble(player.getUniqueId(), "Skill", "Mining.xp", 0d));
+        this.combatSkill = new CombatSkill(player, Variables.getInt(player.getUniqueId(), "Skill", "Combat.level", 0), Variables.getDouble(player.getUniqueId(), "Skill", "Combat.xp", 0d));
+        this.foragingSkill = new ForagingSkill(player, Variables.getInt(player.getUniqueId(), "Skill", "Foraging.level", 0), Variables.getDouble(player.getUniqueId(), "Skill", "Foraging.xp", 0d));
+        this.fishingSkill = new FishingSkill(player, Variables.getInt(player.getUniqueId(), "Skill", "Fishing.level", 0), Variables.getDouble(player.getUniqueId(), "Skill", "Fishing.xp", 0d));
+        this.enchantingSkill = new EnchantingSkill(player, Variables.getInt(player.getUniqueId(), "Skill", "Enchanting.level", 0), Variables.getDouble(player.getUniqueId(), "Skill", "Enchanting.xp", 0d));
+        this.alchemySkill = new AlchemySkill(player, Variables.getInt(player.getUniqueId(), "Skill", "Alchemy.level", 0), Variables.getDouble(player.getUniqueId(), "Skill", "Alchemy.xp", 0d));
+        this.tamingSkill = new TamingSkill(player, Variables.getInt(player.getUniqueId(), "Skill", "Taming.level", 0), Variables.getDouble(player.getUniqueId(), "Skill", "Taming.xp", 0d));
+        this.dungeoneeringSkill = new DungeoneeringSkill(player, Variables.getInt(player.getUniqueId(), "Skill", "Dungeoneering.level", 0), Variables.getDouble(player.getUniqueId(), "Skill", "Dungeoneering.xp", 0d));
     }
 
     public AbstractSkill get(String name) {
