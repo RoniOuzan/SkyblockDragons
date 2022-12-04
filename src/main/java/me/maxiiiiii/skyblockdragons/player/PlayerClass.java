@@ -875,6 +875,14 @@ public class PlayerClass extends EntitySD implements Player {
         return this.player.isValid();
     }
 
+    public void sendClickableMessage(MessageModifier... message) {
+        TextMessage textMessage = new TextMessage();
+        for (MessageModifier modifier : message) {
+            modifier.applyModifiers(textMessage);
+        }
+        textMessage.send(this.player);
+    }
+
     public void sendMessage(String message, Object... args) {
         this.sendMessage(String.format(message, args));
     }
@@ -884,8 +892,9 @@ public class PlayerClass extends EntitySD implements Player {
         this.player.sendMessage(message.replace(".0", ""));
     }
 
-    public void sendMessage(Object message) {
-        this.sendMessage(String.valueOf(message));
+    @Override
+    public void sendMessage(String[] messages) {
+        this.player.sendMessage(messages);
     }
 
     public void sendMessage(Object... messages) {
@@ -902,17 +911,8 @@ public class PlayerClass extends EntitySD implements Player {
         this.sendMessage(message.toString());
     }
 
-    @Override
-    public void sendMessage(String[] messages) {
-        this.player.sendMessage(messages);
-    }
-
-    public void sendMessage(MessageModifier... message) {
-        TextMessage textMessage = new TextMessage();
-        for (MessageModifier modifier : message) {
-            modifier.applyModifiers(textMessage);
-        }
-        textMessage.send(this.player);
+    public void sendMessage(Object message) {
+        this.sendMessage(String.valueOf(message));
     }
 
     public void sendCenteredMessage(String message) {

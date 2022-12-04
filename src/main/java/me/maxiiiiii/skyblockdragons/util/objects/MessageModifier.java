@@ -10,6 +10,7 @@ public class MessageModifier {
     private final String text;
     private final List<Entry<TextMessage.Modifier, String>> modifiers;
 
+    @SafeVarargs
     public MessageModifier(String text, Entry<TextMessage.Modifier, String>... modifiers) {
         this.text = text;
         this.modifiers = Arrays.asList(modifiers);
@@ -33,5 +34,6 @@ public class MessageModifier {
                     break;
             }
         }
+        builder.save();
     }
 }

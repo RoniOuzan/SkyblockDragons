@@ -96,7 +96,7 @@ public class Party implements Iterable<PlayerSD> {
         this.sendLine();
 
         player.sendMessage(LINE);
-        player.sendMessage(new MessageModifier(ChatColor.YELLOW + inverter.getDisplayName() + ChatColor.YELLOW + " invited you to " + this.leader.getDisplayName() + ChatColor.YELLOW + "'s party "), new MessageModifier(ChatColor.YELLOW + "" + ChatColor.BOLD + "CLICK HERE TO JOIN!", new Entry<>(TextMessage.Modifier.MESSAGE, "/party accept " + leader.getName())));
+        player.sendClickableMessage(new MessageModifier(ChatColor.YELLOW + inverter.getDisplayName() + ChatColor.YELLOW + " invited you to " + this.leader.getDisplayName() + ChatColor.YELLOW + "'s party "), new MessageModifier(ChatColor.YELLOW + "" + ChatColor.BOLD + "CLICK HERE TO JOIN!", new Entry<>(TextMessage.Modifier.MESSAGE, "/party accept " + leader.getName())));
         player.sendMessage(LINE);
 
         Functions.Wait(1200L, () -> {

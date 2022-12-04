@@ -6,6 +6,9 @@ import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.objects.Entry;
+import me.maxiiiiii.skyblockdragons.util.objects.MessageModifier;
+import me.maxiiiiii.skyblockdragons.util.objects.TextMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -113,8 +116,7 @@ public class SkyblockDragonsCommand extends CommandSD {
                 }
             } else if (args[0].equalsIgnoreCase("uuid")) {
                 PlayerSD target = args.length > 1 ? SkyblockDragons.getPlayer(args[1]) : player;
-                player.sendMessage(target.getUniqueId());
-                player.sendMessage();
+                player.sendClickableMessage(new MessageModifier(target.getUniqueId().toString(), new Entry<>(TextMessage.Modifier.SUGGEST_MESSAGE, player.getUniqueId().toString())));
             } else if (args[0].equalsIgnoreCase("test")) {
                 player.openSign("hi", "hello", "", "scam", lines -> {});
             }
