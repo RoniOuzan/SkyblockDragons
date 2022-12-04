@@ -70,15 +70,21 @@ public class Stats implements Iterable<Stat> {
         return this;
     }
 
-    public void add(StatType type, double amount) {
+    public void add(StatType type, double amount, StatAdd<?> statAdd) {
         Stat stat = stats.getOrDefault(type, getDefaultStat(type));
-        stat.add(amount);
+        stat.add(amount, statAdd);
         stats.put(type, stat);
     }
 
     public void add(Stats stats) {
         for (Stat stat : stats) {
-            this.add(stat.getType(), stat.get());
+            this.add(stat.getType(), stat.get(), stat.getStatAdders().get(0));
+        }
+    }
+
+    public void add(Stats stats, StatAdd<?> statAdd) {
+        for (Stat stat : stats) {
+            this.add(stat.getType(), stat.get(), statAdd);
         }
     }
 

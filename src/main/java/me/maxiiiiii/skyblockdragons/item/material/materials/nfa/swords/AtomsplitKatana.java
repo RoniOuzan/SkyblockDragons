@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.swords;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
@@ -10,16 +11,14 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityUsage;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown.ItemAbilityCooldown;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.ItemAbilityManaCost;
-import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
-import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
+import me.maxiiiiii.skyblockdragons.item.stats.*;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.event.Listener;
 
 public class AtomsplitKatana extends SwordMaterial {
     public AtomsplitKatana() {
@@ -34,16 +33,7 @@ public class AtomsplitKatana extends SwordMaterial {
         );
     }
 
-    @EventHandler
-    public void updateStats(UpdateStatsEvent e) {
-        if (e.isNotThisItem(this)) return;
-        
-        if (SkyblockDragons.getCurrentTimeInSeconds() - ((Soulcry) this.getAbilities().get(0)).getLastTimeUsed(e.getPlayer()) <= 4) {
-            e.getStats().add(StatTypes.FEROCITY, 400);
-        }
-    }
-
-    public static class Soulcry extends ItemAbility implements ItemAbilityManaCost, ItemAbilityCooldown {
+    public static class Soulcry extends ItemAbility implements ItemAbilityManaCost, ItemAbilityCooldown, Listener {
         public Soulcry() {
             super(AbilityAction.RIGHT_CLICK,
                     "Soulcry",
@@ -80,26 +70,26 @@ public class AtomsplitKatana extends SwordMaterial {
                 player.playSound(player.getLocation(), Sound.ENTITY_GHAST_SCREAM, 1f, 1f);
                 player.getEquipment().getItemInMainHand().setType(Material.GOLD_SWORD);
                 lastTimeUsed = SkyblockDragons.getCurrentTimeInSeconds();
+                Functions.Wait(1, () -> SkyblockDragons.players.get(player.getUniqueId()).applyStats(false));
 
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        SkyblockDragons.players.get(player.getUniqueId()).applyStats(false);
+                Functions.Wait(80, () -> {
+                    for (int i = 0; i < 36; i++) {
+                        try {
+                            if (Functions.getId(player.getInventory().getItem(i)).equals("ATOMSPLIT_KATANA")) {
+                                player.getInventory().getItem(i).setType(Material.DIAMOND_SWORD);
+                            }
+                        } catch (NullPointerException ignored) {}
                     }
-                }.runTaskLater(SkyblockDragons.plugin, 1L);
+                });
+            }
+        }
 
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 0; i < 36; i++) {
-                            try {
-                                if (Functions.getId(player.getInventory().getItem(i)).equals("ATOMSPLIT_KATANA")) {
-                                    player.getInventory().getItem(i).setType(Material.DIAMOND_SWORD);
-                                }
-                            } catch (NullPointerException ignored) {}
-                        }
-                    }
-                }.runTaskLater(SkyblockDragons.plugin, 80L);
+        @EventHandler
+        public void updateStats(UpdateStatsEvent e) {
+            if (e.isNotThisItem(Items.get("ATOMSPLIT_KATANA"))) return;
+
+            if (SkyblockDragons.getCurrentTimeInSeconds() - this.getLastTimeUsed(e.getPlayer()) <= 4) {
+                e.getStats().add(StatTypes.FEROCITY, 400, new StatAdd<>(StatAddType.ITEM_ABILITY, this));
             }
         }
     }

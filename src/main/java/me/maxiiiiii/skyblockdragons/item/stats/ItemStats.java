@@ -77,7 +77,7 @@ public class ItemStats extends Stats {
 
     public void applyMultipliers() {
         for (StatModifier modifier : modifiers) {
-            this.add(modifier.getStat().getType(), modifier.getStat().get());
+            this.add(modifier.getStat().getType(), modifier.getStat().get(), new StatAdd<>(StatAddType.ENCHANT, null));
         }
 
         for (StatType statType : multiplayer.keySet()) {

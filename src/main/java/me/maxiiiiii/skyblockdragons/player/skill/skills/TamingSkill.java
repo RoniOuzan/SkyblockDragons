@@ -2,12 +2,12 @@ package me.maxiiiiii.skyblockdragons.player.skill.skills;
 
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
+import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
-public class TamingSkill extends AbstractSkill {
+public class TamingSkill extends Skill {
     public TamingSkill(PlayerSD player, int level, double totalXp) {
         super(player,
                 "Taming",

@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.player.skill.events;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.events.events.abstracts.playersd.PlayerSDEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
+import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSource;
 import org.bukkit.event.HandlerList;
@@ -25,7 +25,7 @@ public class PlayerGetSkillXpEvent extends PlayerSDEvent {
         this.source = source;
     }
 
-    public AbstractSkill getSkill() {
+    public Skill getSkill() {
         return this.player.getSkills().get(this.skillType);
     }
 

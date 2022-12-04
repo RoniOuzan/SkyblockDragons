@@ -23,6 +23,7 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetCoinsFromEntityEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerGetExperienceEvent;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.objects.Entry;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -34,12 +35,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import static me.maxiiiiii.skyblockdragons.item.enchants.EnchantType.*;
 
 public class EnchantListeners implements Listener {
-    private final Map<PlayerSD, CounterStrike> counterStrikes = new HashMap<>();
+    private final Map<PlayerSD, Entry<CounterStrike, Enchant>> counterStrikes = new HashMap<>();
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void updateDamage(UpdateEntityDamageEntityEvent e) {
@@ -121,13 +123,13 @@ public class EnchantListeners implements Listener {
         PlayerSD victim = (PlayerSD) e.getVictim();
 
         if (e.getDamage() instanceof ExplosionDamage) {
-            enchantArmor(victim, BLAST_PROTECTION, s -> e.getDamage().getVictimStats().add(StatTypes.DEFENSE, s));
+            enchantArmor(victim, BLAST_PROTECTION, (s, en) -> e.getDamage().getVictimStats().add(StatTypes.DEFENSE, s, new StatAdd<>(StatAddType.ENCHANT, en)));
         } else if (e.getDamage() instanceof FireDamage) {
-            enchantArmor(victim, FIRE_PROTECTION, s -> e.getDamage().getVictimStats().add(StatTypes.DEFENSE, s));
+            enchantArmor(victim, FIRE_PROTECTION, (s, en) -> e.getDamage().getVictimStats().add(StatTypes.DEFENSE, s, new StatAdd<>(StatAddType.ENCHANT, en)));
         } else if (e.getDamage() instanceof ProjectileEntityDamageEntity) {
-            enchantArmor(victim, PROJECTILE_PROTECTION, s -> e.getDamage().getVictimStats().add(StatTypes.DEFENSE, s));
+            enchantArmor(victim, PROJECTILE_PROTECTION, (s, en) -> e.getDamage().getVictimStats().add(StatTypes.DEFENSE, s, new StatAdd<>(StatAddType.ENCHANT, en)));
         } else if (e.getDamage() instanceof PreciseFallEntityDamage) {
-            enchantArmor(victim, FEATHER_FALLING, s -> e.getDamage().getMultiplier().addBase(-s));
+            enchantArmor(victim, FEATHER_FALLING, (s, en) -> e.getDamage().getMultiplier().addBase(-s));
         }
     }
 
@@ -141,12 +143,12 @@ public class EnchantListeners implements Listener {
 
         enchant(player, enchants, SYPHON, s -> player.heal(player.getMaxHealth() * s * Math.min(Math.floor(player.getStats().getCritDamage().get() / 100), 10)));
 
-        enchant(player, enchants, MANA_STEAL, s -> player.getStats().add(StatTypes.MANA, player.getStats().getIntelligence().get() * (s / 100)));
+        enchant(player, enchants, MANA_STEAL, (s, en) -> player.getStats().add(StatTypes.MANA, player.getStats().getIntelligence().get() * (s / 100), new StatAdd<>(StatAddType.ENCHANT, en)));
 
-        enchant(player, enchants, COUNTER_STRIKE, s -> {
-            if (!counterStrikes.containsKey(player)) counterStrikes.put(player, new CounterStrike());
-            if (!counterStrikes.get(player).entities.contains(e.getVictim())) {
-                counterStrikes.put(player, counterStrikes.get(player).add(e.getVictim()));
+        enchant(player, enchants, COUNTER_STRIKE, (s, en) -> {
+            if (!counterStrikes.containsKey(player)) counterStrikes.put(player, new Entry<>(new CounterStrike(), en));
+            if (!counterStrikes.get(player).getA().entities.contains(e.getVictim())) {
+                counterStrikes.put(player, new Entry<>(counterStrikes.get(player).getA().add(e.getVictim()), counterStrikes.get(player).getB()));
             }
         });
     }
@@ -156,10 +158,10 @@ public class EnchantListeners implements Listener {
         PlayerSD player = e.getPlayer();
 
         if (counterStrikes.containsKey(player)) {
-            if (SkyblockDragons.getCurrentTimeInSeconds() - counterStrikes.get(player).hitAt <= 7)
+            if (SkyblockDragons.getCurrentTimeInSeconds() - counterStrikes.get(player).getA().hitAt <= 7)
                 counterStrikes.remove(player);
             else
-                e.getStats().add(StatTypes.DEFENSE, 10);
+                e.getStats().add(StatTypes.DEFENSE, 10, new StatAdd<>(StatAddType.ENCHANT, counterStrikes.get(player).getB()));
         }
     }
 
@@ -187,34 +189,24 @@ public class EnchantListeners implements Listener {
         ItemStats stats = e.getStats();
         Map<EnchantType, Short> enchants = stats.getItem().getModifiers().getEnchants();
 
-        enchant(player, enchants, CRITICAL, s -> stats.add(StatTypes.CRIT_DAMAGE, s));
+        enchant(player, enchants, CRITICAL, (s, en) -> stats.add(StatTypes.CRIT_DAMAGE, s, new StatAdd<>(StatAddType.ENCHANT, en)));
+        enchant(player, enchants, VICIOUS, (s, en) -> stats.add(StatTypes.FEROCITY, s, new StatAdd<>(StatAddType.ENCHANT, en)));
+        enchant(player, enchants, BIG_BRAIN, (s, en) -> stats.add(StatTypes.INTELLIGENCE, s, new StatAdd<>(StatAddType.ENCHANT, en)));
+        enchant(player, enchants, TRUE_PROTECTION, (s, en) -> stats.add(StatTypes.TRUE_DEFENSE, s, new StatAdd<>(StatAddType.ENCHANT, en)));
+        enchant(player, enchants, SMARTY_PANTS, (s, en) -> stats.add(StatTypes.INTELLIGENCE, s, new StatAdd<>(StatAddType.ENCHANT, en)));
+        enchant(player, enchants, SUGAR_RUSH, (s, en) -> stats.add(StatTypes.SPEED, s, new StatAdd<>(StatAddType.ENCHANT, en)));
+        enchant(player, enchants, GROWTH, (s, en) -> stats.add(StatTypes.HEALTH, s, new StatAdd<>(StatAddType.ENCHANT, en)));
+        enchant(player, enchants, PROTECTION, (s, en) -> stats.add(StatTypes.DEFENSE, s, new StatAdd<>(StatAddType.ENCHANT, en)));
+        enchant(player, enchants, REJUVENATE, (s, en) -> stats.add(StatTypes.VITALITY, s, new StatAdd<>(StatAddType.ENCHANT, en)));
+        enchant(player, enchants, FORTUNE, (s, en) -> stats.add(StatTypes.MINING_FORTUNE, s, new StatAdd<>(StatAddType.ENCHANT, en)));
+        enchant(player, enchants, EFFICIENCY, (s, en) -> stats.add(StatTypes.MINING_SPEED, s, new StatAdd<>(StatAddType.ENCHANT, en)));
 
-        enchant(player, enchants, VICIOUS, s -> stats.add(StatTypes.FEROCITY, s));
-
-        enchant(player, enchants, BIG_BRAIN, s -> stats.add(StatTypes.INTELLIGENCE, s));
-
-        enchant(player, enchants, TRUE_PROTECTION, s -> stats.add(StatTypes.TRUE_DEFENSE, s));
-
-        enchant(player, enchants, SMARTY_PANTS, s -> stats.add(StatTypes.INTELLIGENCE, s));
-
-        enchant(player, enchants, SUGAR_RUSH, s -> stats.add(StatTypes.SPEED, s));
-
-        enchant(player, enchants, GROWTH, s -> stats.add(StatTypes.HEALTH, s));
-
-        enchant(player, enchants, PROTECTION, s -> stats.add(StatTypes.DEFENSE, s));
-
-        enchant(player, enchants, REJUVENATE, s -> stats.add(StatTypes.VITALITY, s));
-
-        enchant(player, enchants, FORTUNE, s -> stats.add(StatTypes.MINING_FORTUNE, s));
-
-        enchant(player, enchants, EFFICIENCY, s -> stats.add(StatTypes.MINING_SPEED, s));
-
-        enchant(player, enchants, CHIMERA, s -> {
+        enchant(player, enchants, CHIMERA, (s, en) -> {
             if (player.getActivePet() == null) return;
 
             Stats petStats = new Stats(player.getActivePet().getStats().toList());
             petStats.multiply(s);
-            stats.add(petStats);
+            stats.add(petStats, new StatAdd<>(StatAddType.ENCHANT, en));
         });
     }
     
@@ -291,9 +283,16 @@ public class EnchantListeners implements Listener {
             runnable.accept(enchant.getMultipliers().get(enchants.get(enchant)));
     }
 
-    private void enchantArmor(PlayerSD player, EnchantType enchant, Consumer<Double> runnable) {
+    private void enchant(PlayerSD player, Map<EnchantType, Short> enchants, EnchantType enchant, BiConsumer<Double, Enchant> runnable) {
+        if (!enchant.getRequirements().hasRequirements(player)) return;
+
+        if (enchants.getOrDefault(enchant, (short) 0) > 0)
+            runnable.accept(enchant.getMultipliers().get(enchants.get(enchant)), new Enchant(enchant, enchants.getOrDefault(enchant, (short) 0)));
+    }
+
+    private void enchantArmor(PlayerSD player, EnchantType enchant, BiConsumer<Double, Enchant> runnable) {
         for (Item item : player.getItems().getArmor()) {
-            enchant(player, item.getModifiers().getEnchants(), enchant, runnable);
+            enchant(player, item.getModifiers().getEnchants(), enchant, s -> runnable.accept(s, new Enchant(enchant, item.getModifiers().getEnchants().getOrDefault(enchant, (short) 0))));
         }
     }
 

@@ -1,17 +1,19 @@
 package me.maxiiiiii.skyblockdragons.player.skill.skills;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.item.stats.StatAdd;
+import me.maxiiiiii.skyblockdragons.item.stats.StatAddType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
+import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 
 @Getter
-public class MiningSkill extends AbstractSkill {
+public class MiningSkill extends Skill {
     private static final double[] statsAmount = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
 
     public MiningSkill(PlayerSD player, int level, double totalXp) {
@@ -36,6 +38,6 @@ public class MiningSkill extends AbstractSkill {
     public void updateStats(UpdateStatsEvent e) {
         if (e.getPlayer() != this.getPlayer()) return;
 
-        e.getStats().add(StatTypes.MINING_FORTUNE, this.getLevel() * 4);
+        e.getStats().add(StatTypes.MINING_FORTUNE, this.getLevel() * 4, new StatAdd<>(StatAddType.SKILL, this));
     }
 }

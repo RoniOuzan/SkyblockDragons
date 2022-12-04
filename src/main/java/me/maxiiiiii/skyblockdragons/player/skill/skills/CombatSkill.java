@@ -4,14 +4,14 @@ import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
+import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 
 @Getter
-public class CombatSkill extends AbstractSkill {
+public class CombatSkill extends Skill {
     public CombatSkill(PlayerSD player, int level, double totalXp) {
         super(player,
                 "Combat",

@@ -9,7 +9,7 @@ import me.maxiiiiii.skyblockdragons.player.skill.skills.*;
 import java.util.Iterator;
 
 @Getter
-public class Skills implements Iterable<AbstractSkill> {
+public class Skills implements Iterable<Skill> {
     private final PlayerSD player;
     private final FarmingSkill farmingSkill;
     private final MiningSkill miningSkill;
@@ -34,7 +34,7 @@ public class Skills implements Iterable<AbstractSkill> {
         this.dungeoneeringSkill = new DungeoneeringSkill(player, Variables.getInt(player.getUniqueId(), "Skill", "Dungeoneering.level", 0), Variables.getDouble(player.getUniqueId(), "Skill", "Dungeoneering.xp", 0d));
     }
 
-    public AbstractSkill get(String name) {
+    public Skill get(String name) {
         if (name.equalsIgnoreCase("farming")) return this.farmingSkill;
         if (name.equalsIgnoreCase("mining")) return this.miningSkill;
         if (name.equalsIgnoreCase("combat")) return this.combatSkill;
@@ -47,7 +47,7 @@ public class Skills implements Iterable<AbstractSkill> {
         return farmingSkill;
     }
 
-    public AbstractSkill get(SkillType skillType) {
+    public Skill get(SkillType skillType) {
         return this.get(skillType.name());
     }
 
@@ -81,7 +81,7 @@ public class Skills implements Iterable<AbstractSkill> {
         return 9;
     }
 
-    public AbstractSkill get(int index) {
+    public Skill get(int index) {
         switch (index) {
             case 0:
                 return farmingSkill;
@@ -106,11 +106,11 @@ public class Skills implements Iterable<AbstractSkill> {
     }
 
     @Override
-    public Iterator<AbstractSkill> iterator() {
+    public Iterator<Skill> iterator() {
         return new SkillIterator();
     }
 
-    private class SkillIterator implements Iterator<AbstractSkill> {
+    private class SkillIterator implements Iterator<Skill> {
         private int index = 0;
 
         @Override
@@ -119,7 +119,7 @@ public class Skills implements Iterable<AbstractSkill> {
         }
 
         @Override
-        public AbstractSkill next() {
+        public Skill next() {
             return get(index++);
         }
 

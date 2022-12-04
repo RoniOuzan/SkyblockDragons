@@ -1,10 +1,12 @@
 package me.maxiiiiii.skyblockdragons.player.skill.skills;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.item.stats.StatAdd;
+import me.maxiiiiii.skyblockdragons.item.stats.StatAddType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
+import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,7 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 
 @Getter
-public class ForagingSkill extends AbstractSkill {
+public class ForagingSkill extends Skill {
     private static final double[] statsAmount = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
 
     public ForagingSkill(PlayerSD player, int level, double totalXp) {
@@ -37,6 +39,6 @@ public class ForagingSkill extends AbstractSkill {
     public void updateStats(UpdateStatsEvent e) {
         if (e.getPlayer() != this.getPlayer()) return;
 
-        e.getStats().add(StatTypes.FORAGING_FORTUNE, this.getLevel() * 4);
+        e.getStats().add(StatTypes.FORAGING_FORTUNE, this.getLevel() * 4, new StatAdd<>(StatAddType.SKILL, this));
     }
 }

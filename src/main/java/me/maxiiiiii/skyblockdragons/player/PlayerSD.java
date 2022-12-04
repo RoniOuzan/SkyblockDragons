@@ -19,6 +19,8 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.MiningMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
+import me.maxiiiiii.skyblockdragons.item.stats.StatAdd;
+import me.maxiiiiii.skyblockdragons.item.stats.StatAddType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
@@ -29,7 +31,7 @@ import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerRegainHealthEvent;
 import me.maxiiiiii.skyblockdragons.player.objects.ActionBarSupplier;
 import me.maxiiiiii.skyblockdragons.player.party.Party;
-import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
+import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSource;
 import me.maxiiiiii.skyblockdragons.player.skill.Skills;
@@ -329,22 +331,18 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
         this.stats.reset();
 
-        for (AbstractSkill skill : this.getSkills()) {
-            this.stats.add(skill.getRewards().getStat(), skill.getRewards().getStatAmount() * skill.getLevel());
+        for (Skill skill : this.getSkills()) {
+            this.stats.add(skill.getRewards().getStat(), skill.getRewards().getStatAmount() * skill.getLevel(), new StatAdd<>(StatAddType.SKILL, skill));
         }
-        this.stats.add(StatTypes.MINING_FORTUNE, this.getSkills().getMiningSkill().getLevel() * 4);
-        this.stats.add(StatTypes.FARMING_FORTUNE, this.getSkills().getFarmingSkill().getLevel() * 4);
-        this.stats.add(StatTypes.FORAGING_FORTUNE, this.getSkills().getForagingSkill().getLevel() * 4);
 
         for (Item item : equipment) {
             if (item.getMaterial().name().equals("NULL") ||
-                    (item.getMaterial() instanceof ItemRequirementAble &&
-                            !((ItemRequirementAble) item.getMaterial()).getRequirements().hasRequirements(this)))
+                    (item.getMaterial() instanceof ItemRequirementAble && !((ItemRequirementAble) item.getMaterial()).getRequirements().hasRequirements(this)))
                 continue;
 
-            stats.add(item.getStats());
+            stats.add(item.getStats(), new StatAdd<>(StatAddType.ITEM, item));
         }
-        stats.add(equipment.getAccessoryBag().getStats());
+        equipment.getAccessoryBag().applyStats(stats);
 
         UpdateStatsEvent event = new UpdateStatsEvent(stats);
         Bukkit.getPluginManager().callEvent(event);
@@ -355,7 +353,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
             player.setMaximumAir((getEnchantLevel(EnchantType.RESPIRATION) * 200) + 200);
 
         if (ManaRegain && this.stats.getMana().get() < this.stats.getIntelligence().get()) {
-            this.stats.getMana().add(this.stats.getIntelligence().get() / 50);
+            this.stats.getMana().addSilent(this.stats.getIntelligence().get() / 50);
         }
         if (this.stats.getMana().get() > this.stats.getIntelligence().get()) {
             this.stats.getMana().set(this.stats.getIntelligence().get());

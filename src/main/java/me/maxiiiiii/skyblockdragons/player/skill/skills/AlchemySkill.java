@@ -3,13 +3,13 @@ package me.maxiiiiii.skyblockdragons.player.skill.skills;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.player.skill.AbstractSkill;
+import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillRewards;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 @Getter
-public class AlchemySkill extends AbstractSkill {
+public class AlchemySkill extends Skill {
     public AlchemySkill(PlayerSD player, int level, double totalXp) {
         super(player,
                 "Alchemy",

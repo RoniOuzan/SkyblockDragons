@@ -24,7 +24,7 @@ public class SkillMenu extends Menu {
         this.setItem(4, createItem(Material.DIAMOND_SWORD, ChatColor.GREEN + "Your Skills", "YOUR_SKILLS", ChatColor.GRAY + "View your skill progression and", ChatColor.GRAY + "rewards", "", ChatColor.GOLD + "" + player.getSkills().getAverage() + " Skill Average"));
 
         for (int i = 0; i < player.getSkills().size(); i++) {
-            AbstractSkill skill = player.getSkills().get(i);
+            Skill skill = player.getSkills().get(i);
             int slot = i < 7 ? 19 + i : i == 7 ? 30 : 32;
             this.setItem(slot, createItem(skill.getItem(), ChatColor.GREEN + skill.getName() + " " + skill.getLevel(), skill.getName().toUpperCase(), getItemLores(skill)));
         }
@@ -35,7 +35,7 @@ public class SkillMenu extends Menu {
 
     }
 
-    private static ArrayList<String> getItemLores(AbstractSkill skill) {
+    private static ArrayList<String> getItemLores(Skill skill) {
         ArrayList<String> lores = new ArrayList<>(Functions.loreBuilder(skill.getDescription()));
         lores.add("");
         double percent = Math.floor(skill.getCurrentXp() / skill.getCurrentNeedXp() * 1000) / 10d;
