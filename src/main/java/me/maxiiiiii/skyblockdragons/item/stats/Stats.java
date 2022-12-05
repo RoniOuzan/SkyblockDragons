@@ -70,16 +70,30 @@ public class Stats implements Iterable<Stat> {
         return this;
     }
 
-    public void add(StatType type, double amount) {
+    public <T> void add(StatType type, double amount, StatAdderType<T> adderType, T source) {
         Stat stat = stats.getOrDefault(type, getDefaultStat(type));
-        stat.add(amount);
+        stat.add(amount, adderType, source);
         stats.put(type, stat);
+    }
+
+    public <T> void add(Stats stats, StatAdderType<T> adderType, T source) {
+        for (Stat stat : stats) {
+            this.add(stat.getType(), stat.get(), adderType, source);
+        }
     }
 
     public void add(Stats stats) {
         for (Stat stat : stats) {
-            this.add(stat.getType(), stat.get());
+            for (StatAdder<?> adder : stat.getStatAdders()) {
+                this.add(stat.getType(), adder.getAmount());
+            }
         }
+    }
+
+    public void add(StatType type, double amount) {
+        Stat stat = stats.getOrDefault(type, getDefaultStat(type));
+        stat.addSilent(amount);
+        stats.put(type, stat);
     }
 
     public void remove(StatType type, double amount) {
@@ -117,6 +131,7 @@ public class Stats implements Iterable<Stat> {
             if (stat.getType() instanceof ManaStat) continue;
 
             stat.set(getDefaultValue(stat.getType()));
+            stat.getStatAdders().clear();
         }
     }
 

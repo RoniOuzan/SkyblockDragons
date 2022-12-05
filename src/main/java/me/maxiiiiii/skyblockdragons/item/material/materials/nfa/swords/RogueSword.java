@@ -8,6 +8,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.ItemAbilityManaCost;
+import me.maxiiiiii.skyblockdragons.item.stats.StatAdderType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
@@ -38,7 +39,7 @@ public class RogueSword extends SwordMaterial {
         if (e.isNotThisItem(this)) return;
         
         if (System.currentTimeMillis() - SpeedBoost.rogueSwordLastTimeUsed.getOrDefault(e.getPlayer(), 0L) <= 30000) {
-            e.getStats().getSpeed().add((SpeedBoost.rogueSwordAmountUsed.get(e.getPlayer()) + 1) * 10);
+            e.getStats().add(StatTypes.SPEED, (SpeedBoost.rogueSwordAmountUsed.get(e.getPlayer()) + 1) * 10, StatAdderType.ITEM_ABILITY, this.getAbilities().get(0));
         }
     }
 

@@ -7,6 +7,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown.ItemAbilityNoMessageCooldown;
+import me.maxiiiiii.skyblockdragons.item.stats.StatAdderType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
@@ -33,7 +34,7 @@ public class Terminator extends ShortBowMaterial {
     public void updateStats(UpdateStatsEvent e) {
         if (e.isNotThisItem(this)) return;
         
-        e.getStats().addMultiplier(StatTypes.CRIT_CHANCE, -75, 0);
+        e.getStats().addBaseMultiplier(StatTypes.CRIT_CHANCE, -75, StatAdderType.ITEM, e.getPlayer().getItems().getTool());
     }
 
     private static class Salvation extends ItemAbility implements ItemAbilityNoMessageCooldown {

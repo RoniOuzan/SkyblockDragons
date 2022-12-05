@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.player.accessorybag;
 
 import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.stats.StatAdderType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatType;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -55,9 +56,9 @@ public class AccessoryBag implements Iterable<Item> {
 
     public Stats getStats() {
         Stats stats = this.getPowerStone().getStats(player);
-        stats.add(this.getPowerStone().getUniqueStats());
+        stats.add(this.getPowerStone().getUniqueStats(), StatAdderType.POWER_STONE, this.getPowerStone());
         for (Map.Entry<StatType, Integer> entry : this.getTuning().entrySet()) {
-            stats.add(entry.getKey(), entry.getValue() * PowerStoneMenu.AMOUNT_PER_POINT.get(entry.getKey()));
+            stats.add(entry.getKey(), entry.getValue() * PowerStoneMenu.AMOUNT_PER_POINT.get(entry.getKey()), StatAdderType.TUNING_POINTS, null);
         }
         return stats;
     }

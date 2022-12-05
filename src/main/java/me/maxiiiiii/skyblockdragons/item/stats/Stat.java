@@ -5,13 +5,18 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Stat {
     private final StatType type;
     private double amount;
+    private final List<StatAdder<?>> statAdders;
 
     public Stat(StatType type, double amount) {
         this.type = type;
         this.amount = amount;
+        this.statAdders = new ArrayList<>();
     }
 
     public Stat(double amount, StatType type) {
@@ -38,7 +43,14 @@ public class Stat {
         this.amount = amount;
     }
 
-    public void add(double amount) {
+    public <T> void add(double amount, StatAdderType<T> adderType, T source) {
+        if (amount == 0) return;
+
+        this.amount += amount;
+        this.statAdders.add(new StatAdder<>(amount, adderType, source));
+    }
+
+    public void addSilent(double amount) {
         this.amount += amount;
     }
 
@@ -76,6 +88,10 @@ public class Stat {
 
     public String toAddLore() {
         return this.type.toAddLore(this.amount);
+    }
+
+    public List<StatAdder<?>> getStatAdders() {
+        return statAdders;
     }
 
     @Override

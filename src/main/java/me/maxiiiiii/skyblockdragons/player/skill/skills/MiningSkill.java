@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.player.skill.skills;
 
 import lombok.Getter;
+import me.maxiiiiii.skyblockdragons.item.stats.StatAdderType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -36,6 +37,6 @@ public class MiningSkill extends Skill {
     public void updateStats(UpdateStatsEvent e) {
         if (e.getPlayer() != this.getPlayer()) return;
 
-        e.getStats().add(StatTypes.MINING_FORTUNE, this.getLevel() * 4);
+        e.getStats().add(StatTypes.MINING_FORTUNE, this.getLevel() * 4, StatAdderType.SKILL, null);
     }
 }

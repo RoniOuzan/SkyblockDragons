@@ -17,10 +17,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
-import me.maxiiiiii.skyblockdragons.item.stats.ItemStats;
-import me.maxiiiiii.skyblockdragons.item.stats.Stat;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
-import me.maxiiiiii.skyblockdragons.item.stats.UpdateItemStatsEvent;
+import me.maxiiiiii.skyblockdragons.item.stats.*;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -337,7 +334,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
         stats.stream().filter(s -> !s.isEmpty()).forEach(s ->
                 lores.add(ChatColor.GRAY + s.getType().toString() + ": " + ChatColor.GREEN + Functions.getNumSymbol(s) + stats.getLoreModifiers(s.getType()))
         );
-        this.stats.add(stats);
+        this.stats.add(stats, StatAdderType.BASE, "");
 
         material.getAbilities().stream().filter(p -> p.getRarity() == rarity).map(PetRarity::getAbility).forEach(abilities -> {
             for (PetAbility ability : abilities) {
@@ -398,7 +395,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
         stats.stream().filter(s -> !s.isEmpty()).forEach(s ->
                 lores.add(ChatColor.GRAY + s.getType().toString() + ": " + ChatColor.GREEN + Functions.getNumSymbol(s) + stats.getLoreModifiers(s.getType()))
         );
-        this.stats.add(stats);
+        this.stats.add(stats, StatAdderType.BASE, "");
 
         StringBuilder crystalLore = new StringBuilder();
         Crystals crystals = this.modifiers.getCrystals();

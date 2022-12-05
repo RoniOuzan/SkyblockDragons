@@ -6,6 +6,8 @@ import me.maxiiiiii.skyblockdragons.inventory.PageMenu;
 import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.stats.Stat;
+import me.maxiiiiii.skyblockdragons.item.stats.StatType;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
@@ -81,7 +83,7 @@ public class ProfileMenu extends Menu {
                     "Your Stats Breakdown",
                     6,
                     InventoryGlassType.ALL,
-                    type.stats.apply(ProfileMenu.this.target).stream().map(Stat::getItem).collect(Collectors.toList()),
+                    type.stats.apply(ProfileMenu.this.target).stream().map(s -> addNBT(s.getItem(), "STAT_" + s.getType().name())).collect(Collectors.toList()),
                     true
             );
             this.type = type;
@@ -96,7 +98,26 @@ public class ProfileMenu extends Menu {
 
         @Override
         public void onInventoryClick(InventoryClickEvent e) {
-            // TODO
+            String nbt = this.getNBT(e.getCurrentItem());
+            if (nbt.contains("STAT_")) {
+                new StatAddersViewer(StatTypes.get(nbt.replace("STAT_", "")));
+            }
+        }
+
+        private class StatAddersViewer extends PageMenu {
+            public StatAddersViewer(StatType statType) {
+                super(ProfileMenu.this.player,
+                        "Your " + statType.getName() + " Breakdown",
+                        6,
+                        InventoryGlassType.ALL,
+                        ProfileMenu.this.player.getStats().get(statType).getStatAdders().stream().sorted().map(s -> s.getItem(statType)).collect(Collectors.toList()),
+                        true
+                );
+            }
+
+            @Override
+            public void onInventoryClick(InventoryClickEvent e) {
+            }
         }
     }
 

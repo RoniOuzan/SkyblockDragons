@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.item.modifiers;
 
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.enchants.Enchant;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.enchants.UltimateEnchantType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -16,6 +17,10 @@ public class EnchantModifier extends ItemModifier {
     public EnchantModifier(Map<EnchantType, Short> enchants) {
         super(EnchantModifier.class);
         this.enchants = enchants;
+    }
+
+    public EnchantModifier(Enchant... enchants) {
+        this(build(enchants));
     }
 
     public EnchantModifier() {
@@ -49,5 +54,13 @@ public class EnchantModifier extends ItemModifier {
 
     public static EnchantModifier getModifier(ItemStack item) {
         return Functions.getEnchants(item);
+    }
+
+    private static Map<EnchantType, Short> build(Enchant... enchants) {
+        Map<EnchantType, Short> map = new HashMap<>();
+        for (Enchant enchant : enchants) {
+            map.put(enchant.getEnchant(), (short) enchant.getLevel());
+        }
+        return map;
     }
 }

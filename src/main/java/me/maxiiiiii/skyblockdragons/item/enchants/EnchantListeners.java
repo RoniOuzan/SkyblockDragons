@@ -121,11 +121,11 @@ public class EnchantListeners implements Listener {
         PlayerSD victim = (PlayerSD) e.getVictim();
 
         if (e.getDamage() instanceof ExplosionDamage) {
-            enchantArmor(victim, BLAST_PROTECTION, s -> e.getDamage().getVictimStats().add(StatTypes.DEFENSE, s));
+            enchantArmor(victim, BLAST_PROTECTION, s -> e.getDamage().getVictimStats().add(StatTypes.DEFENSE, s, StatAdderType.ENCHANT, BLAST_PROTECTION));
         } else if (e.getDamage() instanceof FireDamage) {
-            enchantArmor(victim, FIRE_PROTECTION, s -> e.getDamage().getVictimStats().add(StatTypes.DEFENSE, s));
+            enchantArmor(victim, FIRE_PROTECTION, s -> e.getDamage().getVictimStats().add(StatTypes.DEFENSE, s, StatAdderType.ENCHANT, FIRE_PROTECTION));
         } else if (e.getDamage() instanceof ProjectileEntityDamageEntity) {
-            enchantArmor(victim, PROJECTILE_PROTECTION, s -> e.getDamage().getVictimStats().add(StatTypes.DEFENSE, s));
+            enchantArmor(victim, PROJECTILE_PROTECTION, s -> e.getDamage().getVictimStats().add(StatTypes.DEFENSE, s, StatAdderType.ENCHANT, PROJECTILE_PROTECTION));
         } else if (e.getDamage() instanceof PreciseFallEntityDamage) {
             enchantArmor(victim, FEATHER_FALLING, s -> e.getDamage().getMultiplier().addBase(-s));
         }
@@ -141,7 +141,7 @@ public class EnchantListeners implements Listener {
 
         enchant(player, enchants, SYPHON, s -> player.heal(player.getMaxHealth() * s * Math.min(Math.floor(player.getStats().getCritDamage().get() / 100), 10)));
 
-        enchant(player, enchants, MANA_STEAL, s -> player.getStats().add(StatTypes.MANA, player.getStats().getIntelligence().get() * (s / 100)));
+        enchant(player, enchants, MANA_STEAL, s -> player.getStats().getMana().addSilent(player.getStats().getIntelligence().get() * (s / 100)));
 
         enchant(player, enchants, COUNTER_STRIKE, s -> {
             if (!counterStrikes.containsKey(player)) counterStrikes.put(player, new CounterStrike());
@@ -159,7 +159,7 @@ public class EnchantListeners implements Listener {
             if (SkyblockDragons.getCurrentTimeInSeconds() - counterStrikes.get(player).hitAt <= 7)
                 counterStrikes.remove(player);
             else
-                e.getStats().add(StatTypes.DEFENSE, 10);
+                e.getStats().add(StatTypes.DEFENSE, 10, StatAdderType.ENCHANT, COUNTER_STRIKE);
         }
     }
 
@@ -187,34 +187,34 @@ public class EnchantListeners implements Listener {
         ItemStats stats = e.getStats();
         Map<EnchantType, Short> enchants = stats.getItem().getModifiers().getEnchants();
 
-        enchant(player, enchants, CRITICAL, s -> stats.add(StatTypes.CRIT_DAMAGE, s));
+        enchant(player, enchants, CRITICAL, s -> stats.addModifier(new StatModifier(StatModifierType.ENCHANT, "Critical", new Stat(StatTypes.CRIT_DAMAGE, s))));
 
-        enchant(player, enchants, VICIOUS, s -> stats.add(StatTypes.FEROCITY, s));
+        enchant(player, enchants, VICIOUS, s -> stats.addModifier(new StatModifier(StatModifierType.ENCHANT, "Vicious", new Stat(StatTypes.FEROCITY, s))));
 
-        enchant(player, enchants, BIG_BRAIN, s -> stats.add(StatTypes.INTELLIGENCE, s));
+        enchant(player, enchants, BIG_BRAIN, s -> stats.addModifier(new StatModifier(StatModifierType.ENCHANT, "Big Brain", new Stat(StatTypes.INTELLIGENCE, s))));
 
-        enchant(player, enchants, TRUE_PROTECTION, s -> stats.add(StatTypes.TRUE_DEFENSE, s));
+        enchant(player, enchants, TRUE_PROTECTION, s -> stats.addModifier(new StatModifier(StatModifierType.ENCHANT, "True Protection", new Stat(StatTypes.TRUE_DEFENSE, s))));
 
-        enchant(player, enchants, SMARTY_PANTS, s -> stats.add(StatTypes.INTELLIGENCE, s));
+        enchant(player, enchants, SMARTY_PANTS, s -> stats.addModifier(new StatModifier(StatModifierType.ENCHANT, "Smarty Pants", new Stat(StatTypes.INTELLIGENCE, s))));
 
-        enchant(player, enchants, SUGAR_RUSH, s -> stats.add(StatTypes.SPEED, s));
+        enchant(player, enchants, SUGAR_RUSH, s -> stats.addModifier(new StatModifier(StatModifierType.ENCHANT, "Sugar Rush", new Stat(StatTypes.SPEED, s))));
 
-        enchant(player, enchants, GROWTH, s -> stats.add(StatTypes.HEALTH, s));
+        enchant(player, enchants, GROWTH, s -> stats.addModifier(new StatModifier(StatModifierType.ENCHANT, "Growth", new Stat(StatTypes.HEALTH, s))));
 
-        enchant(player, enchants, PROTECTION, s -> stats.add(StatTypes.DEFENSE, s));
+        enchant(player, enchants, PROTECTION, s -> stats.addModifier(new StatModifier(StatModifierType.ENCHANT, "Protection", new Stat(StatTypes.DEFENSE, s))));
 
-        enchant(player, enchants, REJUVENATE, s -> stats.add(StatTypes.VITALITY, s));
+        enchant(player, enchants, REJUVENATE, s -> stats.addModifier(new StatModifier(StatModifierType.ENCHANT, "Rejuvenate", new Stat(StatTypes.VITALITY, s))));
 
-        enchant(player, enchants, FORTUNE, s -> stats.add(StatTypes.MINING_FORTUNE, s));
+        enchant(player, enchants, FORTUNE, s -> stats.addModifier(new StatModifier(StatModifierType.ENCHANT, "Fortune", new Stat(StatTypes.MINING_FORTUNE, s))));
 
-        enchant(player, enchants, EFFICIENCY, s -> stats.add(StatTypes.MINING_SPEED, s));
+        enchant(player, enchants, EFFICIENCY, s -> stats.addModifier(new StatModifier(StatModifierType.ENCHANT, "Efficiency", new Stat(StatTypes.MINING_SPEED, s))));
 
         enchant(player, enchants, CHIMERA, s -> {
             if (player.getActivePet() == null) return;
 
             Stats petStats = new Stats(player.getActivePet().getStats().toList());
             petStats.multiply(s);
-            stats.add(petStats);
+            stats.add(petStats, StatAdderType.ITEM, player.getActivePet());
         });
     }
     

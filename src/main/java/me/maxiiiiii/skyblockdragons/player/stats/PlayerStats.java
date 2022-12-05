@@ -2,14 +2,14 @@ package me.maxiiiiii.skyblockdragons.player.stats;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.item.stats.Stat;
-import me.maxiiiiii.skyblockdragons.item.stats.StatType;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
+import me.maxiiiiii.skyblockdragons.item.stats.*;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.Entry;
 import me.maxiiiiii.skyblockdragons.util.objects.Multiplier;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -18,12 +18,14 @@ public class PlayerStats extends Stats {
     private final Map<StatType, Multiplier> multiplayer;
     private final PlayerSD player;
     private final PlayerBaseStats baseStats;
+    private final Map<StatType, List<StatAdder<?>>> multiplierAdders;
 
     public PlayerStats(PlayerSD player) {
         super();
         this.player = player;
         this.baseStats = new PlayerBaseStats(player);
         this.multiplayer = new HashMap<>();
+        this.multiplierAdders = new HashMap<>();
     }
 
     @Override
@@ -35,52 +37,36 @@ public class PlayerStats extends Stats {
     public void reset() {
         super.reset();
         multiplayer.clear();
+        multiplierAdders.clear();
     }
 
-    public void addMultiplier(StatType statType, double base, double post) {
+    public <T> void addPostMultiplier(StatType statType, double post, StatAdderType<T> adderType, T source) {
         Multiplier multiplier = multiplayer.getOrDefault(statType, new Multiplier());
-        multiplier.addBase(base);
         multiplier.addPost(post);
         this.multiplayer.put(statType, multiplier);
+
+        List<StatAdder<?>> adders = this.multiplierAdders.getOrDefault(statType, new ArrayList<>());
+        adders.add(new StatAdder<>(post, adderType, source, true));
+        this.multiplierAdders.put(statType, adders);
     }
 
-    public void addMultiplier(StatType statType, double base) {
-        this.addMultiplier(statType, base, 0);
-    }
+    public <T> void addBaseMultiplier(StatType statType, double base, StatAdderType<T> adderType, T source) {
+        Multiplier multiplier = multiplayer.getOrDefault(statType, new Multiplier());
+        multiplier.addBase(base);
+        this.multiplayer.put(statType, multiplier);
 
-    public void addAllStatsMultipliers(double base, double post) {
-        for (Stat stat : this) {
-            this.addMultiplier(stat.getType(), base, post);
-        }
-    }
-
-    public void addCombatMultipliers(double base, double post) {
-        for (Stat stat : this.toCombatList()) {
-            this.addMultiplier(stat.getType(), base, post);
-        }
-    }
-
-    public void addGatheringMultipliers(double base, double post) {
-        for (Stat stat : this.toGatheringList()) {
-            this.addMultiplier(stat.getType(), base, post);
-        }
-    }
-
-    public void addMiscMultipliers(double base, double post) {
-        for (Stat stat : this.toMiscList()) {
-            this.addMultiplier(stat.getType(), base, post);
-        }
-    }
-
-    public void addWisdomMultipliers(double base, double post) {
-        for (Stat stat : this.toWisdomList()) {
-            this.addMultiplier(stat.getType(), base, post);
-        }
+        List<StatAdder<?>> adders = this.multiplierAdders.getOrDefault(statType, new ArrayList<>());
+        adders.add(new StatAdder<>(base, adderType, source, true));
+        this.multiplierAdders.put(statType, adders);
     }
 
     public void update() {
         for (StatType statType : multiplayer.keySet()) {
             this.get(statType).set(multiplayer.get(statType).multiply(this.get(statType).get()));
+
+            for (StatAdder<?> adder : multiplierAdders.get(statType)) {
+                this.get(statType).getStatAdders().add(adder);
+            }
         }
 
         for (Entry<StatType, Double> entry : baseStats) {

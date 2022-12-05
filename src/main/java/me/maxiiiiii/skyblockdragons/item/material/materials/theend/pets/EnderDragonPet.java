@@ -6,14 +6,9 @@ import me.maxiiiiii.skyblockdragons.item.material.materials.theend.swords.Aspect
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.stats.StatType;
-import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetAbility;
 import me.maxiiiiii.skyblockdragons.item.pet.material.PetRarity;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
-import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
-import me.maxiiiiii.skyblockdragons.item.stats.UpdateItemStatsEvent;
-import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
+import me.maxiiiiii.skyblockdragons.item.stats.*;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -102,7 +97,9 @@ public class EnderDragonPet extends PetMaterial {
         public void updateStats(UpdateStatsEvent e) {
             if (!(e.getPlayer().getActivePetMaterial() instanceof EnderDragonPet)) return;
 
-            e.getStats().addAllStatsMultipliers(MULTIPLIER * e.getPlayer().getActivePet().getModifiers().getPet().getLevel(), 0);
+            for (StatType statTypes : StatTypes.STATS) {
+                e.getStats().addBaseMultiplier(statTypes, MULTIPLIER * e.getPlayer().getActivePet().getModifiers().getPet().getLevel(), StatAdderType.ITEM_ABILITY, this);
+            }
         }
     }
 }

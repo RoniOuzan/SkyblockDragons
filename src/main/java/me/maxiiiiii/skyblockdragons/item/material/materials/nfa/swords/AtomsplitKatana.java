@@ -10,6 +10,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityUsage;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.cooldown.ItemAbilityCooldown;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.ItemAbilityManaCost;
+import me.maxiiiiii.skyblockdragons.item.stats.StatAdderType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
@@ -39,7 +40,7 @@ public class AtomsplitKatana extends SwordMaterial {
         if (e.isNotThisItem(this)) return;
         
         if (SkyblockDragons.getCurrentTimeInSeconds() - ((Soulcry) this.getAbilities().get(0)).getLastTimeUsed(e.getPlayer()) <= 4) {
-            e.getStats().add(StatTypes.FEROCITY, 400);
+            e.getStats().add(StatTypes.FEROCITY, 400, StatAdderType.ITEM_ABILITY, this.getAbilities().get(0));
         }
     }
 

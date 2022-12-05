@@ -1,9 +1,9 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.theend.dragonarmors.young;
 
-import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
-import me.maxiiiiii.skyblockdragons.item.stats.StatType;
-import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemFullSetBonus;
+import me.maxiiiiii.skyblockdragons.item.stats.StatAdderType;
+import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
+import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,7 +20,7 @@ public class YoungDragonFullSet extends ItemFullSetBonus {
         if (!(e.getPlayer().getItems().getFullSet() instanceof YoungDragonFullSet)) return;
 
         if (e.getPlayer().getHealth() >= e.getStats().getHealth().get() / 2) {
-            e.getStats().getSpeed().add(70);
+            e.getStats().add(StatTypes.SPEED, 70, StatAdderType.FULL_SET_BONUS, this);
         }
     }
 }

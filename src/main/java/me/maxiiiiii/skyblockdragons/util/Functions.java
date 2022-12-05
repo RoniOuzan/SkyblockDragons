@@ -679,7 +679,11 @@ public class Functions {
     }
 
     public static String getNumSymbol(Stat stat) {
-        return (stat.get() < 0 ? "-" : "+") + Math.abs(stat.get()) + (stat.getType() instanceof PercentageStat ? "%" : "");
+        return getNumSymbolNonPercentage(stat) + (stat.getType() instanceof PercentageStat ? "%" : "");
+    }
+
+    public static String getNumSymbolNonPercentage(Stat stat) {
+        return (stat.get() < 0 ? "-" : "+") + (Math.abs(stat.get()) + "").replace(".0", "");
     }
 
 //    public static EnchantType getEnchant(String name) {
@@ -835,6 +839,23 @@ public class Functions {
             return skin instanceof SkinMaterial ? (SkinMaterial) skin : SkinMaterial.NULL;
         } catch (NullPointerException ignored) {}
         return SkinMaterial.NULL;
+    }
+
+    public static ItemStack createItem(ItemStack itemStack, int amount, String name, List<String> lores) {
+        ItemStack item = itemStack.clone();
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(name);
+        meta.setLore(lores);
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    public static ItemStack createItem(ItemStack itemStack, int amount, String name, String... lores) {
+        return createItem(itemStack, amount, name, Arrays.asList(lores));
+    }
+
+    public static ItemStack createItem(ItemStack itemStack, String name, String... lores) {
+        return createItem(itemStack, itemStack.getAmount(), name, lores);
     }
 
     public static ItemStack createItem(Material material, int amount, int data, String name, List<String> lores) {
