@@ -154,7 +154,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
                     String description = ChatColor.GRAY + "Teleports " + ChatColor.GREEN + "10 blocks " + ChatColor.GRAY + "ahead of you. Then implode dealing " + ChatColor.RED + "10,000 " + ChatColor.GRAY + "damage to nearby enemies. Also applies the " + ChatColor.YELLOW + "wither shield " + ChatColor.GRAY + "scroll ability reducing damage taken and granting an " + ChatColor.GOLD + "❤ Absorption " + ChatColor.GRAY + "shield for " + ChatColor.YELLOW + "5 " + ChatColor.GRAY + "seconds.";
                     lores.addAll(Functions.loreBuilder(description));
 
-                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + Functions.manaCostCalculator(300, player, modifiers));
+                    lores.add(ChatColor.DARK_GRAY + "Mana Cost: " + ChatColor.DARK_AQUA + "300");
                 } else if (modifiers.getNecronBladeScrolls().size() > 0) {
                     for (NecronBladeMaterial.NecronBladeAbility ability : modifiers.getNecronBladeScrolls()) {
                         applyNecronAbility(lores, ability);

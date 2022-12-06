@@ -17,7 +17,10 @@ import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.*;
-import me.maxiiiiii.skyblockdragons.item.modifiers.*;
+import me.maxiiiiii.skyblockdragons.item.modifiers.EnchantModifier;
+import me.maxiiiiii.skyblockdragons.item.modifiers.HotPotatoModifier;
+import me.maxiiiiii.skyblockdragons.item.modifiers.NecronBladeScrollsModifier;
+import me.maxiiiiii.skyblockdragons.item.modifiers.RecombabulatorModifier;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.item.stats.interfaces.PercentageStat;
@@ -47,7 +50,6 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -125,7 +127,7 @@ public class Functions {
         return output.replace(".0", "");
     }
 
-    public static <T> String getNumberFormat(Number num) {
+    public static String getNumberFormat(Number num) {
         return NumberFormat.getNumberInstance(Locale.US).format(num);
     }
 
@@ -347,7 +349,7 @@ public class Functions {
         Material t = b.getType();
         if (t == Material.AIR || t == Material.TORCH || t == Material.LONG_GRASS || t == Material.FENCE || t == Material.SKULL || t == Material.SIGN || t == Material.SIGN_POST || t == Material.WALL_SIGN || t == Material.STONE_BUTTON || t == Material.WOOD_BUTTON || t == Material.IRON_FENCE || t == Material.VINE || t == Material.LADDER || t == Material.DEAD_BUSH || t == Material.THIN_GLASS || t == Material.STAINED_GLASS_PANE || t == Material.CARPET || t == Material.WATER || t == Material.WATER_LILY || t == Material.STATIONARY_WATER || t == Material.LAVA || t == Material.STATIONARY_LAVA || t == Material.WEB || t == Material.GOLD_PLATE || t == Material.IRON_PLATE || t == Material.STONE_PLATE || t == Material.WOOD_PLATE || t == Material.TRIPWIRE || t == Material.STRING || t == Material.TRIPWIRE_HOOK || t == Material.DARK_OAK_DOOR || t == Material.ACACIA_DOOR || t == Material.BIRCH_DOOR || t == Material.IRON_DOOR || t == Material.JUNGLE_DOOR || t == Material.SPRUCE_DOOR || t == Material.TRAP_DOOR || t == Material.WOOD_DOOR || t == Material.WOODEN_DOOR || t == Material.IRON_TRAPDOOR || t == Material.SNOW) {
             return false;
-        } else if (t.isSolid()) {
+        } else if (t.isSolid() || t.isOccluding()) {
             return true;
         }
         return true;
@@ -672,10 +674,6 @@ public class Functions {
             return -1;
 
         return slot - 10 - (((slot / 9) - 1) * 2) + (28 * (page - 1));
-    }
-
-    public interface SignRunnable {
-        void run(ArrayList<String> lines);
     }
 
     public static String getNumSymbol(Stat stat) {
@@ -1144,7 +1142,7 @@ public class Functions {
         Location l = player.getLocation().clone();
         for (int i = 0; i <= blocks; i++) {
             l.add(player.getLocation().getDirection().multiply(1)).getBlock();
-            if (!isSolid(l.getBlock()) && !isSolid(l.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()))) {
+            if (!l.getBlock().getType().isOccluding() && !l.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()).getType().isOccluding()) {
                 tp++;
             } else {
                 player.sendMessage(ChatColor.RED + "There is a block there!");
@@ -1157,28 +1155,7 @@ public class Functions {
         }
     }
 
-    public static int manaCostCalculator(int manaCost, PlayerSD player) {
-        ItemModifiers modifiers = ItemModifiers.getModifiers(player.getEquipment().getItemInMainHand());
-        return manaCostCalculator(manaCost, player, modifiers);
-    }
-
-    public static int manaCostCalculator(int manaCost, PlayerSD player, ItemModifiers modifiers) {
-        int finalCost = manaCost;
-//        for (EnchantType enchantType : modifiers.getEnchants().keySet()) {
-//            if (enchantType == EnchantType.ULTIMATE_WISE) {
-//                finalCost *= 1 - (0.1 * modifiers.getEnchants().get(enchantType));
-//            }
-//        }
-//        if (player != null) {
-//            if (player.getItems().getFullSet() instanceof WiseDragonFullSet) {
-//                finalCost *= 0.6;
-//            }
-//        }
-        return finalCost;
-    }
-
     public static String integerToRoman(int num) {
-
         if (num == 0) return "0";
 
         int[] values = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
@@ -1211,26 +1188,6 @@ public class Functions {
                 output = Integer.parseInt(value);
                 return output;
             } catch (NumberFormatException ignored) {}
-        } catch (NullPointerException ignored) {}
-        return defaultValue;
-    }
-
-    public static double getDoubleOrDefault(String value, double defaultValue) {
-        double output;
-        try {
-            try {
-                output = Double.parseDouble(value);
-                return output;
-            } catch (NumberFormatException ignored) {}
-        } catch (NullPointerException ignored) {}
-        return defaultValue;
-    }
-
-    public static <T> T getNotNull(T value, T defaultValue) {
-        T output;
-        try {
-            output = value;
-            return output;
         } catch (NullPointerException ignored) {}
         return defaultValue;
     }
@@ -1342,17 +1299,17 @@ public class Functions {
         });
     }
 
-    public static Vector rotateAroundAxisX(Vector v, double angle) {
+    public static void rotateAroundAxisX(Vector v, double angle) {
         angle = Math.toRadians(angle);
         double y, z, cos, sin;
         cos = Math.cos(angle);
         sin = Math.sin(angle);
         y = v.getY() * cos - v.getZ() * sin;
         z = v.getY() * sin + v.getZ() * cos;
-        return v.setY(y).setZ(z);
+        v.setY(y).setZ(z);
     }
 
-    public static Vector rotateAroundAxisX1(Vector v, double angle) {
+    public static void rotateAroundAxisX1(Vector v, double angle) {
         angle = Math.toRadians(angle);
         double y, z, cos, sin;
         cos = Math.cos(angle);
@@ -1362,10 +1319,10 @@ public class Functions {
 
         y = y * 0.5;
 
-        return v.setY(y).setZ(z);
+        v.setY(y).setZ(z);
     }
 
-    public static Vector rotateAroundAxisY(Vector v, double angle) {
+    public static void rotateAroundAxisY(Vector v, double angle) {
         angle = -angle;
         angle = Math.toRadians(angle);
         double x, z, cos, sin;
@@ -1373,7 +1330,7 @@ public class Functions {
         sin = Math.sin(angle);
         x = v.getX() * cos + v.getZ() * sin;
         z = v.getX() * -sin + v.getZ() * cos;
-        return v.setX(x).setZ(z);
+        v.setX(x).setZ(z);
     }
 
     public static void playCircle(Player player, Particle particle, double radius, long delay) {
@@ -1474,15 +1431,6 @@ public class Functions {
         return players;
     }
 
-    public static ArrayList<Player> getPlayerShowedPets(Location location, double distance) {
-        ArrayList<Player> players = new ArrayList<>();
-        for (PlayerSD player : SkyblockDragons.players.values()) {
-            if (!player.getPlayerPet().isHidePets() && player.getLocation().distance(location) < distance)
-                players.add(player);
-        }
-        return players;
-    }
-
     public static String getColorName(int color) {
         switch (color) {
             case 0:
@@ -1556,21 +1504,6 @@ public class Functions {
     public static boolean chanceOf(double percent) {
         double chance = Math.random() * 100;
         return chance <= percent;
-    }
-
-    public static ItemStack setUnstackable(ItemStack item) {
-        if (!Functions.isNotAir(item)) return item;
-
-        NBTItem nbtItem = new NBTItem(item, true);
-        NBTCompound nbt = nbtItem.getOrCreateCompound("Item");
-
-        int random = Functions.randomInt(1, 10000);
-        nbt.setInteger("Stack", random);
-        Date now = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        nbt.setString("Date", format.format(now));
-
-        return item;
     }
 
     public static Set<Material> getNotSolidBlocks() {
