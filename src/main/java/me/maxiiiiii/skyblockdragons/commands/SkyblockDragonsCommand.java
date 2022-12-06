@@ -11,6 +11,7 @@ import me.maxiiiiii.skyblockdragons.util.objects.MessageModifier;
 import me.maxiiiiii.skyblockdragons.util.objects.TextMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -118,7 +119,11 @@ public class SkyblockDragonsCommand extends CommandSD {
                 PlayerSD target = args.length > 1 ? SkyblockDragons.getPlayer(args[1]) : player;
                 player.sendClickableMessage(new MessageModifier(target.getUniqueId().toString(), new Entry<>(TextMessage.Modifier.SUGGEST_MESSAGE, player.getUniqueId().toString())));
             } else if (args[0].equalsIgnoreCase("test")) {
-                player.openSign("hi", "hello", "", "scam", lines -> {});
+                Material material = player.getTargetBlock(null, 20).getType();
+                player.sendMessage("Block " + material.name());
+                player.sendMessage("Occluding " + material.isOccluding());
+                player.sendMessage("Solid " + material.isSolid());
+                player.sendMessage("Transparent " + material.isTransparent());
             }
         } else {
             player.sendMessage(ChatColor.RED + "Invalid arguments!");

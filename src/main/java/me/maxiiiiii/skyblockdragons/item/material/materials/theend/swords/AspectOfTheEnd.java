@@ -37,7 +37,7 @@ public class AspectOfTheEnd extends SwordMaterial {
         public Transmission(double blocks) {
             super(AbilityAction.RIGHT_CLICK,
                     "Transmission",
-                    ChatColor.GRAY + "Teleport " + ChatColor.GREEN + "8 blocks " + ChatColor.GRAY + "ahead of you and gain " + ChatColor.GREEN + "+50 " + StatTypes.SPEED + " NEW_LINE for " + ChatColor.GREEN + "3 seconds" + ChatColor.GRAY + "."
+                    ChatColor.GRAY + "Teleport " + ChatColor.GREEN + blocks + " blocks " + ChatColor.GRAY + "ahead of you and gain " + ChatColor.GREEN + "+50 " + StatTypes.SPEED + " NEW_LINE for " + ChatColor.GREEN + "3 seconds" + ChatColor.GRAY + "."
             );
             this.blocks = blocks;
         }

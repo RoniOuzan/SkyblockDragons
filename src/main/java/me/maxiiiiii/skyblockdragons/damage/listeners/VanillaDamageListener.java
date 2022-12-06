@@ -30,6 +30,7 @@ public class VanillaDamageListener implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
     public void onDamage(org.bukkit.event.entity.EntityDamageEvent e) {
+        double lastDamage = e.getDamage();
         e.setDamage(0);
 
         if (e.getEntity() instanceof LivingEntity && !NPC.isNPC(e.getEntity())) {
@@ -50,9 +51,9 @@ public class VanillaDamageListener implements Listener {
             if (isFireDamage(victim, e)) {
                 damage = new PreciseFireEntityDamage(victim);
             } else if (isFallDamage(e)) {
-                damage = new PreciseFallEntityDamage(victim, e.getDamage());
+                damage = new PreciseFallEntityDamage(victim, lastDamage);
             } else if (isExplosionDamage(victim, e)) {
-                damage = new PreciseExplosionEntityDamage(victim, e.getDamage());
+                damage = new PreciseExplosionEntityDamage(victim, lastDamage);
             } else if (e instanceof EntityDamageByEntityEvent) {
                 EntityDamageByEntityEvent event = (EntityDamageByEntityEvent) e;
                 if (event.getDamager() instanceof LivingEntity) {

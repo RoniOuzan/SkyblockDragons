@@ -1139,7 +1139,7 @@ public class Functions {
     public static void teleportForward(Player player, double blocks) {
         int tp = 0;
         player.teleport(player.getLocation().add(0, 1, 0));
-        Location l = player.getLocation().clone();
+        Location l = player.getLocation();
         for (int i = 0; i <= blocks; i++) {
             l.add(player.getLocation().getDirection().multiply(1)).getBlock();
             if (!l.getBlock().getType().isOccluding() && !l.getWorld().getBlockAt(l.getBlockX(), l.getBlockY() + 1, l.getBlockZ()).getType().isOccluding()) {
@@ -1510,7 +1510,7 @@ public class Functions {
         return Arrays.stream(Material.values()).filter(m -> !m.isOccluding()).collect(Collectors.toSet());
     }
 
-    public static String getWhatAfterNumber(int num) {
+    public static String getAfterNumber(int num) {
         int last = Integer.parseInt(((num + "").charAt((num + "").length() - 1)) + "");
         if (last == 1) return "st";
         else if (last == 2) return "nd";
