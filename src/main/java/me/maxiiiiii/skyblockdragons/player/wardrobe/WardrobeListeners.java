@@ -12,6 +12,8 @@ import org.bukkit.event.inventory.InventoryType;
 public class WardrobeListeners implements Listener {
     @EventHandler
     public void onPlayerArmorChange(InventoryClickEvent e) {
+        if (!Functions.isNotAir(e.getCurrentItem())) return;
+
         if (e.getClickedInventory().getType() == InventoryType.PLAYER) {
             PlayerSD player = SkyblockDragons.getPlayer((Player) e.getWhoClicked());
             if (player.getWardrobe().getEquippedSlot() > 0) {

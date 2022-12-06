@@ -245,7 +245,7 @@ public class EnchantType implements Comparable<EnchantType> {
         enchants.put("REJUVENATE", new EnchantType(5, "Increases your " + StatTypes.VITALITY + " by " + ChatColor.GREEN + "+MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(2, 4, 6, 8, 10), new SkillRequirement(SkillType.ENCHANTING, 10), ItemTypeGroup.ARMOR.toType(), new ArrayList<>(Collections.singletonList("RESPITE")), false));
 
         enchants.put("FORTUNE", new EnchantType(new Stats(0, 15), 3, "Grants " + ChatColor.GOLD + "+MULTIPLIER" + StatTypes.MINING_FORTUNE + ChatColor.GRAY + ".", new EnchantMultiplier(15, 30, 45, 60), SkillRequirement.NULL, ItemTypeGroup.MINING.toType()));
-        enchants.put("EFFICIENCY", new EnchantType(new Stats(25, 0), 3, "Grants " + ChatColor.GOLD + "+MULTIPLIER" + StatTypes.MINING_SPEED + ChatColor.GRAY + ".", new EnchantMultiplier(25, 50, 75, 100, 125, 150, 175, 200, 225, 250), SkillRequirement.NULL, ItemTypeGroup.MINING.toType()));
+        enchants.put("EFFICIENCY", new EnchantType(new Stats(25, 0), 5, "Grants " + ChatColor.GOLD + "+MULTIPLIER" + StatTypes.MINING_SPEED + ChatColor.GRAY + ".", new EnchantMultiplier(25, 50, 75, 100, 125, 150, 175, 200, 225, 250), SkillRequirement.NULL, ItemTypeGroup.MINING.toType()));
 
         // Not For Armors
         enchants.put("TELEKINESIS", new EnchantType(1, "Block and mob drops go directly into your inventory.", new EnchantMultiplier(0), SkillRequirement.NULL, Arrays.stream(ItemType.values()).collect(Collectors.toList())));

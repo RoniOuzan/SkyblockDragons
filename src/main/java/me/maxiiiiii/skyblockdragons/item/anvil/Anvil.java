@@ -34,10 +34,6 @@ public class Anvil {
         this.item2 = item2;
     }
 
-    public Anvil() {
-        this(new ItemStack(Material.AIR), new ItemStack(Material.AIR));
-    }
-
     public ItemStack combine(PlayerSD player) {
         ItemStack item = createItem(Material.BARRIER, ChatColor.RED + "Anvil", new ArrayList<>(Arrays.asList(ChatColor.GRAY + "Place a target item in the left", ChatColor.GRAY + "slot and a sacrifice item in the", ChatColor.GRAY + "right slot to combine", ChatColor.GRAY + "Enchantments and Others!")));
         try {
@@ -80,6 +76,7 @@ public class Anvil {
                     NBTCompound enchants2 = nbt2.getCompound("Enchants");
 
                     for (EnchantType enchantType : EnchantType.enchants.values()) {
+                        if (!enchantType.getTypes().contains(material1.getType())) continue;
                         if (enchants1.hasKey(enchantType.name()) && enchants2.hasKey(enchantType.name()) && enchants1.getShort(enchantType.name()).equals(enchants2.getShort(enchantType.name()))) {
                             for (EnchantType enchantDistraction : ItemModifiers.getModifiers(item1).getEnchants().keySet()) {
                                 if (enchantType.getDistractions().contains(enchantDistraction.name())) {
