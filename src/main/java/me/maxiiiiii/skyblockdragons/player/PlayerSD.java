@@ -48,6 +48,7 @@ import me.maxiiiiii.skyblockdragons.util.objects.SignMenuFactory;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
+import me.maxiiiiii.skyblockdragons.world.events.PlayerVisitNewWorldEvent;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.forge.Forge;
 import me.maxiiiiii.skyblockdragons.world.worlds.griffin.Griffin;
@@ -94,16 +95,16 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     public EnderChest enderChestSD;
 
     public Forge forge;
-
     public Griffin griffin;
-
-    private PowerOrbDeployAbility.PowerOrbType activePowerOrb = null;
 
     private double lastCoins;
 
-    private final List<Menu> menuHistory = new ArrayList<>();
+    private PowerOrbDeployAbility.PowerOrbType activePowerOrb = null;
 
+    private final List<Menu> menuHistory = new ArrayList<>();
     private final Cooldown<EntitySD> hitTick = new Cooldown<>();
+
+    private final List<WorldSD> visitedWorlds;
 
     private final Queue<ActionBarSupplier> actionBarQueue = new Queue<>();
 
@@ -135,10 +136,11 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.bits = Variables.getInt(player.getUniqueId(), "Bits", 0);
 
         this.forge = new Forge(this);
-
         this.griffin = new Griffin(this);
 
         this.lastCoins = this.getCoins();
+
+        this.visitedWorlds = Variables.getList(player.getUniqueId(), "VisitedWorlds", new ArrayList<>(Collections.singleton(WorldSD.HUB)));
 
         this.scoreboardSD = new ScoreboardSD(this);
         this.equipment = new PlayerEquipment();
@@ -197,6 +199,8 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.enderChestSD.save();
 
         this.forge.save();
+
+        Variables.set(player.getUniqueId(), "VisitedWorlds", this.visitedWorlds);
     }
 
     public void setActivePowerOrb(PowerOrbDeployAbility.PowerOrbType activePowerOrb) {
@@ -256,6 +260,13 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
             return ((MiningMaterial) material).getBreakingPower();
         }
         return 0;
+    }
+
+    public void visitNewWorld(WorldSD world) {
+        if (this.visitedWorlds.contains(world) || this.player.getGameMode() != GameMode.SURVIVAL) return;
+
+        this.visitedWorlds.add(world);
+        Bukkit.getPluginManager().callEvent(new PlayerVisitNewWorldEvent(this, world));
     }
 
     @Override
@@ -544,7 +555,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         }
     }
 
-    public boolean ignoreItemRequirements() {
+    public boolean ignoreRequirements() {
         return this.getGameMode() == GameMode.CREATIVE;
     }
 

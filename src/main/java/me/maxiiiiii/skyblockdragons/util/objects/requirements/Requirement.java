@@ -4,11 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import me.maxiiiiii.skyblockdragons.item.objects.MaterialModifier;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
+import me.maxiiiiii.skyblockdragons.world.WorldModifier;
 import org.bukkit.ChatColor;
 
 @Getter
 @Setter
-public abstract class Requirement implements MaterialModifier {
+public abstract class Requirement implements MaterialModifier, WorldModifier {
     protected static final String icon = ChatColor.RED + "❣ Requires ";
 
     protected final RequirementType type;

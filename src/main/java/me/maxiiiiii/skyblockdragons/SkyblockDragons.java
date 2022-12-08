@@ -68,9 +68,11 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.*;
 import me.maxiiiiii.skyblockdragons.util.particle.ParticlePacketUtil;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
+import me.maxiiiiii.skyblockdragons.world.listeners.PlayerStepOnLaunchPadListener;
+import me.maxiiiiii.skyblockdragons.world.listeners.PlayerVisitNewWorldListener;
 import me.maxiiiiii.skyblockdragons.world.npc.NPC;
 import me.maxiiiiii.skyblockdragons.world.npc.NPCListeners;
-import me.maxiiiiii.skyblockdragons.world.warp.PlayerWarpListener;
+import me.maxiiiiii.skyblockdragons.world.listeners.PlayerWarpListener;
 import me.maxiiiiii.skyblockdragons.world.warp.WarpCommand;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.forge.Forge;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.forge.ForgeMilestoneCommand;
@@ -376,6 +378,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerEvents(new WardrobeListeners(), this);
 
         registerEvents(new PlayerWarpListener(), this);
+        registerEvents(new PlayerVisitNewWorldListener(), this);
+        registerEvents(new PlayerStepOnLaunchPadListener(), this);
         registerEvents(new ChatListener(), this);
         registerEvents(new PlayerSendMessageListener(), this);
         registerEvents(new PlayerGetMessageListener(), this);
@@ -413,7 +417,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         for (PlayerSD playerSD : players.values()) {
             playerSD.closeInventory();
-            playerSD.save();
         }
 
         for (World world : Bukkit.getWorlds()) {

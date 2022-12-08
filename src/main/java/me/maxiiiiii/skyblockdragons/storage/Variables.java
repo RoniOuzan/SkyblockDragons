@@ -106,20 +106,21 @@ public class Variables {
         return getOrDefault(name, null);
     }
 
-    public static List<Entry<Integer, ?>> getList(UUID uuid, String name) {
+    public static List<Entry<String, ?>> getVariablesList(UUID uuid, String name) {
         if (!playerVariables.containsKey(uuid))
             playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
 
-        List<Entry<Integer, ?>> list = new ArrayList<>();
+        List<Entry<String, ?>> list = new ArrayList<>();
         for (Map.Entry<String, Object> variable : playerVariables.get(uuid).getValues(true).entrySet()) {
-            if (variable.getKey().contains(".") && variable.getKey().split("\\.")[0].equals(name)) {
-                list.add(new Entry<>(Integer.parseInt(variable.getKey().split("\\.")[1]), variable.getValue()));
+            String[] path = variable.getKey().split("\\.");
+            if (path[0].equals(name)) {
+                list.add(new Entry<>(path[path.length - 1], variable.getValue()));
             }
         }
         return list;
     }
 
-    public static List<Object> getList(String name) {
+    public static List<Object> getVariablesList(String name) {
         List<Object> list = new ArrayList<>();
         for (Map.Entry<String, Object> variable : variables.getValues(false).entrySet()) {
             if (variable.getKey().equals(name)) {
@@ -229,6 +230,32 @@ public class Variables {
 
     public static boolean getBoolean(String name, Object data, boolean defaultObject) {
         return variables.getBoolean(name + "." + data, defaultObject);
+    }
+
+    public static <T> List<T> getList(UUID uuid, String name, Object data, List<T> defaultObject) {
+        if (!playerVariables.containsKey(uuid))
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+
+        return (List<T>) playerVariables.get(uuid).getList(name + "." + data, defaultObject);
+    }
+
+    public static <T> List<T> getList(UUID uuid, String name, List<T> defaultObject) {
+        if (!playerVariables.containsKey(uuid))
+            playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+
+        return (List<T>) playerVariables.get(uuid).getList(name, defaultObject);
+    }
+
+    public static <T> List<T> getList(UUID uuid, String name, Object data) {
+        return getList(uuid, name, data, null);
+    }
+
+    public static <T> List<T> getList(String name, Object data, List<T> defaultObject) {
+        return (List<T>) variables.getList(name + "." + data, defaultObject);
+    }
+
+    public static <T> List<T> getList(String name, Object data) {
+        return getList(name, data, null);
     }
 
     private static CustomConfig get(UUID uuid) {

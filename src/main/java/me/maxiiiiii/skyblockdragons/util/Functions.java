@@ -503,9 +503,11 @@ public class Functions {
         return location.getBlock();
     }
 
-    public static Hologram createHologram(Location location, String text) {
+    public static Hologram createHologram(Location location, String... texts) {
         Hologram hologram = HologramsAPI.createHologram(SkyblockDragons.plugin, location);
-        hologram.appendTextLine(text);
+        for (String text : texts) {
+            hologram.appendTextLine(text);
+        }
         return hologram;
     }
 

@@ -5,6 +5,9 @@ import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.mining.Mining;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
+import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirements;
+import me.maxiiiiii.skyblockdragons.world.events.PlayerStepOnLaunchPadEvent;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.DeeperMines;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepmines.DeepMines;
@@ -12,17 +15,23 @@ import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.world.worlds.griffin.GriffinIsland;
 import me.maxiiiiii.skyblockdragons.world.worlds.hub.Hub;
 import me.maxiiiiii.skyblockdragons.world.worlds.witherisland.WitherIsland;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Getter
-public abstract class WorldSD implements Listener {
+public abstract class WorldSD implements Listener, ConfigurationSerializable {
     public static final List<WorldSD> worlds = new ArrayList<>();
 
     public static Hub HUB = null;
@@ -36,14 +45,42 @@ public abstract class WorldSD implements Listener {
     private final String name;
     private final Warp warp;
     private final List<WorldType> worldType;
+    private final Requirements requirements;
+    private final List<LaunchPad> launchPads;
 
-    protected WorldSD(World world, String name, Warp warp, WorldType... worldType) {
+    private final Cooldown<Player> launchPadCooldown = new Cooldown<>();
+
+    protected WorldSD(World world, String name, Warp warp, WorldModifier... modifiers) {
         this.world = world;
         this.name = name;
         this.warp = warp;
-        this.worldType = Arrays.stream(worldType).collect(Collectors.toList());
+        this.requirements = new Requirements(Functions.splitList("me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement", modifiers));
+        this.worldType = Functions.splitList("me.maxiiiiii.skyblockdragons.world.WorldType", modifiers);
+        this.launchPads = new ArrayList<>();
 
         SkyblockDragons.plugin.getServer().getPluginManager().registerEvents(this, SkyblockDragons.plugin);
+    }
+
+    public boolean hasRequirements(PlayerSD player) {
+        return this.requirements.hasRequirements(player) && player.getVisitedWorlds().contains(this);
+    }
+
+    protected void addLaunchPad(LaunchPad launchPad) {
+        this.launchPads.add(launchPad);
+        Functions.createHologram(launchPad.getLocation().clone().add(0, 2, 0), ChatColor.GOLD + "Launch Pad", ChatColor.AQUA + "Warp To: " + ChatColor.GREEN + launchPad.getWarpTo().getName());
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onPlayerStepOnLaunchPad(PlayerMoveEvent e) {
+        Location location = e.getTo();
+        if (location.clone().subtract(0, 1, 0).getBlock().getType() == Material.SLIME_BLOCK && Functions.cooldown(e.getPlayer(), launchPadCooldown, 200, false)) {
+            for (LaunchPad launchPad : this.launchPads) {
+                if (launchPad.isInThreshold(location)) {
+                    Bukkit.getPluginManager().callEvent(new PlayerStepOnLaunchPadEvent(SkyblockDragons.getPlayer(e.getPlayer()), launchPad, this, location));
+                    break;
+                }
+            }
+        }
     }
 
     public boolean isType(WorldType type) {
@@ -96,5 +133,17 @@ public abstract class WorldSD implements Listener {
 
     public List<PlayerSD> getPlayers() {
         return this.world.getPlayers().stream().map(SkyblockDragons::getPlayer).collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", this.name);
+        return map;
     }
 }

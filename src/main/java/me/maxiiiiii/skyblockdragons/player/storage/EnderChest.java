@@ -16,9 +16,9 @@ public class EnderChest {
         this.items = new HashMap<>();
         this.player = player;
 
-        for (Entry<Integer, ?> entry : Variables.getList(player.getUniqueId(), "EnderChest")) {
+        for (Entry<String, ?> entry : Variables.getVariablesList(player.getUniqueId(), "EnderChest")) {
             if (entry.getB() instanceof ItemStack)
-                items.put(entry.getA(), (ItemStack) entry.getB());
+                items.put(Integer.valueOf(entry.getA()), (ItemStack) entry.getB());
         }
     }
 

@@ -131,7 +131,7 @@ public class EntitySD extends EntityClass {
     }
 
     public static void loadLocations() {
-        for (Object value : Variables.getList("EntitiesSpawns")) {
+        for (Object value : Variables.getVariablesList("EntitiesSpawns")) {
             if (!(value instanceof EntitySpawn)) {
                 SkyblockDragons.logger.severe("Entity Spawn is not entity spawn");
                 continue;

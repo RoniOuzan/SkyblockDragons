@@ -9,6 +9,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Map;
+
 public class DeeperMines extends WorldSD {
     public static final World world = Bukkit.getWorld("DeeperMines");
 
@@ -29,5 +31,9 @@ public class DeeperMines extends WorldSD {
 
         new ForgeNPC(new Location(world, -22.5, 151, -88.5, -90, 0));
         new ForgeNPC(new Location(world, 23.5, 151, -88.5, 90, 0));
+    }
+
+    public static DeeperMines deserialize(Map<String, Object> args) {
+        return WorldSD.DEEPER_MINES;
     }
 }

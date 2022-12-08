@@ -14,6 +14,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Map;
+
 public class GriffinIsland extends WorldSD implements Listener {
     public static final World world = Bukkit.getWorld("GriffinIsland");
 
@@ -32,5 +34,9 @@ public class GriffinIsland extends WorldSD implements Listener {
             PlayerDigBurrowEvent event = new PlayerDigBurrowEvent(player);
             Bukkit.getPluginManager().callEvent(event);
         }
+    }
+
+    public static GriffinIsland deserialize(Map<String, Object> args) {
+        return WorldSD.GRIFFIN_ISLAND;
     }
 }

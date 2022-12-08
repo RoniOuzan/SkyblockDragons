@@ -19,7 +19,7 @@ public class Requirements {
     }
 
     public boolean hasRequirements(PlayerSD player) {
-        return player.ignoreItemRequirements() ||
+        return player.ignoreRequirements() ||
                 this.requirements.stream().allMatch(r -> r.hasRequirement(player));
     }
 

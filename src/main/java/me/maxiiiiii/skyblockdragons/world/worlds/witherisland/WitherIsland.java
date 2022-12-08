@@ -13,9 +13,6 @@ import me.maxiiiiii.skyblockdragons.util.objects.Killer;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -250,4 +247,7 @@ public class WitherIsland extends WorldSD implements Listener {
         return sortedWitherDamage().get(index);
     }
 
+    public static WitherIsland deserialize(Map<String, Object> args) {
+        return WorldSD.WITHER_ISLAND;
+    }
 }

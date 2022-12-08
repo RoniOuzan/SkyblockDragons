@@ -185,4 +185,8 @@ public class TheEnd extends WorldSD implements Listener {
         if (e.getNewPhase() == EnderDragon.Phase.DYING)
             e.setCancelled(true);
     }
+
+    public static TheEnd deserialize(Map<String, Object> args) {
+        return WorldSD.THE_END;
+    }
 }

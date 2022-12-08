@@ -1,6 +1,5 @@
 package me.maxiiiiii.skyblockdragons.world.warp;
 
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.commands.CommandSD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.ChatColor;
@@ -13,7 +12,7 @@ public class WarpCommand extends CommandSD {
     @Override
     public void command(PlayerSD player, String[] args) {
         if (args.length == 0) {
-            player.sendMessage(ChatColor.RED + "Invalid arguments");
+            new FastTravelMenu(player);
             return;
         }
 
@@ -26,6 +25,14 @@ public class WarpCommand extends CommandSD {
 
         if (warp == null) {
             player.sendMessage(ChatColor.RED + "This is no warp with this name!");
+            return;
+        }
+
+        if (!warp.getRequirements().hasRequirements(player) || !warp.getWorld().getRequirements().hasRequirements(player)) {
+            player.sendMessage(ChatColor.RED + "You don't have the requirements to warp!");
+            return;
+        } else if (!player.getVisitedWorlds().contains(warp.getWorld())) {
+            player.sendMessage(ChatColor.RED + "You have not been in this world yet! visit it in a different way");
             return;
         }
 
