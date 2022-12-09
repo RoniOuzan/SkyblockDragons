@@ -7,6 +7,8 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirements;
+import me.maxiiiiii.skyblockdragons.world.attributes.EntityWorldSpawn;
+import me.maxiiiiii.skyblockdragons.world.attributes.LaunchPad;
 import me.maxiiiiii.skyblockdragons.world.events.PlayerStepOnLaunchPadEvent;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.DeeperMines;
@@ -47,6 +49,7 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
     private final List<WorldType> worldType;
     private final Requirements requirements;
     private final List<LaunchPad> launchPads;
+    private final List<EntityWorldSpawn> mobSpawns;
 
     private final Cooldown<Player> launchPadCooldown = new Cooldown<>();
 
@@ -57,12 +60,17 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
         this.requirements = new Requirements(Functions.splitList("me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement", modifiers));
         this.worldType = Functions.splitList("me.maxiiiiii.skyblockdragons.world.WorldType", modifiers);
         this.launchPads = new ArrayList<>();
+        this.mobSpawns = new ArrayList<>();
 
         SkyblockDragons.plugin.getServer().getPluginManager().registerEvents(this, SkyblockDragons.plugin);
     }
 
     public boolean hasRequirements(PlayerSD player) {
         return this.requirements.hasRequirements(player) && player.getVisitedWorlds().contains(this);
+    }
+
+    public void addMobSpawn(EntityWorldSpawn spawn) {
+        this.mobSpawns.add(spawn);
     }
 
     protected void addLaunchPad(LaunchPad launchPad) {

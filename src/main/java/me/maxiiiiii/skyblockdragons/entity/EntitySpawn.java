@@ -9,28 +9,25 @@ import java.util.Map;
 
 @Data
 public class EntitySpawn implements ConfigurationSerializable {
+    private final Location location;
+    private final EntityMaterial entity;
+    private final boolean save;
 
-    private Location location;
-    private String entityID;
-
-    public EntitySpawn(Location location, String entityID) {
+    public EntitySpawn(Location location, EntityMaterial entity, boolean save) {
         this.location = location;
-        this.entityID = entityID;
+        this.entity = entity;
+        this.save = save;
     }
 
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
         map.put("location", location);
-        map.put("entityID", entityID);
+        map.put("entity", entity.name());
         return map;
     }
 
     public static EntitySpawn deserialize(Map<String, Object> map){
-        return new EntitySpawn((Location) map.get("location"), (String) map.get("entityID"));
-    }
-
-    public EntityMaterial getEntityMaterial() {
-        return EntityMaterial.get(entityID);
+        return new EntitySpawn((Location) map.get("location"), EntityMaterial.get((String) map.get("entity")), true);
     }
 }

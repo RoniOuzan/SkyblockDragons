@@ -11,6 +11,8 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
+import me.maxiiiiii.skyblockdragons.world.WorldSD;
+import me.maxiiiiii.skyblockdragons.world.attributes.EntityWorldSpawn;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -18,13 +20,15 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
 public class EntitySD extends EntityClass {
     public static final HashMap<UUID, EntitySD> entities = new HashMap<>();
-    public static HashMap<Location, EntityMaterial> entitiesLocations = new HashMap<>();
+    public static List<EntitySpawn> entitiesSpawns = new ArrayList<>();
 
     public EntityMaterial material;
     public EntityHologram hologram;
@@ -121,16 +125,34 @@ public class EntitySD extends EntityClass {
         entities.put(this.entity.getUniqueId(), this);
     }
 
-    public static void saveLocations() {
+    public static void saveSpawns() {
         int i = 0;
         Variables.delete("EntitiesSpawns");
-        for (Location location : entitiesLocations.keySet()) {
-            Variables.set("EntitiesSpawns", i, new EntitySpawn(location, entitiesLocations.get(location).name()));
+        for (EntitySpawn spawn : entitiesSpawns) {
+            Variables.set("EntitiesSpawns", i, spawn);
             i++;
         }
     }
 
-    public static void loadLocations() {
+    public static void loadSpawns() {
+        for (WorldSD world : WorldSD.worlds) {
+            for (EntityWorldSpawn spawn : world.getMobSpawns()) {
+                for (int i = 0; i < spawn.getAmount(); i++) {
+                    double angle = Functions.randomDouble(-Math.PI, Math.PI);
+                    Location location = spawn.getLocation().clone().add(
+                            Math.sin(angle) * Math.random() * spawn.getDistance(),
+                            0,
+                            Math.cos(angle) * Math.random() * spawn.getDistance()
+                    );
+
+                    location = Functions.getLowestBlock(location).getLocation();
+                    if (location.getY() < spawn.getMinY() || !spawn.getAllowedBlocks().contains(location.getBlock().getType())) continue;
+
+                    entitiesSpawns.add(new EntitySpawn(location.add(0, 1, 0), spawn.getEntityMaterial(), false));
+                }
+            }
+        }
+
         for (Object value : Variables.getVariablesList("EntitiesSpawns")) {
             if (!(value instanceof EntitySpawn)) {
                 SkyblockDragons.logger.severe("Entity Spawn is not entity spawn");
@@ -138,7 +160,7 @@ public class EntitySD extends EntityClass {
             }
 
             EntitySpawn entitySpawn = (EntitySpawn) value;
-            entitiesLocations.put(entitySpawn.getLocation(), entitySpawn.getEntityMaterial());
+            entitiesSpawns.add(new EntitySpawn(entitySpawn.getLocation(), entitySpawn.getEntity(), true));
         }
 //        long entitiesSpawnsLocations = Variables.getSize("EntitiesSpawns");
 //        SkyblockDragons.logger.info(String.format("Loading Entity locations... %s", entitiesSpawnsLocations));

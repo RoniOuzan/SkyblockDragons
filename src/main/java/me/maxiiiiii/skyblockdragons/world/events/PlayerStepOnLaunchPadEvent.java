@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.world.events;
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.events.events.abstracts.playersd.PlayerSDEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.world.LaunchPad;
+import me.maxiiiiii.skyblockdragons.world.attributes.LaunchPad;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import org.bukkit.Location;
 import org.bukkit.event.HandlerList;

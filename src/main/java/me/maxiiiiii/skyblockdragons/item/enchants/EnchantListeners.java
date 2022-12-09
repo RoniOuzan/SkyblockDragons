@@ -49,6 +49,21 @@ public class EnchantListeners implements Listener {
 
         enchant(attacker, enchants, SHARPNESS, s -> e.getDamage().getMultiplier().addBase(s));
 
+        enchant(attacker, enchants, BANE_OF_ARTHROPODS, s -> {
+            if (e.getVictim().isBaneOfArthropods())
+                e.getDamage().getMultiplier().addBase(s);
+        });
+
+        enchant(attacker, enchants, SMITE, s -> {
+            if (e.getVictim().isUndead())
+                e.getDamage().getMultiplier().addBase(s);
+        });
+
+        enchant(attacker, enchants, ENDER_SLAYER, s -> {
+            if (e.getVictim().isEndMob())
+                e.getDamage().getMultiplier().addBase(s);
+        });
+
         if (e.getDamage() instanceof MeleeEntityDamageEntity || e.getDamage() instanceof ProjectileEntityDamageEntity) {
             enchant(attacker, enchants, CUBISM, s -> {
                 if (e.getVictim().isCubism())
@@ -66,21 +81,9 @@ public class EnchantListeners implements Listener {
             });
         }
         if (e.getDamage() instanceof MeleeEntityDamageEntity) {
-            enchant(attacker, enchants, BANE_OF_ARTHROPODS, s -> {
-                if (e.getVictim().isBaneOfArthropods())
-                    e.getDamage().getMultiplier().addBase(s);
-            });
-
-            enchant(attacker, enchants, ENDER_SLAYER, s -> {
-                if (e.getVictim().isEndMob())
-                    e.getDamage().getMultiplier().addBase(s);
-            });
-
             enchant(attacker, enchants, EXECUTE, s ->
                     e.getDamage().getMultiplier().addBase(
-                            (
-                                    (e.getVictim().getMaxHealth() - e.getVictim().getHealth()) / e.getVictim().getMaxHealth()
-                            ) * s)
+                            ((e.getVictim().getMaxHealth() - e.getVictim().getHealth()) / e.getVictim().getMaxHealth()) * s)
             );
 
             enchant(attacker, enchants, FIRST_STRIKE, s -> {
@@ -94,11 +97,6 @@ public class EnchantListeners implements Listener {
             });
 
             enchant(attacker, enchants, PROSECUTE, s -> e.getDamage().getMultiplier().addBase(e.getVictim().getHealthPercentage() * s));
-
-            enchant(attacker, enchants, ENDER_SLAYER, s -> {
-                if (e.getVictim().isUndead())
-                    e.getDamage().getMultiplier().addBase(s);
-            });
 
             enchant(attacker, enchants, TITAN_KILLER, s -> e.getDamage().getMultiplier().addBase(Math.min(Math.floor(e.getVictim().getDefense() / 100) * s, 60)));
 

@@ -82,22 +82,7 @@ public abstract class ItemDrop {
 
     protected Item getItem(PlayerSD player) {
         if (this.petRarityChances.size() > 0) {
-            List<Entry<Rarity, Double>> chances = new ArrayList<>();
-
-            double lastChance = 0;
-            for (Entry<Rarity, Double> chance : this.petRarityChances) {
-                double b = chance.getB() * (1 + (player.getStats().getPetLuck().get() / 100));
-                if (b + lastChance > 100) {
-                    chances.add(new Entry<>(chance.getA(), 100d));
-                    break;
-                }
-
-                lastChance += b;
-                chances.add(new Entry<>(chance.getA(), lastChance));
-            }
-
-            double random = Math.random();
-            Rarity rarity = chances.stream().filter(e -> random <= e.getB()).map(Entry::getA).findFirst().orElse(this.petRarityChances.get(0).getA());
+            Rarity rarity = Functions.getRandomWithChances(this.petRarityChances, player.getStats().getPetLuck().get() / 100);
             PetSupplier supplier = this.getPetSupplier();
             supplier.setRarity(rarity);
 

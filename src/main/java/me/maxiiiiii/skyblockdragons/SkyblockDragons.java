@@ -70,9 +70,9 @@ import me.maxiiiiii.skyblockdragons.util.particle.ParticlePacketUtil;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.listeners.PlayerStepOnLaunchPadListener;
 import me.maxiiiiii.skyblockdragons.world.listeners.PlayerVisitNewWorldListener;
+import me.maxiiiiii.skyblockdragons.world.listeners.PlayerWarpListener;
 import me.maxiiiiii.skyblockdragons.world.npc.NPC;
 import me.maxiiiiii.skyblockdragons.world.npc.NPCListeners;
-import me.maxiiiiii.skyblockdragons.world.listeners.PlayerWarpListener;
 import me.maxiiiiii.skyblockdragons.world.warp.WarpCommand;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.forge.Forge;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.forge.ForgeMilestoneCommand;
@@ -80,7 +80,6 @@ import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Entity;
@@ -155,7 +154,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         registerAllCommands();
 
-        EntitySD.loadLocations();
+        EntitySD.loadSpawns();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             new PlayerSD(player);
@@ -186,11 +185,11 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
     private void spawnEntitiesTimer() {
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            for (Location location : EntitySD.entitiesLocations.keySet()) {
-                if (Bukkit.getOnlinePlayers().stream().map(Entity::getWorld).noneMatch(w -> w == location.getWorld())) continue;
-                EntityMaterial entityMaterial = EntitySD.entitiesLocations.get(location);
-                if (!EntitySD.entities.values().stream().filter(e -> !e.isDead() && e.material == entityMaterial).map(e -> e.location).collect(Collectors.toList()).contains(location)) {
-                    new EntitySD(location, entityMaterial);
+            for (EntitySpawn spawn : EntitySD.entitiesSpawns) {
+                if (Bukkit.getOnlinePlayers().stream().map(Entity::getWorld).noneMatch(w -> w == spawn.getLocation().getWorld())) continue;
+                EntityMaterial entityMaterial = spawn.getEntity();
+                if (!EntitySD.entities.values().stream().filter(e -> !e.isDead() && e.material == entityMaterial).map(e -> e.location).collect(Collectors.toList()).contains(spawn.getLocation())) {
+                    new EntitySD(spawn.getLocation(), entityMaterial);
                 }
             }
         }, 0L, 200L);

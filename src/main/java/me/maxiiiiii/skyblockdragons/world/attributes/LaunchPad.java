@@ -1,11 +1,11 @@
-package me.maxiiiiii.skyblockdragons.world;
+package me.maxiiiiii.skyblockdragons.world.attributes;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import org.bukkit.Location;
 
 @Getter
-public class LaunchPad {
+public class LaunchPad implements WorldAttribute {
     private final Location location;
     private final double distanceThreshold;
     private final Warp warpTo;

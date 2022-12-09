@@ -11,6 +11,8 @@ import me.maxiiiiii.skyblockdragons.entity.types.eternity.ERROR_Infinity;
 import me.maxiiiiii.skyblockdragons.entity.types.eternity.EternityBoss;
 import me.maxiiiiii.skyblockdragons.entity.types.eternity.Infinity;
 import me.maxiiiiii.skyblockdragons.entity.types.eternity.Super_Infinity;
+import me.maxiiiiii.skyblockdragons.entity.types.hub.Zombie;
+import me.maxiiiiii.skyblockdragons.entity.types.hub.ZombieVillager;
 import me.maxiiiiii.skyblockdragons.entity.types.other.DragonTest;
 import me.maxiiiiii.skyblockdragons.entity.types.other.Dummy;
 import me.maxiiiiii.skyblockdragons.entity.types.other.NullEntity;
@@ -92,6 +94,9 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
     }
 
     public static void registerEntities() {
+        entities.put("ZOMBIE", new Zombie());
+        entities.put("ZOMBIE_VILLAGER", new ZombieVillager());
+
         entities.put("GOLDEN_SKELETON", new GoldenSkeleton());
         entities.put("LAPIS_ZOMBIE", new LapisZombie());
         entities.put("REDSTONE_PIGMAN", new RedstonePigman());

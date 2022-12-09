@@ -16,7 +16,7 @@ public class Variables {
     private static final String PLAYER_FILE = "Players";
 
     public static void save() {
-        EntitySD.saveLocations();
+        EntitySD.saveSpawns();
         for (PlayerSD player : SkyblockDragons.getPlayers()) {
             player.save();
         }

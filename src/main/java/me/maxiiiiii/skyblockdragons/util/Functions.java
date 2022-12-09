@@ -26,6 +26,7 @@ import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.item.stats.interfaces.PercentageStat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.interfaces.While;
+import me.maxiiiiii.skyblockdragons.util.objects.Entry;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.SlotCooldown;
 import me.maxiiiiii.skyblockdragons.util.reflection.MinecraftReflectionProvider;
@@ -1592,5 +1593,24 @@ public class Functions {
 
     public static int range(int value, int min, int max) {
         return Math.max(Math.min(value, max), min);
+    }
+
+    public static <K> K getRandomWithChances(List<Entry<K, Double>> map, double... chanceModifiers) {
+        List<Entry<K, Double>> chances = new ArrayList<>();
+
+        double lastChance = 0;
+        for (Entry<K, Double> chance : map) {
+            double b = chance.getB() * (1 + Arrays.stream(chanceModifiers).sum());
+            if (b + lastChance > 100) {
+                chances.add(new Entry<>(chance.getA(), 100d));
+                break;
+            }
+
+            lastChance += b;
+            chances.add(new Entry<>(chance.getA(), lastChance));
+        }
+
+        double random = Math.random();
+        return chances.stream().filter(e -> random <= e.getB()).map(Entry::getA).findFirst().orElse(map.get(0).getA());
     }
 }

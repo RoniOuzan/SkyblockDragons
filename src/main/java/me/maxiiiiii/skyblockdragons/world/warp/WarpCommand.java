@@ -19,8 +19,10 @@ public class WarpCommand extends CommandSD {
         Warp warp = null;
         String warpName = args[0].toUpperCase();
         for (Warp value : Warp.values()) {
-            if ((value.name().startsWith(warpName)) || (value.getAlias() != null && value.getAlias().startsWith(warpName)))
+            if ((value.name().startsWith(warpName)) || (value.getAlias() != null && value.getAlias().startsWith(warpName))) {
                 warp = value;
+                break;
+            }
         }
 
         if (warp == null) {

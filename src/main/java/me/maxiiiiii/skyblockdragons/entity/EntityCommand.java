@@ -24,7 +24,12 @@ public class EntityCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player) {
             PlayerSD player = SkyblockDragons.getPlayer((Player) sender);
             if (args.length > 1) {
-                if (args[0].toLowerCase().startsWith("s")) {
+                if (args[0].equalsIgnoreCase("send")) {
+                    player.sendMessage("Spawns:");
+                    for (EntitySpawn spawn : EntitySD.entitiesSpawns) {
+                        player.sendMessage(spawn.getEntity().name() + ": " + Functions.getLocation(spawn.getLocation()));
+                    }
+                } else if (args[0].toLowerCase().startsWith("s")) {
                     new EntitySD(player.getLocation(), EntityMaterial.get(args[1]));
                     player.sendMessage(ChatColor.GREEN + "Summoned new " + Functions.setTitleCase(args[1]) + ".");
                 } else if (args[0].toLowerCase().startsWith("a")) {
@@ -33,12 +38,12 @@ public class EntityCommand implements CommandExecutor, TabCompleter {
                         return true;
                     }
                     Location location = Functions.getLowestBlock(player.getLocation()).getLocation().add(0.5, 1, 0.5);
-                    EntitySD.entitiesLocations.put(location, EntityMaterial.get(args[1]));
-                    EntitySD.saveLocations();
+                    EntitySD.entitiesSpawns.add(new EntitySpawn(location, EntityMaterial.get(args[1]), true));
+                    EntitySD.saveSpawns();
                     player.sendMessage(ChatColor.GREEN + "You have set new spawn to " + Functions.setTitleCase(args[1]) + " in " + Functions.getLocation(location) + ".");
                 } else if (args[0].toLowerCase().startsWith("r")) {
                     Location location = Functions.getCenter(player.getLocation());
-                    if (!EntitySD.entitiesLocations.containsKey(location)) {
+                    if (!EntitySD.entitiesSpawns.stream().map(EntitySpawn::getLocation).collect(Collectors.toList()).contains(location)) {
                         player.sendMessage(ChatColor.RED + "This location does not saved!");
                         new TextMessage().append(ChatColor.RED + "If you want to delete the nearest saved location ").save().append(ChatColor.YELLOW + "" + ChatColor.BOLD + "CLICK HERE!").setClickAsExecuteCmd("/esd delete").save().send(player);
                     }
@@ -46,8 +51,9 @@ public class EntityCommand implements CommandExecutor, TabCompleter {
                         player.sendMessage(ChatColor.RED + "Can't understand this entity!");
                         return true;
                     }
-                    EntitySD.entitiesLocations.remove(location);
-                    EntitySD.saveLocations();
+
+                    EntitySD.entitiesSpawns = EntitySD.entitiesSpawns.stream().filter(s -> !s.getLocation().equals(location)).collect(Collectors.toList());
+                    EntitySD.saveSpawns();
                     player.sendMessage(ChatColor.GREEN + "You have removed the spawn of " + Functions.setTitleCase(args[1]) + ".");
                 } else if (args[0].toLowerCase().startsWith("d")) {
                     if (!EntityMaterial.entities.containsKey(args[1].toUpperCase())) {
@@ -55,18 +61,16 @@ public class EntityCommand implements CommandExecutor, TabCompleter {
                         return true;
                     }
                     Location location = null;
-                    for (Location key : EntitySD.entitiesLocations.keySet().stream().filter(l -> l.getWorld().getName().equalsIgnoreCase(player.getWorld().getName())).collect(Collectors.toList())) {
+                    for (Location key : EntitySD.entitiesSpawns.stream().map(EntitySpawn::getLocation).filter(l -> l.getWorld().getName().equalsIgnoreCase(player.getWorld().getName())).collect(Collectors.toList())) {
                         if (location == null || player.getLocation().distance(key) < player.getLocation().distance(location)) {
                             location = key.clone();
                         }
                     }
-                    EntitySD.entitiesLocations.remove(location);
-                    EntitySD.saveLocations();
+
+                    Location finalLocation = location;
+                    EntitySD.entitiesSpawns = EntitySD.entitiesSpawns.stream().filter(s -> !s.getLocation().equals(finalLocation)).collect(Collectors.toList());
+                    EntitySD.saveSpawns();
                     player.sendMessage(ChatColor.GREEN + "You have removed the spawn at " + location + ".");
-                } else if (args[0].equalsIgnoreCase("send")) {
-                    for (Location location : EntitySD.entitiesLocations.keySet()) {
-                        player.sendMessage(EntitySD.entitiesLocations.get(location).name() + ": " + Functions.getLocation(location));
-                    }
                 }
             } else if (args.length > 0) {
                 if (args[0].toLowerCase().startsWith("k")) {
