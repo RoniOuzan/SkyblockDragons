@@ -957,17 +957,6 @@ public class Functions {
         return keys;
     }
 
-    public static Object getMapKey(HashMap hashMap, Object value) {
-        for (Object key : hashMap.keySet()) {
-            if (hashMap.get(key) == value) {
-                return key;
-            }
-        }
-        return null;
-    }
-
-    private static final String[] nicod = {"a", "e", "o", "u", "i"};
-
     public static String getPlural(String text, int num) {
         if (num == 1) return text;
         String[] texts = text.split("");
@@ -980,14 +969,16 @@ public class Functions {
             int times = 0;
             int length = texts.length;
             if (texts[texts.length - 1].equalsIgnoreCase("e")) length -= 1;
+            StringBuilder textBuilder = new StringBuilder(text);
             for (String word : texts) {
                 times++;
                 if (times >= length) {
-                    text += "ves";
+                    textBuilder.append("ves");
                 } else {
-                    text += word;
+                    textBuilder.append(word);
                 }
             }
+            text = textBuilder.toString();
         } else if (texts[texts.length - 1].equalsIgnoreCase("y") && !(texts[texts.length - 2].equalsIgnoreCase("a") || texts[texts.length - 2].equalsIgnoreCase("e") || texts[texts.length - 2].equalsIgnoreCase("o") || texts[texts.length - 2].equalsIgnoreCase("u") || texts[texts.length - 2].equalsIgnoreCase("i"))) {
             int times = 0;
             for (String word : texts) {
@@ -1599,7 +1590,9 @@ public class Functions {
         List<Entry<K, Double>> chances = new ArrayList<>();
 
         double lastChance = 0;
-        for (Entry<K, Double> chance : map) {
+        List<Entry<K, Double>> newMap = map.stream().sorted(Comparator.comparing(Entry::getB)).collect(Collectors.toList());
+        Collections.reverse(newMap);
+        for (Entry<K, Double> chance : newMap) {
             double b = chance.getB() * (1 + Arrays.stream(chanceModifiers).sum());
             if (b + lastChance > 100) {
                 chances.add(new Entry<>(chance.getA(), 100d));
