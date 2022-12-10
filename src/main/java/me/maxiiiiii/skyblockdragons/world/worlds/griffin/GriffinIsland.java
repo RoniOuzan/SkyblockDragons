@@ -1,7 +1,7 @@
 package me.maxiiiiii.skyblockdragons.world.worlds.griffin;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.mining.PlayerBreakBlockEvent;
+import me.maxiiiiii.skyblockdragons.mining.events.PlayerBreakBlockEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;

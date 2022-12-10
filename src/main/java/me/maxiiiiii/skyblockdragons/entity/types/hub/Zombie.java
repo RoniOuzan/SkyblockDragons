@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemDrop;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 
 public class Zombie extends EntityMaterial {
@@ -14,9 +15,9 @@ public class Zombie extends EntityMaterial {
                 1,
                 50,
                 0,
-                5,
+                20,
                 0,
-                new Equipment(),
+                new Equipment(Material.LEATHER_HELMET, null, null, null, null, null),
                 100,
                 0,
                 5,

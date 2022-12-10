@@ -10,11 +10,15 @@ import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.material.types.MiningMaterial;
+import me.maxiiiiii.skyblockdragons.mining.events.PlayerBreakBlockEvent;
+import me.maxiiiiii.skyblockdragons.mining.listeners.PlayerBreakBlockListener;
+import me.maxiiiiii.skyblockdragons.mining.material.BlockMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -55,27 +59,27 @@ public class Mining implements Listener {
 
     @EventHandler
     public void onBlockDamage(BlockDamageEvent e) {
-        if (!SkyblockDragons.getPlayer(e.getPlayer()).getWorldSD().isType(WorldType.MINING)) return;
+        if (!SkyblockDragons.getPlayer(e.getPlayer()).getWorldSD().isType(WorldType.MINING) || e.getPlayer().getGameMode() != GameMode.SURVIVAL) return;
 
         if (playerDigging.getOrDefault(e.getPlayer().getUniqueId(), null) != null) return;
 
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
         Block block = e.getBlock();
-        BlockMaterial blockMaterial = BlockMaterial.get(block.getType());
+        BlockMaterial blockMaterial = BlockMaterial.get(player.getWorldSD(), block.getType(), block.getData());
         if (blockMaterial == null) return;
 
-        double miningTime = ((blockMaterial.blockStrength * 30) / Math.max(player.getStats().getMiningSpeed().get(), 1)) * 50;
-
-        if (miningTime <= 50) {
-            breakBlock(player, block, blockMaterial);
-            return;
-        }
-
-        if (player.getBreakingPower() >= blockMaterial.breakingPower) {
+        if (player.getBreakingPower() >= blockMaterial.getBreakingPower() && blockMaterial.getRequiredTools().contains(player.getItems().getToolMaterial().getType())) {
             playerDigging.put(player.getUniqueId(), block);
 
+            double miningTime = ((blockMaterial.getBlockStrength() * 30) / Math.max(player.getStats().getMiningSpeed().get(), 1)) * 50;
+
+            if (miningTime <= 50) {
+                breakBlock(player, block, blockMaterial);
+                return;
+            }
+
             new MiningThread(player, block, miningTime);
-        } else if (player.getItems().getTool().getMaterial() instanceof MiningMaterial) {
+        } else if (player.getItems().getToolMaterial() instanceof MiningMaterial) {
             player.sendMessage(ChatColor.RED + "Your tool is not strong enough to mine this block!");
         }
     }
@@ -98,7 +102,7 @@ public class Mining implements Listener {
             this.player = player;
             this.block = block;
             this.miningTime = miningTime;
-            this.blockMaterial = BlockMaterial.get(block.getType());
+            this.blockMaterial = BlockMaterial.get(player.getWorldSD(), block.getType(), block.getData());
 
             this.start();
         }

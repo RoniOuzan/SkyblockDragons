@@ -1,7 +1,8 @@
-package me.maxiiiiii.skyblockdragons.mining;
+package me.maxiiiiii.skyblockdragons.mining.events;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.events.events.abstracts.playersd.MultiplierUpdateEvent;
+import me.maxiiiiii.skyblockdragons.mining.material.BlockMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.block.Block;
 import org.bukkit.event.HandlerList;

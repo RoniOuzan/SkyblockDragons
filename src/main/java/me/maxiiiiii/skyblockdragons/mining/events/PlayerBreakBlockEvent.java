@@ -1,5 +1,6 @@
-package me.maxiiiiii.skyblockdragons.mining;
+package me.maxiiiiii.skyblockdragons.mining.events;
 
+import me.maxiiiiii.skyblockdragons.mining.material.BlockMaterial;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;

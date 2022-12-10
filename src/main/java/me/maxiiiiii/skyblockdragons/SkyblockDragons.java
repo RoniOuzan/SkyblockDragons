@@ -37,6 +37,7 @@ import me.maxiiiiii.skyblockdragons.item.pet.PetCommand;
 import me.maxiiiiii.skyblockdragons.item.pet.PetListener;
 import me.maxiiiiii.skyblockdragons.item.pet.PetMenu;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeCommand;
+import me.maxiiiiii.skyblockdragons.mining.material.BlockMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.PowerStoneAdminCommand;
@@ -138,6 +139,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         ItemFullSetBonus.registerFullSets();
         Items.registerItems();
+        BlockMaterial.registerBlocks();
         EnchantType.registerEnchants();
         EntityMaterial.registerEntities();
         Bukkit.getScheduler().runTaskAsynchronously(this, Recipe::registerRecipes);

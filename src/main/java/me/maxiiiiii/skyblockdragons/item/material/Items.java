@@ -180,7 +180,7 @@ public class Items {
                         true,
                         true,
                         true
-                ));
+                ).setData(item.getData()));
             }
         }
         catch (Exception e) {
