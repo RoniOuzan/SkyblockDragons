@@ -32,7 +32,7 @@ public enum BlockMaterial {
     LUMINATE_ORE(Material.QUARTZ_BLOCK, 900, 6, 50, 5, new BlockItemDrop(Items.get("LUMINATE"), 1)),
     DERNIC_ORE(Material.STAINED_CLAY, 7, 1300, 6, 80, 7, Material.BEDROCK, new BlockItemDrop(Items.get("DERNIC"), 1)),
     HEMATITE_ORE(Material.NETHER_BRICK, 1600, 8, 120, 9, new BlockItemDrop(Items.get("HEMATITE"), 1)),
-    VOID_CRYSTAL_ORE(Material.SEA_LANTERN, 2500, 9, 180, 15, new BlockItemDrop(Items.get("VOID_CRYSTAL"), 1))
+    VOID_CRYSTAL_ORE(Material.SEA_LANTERN, 2500, 9, 180, 15, new BlockItemDrop(Items.get("VOID_CRYSTAL"), 1)),
     ;
 
     public Material material;

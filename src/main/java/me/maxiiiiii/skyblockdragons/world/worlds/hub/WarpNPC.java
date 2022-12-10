@@ -7,7 +7,7 @@ import org.bukkit.Location;
 
 public class WarpNPC extends NPC {
     public WarpNPC(Location location) {
-        super("Warp", location, "SMPEarthPublic");
+        super("Warp", location, "Deavxns");
     }
 
     @Override

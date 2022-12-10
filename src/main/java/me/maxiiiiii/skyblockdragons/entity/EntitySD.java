@@ -129,6 +129,8 @@ public class EntitySD extends EntityClass {
         int i = 0;
         Variables.delete("EntitiesSpawns");
         for (EntitySpawn spawn : entitiesSpawns) {
+            if (!spawn.isSave()) continue;
+
             Variables.set("EntitiesSpawns", i, spawn);
             i++;
         }
