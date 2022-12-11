@@ -5,7 +5,6 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
-import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import org.bukkit.Material;
 
 public class GoldHoe extends MiningMaterial {
@@ -16,7 +15,7 @@ public class GoldHoe extends MiningMaterial {
                 "Gold Hoe",
                 ItemType.HOE,
                 Rarity.COMMON,
-                new Stats(300, 0),
+                new Stats(210, 0),
                 1,
                 ""
         );

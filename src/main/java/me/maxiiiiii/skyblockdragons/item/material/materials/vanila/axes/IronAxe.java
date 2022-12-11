@@ -5,7 +5,6 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
-import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import org.bukkit.Material;
 
 public class IronAxe extends MiningMaterial {
@@ -16,7 +15,7 @@ public class IronAxe extends MiningMaterial {
                 "Iron Axe",
                 ItemType.AXE,
                 Rarity.COMMON,
-                new Stats(120, 0),
+                new Stats(70, 0),
                 1,
                 ""
         );

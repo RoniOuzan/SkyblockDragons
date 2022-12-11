@@ -5,7 +5,6 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
-import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import org.bukkit.Material;
 
 public class StonePickaxe extends MiningMaterial {
@@ -16,7 +15,7 @@ public class StonePickaxe extends MiningMaterial {
                 "Stone Pickaxe",
                 ItemType.PICKAXE,
                 Rarity.COMMON,
-                new Stats(80, 0),
+                new Stats(40, 0),
                 2,
                 ""
         );

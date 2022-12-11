@@ -11,13 +11,20 @@ import me.maxiiiiii.skyblockdragons.util.objects.Entry;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+import java.util.Arrays;
+
 public abstract class ForagingBlockMaterial extends BlockMaterial implements RespawnBlock {
     public ForagingBlockMaterial(String itemID, BlockMaterials material, int blockStrength, int breakingPower, double skillExp, int experience, BlockDrop... drops) {
-        super(itemID, material, blockStrength, breakingPower, ItemType.AXE, skillExp, SkillType.FORAGING, experience, drops);
+        super(itemID, material, blockStrength, breakingPower, Arrays.asList(ItemType.AXE, ItemType.NULL), skillExp, SkillType.FORAGING, experience, drops);
     }
 
     @Override
     public Entry<Material, Integer> getBlockWhenBreaks(PlayerSD player, Block block) {
         return new Entry<>(Material.AIR, 0);
+    }
+
+    @Override
+    public long getTimeToRespawn(PlayerSD player, Block block) {
+        return 200;
     }
 }

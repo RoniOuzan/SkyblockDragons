@@ -71,9 +71,10 @@ public class Mining implements Listener {
         if (player.getBreakingPower() >= blockMaterial.getBreakingPower() && blockMaterial.getRequiredTools().contains(player.getItems().getToolMaterial().getType())) {
             playerDigging.put(player.getUniqueId(), block);
 
-            double miningTime = ((blockMaterial.getBlockStrength() * 30) / Math.max(player.getStats().getMiningSpeed().get(), 1)) * 50;
+            double miningTime = (1 / ((Math.max(player.getStats().getMiningSpeed().get(), 5) / blockMaterial.getBlockStrength()) / 30)) * 50;
 
             if (miningTime <= 50) {
+                stopMining(player, block);
                 breakBlock(player, block, blockMaterial);
                 return;
             }
