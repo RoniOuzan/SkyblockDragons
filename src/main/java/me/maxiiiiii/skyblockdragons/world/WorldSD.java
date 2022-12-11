@@ -7,8 +7,9 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirements;
-import me.maxiiiiii.skyblockdragons.world.attributes.EntityWorldSpawn;
+import me.maxiiiiii.skyblockdragons.world.attributes.ClickableBlock;
 import me.maxiiiiii.skyblockdragons.world.attributes.LaunchPad;
+import me.maxiiiiii.skyblockdragons.world.attributes.WorldAttribute;
 import me.maxiiiiii.skyblockdragons.world.events.PlayerStepOnLaunchPadEvent;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.DeeperMines;
@@ -17,12 +18,16 @@ import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.world.worlds.griffin.GriffinIsland;
 import me.maxiiiiii.skyblockdragons.world.worlds.hub.Hub;
 import me.maxiiiiii.skyblockdragons.world.worlds.witherisland.WitherIsland;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -48,8 +53,8 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
     private final Warp warp;
     private final List<WorldType> worldType;
     private final Requirements requirements;
-    private final List<LaunchPad> launchPads;
-    private final List<EntityWorldSpawn> mobSpawns;
+
+    private final List<WorldAttribute> attributes;
 
     private final Cooldown<Player> launchPadCooldown = new Cooldown<>();
 
@@ -59,8 +64,7 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
         this.warp = warp;
         this.requirements = new Requirements(Functions.splitList("me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement", modifiers));
         this.worldType = Functions.splitList("me.maxiiiiii.skyblockdragons.world.WorldType", modifiers);
-        this.launchPads = new ArrayList<>();
-        this.mobSpawns = new ArrayList<>();
+        this.attributes = new ArrayList<>();
 
         SkyblockDragons.plugin.getServer().getPluginManager().registerEvents(this, SkyblockDragons.plugin);
     }
@@ -69,20 +73,27 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
         return this.requirements.hasRequirements(player) && player.getVisitedWorlds().contains(this);
     }
 
-    public void addMobSpawn(EntityWorldSpawn spawn) {
-        this.mobSpawns.add(spawn);
+    protected void addAttribute(WorldAttribute attribute) {
+        this.attributes.add(attribute);
+        attribute.onCreate();
     }
 
-    protected void addLaunchPad(LaunchPad launchPad) {
-        this.launchPads.add(launchPad);
-        Functions.createHologram(launchPad.getLocation().clone().add(0, 2, 0), ChatColor.GOLD + "Launch Pad", ChatColor.AQUA + "Warp To: " + ChatColor.GREEN + launchPad.getWarpTo().getName());
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onPlayerClickOnBlock(PlayerInteractEvent e) {
+        if (WorldSD.get(e.getPlayer().getWorld()) != this) return;
+
+        for (ClickableBlock attribute : this.attributes.stream().filter(a -> a instanceof ClickableBlock).map(a -> (ClickableBlock) a).collect(Collectors.toList())) {
+            if (attribute.isClicked(e.getAction()) && e.getClickedBlock().getLocation().equals(attribute.getBlock().getLocation()) && e.getClickedBlock().getType() == attribute.getBlock().getType()) {
+                attribute.interact(SkyblockDragons.getPlayer(e.getPlayer()));
+            }
+        }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerStepOnLaunchPad(PlayerMoveEvent e) {
         Location location = e.getTo();
         if (location.clone().subtract(0, 1, 0).getBlock().getType() == Material.SLIME_BLOCK && Functions.cooldown(e.getPlayer(), launchPadCooldown, 200, false)) {
-            for (LaunchPad launchPad : this.launchPads) {
+            for (LaunchPad launchPad : this.attributes.stream().filter(a -> a instanceof LaunchPad).map(a -> (LaunchPad) a).collect(Collectors.toList())) {
                 if (launchPad.isInThreshold(location)) {
                     Bukkit.getPluginManager().callEvent(new PlayerStepOnLaunchPadEvent(SkyblockDragons.getPlayer(e.getPlayer()), launchPad, this, location));
                     break;

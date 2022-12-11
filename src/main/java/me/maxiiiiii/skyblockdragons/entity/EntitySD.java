@@ -16,6 +16,7 @@ import me.maxiiiiii.skyblockdragons.world.attributes.EntityWorldSpawn;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Getter
 public class EntitySD extends EntityClass {
@@ -138,19 +140,24 @@ public class EntitySD extends EntityClass {
 
     public static void loadSpawns() {
         for (WorldSD world : WorldSD.worlds) {
-            for (EntityWorldSpawn spawn : world.getMobSpawns()) {
+            for (EntityWorldSpawn spawn : world.getAttributes().stream().filter(a -> a instanceof EntityWorldSpawn).map(a -> (EntityWorldSpawn) a).collect(Collectors.toList())) {
                 for (int i = 0; i < spawn.getAmount(); i++) {
-                    double angle = Functions.randomDouble(-Math.PI, Math.PI);
-                    Location location = spawn.getLocation().clone().add(
-                            Math.sin(angle) * Math.random() * spawn.getDistance(),
-                            0,
-                            Math.cos(angle) * Math.random() * spawn.getDistance()
-                    );
+                    Location location;
+                    do {
+                        double angle = Functions.randomDouble(-Math.PI, Math.PI);
+                        location = spawn.getLocation().clone().add(
+                                Math.sin(angle) * Math.random() * spawn.getDistance(),
+                                0,
+                                Math.cos(angle) * Math.random() * spawn.getDistance()
+                        );
 
-                    location = Functions.getLowestBlock(location).getLocation();
-                    if (location.getY() < spawn.getMinY() || !spawn.getAllowedBlocks().contains(location.getBlock().getType())) continue;
+                        location = Functions.getLowestBlock(location).getLocation();
+                    } while (location.getY() < spawn.getMinY() ||
+                            !spawn.getAllowedBlocks().contains(location.getBlock().getType()) ||
+                            location.clone().add(0, 1, 0).getBlock().getType() != Material.AIR ||
+                            location.clone().add(0, 2, 0).getBlock().getType() != Material.AIR);
 
-                    entitiesSpawns.add(new EntitySpawn(location.add(0, 1, 0), spawn.getEntityMaterial(), false));
+                    entitiesSpawns.add(new EntitySpawn(location.add(0.5, 1, 0.5), spawn.getEntityMaterial(), false));
                 }
             }
         }

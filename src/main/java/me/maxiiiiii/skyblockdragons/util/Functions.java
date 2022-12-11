@@ -1603,7 +1603,7 @@ public class Functions {
             chances.add(new Entry<>(chance.getA(), lastChance));
         }
 
-        double random = Math.random();
+        double random = Math.random() * 100;
         return chances.stream().filter(e -> random <= e.getB()).map(Entry::getA).findFirst().orElse(map.get(0).getA());
     }
 }
