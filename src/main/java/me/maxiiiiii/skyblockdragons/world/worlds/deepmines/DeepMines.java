@@ -28,7 +28,7 @@ public class DeepMines extends WorldSD {
                 181,
                 60,
                 Collections.singletonList(new Entry<>(EntityMaterial.get("GOLDEN_SKELETON"), 100.0)),
-                35,
+                20,
                 Material.STONE, Material.COAL_ORE, Material.IRON_ORE, Material.GOLD_ORE
         ));
 
@@ -36,7 +36,7 @@ public class DeepMines extends WorldSD {
                 132,
                 60,
                 Arrays.asList(new Entry<>(EntityMaterial.get("LAPIS_ZOMBIE"), 40.0), new Entry<>(EntityMaterial.get("REDSTONE_PIGMAN"), 30.0), new Entry<>(EntityMaterial.get("EMERALD_CREEPER"), 30.0)),
-                45,
+                35,
                 Material.STONE, Material.LAPIS_ORE, Material.REDSTONE, Material.EMERALD_ORE
         ));
 
@@ -44,19 +44,19 @@ public class DeepMines extends WorldSD {
                 84,
                 60,
                 Arrays.asList(new Entry<>(EntityMaterial.get("DIAMOND_ZOMBIE"), 70.0), new Entry<>(EntityMaterial.get("OBSIDIAN_ZOMBIE"), 30.0)),
-                40,
+                30,
                 Material.STONE, Material.DIAMOND_ORE, Material.DIAMOND_BLOCK, Material.OBSIDIAN
         ));
 
         addAttribute(new ClickableBlock(world.getBlockAt(1158, 162, 70), ClickableBlock.ClickType.RIGHT, p -> {
             if (p.getLocation().subtract(0, 1, 0).getBlock().getType() == Material.SLIME_BLOCK) {
-                p.setVelocity(new Vector(0, 1, 0));
+                p.setVelocity(new Vector(0, 1.2, 0));
             }
         }));
 
         addAttribute(new ClickableBlock(world.getBlockAt(1158, 113, 70), ClickableBlock.ClickType.RIGHT, p -> {
             if (p.getLocation().subtract(0, 1, 0).getBlock().getType() == Material.SLIME_BLOCK) {
-                p.setVelocity(new Vector(0, 1, 0));
+                p.setVelocity(new Vector(0, 1.2, 0));
             }
         }));
     }
