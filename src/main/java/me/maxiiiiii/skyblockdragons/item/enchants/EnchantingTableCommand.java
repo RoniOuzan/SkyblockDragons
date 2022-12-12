@@ -22,7 +22,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -133,7 +133,7 @@ public class EnchantingTableCommand implements CommandExecutor, Listener {
                 break;
             }
 
-            ArrayList<String> lores =  Functions.loreBuilder(enchantType.getDescription(1));
+            List<String> lores =  Functions.loreBuilder(enchantType.getDescription(1));
             lores.add("");
             lores.add(ChatColor.YELLOW + "Click to view!");
             ItemStack enchantItem = Functions.createItem(Material.ENCHANTED_BOOK, ChatColor.GREEN + enchantType.toString(), lores);

@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +38,7 @@ public class EnchantingTableMenu {
                     continue;
                 if (i >= 15) break;
 
-                ArrayList<String> lores =  Functions.loreBuilder(enchantType.getDescription(1));
+                List<String> lores = Functions.loreBuilder(enchantType.getDescription(1));
                 lores.add("");
                 lores.add(ChatColor.YELLOW + "Click to view!");
                 ItemStack enchantItem = Functions.createItem(Material.ENCHANTED_BOOK, ChatColor.GREEN + enchantType.toString(), lores);

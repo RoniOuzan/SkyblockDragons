@@ -284,6 +284,13 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
         meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         if (lores.size() > 0 && isNotLastEmpty(lores)) lores.add("");
 
+        if (material instanceof ItemCoopAttached) {
+            if (material instanceof ItemAttached)
+                lores.add(ChatColor.DARK_GRAY + "ATTACHED");
+            else
+                lores.add(ChatColor.DARK_GRAY + "COOP ATTACHED");
+        }
+
         if (material instanceof ItemRequirementAble) {
             lores.addAll(((ItemRequirementAble) material).getRequirements().getRequirements().stream().filter(r -> player == null || !r.hasRequirement(player) || player.getGameMode() == GameMode.CREATIVE).map(Requirement::toString).collect(Collectors.toList()));
         }
@@ -297,10 +304,8 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
         if (lores.get(0).isEmpty() && lores.size() != 2) lores.remove(0);
         meta.setLore(lores);
 
-        if (this.material instanceof NormalMaterial) {
-            NormalMaterial material = (NormalMaterial) this.material;
-
-            if (material.isEnchanted()) meta.addEnchant(Enchantment.DURABILITY, 3, true);
+        if ((this.material instanceof NormalMaterial && ((NormalMaterial) material).isEnchanted()) || this.modifiers.getEnchants().size() > 0) {
+            meta.addEnchant(Enchantment.DURABILITY, 3, true);
         }
 
         this.setItemMeta(meta);

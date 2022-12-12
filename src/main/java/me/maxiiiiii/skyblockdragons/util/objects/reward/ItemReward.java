@@ -1,22 +1,24 @@
 package me.maxiiiiii.skyblockdragons.util.objects.reward;
 
+import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import org.bukkit.inventory.ItemStack;
+
+import java.util.function.Function;
 
 public class ItemReward implements Reward {
-    private final ItemStack item;
+    private final Function<PlayerSD, Item> item;
 
-    public ItemReward(ItemStack item) {
+    public ItemReward(Function<PlayerSD, Item> item) {
         this.item = item;
     }
 
     @Override
     public void give(PlayerSD player) {
-        player.give(this.item);
+        player.give(this.item.apply(player));
     }
 
     @Override
-    public String getLore() {
-        return this.item.getItemMeta().getDisplayName();
+    public String getLore(PlayerSD player) {
+        return this.item.apply(player).getItemMeta().getDisplayName();
     }
 }

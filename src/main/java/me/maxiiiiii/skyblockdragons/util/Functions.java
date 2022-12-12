@@ -25,7 +25,6 @@ import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeType;
 import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.item.stats.interfaces.PercentageStat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.util.interfaces.While;
 import me.maxiiiiii.skyblockdragons.util.objects.Entry;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.SlotCooldown;
@@ -53,6 +52,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.item.material.Items.*;
@@ -312,11 +312,11 @@ public class Functions {
         return converted.toString();
     }
 
-    public static ArrayList<String> loreBuilder(String lore, ChatColor color, int num) {
+    public static List<String> loreBuilder(String lore, ChatColor color, int num) {
         String[] lores = lore.split(" ");
         int l = 0;
         int n = 0;
-        ArrayList<String> list = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         for (String str : lores) {
             if (str.equals("RESET_LENGTH")) {
                 l = 0;
@@ -341,7 +341,11 @@ public class Functions {
         return list;
     }
 
-    public static ArrayList<String> loreBuilder(String lore) {
+    public static List<String> loreBuilder(String lore, ChatColor color) {
+        return loreBuilder(lore, color, 30);
+    }
+
+    public static List<String> loreBuilder(String lore) {
         return loreBuilder(lore, ChatColor.GRAY, 30);
     }
 
@@ -1248,13 +1252,14 @@ public class Functions {
     }
 
     // While(() -> CONDITION, delay, (amount) -> {TASK});
-    public static void While(While condition, long delay, Consumer<Integer> task, Consumer<Integer> onCancel) {
+    public static void While(Supplier<Boolean> condition, long delay, Consumer<Integer> task, Consumer<Integer> onCancel) {
         new BukkitRunnable() {
             int i = 0;
             @Override
             public void run() {
-                if (!condition.task()) {
+                if (!condition.get()) {
                     onCancel.accept(i);
+                    cancel();
                     return;
                 }
 
@@ -1264,7 +1269,7 @@ public class Functions {
         }.runTaskTimer(SkyblockDragons.plugin, 0L, delay);
     }
 
-    public static void While(While condition, long delay, Consumer<Integer> loop) {
+    public static void While(Supplier<Boolean> condition, long delay, Consumer<Integer> loop) {
         While(condition, delay, loop, (i) -> {});
     }
 

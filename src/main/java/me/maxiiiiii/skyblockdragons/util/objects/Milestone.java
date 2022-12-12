@@ -53,7 +53,7 @@ public abstract class Milestone {
                 "",
                 ChatColor.GRAY + "Rewards:"
         );
-        lores.addAll(rewards.get(reward).getRewards().stream().map(r -> ChatColor.DARK_GRAY + "+ " + r.getLore()).collect(Collectors.toList()));
+        lores.addAll(rewards.get(reward).getRewards().stream().map(r -> ChatColor.DARK_GRAY + "+ " + r.getLore(player)).collect(Collectors.toList()));
 
         if (rewards.get(reward).isClaimed()) {
             lores.add("");

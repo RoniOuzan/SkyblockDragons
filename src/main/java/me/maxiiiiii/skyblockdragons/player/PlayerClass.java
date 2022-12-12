@@ -903,12 +903,32 @@ public class PlayerClass extends EntitySD implements Player {
             return;
         }
 
+        StringBuilder message = new StringBuilder();
+        for (Object value : messages) {
+            message.append(value);
+        }
+        message = new StringBuilder(message.toString());
+        this.sendMessage(message.toString());
+    }
+
+    public void sendDebugMessage(Object... messages) {
+        if (messages.length == 0) {
+            this.player.sendMessage("");
+            return;
+        }
+
         StringBuilder message = new StringBuilder(",");
         for (Object value : messages) {
             message.append(", ").append(value);
         }
         message = new StringBuilder(message.toString().replace(",, ", ""));
         this.sendMessage(message.toString());
+    }
+
+    public void sendMessage(List<String> messages) {
+        for (String message : messages) {
+            this.sendMessage(message);
+        }
     }
 
     public void sendMessage(Object message) {

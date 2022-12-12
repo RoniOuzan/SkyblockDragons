@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.world.worlds.hub;
+package me.maxiiiiii.skyblockdragons.world.worlds.hub.npcs;
 
 import me.maxiiiiii.skyblockdragons.player.bank.BankMenu;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerClickOnNPCEvent;

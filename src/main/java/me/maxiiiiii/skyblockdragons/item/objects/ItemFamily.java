@@ -87,5 +87,6 @@ public enum ItemFamily {
     HERMES,
     DEMETER,
     ARES,
+    COBBLESTONE_PICKAXE,
     NULL
 }

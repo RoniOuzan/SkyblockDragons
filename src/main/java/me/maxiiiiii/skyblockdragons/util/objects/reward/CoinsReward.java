@@ -17,7 +17,7 @@ public class CoinsReward implements Reward {
     }
 
     @Override
-    public String getLore() {
+    public String getLore(PlayerSD player) {
         return ChatColor.GOLD + Functions.getNumberFormat(this.amount);
     }
 }

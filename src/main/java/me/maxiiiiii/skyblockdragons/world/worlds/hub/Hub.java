@@ -7,6 +7,7 @@ import me.maxiiiiii.skyblockdragons.world.attributes.LaunchPad;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
+import me.maxiiiiii.skyblockdragons.world.worlds.hub.npcs.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -43,6 +44,8 @@ public class Hub extends WorldSD {
         new ReforgeNPC(new Location(world, -19.5, 71, -123.5, -90, 0));
         new AuctionMasterNPC(new Location(world, 17.5, 71, -78.5, 90, 0));
         new BankerNPC(new Location(world, 20.5, 71, -40.5, 90, 0));
+
+        new MinerNPC(new Location(world, -15.5, 71, -155.5, -45, 0));
     }
 
     public static Hub deserialize(Map<String, Object> args) {

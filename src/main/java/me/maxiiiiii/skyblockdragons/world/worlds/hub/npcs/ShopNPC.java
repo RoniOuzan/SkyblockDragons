@@ -1,17 +1,17 @@
-package me.maxiiiiii.skyblockdragons.world.worlds.hub;
+package me.maxiiiiii.skyblockdragons.world.worlds.hub.npcs;
 
 import me.maxiiiiii.skyblockdragons.player.events.PlayerClickOnNPCEvent;
 import me.maxiiiiii.skyblockdragons.world.npc.NPC;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 
-public class DailyNPC extends NPC {
-    protected DailyNPC(Location location) {
-        super("Daily", location, EntityType.VILLAGER, "");
+public class ShopNPC extends NPC {
+    public ShopNPC(Location location) {
+        super("Shop", location, EntityType.VILLAGER, "virusing");
     }
 
     @Override
     public void onClick(PlayerClickOnNPCEvent e) {
-        e.getPlayer().performCommand("dm open rewards");
+        e.getPlayer().chat("/shop");
     }
 }

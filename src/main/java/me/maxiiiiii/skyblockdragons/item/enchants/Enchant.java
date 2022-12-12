@@ -11,4 +11,8 @@ public class Enchant {
         this.level = level;
         this.enchant = enchant;
     }
+
+    public Enchant(EnchantType enchant, int level) {
+        this(level, enchant);
+    }
 }

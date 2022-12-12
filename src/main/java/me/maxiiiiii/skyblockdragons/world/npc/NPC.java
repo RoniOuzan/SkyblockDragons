@@ -20,11 +20,14 @@ public abstract class NPC {
     public static final Map<UUID, NPC> npcs = new HashMap<>();
 
     private final net.citizensnpcs.api.npc.NPC npc;
-    private final Hologram hologram;
+    private final String name;
     private final Location location;
+    private final Hologram hologram;
 
-    protected NPC(String name, Location location, EntityType type, String skin) {
+    public NPC(String name, Location location, EntityType type, String skin) {
+        this.name = name;
         this.location = location;
+
         this.npc = CitizensAPI.getNPCRegistry().createNPC(type, ChatColor.YELLOW + "" + ChatColor.BOLD + "CLICK");
         this.npc.setAlwaysUseNameHologram(true);
         this.npc.data().set("SkyblockDragons", true);
@@ -39,23 +42,23 @@ public abstract class NPC {
         this.spawn();
 
         npc.getEntity().addScoreboardTag("NPC");
-        this.hologram = Functions.createHologram(npc.getEntity().getLocation().add(0, npc.getEntity().getHeight() + 0.85, 0), name);
+        this.hologram = Functions.createHologram(npc.getEntity().getLocation().add(0, npc.getEntity().getHeight() + 0.8, 0), name);
     }
 
-    protected NPC(String name, Location location, EntityType type) {
+    public NPC(String name, Location location, EntityType type) {
         this(name, location, type, null);
     }
 
-    protected NPC(String name, Location location, String skin) {
+    public NPC(String name, Location location, String skin) {
         this(name, location, EntityType.PLAYER, skin);
     }
 
-    protected NPC(String name, Location location) {
+    public NPC(String name, Location location) {
         this(name, location, "");
     }
 
     public String getName() {
-        return this.npc.getName();
+        return this.name;
     }
 
     public UUID getUniqueId() {

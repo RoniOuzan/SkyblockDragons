@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.world.worlds.hub;
+package me.maxiiiiii.skyblockdragons.world.worlds.hub.npcs;
 
 import me.maxiiiiii.skyblockdragons.player.events.PlayerClickOnNPCEvent;
 import me.maxiiiiii.skyblockdragons.world.npc.NPC;
@@ -7,7 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 
 public class AuctionMasterNPC extends NPC {
-    protected AuctionMasterNPC(Location location) {
+    public AuctionMasterNPC(Location location) {
         super(ChatColor.GOLD + "Auction Master", location, EntityType.VILLAGER);
     }
 

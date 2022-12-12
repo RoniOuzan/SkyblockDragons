@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.world.worlds.hub;
+package me.maxiiiiii.skyblockdragons.world.worlds.hub.npcs;
 
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeMenu;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerClickOnNPCEvent;
@@ -7,7 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 
 public class ReforgeNPC extends NPC {
-    protected ReforgeNPC(Location location) {
+    public ReforgeNPC(Location location) {
         super("Reforge", location, EntityType.VILLAGER, "Cioalse");
     }
 
