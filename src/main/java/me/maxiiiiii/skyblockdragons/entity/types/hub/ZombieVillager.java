@@ -17,7 +17,7 @@ public class ZombieVillager extends EntityMaterial {
                 0,
                 30,
                 0,
-                new Equipment(Material.LEATHER_HELMET, Material.LEATHER_CHESTPLATE, Material.LEATHER_LEGGINGS, Material.DIAMOND_BOOTS, null, null),
+                new Equipment(Material.LEATHER_HELMET, Material.LEATHER_CHESTPLATE, Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS, null, null),
                 100,
                 0,
                 8,

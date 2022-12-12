@@ -29,7 +29,7 @@ public interface ItemAbilityManaCost {
         if (player.getGameMode() == GameMode.CREATIVE) return;
 
         double cost = this.getFinalCost(player, item);
-        player.addActionBar(ChatColor.AQUA.toString() + cost + " Mana (" + ChatColor.GOLD + ability.getName() + ChatColor.AQUA + ")", 1.5);
+        player.addActionBar(ChatColor.AQUA.toString() + cost + " Mana (" + ChatColor.GOLD + ability.getName() + ChatColor.AQUA + ")", 1.5, this);
         player.getStats().getMana().remove(cost);
     }
 

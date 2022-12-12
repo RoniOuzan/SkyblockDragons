@@ -11,6 +11,7 @@ import me.maxiiiiii.skyblockdragons.world.attributes.ClickableBlock;
 import me.maxiiiiii.skyblockdragons.world.attributes.LaunchPad;
 import me.maxiiiiii.skyblockdragons.world.attributes.WorldAttribute;
 import me.maxiiiiii.skyblockdragons.world.events.PlayerStepOnLaunchPadEvent;
+import me.maxiiiiii.skyblockdragons.world.region.WorldRegion;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.DeeperMines;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepmines.DeepMines;
@@ -54,6 +55,7 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
     private final List<WorldType> worldType;
     private final Requirements requirements;
 
+    private final List<WorldRegion> regions;
     private final List<WorldAttribute> attributes;
 
     private final Cooldown<Player> launchPadCooldown = new Cooldown<>();
@@ -64,6 +66,8 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
         this.warp = warp;
         this.requirements = new Requirements(Functions.splitList("me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement", modifiers));
         this.worldType = Functions.splitList("me.maxiiiiii.skyblockdragons.world.WorldType", modifiers);
+
+        this.regions = new ArrayList<>();
         this.attributes = new ArrayList<>();
 
         SkyblockDragons.plugin.getServer().getPluginManager().registerEvents(this, SkyblockDragons.plugin);
@@ -71,6 +75,10 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
 
     public boolean hasRequirements(PlayerSD player) {
         return this.requirements.hasRequirements(player) && player.getVisitedWorlds().contains(this);
+    }
+
+    public void addRegion(WorldRegion region) {
+        this.regions.add(region);
     }
 
     protected void addAttribute(WorldAttribute attribute) {
@@ -102,8 +110,21 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
         }
     }
 
-    public boolean isType(WorldType type) {
-        return this.worldType.contains(type);
+    public boolean isType(PlayerSD player, WorldType type) {
+        return this.worldType.contains(type) || isRegionType(player, type);
+    }
+
+    public boolean isRegionType(PlayerSD player, WorldType type) {
+        WorldRegion region = this.getRegion(player);
+        return region != null && region.isType(type);
+    }
+
+    public WorldRegion getRegion(PlayerSD player) {
+        for (WorldRegion region : this.regions) {
+            if (region.isInRegion(player.getLocation()))
+                return region;
+        }
+        return null;
     }
 
     protected void spawnNPCs() {}

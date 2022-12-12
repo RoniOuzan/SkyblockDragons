@@ -5,7 +5,6 @@ import de.tr7zw.changeme.nbtapi.NBTItem;
 import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Entry;
 import me.maxiiiiii.skyblockdragons.util.objects.MessageModifier;
@@ -13,7 +12,6 @@ import me.maxiiiiii.skyblockdragons.util.objects.TextMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
-import org.bukkit.configuration.MemorySection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -120,7 +118,7 @@ public class SkyblockDragonsCommand extends CommandSD {
                 PlayerSD target = args.length > 1 ? SkyblockDragons.getPlayer(args[1]) : player;
                 player.sendClickableMessage(new MessageModifier(target.getUniqueId().toString(), new Entry<>(TextMessage.Modifier.SUGGEST_MESSAGE, player.getUniqueId().toString())));
             } else if (args[0].equalsIgnoreCase("test")) {
-                player.sendMessage(Variables.getVariablesList(player.getUniqueId(), "Skill").get(0).getB());
+                player.sendMessage(player.getRegion());
             }
         } else {
             player.sendMessage(ChatColor.RED + "Invalid arguments!");

@@ -43,12 +43,12 @@ import me.maxiiiiii.skyblockdragons.player.wardrobe.Wardrobe;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
-import me.maxiiiiii.skyblockdragons.util.objects.Queue;
+import me.maxiiiiii.skyblockdragons.util.objects.MapQueue;
 import me.maxiiiiii.skyblockdragons.util.objects.SignMenuFactory;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
-import me.maxiiiiii.skyblockdragons.world.WorldType;
 import me.maxiiiiii.skyblockdragons.world.events.PlayerVisitNewWorldEvent;
+import me.maxiiiiii.skyblockdragons.world.region.WorldRegion;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.forge.Forge;
 import me.maxiiiiii.skyblockdragons.world.worlds.griffin.Griffin;
@@ -106,7 +106,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
     private final List<WorldSD> visitedWorlds;
 
-    private final Queue<ActionBarSupplier> actionBarQueue = new Queue<>();
+    private final MapQueue<ActionBarSupplier> actionBarQueue = new MapQueue<>();
 
     public static final double HEALTH_REGEN = 0.05;
 
@@ -333,11 +333,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.equipment.update();
         PlayerEquipment equipment = this.getItems();
 
-        if (this.getWorldSD().isType(WorldType.MINING)) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, -1, false, false), true);
-        } else {
-            player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
-        }
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, -1, false, false), true);
 
         this.stats.reset();
 
@@ -398,8 +394,8 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         );
     }
 
-    public void addActionBar(String text, double duration) {
-        this.actionBarQueue.add(new ActionBarSupplier(text, duration));
+    public void addActionBar(String text, double duration, Object source) {
+        this.actionBarQueue.add(source, new ActionBarSupplier(text, duration));
     }
 
     @Override
@@ -580,6 +576,10 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
     public WorldSD getWorldSD() {
         return WorldSD.get(player.getWorld());
+    }
+
+    public WorldRegion getRegion() {
+        return this.getWorldSD().getRegion(this);
     }
 
     public void warp(Warp warp) {

@@ -14,12 +14,10 @@ import me.maxiiiiii.skyblockdragons.mining.events.PlayerBreakBlockEvent;
 import me.maxiiiiii.skyblockdragons.mining.listeners.PlayerBreakBlockListener;
 import me.maxiiiiii.skyblockdragons.mining.material.BlockMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,18 +27,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class Mining implements Listener {
-    public static List<World> miningWorlds = null;
-
-    public static final HashMap<UUID, Block> playerDigging = new HashMap<>();
+    private static final HashMap<UUID, Block> playerDigging = new HashMap<>();
 
     public Mining(JavaPlugin plugin) {
-        miningWorlds = WorldSD.worlds.stream().filter(w -> w.getWorldType().contains(WorldType.MINING)).map(WorldSD::getWorld).collect(Collectors.toList());
-
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
         protocolManager.addPacketListener(new PacketAdapter(SkyblockDragons.plugin, PacketType.Play.Client.BLOCK_DIG) {
             @Override
@@ -59,11 +51,11 @@ public class Mining implements Listener {
 
     @EventHandler
     public void onBlockDamage(BlockDamageEvent e) {
-        if (!SkyblockDragons.getPlayer(e.getPlayer()).getWorldSD().isType(WorldType.MINING) || e.getPlayer().getGameMode() != GameMode.SURVIVAL) return;
-
-        if (playerDigging.getOrDefault(e.getPlayer().getUniqueId(), null) != null) return;
-
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
+        if (!player.getWorldSD().isType(player, WorldType.MINING) || e.getPlayer().getGameMode() != GameMode.SURVIVAL) return;
+
+        if (playerDigging.getOrDefault(player.getUniqueId(), null) != null) return;
+
         Block block = e.getBlock();
         BlockMaterial blockMaterial = BlockMaterial.get(player.getWorldSD(), block.getType(), block.getData());
         if (blockMaterial == null) return;

@@ -6,6 +6,7 @@ import me.maxiiiiii.skyblockdragons.world.attributes.EntityWorldSpawn;
 import me.maxiiiiii.skyblockdragons.world.attributes.LaunchPad;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
+import me.maxiiiiii.skyblockdragons.world.region.CubicWorldRegion;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.world.worlds.hub.npcs.*;
 import org.bukkit.Bukkit;
@@ -21,7 +22,7 @@ public class Hub extends WorldSD {
     public static final World world = Bukkit.getWorld("Hub");
 
     public Hub(JavaPlugin plugin) {
-        super(world, "Hub", Warp.HUB, WorldType.HUB, WorldType.COMBAT, WorldType.MINING);
+        super(world, "Hub", Warp.HUB, WorldType.HUB, WorldType.COMBAT);
 
         addAttribute(new LaunchPad(new Location(world, -9.5, 64, -229.5), 5, Warp.DEEP_MINES));
 
@@ -32,6 +33,8 @@ public class Hub extends WorldSD {
                 50,
                 Material.GRASS, Material.DIRT
                 ));
+
+        addRegion(new CubicWorldRegion("Mines", this, new Location(world, -94, 54, -114), new Location(world, 10, 82, -235), WorldType.MINING));
 
         plugin.getCommand("Hub").setExecutor(new HubCommand());
     }
