@@ -17,9 +17,10 @@ public abstract class WorldRegion {
 
     protected final List<WorldRegion> connectedRegions;
 
-    protected WorldRegion(String name, WorldSD world, WorldType... types) {
+    public WorldRegion(String name, WorldSD world, WorldType... types) {
         this.name = name;
         this.world = world;
+
         this.types = Arrays.asList(types);
 
         this.connectedRegions = new ArrayList<>();

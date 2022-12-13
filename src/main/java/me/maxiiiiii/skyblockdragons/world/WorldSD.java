@@ -11,6 +11,7 @@ import me.maxiiiiii.skyblockdragons.world.attributes.ClickableBlock;
 import me.maxiiiiii.skyblockdragons.world.attributes.LaunchPad;
 import me.maxiiiiii.skyblockdragons.world.attributes.WorldAttribute;
 import me.maxiiiiii.skyblockdragons.world.events.PlayerStepOnLaunchPadEvent;
+import me.maxiiiiii.skyblockdragons.world.region.AllWorldRegion;
 import me.maxiiiiii.skyblockdragons.world.region.WorldRegion;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.DeeperMines;
@@ -55,6 +56,7 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
     private final List<WorldType> worldType;
     private final Requirements requirements;
 
+    private final WorldRegion region;
     private final List<WorldRegion> regions;
     private final List<WorldAttribute> attributes;
 
@@ -67,6 +69,7 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
         this.requirements = new Requirements(Functions.splitList("me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement", modifiers));
         this.worldType = Functions.splitList("me.maxiiiiii.skyblockdragons.world.WorldType", modifiers);
 
+        this.region = new AllWorldRegion(name, this);
         this.regions = new ArrayList<>();
         this.attributes = new ArrayList<>();
 
@@ -124,7 +127,7 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
             if (region.isInRegion(player.getLocation()))
                 return region;
         }
-        return null;
+        return this.region;
     }
 
     protected void spawnNPCs() {}
