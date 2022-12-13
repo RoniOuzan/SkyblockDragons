@@ -68,8 +68,20 @@ public class Forge {
         new View();
     }
 
+    public static class Command extends CommandSD {
+        @Override
+        public void command(PlayerSD player, String[] args) {
+            player.getForge().view();
+        }
+
+        @Override
+        public List<Argument> tabComplete(PlayerSD player, List<Argument> tabs) {
+            return tabs;
+        }
+    }
+
     public class View extends Menu {
-        public  View() {
+        public View() {
             super(Forge.this.player, "Forge", 6, InventoryGlassType.ALL, true);
         }
 
@@ -125,17 +137,5 @@ public class Forge {
             }
         }
 
-    }
-
-    public static class Command extends CommandSD {
-        @Override
-        public void command(PlayerSD player, String[] args) {
-            player.getForge().view();
-        }
-
-        @Override
-        public List<Argument> tabComplete(PlayerSD player, List<Argument> tabs) {
-            return tabs;
-        }
     }
 }

@@ -33,15 +33,38 @@ public class BearIsland extends WorldSD implements Listener {
     public static final World world = Bukkit.getWorld("BearIsland");
     public static final Location BEAR_SPAWN = new Location(world, -62.599, 92.06250, 212.430);
     public static final int TIME_FOR_BEAR_SOUL = 60;
-    public static EntitySD iron_golem = null;
-
     public static final Map<UUID, Double> bearDamage = new HashMap<>();
     public static final Map<UUID, Integer> amountOfPlacedEyes = new HashMap<>();
+    public static EntitySD iron_golem = null;
 
     public BearIsland(JavaPlugin plugin) {
         super(world, "Bear Island", Warp.BEAR_ISLAND, WorldType.COMBAT);
         clearBearArea();
         buildAllBearSoul();
+    }
+
+    public static EntityMaterial getRandomBear() {
+        double random = Math.random() * 100;
+        if (random >= 68)
+            return EntityMaterial.get("KOALA_BEAR");
+        if (random >= 52)
+            return EntityMaterial.get("POLAR_BEAR");
+        if (random >= 36)
+            return EntityMaterial.get("PANDA_BEAR");
+        if (random >= 4)
+            return EntityMaterial.get("GRIZZLY_BEAR");
+        if (random >= 1)
+            return EntityMaterial.get("RED_PANDA_BEAR");
+        return EntityMaterial.get("GRIZZLY_BEAR");
+    }
+
+    public static List<UUID> sortedBearDamage() {
+        return new ArrayList<>(sortedBearDamageMap().keySet());
+    }
+
+    @NotNull
+    public static Map<UUID, Double> sortedBearDamageMap() {
+        return Functions.sortByValue(bearDamage);
     }
 
     @EventHandler
@@ -70,21 +93,6 @@ public class BearIsland extends WorldSD implements Listener {
                 }
             }
         }
-    }
-
-    public static EntityMaterial getRandomBear() {
-        double random = Math.random() * 100;
-        if (random >= 68)
-            return EntityMaterial.get("KOALA_BEAR");
-        if (random >= 52)
-            return EntityMaterial.get("POLAR_BEAR");
-        if (random >= 36)
-            return EntityMaterial.get("PANDA_BEAR");
-        if (random >= 4)
-            return EntityMaterial.get("GRIZZLY_BEAR");
-        if (random >= 1)
-            return EntityMaterial.get("RED_PANDA_BEAR");
-        return EntityMaterial.get("GRIZZLY_BEAR");
     }
 
     public int getAmountOfEyes() {
@@ -145,7 +153,6 @@ public class BearIsland extends WorldSD implements Listener {
         }
     }
 
-
     public void sendBearDeadMessage(Player lastDamager) {
         EntityBear type = (EntityBear) iron_golem.material;
         Map<UUID, Double> sortedBearDamageMap = sortedBearDamageMap();
@@ -186,15 +193,6 @@ public class BearIsland extends WorldSD implements Listener {
         Functions.Loop(4, 20 * TIME_FOR_BEAR_SOUL, amount -> {
             buildConcrete(amount + 1);
         });
-    }
-
-    public static List<UUID> sortedBearDamage() {
-        return new ArrayList<>(sortedBearDamageMap().keySet());
-    }
-
-    @NotNull
-    public static Map<UUID, Double> sortedBearDamageMap() {
-        return Functions.sortByValue(bearDamage);
     }
 }
 

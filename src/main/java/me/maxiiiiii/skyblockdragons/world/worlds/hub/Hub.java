@@ -2,10 +2,10 @@ package me.maxiiiiii.skyblockdragons.world.worlds.hub;
 
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.util.objects.Entry;
-import me.maxiiiiii.skyblockdragons.world.attributes.EntityWorldSpawn;
-import me.maxiiiiii.skyblockdragons.world.attributes.LaunchPad;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
+import me.maxiiiiii.skyblockdragons.world.attributes.EntityWorldSpawn;
+import me.maxiiiiii.skyblockdragons.world.attributes.LaunchPad;
 import me.maxiiiiii.skyblockdragons.world.region.CubicWorldRegion;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.world.worlds.hub.npcs.*;
@@ -32,11 +32,15 @@ public class Hub extends WorldSD {
                 Arrays.asList(new Entry<>(EntityMaterial.get("ZOMBIE"), 70d), new Entry<>(EntityMaterial.get("ZOMBIE_VILLAGER"), 30d)),
                 50,
                 Material.GRASS, Material.DIRT
-                ));
+        ));
 
         addRegion(new CubicWorldRegion("Mines", this, new Location(world, -94, 54, -114), new Location(world, 10, 82, -235), WorldType.MINING));
 
         plugin.getCommand("Hub").setExecutor(new HubCommand());
+    }
+
+    public static Hub deserialize(Map<String, Object> args) {
+        return WorldSD.HUB;
     }
 
     @Override
@@ -49,9 +53,5 @@ public class Hub extends WorldSD {
         new BankerNPC(new Location(world, 20.5, 71, -40.5, 90, 0));
 
         new MinerNPC(new Location(world, -15.5, 71, -155.5, -45, 0));
-    }
-
-    public static Hub deserialize(Map<String, Object> args) {
-        return WorldSD.HUB;
     }
 }

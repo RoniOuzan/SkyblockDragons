@@ -21,6 +21,10 @@ public class PlayerDigBurrowEvent extends PlayerSDEvent implements Cancellable {
         this.isCancelled = false;
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     @Override
     public boolean isCancelled() {
         return this.isCancelled;
@@ -33,10 +37,6 @@ public class PlayerDigBurrowEvent extends PlayerSDEvent implements Cancellable {
 
     @Override
     public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
         return handlers;
     }
 }

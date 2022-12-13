@@ -24,7 +24,12 @@ public class DragonKillEvent extends EntitySDEvent {
         this.killers = killers;
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     @Override
-    public HandlerList getHandlers() {return handlers;}
-    public static HandlerList getHandlerList() {return handlers;}
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 }

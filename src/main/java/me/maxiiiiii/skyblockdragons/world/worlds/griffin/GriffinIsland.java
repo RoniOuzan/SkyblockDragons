@@ -25,6 +25,10 @@ public class GriffinIsland extends WorldSD implements Listener {
         plugin.getServer().getPluginManager().registerEvents(new PlayerDigBurrowListener(), plugin);
     }
 
+    public static GriffinIsland deserialize(Map<String, Object> args) {
+        return WorldSD.GRIFFIN_ISLAND;
+    }
+
     @EventHandler
     public void onPlayerBreakBlock(PlayerBreakBlockEvent e) {
         if (e.getPlayer().getWorld() != world) return;
@@ -34,9 +38,5 @@ public class GriffinIsland extends WorldSD implements Listener {
             PlayerDigBurrowEvent event = new PlayerDigBurrowEvent(player);
             Bukkit.getPluginManager().callEvent(event);
         }
-    }
-
-    public static GriffinIsland deserialize(Map<String, Object> args) {
-        return WorldSD.GRIFFIN_ISLAND;
     }
 }

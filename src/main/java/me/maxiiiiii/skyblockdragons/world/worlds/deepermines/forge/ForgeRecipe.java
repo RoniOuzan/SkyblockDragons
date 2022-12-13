@@ -23,8 +23,7 @@ import java.util.stream.Collectors;
 @Getter
 @ToString
 public enum ForgeRecipe {
-    COBALT_DRILL(Items.get("COBALT_DRILL"), Arrays.asList(new Item(Items.get("DIAMOND_PICKAXE")), new Item(Items.get("COBALT"), 128)), Time.Unit.SECOND.from(30))
-    ;
+    COBALT_DRILL(Items.get("COBALT_DRILL"), Arrays.asList(new Item(Items.get("DIAMOND_PICKAXE")), new Item(Items.get("COBALT"), 128)), Time.Unit.SECOND.from(30));
 
     private final Item item;
     private final List<Item> items;

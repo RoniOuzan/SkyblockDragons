@@ -26,16 +26,20 @@ public class PlayerPlaceEyeEvent extends PlayerSDEvent implements Cancellable {
         this.cancelled = false;
     }
 
+    public static void resetAmountOfEyes() {
+        amountOfEyes = 0;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     public int getAmountOfEyes() {
         return amountOfEyes;
     }
 
     public void addToAmountOfEyes() {
         amountOfEyes++;
-    }
-
-    public static void resetAmountOfEyes() {
-        amountOfEyes = 0;
     }
 
     @Override
@@ -49,6 +53,7 @@ public class PlayerPlaceEyeEvent extends PlayerSDEvent implements Cancellable {
     }
 
     @Override
-    public HandlerList getHandlers() {return handlers;}
-    public static HandlerList getHandlerList() {return handlers;}
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 }

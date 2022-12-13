@@ -13,10 +13,9 @@ import org.bukkit.Sound;
 
 @Getter
 public class Griffin {
+    private static final ParticlePacketUtil particle = new ParticlePacketUtil(Particle.FLAME, 0.1f, 0.1f, 0.1f, 0, 1);
     private final PlayerSD player;
     private Location burrow;
-
-    private static final ParticlePacketUtil particle = new ParticlePacketUtil(Particle.FLAME, 0.1f, 0.1f, 0.1f, 0, 1);
 
     public Griffin(PlayerSD player) {
         this.player = player;

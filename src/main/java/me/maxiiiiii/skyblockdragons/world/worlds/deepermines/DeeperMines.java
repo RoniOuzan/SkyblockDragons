@@ -18,6 +18,10 @@ public class DeeperMines extends WorldSD {
         super(world, "Deeper Mines", Warp.DEEPER_MINES, WorldType.MINING, WorldType.COMBAT);
     }
 
+    public static DeeperMines deserialize(Map<String, Object> args) {
+        return WorldSD.DEEPER_MINES;
+    }
+
     @Override
     protected void spawnNPCs() {
         new ForgeNPC(new Location(world, -22.5, 151, -48.5, -90, 0));
@@ -31,9 +35,5 @@ public class DeeperMines extends WorldSD {
 
         new ForgeNPC(new Location(world, -22.5, 151, -88.5, -90, 0));
         new ForgeNPC(new Location(world, 23.5, 151, -88.5, 90, 0));
-    }
-
-    public static DeeperMines deserialize(Map<String, Object> args) {
-        return WorldSD.DEEPER_MINES;
     }
 }

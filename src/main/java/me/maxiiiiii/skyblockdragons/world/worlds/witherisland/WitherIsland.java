@@ -35,47 +35,14 @@ public class WitherIsland extends WorldSD implements Listener {
     public static final Location WITHER_SPAWN = new Location(world, -63.500, 72.50000, 63.500);
     public static final Location MIDDLE = new Location(world, -63.500, 72.50000, 63.500);
     public static final int TIME_FOR_SOULSAND = 60;
-    public static EntitySD wither = null;
-
     public static final Map<UUID, Double> witherDamage = new HashMap<>();
     public static final Map<UUID, Integer> amountOfPlacedEyes = new HashMap<>();
+    public static EntitySD wither = null;
 
     public WitherIsland(JavaPlugin plugin) {
         super(world, "Wither Island", Warp.WITHER_ISLAND, WorldType.COMBAT);
         clearWitherArea();
         buildAllSoulSand();
-    }
-
-    @EventHandler
-    public void onWitherDeath(EntityDeathEvent e){
-        try {
-            LivingEntity entity = e.getEntity();
-            if (wither.getUniqueId() != null && entity.getUniqueId().equals(wither.getUniqueId())){
-    //            EntitySD entitySD = EntitySD.get(entity);
-                Functions.Wait(20, () -> sendWitherDeadMessage(e.getEntity().getKiller()));
-            }
-        } catch (NullPointerException ignored){}
-    }
-
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onBlockPlace(BlockPlaceEvent event) {
-        Block block = event.getBlock();
-        PlayerSD player = SkyblockDragons.getPlayer(event.getPlayer());
-        if (block.getWorld() == world){
-            ItemStack item = event.getItemInHand();
-            ItemMaterial material = Functions.getItemMaterial(item);
-            if (material == Items.get("WITHER_SKULL")){
-//                player.sendMessage(String.format("Trying to place wither skull! %s %s %s", block.getX(), block.getY(), block.getZ()));
-                if (block.getY() == 73 && block.getZ() == 63){
-//                    player.sendMessage("Close to good location!");
-                    // -63 -64 -65
-                    if (block.getX() <= -63 && block.getX() >= -65){
-//                        player.sendMessage("At the good location!");
-                        onSkullPlace(event);
-                    }
-                }
-            }
-        }
     }
 
     public static EntityMaterial getRandomWither() {
@@ -95,7 +62,67 @@ public class WitherIsland extends WorldSD implements Listener {
         return EntityMaterial.get("TEST_WITHER");
     }
 
-    public void onSkullPlace(BlockPlaceEvent event){
+    public static List<UUID> sortedWitherDamage() {
+        return new ArrayList<>(sortedWitherDamageMap().keySet());
+    }
+
+    @NotNull
+    public static Map<UUID, Double> sortedWitherDamageMap() {
+        return Functions.sortByValue(witherDamage);
+    }
+
+    public static PlayerSD getWitherTarget() {
+        List<UUID> sortedWitherDamage = sortedWitherDamage();
+        for (UUID uuid : sortedWitherDamage) {
+            PlayerSD target = SkyblockDragons.getPlayer(uuid);
+            if (target != null && target.isOnline()) {
+                Location location = wither.entity.getLocation();
+                if (location.getWorld().equals(target.getWorld()) && location.distance(target.getLocation()) <= 70) {
+                    return target;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static WitherIsland deserialize(Map<String, Object> args) {
+        return WorldSD.WITHER_ISLAND;
+    }
+
+    @EventHandler
+    public void onWitherDeath(EntityDeathEvent e) {
+        try {
+            LivingEntity entity = e.getEntity();
+            if (wither.getUniqueId() != null && entity.getUniqueId().equals(wither.getUniqueId())) {
+                //            EntitySD entitySD = EntitySD.get(entity);
+                Functions.Wait(20, () -> sendWitherDeadMessage(e.getEntity().getKiller()));
+            }
+        } catch (NullPointerException ignored) {
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onBlockPlace(BlockPlaceEvent event) {
+        Block block = event.getBlock();
+        PlayerSD player = SkyblockDragons.getPlayer(event.getPlayer());
+        if (block.getWorld() == world) {
+            ItemStack item = event.getItemInHand();
+            ItemMaterial material = Functions.getItemMaterial(item);
+            if (material == Items.get("WITHER_SKULL")) {
+//                player.sendMessage(String.format("Trying to place wither skull! %s %s %s", block.getX(), block.getY(), block.getZ()));
+                if (block.getY() == 73 && block.getZ() == 63) {
+//                    player.sendMessage("Close to good location!");
+                    // -63 -64 -65
+                    if (block.getX() <= -63 && block.getX() >= -65) {
+//                        player.sendMessage("At the good location!");
+                        onSkullPlace(event);
+                    }
+                }
+            }
+        }
+    }
+
+    public void onSkullPlace(BlockPlaceEvent event) {
         Block block = event.getBlock();
         PlayerSD player = SkyblockDragons.getPlayer(event.getPlayer());
         UUID uuid = player.getUniqueId();
@@ -103,7 +130,7 @@ public class WitherIsland extends WorldSD implements Listener {
         Integer eyes = amountOfPlacedEyes.getOrDefault(uuid, 0);
         amountOfPlacedEyes.put(uuid, eyes + 1);
         for (Player loop_player : player.getWorld().getPlayers()) {
-            loop_player.sendMessage( ChatColor.DARK_PURPLE + "☬ " + player.getDisplayName() + ChatColor.LIGHT_PURPLE + " placed a skull! (" + getAmountOfEyes() + "/3)");
+            loop_player.sendMessage(ChatColor.DARK_PURPLE + "☬ " + player.getDisplayName() + ChatColor.LIGHT_PURPLE + " placed a skull! (" + getAmountOfEyes() + "/3)");
         }
 
         if (getAmountOfEyes() >= 3) {
@@ -111,49 +138,49 @@ public class WitherIsland extends WorldSD implements Listener {
         }
     }
 
-    public void spawnWither(){
+    public void spawnWither() {
         wither = new EntitySD(WITHER_SPAWN, getRandomWither());
         clearWitherArea();
     }
 
     public void clearWitherArea() {
-        Cuboid cuboid = new Cuboid(new Location(world, -65,71,63), new Location(world, -63,73,63));
+        Cuboid cuboid = new Cuboid(new Location(world, -65, 71, 63), new Location(world, -63, 73, 63));
         cuboid.forEach(block -> {
             block.setType(Material.AIR);
         });
     }
 
-    public void buildAllSoulSand(){
+    public void buildAllSoulSand() {
         for (int i = 1; i <= 4; i++) {
             buildSoulSand(i);
         }
     }
 
-    public void buildSoulSand(int num){
+    public void buildSoulSand(int num) {
         Location location = getSoulSand(num);
         location.getBlock().setType(Material.SOUL_SAND);
     }
 
-    public Location getSoulSand(int num){
+    public Location getSoulSand(int num) {
         switch (num) {
             case 1:
-                return new Location(world, -64,71,63);
+                return new Location(world, -64, 71, 63);
             case 2:
-                return new Location(world, -65,72,63);
+                return new Location(world, -65, 72, 63);
             case 3:
-                return new Location(world, -64,72,63);
+                return new Location(world, -64, 72, 63);
             case 4:
-                return new Location(world, -63,72,63);
+                return new Location(world, -63, 72, 63);
             default:
-                return new Location(world, -64,71,63);
+                return new Location(world, -64, 71, 63);
         }
     }
 
-    public int getAmountOfEyes(){
+    public int getAmountOfEyes() {
         return amountOfPlacedEyes.values().stream().mapToInt(Integer::intValue).sum();
     }
 
-    public void sendWitherDeadMessage(Player lastDamager){
+    public void sendWitherDeadMessage(Player lastDamager) {
         EntityWither type = (EntityWither) wither.material;
         Map<UUID, Double> sortedWitherDamageMap = sortedWitherDamageMap();
         List<UUID> damageDealers = sortedWitherDamage();
@@ -191,63 +218,37 @@ public class WitherIsland extends WorldSD implements Listener {
 
     public void buildSoulSandSlowly() {
         Functions.Loop(4, 20 * TIME_FOR_SOULSAND, amount -> {
-            buildSoulSand(amount+1);
+            buildSoulSand(amount + 1);
         });
     }
 
     @EventHandler
-    public void onWitherSkullHit(ProjectileHitEvent event){
+    public void onWitherSkullHit(ProjectileHitEvent event) {
         Projectile projectile = event.getEntity();
         LivingEntity shooter = (LivingEntity) projectile.getShooter();
         try {
-            if (shooter != null && wither.getUniqueId() != null && shooter.getUniqueId().equals(wither.getUniqueId()) && projectile instanceof WitherSkull){
+            if (shooter != null && wither.getUniqueId() != null && shooter.getUniqueId().equals(wither.getUniqueId()) && projectile instanceof WitherSkull) {
                 EntityWither type = (EntityWither) wither.material;
                 int radius = 3;
                 double damage = type.damage;
                 WitherSkull witherSkull = (WitherSkull) projectile;
-                if (witherSkull.isCharged()){
+                if (witherSkull.isCharged()) {
                     projectile.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, projectile.getLocation(), 1, 7, 7, 7);
                     radius = 7;
                     damage *= 4;
                 }
                 for (Entity entity : projectile.getNearbyEntities(radius, radius, radius)) {
-                    if (entity instanceof Player){
+                    if (entity instanceof Player) {
                         Player player = (Player) entity;
                         player.damage(damage, wither.entity);
                     }
                 }
             }
-        } catch (NullPointerException ignored){}
-    }
-
-    public static List<UUID> sortedWitherDamage(){
-        return new ArrayList<>(sortedWitherDamageMap().keySet());
-    }
-
-    @NotNull
-    public static Map<UUID, Double> sortedWitherDamageMap() {
-        return Functions.sortByValue(witherDamage);
-    }
-
-    public static PlayerSD getWitherTarget(){
-        List<UUID> sortedWitherDamage = sortedWitherDamage();
-        for (UUID uuid : sortedWitherDamage) {
-            PlayerSD target = SkyblockDragons.getPlayer(uuid);
-            if (target != null && target.isOnline()) {
-                Location location = wither.entity.getLocation();
-                if (location.getWorld().equals(target.getWorld()) && location.distance(target.getLocation()) <= 70) {
-                    return target;
-                }
-            }
+        } catch (NullPointerException ignored) {
         }
-        return null;
     }
 
-    public UUID getLeaderBoard(int index){
+    public UUID getLeaderBoard(int index) {
         return sortedWitherDamage().get(index);
-    }
-
-    public static WitherIsland deserialize(Map<String, Object> args) {
-        return WorldSD.WITHER_ISLAND;
     }
 }

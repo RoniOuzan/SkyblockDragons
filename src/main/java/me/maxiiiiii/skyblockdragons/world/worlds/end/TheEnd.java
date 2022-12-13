@@ -53,15 +53,15 @@ public class TheEnd extends WorldSD implements Listener {
         plugin.getServer().getPluginManager().registerEvents(new DragonKillListener(), plugin);
     }
 
-    public static Item breakArmorPiece(Item item){
+    public static Item breakArmorPiece(Item item) {
         ItemMaterial itemMaterial = item.getMaterial();
-        if (itemMaterial.name().contains("_DRAGON_") && itemMaterial instanceof ArmorMaterial){
+        if (itemMaterial.name().contains("_DRAGON_") && itemMaterial instanceof ArmorMaterial) {
             ItemStack[] items = Recipe.get(itemMaterial.name()).getItems();
             ItemStack fragment = items[3];
             ItemMaterial fragmentMaterial = Functions.getItemMaterial(fragment);
             int amount = 0;
             for (ItemStack itemStack : items) {
-                if (Functions.isNotAir(itemStack) && itemStack.isSimilar(fragment)){
+                if (Functions.isNotAir(itemStack) && itemStack.isSimilar(fragment)) {
                     amount += itemStack.getAmount();
                 }
             }
@@ -127,6 +127,10 @@ public class TheEnd extends WorldSD implements Listener {
         });
     }
 
+    public static TheEnd deserialize(Map<String, Object> args) {
+        return WorldSD.THE_END;
+    }
+
     @EventHandler
     public void onClickBlock(PlayerInteractEvent e) {
         if (e.getClickedBlock() == null) return;
@@ -141,10 +145,10 @@ public class TheEnd extends WorldSD implements Listener {
                     if (e.getPlayer().getGameMode() != GameMode.CREATIVE && !id.equals("ADMIN_SUMMONING_EYE")) {
                         e.getPlayer().getEquipment().setItemInMainHand(null);
                     }
-                    if (id.equals("ADMIN_SUMMONING_EYE")){
-                        if (e.getPlayer().getGameMode() != GameMode.CREATIVE){
+                    if (id.equals("ADMIN_SUMMONING_EYE")) {
+                        if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
                             Integer amount = PlayerPlaceEyeListener.amountOfPlacedEyes.getOrDefault(player, 0);
-                            if (amount > 4){
+                            if (amount > 4) {
                                 player.sendMessage("PLACE 4 OR BLIND!");
                                 player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 600, 1));
                                 player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 600, 4));
@@ -167,7 +171,7 @@ public class TheEnd extends WorldSD implements Listener {
             EnderDragon dragon = (EnderDragon) e.getEntity();
             if (dragon.getWorld().getName().equals("TheEnd")) {
                 long diff = System.currentTimeMillis() - time;
-                if (diff <= 2000){
+                if (diff <= 2000) {
                     SkyblockDragons.logger.warning("Dragon died too quick to count! " + diff);
                     return;
                 }
@@ -184,9 +188,5 @@ public class TheEnd extends WorldSD implements Listener {
     public void onDragonChangePhase(EnderDragonChangePhaseEvent e) {
         if (e.getNewPhase() == EnderDragon.Phase.DYING)
             e.setCancelled(true);
-    }
-
-    public static TheEnd deserialize(Map<String, Object> args) {
-        return WorldSD.THE_END;
     }
 }
