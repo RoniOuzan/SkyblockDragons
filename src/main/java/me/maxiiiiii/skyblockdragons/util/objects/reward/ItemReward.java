@@ -12,6 +12,10 @@ public class ItemReward implements Reward {
         this.item = item;
     }
 
+    public ItemReward(Item item) {
+        this(p -> item);
+    }
+
     @Override
     public void give(PlayerSD player) {
         player.give(this.item.apply(player));

@@ -46,4 +46,12 @@ public abstract class WorldRegion {
     public String toString() {
         return this.name;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof WorldRegion) {
+            return this.name.equals(((WorldRegion) obj).name) && this.world.equals(((WorldRegion) obj).world);
+        }
+        return false;
+    }
 }

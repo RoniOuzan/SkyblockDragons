@@ -12,8 +12,8 @@ import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-public class StoneMaterial extends MiningBlockMaterial implements RespawnBlock {
-    public StoneMaterial() {
+public class Stone extends MiningBlockMaterial implements RespawnBlock {
+    public Stone() {
         super("STONE",
                 new BlockMaterials(Material.STONE),
                 15,

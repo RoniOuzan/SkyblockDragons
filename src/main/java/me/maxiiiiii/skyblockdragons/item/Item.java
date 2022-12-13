@@ -286,9 +286,9 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
 
         if (material instanceof ItemCoopAttached) {
             if (material instanceof ItemAttached)
-                lores.add(ChatColor.DARK_GRAY + "ATTACHED");
+                lores.add(ChatColor.DARK_GRAY + "Attached");
             else
-                lores.add(ChatColor.DARK_GRAY + "COOP ATTACHED");
+                lores.add(ChatColor.DARK_GRAY + "Coop Attached");
         }
 
         if (material instanceof ItemRequirementAble) {

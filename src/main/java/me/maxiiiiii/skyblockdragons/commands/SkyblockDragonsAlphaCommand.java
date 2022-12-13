@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.commands.manager.QuickSubCommand;
 import me.maxiiiiii.skyblockdragons.events.listeners.JoinQuitListener;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
+import org.bukkit.ChatColor;
 
 public class SkyblockDragonsAlphaCommand extends QuickCommand {
     public SkyblockDragonsAlphaCommand() {
@@ -16,11 +17,11 @@ public class SkyblockDragonsAlphaCommand extends QuickCommand {
             Item toolItem = player.getItems().getTool();
             Item item = TheEnd.breakArmorPiece(toolItem);
             player.getInventory().setItemInMainHand(item);
-            player.sendMessage("§c[SBD ALPHA] You BROKE %s -> %sx %s!", toolItem.getItemMeta().getDisplayName(), item.getAmount(), item.getItemMeta().getDisplayName());
+            player.sendMessage(ChatColor.RED + "[SBD ALPHA] You BROKE ", toolItem.getItemMeta().getDisplayName(), " -> ",item.getAmount() , "x ", item.getItemMeta().getDisplayName(), "!");
         }));
         addSubCommand(new QuickSubCommand("setPet", (player, args) -> {
             if (args.length < 2){
-                player.sendMessage("§c[SBD ALPHA] You need to specify a pet number");
+                player.sendMessage(ChatColor.RED + "[SBD ALPHA] You need to specify a pet number");
                 return;
             }
             int petNumber = Integer.parseInt(args[1]);

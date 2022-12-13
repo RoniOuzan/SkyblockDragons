@@ -130,6 +130,14 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
         return this.region;
     }
 
+    public WorldRegion getRegion(String name) {
+        for (WorldRegion region : this.regions) {
+            if (region.getName().equalsIgnoreCase(name))
+                return region;
+        }
+        return this.region;
+    }
+
     protected void spawnNPCs() {}
 
     public static void registerWorlds(JavaPlugin plugin) {

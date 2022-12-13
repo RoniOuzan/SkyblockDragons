@@ -30,6 +30,7 @@ import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerRegainHealthEvent;
 import me.maxiiiiii.skyblockdragons.player.objects.ActionBarSupplier;
 import me.maxiiiiii.skyblockdragons.player.party.Party;
+import me.maxiiiiii.skyblockdragons.player.quests.Quest;
 import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSource;
@@ -67,6 +68,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
 
@@ -97,6 +99,8 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     public Forge forge;
     public Griffin griffin;
 
+    private final List<Quest> activeQuests;
+
     private double lastCoins;
 
     private PowerOrbDeployAbility.PowerOrbType activePowerOrb = null;
@@ -125,6 +129,11 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.playerPet = new PlayerPet(this);
         this.enderChestSD = new EnderChest(this);
 
+        this.forge = new Forge(this);
+        this.griffin = new Griffin(this);
+
+        this.activeQuests = new ArrayList<>();
+
         this.chatChannel = ChatChannel.valueOf(Variables.getString(player.getUniqueId(), "ChatChannel", "ALL"));
 
         this.tracked = Variables.getBoolean(player.getUniqueId(), "Tracked", true);
@@ -134,9 +143,6 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
         this.playTime = Variables.getInt(player.getUniqueId(), "PlayTime", 0);
         this.bits = Variables.getInt(player.getUniqueId(), "Bits", 0);
-
-        this.forge = new Forge(this);
-        this.griffin = new Griffin(this);
 
         this.lastCoins = this.getCoins();
 
@@ -233,9 +239,21 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.bits = amount;
     }
 
+    public void startQuest(Quest quest) {
+        this.activeQuests.add(quest);
+        this.playSound(Sound.ENTITY_PLAYER_LEVELUP);
+        this.sendMessage(ChatColor.GREEN, "The Quest has started!");
+        this.sendMessage(ChatColor.GREEN, quest.getDescription(this));
+    }
+
+    public List<Quest> getQuestInRegion() {
+        return this.getActiveQuests().stream().filter(q -> q.getRegion().equals(this.getRegion())).collect(Collectors.toList());
+    }
+
     public void setActivePet(int activePetSlot) {
         this.playerPet.setActivePetSlot(activePetSlot);
     }
+
 
     public Item getActivePet() {
         if (this.playerPet == null) return null;

@@ -79,6 +79,11 @@ public abstract class NPC {
         return location;
     }
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
     public static void despawnNPCS(){
         for (NPC npc : npcs.values()) {
             npc.npc.despawn();

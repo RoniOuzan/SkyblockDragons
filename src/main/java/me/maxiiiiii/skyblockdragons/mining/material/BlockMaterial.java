@@ -9,6 +9,7 @@ import me.maxiiiiii.skyblockdragons.item.material.types.VanillaMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.mining.objects.BlockMaterials;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import org.bukkit.Material;
 import org.reflections.Reflections;
@@ -83,8 +84,16 @@ public abstract class BlockMaterial {
         return null;
     }
 
+    public static BlockMaterial get(String id) {
+        for (BlockMaterial material : BlockMaterial.blocks.values()) {
+            if (material.itemID.equals(id))
+                return material;
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
-        return this.name();
+        return Functions.setTitleCase(this.name().replace("_", " "));
     }
 }
