@@ -79,6 +79,9 @@ public abstract class NPC {
         return location;
     }
 
+    public void save() {
+    }
+
     @Override
     public String toString() {
         return this.name;
