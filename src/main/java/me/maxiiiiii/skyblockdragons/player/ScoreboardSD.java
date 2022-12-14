@@ -95,9 +95,7 @@ public class ScoreboardSD {
         } else if (player.getQuestInRegion().size() > 0) {
             Quest quest = player.getQuestInRegion().get(player.getActiveQuests().size() - 1);
 
-            if (quest.isCompleted()) {
-                scores.add(ChatColor.GREEN + "Quest Completed");
-            } else {
+            if (!quest.isCompleted()) {
                 scores.addAll(quest.getScoreboardScores());
             }
             scores.add("   "); // 3

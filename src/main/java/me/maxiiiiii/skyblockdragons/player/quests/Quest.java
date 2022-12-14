@@ -38,6 +38,7 @@ public abstract class Quest implements Listener {
 
     public void complete() {
         this.isCompleted = true;
+        player.getActiveQuests().remove(this);
 
         player.playSound(Sound.ENTITY_PLAYER_LEVELUP);
         player.sendMessage(ChatColor.GREEN + "You have completed the quest!");
