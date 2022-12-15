@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.CustomConfig;
 import me.maxiiiiii.skyblockdragons.util.objects.Entry;
+import me.maxiiiiii.skyblockdragons.world.npc.NPC;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -20,6 +21,7 @@ public class Variables {
         for (PlayerSD player : SkyblockDragons.getPlayers()) {
             player.save();
         }
+        NPC.saveAll();
 
         variables.save();
         for (CustomConfig customConfig : playerVariables.values()) {

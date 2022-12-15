@@ -95,6 +95,12 @@ public abstract class NPC {
         }
     }
 
+    public static void saveAll() {
+        for (NPC npc : npcs.values()) {
+            npc.save();
+        }
+    }
+
     public static boolean isNPC(Entity entity) {
         return npcs.containsKey(entity.getUniqueId()) || (entity.getType() == EntityType.PLAYER && Bukkit.getPlayer(entity.getUniqueId()) == null);
     }

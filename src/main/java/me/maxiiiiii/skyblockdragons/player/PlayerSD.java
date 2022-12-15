@@ -30,6 +30,7 @@ import me.maxiiiiii.skyblockdragons.player.events.PlayerGetItemEvent;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerRegainHealthEvent;
 import me.maxiiiiii.skyblockdragons.player.objects.ActionBarSupplier;
 import me.maxiiiiii.skyblockdragons.player.party.Party;
+import me.maxiiiiii.skyblockdragons.player.quests.PlayerQuests;
 import me.maxiiiiii.skyblockdragons.player.quests.Quest;
 import me.maxiiiiii.skyblockdragons.player.skill.Skill;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
@@ -99,7 +100,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     public Forge forge;
     public Griffin griffin;
 
-    private final List<Quest> activeQuests;
+    private final PlayerQuests quests;
 
     private double lastCoins;
 
@@ -132,7 +133,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.forge = new Forge(this);
         this.griffin = new Griffin(this);
 
-        this.activeQuests = new ArrayList<>();
+        this.quests = new PlayerQuests(this);
 
         this.chatChannel = ChatChannel.valueOf(Variables.getString(player.getUniqueId(), "ChatChannel", "ALL"));
 
@@ -206,6 +207,8 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
         this.forge.save();
 
+        this.quests.save();
+
         Variables.set(player.getUniqueId(), "VisitedWorlds", this.visitedWorlds);
     }
 
@@ -240,14 +243,15 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public void startQuest(Quest quest) {
-        this.activeQuests.add(quest);
+        this.quests.startQuest(quest);
+
         this.playSound(Sound.ENTITY_PLAYER_LEVELUP);
-        this.sendMessage(ChatColor.GREEN, "The Quest has started!");
-        this.sendMessage(ChatColor.GREEN, quest.getDescription(this));
+        this.sendMessage(ChatColor.GREEN, "  The Quest has started!");
+        this.sendMessage(ChatColor.GREEN, "    ", quest.getDescription(this));
     }
 
-    public List<Quest> getQuestInRegion() {
-        return this.getActiveQuests().stream().filter(q -> q.getRegion().equals(this.getRegion())).collect(Collectors.toList());
+    public List<Quest> getNotCompletedQuestInRegion() {
+        return this.getQuests().stream().filter(q -> q.getRegion().equals(this.getRegion()) && !q.isCompleted()).collect(Collectors.toList());
     }
 
     public void setActivePet(int activePetSlot) {

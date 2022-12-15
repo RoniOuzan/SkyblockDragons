@@ -1,4 +1,4 @@
-package me.maxiiiiii.skyblockdragons.player.quests;
+package me.maxiiiiii.skyblockdragons.player.quests.mining;
 
 import me.maxiiiiii.skyblockdragons.mining.events.PlayerBreakBlockEvent;
 import me.maxiiiiii.skyblockdragons.mining.material.BlockMaterial;
@@ -9,9 +9,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class MineQuest extends Quest {
+public abstract class MineQuest extends MiningQuest {
     private final Map<BlockMaterial, Integer> required;
     private final Map<BlockMaterial, Integer> mined;
 

@@ -92,10 +92,8 @@ public class ScoreboardSD {
                 scores.add(ChatColor.RED + "Boss Failed!");
             }
             scores.add("   "); // 3
-        } else if (player.getQuestInRegion().size() > 0) {
-            Quest quest = player.getQuestInRegion().get(player.getActiveQuests().size() - 1);
-
-            if (!quest.isCompleted()) {
+        } else if (player.getNotCompletedQuestInRegion().size() > 0) {
+            for (Quest quest : player.getNotCompletedQuestInRegion()) {
                 scores.addAll(quest.getScoreboardScores());
             }
             scores.add("   "); // 3

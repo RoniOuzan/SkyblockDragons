@@ -12,6 +12,7 @@ import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import org.bukkit.Material;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.reflections.Reflections;
 
 import java.lang.reflect.Modifier;
@@ -19,7 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
-public abstract class BlockMaterial {
+public abstract class BlockMaterial implements ConfigurationSerializable {
     public static final Map<String, BlockMaterial> blocks = new HashMap<>();
 
     private final String itemID;
@@ -95,5 +96,16 @@ public abstract class BlockMaterial {
     @Override
     public String toString() {
         return Functions.setTitleCase(this.name().replace("_", " "));
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", itemID);
+        return map;
+    }
+
+    public static BlockMaterial deserialize(Map<String, Object> args) {
+        return BlockMaterial.get((String) args.get("id"));
     }
 }

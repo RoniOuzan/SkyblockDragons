@@ -25,7 +25,7 @@ public class NpcInteractions {
         for (Function<PlayerSD, ? extends NpcInteraction> interact : interacts) {
             this.interacts.add(interact.apply(player).clone());
         }
-        this.interaction = Variables.getInt(this.player.getUniqueId(), "NPCInteractions", this.npc.getName(), 0);
+        this.interaction = (int) Variables.getOrDefault(this.player.getUniqueId(), "NPCInteractions", npc.getName(), 3);
         this.isInInteraction = false;
     }
 
