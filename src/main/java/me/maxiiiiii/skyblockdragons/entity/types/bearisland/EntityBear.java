@@ -45,7 +45,6 @@ public abstract class EntityBear extends EntityMaterial {
     @Override
     public void onSpawn(EntitySD entity) {
         if (entity.entity instanceof Wither){
-            BearIsland.iron_golem = entity;
             BearIsland.bearDamage.clear();
             uuid = entity.entity.getUniqueId();
             entitySD = entity;

@@ -96,6 +96,7 @@ public class Items {
         items.put("HEMATITE_SHARD", new QuickNormalMaterial(Material.SKULL_ITEM, ItemFamily.HEMATITE, "Hematite Shard", ItemType.ITEM, Rarity.LEGENDARY, "204063be-02cc-494f-b754-aaa6df8d2d6f", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2E2ZGNmMjc1Y2Y1OGM2NGNhN2I0ZDFmYzRlYTAwOWEyYjU2OTk1ZjUxYjU0OTg3NGJhNzg5ODZjZGVhYjdkMyJ9fX0=", true, true));
         items.put("VOID_CRYSTAL_SHARD", new QuickNormalMaterial(Material.SKULL_ITEM, ItemFamily.VOID_CRYSTAL, "Void Crystal Shard", ItemType.ITEM, Rarity.MYTHIC, "3e7d42f3-7abc-45e3-8c68-4670da688924", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjIwMWFlMWE4YTA0ZGY1MjY1NmY1ZTQ4MTNlMWZiY2Y5Nzg3N2RiYmZiYzQyNjhkMDQzMTZkNmY5Zjc1MyJ9fX0=", true, true));
 
+        items.put("ADMIN_BEAR_FUR", new QuickNormalMaterial(Material.TRIPWIRE_HOOK, ItemFamily.NULL, "Admin Bear fur", ItemType.ITEM, Rarity.LEGENDARY, "", "", "Use that" + ChatColor.GRAY + "to summon" + ChatColor.AQUA + "Any Bear!", true, false, false));
 
         // Other Items
         items.put("NULL_OVOID", new QuickNormalMaterial(Material.MONSTER_EGG, ItemFamily.NULL, "Null Ovoid", ItemType.ITEM, Rarity.RARE, "58", "", true, true));

@@ -4,6 +4,10 @@ import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemAbilityAble;
+import me.maxiiiiii.skyblockdragons.item.material.materials.bearisland.armors.grizzly.GrizzlyBearFullSet;
+import me.maxiiiiii.skyblockdragons.item.material.materials.bearisland.armors.koala.KoalaBearFullSet;
+import me.maxiiiiii.skyblockdragons.item.material.materials.bearisland.armors.panda.PandaBearFullSet;
+import me.maxiiiiii.skyblockdragons.item.material.materials.bearisland.armors.polar.PolarBearFullSet;
 import me.maxiiiiii.skyblockdragons.item.material.materials.deepermines.armors.DeeperMinesFullSet;
 import me.maxiiiiii.skyblockdragons.item.material.materials.deepmines.armors.pigman.PigmanFullSetBonus;
 import me.maxiiiiii.skyblockdragons.item.material.materials.dungeons.floor7.witherarmors.WitherArmorFullSetBonus;
@@ -46,6 +50,11 @@ public abstract class ItemFullSetBonus extends ItemAbility implements Listener {
     public static ItemFullSetBonus PIGMAN_FULL_SET;
     public static ItemFullSetBonus WITHER_ARMOR_FULL_SET;
 
+    public static ItemFullSetBonus GRIZZLY_BEAR_FULL_SET;
+    public static ItemFullSetBonus KOALA_BEAR_FULL_SET;
+    public static ItemFullSetBonus PANDA_BEAR_FULL_SET;
+    public static ItemFullSetBonus POLAR_BEAR_FULL_SET;
+    public static ItemFullSetBonus RED_PANDA_BEAR_FULL_SET;
     private final int amountOfPieces;
 
     protected ItemFullSetBonus(AbilityAction action, String name, Function<PlayerSD, String> description, int amountOfPieces) {
@@ -130,7 +139,12 @@ public abstract class ItemFullSetBonus extends ItemAbility implements Listener {
         DERNIC_FULL_SET = new DeeperMinesFullSet(20); fullSets.add(DERNIC_FULL_SET);
         HEMATITE_FULL_SET = new DeeperMinesFullSet(30); fullSets.add(HEMATITE_FULL_SET);
         VOID_CRYSTAL_FULL_SET = new DeeperMinesFullSet(50); fullSets.add(VOID_CRYSTAL_FULL_SET);
-        
+
+        // Bears
+        GRIZZLY_BEAR_FULL_SET = new GrizzlyBearFullSet(); fullSets.add(GRIZZLY_BEAR_FULL_SET);
+        KOALA_BEAR_FULL_SET = new KoalaBearFullSet(); fullSets.add(KOALA_BEAR_FULL_SET);
+        PANDA_BEAR_FULL_SET = new PandaBearFullSet(); fullSets.add(PANDA_BEAR_FULL_SET);
+        POLAR_BEAR_FULL_SET = new PolarBearFullSet(); fullSets.add(POLAR_BEAR_FULL_SET);
         // Other
         PIGMAN_FULL_SET = new PigmanFullSetBonus(); fullSets.add(PIGMAN_FULL_SET);
         WITHER_ARMOR_FULL_SET = new WitherArmorFullSetBonus(); fullSets.add(WITHER_ARMOR_FULL_SET);

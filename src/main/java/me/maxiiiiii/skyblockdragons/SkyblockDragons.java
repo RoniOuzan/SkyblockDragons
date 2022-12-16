@@ -72,6 +72,7 @@ import me.maxiiiiii.skyblockdragons.world.npc.NPC;
 import me.maxiiiiii.skyblockdragons.world.npc.NPCListeners;
 import me.maxiiiiii.skyblockdragons.world.warp.PlayerWarpListener;
 import me.maxiiiiii.skyblockdragons.world.warp.WarpCommand;
+import me.maxiiiiii.skyblockdragons.world.worlds.bearisland.BearIsland;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.forge.Forge;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.forge.ForgeMilestoneCommand;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
@@ -129,6 +130,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         }
 
         Bukkit.getScheduler().runTask(this, TheEnd::resetEyes);
+        Bukkit.getScheduler().runTask(this, BearIsland::resetFurs);
 
         ConfigurationSerialization.registerClass(EntityMaterial.class);
         ConfigurationSerialization.registerClass(EntitySpawn.class);

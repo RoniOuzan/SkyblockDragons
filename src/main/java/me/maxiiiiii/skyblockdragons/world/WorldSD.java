@@ -6,6 +6,7 @@ import me.maxiiiiii.skyblockdragons.mining.Mining;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
+import me.maxiiiiii.skyblockdragons.world.worlds.bearisland.BearIsland;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.DeeperMines;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepmines.DeepMines;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
@@ -31,6 +32,7 @@ public abstract class WorldSD implements Listener {
     public static DeeperMines DEEPER_MINES = null;
     public static GriffinIsland GRIFFIN_ISLAND = null;
     public static WitherIsland WITHER_ISLAND = null;
+    public static BearIsland BEAR_ISLAND = null;
 
     private final World world;
     private final String name;
@@ -61,6 +63,7 @@ public abstract class WorldSD implements Listener {
         DEEPER_MINES = new DeeperMines(plugin);
         GRIFFIN_ISLAND = new GriffinIsland(plugin);
         WITHER_ISLAND = new WitherIsland(plugin);
+        BEAR_ISLAND = new BearIsland(plugin);
 
         worlds.add(HUB);
         worlds.add(DEEP_MINES);
@@ -68,6 +71,7 @@ public abstract class WorldSD implements Listener {
         worlds.add(DEEPER_MINES);
         worlds.add(GRIFFIN_ISLAND);
         worlds.add(WITHER_ISLAND);
+        worlds.add(BEAR_ISLAND);
 
         Functions.Wait(5L, () -> {
             for (WorldSD world : worlds) {

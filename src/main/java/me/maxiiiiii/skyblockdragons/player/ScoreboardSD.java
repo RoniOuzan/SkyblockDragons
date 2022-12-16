@@ -4,6 +4,8 @@ import dev.jcsoftware.jscoreboards.JPerPlayerMethodBasedScoreboard;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
+import me.maxiiiiii.skyblockdragons.world.worlds.bearisland.BearIsland;
+import me.maxiiiiii.skyblockdragons.world.worlds.bearisland.BearType;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.DragonType;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.world.worlds.witherisland.WitherIsland;
@@ -72,6 +74,15 @@ public class ScoreboardSD {
                 scores.add(name);
                 scores.add("  " + ChatColor.WHITE + "Wither's Health: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.wither.getHealth()) + StatTypes.HEALTH.getIcon());
                 scores.add("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.witherDamage.getOrDefault(player.getUniqueId(), 0d)));
+                scores.add("  ");
+            }
+        }
+        if (BearIsland.bear != null) {
+            BearType bearType = BearType.getBearType(BearIsland.bear.material.getName());
+            if (player.getWorldSD() == WorldSD.THE_END && bearType != null) {
+                scores.add(bearType + " Bear");
+                scores.add("  " + ChatColor.WHITE + "Bear's Health: " + ChatColor.GREEN + Functions.getShortNumber(BearIsland.bear.getHealth()) + StatTypes.HEALTH.getIcon());
+                scores.add("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getShortNumber(BearIsland.bearDamage.getOrDefault(this.player, 0d)));
                 scores.add("  ");
             }
         }
