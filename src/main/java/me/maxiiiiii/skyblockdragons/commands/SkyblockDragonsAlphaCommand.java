@@ -17,7 +17,7 @@ public class SkyblockDragonsAlphaCommand extends QuickCommand {
             Item toolItem = player.getItems().getTool();
             Item item = TheEnd.breakArmorPiece(toolItem);
             player.getInventory().setItemInMainHand(item);
-            player.sendMessage(ChatColor.RED + "[SBD ALPHA] You BROKE ", toolItem.getItemMeta().getDisplayName(), " -> ",item.getAmount() , "x ", item.getItemMeta().getDisplayName(), "!");
+            player.sendMessageFormat(ChatColor.RED + "[SBD ALPHA] You BROKE ", toolItem.getItemMeta().getDisplayName(), " -> ",item.getAmount() , "x ", item.getItemMeta().getDisplayName(), "!");
         }));
         addSubCommand(new QuickSubCommand("setPet", (player, args) -> {
             if (args.length < 2){
@@ -27,7 +27,7 @@ public class SkyblockDragonsAlphaCommand extends QuickCommand {
             int petNumber = Integer.parseInt(args[1]);
             int size = player.getPlayerPet().getPets().size();
             if (size <= petNumber){
-                player.sendMessage(ChatColor.RED + "[SBD ALPHA] you have " + size + "s pets", size);
+                player.sendMessageFormat("§c[SBD ALPHA] you have %s pets", size);
                 return;
             }
             player.setActivePet(petNumber);

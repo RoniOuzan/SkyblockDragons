@@ -30,7 +30,7 @@ public class MinerNPC extends InteractableNPC {
     private final List<PlayerSD> upgraded;
 
     public MinerNPC(Location location) {
-        super("MIKE", "Mike", location, EntityType.PLAYER, "Miner");
+        super("Mike", location, EntityType.PLAYER, "Miner");
 
         this.gave = new ArrayList<>();
         this.upgraded = new ArrayList<>();
