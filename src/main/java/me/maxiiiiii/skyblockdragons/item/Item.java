@@ -173,8 +173,8 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
                 lores.add(ChatColor.GRAY + "to apply it!");
                 int levelRequirement = 0;
                 for (EnchantType enchantType : modifiers.getEnchants().keySet()) {
-                    if (enchantType.getRequirements().getRequirement(0).getLevel() >= levelRequirement)
-                        levelRequirement = enchantType.getRequirements().getRequirement(0).getLevel();
+                    if (((SkillRequirement) enchantType.getRequirements().getRequirement(0)).getLevel() >= levelRequirement)
+                        levelRequirement = ((SkillRequirement) enchantType.getRequirements().getRequirement(0)).getLevel();
                 }
                 if (player == null || player.getSkills().getEnchantingSkill().getLevel() < levelRequirement) {
                     lores.add("");

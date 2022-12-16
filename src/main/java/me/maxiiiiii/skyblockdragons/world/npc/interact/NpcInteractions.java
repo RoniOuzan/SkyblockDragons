@@ -44,6 +44,10 @@ public class NpcInteractions {
         });
     }
 
+    public boolean isCompleted() {
+        return this.interaction >= this.interacts.size();
+    }
+
     public void save() {
         Variables.set(this.player.getUniqueId(), "NPCInteractions", this.npc.getName(), this.interaction);
     }

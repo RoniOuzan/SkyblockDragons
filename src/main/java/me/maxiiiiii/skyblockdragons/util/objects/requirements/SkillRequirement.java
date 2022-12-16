@@ -1,18 +1,22 @@
 package me.maxiiiiii.skyblockdragons.util.objects.requirements;
 
+import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 
+@Getter
 public class SkillRequirement extends Requirement {
     public static final SkillRequirement NULL = new SkillRequirement(SkillType.COMBAT, 0);
 
     private final SkillType skillType;
+    private final int level;
 
     public SkillRequirement(SkillType skillType, int level) {
-        super(RequirementType.SKILL, level);
+        super(RequirementType.SKILL);
         this.skillType = skillType;
+        this.level = level;
     }
 
     @Override

@@ -20,6 +20,8 @@ public class VanillaRecipes extends RecipeRegister {
                     ItemStack[] items = new ItemStack[]{null, null, null, null, null, null, null, null, null};
                     for (int i = 0; i < less.getIngredientList().size(); i++) {
                         items[i] = new Item(Items.get(less.getIngredientList().get(i).getType().name()));
+                        Bukkit.getPlayer("LidanTheGamer").sendMessage(less.getIngredientList().get(i).getType().name() + " " + Items.get(less.getIngredientList().get(i).getType().name()));
+
                     }
                     vanillaRecipes.put(recipe.getResult().getType().name(), new Recipe(new Item(Items.get(recipe.getResult().getType().name()), recipe.getResult().getAmount()), items, 0));
                 } else if (recipe instanceof ShapedRecipe) {
@@ -38,8 +40,10 @@ public class VanillaRecipes extends RecipeRegister {
                         } else if (row.length() == 2) {
                             for (String slot : row.split("")) {
 //                                if (material.toString().contains("HOE"))
-                                if (shaped.getIngredientMap().get(slot.charAt(0)) != null)
+                                if (shaped.getIngredientMap().get(slot.charAt(0)) != null) {
                                     items[i] = new Item(shaped.getIngredientMap().get(slot.charAt(0)));
+//                                    Bukkit.getPlayer("LidanTheGamer").sendMessage(shaped.getIngredientMap().get(slot.charAt(0)) + "");
+                                }
 //                                if (!material.toString().contains("HOE"))
 //                                    i += 2;
                                 i++;

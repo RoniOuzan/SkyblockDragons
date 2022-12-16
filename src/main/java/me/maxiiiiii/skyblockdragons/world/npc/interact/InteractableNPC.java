@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.world.npc.interact;
 
+import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.events.PlayerClickOnNPCEvent;
 import me.maxiiiiii.skyblockdragons.world.npc.NPC;
@@ -12,26 +13,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+@Getter
 public class InteractableNPC extends NPC {
+    public static final Map<String, InteractableNPC> NPCS = new HashMap<>();
+
+    private final String id;
     private final List<Function<PlayerSD, ? extends NpcInteraction>> interactions;
     private final Map<PlayerSD, NpcInteractions> playerInteracts;
 
-    protected InteractableNPC(String name, Location location, EntityType type, String skin) {
+    protected InteractableNPC(String id, String name, Location location, EntityType type, String skin) {
         super(name, location, type, skin);
+        this.id = id;
         this.interactions = new ArrayList<>();
         this.playerInteracts = new HashMap<>();
+
+        NPCS.put(id, this);
     }
 
-    protected InteractableNPC(String name, Location location, EntityType type) {
-        this(name, location, type, null);
+    protected InteractableNPC(String id, String name, Location location, EntityType type) {
+        this(id, name, location, type, null);
     }
 
-    protected InteractableNPC(String name, Location location, String skin) {
-        this(name, location, EntityType.PLAYER, skin);
+    protected InteractableNPC(String id, String name, Location location, String skin) {
+        this(id, name, location, EntityType.PLAYER, skin);
     }
 
-    protected InteractableNPC(String name, Location location) {
-        this(name, location, EntityType.PLAYER, null);
+    protected InteractableNPC(String id, String name, Location location) {
+        this(id, name, location, EntityType.PLAYER, null);
     }
 
     public void addInteraction(Function<PlayerSD,  ? extends NpcInteraction> interaction) {
@@ -48,8 +56,9 @@ public class InteractableNPC extends NPC {
 
     @Override
     public void save() {
-        for (NpcInteractions interactions : playerInteracts.values()) {
-            interactions.save();
-        }
+    }
+
+    public static InteractableNPC get(String id) {
+        return NPCS.get(id);
     }
 }

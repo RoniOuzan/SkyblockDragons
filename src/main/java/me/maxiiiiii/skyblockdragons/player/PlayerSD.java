@@ -48,8 +48,11 @@ import me.maxiiiiii.skyblockdragons.util.interfaces.Condition;
 import me.maxiiiiii.skyblockdragons.util.objects.MapQueue;
 import me.maxiiiiii.skyblockdragons.util.objects.SignMenuFactory;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
+import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.events.PlayerVisitNewWorldEvent;
+import me.maxiiiiii.skyblockdragons.world.npc.interact.InteractableNPC;
+import me.maxiiiiii.skyblockdragons.world.npc.interact.NpcInteractions;
 import me.maxiiiiii.skyblockdragons.world.region.WorldRegion;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.forge.Forge;
@@ -258,6 +261,15 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.playerPet.setActivePetSlot(activePetSlot);
     }
 
+    public boolean isCompletedInteraction(String npcId) {
+        InteractableNPC npc = InteractableNPC.get(npcId);
+        if (npc == null)
+            return false;
+        NpcInteractions interactions = npc.getPlayerInteracts().get(this);
+        if (interactions == null)
+            return false;
+        return interactions.isCompleted();
+    }
 
     public Item getActivePet() {
         if (this.playerPet == null) return null;
@@ -426,13 +438,13 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public short getEnchantLevel(EnchantType enchant) {
-        if (skills.getEnchantingSkill().getLevel() < enchant.getRequirements().getRequirement(0).getLevel() && this.getGameMode() != GameMode.CREATIVE)
+        if (skills.getEnchantingSkill().getLevel() < ((SkillRequirement) enchant.getRequirements().getRequirement(0)).getLevel() && this.getGameMode() != GameMode.CREATIVE)
             return 0;
         return Functions.getEnchantLevel(player.getEquipment().getItemInMainHand(), enchant);
     }
 
     public short getEnchantLevel(EnchantType enchant, Condition condition) {
-        if (skills.getEnchantingSkill().getLevel() < enchant.getRequirements().getRequirement(0).getLevel() && this.getGameMode() != GameMode.CREATIVE)
+        if (skills.getEnchantingSkill().getLevel() < ((SkillRequirement) enchant.getRequirements().getRequirement(0)).getLevel() && this.getGameMode() != GameMode.CREATIVE)
             return 0;
         if (!condition.check())
             return 0;

@@ -7,6 +7,7 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.modifiers.EnchantModifier;
 import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -77,7 +78,7 @@ public class EnchantingTableCommand implements CommandExecutor, Listener {
                 Item requirementItem = new Item(SkyblockDragons.getPlayer(player), e.getCurrentItem());
                 if (player.getGameMode() != GameMode.CREATIVE) {
                     for (EnchantType enchantType : requirementItem.getModifiers().getEnchants().keySet()) {
-                        if (SkyblockDragons.getPlayer(player).getSkills().getEnchantingSkill().getLevel() < enchantType.getRequirements().getRequirement(0).getLevel()) {
+                        if (SkyblockDragons.getPlayer(player).getSkills().getEnchantingSkill().getLevel() < ((SkillRequirement) enchantType.getRequirements().getRequirement(0)).getLevel()) {
                             player.sendMessage(ChatColor.RED + "You don't have the requirements to apply this enchant!");
                             player.closeInventory();
                             return;

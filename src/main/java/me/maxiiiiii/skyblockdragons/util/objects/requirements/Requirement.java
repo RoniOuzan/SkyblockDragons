@@ -13,11 +13,9 @@ public abstract class Requirement implements MaterialModifier, WorldModifier {
     protected static final String icon = ChatColor.RED + "❣ Requires ";
 
     protected final RequirementType type;
-    protected final int level;
 
-    protected Requirement(RequirementType type, int level) {
+    public Requirement(RequirementType type) {
         this.type = type;
-        this.level = level;
     }
 
     public abstract boolean hasRequirement(PlayerSD player);
