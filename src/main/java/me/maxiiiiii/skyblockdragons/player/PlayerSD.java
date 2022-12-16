@@ -50,6 +50,7 @@ import me.maxiiiiii.skyblockdragons.util.objects.SignMenuFactory;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.events.PlayerVisitNewWorldEvent;
+import me.maxiiiiii.skyblockdragons.world.npc.interact.InteractableNPC;
 import me.maxiiiiii.skyblockdragons.world.region.WorldRegion;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.forge.Forge;
@@ -102,6 +103,8 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
     private final PlayerQuests quests;
 
+    private final Map<InteractableNPC, Integer> npcInteraction;
+
     private double lastCoins;
 
     private PowerOrbDeployAbility.PowerOrbType activePowerOrb = null;
@@ -134,6 +137,11 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.griffin = new Griffin(this);
 
         this.quests = new PlayerQuests(this);
+
+        this.npcInteraction = new HashMap<>();
+        for (Map.Entry<String, InteractableNPC> entry : InteractableNPC.NPCS.entrySet()) {
+            this.npcInteraction.put(entry.getValue(), Variables.getInt(player.getUniqueId(), "NPCInteractions", entry.getKey(), 0));
+        }
 
         this.chatChannel = ChatChannel.valueOf(Variables.getString(player.getUniqueId(), "ChatChannel", "ALL"));
 
@@ -208,6 +216,10 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.forge.save();
 
         this.quests.save();
+
+        for (Map.Entry<InteractableNPC, Integer> entry : npcInteraction.entrySet()) {
+            Variables.set(player.getUniqueId(), "NPCInteractions", entry.getKey().getId(), entry.getValue());
+        }
 
         Variables.set(player.getUniqueId(), "VisitedWorlds", this.visitedWorlds);
     }

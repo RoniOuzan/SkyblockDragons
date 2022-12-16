@@ -27,7 +27,7 @@ public class SkyblockDragonsAlphaCommand extends QuickCommand {
             int petNumber = Integer.parseInt(args[1]);
             int size = player.getPlayerPet().getPets().size();
             if (size <= petNumber){
-                player.sendMessage("§c[SBD ALPHA] you have %s pets", size);
+                player.sendMessage(ChatColor.RED + "[SBD ALPHA] you have " + size + "s pets", size);
                 return;
             }
             player.setActivePet(petNumber);

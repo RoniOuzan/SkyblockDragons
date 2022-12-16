@@ -157,11 +157,9 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
         worlds.add(GRIFFIN_ISLAND);
         worlds.add(WITHER_ISLAND);
 
-        Functions.Wait(5L, () -> {
-            for (WorldSD world : worlds) {
-                world.spawnNPCs();
-            }
-        });
+        for (WorldSD world : worlds) {
+            world.spawnNPCs();
+        }
     }
 
     public void sendMessage(Object... messages) {

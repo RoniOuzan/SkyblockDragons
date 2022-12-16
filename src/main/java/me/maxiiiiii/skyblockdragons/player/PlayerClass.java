@@ -883,10 +883,6 @@ public class PlayerClass extends EntitySD implements Player {
         textMessage.send(this.player);
     }
 
-    public void sendMessage(String message, Object... args) {
-        this.sendMessage(String.format(message, args));
-    }
-
     @Override
     public void sendMessage(String message) {
         this.player.sendMessage(message.replace(".0", ""));

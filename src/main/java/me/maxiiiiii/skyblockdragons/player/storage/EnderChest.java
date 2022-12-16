@@ -2,7 +2,6 @@ package me.maxiiiiii.skyblockdragons.player.storage;
 
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
-import me.maxiiiiii.skyblockdragons.util.objects.Entry;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -16,9 +15,9 @@ public class EnderChest {
         this.items = new HashMap<>();
         this.player = player;
 
-        for (Entry<String, ?> entry : Variables.getVariablesList(player.getUniqueId(), "EnderChest")) {
-            if (entry.getB() instanceof ItemStack)
-                items.put(Integer.valueOf(entry.getA()), (ItemStack) entry.getB());
+        for (Map.Entry<String, ?> entry : Variables.getVariablesList(player.getUniqueId(), "EnderChest").entrySet()) {
+            if (entry.getValue() instanceof ItemStack)
+                items.put(Integer.valueOf(entry.getKey()), (ItemStack) entry.getValue());
         }
     }
 

@@ -18,10 +18,10 @@ public class Variables {
 
     public static void save() {
         EntitySD.saveSpawns();
+        NPC.saveAll();
         for (PlayerSD player : SkyblockDragons.getPlayers()) {
             player.save();
         }
-        NPC.saveAll();
 
         variables.save();
         for (CustomConfig customConfig : playerVariables.values()) {
@@ -108,18 +108,18 @@ public class Variables {
         return getOrDefault(name, null);
     }
 
-    public static List<Entry<String, ?>> getVariablesList(UUID uuid, String name) {
+    public static Map<String, Object> getVariablesList(UUID uuid, String name) {
         if (!playerVariables.containsKey(uuid))
             playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
 
-        List<Entry<String, ?>> list = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
         for (Map.Entry<String, Object> variable : playerVariables.get(uuid).getValues(true).entrySet()) {
             String[] path = variable.getKey().split("\\.");
             if (path[0].equals(name)) {
-                list.add(new Entry<>(path[path.length - 1], variable.getValue()));
+                map.put(path[path.length - 1], variable.getValue());
             }
         }
-        return list;
+        return map;
     }
 
     public static List<Object> getVariablesList(String name) {
@@ -133,8 +133,9 @@ public class Variables {
     }
 
     public static int getInt(UUID uuid, String name, Object data, int defaultValue) {
-        if (!playerVariables.containsKey(uuid))
+        if (!playerVariables.containsKey(uuid)) {
             playerVariables.put(uuid, new CustomConfig(PLAYER_FILE + "/" + uuid.toString()).load());
+        }
 
         return playerVariables.get(uuid).getInt(name + "." + data, defaultValue);
     }
