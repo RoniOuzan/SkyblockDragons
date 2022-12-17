@@ -21,7 +21,7 @@ public class Items {
     public static Map<String, ItemMaterial> items = new HashMap<>();
     public static Map<String, ItemMaterial> itemMaterials = new HashMap<>();
     public static Map<String, PetMaterial> pets = new HashMap<>();
-    public static Map<String, ItemMaterial> vanillaMaterials = new HashMap<>();
+    public static Map<String, VanillaMaterial> vanillaMaterials = new HashMap<>();
 
     public static ItemMaterial NULL = null;
 
