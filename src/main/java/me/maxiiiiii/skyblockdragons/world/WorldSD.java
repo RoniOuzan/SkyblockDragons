@@ -20,10 +20,7 @@ import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.world.worlds.griffin.GriffinIsland;
 import me.maxiiiiii.skyblockdragons.world.worlds.hub.Hub;
 import me.maxiiiiii.skyblockdragons.world.worlds.witherisland.WitherIsland;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -103,11 +100,17 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerStepOnLaunchPad(PlayerMoveEvent e) {
         Location location = e.getTo();
-        if (location.clone().subtract(0, 1, 0).getBlock().getType() == Material.SLIME_BLOCK && Functions.cooldown(e.getPlayer(), launchPadCooldown, 200, false)) {
+        if (Functions.cooldown(e.getPlayer(), launchPadCooldown, 200, false)) {
             for (LaunchPad launchPad : this.attributes.stream().filter(a -> a instanceof LaunchPad).map(a -> (LaunchPad) a).collect(Collectors.toList())) {
+                PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
                 if (launchPad.isInThreshold(location)) {
-                    Bukkit.getPluginManager().callEvent(new PlayerStepOnLaunchPadEvent(SkyblockDragons.getPlayer(e.getPlayer()), launchPad, this, location));
-                    break;
+                    if (launchPad.getWarpTo().getRequirements().hasRequirements(player)) {
+                        Bukkit.getPluginManager().callEvent(new PlayerStepOnLaunchPadEvent(player, launchPad, this, location));
+                        break;
+                    } else {
+                        player.sendMessage(ChatColor.RED + "You don't have the requirements to use this launch pad!");
+                        player.setVelocity(player.getLocation().subtract(launchPad.getLocation()).toVector().normalize().multiply(0.5).setY(0.1));
+                    }
                 }
             }
         }

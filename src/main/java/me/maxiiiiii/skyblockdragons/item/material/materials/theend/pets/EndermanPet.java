@@ -3,7 +3,7 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.theend.pets;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import me.maxiiiiii.skyblockdragons.damage.events.UpdateEntityDamageEntityEvent;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.item.drops.UpdateDropChanceEvent;
+import me.maxiiiiii.skyblockdragons.item.drops.UpdateDropEvent;
 import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemSkull;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
@@ -91,7 +91,7 @@ public class EndermanPet extends PetMaterial {
         }
 
         @EventHandler
-        public void updateDrop(UpdateDropChanceEvent e) {
+        public void updateDrop(UpdateDropEvent e) {
             if (!(e.getPlayer().getActivePetMaterial() instanceof EndermanPet)) return;
 
             if (e.getSource() instanceof EntitySD && ((EntitySD) e.getSource()).isEndMob()) {

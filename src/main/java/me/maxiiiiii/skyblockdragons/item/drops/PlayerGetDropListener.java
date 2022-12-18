@@ -13,7 +13,7 @@ import org.bukkit.util.Vector;
 public class PlayerGetDropListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerGetDrop(PlayerGetDropEvent e) {
-        UpdateDropChanceEvent event = new UpdateDropChanceEvent(e.getPlayer(), e.getDrop(), e.getSource());
+        UpdateDropEvent event = new UpdateDropEvent(e.getPlayer(), e.getDrop(), e.getSource());
         Bukkit.getPluginManager().callEvent(event);
 
         event.applyAmountMultipliers();

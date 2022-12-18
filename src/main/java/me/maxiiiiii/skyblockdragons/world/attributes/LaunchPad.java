@@ -19,6 +19,7 @@ public class LaunchPad implements WorldAttribute {
     }
 
     public boolean isInThreshold(Location location) {
+        if (this.location.getWorld() != location.getWorld()) return false;
         return Math.abs(location.distance(this.location)) < this.distanceThreshold;
     }
 

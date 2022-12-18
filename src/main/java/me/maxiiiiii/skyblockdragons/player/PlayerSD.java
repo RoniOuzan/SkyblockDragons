@@ -586,7 +586,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public boolean ignoreRequirements() {
-        return this.getGameMode() == GameMode.CREATIVE;
+        return this.getGameMode() == GameMode.CREATIVE || this.getGameMode() == GameMode.SPECTATOR;
     }
 
     public void sendNoRequirementsMessage(String whatToUse) {

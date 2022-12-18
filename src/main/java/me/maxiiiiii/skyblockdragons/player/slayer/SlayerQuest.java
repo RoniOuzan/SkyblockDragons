@@ -183,7 +183,7 @@ public class SlayerQuest implements Listener {
 
     public void fail() {
         this.state = SlayerQuestState.FAILED;
-        this.player.sendMessage("  " + ChatColor.RED + "SLAYER QUEST FAILED!");
+        this.player.sendMessage("  " + ChatColor.RED + "" + ChatColor.BOLD + "SLAYER QUEST FAILED!");
         this.player.sendMessage("   " + ChatColor.GRAY + "Talk to Maddox to start another slayer quest!");
 
         Bukkit.getPluginManager().callEvent(new PlayerFailSlayerQuestEvent(this.player));
@@ -201,7 +201,7 @@ public class SlayerQuest implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerDeath(PlayerDeathEvent e) {
-        if (e.getPlayer() == this.player) {
+        if (e.getPlayer() == this.player && this.isBossSpawned()) {
             this.fail();
         }
     }

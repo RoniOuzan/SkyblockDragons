@@ -31,6 +31,9 @@ public abstract class StatType {
 
         if (!(this instanceof ManaStat))
             StatTypes.STATS.add(this);
+
+//        if (this instanceof Listener)
+//            Bukkit.getPluginManager().registerEvents((Listener) this, SkyblockDragons.plugin);
     }
 
     public StatType(String name, String icon, ChatColor color, String description, double base) {

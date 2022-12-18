@@ -12,17 +12,18 @@ import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSourceType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Entry;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
+import java.util.*;
+
 public class PlayerBreakBlockListener implements Listener {
+    private static final Map<Location, Entry<Material, Byte>> blocks = new HashMap<>();
+
     @EventHandler(priority = EventPriority.MONITOR)
     public void onBreakBlock(PlayerBreakBlockEvent e) {
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
@@ -48,6 +49,7 @@ public class PlayerBreakBlockListener implements Listener {
             RespawnBlock respawnBlock = (RespawnBlock) blockMaterial;
             Material material = block.getType();
             byte data = block.getData();
+            blocks.put(block.getLocation(), new Entry<>(block.getType(), block.getData()));
             Entry<Material, Integer> whenBreaks = respawnBlock.getBlockWhenBreaks(player, block);
             Entry<Material, Integer> respawnsTo = respawnBlock.getRespawnsTo(player, block, material, data);
             Functions.Wait(1L, () -> {
@@ -56,6 +58,7 @@ public class PlayerBreakBlockListener implements Listener {
             });
 
             Functions.Wait(respawnBlock.getTimeToRespawn(player, block), () -> {
+                blocks.remove(block.getLocation());
                 e.getBlock().setType(respawnsTo.getA());
                 e.getBlock().setData(respawnsTo.getB().byteValue());
             });
@@ -74,6 +77,13 @@ public class PlayerBreakBlockListener implements Listener {
                 player.sendMessage(ChatColor.RED + "You can't break this block!");
                 event.setCancelled(true);
             }
+        }
+    }
+
+    public static void resetBlocks() {
+        for (Map.Entry<Location, Entry<Material, Byte>> block : blocks.entrySet()) {
+            block.getKey().getBlock().setType(block.getValue().getA());
+            block.getKey().getBlock().setData(block.getValue().getB());
         }
     }
 }

@@ -45,7 +45,7 @@ public class MinerNPC extends InteractableNPC {
                         new RewardInteraction(this, new ItemReward(new Item(p, Items.get("COBBLESTONE_PICKAXE"), new EnchantModifier(new Enchant(EnchantType.EFFICIENCY, 2)))))
                 ),
                 new TalkWaitInteraction(this, "Now prove you are worth to join to my adventure, mine " + ChatColor.GREEN + "20 " + ChatColor.WHITE + "coals and " + ChatColor.GREEN + "64 " + ChatColor.WHITE + "cobblestones.", 2),
-                new StartQuestInteraction(this, new Quest(p))
+                new StartQuestInteraction(this, new Quest(p, new HashMap<>()))
         ));
         addInteraction(p -> new ConditionInteraction(this, () -> p.hasItem(Items.get("COBBLESTONE"), 64) && p.hasItem(Items.get("COAL"), 20) && p.getQuests().isCompleted(Quest.class),
                 new SequentialGroupInteraction(this,
@@ -87,32 +87,25 @@ public class MinerNPC extends InteractableNPC {
                         new TalkWaitInteraction(this, "Come with me to the Deep Mines, it's right over there in the cave.", 1.5)
                 ),
                 new ConditionInteraction(this, () -> p.hasItem(Items.get("COBBLESTONE_PICKAXE"), 1),
-                        new TalkWaitInteraction(this, "You don't have the " + ChatColor.GREEN + "40 " + ChatColor.WHITE + ", so I can't upgrade your pickaxe without it.", 1.5),
+                        new TalkWaitInteraction(this, "You don't have the " + ChatColor.GREEN + "40 " + ChatColor.WHITE + "coals, so I can't upgrade your pickaxe without it.", 1.5),
                         new ConditionInteraction(this, () -> p.hasItem(Items.get("COAL"), 40),
                                 new TalkWaitInteraction(this, "Give me your Cobblestone Pickaxe that I gave you earlier, I will upgrade it and then we can go to our adventure.", 1),
-                                new TalkWaitInteraction(this, "You don't have the " + ChatColor.GREEN + "40 " + ChatColor.WHITE + "coals and the Cobblestone Pickaxe, give me them because i can't upgrade your armor without it.", 1)
+                                new TalkWaitInteraction(this, "You don't have the " + ChatColor.GREEN + "40 " + ChatColor.WHITE + "coals and the Cobblestone Pickaxe, give me them because i can't upgrade your pickaxe without it.", 1)
                         )
                 )
         ).setRepeatUntil(upgraded::contains));
     }
 
     public static class Quest extends MineQuest {
-        public Quest(PlayerSD player) {
-            super(player, WorldSD.HUB.getRegion("Mines"),
+        public Quest(PlayerSD player, Map<String, Integer> mined) {
+            super(player, WorldSD.HUB.getRegion("Mines"), mined,
                     new Entry<>(BlockMaterial.get("STONE"), 64),
                     new Entry<>(BlockMaterial.get("COAL_ORE"), 20)
             );
         }
 
-        @Override
-        public Map<String, Object> serialize() {
-            Map<String, Object> map = new HashMap<>();
-            map.put("Player", player);
-            return map;
-        }
-
         public static Quest deserialize(Map<String, Object> args) {
-            return new Quest((PlayerSD) args.get("Player"));
+            return new Quest((PlayerSD) args.get("Player"), (Map<String, Integer>) args.get("Mined"));
         }
     }
 }

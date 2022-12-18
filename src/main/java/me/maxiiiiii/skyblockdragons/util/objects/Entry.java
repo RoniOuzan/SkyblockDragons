@@ -42,4 +42,13 @@ public class Entry<A, B> implements ConfigurationSerializable {
         }
         return map;
     }
+
+    @SafeVarargs
+    public static <A, B> Map<A, B> toMap(Entry<A, B>... entries) {
+        Map<A, B> map = new HashMap<>();
+        for (Entry<A, B> entry : entries) {
+            map.put(entry.getA(), entry.getB());
+        }
+        return map;
+    }
 }

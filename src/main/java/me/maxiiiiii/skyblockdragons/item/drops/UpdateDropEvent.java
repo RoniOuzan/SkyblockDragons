@@ -7,7 +7,7 @@ import me.maxiiiiii.skyblockdragons.util.objects.Multiplier;
 import org.bukkit.event.HandlerList;
 
 @Getter
-public class UpdateDropChanceEvent extends UpdateEvent {
+public class UpdateDropEvent extends UpdateEvent {
     private static final HandlerList handlerList = new HandlerList();
 
     private final Drop drop;
@@ -16,7 +16,7 @@ public class UpdateDropChanceEvent extends UpdateEvent {
     private final Multiplier chanceMultiplier;
     private final Multiplier amountMultiplier;
 
-    public UpdateDropChanceEvent(PlayerSD player, Drop drop, Object source) {
+    public UpdateDropEvent(PlayerSD player, Drop drop, Object source) {
         super(player);
         this.drop = drop;
         this.source = source;

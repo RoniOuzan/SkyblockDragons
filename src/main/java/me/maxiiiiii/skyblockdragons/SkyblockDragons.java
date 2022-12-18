@@ -37,6 +37,7 @@ import me.maxiiiiii.skyblockdragons.item.pet.PetCommand;
 import me.maxiiiiii.skyblockdragons.item.pet.PetListener;
 import me.maxiiiiii.skyblockdragons.item.pet.PetMenu;
 import me.maxiiiiii.skyblockdragons.item.reforge.ReforgeCommand;
+import me.maxiiiiii.skyblockdragons.mining.listeners.PlayerBreakBlockListener;
 import me.maxiiiiii.skyblockdragons.mining.material.BlockMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagCommand;
@@ -431,6 +432,8 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         for (Hologram holo : HologramsAPI.getHolograms(this)) {
             holo.delete();
         }
+
+        PlayerBreakBlockListener.resetBlocks();
 
         EntitySD.entities.values().stream().filter(e -> !(e instanceof PlayerSD)).forEach(e -> e.entity.remove());
 

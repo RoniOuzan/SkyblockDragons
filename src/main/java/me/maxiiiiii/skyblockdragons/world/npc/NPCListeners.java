@@ -35,7 +35,7 @@ public class NPCListeners implements Listener {
     }
 
     @EventHandler
-    public void onDespawn(NPCSpawnEvent e) {
+    public void onSpawn(NPCSpawnEvent e) {
         if (e.getNPC().data().has("SkyblockDragons")) {
             NPC npc = NPC.npcs.get(e.getNPC().getUniqueId());
             if (npc != null)

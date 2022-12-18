@@ -14,7 +14,7 @@ import me.maxiiiiii.skyblockdragons.entity.types.other.PlayerEntity;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.drops.PlayerGetDropEvent;
-import me.maxiiiiii.skyblockdragons.item.drops.UpdateDropChanceEvent;
+import me.maxiiiiii.skyblockdragons.item.drops.UpdateDropEvent;
 import me.maxiiiiii.skyblockdragons.item.drops.types.ItemDrop;
 import me.maxiiiiii.skyblockdragons.item.drops.types.ItemRareDrop;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.UpdateManaCostEvent;
@@ -217,7 +217,7 @@ public class EnchantListeners implements Listener {
     }
     
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
-    public void updateDrop(UpdateDropChanceEvent e) {
+    public void updateDrop(UpdateDropEvent e) {
         PlayerSD player = e.getPlayer();
         Map<EnchantType, Short> enchants = player.getItems().getTool().getModifiers().getEnchants();
 

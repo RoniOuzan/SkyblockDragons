@@ -19,16 +19,24 @@ public abstract class MineQuest extends MiningQuest {
     private final Map<BlockMaterial, Integer> mined;
 
     @SafeVarargs
-    public MineQuest(PlayerSD player, WorldRegion region, Entry<BlockMaterial, Integer>... materials) {
+    public MineQuest(PlayerSD player, WorldRegion region, Map<String, Integer> mined, Entry<BlockMaterial, Integer>... materials) {
         super(player, region, getDescription(materials));
-        this.required = new HashMap<>();
-        for (Entry<BlockMaterial, Integer> material : materials) {
-            this.required.put(material.getA(), material.getB());
-        }
+        this.required = Entry.toMap(materials);
         this.mined = new HashMap<>();
-        for (Entry<BlockMaterial, Integer> material : materials) {
-            this.mined.put(material.getA(), 0);
+        if (mined.isEmpty()) {
+            for (Entry<BlockMaterial, Integer> material : materials) {
+                this.mined.put(material.getA(), 0);
+            }
+        } else {
+            for (Map.Entry<String, Integer> material : mined.entrySet()) {
+                this.mined.put(BlockMaterial.get(material.getKey()), material.getValue());
+            }
         }
+    }
+
+    @SafeVarargs
+    public MineQuest(PlayerSD player, WorldRegion region, Entry<BlockMaterial, Integer>... materials) {
+        this(player, region, new HashMap<>(), materials);
     }
 
     @Override
@@ -68,5 +76,17 @@ public abstract class MineQuest extends MiningQuest {
             }
         }
         return builder.toString();
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Integer> mined = new HashMap<>();
+        for (Map.Entry<BlockMaterial, Integer> entry : this.mined.entrySet()) {
+            mined.put(entry.getKey().name(), entry.getValue());
+        }
+        map.put("Player", player);
+        map.put("Mined", mined);
+        return map;
     }
 }

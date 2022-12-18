@@ -24,7 +24,7 @@ public class Hub extends WorldSD {
     public Hub(JavaPlugin plugin) {
         super(world, "Hub", Warp.HUB, WorldType.HUB, WorldType.COMBAT);
 
-        addAttribute(new LaunchPad(new Location(world, -9.5, 64, -229.5), 5, Warp.DEEP_MINES));
+        addAttribute(new LaunchPad(new Location(world, -9.5, 64, -231), 2, Warp.DEEP_MINES));
 
         addAttribute(new EntityWorldSpawn(new Location(world, -144.5, 77, -120.5),
                 66,
