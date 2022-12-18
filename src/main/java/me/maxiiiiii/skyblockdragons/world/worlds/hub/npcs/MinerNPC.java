@@ -56,7 +56,9 @@ public class MinerNPC extends InteractableNPC {
                         }),
                         new TalkWaitInteraction(this, "Wow, you really wants to join to my adventure.", 1.5),
                         new TalkWaitInteraction(this, "One last thing before we go.", 1.5),
-                        new TalkWaitInteraction(this, "I think you need a better pickaxe.", 1.5)
+                        new TalkWaitInteraction(this, "I think you need a better pickaxe.", 1.5),
+                        new TalkWaitInteraction(this, "But i don't have the required materials to upgrade your pickaxe.", 1.5),
+                        new TalkWaitInteraction(this, "Give me " + ChatColor.GREEN  + "40 " + ChatColor.WHITE + "Coals to upgrade your pickaxe", 1.5)
 
                 ),
                 new ConditionInteraction(this, () -> p.getQuests().isCompleted(Quest.class),
@@ -71,19 +73,26 @@ public class MinerNPC extends InteractableNPC {
                         )
                 )
         ).setRepeatUntil(gave::contains));
-        addInteraction(p -> new ConditionInteraction(this, () -> p.hasItem(Items.get("COBBLESTONE_PICKAXE"), 1),
+        addInteraction(p -> new ConditionInteraction(this, () -> p.hasItem(Items.get("COBBLESTONE_PICKAXE"), 1) && p.hasItem(Items.get("COAL"), 40),
                 new SequentialGroupInteraction(this,
                         new RunInteraction(this, () -> {
                             p.playSound(Sound.BLOCK_STONE_BUTTON_CLICK_ON);
                             this.upgraded.add(p);
                             p.removeItems(Items.get("COBBLESTONE_PICKAXE"), 1);
+                            p.removeItems(Items.get("COAL"), 40);
                             p.give(new Item(p, Items.get("COAL_PICKAXE"), new EnchantModifier(new Enchant(EnchantType.EFFICIENCY, 3), new Enchant(EnchantType.FORTUNE, 1))));
                         }),
                         new TalkWaitInteraction(this, "Ok, now you have all you need.", 1.5),
                         new TalkWaitInteraction(this, "But be careful, the place we go is not for everyone.", 1.5),
                         new TalkWaitInteraction(this, "Come with me to the Deep Mines, it's right over there in the cave.", 1.5)
                 ),
-                new TalkWaitInteraction(this, "Give me your Cobblestone Pickaxe that I gave you earlier, I will upgrade it and then we can go to our adventure.", 1)
+                new ConditionInteraction(this, () -> p.hasItem(Items.get("COBBLESTONE_PICKAXE"), 1),
+                        new TalkWaitInteraction(this, "You don't have the " + ChatColor.GREEN + "40 " + ChatColor.WHITE + ", so I can't upgrade your pickaxe without it.", 1.5),
+                        new ConditionInteraction(this, () -> p.hasItem(Items.get("COAL"), 40),
+                                new TalkWaitInteraction(this, "Give me your Cobblestone Pickaxe that I gave you earlier, I will upgrade it and then we can go to our adventure.", 1),
+                                new TalkWaitInteraction(this, "You don't have the " + ChatColor.GREEN + "40 " + ChatColor.WHITE + "coals and the Cobblestone Pickaxe, give me them because i can't upgrade your armor without it.", 1)
+                        )
+                )
         ).setRepeatUntil(upgraded::contains));
     }
 

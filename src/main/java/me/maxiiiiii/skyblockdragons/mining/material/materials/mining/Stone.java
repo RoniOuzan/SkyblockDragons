@@ -15,7 +15,7 @@ import org.bukkit.block.Block;
 public class Stone extends MiningBlockMaterial implements RespawnBlock {
     public Stone() {
         super("STONE",
-                new BlockMaterials(Material.STONE),
+                new BlockMaterials(Material.STONE, Material.STONE, 5),
                 15,
                 1,
                 1,
@@ -26,7 +26,12 @@ public class Stone extends MiningBlockMaterial implements RespawnBlock {
 
     @Override
     public Entry<Material, Integer> getRespawnsTo(PlayerSD player, Block block, Material defaultMaterial, int defaultData) {
-        if (player.getWorldSD() == WorldSD.DEEP_MINES) {
+        if (player.getWorldSD() == WorldSD.HUB) {
+            if (block.getData() != 0) {
+                return new Entry<>(block.getType(), (int) block.getData());
+            }
+            return Math.random() > 0.1 ? new Entry<>(Material.STONE, 0) : new Entry<>(Material.COAL_ORE, 0);
+        } else if (player.getWorldSD() == WorldSD.DEEP_MINES) {
             if (Functions.randomInt(1, 2) == 1) {
                 return new Entry<>(Material.STONE, 0);
             }

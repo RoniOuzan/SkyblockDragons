@@ -44,7 +44,7 @@ public abstract class MineQuest extends MiningQuest {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerBreakBlock(PlayerBreakBlockEvent e) {
-        if (this.required.containsKey(e.getMaterial())) {
+        if (this.required.containsKey(e.getMaterial()) && e.getPlayer().equals(player)) {
             this.mined.put(e.getMaterial(), this.mined.getOrDefault(e.getMaterial(), 0) + 1);
 
             if (this.required.entrySet().stream().allMatch(en -> this.mined.get(en.getKey()) >= en.getValue())) {

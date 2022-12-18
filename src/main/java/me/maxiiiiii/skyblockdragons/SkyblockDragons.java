@@ -428,7 +428,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             }
         }
 
-        for (Hologram holo: HologramsAPI.getHolograms(this)) {
+        for (Hologram holo : HologramsAPI.getHolograms(this)) {
             holo.delete();
         }
 

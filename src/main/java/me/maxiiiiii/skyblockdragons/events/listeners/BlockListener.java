@@ -3,7 +3,6 @@ package me.maxiiiiii.skyblockdragons.events.listeners;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.mining.material.BlockMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -19,8 +18,8 @@ public class BlockListener implements Listener {
         Material brokeMaterial = e.getBlock().getType();
         BlockMaterial blockMaterial = BlockMaterial.get(player.getWorldSD(), brokeMaterial, e.getBlock().getData());
         if (!player.getWorld().getName().contains("ASkyBlock") && player.getGameMode() != GameMode.CREATIVE && blockMaterial == null){
-            SkyblockDragons.logger.info(String.format("Player %s NOT Broke Block %s at %s", player.getName(), brokeMaterial, e.getBlock().getLocation()));
-            player.sendMessage(ChatColor.RED + "You can't break this block! [UNKNOWN]");
+//            SkyblockDragons.logger.info(String.format("Player %s NOT Broke Block %s at %s", player.getName(), brokeMaterial, e.getBlock().getLocation()));
+//            player.sendMessage(ChatColor.RED + "You can't break this block! [UNKNOWN]");
             e.setCancelled(true);
         } else {
             SkyblockDragons.logger.info(String.format("Player %s Broke Block %s at %s", player.getName(), blockMaterial, e.getBlock().getLocation()));

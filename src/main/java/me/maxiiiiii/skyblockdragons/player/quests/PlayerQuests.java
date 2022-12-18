@@ -16,14 +16,14 @@ public class PlayerQuests implements Iterable<Quest> {
 
     private final MiningQuests miningQuests;
 
-    private final List<Quests<?>> quests;
+    private final Set<Quests<?>> quests;
 
     public PlayerQuests(PlayerSD player) {
         this.player = player;
 
         this.miningQuests = new MiningQuests(player);
 
-        this.quests = Collections.singletonList(miningQuests);
+        this.quests = new HashSet<>(Collections.singleton(miningQuests));
     }
 
     public void startQuest(Quest quest) {

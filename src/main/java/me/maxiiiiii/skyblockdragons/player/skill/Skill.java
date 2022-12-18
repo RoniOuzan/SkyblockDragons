@@ -61,6 +61,10 @@ public abstract class Skill implements Listener {
         return this.needXp[this.level];
     }
 
+    public void giveRewards() {
+        this.player.giveCoins(this.rewards.getCoins(this.level));
+    }
+
     public void giveXp(double amount) {
         this.totalXp += amount;
         this.currentXp += amount;
@@ -68,6 +72,7 @@ public abstract class Skill implements Listener {
         while (this.currentXp >= needXps[level] && this.level < this.maxLevel) {
             this.currentXp -= needXps[level];
             this.level++;
+            this.giveRewards();
             levelledUp = true;
         }
         if (levelledUp) {

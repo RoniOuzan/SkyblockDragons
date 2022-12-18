@@ -56,6 +56,9 @@ public class InteractableNPC extends NPC {
 
     @Override
     public void save() {
+        for (NpcInteractions npc : playerInteracts.values()) {
+            npc.save();
+        }
     }
 
     public static InteractableNPC get(String id) {
