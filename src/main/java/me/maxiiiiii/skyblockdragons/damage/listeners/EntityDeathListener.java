@@ -53,6 +53,7 @@ public class EntityDeathListener implements Listener {
             EntitySD killer = entity.getAttacker();
             e.setDroppedExp(0);
 
+            SkyblockDragons.getPlayer("LidanTheGamer").sendMessage("death");
             Bukkit.getPluginManager().callEvent(new EntityDeathEvent(entity, killer));
         }
     }

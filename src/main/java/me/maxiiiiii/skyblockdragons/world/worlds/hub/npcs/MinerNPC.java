@@ -45,7 +45,7 @@ public class MinerNPC extends InteractableNPC {
                         new RewardInteraction(this, new ItemReward(new Item(p, Items.get("COBBLESTONE_PICKAXE"), new EnchantModifier(new Enchant(EnchantType.EFFICIENCY, 2)))))
                 ),
                 new TalkWaitInteraction(this, "Now prove you are worth to join to my adventure, mine " + ChatColor.GREEN + "20 " + ChatColor.WHITE + "coals and " + ChatColor.GREEN + "64 " + ChatColor.WHITE + "cobblestones.", 2),
-                new StartQuestInteraction(this, new Quest(p, new HashMap<>()))
+                new StartQuestInteraction(this, new Quest(p, new HashMap<>(), false))
         ));
         addInteraction(p -> new ConditionInteraction(this, () -> p.hasItem(Items.get("COBBLESTONE"), 64) && p.hasItem(Items.get("COAL"), 20) && p.getQuests().isCompleted(Quest.class),
                 new SequentialGroupInteraction(this,
@@ -97,15 +97,15 @@ public class MinerNPC extends InteractableNPC {
     }
 
     public static class Quest extends MineQuest {
-        public Quest(PlayerSD player, Map<String, Integer> mined) {
-            super(player, WorldSD.HUB.getRegion("Mines"), mined,
+        public Quest(PlayerSD player, Map<String, Integer> mined, boolean isCompleted) {
+            super(player, WorldSD.HUB.getRegion("Mines"), isCompleted, mined,
                     new Entry<>(BlockMaterial.get("STONE"), 64),
                     new Entry<>(BlockMaterial.get("COAL_ORE"), 20)
             );
         }
 
         public static Quest deserialize(Map<String, Object> args) {
-            return new Quest((PlayerSD) args.get("Player"), (Map<String, Integer>) args.get("Mined"));
+            return new Quest((PlayerSD) args.get("Player"), (Map<String, Integer>) args.get("Mined"), (Boolean) args.get("IsCompleted"));
         }
     }
 }

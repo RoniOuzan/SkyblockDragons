@@ -37,7 +37,7 @@ public class ScoreboardSD {
         List<String> scores = new ArrayList<>();
         Date now = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy");
-        scores.add(ChatColor.GRAY + format.format(now) + ChatColor.DARK_GRAY + " " + player.getWorldSD().getName());
+        scores.add(ChatColor.GRAY + format.format(now) + ChatColor.DARK_GRAY + " " + player.getWorldSD().getName() + (player.getRegion() != player.getWorldSD().getRegion() ? " - " + player.getRegion().getName() : ""));
         scores.add(""); // 0
         scores.add(ChatColor.WHITE + "Player: " + ChatColor.GREEN + player.getName());
         if (player.getLastCoins() != player.getCoins()) {

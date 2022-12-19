@@ -27,7 +27,11 @@ public class DamageListener implements Listener {
         if (e.getAttacker() instanceof PlayerSD && e.getDamage() instanceof DamagePing)
             ((PlayerSD) e.getAttacker()).playSound(e.getAttacker().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
 
+        e.getVictim().setAttacker(e.getAttacker());
         e.getVictim().removeHealth(damage);
+
+        if (e.getVictim() instanceof PlayerSD)
+            ((PlayerSD) e.getVictim()).setLastTimedDamaged();
 
         String damageDisplay = ChatColor.GRAY + "" + Functions.getNumberFormat(damage);
         if (e.getDamage() instanceof EntityDamageEntity && ((EntityDamageEntity) e.getDamage()).isCritHit()) {

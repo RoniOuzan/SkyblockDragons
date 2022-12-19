@@ -208,7 +208,17 @@ public class Items {
     }
 
     public static ItemMaterial get(ItemStack item) {
-        return Items.items.getOrDefault(Functions.getId(item), Items.NULL);
+        ItemMaterial material = Items.items.getOrDefault(Functions.getId(item), Items.NULL);
+
+        if (material == Items.NULL && Functions.isNotAir(item)) {
+            for (VanillaMaterial vanillaMaterial : vanillaMaterials.values()) {
+                if (vanillaMaterial.getMaterial() == item.getType() && vanillaMaterial.getData() == item.getDurability()) {
+                    return vanillaMaterial;
+                }
+            }
+        }
+
+        return material;
     }
 
     public static ArmorMaterial getArmor(ItemStack item) {

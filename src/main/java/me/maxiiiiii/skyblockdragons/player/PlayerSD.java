@@ -111,6 +111,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
     private final List<Menu> menuHistory = new ArrayList<>();
     private final Cooldown<EntitySD> hitTick = new Cooldown<>();
+    private double lastTimeDamaged = 0;
 
     private final List<WorldSD> visitedWorlds;
 
@@ -265,7 +266,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         InteractableNPC npc = InteractableNPC.get(npcId);
         if (npc == null)
             return false;
-        NpcInteractions interactions = npc.getPlayerInteracts().get(this);
+        NpcInteractions interactions = npc.getPlayerInteract(this);
         if (interactions == null)
             return false;
         return interactions.isCompleted();
@@ -408,6 +409,8 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         }
 
         PlayerRegainHealthEvent regainHealthEvent = new PlayerRegainHealthEvent(this);
+        if (this.isOnCombat())
+            regainHealthEvent.setCancelled(true);
         Bukkit.getPluginManager().callEvent(regainHealthEvent);
 
         this.setWalkSpeed((float) Math.min((this.stats.getSpeed().get() / 500), 500));
@@ -464,7 +467,6 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
             }
 
             Item item = new Item(this, itemMaterial, itemStack);
-            Functions.copyNBTStack(item, itemStack);
             if (!item.isSimilar(itemStack) && !Functions.getId(itemStack).contains("_PET") && !Functions.getId(item).equals("SKYBLOCK_MENU")) {
                 player.getInventory().setItem(i, item);
             }
@@ -593,6 +595,14 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.sendMessage(ChatColor.RED + "You don't have the requirements to use this " + whatToUse + "!");
     }
 
+    public boolean isOnCombat() {
+        return SkyblockDragons.getCurrentTimeInSeconds() - this.lastTimeDamaged <= 3;
+    }
+
+    public void setLastTimedDamaged() {
+        this.lastTimeDamaged = SkyblockDragons.getCurrentTimeInSeconds();
+    }
+
     public void damage(EntityDamage damage) {
         if (damage instanceof EntityDamageEntity) {
             ((EntityDamageEntity) damage).setAttacker(this);
@@ -604,7 +614,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public void makePlayerSay(String message) {
-        SkyblockDragons.logger.info(String.format("%s [%s]: %s", getDisplayName(), getChatChannel(), message));
+//        SkyblockDragons.logger.info(String.format("%s [%s]: %s", getDisplayName(), getChatChannel(), message));
         this.chatChannel.send(this, message);
     }
 

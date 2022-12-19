@@ -46,6 +46,10 @@ public class InteractableNPC extends NPC {
         this.interactions.add(interaction);
     }
 
+    public NpcInteractions getPlayerInteract(PlayerSD player) {
+        return this.playerInteracts.getOrDefault(player, new NpcInteractions(player, this, this.interactions));
+    }
+
     @Override
     public void onClick(PlayerClickOnNPCEvent e) {
         if (!this.playerInteracts.containsKey(e.getPlayer()))

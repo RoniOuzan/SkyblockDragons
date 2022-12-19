@@ -28,7 +28,7 @@ public class VanillaDamageListener implements Listener {
     private final Cooldown<EntitySD> fireCooldown = new Cooldown<>();
     private final Cooldown<EntitySD> explosionCooldown = new Cooldown<>();
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onDamage(org.bukkit.event.entity.EntityDamageEvent e) {
         double lastDamage = e.getDamage();
         e.setDamage(0);
@@ -67,14 +67,14 @@ public class VanillaDamageListener implements Listener {
                     if (attacker.getMaterial().getTrueDamage() > 0)
                         damage2 = new TrueEntityDamageEntity(attacker, victim);
                 } else {
-                    if (event.getDamager() instanceof Projectile && ((Projectile) event.getDamager()).getShooter() instanceof Player) {
+                    if (event.getDamager() instanceof Projectile && ((Projectile) event.getDamager()).getShooter() instanceof LivingEntity) {
                         if (event.getDamager() instanceof Player && SkyblockDragons.getPlayer((Player) ((Projectile) event.getDamager()).getShooter()).isOnHitTick(victim)) {
                             e.setCancelled(true);
                             return;
                         }
 
                         Projectile projectile = (Projectile) event.getDamager();
-                        EntitySD attacker = EntitySD.get((Entity) projectile.getShooter());
+                        EntitySD attacker = EntitySD.get((LivingEntity) projectile.getShooter());
                         damage = new ProjectileEntityDamageEntity(attacker, victim, projectile);
                         if (attacker.getMaterial().getTrueDamage() > 0)
                             damage2 = new TrueEntityDamageEntity(attacker, victim);

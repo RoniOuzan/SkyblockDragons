@@ -26,4 +26,9 @@ public class Requirements {
     public Requirement getRequirement(int index) {
         return this.requirements.get(index);
     }
+
+    @Override
+    public String toString() {
+        return this.requirements.toString();
+    }
 }

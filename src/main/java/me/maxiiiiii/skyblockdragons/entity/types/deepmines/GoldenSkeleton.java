@@ -1,10 +1,9 @@
 package me.maxiiiiii.skyblockdragons.entity.types.deepmines;
 
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemDrop;
 import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemRareDrop;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,7 +17,7 @@ public class GoldenSkeleton extends EntityMaterial {
                 1,
                 50,
                 0,
-                20,
+                30,
                 0,
                 new Equipment(Material.GOLD_HELMET, null, null, null, Material.BOW, null),
                 105,

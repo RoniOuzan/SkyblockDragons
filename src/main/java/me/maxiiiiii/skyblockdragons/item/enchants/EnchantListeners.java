@@ -43,6 +43,7 @@ public class EnchantListeners implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void updateDamage(UpdateEntityDamageEntityEvent e) {
+        if (!(e.getAttacker() instanceof PlayerSD)) return;
         PlayerSD attacker = e.getPlayerAttacker();
         Item tool = attacker.getItems().getTool();
         Map<EnchantType, Short> enchants = tool.getModifiers().getEnchants();
@@ -131,6 +132,7 @@ public class EnchantListeners implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onDamage(UpdateEntityDamageEntityEvent e) {
+        if (!(e.getAttacker() instanceof PlayerSD)) return;
         PlayerSD player = e.getPlayerAttacker();
         Item tool = player.getItems().getTool();
         Map<EnchantType, Short> enchants = tool.getModifiers().getEnchants();

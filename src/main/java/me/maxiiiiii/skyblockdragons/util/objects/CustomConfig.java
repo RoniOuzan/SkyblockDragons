@@ -49,4 +49,8 @@ public class CustomConfig extends YamlConfiguration {
         }
         return this;
     }
+
+    public void delete() {
+        this.file.delete();
+    }
 }

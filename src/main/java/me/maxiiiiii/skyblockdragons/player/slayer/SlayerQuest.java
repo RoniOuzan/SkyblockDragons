@@ -208,7 +208,7 @@ public class SlayerQuest implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerGetSkillXP(PlayerGetSkillXpEvent e) {
-        if (e.getSkillType() == SkillType.COMBAT && e.getSource().getType() == SkillXpSourceType.ENTITY) { // TODO: make it only entityType specific
+        if (e.getSkillType() == SkillType.COMBAT && e.getSource().getType() == SkillXpSourceType.ENTITY && this.getPlayer() == e.getPlayer() && this.isActive()) { // TODO: make it only entityType specific
             this.giveXp(e.getFinalAmount(), (EntitySD) e.getSource().getSource());
             this.player.getScoreboardSD().update();
         }

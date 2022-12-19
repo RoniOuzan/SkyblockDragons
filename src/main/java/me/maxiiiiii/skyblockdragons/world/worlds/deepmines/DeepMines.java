@@ -28,7 +28,7 @@ public class DeepMines extends WorldSD {
                 181,
                 60,
                 Collections.singletonList(new Entry<>(EntityMaterial.get("GOLDEN_SKELETON"), 100.0)),
-                20,
+                15,
                 Material.STONE, Material.COAL_ORE, Material.IRON_ORE, Material.GOLD_ORE
         ));
 
