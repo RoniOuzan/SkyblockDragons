@@ -19,8 +19,8 @@ public abstract class MineQuest extends MiningQuest {
     private final Map<BlockMaterial, Integer> mined;
 
     @SafeVarargs
-    public MineQuest(PlayerSD player, WorldRegion region, Map<String, Integer> mined, Entry<BlockMaterial, Integer>... materials) {
-        super(player, region, getDescription(materials));
+    public MineQuest(PlayerSD player, WorldRegion region, boolean isCompleted, Map<String, Integer> mined, Entry<BlockMaterial, Integer>... materials) {
+        super(player, region, isCompleted, getDescription(materials));
         this.required = Entry.toMap(materials);
         this.mined = new HashMap<>();
         if (mined.isEmpty()) {
@@ -35,8 +35,8 @@ public abstract class MineQuest extends MiningQuest {
     }
 
     @SafeVarargs
-    public MineQuest(PlayerSD player, WorldRegion region, Entry<BlockMaterial, Integer>... materials) {
-        this(player, region, new HashMap<>(), materials);
+    public MineQuest(PlayerSD player, WorldRegion region, boolean isCompleted, Entry<BlockMaterial, Integer>... materials) {
+        this(player, region, isCompleted, new HashMap<>(), materials);
     }
 
     @Override
@@ -86,6 +86,7 @@ public abstract class MineQuest extends MiningQuest {
             mined.put(entry.getKey().name(), entry.getValue());
         }
         map.put("Player", player);
+        map.put("IsCompleted", isCompleted());
         map.put("Mined", mined);
         return map;
     }

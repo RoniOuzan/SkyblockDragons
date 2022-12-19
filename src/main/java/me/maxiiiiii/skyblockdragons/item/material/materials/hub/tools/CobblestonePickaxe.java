@@ -17,7 +17,7 @@ public class CobblestonePickaxe extends MiningMaterial implements ItemAttached {
                 ItemType.PICKAXE,
                 Rarity.COMMON,
                 new GatheringStats(40, 0, 0, 0),
-                2,
+                1,
                 ""
         );
     }

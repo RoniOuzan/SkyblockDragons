@@ -16,6 +16,9 @@ public class Variables {
     private static final Map<UUID, CustomConfig> playerVariables = new HashMap<>();
     private static final String PLAYER_FILE = "Players";
 
+    private static final List<UUID> IS_RESET_PLAYER = new ArrayList<>();
+    private static boolean IS_RESET = false;
+
     public static void save() {
         EntitySD.saveSpawns();
         for (PlayerSD player : SkyblockDragons.getPlayers()) {
@@ -23,14 +26,29 @@ public class Variables {
         }
         NPC.saveAll();
 
-        variables.save();
-        for (CustomConfig customConfig : playerVariables.values()) {
-            customConfig.save();
+        if (!IS_RESET)
+            variables.save();
+        for (Map.Entry<UUID, CustomConfig> entry : playerVariables.entrySet()) {
+            if (!IS_RESET_PLAYER.contains(entry.getKey()))
+                entry.getValue().save();
         }
     }
 
     public static void load() {
         variables.load();
+    }
+
+    public static void resetAll() {
+        variables.delete();
+        IS_RESET = true;
+        for (CustomConfig config : playerVariables.values()) {
+            config.delete();
+        }
+    }
+
+    public static void reset(UUID uuid) {
+        IS_RESET_PLAYER.add(uuid);
+        playerVariables.get(uuid).delete();
     }
 
     public static void set(UUID uuid, String name, Object data, Object value) {

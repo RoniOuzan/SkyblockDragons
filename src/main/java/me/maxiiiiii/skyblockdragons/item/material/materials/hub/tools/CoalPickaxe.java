@@ -17,7 +17,7 @@ public class CoalPickaxe extends MiningMaterial implements ItemAttached {
                 ItemType.PICKAXE,
                 Rarity.UNCOMMON,
                 new GatheringStats(50, 0, 0, 0),
-                3,
+                2,
                 ""
         );
     }

@@ -38,7 +38,8 @@ public abstract class ToolMaterial extends ItemMaterial implements ItemDescripti
     }
 
     public String getDescription(PlayerSD player) {
-        if (player == null) return "HAVE TO BE A PLAYER!";
+        if (player == null)
+            return "";
 
         return description.apply(player);
     }

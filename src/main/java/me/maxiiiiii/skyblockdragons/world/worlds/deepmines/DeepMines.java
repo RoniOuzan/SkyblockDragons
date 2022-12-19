@@ -28,7 +28,7 @@ public class DeepMines extends WorldSD {
                 181,
                 60,
                 Collections.singletonList(new Entry<>(EntityMaterial.get("GOLDEN_SKELETON"), 100.0)),
-                20,
+                15,
                 Material.STONE, Material.COAL_ORE, Material.IRON_ORE, Material.GOLD_ORE
         ));
 
@@ -36,7 +36,7 @@ public class DeepMines extends WorldSD {
                 132,
                 60,
                 Arrays.asList(new Entry<>(EntityMaterial.get("LAPIS_ZOMBIE"), 40.0), new Entry<>(EntityMaterial.get("REDSTONE_PIGMAN"), 30.0), new Entry<>(EntityMaterial.get("EMERALD_CREEPER"), 30.0)),
-                35,
+                25,
                 Material.STONE, Material.LAPIS_ORE, Material.REDSTONE, Material.EMERALD_ORE
         ));
 
@@ -44,7 +44,7 @@ public class DeepMines extends WorldSD {
                 84,
                 60,
                 Arrays.asList(new Entry<>(EntityMaterial.get("DIAMOND_ZOMBIE"), 70.0), new Entry<>(EntityMaterial.get("OBSIDIAN_ZOMBIE"), 30.0)),
-                30,
+                20,
                 Material.STONE, Material.DIAMOND_ORE, Material.DIAMOND_BLOCK, Material.OBSIDIAN
         ));
 

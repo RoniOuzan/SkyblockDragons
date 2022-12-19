@@ -48,6 +48,7 @@ import me.maxiiiiii.skyblockdragons.player.chat.ChatCommand;
 import me.maxiiiiii.skyblockdragons.player.chat.listeners.ChatListener;
 import me.maxiiiiii.skyblockdragons.player.chat.listeners.PlayerGetMessageListener;
 import me.maxiiiiii.skyblockdragons.player.chat.listeners.PlayerSendMessageListener;
+import me.maxiiiiii.skyblockdragons.player.commands.ToggleUpdateItemsCommand;
 import me.maxiiiiii.skyblockdragons.player.coop.CoopCommand;
 import me.maxiiiiii.skyblockdragons.player.listeners.*;
 import me.maxiiiiii.skyblockdragons.player.party.PartyChatCommand;
@@ -323,7 +324,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerCommand("Recipes", new RecipesMenu.Command());
         registerCommand("RecipesFor", new RecipesMenu.ForMenu.Command());
         registerCommand("RecipesWith", new RecipesMenu.WithMenu.Command());
-        getCommand("Variables").setExecutor(new VariableCommand());
         getCommand("Warp").setExecutor(new WarpCommand());
         getCommand("Warp").setTabCompleter(new WarpCommand());
         getCommand("EnchantingTable").setExecutor(new EnchantingTableCommand());
@@ -332,6 +332,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getCommand("EnderChest").setExecutor(new EnderChestMenu.Command());
         getCommand("SkyblockDragonsTest").setExecutor(new SkyblockDragonsTestCommand());
         getCommand("Alpha").setExecutor(new SkyblockDragonsAlphaCommand());
+        registerCommand("Variables", new VariableCommand());
         registerCommand("Forge", new Forge.Command());
         registerCommand("ForgeMilestone", new ForgeMilestoneCommand());
         registerCommand("Party", new PartyCommand());
@@ -343,6 +344,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerCommand("StatsAdmin", new PlayerStatsAdminCommand());
         registerCommand("PowerStone", new PowerStoneMenu.Command());
         registerCommand("PowerStoneAdmin", new PowerStoneAdminCommand());
+        registerCommand("toggleUpdateItems", new ToggleUpdateItemsCommand());
     }
 
     private void registerAllEvents() {
@@ -367,6 +369,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerEvents(new PickableItem(), this);
         registerEvents(new PlayerPickupItemListener(), this);
         registerEvents(new UpdateInventoryListeners(), this);
+        registerEvents(new PlayerChangeWorldListener(), this);
         registerEvents(new PlayerUseAbilityListener(), this);
         registerEvents(new ProfileMenu.Event(), this);
         registerEvents(new ArrowHitCancellation(), this);

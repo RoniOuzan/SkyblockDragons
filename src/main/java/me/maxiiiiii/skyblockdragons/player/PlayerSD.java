@@ -111,12 +111,15 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
     private final List<Menu> menuHistory = new ArrayList<>();
     private final Cooldown<EntitySD> hitTick = new Cooldown<>();
+    private double lastTimeDamaged = 0;
 
     private final List<WorldSD> visitedWorlds;
 
     private final MapQueue<ActionBarSupplier> actionBarQueue = new MapQueue<>();
 
     public static final double HEALTH_REGEN = 0.05;
+
+    private boolean updateItems = true;
 
     public PlayerSD(Player player) {
         super(player);
@@ -154,6 +157,8 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
         this.scoreboardSD = new ScoreboardSD(this);
         this.equipment = new PlayerEquipment();
+
+        Functions.Wait(1L, this::updatePlayerInventory);
     }
 
 //    private void setupLogger() {
@@ -179,8 +184,8 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 //    }
 //
     public void logLogin() {
-        logger.info("Player Login: " + player.getName());
-        logger.info("Player location: " + player.getLocation());
+//        logger.info("Player Login: " + player.getName());
+//        logger.info("Player location: " + player.getLocation());
     }
 //
 //    public void logLogout() {
@@ -265,7 +270,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         InteractableNPC npc = InteractableNPC.get(npcId);
         if (npc == null)
             return false;
-        NpcInteractions interactions = npc.getPlayerInteracts().get(this);
+        NpcInteractions interactions = npc.getPlayerInteract(this);
         if (interactions == null)
             return false;
         return interactions.isCompleted();
@@ -301,6 +306,10 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
         this.visitedWorlds.add(world);
         Bukkit.getPluginManager().callEvent(new PlayerVisitNewWorldEvent(this, world));
+    }
+
+    public void toggleUpdateItems() {
+        this.updateItems = !this.updateItems;
     }
 
     @Override
@@ -408,6 +417,8 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         }
 
         PlayerRegainHealthEvent regainHealthEvent = new PlayerRegainHealthEvent(this);
+        if (this.isOnCombat())
+            regainHealthEvent.setCancelled(true);
         Bukkit.getPluginManager().callEvent(regainHealthEvent);
 
         this.setWalkSpeed((float) Math.min((this.stats.getSpeed().get() / 500), 500));
@@ -452,6 +463,12 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public void updatePlayerInventory() {
+        this.updatePlayerInventory(this.getEquipment().getItemInMainHand());
+    }
+
+    public void updatePlayerInventory(ItemStack hand) {
+        if (!this.updateItems) return;
+
         for (int i = 0; i < player.getInventory().getContents().length; i++) {
             if (i > 39) continue;
             ItemStack itemStack = player.getInventory().getContents()[i];
@@ -464,20 +481,18 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
             }
 
             Item item = new Item(this, itemMaterial, itemStack);
-            Functions.copyNBTStack(item, itemStack);
             if (!item.isSimilar(itemStack) && !Functions.getId(itemStack).contains("_PET") && !Functions.getId(item).equals("SKYBLOCK_MENU")) {
                 player.getInventory().setItem(i, item);
             }
         }
-        setSkyblockMenu();
+        setSkyblockMenu(hand);
     }
 
-    public void setSkyblockMenu() {
-        ItemMaterial hand = Items.get(getEquipment().getItemInMainHand());
-        if (hand instanceof BowMaterial){
+    public void setSkyblockMenu(ItemStack hand) {
+        ItemMaterial material = Items.get(hand);
+        if (material instanceof BowMaterial && this.getSkills().getCombatSkill().getLevel() >= 5) {
             player.getInventory().setItem(8, Item.SKYBLOCK_MENU_ARROW);
-        }
-        else if (!Functions.isNotAir(player.getInventory().getItem(8)) || !Functions.getId(player.getInventory().getItem(8)).equals("SKYBLOCK_MENU")) {
+        } else if (!Functions.isNotAir(player.getInventory().getItem(8)) || !Functions.getId(player.getInventory().getItem(8)).equals("SKYBLOCK_MENU")) {
             player.getInventory().setItem(8, Item.SKYBLOCK_MENU);
         }
     }
@@ -593,6 +608,14 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.sendMessage(ChatColor.RED + "You don't have the requirements to use this " + whatToUse + "!");
     }
 
+    public boolean isOnCombat() {
+        return SkyblockDragons.getCurrentTimeInSeconds() - this.lastTimeDamaged <= 3;
+    }
+
+    public void setLastTimedDamaged() {
+        this.lastTimeDamaged = SkyblockDragons.getCurrentTimeInSeconds();
+    }
+
     public void damage(EntityDamage damage) {
         if (damage instanceof EntityDamageEntity) {
             ((EntityDamageEntity) damage).setAttacker(this);
@@ -604,7 +627,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     }
 
     public void makePlayerSay(String message) {
-        SkyblockDragons.logger.info(String.format("%s [%s]: %s", getDisplayName(), getChatChannel(), message));
+//        SkyblockDragons.logger.info(String.format("%s [%s]: %s", getDisplayName(), getChatChannel(), message));
         this.chatChannel.send(this, message);
     }
 

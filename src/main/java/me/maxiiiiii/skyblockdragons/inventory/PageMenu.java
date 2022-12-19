@@ -92,7 +92,7 @@ public abstract class PageMenu extends Menu {
             return;
         }
         this.page--;
-        this.open(true);
+        this.update();
     }
 
     public void firstPage() {

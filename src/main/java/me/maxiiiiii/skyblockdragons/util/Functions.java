@@ -1172,7 +1172,7 @@ public class Functions {
 
     public static double average(double... nums) {
         if (nums.length == 0) return 0;
-        return Arrays.stream(nums).sum() / nums.length;
+        return Math.round(Arrays.stream(nums).sum() / nums.length * 100) / 100d;
     }
 
     public static boolean isSkillName(String name) {
@@ -1610,5 +1610,38 @@ public class Functions {
 
         double random = Math.random() * 100;
         return chances.stream().filter(e -> random <= e.getB()).map(Entry::getA).findFirst().orElse(map.get(0).getA());
+    }
+
+    public static List<Block> getAirAround(Block center) {
+        List<Block> blocks = new ArrayList<>();
+
+        for (int i = 0; i < 6; i++) {
+            Block block;
+            switch (i) {
+                case 0:
+                    block = center.getLocation().add(0, 1, 0).getBlock();
+                    break;
+                case 1:
+                    block = center.getLocation().add(0, -1, 0).getBlock();
+                    break;
+                case 2:
+                    block = center.getLocation().add(1, 0, 0).getBlock();
+                    break;
+                case 3:
+                    block = center.getLocation().add(-1, 0, 0).getBlock();
+                    break;
+                case 4:
+                    block = center.getLocation().add(0, 0, 1).getBlock();
+                    break;
+                default:
+                    block = center.getLocation().add(0, 0, -1).getBlock();
+                    break;
+            }
+
+            if (block.getType() == Material.AIR)
+                blocks.add(block);
+        }
+
+        return blocks;
     }
 }

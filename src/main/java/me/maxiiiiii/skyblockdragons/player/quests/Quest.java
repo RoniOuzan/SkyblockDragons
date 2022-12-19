@@ -20,18 +20,26 @@ public abstract class Quest implements Listener, ConfigurationSerializable {
 
     private boolean isCompleted;
 
-    public Quest(PlayerSD player, WorldRegion region, Function<PlayerSD, String> description) {
+    public Quest(PlayerSD player, WorldRegion region, boolean isCompleted, Function<PlayerSD, String> description) {
         this.player = player;
         this.description = description;
         this.region = region;
 
-        this.isCompleted = false;
+        this.isCompleted = isCompleted;
 
         Bukkit.getPluginManager().registerEvents(this, SkyblockDragons.plugin);
     }
 
+    public Quest(PlayerSD player, WorldRegion region, Function<PlayerSD, String> description) {
+        this(player, region, false, description);
+    }
+
+    public Quest(PlayerSD player, WorldRegion region, boolean isCompleted, String description) {
+        this(player, region, isCompleted, p -> description);
+    }
+
     public Quest(PlayerSD player, WorldRegion region, String description) {
-        this(player, region, p -> description);
+        this(player, region, false, p -> description);
     }
 
     public void start() {
@@ -39,6 +47,7 @@ public abstract class Quest implements Listener, ConfigurationSerializable {
     }
 
     public void complete() {
+        if (isCompleted) return;
         this.isCompleted = true;
 
         player.playSound(Sound.ENTITY_PLAYER_LEVELUP);

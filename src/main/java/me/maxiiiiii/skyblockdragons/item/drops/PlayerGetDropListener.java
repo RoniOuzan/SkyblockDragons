@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.drops;
 
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -8,7 +9,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.util.Vector;
+
+import java.util.Comparator;
+import java.util.List;
 
 public class PlayerGetDropListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
@@ -18,7 +21,8 @@ public class PlayerGetDropListener implements Listener {
 
         event.applyAmountMultipliers();
         double chances = event.getChanceMultiplier().multiply(e.getDrop().getChances()) / 100;
-        if (Math.random() <= chances) {
+        double random = Math.random();
+        if (random <= chances) {
             if (e.isTelekinesis()) {
                 e.getDrop().give(e.getPlayer());
             } else {
@@ -28,11 +32,15 @@ public class PlayerGetDropListener implements Listener {
                     location = source.getLocation();
                 } else if (e.getSource() instanceof Block && e.getDrop().getSourceType() == DropSourceType.BLOCK) {
                     Block source = (Block) e.getSource();
-                    location = source.getLocation().add(new Vector(
-                            location.getX() - source.getLocation().getX(),
-                            location.getY() - source.getLocation().getY(),
-                            location.getZ() - source.getLocation().getZ()
-                    ).normalize());
+
+                    List<Block> around = Functions.getAirAround(source);
+                    if (around.size() > 0) {
+                        Location finalLocation = location;
+                        around.sort(Comparator.comparing(b -> b.getLocation().distance(finalLocation)));
+
+                        location = around.get(0).getLocation();
+                        location.add(0.5, 0.5, 0.5);
+                    }
                 }
 
                 e.getDrop().dropItem(e.getPlayer(), location);

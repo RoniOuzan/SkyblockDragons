@@ -17,7 +17,8 @@ import java.util.List;
 @Getter
 public abstract class ItemDrop {
     protected final ItemMaterial material;
-    protected int amount;
+    protected int minAmount;
+    protected int maxAmount;
     protected final double chances;
 
     protected List<Entry<Rarity, Double>> petRarityChances = new ArrayList<>();
@@ -25,7 +26,8 @@ public abstract class ItemDrop {
 
     public ItemDrop(ItemMaterial material, int amount, double chances) {
         this.material = material;
-        this.amount = amount;
+        this.minAmount = amount;
+        this.maxAmount = amount;
         this.chances = chances;
     }
 
@@ -60,21 +62,22 @@ public abstract class ItemDrop {
     }
 
     public int getAmount() {
-        return this.amount;
+        return Functions.randomInt(this.minAmount, this.maxAmount);
     }
 
     public void setAmount(int amount) {
-        this.amount = amount;
+        this.minAmount = amount;
+        this.maxAmount = amount;
     }
 
     public void give(PlayerSD player) {
-        for (int i = 0; i < this.amount; i++) {
+        for (int i = 0; i < this.getAmount(); i++) {
             player.give(getItem(player));
         }
     }
 
     public void dropItem(PlayerSD player, Location location) {
-        for (int i = 0; i < this.amount; i++) {
+        for (int i = 0; i < this.getAmount(); i++) {
             org.bukkit.entity.Item droppedItem = player.getWorld().dropItem(location, getItem(player));
             droppedItem.addScoreboardTag(player.getName());
         }

@@ -4,7 +4,6 @@ import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
-import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import org.bukkit.Material;
 
 public class GoldSword extends SwordMaterial {
@@ -14,7 +13,7 @@ public class GoldSword extends SwordMaterial {
                 ItemFamily.GOLD,
                 "Gold Sword",
                 Rarity.COMMON,
-                new Stats(20, 15, 5, 0, 0,0 ,0, 0, 0, 0),
+                new Stats(25, 0, 0, 0, 0,0 ,0, 0, 0, 0),
                 ""
         );
     }

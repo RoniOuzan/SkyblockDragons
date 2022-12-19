@@ -603,5 +603,17 @@ public class DeepMinesRecipes extends RecipeRegister {
                 null,
                 new Item(Items.get("EMERALD"))
         ), -1));
+
+        recipes.put("OBSIDIAN_SWORD", new Recipe(new Item(Items.get("OBSIDIAN_SWORD")), getItems(
+                null,
+                new Item(Items.get("OBSIDIAN"), 16),
+                null,
+                null,
+                new Item(Items.get("OBSIDIAN"), 16),
+                null,
+                null,
+                new Item(Items.get("DIAMOND_SWORD"), 1),
+                null
+        ), -1));
     }
 }

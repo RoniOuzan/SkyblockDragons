@@ -30,7 +30,7 @@ public class Stone extends MiningBlockMaterial implements RespawnBlock {
             if (block.getData() != 0) {
                 return new Entry<>(block.getType(), (int) block.getData());
             }
-            return Math.random() > 0.2 ? new Entry<>(Material.STONE, 0) : new Entry<>(Material.COAL_ORE, 0);
+            return Math.random() > 0.3 ? new Entry<>(Material.STONE, 0) : new Entry<>(Material.COAL_ORE, 0);
         } else if (player.getWorldSD() == WorldSD.DEEP_MINES) {
             if (Functions.randomInt(1, 2) == 1) {
                 return new Entry<>(Material.STONE, 0);

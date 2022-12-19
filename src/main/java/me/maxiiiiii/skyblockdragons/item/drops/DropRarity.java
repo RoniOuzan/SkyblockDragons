@@ -6,10 +6,10 @@ import org.bukkit.ChatColor;
 @Getter
 public enum DropRarity {
     AUTO(""),
-    RARE(ChatColor.BLUE + "RARE"),
-    VERY_RARE(ChatColor.DARK_PURPLE + "RARE"),
-    CRAZY_RARE(ChatColor.LIGHT_PURPLE + "CRAZY RARE"),
-    INSANE(ChatColor.RED + "INSANE"),
+    RARE(ChatColor.BLUE + "" + ChatColor.BOLD + "RARE"),
+    VERY_RARE(ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "RARE"),
+    CRAZY_RARE(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "CRAZY RARE"),
+    INSANE(ChatColor.RED + "" + ChatColor.BOLD + "INSANE"),
     ;
 
     private final String message;

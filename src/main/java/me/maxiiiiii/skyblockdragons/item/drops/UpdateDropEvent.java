@@ -32,7 +32,7 @@ public class UpdateDropEvent extends UpdateEvent {
     }
 
     public void applyAmountMultipliers() {
-        double amount = this.amountMultiplier.multiply(1);
+        double amount = this.amountMultiplier.multiply(this.drop.getAmount());
         this.drop.setAmount((int) (Math.floor(amount) + (Math.random() < amount % 1 ? 1 : 0)));
     }
 

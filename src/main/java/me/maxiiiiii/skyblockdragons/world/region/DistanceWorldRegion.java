@@ -8,7 +8,7 @@ public class DistanceWorldRegion extends WorldRegion {
     private final Location location;
     private final double distanceThreshold;
 
-    protected DistanceWorldRegion(String name, WorldSD world, Location location, double distanceThreshold, WorldType... types) {
+    public DistanceWorldRegion(String name, WorldSD world, Location location, double distanceThreshold, WorldType... types) {
         super(name, world, types);
         this.location = location;
         this.distanceThreshold = distanceThreshold;

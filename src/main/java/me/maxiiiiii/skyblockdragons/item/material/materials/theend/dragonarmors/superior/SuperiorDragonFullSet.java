@@ -8,6 +8,7 @@ import me.maxiiiiii.skyblockdragons.item.stats.StatAdderType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.UpdateStatsEvent;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 
@@ -29,7 +30,7 @@ public class SuperiorDragonFullSet extends ItemFullSetBonus {
 
     @EventHandler
     public void updateDamage(UpdateEntityDamageEntityEvent e) {
-        if (!(e.getPlayerAttacker().getItems().getFullSet() instanceof SuperiorDragonFullSet)) return;
+        if (!(e.getAttacker() instanceof PlayerSD) || !(e.getPlayerAttacker().getItems().getFullSet() instanceof SuperiorDragonFullSet)) return;
 
         if (e.getPlayerAttacker().getItems().getToolMaterial() instanceof AspectOfTheDragons && e.getDamage() instanceof MagicEntityDamageEntity) {
             e.getDamage().getMultiplier().addBase(50);

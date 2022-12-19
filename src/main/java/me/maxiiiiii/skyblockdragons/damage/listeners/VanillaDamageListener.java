@@ -28,7 +28,7 @@ public class VanillaDamageListener implements Listener {
     private final Cooldown<EntitySD> fireCooldown = new Cooldown<>();
     private final Cooldown<EntitySD> explosionCooldown = new Cooldown<>();
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onDamage(org.bukkit.event.entity.EntityDamageEvent e) {
         double lastDamage = e.getDamage();
         e.setDamage(0);
@@ -48,11 +48,21 @@ public class VanillaDamageListener implements Listener {
 
             EntityDamage damage = null;
             EntityDamage damage2 = null;
-            if (isFireDamage(victim, e)) {
+            if (isFireDamage(e)) {
+                if (Functions.cooldown(victim, fireCooldown, COOLDOWN, false)) {
+                    e.setCancelled(true);
+                    return;
+                }
+
                 damage = new PreciseFireEntityDamage(victim);
             } else if (isFallDamage(e)) {
-                damage = new PreciseFallEntityDamage(victim, lastDamage);
+                damage = new PreciseFallEntityDamage(victim, lastDamage * 3);
             } else if (isExplosionDamage(victim, e)) {
+                if (Functions.cooldown(victim, explosionCooldown, COOLDOWN, false)) {
+                    e.setCancelled(true);
+                    return;
+                }
+
                 damage = new PreciseExplosionEntityDamage(victim, lastDamage);
             } else if (e instanceof EntityDamageByEntityEvent) {
                 EntityDamageByEntityEvent event = (EntityDamageByEntityEvent) e;
@@ -67,14 +77,14 @@ public class VanillaDamageListener implements Listener {
                     if (attacker.getMaterial().getTrueDamage() > 0)
                         damage2 = new TrueEntityDamageEntity(attacker, victim);
                 } else {
-                    if (event.getDamager() instanceof Projectile && ((Projectile) event.getDamager()).getShooter() instanceof Player) {
+                    if (event.getDamager() instanceof Projectile && ((Projectile) event.getDamager()).getShooter() instanceof LivingEntity) {
                         if (event.getDamager() instanceof Player && SkyblockDragons.getPlayer((Player) ((Projectile) event.getDamager()).getShooter()).isOnHitTick(victim)) {
                             e.setCancelled(true);
                             return;
                         }
 
                         Projectile projectile = (Projectile) event.getDamager();
-                        EntitySD attacker = EntitySD.get((Entity) projectile.getShooter());
+                        EntitySD attacker = EntitySD.get((LivingEntity) projectile.getShooter());
                         damage = new ProjectileEntityDamageEntity(attacker, victim, projectile);
                         if (attacker.getMaterial().getTrueDamage() > 0)
                             damage2 = new TrueEntityDamageEntity(attacker, victim);
@@ -87,15 +97,13 @@ public class VanillaDamageListener implements Listener {
                 return;
             }
             Bukkit.getPluginManager().callEvent(new EntityDamageEvent(damage));
-            if (damage2 != null) {
+            if (damage2 != null)
                 Bukkit.getPluginManager().callEvent(new EntityDamageEvent(damage2));
-            }
         }
     }
 
-    private boolean isFireDamage(EntitySD victim, org.bukkit.event.entity.EntityDamageEvent e) {
-        return (e.getCause() == DamageCause.FIRE || e.getCause() == DamageCause.FIRE_TICK || e.getCause() == DamageCause.LAVA) &&
-                !Functions.cooldown(victim, fireCooldown, COOLDOWN, false);
+    private boolean isFireDamage(org.bukkit.event.entity.EntityDamageEvent e) {
+        return e.getCause() == DamageCause.FIRE || e.getCause() == DamageCause.FIRE_TICK || e.getCause() == DamageCause.LAVA;
     }
 
     private boolean isFallDamage(org.bukkit.event.entity.EntityDamageEvent e) {

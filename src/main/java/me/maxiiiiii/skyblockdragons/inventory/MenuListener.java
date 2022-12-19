@@ -2,7 +2,6 @@ package me.maxiiiiii.skyblockdragons.inventory;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
-import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -20,8 +19,6 @@ public class MenuListener implements Listener {
             e.setCancelled(true);
 
             Menu menu = (Menu) holder;
-            PlayerSD player = SkyblockDragons.getPlayer((Player) e.getWhoClicked());
-
             if (Functions.isNotAir(e.getCurrentItem())) {
                 NBTItem nbt = new NBTItem(e.getCurrentItem());
                 if (nbt.getString("GuiButton").equals("CLOSE")) {
@@ -51,7 +48,8 @@ public class MenuListener implements Listener {
                     }
                 }
             }
-            menu.onInventoryClick(e);
+            if (e.getSlot() >= 0)
+                menu.onInventoryClick(e);
         }
     }
 

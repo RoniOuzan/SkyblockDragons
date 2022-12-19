@@ -76,13 +76,10 @@ public class CraftingTableMenu extends Menu {
     @Override
     public void onInventoryClick(InventoryClickEvent e) {
         Functions.Wait(1L, () -> updateInventory((Player) e.getWhoClicked()));
-        if (e.getClickedInventory().getHolder() instanceof Player) {
-//            player.sendMessage("CLICK IN YOUR INV!");
+        if (e.getClickedInventory().getHolder() instanceof Player)
             e.setCancelled(false);
-        }
 
-        PlayerSD player = SkyblockDragons.getPlayer((Player) e.getWhoClicked());
-        if ((e.getSlot() % 9 == 1 || e.getSlot() % 9 == 2 || e.getSlot() % 9 == 3) && (e.getSlot() / 9 == 1 || e.getSlot() / 9 == 2 || e.getSlot() / 9 == 3))
+        if ((e.getSlot() % 9 == 1 || e.getSlot() % 9 == 2 || e.getSlot() % 9 == 3) && (e.getSlot() > 9 && e.getSlot() < 36))
             e.setCancelled(false);
         if (!Functions.isNotAir(e.getCurrentItem())) return;
 

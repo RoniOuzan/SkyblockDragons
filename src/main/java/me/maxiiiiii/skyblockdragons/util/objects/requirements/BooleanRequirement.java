@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.util.objects.requirements;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 
 import java.util.function.Function;
@@ -19,6 +20,6 @@ public class BooleanRequirement extends Requirement {
 
     @Override
     public String toString() {
-        return "";
+        return hasRequirement(SkyblockDragons.getPlayer("LidanTheGamer")) + "";
     }
 }

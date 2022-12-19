@@ -221,3 +221,6 @@ commands:
     usage: /<command> <text> [<player>]
     aliases:
       - psa
+  ToggleUpdateItems:
+    permission: skyblockdragons.admin
+    usage: /<command>
