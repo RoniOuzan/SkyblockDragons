@@ -23,12 +23,13 @@ public class BlockItemDrop extends ItemDrop implements BlockDrop {
         super(material);
     }
 
-    public void setBlockMaterial(BlockMaterial blockMaterial) {
-        this.blockMaterial = blockMaterial;
-    }
-
     @Override
     public BlockMaterial getBlockMaterial() {
         return this.blockMaterial;
+    }
+
+    @Override
+    public void setBlockMaterial(BlockMaterial blockMaterial) {
+        this.blockMaterial = blockMaterial;
     }
 }

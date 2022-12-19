@@ -6,7 +6,7 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.mining.material.BlockMaterial;
 
 public class BlockItemRareDrop extends ItemRareDrop implements BlockDrop {
-    private BlockMaterial blockMaterial;
+    private BlockMaterial blockMaterial = null;
 
     public BlockItemRareDrop(ItemMaterial material, int amount, double chances, DropRarity rarity) {
         super(material, amount, chances, rarity);
@@ -28,12 +28,13 @@ public class BlockItemRareDrop extends ItemRareDrop implements BlockDrop {
         super(material, rarity);
     }
 
-    public void setBlockMaterial(BlockMaterial blockMaterial) {
-        this.blockMaterial = blockMaterial;
-    }
-
     @Override
     public BlockMaterial getBlockMaterial() {
         return this.blockMaterial;
+    }
+
+    @Override
+    public void setBlockMaterial(BlockMaterial blockMaterial) {
+        this.blockMaterial = blockMaterial;
     }
 }

@@ -2,6 +2,8 @@ package me.maxiiiiii.skyblockdragons.item.drops;
 
 import lombok.Getter;
 import me.maxiiiiii.skyblockdragons.events.events.abstracts.playersd.UpdateEvent;
+import me.maxiiiiii.skyblockdragons.item.drops.types.block.BlockDrop;
+import me.maxiiiiii.skyblockdragons.mining.material.types.OreMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.Multiplier;
 import org.bukkit.event.HandlerList;
@@ -24,10 +26,14 @@ public class UpdateDropEvent extends UpdateEvent {
         this.chanceMultiplier = new Multiplier();
         this.chanceMultiplier.addPost(player.getStats().getMagicFind().get());
         this.amountMultiplier = new Multiplier();
+        if (drop instanceof BlockDrop && ((BlockDrop) drop).getBlockMaterial() instanceof OreMaterial) {
+            this.amountMultiplier.addBase(player.getStats().getMiningFortune().get());
+        }
     }
 
     public void applyAmountMultipliers() {
-        this.drop.setAmount((int) this.amountMultiplier.multiply(this.drop.getAmount()));
+        double amount = this.amountMultiplier.multiply(1);
+        this.drop.setAmount((int) (Math.floor(amount) + (Math.random() < amount % 1 ? 1 : 0)));
     }
 
     public PlayerSD getPlayer() {

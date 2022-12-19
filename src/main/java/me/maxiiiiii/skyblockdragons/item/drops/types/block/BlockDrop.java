@@ -10,5 +10,7 @@ public interface BlockDrop extends Drop {
         return DropSourceType.BLOCK;
     }
 
+    void setBlockMaterial(BlockMaterial blockMaterial);
+
     BlockMaterial getBlockMaterial();
 }
