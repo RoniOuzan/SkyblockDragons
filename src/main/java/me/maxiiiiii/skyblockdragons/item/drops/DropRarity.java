@@ -20,7 +20,7 @@ public enum DropRarity {
 
     @Override
     public String toString() {
-        return message + " DROP!";
+        return ChatColor.BOLD + "" + message + " DROP!";
     }
 
     public static DropRarity getRarity(double chances) {
