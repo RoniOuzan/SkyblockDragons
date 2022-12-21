@@ -20,7 +20,7 @@ public class ObsidianBoots extends ArmorMaterial {
                 Rarity.RARE,
                 new CombatStats(0, 8, 12, 0, 0, 0, 95, 45, -5, 5),
                 "",
-                new SkillRequirement(SkillType.COMBAT, 3)
+                new SkillRequirement(SkillType.COMBAT, 5)
         );
     }
 
