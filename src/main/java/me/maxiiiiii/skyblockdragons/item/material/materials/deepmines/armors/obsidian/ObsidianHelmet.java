@@ -19,7 +19,7 @@ public class ObsidianHelmet extends ArmorMaterial {
                 "Obsidian Helmet",
                 ItemType.HELMET,
                 Rarity.RARE,
-                new CombatStats(0, 8, 12, 0, 0, 0, 95, 45, -5, 5),
+                new CombatStats(0, 8, 8, 1, 0, 0, 95, 45, -5, 5),
                 "",
                 new SkillRequirement(SkillType.COMBAT, 5)
         );

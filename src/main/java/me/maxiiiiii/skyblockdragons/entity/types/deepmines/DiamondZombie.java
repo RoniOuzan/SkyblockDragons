@@ -1,7 +1,6 @@
 package me.maxiiiiii.skyblockdragons.entity.types.deepmines;
 
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemDrop;
 import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemRareDrop;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
@@ -23,7 +22,7 @@ public class DiamondZombie extends EntityMaterial {
                 new Equipment(Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE, Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS, Material.DIAMOND_SWORD, null),
                 120,
                 0.1,
-                25,
+                35,
                 3,
                 new EntityItemDrop(Items.get("DIAMOND"), 1, 50),
                 new EntityItemRareDrop(Items.get("ENCHANTED_DIAMOND"), 1, 1d),

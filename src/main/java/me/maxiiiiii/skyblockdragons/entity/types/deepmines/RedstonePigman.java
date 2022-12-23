@@ -22,7 +22,7 @@ public class RedstonePigman extends EntityMaterial {
                 new Equipment(null, null, null, null, Material.GOLD_SWORD, null),
                 125,
                 0,
-                10,
+                15,
                 1,
                 new EntityItemDrop(Items.get("ROTTEN_FLESH"), 1),
                 new EntityItemDrop(Items.get("REDSTONE"), 1, 50),

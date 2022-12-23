@@ -22,7 +22,7 @@ public class ObsidianZombie extends EntityMaterial {
                 new Equipment(Material.OBSIDIAN, null, null, null, Material.STONE_SWORD, null),
                 100,
                 0.2,
-                35,
+                30,
                 4,
                 new EntityItemDrop(Items.get("OBSIDIAN"), 1, 50),
                 new EntityItemRareDrop(Items.get("ENCHANTED_OBSIDIAN"), 1, 2d),

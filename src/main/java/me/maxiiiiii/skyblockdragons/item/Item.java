@@ -398,7 +398,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
         }
 
         stats.stream().filter(s -> !s.isEmpty()).forEach(s ->
-                lores.add(ChatColor.GRAY + s.getType().toString() + ": " + ChatColor.GREEN + Functions.getNumSymbol(s) + stats.getLoreModifiers(s.getType()))
+                lores.add(ChatColor.GRAY + s.getType().getName() + ": " + ChatColor.GREEN + Functions.getNumSymbol(s) + stats.getLoreModifiers(s.getType()))
         );
         this.stats.add(stats, StatAdderType.BASE, "");
 

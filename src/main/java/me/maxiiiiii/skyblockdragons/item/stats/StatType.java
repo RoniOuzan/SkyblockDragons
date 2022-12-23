@@ -83,7 +83,7 @@ public abstract class StatType {
     }
 
     public String toAddLore(double statAmount) {
-        return (this.color + "+" + statAmount + " " + this).replace(".0", "");
+        return (this.color + (statAmount >= 0 ? "+" : "-") + Functions.getNumberFormat(Math.abs(statAmount)) + " " + this).replace(".0", "");
     }
 
     public String toString(double statAmount) {
