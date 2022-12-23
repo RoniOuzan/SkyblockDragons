@@ -24,15 +24,15 @@ public abstract class ItemDrop {
     protected List<Entry<Rarity, Double>> petRarityChances = new ArrayList<>();
     protected PetSupplier petSupplier = new PetSupplier();
 
-    public ItemDrop(ItemMaterial material, int amount, double chances) {
+    public ItemDrop(ItemMaterial material, int minAmount, int maxAmount, double chances) {
         this.material = material;
-        this.minAmount = amount;
-        this.maxAmount = amount;
+        this.minAmount = minAmount;
+        this.maxAmount = maxAmount;
         this.chances = chances;
     }
 
-    public ItemDrop(ItemMaterial material, int minAmount, int maxAmount, double chances) {
-        this(material, Functions.randomInt(minAmount, maxAmount), chances);
+    public ItemDrop(ItemMaterial material, int amount, double chances) {
+        this(material, amount, amount, chances);
     }
 
     public ItemDrop(ItemMaterial material, int amount) {
