@@ -10,7 +10,7 @@ public class GoldOre extends OreMaterial {
     public GoldOre() {
         super("GOLD_ORE",
                 new BlockMaterials(Material.GOLD_ORE),
-                25,
+                3,
                 2,
                 5,
                 2,

@@ -10,7 +10,7 @@ public class IronOre extends OreMaterial {
     public IronOre() {
         super("IRON_ORE",
                 new BlockMaterials(Material.IRON_ORE),
-                25,
+                3,
                 2,
                 5,
                 2,

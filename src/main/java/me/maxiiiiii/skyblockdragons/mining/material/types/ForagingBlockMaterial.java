@@ -14,7 +14,7 @@ import org.bukkit.block.Block;
 import java.util.Arrays;
 
 public abstract class ForagingBlockMaterial extends BlockMaterial implements RespawnBlock {
-    public ForagingBlockMaterial(String itemID, BlockMaterials material, int blockStrength, int breakingPower, double skillExp, int experience, BlockDrop... drops) {
+    public ForagingBlockMaterial(String itemID, BlockMaterials material, double blockStrength, int breakingPower, double skillExp, int experience, BlockDrop... drops) {
         super(itemID, material, blockStrength, breakingPower, Arrays.asList(ItemType.AXE, ItemType.NULL), skillExp, SkillType.FORAGING, experience, drops);
     }
 

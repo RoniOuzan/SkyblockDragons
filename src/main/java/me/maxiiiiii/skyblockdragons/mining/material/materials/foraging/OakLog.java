@@ -10,7 +10,7 @@ public class OakLog extends ForagingBlockMaterial {
     public OakLog() {
         super("OAK_LOG",
                 new BlockMaterials(Material.LOG, 0, Material.LOG, 12),
-                10,
+                1.5,
                 0,
                 1,
                 0,

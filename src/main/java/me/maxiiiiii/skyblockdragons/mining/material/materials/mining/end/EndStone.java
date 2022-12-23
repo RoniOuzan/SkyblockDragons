@@ -12,7 +12,7 @@ public class EndStone extends MiningBlockMaterial implements RespawnBlock {
     public EndStone() {
         super("END_STONE",
                 new BlockMaterials(Material.ENDER_STONE, Material.SANDSTONE),
-                200,
+                3,
                 3,
                 30,
                 0,

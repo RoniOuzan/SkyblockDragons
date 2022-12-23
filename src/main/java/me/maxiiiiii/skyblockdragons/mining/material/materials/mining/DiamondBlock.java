@@ -11,7 +11,7 @@ public class DiamondBlock extends MiningBlockMaterial implements RespawnBlock {
     public DiamondBlock() {
         super("DIAMOND_BLOCK",
                 new BlockMaterials(Material.DIAMOND_BLOCK),
-                50,
+                5,
                 4,
                 16,
                 0,

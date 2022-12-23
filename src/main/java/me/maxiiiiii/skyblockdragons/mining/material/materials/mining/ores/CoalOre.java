@@ -14,7 +14,7 @@ public class CoalOre extends OreMaterial {
     public CoalOre() {
         super("COAL_ORE",
                 new BlockMaterials(Material.COAL_ORE),
-                25,
+                3,
                 1,
                 4,
                 2,

@@ -10,7 +10,7 @@ public class DiamondOre extends OreMaterial {
     public DiamondOre() {
         super("DIAMOND_ORE",
                 new BlockMaterials(Material.DIAMOND_ORE),
-                30,
+                3,
                 3,
                 12,
                 4,

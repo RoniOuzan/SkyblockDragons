@@ -15,7 +15,7 @@ public class GoldPickaxe extends MiningMaterial {
                 "Gold Pickaxe",
                 ItemType.PICKAXE,
                 Rarity.COMMON,
-                new Stats(210, 0),
+                new Stats(240, 0),
                 1,
                 ""
         );

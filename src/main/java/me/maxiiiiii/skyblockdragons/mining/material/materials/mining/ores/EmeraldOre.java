@@ -10,7 +10,7 @@ public class EmeraldOre extends OreMaterial {
     public EmeraldOre() {
         super("EMERALD_ORE",
                 new BlockMaterials(Material.EMERALD_ORE),
-                25,
+                3,
                 3,
                 1.5,
                 3,

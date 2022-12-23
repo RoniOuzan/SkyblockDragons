@@ -25,7 +25,7 @@ public abstract class BlockMaterial implements ConfigurationSerializable {
 
     private final String itemID;
     private final BlockMaterials materials;
-    private final int blockStrength;
+    private final double blockStrength;
     private final int breakingPower;
     private final List<ItemType> requiredTools;
     private final double skillExp;
@@ -33,7 +33,7 @@ public abstract class BlockMaterial implements ConfigurationSerializable {
     private final int experience;
     private final List<BlockDrop> drops;
 
-    public BlockMaterial(String itemID, BlockMaterials material, int blockStrength, int breakingPower, List<ItemType> requiredTools, double skillExp, SkillType skill, int experience, BlockDrop... drops) {
+    public BlockMaterial(String itemID, BlockMaterials material, double blockStrength, int breakingPower, List<ItemType> requiredTools, double skillExp, SkillType skill, int experience, BlockDrop... drops) {
         this.itemID = itemID;
         this.materials = material;
         this.blockStrength = blockStrength;
@@ -45,7 +45,7 @@ public abstract class BlockMaterial implements ConfigurationSerializable {
         this.drops = Arrays.stream(drops).peek(d -> d.setBlockMaterial(this)).collect(Collectors.toList());
     }
 
-    public BlockMaterial(String itemID, BlockMaterials material, int blockStrength, int breakingPower, ItemType requiredTools, double skillExp, SkillType skill, int experience, BlockDrop... drops) {
+    public BlockMaterial(String itemID, BlockMaterials material, double blockStrength, int breakingPower, ItemType requiredTools, double skillExp, SkillType skill, int experience, BlockDrop... drops) {
         this(itemID, material, blockStrength, breakingPower, Collections.singletonList(requiredTools), skillExp, skill, experience, drops);
     }
 

@@ -10,7 +10,7 @@ public class LapisOre extends OreMaterial {
     public LapisOre() {
         super("LAPIS_ORE",
                 new BlockMaterials(Material.LAPIS_ORE),
-                25,
+                3,
                 2,
                 5,
                 2,

@@ -11,7 +11,7 @@ public class Obsidian extends MiningBlockMaterial implements RespawnBlock {
     public Obsidian() {
         super("OBSIDIAN",
                 new BlockMaterials(Material.OBSIDIAN),
-                500,
+                50,
                 4,
                 20,
                 0,

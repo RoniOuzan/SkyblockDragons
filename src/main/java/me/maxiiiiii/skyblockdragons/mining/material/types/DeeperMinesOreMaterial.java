@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class DeeperMinesOreMaterial extends OreMaterial {
-    public DeeperMinesOreMaterial(String itemID, BlockMaterials material, int blockStrength, int breakingPower, double skillExp, int experience, BlockDrop... drops) {
+    public DeeperMinesOreMaterial(String itemID, BlockMaterials material, double blockStrength, int breakingPower, double skillExp, int experience, BlockDrop... drops) {
         super(itemID, material, blockStrength, breakingPower, skillExp, experience, drops);
     }
 

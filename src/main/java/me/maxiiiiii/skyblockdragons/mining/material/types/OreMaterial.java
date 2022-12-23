@@ -11,7 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 public abstract class OreMaterial extends MiningBlockMaterial implements RespawnBlock {
-    public OreMaterial(String itemID, BlockMaterials material, int blockStrength, int breakingPower, double skillExp, int experience, BlockDrop... drops) {
+    public OreMaterial(String itemID, BlockMaterials material, double blockStrength, int breakingPower, double skillExp, int experience, BlockDrop... drops) {
         super(itemID, material, blockStrength, breakingPower, skillExp, experience, drops);
     }
 

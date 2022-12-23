@@ -10,7 +10,7 @@ public class RedstoneOre extends OreMaterial {
     public RedstoneOre() {
         super("REDSTONE_ORE",
                 new BlockMaterials(Material.REDSTONE_ORE),
-                25,
+                3,
                 2,
                 3,
                 6,

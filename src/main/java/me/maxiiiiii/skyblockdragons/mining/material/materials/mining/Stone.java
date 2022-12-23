@@ -16,7 +16,7 @@ public class Stone extends MiningBlockMaterial implements RespawnBlock {
     public Stone() {
         super("STONE",
                 new BlockMaterials(Material.STONE, Material.STONE, 5),
-                15,
+                1.5,
                 1,
                 1,
                 0,
