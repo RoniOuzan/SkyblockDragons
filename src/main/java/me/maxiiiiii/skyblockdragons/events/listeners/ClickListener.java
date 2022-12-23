@@ -14,7 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -27,7 +26,7 @@ public class ClickListener implements Listener {
             Block clickedBlock = event.getClickedBlock();
             if (clickedBlock.getType() == Material.ENCHANTMENT_TABLE){
                 event.setCancelled(true);
-                EnchantingTableMenu.openEnchantingTable(playerSD, null);
+                new EnchantingTableMenu(playerSD);
             }
             else if (clickedBlock.getType() == Material.ANVIL){
                 event.setCancelled(true);

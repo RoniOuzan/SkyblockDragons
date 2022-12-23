@@ -54,7 +54,7 @@ public abstract class Menu implements InventoryHolder {
     protected final InventoryGlassType inventoryGlassType;
     protected final boolean utilButtons;
 
-    protected Menu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, boolean autoUpdate, boolean utilButtons) {
+    public Menu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, boolean autoUpdate, boolean utilButtons) {
         this.player = player;
         this.inventory = Bukkit.createInventory(this, rows * 9, title);
         this.title = title;
@@ -72,9 +72,10 @@ public abstract class Menu implements InventoryHolder {
         });
     }
 
-    protected Menu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, boolean autoUpdate) {
+    public Menu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, boolean autoUpdate) {
         this(player, title, rows, inventoryGlassType, autoUpdate, true);
     }
+
     public void setItem(int slot, ItemStack item) {
         this.inventory.setItem(slot, item);
     }
@@ -271,7 +272,7 @@ public abstract class Menu implements InventoryHolder {
             {0, 1, 2, 3, 4, 5, 6, 7, 8}
     };
 
-    protected void putItemsOnCenter(int line, List<ItemStack> items) {
+    protected void putItemsOnCenter(int line, List<? extends ItemStack> items) {
         this.putItemsOnCenter(line, items.toArray(new ItemStack[0]));
     }
 
@@ -279,5 +280,9 @@ public abstract class Menu implements InventoryHolder {
         for (int i = 0; i < items.length; i++) {
             this.setItem(((line - 1) * 9) + itemsSlots[items.length][i], items[i]);
         }
+    }
+
+    public static int convertIndexToSlot(int startSlot, int amountInARow, int index) {
+        return startSlot + (index % amountInARow) + (9 * (index / amountInARow));
     }
 }

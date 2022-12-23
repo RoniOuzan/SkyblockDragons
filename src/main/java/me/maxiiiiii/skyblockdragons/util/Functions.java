@@ -313,7 +313,7 @@ public class Functions {
     }
 
     public static List<String> loreBuilder(String lore, ChatColor color, int num) {
-        String[] lores = lore.split(" ");
+        String[] lores = lore.replace(".0", "").split(" ");
         int l = 0;
         int n = 0;
         List<String> list = new ArrayList<>();
