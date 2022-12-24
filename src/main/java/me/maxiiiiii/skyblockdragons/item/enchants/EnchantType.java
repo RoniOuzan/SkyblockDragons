@@ -6,6 +6,7 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemTypeGroup;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
+import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirements;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.SkillRequirement;
 import org.bukkit.ChatColor;
@@ -201,7 +202,7 @@ public class EnchantType implements Comparable<EnchantType> {
         enchants.put("MANA_STEAL", new EnchantType(5, "Regain " + ChatColor.AQUA + "MULTIPLIER% " + ChatColor.GRAY + "of your " + StatTypes.MANA + " " + ChatColor.GRAY + "on hit.", new EnchantMultiplier(0.25, 0.5, 0.75), new SkillRequirement(SkillType.ENCHANTING, 20), ItemType.SWORD, new ArrayList<>(Arrays.asList("LIFE_STEAL", "SYPHON")), false));
         enchants.put("PROSECUTE", new EnchantType(5, "Increases damage dealt by " + ChatColor.GREEN + "MULTIPLIER% " + ChatColor.GRAY + "for each percent of " + StatTypes.HEALTH + " " + ChatColor.GRAY + "your target has.", new EnchantMultiplier(0.1, 0.2, 0.3, 0.4, 0.7, 1), new SkillRequirement(SkillType.ENCHANTING, 25), ItemType.SWORD, "EXECUTE"));
         enchants.put("SCAVENGER", new EnchantType(3, "Scavenge " + ChatColor.GOLD + "MULTIPLIER Coins " + ChatColor.GRAY + "per monster level on kill", new EnchantMultiplier(0.1, 0.2, 0.3, 0.5, 0.8), new SkillRequirement(SkillType.ENCHANTING, 1), ItemType.SWORD));
-        enchants.put("SHARPNESS", new EnchantType(5, "Increases melee damage dealt by " + ChatColor.GREEN + "MULTIPLIER% " + ChatColor.GRAY + ".", new EnchantMultiplier(5, 10, 15, 20, 30, 45, 65), SkillRequirement.NULL, ItemType.SWORD, new ArrayList<>(Arrays.asList("SMITE", "BANE_OF_ARTHROPODS"))));
+        enchants.put("SHARPNESS", new EnchantType(5, "Increases melee damage dealt by " + ChatColor.GREEN + "MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(5, 10, 15, 20, 30, 45, 65), SkillRequirement.NULL, ItemType.SWORD, new ArrayList<>(Arrays.asList("SMITE", "BANE_OF_ARTHROPODS"))));
         enchants.put("SMITE", new EnchantType(5, "increases damage dealt to Skeletons, Zombies, Pigmen and Withers by " + ChatColor.GREEN + "MULTIPLIER%" + ChatColor.GRAY + ".", new EnchantMultiplier(10, 20, 30, 40, 60, 80, 100), SkillRequirement.NULL, ItemType.SWORD, new ArrayList<>(Arrays.asList("SHARPNESS", "BANE_OF_ARTHROPODS"))));
         enchants.put("SYPHON", new EnchantType(3, "Heals for " + ChatColor.GREEN + "MULTIPLIER% " + ChatColor.GRAY + "of your max " + StatTypes.HEALTH + " " + ChatColor.GRAY + "per " + ChatColor.BLUE + "100 " + StatTypes.CRIT_DAMAGE + " " + ChatColor.GRAY + "you deal per hit, up to " + ChatColor.BLUE + "1,000 " + StatTypes.CRIT_DAMAGE + ChatColor.GRAY + ".", new EnchantMultiplier(0.2, 0.3, 0.4, 0.5, 0.6), new SkillRequirement(SkillType.ENCHANTING, 15), ItemType.SWORD, new ArrayList<>(Arrays.asList("LIFE_STEAL", "MANA_STEAL"))));
         enchants.put("TITAN_KILLER", new EnchantType(5, "Increases damage dealt by " + ChatColor.GREEN + "MULTIPLIER% " + ChatColor.GRAY + "for every " + ChatColor.GREEN + "100 " + StatTypes.DEFENSE + " " + ChatColor.GRAY + "your target has up to " + ChatColor.GREEN + "60%" + ChatColor.GRAY + ".", new EnchantMultiplier(2, 4, 6, 8, 12, 16, 20), new SkillRequirement(SkillType.ENCHANTING, 28), ItemType.SWORD, "GIANT_KILLER"));
@@ -338,6 +339,10 @@ public class EnchantType implements Comparable<EnchantType> {
             }
         }
         return "";
+    }
+
+    public String getName() {
+        return Functions.setTitleCase(this.getRealName().replace("_", " "));
     }
 
     public String getRealName() {

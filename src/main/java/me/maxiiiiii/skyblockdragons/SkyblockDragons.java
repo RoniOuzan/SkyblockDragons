@@ -26,7 +26,7 @@ import me.maxiiiiii.skyblockdragons.item.drops.PlayerGetDropListener;
 import me.maxiiiiii.skyblockdragons.item.enchants.BookCommand;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantListeners;
 import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
-import me.maxiiiiii.skyblockdragons.item.enchants.EnchantingTableCommand;
+import me.maxiiiiii.skyblockdragons.item.enchants.EnchantingTableMenu;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.materials.nfa.powerorbs.PowerOrbAbilityListener;
 import me.maxiiiiii.skyblockdragons.item.modifiers.CrystalModifier;
@@ -154,7 +154,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new ReforgeCommand(), this);
         getServer().getPluginManager().registerEvents(new SkillListener(), this);
         getServer().getPluginManager().registerEvents(new BankCommand(), this);
-        getServer().getPluginManager().registerEvents(new EnchantingTableCommand(), this);
 
         registerAllCommands();
 
@@ -326,7 +325,7 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
         registerCommand("RecipesWith", new RecipesMenu.WithMenu.Command());
         getCommand("Warp").setExecutor(new WarpCommand());
         getCommand("Warp").setTabCompleter(new WarpCommand());
-        getCommand("EnchantingTable").setExecutor(new EnchantingTableCommand());
+        registerCommand("EnchantingTable", new EnchantingTableMenu.Command());
         getCommand("Profile").setExecutor(new ProfileMenu.Command());
         getCommand("Storage").setExecutor(new StorageMenu.Command());
         getCommand("EnderChest").setExecutor(new EnderChestMenu.Command());

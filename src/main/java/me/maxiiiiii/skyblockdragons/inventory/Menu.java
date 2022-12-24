@@ -65,7 +65,7 @@ public abstract class Menu implements InventoryHolder {
 
         Functions.Wait(1, () -> {
             if (autoUpdate) {
-                Functions.While(() -> player.getOpenInventory().getTopInventory().getHolder() == this, 1L, i -> this.update());
+                Functions.While(() -> player.getOpenInventory().getTopInventory().getHolder() == this, 4L, i -> this.update());
             } else
                 this.update();
             this.open(true);
@@ -105,6 +105,10 @@ public abstract class Menu implements InventoryHolder {
 
             for (int i = 1; i < rows; i++) {
                 this.setItem(i * 9 + 8, GLASS);
+            }
+        } else if (inventoryGlassType == InventoryGlassType.NOTHING) {
+            for (int i = 0; i < this.getRows() * 9; i++) {
+                this.setItem(i, new ItemStack(Material.AIR));
             }
         }
 
@@ -282,7 +286,8 @@ public abstract class Menu implements InventoryHolder {
         }
     }
 
-    public static int convertIndexToSlot(int startSlot, int amountInARow, int index) {
-        return startSlot + (index % amountInARow) + (9 * (index / amountInARow));
+    public static int convertIndexToSlot(int startSlot, int amountInARow, int max, int index) {
+        index = index % max;
+        return (startSlot) + (index % amountInARow) + (9 * (index / amountInARow));
     }
 }

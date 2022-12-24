@@ -274,7 +274,7 @@ public class EntitySD extends EntityClass {
     }
 
     public boolean isBaneOfArthropods() {
-        return this.entity instanceof Spider || this.entity instanceof Silverfish | this.entity instanceof Endermite;
+        return this.entity instanceof Spider || this.entity instanceof Silverfish || this.entity instanceof Endermite;
     }
 
     public boolean isEndMob() {
