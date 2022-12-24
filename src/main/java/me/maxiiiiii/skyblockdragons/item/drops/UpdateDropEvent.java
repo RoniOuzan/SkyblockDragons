@@ -18,6 +18,8 @@ public class UpdateDropEvent extends UpdateEvent {
     private final Multiplier chanceMultiplier;
     private final Multiplier amountMultiplier;
 
+    private int amount;
+
     public UpdateDropEvent(PlayerSD player, Drop drop, Object source) {
         super(player);
         this.drop = drop;
@@ -29,11 +31,13 @@ public class UpdateDropEvent extends UpdateEvent {
         if (drop instanceof BlockDrop && ((BlockDrop) drop).getBlockMaterial() instanceof OreMaterial) {
             this.amountMultiplier.addBase(player.getStats().getMiningFortune().get());
         }
+
+        this.amount = drop.getAmount();
     }
 
     public void applyAmountMultipliers() {
         double amount = this.amountMultiplier.multiply(this.drop.getAmount());
-        this.drop.setAmount((int) (Math.floor(amount) + (Math.random() < amount % 1 ? 1 : 0)));
+        this.amount = (int) (Math.floor(amount) + (Math.random() < amount % 1 ? 1 : 0));
     }
 
     public PlayerSD getPlayer() {

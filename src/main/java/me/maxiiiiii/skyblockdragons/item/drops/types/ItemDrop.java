@@ -71,13 +71,13 @@ public abstract class ItemDrop {
     }
 
     public void give(PlayerSD player) {
-        for (int i = 0; i < this.getAmount(); i++) {
+        for (int i = 0; i < getAmount(); i++) {
             player.give(getItem(player));
         }
     }
 
     public void dropItem(PlayerSD player, Location location) {
-        for (int i = 0; i < this.getAmount(); i++) {
+        for (int i = 0; i < getAmount(); i++) {
             org.bukkit.entity.Item droppedItem = player.getWorld().dropItem(location, getItem(player));
             droppedItem.addScoreboardTag(player.getName());
         }

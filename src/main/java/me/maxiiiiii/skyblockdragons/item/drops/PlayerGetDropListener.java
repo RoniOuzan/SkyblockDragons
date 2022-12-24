@@ -20,11 +20,14 @@ public class PlayerGetDropListener implements Listener {
         Bukkit.getPluginManager().callEvent(event);
 
         event.applyAmountMultipliers();
+        int amount = event.getAmount();
         double chances = event.getChanceMultiplier().multiply(e.getDrop().getChances()) / 100;
         double random = Math.random();
         if (random <= chances) {
             if (e.isTelekinesis()) {
-                e.getDrop().give(e.getPlayer());
+                for (int i = 0; i < amount; i++) {
+                    e.getDrop().give(e.getPlayer());
+                }
             } else {
                 Location location = e.getPlayer().getLocation();
                 if (e.getSource() instanceof LivingEntity && e.getDrop().getSourceType() == DropSourceType.ENTITY) {
@@ -43,7 +46,9 @@ public class PlayerGetDropListener implements Listener {
                     }
                 }
 
-                e.getDrop().dropItem(e.getPlayer(), location);
+                for (int i = 0; i < amount; i++) {
+                    e.getDrop().dropItem(e.getPlayer(), location);
+                }
             }
         }
     }
