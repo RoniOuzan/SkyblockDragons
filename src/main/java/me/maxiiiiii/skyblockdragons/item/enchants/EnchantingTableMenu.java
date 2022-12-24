@@ -13,7 +13,9 @@ import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftInventoryCrafting;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -44,9 +46,10 @@ public class EnchantingTableMenu extends Menu {
         this.setItem(28, createItem(Material.ENCHANTMENT_TABLE, ChatColor.GREEN + "Enchant Item", "ENCHANT_ITEM", ChatColor.GRAY + "Add an Item to the slot above to", ChatColor.GRAY + "view enchantment options!"));
     }
 
-    private void setItem(ItemStack item) {
-        this.item = item;
-        this.setItem(19, item);
+    @Override
+    public void open() {
+        this.setItem(19, this.item);
+        super.open();
     }
 
     @Override
@@ -102,6 +105,15 @@ public class EnchantingTableMenu extends Menu {
         } else if (nbt.equals("PREVIOUS_PAGE")) {
             this.page = 1;
         }
+    }
+
+    @Override
+    public void onInventoryClose(InventoryCloseEvent e) {
+        Functions.Wait(1L, () -> {
+            if (player.getOpenInventory().getTopInventory() instanceof CraftInventoryCrafting) {
+                player.getInventory().addItem(this.item);
+            }
+        });
     }
 
     private class EnchantViewer extends Menu {
@@ -171,10 +183,18 @@ public class EnchantingTableMenu extends Menu {
                     enchants.put(this.enchant, level);
                 }
 
-                Item result = new Item(player, this.item, new EnchantModifier(enchants));
+                EnchantingTableMenu.this.item = new Item(player, this.item, new EnchantModifier(enchants));
                 EnchantingTableMenu.this.open();
-                EnchantingTableMenu.this.setItem(result);
             }
+        }
+
+        @Override
+        public void onInventoryClose(InventoryCloseEvent e) {
+            Functions.Wait(1L, () -> {
+                if (player.getOpenInventory().getTopInventory() instanceof CraftInventoryCrafting) {
+                    player.getInventory().addItem(this.item);
+                }
+            });
         }
     }
 
