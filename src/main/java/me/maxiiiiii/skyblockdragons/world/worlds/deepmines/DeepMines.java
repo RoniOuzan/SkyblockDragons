@@ -6,6 +6,7 @@ import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
 import me.maxiiiiii.skyblockdragons.world.attributes.ClickableBlock;
 import me.maxiiiiii.skyblockdragons.world.attributes.EntityWorldSpawn;
+import me.maxiiiiii.skyblockdragons.world.attributes.LaunchPad;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -59,6 +60,8 @@ public class DeepMines extends WorldSD {
                 p.setVelocity(new Vector(0, 1.2, 0));
             }
         }));
+
+        addAttribute(new LaunchPad(new Location(world, 1105.5, 91, 75.5), 4, Warp.THE_END));
     }
 
     public static DeepMines deserialize(Map<String, Object> args) {

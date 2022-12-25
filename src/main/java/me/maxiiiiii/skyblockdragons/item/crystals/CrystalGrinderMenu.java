@@ -31,7 +31,7 @@ public class CrystalGrinderMenu extends Menu {
     @Override
     public void update() {
         ItemMaterial itemMaterial = Items.get(this.getItem(ITEM_SLOT));
-        if (itemMaterial == Items.NULL) {
+        if (itemMaterial == Items.NULL || this.getItem(ITEM_SLOT).getType() == Material.STAINED_GLASS_PANE) {
             this.setItem(ITEM_SLOT, new ItemStack(Material.AIR));
 
             for (int i = 27; i < 45; i++) {
