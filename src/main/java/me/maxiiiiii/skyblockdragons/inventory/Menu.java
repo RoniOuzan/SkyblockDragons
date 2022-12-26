@@ -2,7 +2,6 @@ package me.maxiiiiii.skyblockdragons.inventory;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -25,7 +24,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 /**
  *  00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08
@@ -64,9 +62,9 @@ public abstract class Menu implements InventoryHolder {
         this.reset();
 
         Functions.Wait(1, () -> {
-            if (autoUpdate) {
+            if (autoUpdate)
                 Functions.While(() -> player.getOpenInventory().getTopInventory().getHolder() == this, 4L, i -> this.update());
-            } else
+            else
                 this.update();
             this.open(true);
         });
@@ -134,10 +132,10 @@ public abstract class Menu implements InventoryHolder {
         List<Menu> menuHistory = player.getMenuHistory();
         if (addToHistory) {
             try {
-                Menu previousMenu = menuHistory.get(menuHistory.size() - 1);
-                if (!this.getClass().getName().equals(previousMenu.getClass().getName())) {
+//                Menu previousMenu = menuHistory.get(menuHistory.size() - 1);
+//                if (!this.getClass().getName().equals(previousMenu.getClass().getName())) {
                     menuHistory.add(this);
-                }
+//                }
             } catch (Exception e) {
                 menuHistory.add(this);
             }
@@ -259,8 +257,14 @@ public abstract class Menu implements InventoryHolder {
         return item;
     }
 
-    public static void removeLastHistory(UUID uuid) {
-        SkyblockDragons.getPlayer(uuid).getMenuHistory().remove(SkyblockDragons.getPlayer(uuid).getMenuHistory().size() - 1);
+    @Override
+    public String toString() {
+        return this.getTitle();
+    }
+
+    public static void removeLastHistory(PlayerSD player) {
+        if (player.getMenuHistory().size() > 0)
+            player.getMenuHistory().remove(player.getMenuHistory().size() - 1);
     }
 
     private static final int[][] itemsSlots = new int[][]{

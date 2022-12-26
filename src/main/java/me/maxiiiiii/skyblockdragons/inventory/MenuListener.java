@@ -26,7 +26,7 @@ public class MenuListener implements Listener {
                     return;
                 }
                 if (nbt.getString("GuiButton").equals("GO_BACK")) {
-                    Menu.removeLastHistory(e.getWhoClicked().getUniqueId());
+                    Menu.removeLastHistory(SkyblockDragons.getPlayer((Player) e.getWhoClicked()));
                     menu.onGoBack();
                 }
 

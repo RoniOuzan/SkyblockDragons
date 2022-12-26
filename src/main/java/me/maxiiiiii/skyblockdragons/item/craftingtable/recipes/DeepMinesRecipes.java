@@ -6,175 +6,30 @@ import me.maxiiiiii.skyblockdragons.item.material.Items;
 
 public class DeepMinesRecipes extends RecipeRegister {
     public static void registerRecipes () {
-        recipes.put("ENCHANTED_COAL", new Recipe(new Item(Items.get("ENCHANTED_COAL")), getItems(
-                new Item(Items.get("COAL"), 64),
-                new Item(Items.get("COAL"), 64),
-                new Item(Items.get("COAL"), 64),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        ), -1));
+        registerEnchantedRecipe("ENCHANTED_COBBLESTONE", "COBBLESTONE");
 
+        registerEnchantedRecipe("ENCHANTED_COAL", "COAL");
         registerEnchantedRecipe("ENCHANTED_COAL_BLOCK", "ENCHANTED_COAL");
 
-        recipes.put("ENCHANTED_IRON_INGOT", new Recipe(new Item(Items.get("ENCHANTED_IRON_INGOT")), getItems(
-                new Item(Items.get("IRON_INGOT"), 64),
-                new Item(Items.get("IRON_INGOT"), 64),
-                new Item(Items.get("IRON_INGOT"), 64),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        ), -1));
+        registerEnchantedRecipe("ENCHANTED_IRON_INGOT", "IRON_INGOT");
+        registerEnchantedRecipe("ENCHANTED_IRON_BLOCK", "ENCHANTED_IRON_INGOT");
 
-        recipes.put("ENCHANTED_IRON_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_IRON_BLOCK")), getItems(
-                new Item(Items.get("ENCHANTED_IRON_INGOT"), 64),
-                new Item(Items.get("ENCHANTED_IRON_INGOT"), 64),
-                new Item(Items.get("ENCHANTED_IRON_INGOT"), 64),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        ), -1));
+        registerEnchantedRecipe("ENCHANTED_GOLD_INGOT", "GOLD_INGOT");
+        registerEnchantedRecipe("ENCHANTED_GOLD_BLOCK", "ENCHANTED_GOLD_INGOT");
 
-        recipes.put("ENCHANTED_GOLD_INGOT", new Recipe(new Item(Items.get("ENCHANTED_GOLD_INGOT")), getItems(
-                new Item(Items.get("GOLD_INGOT"), 64),
-                new Item(Items.get("GOLD_INGOT"), 64),
-                new Item(Items.get("GOLD_INGOT"), 64),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        ), -1));
+        registerEnchantedRecipe("ENCHANTED_LAPIS", "LAPIS");
+        registerEnchantedRecipe("ENCHANTED_LAPIS_BLOCK", "ENCHANTED_LAPIS");
 
-        recipes.put("ENCHANTED_GOLD_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_GOLD_BLOCK")), getItems(
-                new Item(Items.get("ENCHANTED_GOLD_INGOT"), 64),
-                new Item(Items.get("ENCHANTED_GOLD_INGOT"), 64),
-                new Item(Items.get("ENCHANTED_GOLD_INGOT"), 64),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        ), -1));
+        registerEnchantedRecipe("ENCHANTED_REDSTONE", "REDSTONE");
+        registerEnchantedRecipe("ENCHANTED_REDSTONE_BLOCK", "ENCHANTED_REDSTONE");
 
-        recipes.put("ENCHANTED_LAPIS", new Recipe(new Item(Items.get("ENCHANTED_LAPIS")), getItems(
-                new Item(Items.get("LAPIS"), 64),
-                new Item(Items.get("LAPIS"), 64),
-                new Item(Items.get("LAPIS"), 64),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        ), -1));
+        registerEnchantedRecipe("ENCHANTED_EMERALD", "EMERALD");
+        registerEnchantedRecipe("ENCHANTED_EMERALD_BLOCK", "ENCHANTED_EMERALD");
 
-        recipes.put("ENCHANTED_LAPIS_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_LAPIS_BLOCK")), getItems(
-                new Item(Items.get("ENCHANTED_LAPIS"), 64),
-                new Item(Items.get("ENCHANTED_LAPIS"), 64),
-                new Item(Items.get("ENCHANTED_LAPIS"), 64),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        ), -1));
+        registerEnchantedRecipe("ENCHANTED_DIAMOND", "DIAMOND");
+        registerEnchantedRecipe("ENCHANTED_DIAMOND_BLOCK", "ENCHANTED_DIAMOND");
 
-        recipes.put("ENCHANTED_REDSTONE", new Recipe(new Item(Items.get("ENCHANTED_REDSTONE")), getItems(
-                new Item(Items.get("REDSTONE"), 64),
-                new Item(Items.get("REDSTONE"), 64),
-                new Item(Items.get("REDSTONE"), 64),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        ), -1));
-
-        recipes.put("ENCHANTED_REDSTONE_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_REDSTONE_BLOCK")), getItems(
-                new Item(Items.get("ENCHANTED_REDSTONE"), 64),
-                new Item(Items.get("ENCHANTED_REDSTONE"), 64),
-                new Item(Items.get("ENCHANTED_REDSTONE"), 64),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        ), -1));
-
-        recipes.put("ENCHANTED_EMERALD", new Recipe(new Item(Items.get("ENCHANTED_EMERALD")), getItems(
-                new Item(Items.get("EMERALD"), 64),
-                new Item(Items.get("EMERALD"), 64),
-                new Item(Items.get("EMERALD"), 64),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        ), -1));
-
-        recipes.put("ENCHANTED_EMERALD_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_EMERALD_BLOCK")), getItems(
-                new Item(Items.get("ENCHANTED_EMERALD"), 64),
-                new Item(Items.get("ENCHANTED_EMERALD"), 64),
-                new Item(Items.get("ENCHANTED_EMERALD"), 64),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        ), -1));
-
-        recipes.put("ENCHANTED_DIAMOND", new Recipe(new Item(Items.get("ENCHANTED_DIAMOND")), getItems(
-                new Item(Items.get("DIAMOND"), 64),
-                new Item(Items.get("DIAMOND"), 64),
-                new Item(Items.get("DIAMOND"), 64),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        ), -1, true));
-
-        recipes.put("ENCHANTED_DIAMOND_BLOCK", new Recipe(new Item(Items.get("ENCHANTED_DIAMOND_BLOCK")), getItems(
-                new Item(Items.get("ENCHANTED_DIAMOND"), 64),
-                new Item(Items.get("ENCHANTED_DIAMOND"), 64),
-                new Item(Items.get("ENCHANTED_DIAMOND"), 64),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        ), -1, true));
-
-        recipes.put("ENCHANTED_OBSIDIAN", new Recipe(new Item(Items.get("ENCHANTED_OBSIDIAN")), getItems(
-                new Item(Items.get("OBSIDIAN"), 64),
-                new Item(Items.get("OBSIDIAN"), 64),
-                new Item(Items.get("OBSIDIAN"), 64),
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        ), -1));
+        registerEnchantedRecipe("ENCHANTED_OBSIDIAN", "OBSIDIAN");
 
         recipes.put("COAL_TALISMAN", new Recipe(new Item(Items.get("COAL_TALISMAN")), getItems(
                 new Item(Items.get("COAL"), 64),

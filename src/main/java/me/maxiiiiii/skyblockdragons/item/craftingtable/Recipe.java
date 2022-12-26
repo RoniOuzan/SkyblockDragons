@@ -1,11 +1,11 @@
 package me.maxiiiiii.skyblockdragons.item.craftingtable;
 
 import lombok.Getter;
-import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.commands.CommandSD;
 import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
 import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.RecipesMenu;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.recipes.*;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
@@ -16,7 +16,6 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -56,8 +55,8 @@ public class Recipe extends RecipeRegister implements Comparable<Recipe> {
         return vanillaRecipes.containsValue(this);
     }
 
-    public void view(Player player) {
-        new View(SkyblockDragons.getPlayer(player));
+    public void view(PlayerSD player) {
+        new View(player);
     }
 
     public class View extends Menu {
@@ -66,7 +65,16 @@ public class Recipe extends RecipeRegister implements Comparable<Recipe> {
         }
 
         @Override
+        public void onGoBack() {
+            if (player.getMenuHistory().size() > 0)
+                super.onGoBack();
+            else
+                new RecipesMenu(player);
+        }
+
+        @Override
         public void update() {
+            this.setItem(48, GO_BACK);
             this.setItem(23, createItem(Material.WORKBENCH, ChatColor.GREEN + "Crafting Table", "CRAFTING_TABLE", ChatColor.GRAY + "Craft this recipe by using a", ChatColor.GRAY + "crafting table."));
 
             this.setItem(25, item);
@@ -81,12 +89,12 @@ public class Recipe extends RecipeRegister implements Comparable<Recipe> {
 
         @Override
         public void onInventoryClick(InventoryClickEvent e) {
-            e.setCancelled(true);
-            if (e.getSlot() % 9 == 1 || e.getSlot() % 9 == 2 || e.getSlot() % 9 == 3 &&
-                    e.getSlot() / 9 == 1 || e.getSlot() / 9 == 2 || e.getSlot() / 9 == 3) {
+            if ((e.getSlot() % 9 == 1 || e.getSlot() % 9 == 2 || e.getSlot() % 9 == 3) &&
+                    (e.getSlot() / 9 == 1 || e.getSlot() / 9 == 2 || e.getSlot() / 9 == 3)) {
                 Recipe recipe = Recipe.get(Items.get(e.getCurrentItem()).name());
-                if (recipe != null)
-                    recipe.view((Player) e.getWhoClicked());
+                if (recipe != null) {
+                    recipe.view(player);
+                }
             }
         }
 

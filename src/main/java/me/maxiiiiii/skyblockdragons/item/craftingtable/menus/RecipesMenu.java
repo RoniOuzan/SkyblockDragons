@@ -14,7 +14,6 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -135,7 +134,7 @@ public class RecipesMenu extends Menu {
         @Override
         public void onInventoryClick(InventoryClickEvent e) {
             if (this.getNBT(e.getCurrentItem()).equals("PAGE_ITEM")) {
-                getRecipeForItem(e.getCurrentItem()).view((Player) e.getWhoClicked());
+                getRecipeForItem(e.getCurrentItem()).view(player);
             }
         }
 
@@ -152,7 +151,7 @@ public class RecipesMenu extends Menu {
         @Override
         public void onInventoryClick(InventoryClickEvent e) {
             if (this.getNBT(e.getCurrentItem()).equals("PAGE_ITEM")) {
-                getRecipeForItem(e.getCurrentItem()).view((Player) e.getWhoClicked());
+                getRecipeForItem(e.getCurrentItem()).view(player);
             }
         }
 
@@ -185,7 +184,7 @@ public class RecipesMenu extends Menu {
         @Override
         public void onInventoryClick(InventoryClickEvent e) {
             if (this.getNBT(e.getCurrentItem()).equals("PAGE_ITEM")) {
-                getRecipeForItem(e.getCurrentItem()).view((Player) e.getWhoClicked());
+                getRecipeForItem(e.getCurrentItem()).view(player);
             }
         }
 
