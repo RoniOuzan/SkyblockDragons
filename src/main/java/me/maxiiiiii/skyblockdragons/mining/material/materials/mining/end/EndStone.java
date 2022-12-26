@@ -12,8 +12,8 @@ public class EndStone extends MiningBlockMaterial implements RespawnBlock {
     public EndStone() {
         super("END_STONE",
                 new BlockMaterials(Material.ENDER_STONE, Material.SANDSTONE),
-                3,
-                3,
+                6,
+                4,
                 30,
                 0,
                 new BlockItemDrop(Items.get("ENDER_STONE"), 1),

@@ -11,15 +11,17 @@ import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSource;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSourceType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Entry;
-import me.maxiiiiii.skyblockdragons.world.WorldSD;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlayerBreakBlockListener implements Listener {
     private static final Map<Location, Entry<Material, Byte>> blocks = new HashMap<>();
@@ -29,8 +31,6 @@ public class PlayerBreakBlockListener implements Listener {
         PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
         Block block = e.getBlock();
         if (player.getGameMode() != GameMode.SURVIVAL) return;
-        onBlockBreak(e);
-        if (e.isCancelled()) return;
 
         BlockMaterial blockMaterial = e.getMaterial();
         e.setDropItems(false);
@@ -64,19 +64,6 @@ public class PlayerBreakBlockListener implements Listener {
             });
         } else {
             Functions.Wait(1L, () -> e.getBlock().setType(Material.AIR));
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onBlockBreak(BlockBreakEvent event) {
-        PlayerSD player = SkyblockDragons.getPlayer(event.getPlayer());
-        if (player.getGameMode() != GameMode.SURVIVAL) return;
-        Material brokeMaterial = event.getBlock().getType();
-        if (player.getWorldSD() == WorldSD.THE_END){
-            if (brokeMaterial != Material.ENDER_STONE) {
-                player.sendMessage(ChatColor.RED + "You can't break this block!");
-                event.setCancelled(true);
-            }
         }
     }
 
