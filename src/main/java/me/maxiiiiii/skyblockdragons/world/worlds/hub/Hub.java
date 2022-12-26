@@ -49,7 +49,8 @@ public class Hub extends WorldSD {
     protected void spawnNPCs() {
         new WarpNPC(new Location(world, 4.5, 70, -94.5));
         new DailyNPC(new Location(world, -18.5, 70, -90, -90, 0));
-        new ShopNPC(new Location(world, -18.5, 70, -77, -90, 0));
+        new CombatShopNPC(new Location(world, -18.5, 70, -77, -90, 0));
+        new BazaarNPC(new Location(world, 33.5, 71, -78.5, 90, 0));
         new ReforgeNPC(new Location(world, -19.5, 71, -123.5, -90, 0));
         new AuctionMasterNPC(new Location(world, 17.5, 71, -78.5, 90, 0));
         new BankerNPC(new Location(world, 20.5, 71, -40.5, 90, 0));

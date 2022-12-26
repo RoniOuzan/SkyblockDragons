@@ -80,10 +80,10 @@ import me.maxiiiiii.skyblockdragons.world.warp.WarpCommand;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.forge.Forge;
 import me.maxiiiiii.skyblockdragons.world.worlds.deepermines.forge.ForgeMilestoneCommand;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
+import net.citizensnpcs.api.CitizensAPI;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -124,13 +124,13 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
             return;
         }
 
-        for (Hologram holo: HologramsAPI.getHolograms(this)) {
-            holo.delete();
-        }
+        HologramsAPI.getHolograms(this).forEach(Hologram::delete);
 
-        for (World world : Bukkit.getWorlds()) {
-            world.getLivingEntities().stream().filter(e -> e.getScoreboardTags().contains("EntitySD") || e.getScoreboardTags().contains("Pet") || e.getScoreboardTags().contains("PickableItem") || e.getScoreboardTags().contains("EntityHealth") || e.getScoreboardTags().contains("NPC")).forEach(Entity::remove);
-        }
+        Bukkit.getWorlds().forEach(w ->
+            w.getLivingEntities().stream().filter(e -> e.getScoreboardTags().contains("EntitySD") || e.getScoreboardTags().contains("Pet") || e.getScoreboardTags().contains("PickableItem") || e.getScoreboardTags().contains("EntityHealth") || e.getScoreboardTags().contains("NPC")).forEach(Entity::remove)
+        );
+
+        CitizensAPI.getNPCRegistry().deregisterAll();
 
         Bukkit.getScheduler().runTask(this, TheEnd::resetEyes);
 
@@ -419,30 +419,25 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(this);
 
-        for (PlayerSD playerSD : players.values()) {
-            playerSD.closeInventory();
-        }
+        players.values().forEach(PlayerSD::closeInventory);
 
-        for (World world : Bukkit.getWorlds()) {
-            for (Entity entity : world.getEntities()) {
-                if (entity.getType() == EntityType.ARMOR_STAND && (entity.getScoreboardTags().contains("Pet") || entity.getScoreboardTags().contains("EntityHealth"))) {
-                    entity.remove();
-                }
+        Bukkit.getWorlds().forEach(w -> w.getEntities().forEach(e -> {
+            if (e.getType() == EntityType.ARMOR_STAND && (e.getScoreboardTags().contains("Pet") || e.getScoreboardTags().contains("EntityHealth"))) {
+                e.remove();
             }
-        }
+        }));
 
-        for (Hologram holo : HologramsAPI.getHolograms(this)) {
-            holo.delete();
-        }
+        HologramsAPI.getHolograms(this).forEach(Hologram::delete);
 
         PlayerBreakBlockListener.resetBlocks();
 
         EntitySD.entities.values().stream().filter(e -> !(e instanceof PlayerSD)).forEach(e -> e.entity.remove());
 
-        for (Entity entity : entitiesToKill) {
-            if (!entity.isDead())
-                entity.remove();
-        }
+        entitiesToKill.forEach(e -> {
+            if (!e.isDead())
+                e.remove();
+        });
+
         NPC.despawnNPCS();
         Variables.save();
         AddonUtils.disableAddons();

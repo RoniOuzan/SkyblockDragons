@@ -28,12 +28,13 @@ public class ScoreboardSD {
 
         this.scoreboard = new JPerPlayerMethodBasedScoreboard();
         this.scoreboard.addPlayer(player.getPlayer());
-        this.scoreboard.setTitle(player, ChatColor.YELLOW + "" + ChatColor.BOLD + "Skyblock Dragons");
 
         this.update();
     }
 
     public void update() {
+        this.scoreboard.setTitle(player, ChatColor.YELLOW + "" + ChatColor.BOLD + "Skyblock Dragons");
+
         List<String> scores = new ArrayList<>();
         Date now = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy");

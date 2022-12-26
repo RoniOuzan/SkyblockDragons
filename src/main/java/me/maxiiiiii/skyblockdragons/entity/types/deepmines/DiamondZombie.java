@@ -27,7 +27,8 @@ public class DiamondZombie extends EntityMaterial {
                 new EntityItemDrop(Items.get("DIAMOND"), 1, 50),
                 new EntityItemRareDrop(Items.get("ENCHANTED_DIAMOND"), 1, 1d),
                 new EntityItemRareDrop(Items.get("DIAMOND_TALISMAN"), 1, 0.5d),
-                new EntityItemRareDrop(Items.get("DIAMOND_BLOCK_TALISMAN"), 1, 0.1d)
+                new EntityItemRareDrop(Items.get("DIAMOND_RING"), 1, 0.1d),
+                new EntityItemRareDrop(Items.get("DIAMOND_ARTIFACT"), 1, 0.02d)
         );
     }
 }

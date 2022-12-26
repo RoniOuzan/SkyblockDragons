@@ -32,7 +32,10 @@ public class RedstonePigman extends EntityMaterial {
                 new EntityItemRareDrop(Items.get("PIGMAN_LEGGINGS"), 1, 1.5d),
                 new EntityItemRareDrop(Items.get("PIGMAN_BOOTS"), 1, 1.5d),
                 new EntityItemRareDrop(Items.get("PIGMAN_DAGGER"), 1, 1d),
-                new EntityItemRareDrop(Items.get("REDSTONE_TALISMAN"), 1, 0.5d)
+                new EntityItemRareDrop(Items.get("REDSTONE_TALISMAN"), 1, 0.5d),
+                new EntityItemRareDrop(Items.get("REDSTONE_RING"), 1, 0.1d),
+                new EntityItemRareDrop(Items.get("REDSTONE_ARTIFACT"), 1, 0.02d),
+                new EntityItemRareDrop(Items.get("PIGMAN_TALISMAN"), 1, 0.5d)
         );
     }
 }
