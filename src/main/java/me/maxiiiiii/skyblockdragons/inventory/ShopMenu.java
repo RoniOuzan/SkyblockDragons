@@ -35,7 +35,7 @@ public class ShopMenu extends PageMenu {
             for (Entry<Item, Number> entry : items) {
                 if (entry.getA().getMaterial() == item.getMaterial()) {
                     double cost = entry.getB().doubleValue();
-                    if (!player.ignoreRequirements() && player.getCoins() >= cost) {
+                    if (player.ignoreRequirements() || player.getCoins() >= cost) {
                         player.give(item);
                         player.sendMessage(ChatColor.GREEN + "You have bought " + e.getCurrentItem().getItemMeta().getDisplayName() + ChatColor.GREEN + " for " + Functions.getNumberFormat(cost) + ".");
                         player.playSound(Sound.BLOCK_NOTE_HARP);

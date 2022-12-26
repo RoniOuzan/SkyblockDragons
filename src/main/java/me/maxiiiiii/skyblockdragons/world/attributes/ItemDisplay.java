@@ -7,6 +7,7 @@ import me.maxiiiiii.skyblockdragons.inventory.SingleShopMenu;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.Location;
+import org.bukkit.Material;
 
 @Getter
 public class ItemDisplay implements WorldAttribute {
@@ -27,5 +28,6 @@ public class ItemDisplay implements WorldAttribute {
     @Override
     public void onCreate() {
         HologramsAPI.createHologram(SkyblockDragons.plugin, this.location.clone().add(0.5, 1, 0.5)).appendItemLine(this.item);
+        this.location.getBlock().setType(Material.BARRIER);
     }
 }
