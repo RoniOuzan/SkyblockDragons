@@ -8,6 +8,7 @@ import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -15,6 +16,7 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.FlyToLocation;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
+import me.maxiiiiii.skyblockdragons.world.attributes.ItemDisplay;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.events.DragonKillEvent;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.events.PlayerPlaceEyeEvent;
@@ -48,6 +50,10 @@ public class TheEnd extends WorldSD implements Listener {
 
     public TheEnd(JavaPlugin plugin) {
         super(world, "The End", Warp.THE_END, WorldType.COMBAT, WorldType.MINING);
+
+        addAttribute(new ItemDisplay(new Location(world, 113, 55, 4), new Item(Items.get("PORTAL_TALISMAN")), 50_000));
+        addAttribute(new ItemDisplay(new Location(world, 113, 55, -2), new Item(Items.get("ENDSTONE_PICKAXE")), 200_000));
+
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         plugin.getServer().getPluginManager().registerEvents(new PlayerPlaceEyeListener(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new DragonKillListener(), plugin);

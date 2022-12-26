@@ -8,6 +8,7 @@ import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirements;
 import me.maxiiiiii.skyblockdragons.world.attributes.ClickableBlock;
+import me.maxiiiiii.skyblockdragons.world.attributes.ItemDisplay;
 import me.maxiiiiii.skyblockdragons.world.attributes.LaunchPad;
 import me.maxiiiiii.skyblockdragons.world.attributes.WorldAttribute;
 import me.maxiiiiii.skyblockdragons.world.events.PlayerStepOnLaunchPadEvent;
@@ -84,6 +85,18 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
     protected void addAttribute(WorldAttribute attribute) {
         this.attributes.add(attribute);
         attribute.onCreate();
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onPlayerClick(PlayerInteractEvent e) {
+        if (e.getClickedBlock() != null) {
+            List<ItemDisplay> attributes = this.attributes.stream().filter(a -> a instanceof ItemDisplay).map(a -> (ItemDisplay) a).collect(Collectors.toList());
+            attributes.forEach(attribute -> {
+                if (e.getClickedBlock().getLocation().equals(attribute.getLocation())) {
+                    attribute.display(SkyblockDragons.getPlayer(e.getPlayer()));
+                }
+            });
+        }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)

@@ -66,6 +66,7 @@ public enum ItemFamily {
     OBSIDIAN,
     ENDERMAN,
     ENDER,
+    ENDSTONE,
     COBALT,
     CHLOROPHYTE,
     LUMINATE,
@@ -89,5 +90,6 @@ public enum ItemFamily {
     ARES,
     COBBLESTONE_PICKAXE,
     COBBLESTONE,
+    PORTAL,
     NULL
 }

@@ -7,7 +7,6 @@ import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemType;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
-import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import org.bukkit.Material;
 
@@ -26,6 +25,11 @@ public abstract class AccessoryMaterial extends ItemMaterial implements ItemStat
 
     public AccessoryMaterial(String itemID, Material material, ItemFamily family, String name, Rarity rarity, Stats stats, String description) {
         this(itemID, material, family, name, rarity, stats, p -> description);
+    }
+
+    @Override
+    public int getMaxCrystals() {
+        return 0;
     }
 
     @Override

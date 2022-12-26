@@ -35,11 +35,12 @@ public class ShopMenu extends PageMenu {
             for (Entry<Item, Number> entry : items) {
                 if (entry.getA().getMaterial() == item.getMaterial()) {
                     double cost = entry.getB().doubleValue();
-                    if (player.getCoins() >= cost) {
+                    if (!player.ignoreRequirements() && player.getCoins() >= cost) {
                         player.give(item);
-                        player.removeCoins(cost);
                         player.sendMessage(ChatColor.GREEN + "You have bought " + e.getCurrentItem().getItemMeta().getDisplayName() + ChatColor.GREEN + " for " + Functions.getNumberFormat(cost) + ".");
                         player.playSound(Sound.BLOCK_NOTE_HARP);
+                        if (!player.ignoreRequirements())
+                            player.removeCoins(cost);
                     } else {
                         player.sendMessage(ChatColor.RED + "You don't have enough coins to buy this item!");
                     }
