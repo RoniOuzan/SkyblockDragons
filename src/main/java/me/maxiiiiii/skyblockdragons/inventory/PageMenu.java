@@ -32,7 +32,7 @@ public abstract class PageMenu extends Menu {
 
     protected int itemsInPage;
 
-    protected PageMenu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, List<? extends ItemStack> items, boolean update) {
+    public PageMenu(PlayerSD player, String title, int rows, InventoryGlassType inventoryGlassType, List<? extends ItemStack> items, boolean update) {
         super(player, title, rows, inventoryGlassType, update);
         this.items = items.stream().peek(i -> {
             if (this.getNBT(i).equals("")) {
