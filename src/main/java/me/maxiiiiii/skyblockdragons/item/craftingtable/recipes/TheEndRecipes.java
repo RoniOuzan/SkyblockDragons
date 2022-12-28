@@ -186,5 +186,41 @@ public class TheEndRecipes extends RecipeRegister {
                 new Item(Items.get("EYE_OF_ENDER_GUARD"), 3),
                 new Item(Items.get("STICK"))
         ), -1));
+
+        recipes.put("ENDSTONE_TALISMAN", new Recipe(new Item(Items.get("ENDSTONE_TALISMAN")), getItems(
+                new Item(Items.get("ENDER_STONE"), 32),
+                new Item(Items.get("ENDER_STONE"), 32),
+                new Item(Items.get("ENDER_STONE"), 32),
+                new Item(Items.get("ENDER_STONE"), 32),
+                null,
+                new Item(Items.get("ENDER_STONE"), 32),
+                new Item(Items.get("ENDER_STONE"), 32),
+                new Item(Items.get("ENDER_STONE"), 32),
+                new Item(Items.get("ENDER_STONE"), 32)
+        ), -1));
+
+        recipes.put("ENDSTONE_RING", new Recipe(new Item(Items.get("ENDSTONE_RING")), getItems(
+                new Item(Items.get("ENCHANTED_ENDER_STONE"), 1),
+                new Item(Items.get("ENCHANTED_ENDER_STONE"), 1),
+                new Item(Items.get("ENCHANTED_ENDER_STONE"), 1),
+                new Item(Items.get("ENCHANTED_ENDER_STONE"), 1),
+                new Item(Items.get("ENDSTONE_TALISMAN")),
+                new Item(Items.get("ENCHANTED_ENDER_STONE"), 1),
+                new Item(Items.get("ENCHANTED_ENDER_STONE"), 1),
+                new Item(Items.get("ENCHANTED_ENDER_STONE"), 1),
+                new Item(Items.get("ENCHANTED_ENDER_STONE"), 1)
+        ), 4));
+
+        recipes.put("ENDSTONE_ARTIFACT", new Recipe(new Item(Items.get("ENDSTONE_ARTIFACT")), getItems(
+                new Item(Items.get("ENCHANTED_ENDER_STONE"), 8),
+                new Item(Items.get("ENCHANTED_ENDER_STONE"), 8),
+                new Item(Items.get("ENCHANTED_ENDER_STONE"), 8),
+                new Item(Items.get("ENCHANTED_ENDER_STONE"), 8),
+                new Item(Items.get("ENDSTONE_TALISMAN")),
+                new Item(Items.get("ENCHANTED_ENDER_STONE"), 8),
+                new Item(Items.get("ENCHANTED_ENDER_STONE"), 8),
+                new Item(Items.get("ENCHANTED_ENDER_STONE"), 8),
+                new Item(Items.get("ENCHANTED_ENDER_STONE"), 8)
+        ), 4));
     }
 }

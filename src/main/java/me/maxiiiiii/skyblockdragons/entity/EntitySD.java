@@ -144,14 +144,7 @@ public class EntitySD extends EntityClass {
                 for (int i = 0; i < spawn.getAmount(); i++) {
                     Location location;
                     do {
-                        double angle = Functions.randomDouble(-Math.PI, Math.PI);
-                        location = spawn.getLocation().clone().add(
-                                Math.sin(angle) * Math.random() * spawn.getDistance(),
-                                0,
-                                Math.cos(angle) * Math.random() * spawn.getDistance()
-                        );
-
-                        location = Functions.getLowestBlock(location).getLocation();
+                        location = spawn.generateSpawn();
                     } while (location.getY() < spawn.getMinY() ||
                             !spawn.getAllowedBlocks().contains(location.getBlock().getType()) ||
                             location.clone().add(0, 1, 0).getBlock().getType() != Material.AIR ||

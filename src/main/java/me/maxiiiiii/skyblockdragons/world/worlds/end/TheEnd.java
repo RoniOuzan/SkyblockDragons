@@ -13,9 +13,11 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.objects.Entry;
 import me.maxiiiiii.skyblockdragons.util.objects.FlyToLocation;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
+import me.maxiiiiii.skyblockdragons.world.attributes.EntityWorldSpawn;
 import me.maxiiiiii.skyblockdragons.world.attributes.ItemDisplay;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.events.DragonKillEvent;
@@ -36,6 +38,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,6 +53,10 @@ public class TheEnd extends WorldSD implements Listener {
 
     public TheEnd(JavaPlugin plugin) {
         super(world, "The End", Warp.THE_END, WorldType.COMBAT, WorldType.MINING);
+
+        addAttribute(new EntityWorldSpawn(new Location(world, 0.5, 90, 0.5), 50, 10, 50, Collections.singletonList(new Entry<>(EntityMaterial.get("ENDER_GUARD"), 100d)), 50, Material.ENDER_STONE));
+        addAttribute(new EntityWorldSpawn(new Location(world, 0.5, 90, 0.5), 100, 60, 90, Collections.singletonList(new Entry<>(EntityMaterial.get("ENDERMAN_TIER_2"), 100d)), 50, Material.ENDER_STONE));
+        addAttribute(new EntityWorldSpawn(new Location(world, 0.5, 90, 0.5), 100, 90, 120, Collections.singletonList(new Entry<>(EntityMaterial.get("ENDERMAN_TIER_1"), 100d)), 50, Material.ENDER_STONE));
 
         addAttribute(new ItemDisplay(new Location(world, 113, 55, 4), new Item(Items.get("PORTAL_TALISMAN")), 50_000));
         addAttribute(new ItemDisplay(new Location(world, 113, 55, -2), new Item(Items.get("ENDSTONE_PICKAXE")), 200_000));
