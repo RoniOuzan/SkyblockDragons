@@ -392,7 +392,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
 
             stats.add(item.getStats(), StatAdderType.ITEM, item);
         }
-        stats.add(equipment.getAccessoryBag().getStats()); // TODO
+        equipment.getAccessoryBag().applyStats();
 
         UpdateStatsEvent event = new UpdateStatsEvent(stats);
         Bukkit.getPluginManager().callEvent(event);

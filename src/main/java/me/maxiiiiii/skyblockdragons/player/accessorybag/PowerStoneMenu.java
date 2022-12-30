@@ -22,7 +22,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class PowerStoneMenu extends PageMenu {
-    protected PowerStoneMenu(PlayerSD player) {
+    public PowerStoneMenu(PlayerSD player) {
         super(player,
                 "Power Stone Selector",
                 6,

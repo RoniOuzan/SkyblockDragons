@@ -33,7 +33,7 @@ public class WarpCommand extends CommandSD {
         if (!warp.getRequirements().hasRequirements(player) || !warp.getWorld().getRequirements().hasRequirements(player)) {
             player.sendMessage(ChatColor.RED + "You don't have the requirements to warp!");
             return;
-        } else if (!player.getVisitedWorlds().contains(warp.getWorld()) || player.ignoreRequirements()) {
+        } else if (!player.getVisitedWorlds().contains(warp.getWorld()) && !player.ignoreRequirements()) {
             player.sendMessage(ChatColor.RED + "You have not been in this world yet! visit it in a different way");
             return;
         }

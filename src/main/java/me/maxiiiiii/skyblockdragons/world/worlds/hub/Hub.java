@@ -54,6 +54,7 @@ public class Hub extends WorldSD {
         new ReforgeNPC(new Location(world, -19.5, 71, -123.5, -90, 0));
         new AuctionMasterNPC(new Location(world, 17.5, 71, -78.5, 90, 0));
         new BankerNPC(new Location(world, 20.5, 71, -40.5, 90, 0));
+        new PowerStoneNPC(new Location(world, 33.5, 71, -105.5, 0, 0));
 
         new MinerNPC(new Location(world, -15.5, 71, -155.5, -45, 0));
     }

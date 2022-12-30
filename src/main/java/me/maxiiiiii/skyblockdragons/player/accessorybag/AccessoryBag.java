@@ -54,6 +54,14 @@ public class AccessoryBag implements Iterable<Item> {
         return magicalPower;
     }
 
+    public void applyStats() {
+        this.player.stats.add(this.getPowerStone().getStats(this.player), StatAdderType.POWER_STONE, this.getPowerStone());
+        this.player.stats.add(this.getPowerStone().getUniqueStats(), StatAdderType.POWER_STONE, this.getPowerStone());
+        for (Map.Entry<StatType, Integer> entry : this.getTuning().entrySet()) {
+            this.player.stats.add(entry.getKey(), entry.getValue() * PowerStoneMenu.AMOUNT_PER_POINT.get(entry.getKey()), StatAdderType.TUNING_POINTS, null);
+        }
+    }
+
     public Stats getStats() {
         Stats stats = this.getPowerStone().getStats(player);
         stats.add(this.getPowerStone().getUniqueStats(), StatAdderType.POWER_STONE, this.getPowerStone());

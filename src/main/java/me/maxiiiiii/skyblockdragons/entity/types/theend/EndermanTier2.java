@@ -1,10 +1,9 @@
 package me.maxiiiiii.skyblockdragons.entity.types.theend;
 
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemDrop;
 import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemRareDrop;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
@@ -15,7 +14,7 @@ public class EndermanTier2 extends EntityMaterial {
                 EntityType.ENDERMAN,
                 ChatColor.WHITE + "Enderman Tier 2",
                 18,
-                2_000,
+                800,
                 0,
                 400,
                 0,

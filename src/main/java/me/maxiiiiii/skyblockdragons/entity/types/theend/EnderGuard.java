@@ -1,10 +1,9 @@
 package me.maxiiiiii.skyblockdragons.entity.types.theend;
 
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemDrop;
 import me.maxiiiiii.skyblockdragons.item.drops.types.entity.EntityItemRareDrop;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
@@ -15,7 +14,7 @@ public class EnderGuard extends EntityMaterial {
                 EntityType.ENDERMAN,
                 ChatColor.DARK_PURPLE + "Ender Guard",
                 24,
-                4_500,
+                1_200,
                 5,
                 500,
                 0,
