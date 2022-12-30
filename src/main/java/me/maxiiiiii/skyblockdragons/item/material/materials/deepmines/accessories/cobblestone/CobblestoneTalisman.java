@@ -14,7 +14,7 @@ public class CobblestoneTalisman extends AccessoryMaterial {
                 ItemFamily.COBBLESTONE,
                 "Cobblestone Talisman",
                 Rarity.COMMON,
-                new DamageStats(0, 2, 2, 1, 0, 0),
+                new DamageStats(0, 2, 2, 0, 0, 0),
                 ""
         );
     }

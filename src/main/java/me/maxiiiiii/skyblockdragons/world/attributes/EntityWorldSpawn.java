@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -42,13 +43,38 @@ public class EntityWorldSpawn implements WorldAttribute {
     /**
      * @param location the center of the spawns. the y of the location is the max y to spawn a mob
      * @param minY the minimum y level
+     * @param minDistance the minimum distance from the location to spawn
+     * @param maxDistance the maximum distance from the location to spawn
+     * @param entity the entityMaterial with his chances to spawn [0, 100.0]
+     * @param amount the amount of spawns to create
+     * @param allowedBlocks the materials that the mob can spawn on
+     */
+    public EntityWorldSpawn(Location location, double minY, double minDistance, double maxDistance, EntityMaterial entity, int amount, Material... allowedBlocks) {
+        this(location, minY, minDistance, maxDistance, Collections.singletonList(new Entry<>(entity, 100d)), amount, allowedBlocks);
+    }
+
+    /**
+     * @param location the center of the spawns. the y of the location is the max y to spawn a mob
+     * @param minY the minimum y level
      * @param distance the distance from the location to spawn
-     * @param entities every entityMaterial with his chances to spawn [0, 1.0]
+     * @param entities every entityMaterial with his chances to spawn [0, 100.0]
      * @param amount the amount of spawns to create
      * @param allowedBlocks the materials that the mob can spawn on
      */
     public EntityWorldSpawn(Location location, double minY, double distance, List<Entry<EntityMaterial, Double>> entities, int amount, Material... allowedBlocks) {
         this(location, minY, 0, distance, entities, amount, allowedBlocks);
+    }
+
+    /**
+     * @param location the center of the spawns. the y of the location is the max y to spawn a mob
+     * @param minY the minimum y level
+     * @param distance the distance from the location to spawn
+     * @param entity the entityMaterial to spawn
+     * @param amount the amount of spawns to create
+     * @param allowedBlocks the materials that the mob can spawn on
+     */
+    public EntityWorldSpawn(Location location, double minY, double distance, EntityMaterial entity, int amount, Material... allowedBlocks) {
+        this(location, minY, 0, distance, Collections.singletonList(new Entry<>(entity, 100d)), amount, allowedBlocks);
     }
 
     public EntityMaterial getEntityMaterial() {

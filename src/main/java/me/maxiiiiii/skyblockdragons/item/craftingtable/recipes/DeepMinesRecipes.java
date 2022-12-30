@@ -31,6 +31,54 @@ public class DeepMinesRecipes extends RecipeRegister {
 
         registerEnchantedRecipe("ENCHANTED_OBSIDIAN", "OBSIDIAN");
 
+        recipes.put("STONE", new Recipe(new Item(Items.get("STONE")), getItems(
+                new Item(Items.get("STONE")),
+                new Item(Items.get("STONE")),
+                new Item(Items.get("STONE")),
+                new Item(Items.get("STONE")),
+                new Item(Items.get("COAL")),
+                new Item(Items.get("STONE")),
+                new Item(Items.get("STONE")),
+                new Item(Items.get("STONE")),
+                new Item(Items.get("STONE"))
+        ), -1));
+
+        recipes.put("STONE_TALISMAN", new Recipe(new Item(Items.get("STONE_TALISMAN")), getItems(
+                new Item(Items.get("STONE"), 16),
+                new Item(Items.get("STONE"), 16),
+                new Item(Items.get("STONE"), 16),
+                new Item(Items.get("STONE"), 16),
+                null,
+                new Item(Items.get("STONE"), 16),
+                new Item(Items.get("STONE"), 16),
+                new Item(Items.get("STONE"), 16),
+                new Item(Items.get("STONE"), 16)
+        ), -1));
+
+        recipes.put("STONE_RING", new Recipe(new Item(Items.get("STONE_RING")), getItems(
+                new Item(Items.get("STONE"), 64),
+                new Item(Items.get("STONE"), 64),
+                new Item(Items.get("STONE"), 64),
+                new Item(Items.get("STONE"), 64),
+                new Item(Items.get("STONE_TALISMAN")),
+                new Item(Items.get("STONE"), 64),
+                new Item(Items.get("STONE"), 64),
+                new Item(Items.get("STONE"), 64),
+                new Item(Items.get("STONE"), 64)
+        ), 4));
+
+        recipes.put("STONE_ARTIFACT", new Recipe(new Item(Items.get("STONE_ARTIFACT")), getItems(
+                new Item(Items.get("ENCHANTED_STONE"), 1),
+                new Item(Items.get("ENCHANTED_STONE"), 1),
+                new Item(Items.get("ENCHANTED_STONE"), 1),
+                new Item(Items.get("ENCHANTED_STONE"), 1),
+                new Item(Items.get("STONE_RING")),
+                new Item(Items.get("ENCHANTED_STONE"), 1),
+                new Item(Items.get("ENCHANTED_STONE"), 1),
+                new Item(Items.get("ENCHANTED_STONE"), 1),
+                new Item(Items.get("ENCHANTED_STONE"), 1)
+        ), 4));
+
         recipes.put("COAL_TALISMAN", new Recipe(new Item(Items.get("COAL_TALISMAN")), getItems(
                 new Item(Items.get("COAL"), 64),
                 new Item(Items.get("COAL"), 64),

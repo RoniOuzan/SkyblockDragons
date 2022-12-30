@@ -143,12 +143,20 @@ public class EntitySD extends EntityClass {
             for (EntityWorldSpawn spawn : world.getAttributes().stream().filter(a -> a instanceof EntityWorldSpawn).map(a -> (EntityWorldSpawn) a).collect(Collectors.toList())) {
                 for (int i = 0; i < spawn.getAmount(); i++) {
                     Location location;
+                    int counter = 0;
+
                     do {
                         location = spawn.generateSpawn();
-                    } while (location.getY() < spawn.getMinY() ||
-                            !spawn.getAllowedBlocks().contains(location.getBlock().getType()) ||
-                            location.clone().add(0, 1, 0).getBlock().getType() != Material.AIR ||
-                            location.clone().add(0, 2, 0).getBlock().getType() != Material.AIR);
+                        counter++;
+                    } while (counter <= 50 &&
+                            (location.getY() < spawn.getMinY() ||
+                                    !spawn.getAllowedBlocks().contains(location.getBlock().getType()) ||
+                                    location.clone().add(0, 1, 0).getBlock().getType() != Material.AIR ||
+                                    location.clone().add(0, 2, 0).getBlock().getType() != Material.AIR));
+
+                    if (counter > 50) {
+                        Bukkit.getPlayer("LidanTheGamer").sendMessage("Tried to create a spawn center is on " + spawn.getLocation() + ".");
+                    }
 
                     entitiesSpawns.add(new EntitySpawn(location.add(0.5, 1, 0.5), spawn.getEntityMaterial(), false));
                 }

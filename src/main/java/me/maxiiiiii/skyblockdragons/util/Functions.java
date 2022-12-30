@@ -499,8 +499,8 @@ public class Functions {
     }
 
     public static Block getLowestBlock(Location location) {
-        for (int i = 0; i < location.getY(); i++) {
-            Block block = location.getWorld().getBlockAt(location.getBlockX(), location.getBlockY() - i, location.getBlockZ());
+        for (int i = location.getBlockY(); i > 0; i--) {
+            Block block = location.getWorld().getBlockAt(location.getBlockX(), i, location.getBlockZ());
             if (block.getType().isSolid()) {
                 return block;
             }
