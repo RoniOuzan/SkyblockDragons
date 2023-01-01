@@ -23,7 +23,8 @@ public class EnderGuard extends EntityMaterial {
                 0,
                 1100,
                 15,
-                new EntityItemDrop(Items.get("ENDER_PEARL"), 1, 3),
+                new EntityItemDrop(Items.get("ENDER_PEARL"), 1, 3, 100),
+                new EntityItemDrop(Items.get("EYE_OF_ENDER_GUARD"), 1, 3),
                 new EntityItemRareDrop(Items.get("SUMMONING_EYE"), 1, 1)
         );
     }

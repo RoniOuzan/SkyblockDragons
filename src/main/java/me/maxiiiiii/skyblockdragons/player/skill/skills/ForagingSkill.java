@@ -38,6 +38,6 @@ public class ForagingSkill extends Skill {
     public void updateStats(UpdateStatsEvent e) {
         if (e.getPlayer() != this.getPlayer()) return;
 
-        e.getStats().add(StatTypes.FORAGING_FORTUNE, this.getLevel() * 4, StatAdderType.SKILL, null);
+        e.getStats().add(StatTypes.FORAGING_FORTUNE, this.getLevel() * 4, StatAdderType.SKILL, this);
     }
 }

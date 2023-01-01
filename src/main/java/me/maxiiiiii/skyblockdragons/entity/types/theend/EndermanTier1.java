@@ -24,10 +24,10 @@ public class EndermanTier1 extends EntityMaterial {
                 500,
                 8,
                 new EntityItemDrop(Items.get("ENDER_PEARL"), 1),
-                new EntityItemRareDrop(Items.get("EYE_OF_ENDERMAN"), 1, 1),
-                new EntityItemRareDrop(Items.get("ENDERMAN_TALISMAN_COMMON"), 1, 0.35),
-                new EntityItemRareDrop(Items.get("ENDERMAN_TALISMAN_UNCOMMON"), 1, 0.15),
-                new EntityItemRareDrop(Items.get("ENDERMAN_TALISMAN_RARE"), 1, 0.04)
+                new EntityItemRareDrop(Items.get("EYE_OF_ENDERMAN"), 1, 2),
+                new EntityItemRareDrop(Items.get("ENDERMAN_TALISMAN_COMMON"), 1, 1),
+                new EntityItemRareDrop(Items.get("ENDERMAN_TALISMAN_UNCOMMON"), 1, 0.5),
+                new EntityItemRareDrop(Items.get("ENDERMAN_TALISMAN_RARE"), 1, 0.25)
         );
     }
 }

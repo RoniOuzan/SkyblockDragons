@@ -14,7 +14,7 @@ public class LapisOre extends OreMaterial {
                 2,
                 5,
                 2,
-                new BlockItemDrop(Items.get("LAPIS"), 1)
+                new BlockItemDrop(Items.get("LAPIS"), 1, 4, 100)
         );
     }
 }

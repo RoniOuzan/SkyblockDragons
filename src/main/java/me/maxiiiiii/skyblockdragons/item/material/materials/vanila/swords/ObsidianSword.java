@@ -15,7 +15,7 @@ public class ObsidianSword extends SwordMaterial {
                 ItemFamily.OBSIDIAN,
                 "Obsidian Sword",
                 Rarity.RARE,
-                new Stats(45, 0, 10, 2, 0,0 ,0, 0, -10, 0),
+                new Stats(45, 20, 10, 2, 0,0 ,0, 0, -10, 0),
                 "",
                 new SkillRequirement(SkillType.COMBAT, 5)
         );

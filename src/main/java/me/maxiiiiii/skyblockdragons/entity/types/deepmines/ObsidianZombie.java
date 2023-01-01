@@ -15,7 +15,7 @@ public class ObsidianZombie extends EntityMaterial {
                 EntityType.ZOMBIE,
                 ChatColor.DARK_GRAY + "Obsidian Zombie",
                 11,
-                500,
+                450,
                 20,
                 300,
                 0,

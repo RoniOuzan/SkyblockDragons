@@ -8,6 +8,7 @@ import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.stats.Stat;
 import me.maxiiiiii.skyblockdragons.item.stats.StatType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
+import me.maxiiiiii.skyblockdragons.item.stats.interfaces.PercentageStat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
@@ -153,6 +154,7 @@ public class ProfileMenu extends Menu {
             lores.addAll(p.getStats().toCombatList().stream().map(Stat::toStringLore).collect(Collectors.toList()));
             lores.add("");
             lores.add(ChatColor.YELLOW + "Click for details!");
+            lores.add(11, ChatColor.RED + p.getStats().getHealth().getType().getIcon() + " Effective Health " + ChatColor.WHITE + Functions.getNumberFormat(p.getStats().getEffectiveHealth()) + (p.getStats().getHealth().getType() instanceof PercentageStat ? "%" : ""));
             return createItem(Material.DIAMOND_SWORD, ChatColor.RED + "Combat Stats", "COMBAT_STATS", lores);
 
         }),

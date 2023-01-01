@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.player.accessorybag;
 
 import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.stats.StatAdderType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatType;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
@@ -47,7 +48,8 @@ public class AccessoryBag implements Iterable<Item> {
     }
 
     private void updateMagicalPower() {
-        this.magicalPower = this.stream().mapToInt(i -> PowerStone.getRarityMagicalPower(i.getRarity())).sum();
+        List<ItemFamily> families = new ArrayList<>();
+        this.magicalPower = this.stream().filter(i -> !families.contains(i.getMaterial().getFamily())).peek(i -> families.add(i.getMaterial().getFamily())).mapToInt(i -> PowerStone.getRarityMagicalPower(i.getRarity())).sum();
     }
 
     public int getMagicalPower() {

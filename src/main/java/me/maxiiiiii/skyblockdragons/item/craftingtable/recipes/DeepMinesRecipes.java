@@ -80,15 +80,15 @@ public class DeepMinesRecipes extends RecipeRegister {
         ), 4));
 
         recipes.put("COAL_TALISMAN", new Recipe(new Item(Items.get("COAL_TALISMAN")), getItems(
-                new Item(Items.get("COAL"), 64),
-                new Item(Items.get("COAL"), 64),
-                new Item(Items.get("COAL"), 64),
-                new Item(Items.get("COAL"), 64),
+                new Item(Items.get("COAL"), 8),
+                new Item(Items.get("COAL"), 8),
+                new Item(Items.get("COAL"), 8),
+                new Item(Items.get("COAL"), 8),
                 null,
-                new Item(Items.get("COAL"), 64),
-                new Item(Items.get("COAL"), 64),
-                new Item(Items.get("COAL"), 64),
-                new Item(Items.get("COAL"), 64)
+                new Item(Items.get("COAL"), 8),
+                new Item(Items.get("COAL"), 8),
+                new Item(Items.get("COAL"), 8),
+                new Item(Items.get("COAL"), 8)
         ), -1));
 
         recipes.put("COAL_RING", new Recipe(new Item(Items.get("COAL_RING")), getItems(
@@ -117,15 +117,15 @@ public class DeepMinesRecipes extends RecipeRegister {
 
 
         recipes.put("IRON_TALISMAN", new Recipe(new Item(Items.get("IRON_TALISMAN")), getItems(
-                new Item(Items.get("IRON_INGOT"), 64),
-                new Item(Items.get("IRON_INGOT"), 64),
-                new Item(Items.get("IRON_INGOT"), 64),
-                new Item(Items.get("IRON_INGOT"), 64),
+                new Item(Items.get("IRON_INGOT"), 8),
+                new Item(Items.get("IRON_INGOT"), 8),
+                new Item(Items.get("IRON_INGOT"), 8),
+                new Item(Items.get("IRON_INGOT"), 8),
                 null,
-                new Item(Items.get("IRON_INGOT"), 64),
-                new Item(Items.get("IRON_INGOT"), 64),
-                new Item(Items.get("IRON_INGOT"), 64),
-                new Item(Items.get("IRON_INGOT"), 64)
+                new Item(Items.get("IRON_INGOT"), 8),
+                new Item(Items.get("IRON_INGOT"), 8),
+                new Item(Items.get("IRON_INGOT"), 8),
+                new Item(Items.get("IRON_INGOT"), 8)
         ), -1));
 
         recipes.put("IRON_RING", new Recipe(new Item(Items.get("IRON_RING")), getItems(
@@ -154,15 +154,15 @@ public class DeepMinesRecipes extends RecipeRegister {
 
 
         recipes.put("GOLD_TALISMAN", new Recipe(new Item(Items.get("GOLD_TALISMAN")), getItems(
-                new Item(Items.get("GOLD_INGOT"), 64),
-                new Item(Items.get("GOLD_INGOT"), 64),
-                new Item(Items.get("GOLD_INGOT"), 64),
-                new Item(Items.get("GOLD_INGOT"), 64),
+                new Item(Items.get("GOLD_INGOT"), 8),
+                new Item(Items.get("GOLD_INGOT"), 8),
+                new Item(Items.get("GOLD_INGOT"), 8),
+                new Item(Items.get("GOLD_INGOT"), 8),
                 null,
-                new Item(Items.get("GOLD_INGOT"), 64),
-                new Item(Items.get("GOLD_INGOT"), 64),
-                new Item(Items.get("GOLD_INGOT"), 64),
-                new Item(Items.get("GOLD_INGOT"), 64)
+                new Item(Items.get("GOLD_INGOT"), 8),
+                new Item(Items.get("GOLD_INGOT"), 8),
+                new Item(Items.get("GOLD_INGOT"), 8),
+                new Item(Items.get("GOLD_INGOT"), 8)
         ), -1));
 
         recipes.put("GOLD_RING", new Recipe(new Item(Items.get("GOLD_RING")), getItems(
@@ -191,15 +191,15 @@ public class DeepMinesRecipes extends RecipeRegister {
 
 
         recipes.put("LAPIS_TALISMAN", new Recipe(new Item(Items.get("LAPIS_TALISMAN")), getItems(
-                new Item(Items.get("LAPIS"), 64),
-                new Item(Items.get("LAPIS"), 64),
-                new Item(Items.get("LAPIS"), 64),
-                new Item(Items.get("LAPIS"), 64),
+                new Item(Items.get("LAPIS"), 8),
+                new Item(Items.get("LAPIS"), 8),
+                new Item(Items.get("LAPIS"), 8),
+                new Item(Items.get("LAPIS"), 8),
                 null,
-                new Item(Items.get("LAPIS"), 64),
-                new Item(Items.get("LAPIS"), 64),
-                new Item(Items.get("LAPIS"), 64),
-                new Item(Items.get("LAPIS"), 64)
+                new Item(Items.get("LAPIS"), 8),
+                new Item(Items.get("LAPIS"), 8),
+                new Item(Items.get("LAPIS"), 8),
+                new Item(Items.get("LAPIS"), 8)
         ), -1));
 
         recipes.put("LAPIS_RING", new Recipe(new Item(Items.get("LAPIS_RING")), getItems(
@@ -228,15 +228,15 @@ public class DeepMinesRecipes extends RecipeRegister {
 
 
         recipes.put("REDSTONE_TALISMAN", new Recipe(new Item(Items.get("REDSTONE_TALISMAN")), getItems(
-                new Item(Items.get("REDSTONE"), 64),
-                new Item(Items.get("REDSTONE"), 64),
-                new Item(Items.get("REDSTONE"), 64),
-                new Item(Items.get("REDSTONE"), 64),
+                new Item(Items.get("REDSTONE"), 8),
+                new Item(Items.get("REDSTONE"), 8),
+                new Item(Items.get("REDSTONE"), 8),
+                new Item(Items.get("REDSTONE"), 8),
                 null,
-                new Item(Items.get("REDSTONE"), 64),
-                new Item(Items.get("REDSTONE"), 64),
-                new Item(Items.get("REDSTONE"), 64),
-                new Item(Items.get("REDSTONE"), 64)
+                new Item(Items.get("REDSTONE"), 8),
+                new Item(Items.get("REDSTONE"), 8),
+                new Item(Items.get("REDSTONE"), 8),
+                new Item(Items.get("REDSTONE"), 8)
         ), -1));
 
         recipes.put("REDSTONE_RING", new Recipe(new Item(Items.get("REDSTONE_RING")), getItems(
@@ -265,15 +265,15 @@ public class DeepMinesRecipes extends RecipeRegister {
 
 
         recipes.put("EMERALD_TALISMAN", new Recipe(new Item(Items.get("EMERALD_TALISMAN")), getItems(
-                new Item(Items.get("EMERALD"), 64),
-                new Item(Items.get("EMERALD"), 64),
-                new Item(Items.get("EMERALD"), 64),
-                new Item(Items.get("EMERALD"), 64),
+                new Item(Items.get("EMERALD"), 8),
+                new Item(Items.get("EMERALD"), 8),
+                new Item(Items.get("EMERALD"), 8),
+                new Item(Items.get("EMERALD"), 8),
                 null,
-                new Item(Items.get("EMERALD"), 64),
-                new Item(Items.get("EMERALD"), 64),
-                new Item(Items.get("EMERALD"), 64),
-                new Item(Items.get("EMERALD"), 64)
+                new Item(Items.get("EMERALD"), 8),
+                new Item(Items.get("EMERALD"), 8),
+                new Item(Items.get("EMERALD"), 8),
+                new Item(Items.get("EMERALD"), 8)
         ), -1));
 
         recipes.put("EMERALD_RING", new Recipe(new Item(Items.get("EMERALD_RING")), getItems(
@@ -302,15 +302,15 @@ public class DeepMinesRecipes extends RecipeRegister {
 
 
         recipes.put("DIAMOND_TALISMAN", new Recipe(new Item(Items.get("DIAMOND_TALISMAN")), getItems(
-                new Item(Items.get("DIAMOND"), 64),
-                new Item(Items.get("DIAMOND"), 64),
-                new Item(Items.get("DIAMOND"), 64),
-                new Item(Items.get("DIAMOND"), 64),
+                new Item(Items.get("DIAMOND"), 8),
+                new Item(Items.get("DIAMOND"), 8),
+                new Item(Items.get("DIAMOND"), 8),
+                new Item(Items.get("DIAMOND"), 8),
                 null,
-                new Item(Items.get("DIAMOND"), 64),
-                new Item(Items.get("DIAMOND"), 64),
-                new Item(Items.get("DIAMOND"), 64),
-                new Item(Items.get("DIAMOND"), 64)
+                new Item(Items.get("DIAMOND"), 8),
+                new Item(Items.get("DIAMOND"), 8),
+                new Item(Items.get("DIAMOND"), 8),
+                new Item(Items.get("DIAMOND"), 8)
         ), -1));
 
         recipes.put("DIAMOND_RING", new Recipe(new Item(Items.get("DIAMOND_RING")), getItems(
@@ -339,15 +339,15 @@ public class DeepMinesRecipes extends RecipeRegister {
 
 
         recipes.put("OBSIDIAN_TALISMAN", new Recipe(new Item(Items.get("OBSIDIAN_TALISMAN")), getItems(
-                new Item(Items.get("OBSIDIAN"), 64),
-                new Item(Items.get("OBSIDIAN"), 64),
-                new Item(Items.get("OBSIDIAN"), 64),
-                new Item(Items.get("OBSIDIAN"), 64),
+                new Item(Items.get("OBSIDIAN"), 8),
+                new Item(Items.get("OBSIDIAN"), 8),
+                new Item(Items.get("OBSIDIAN"), 8),
+                new Item(Items.get("OBSIDIAN"), 8),
                 null,
-                new Item(Items.get("OBSIDIAN"), 64),
-                new Item(Items.get("OBSIDIAN"), 64),
-                new Item(Items.get("OBSIDIAN"), 64),
-                new Item(Items.get("OBSIDIAN"), 64)
+                new Item(Items.get("OBSIDIAN"), 8),
+                new Item(Items.get("OBSIDIAN"), 8),
+                new Item(Items.get("OBSIDIAN"), 8),
+                new Item(Items.get("OBSIDIAN"), 8)
         ), -1));
 
         recipes.put("OBSIDIAN_RING", new Recipe(new Item(Items.get("OBSIDIAN_RING")), getItems(

@@ -40,6 +40,10 @@ public class PlayerStats extends Stats {
         multiplierAdders.clear();
     }
 
+    public double getEffectiveHealth() {
+        return this.getHealth().get() * (1 + (this.getDefense().get() / 100));
+    }
+
     public <T> void addPostMultiplier(StatType statType, double post, StatAdderType<T> adderType, T source) {
         Multiplier multiplier = multiplayer.getOrDefault(statType, new Multiplier());
         multiplier.addPost(post);

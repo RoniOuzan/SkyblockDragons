@@ -7,6 +7,7 @@ import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.CraftingTableMenu;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.menus.RecipesMenu;
 import me.maxiiiiii.skyblockdragons.item.pet.PetMenu;
 import me.maxiiiiii.skyblockdragons.item.stats.Stat;
+import me.maxiiiiii.skyblockdragons.item.stats.interfaces.PercentageStat;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBag;
 import me.maxiiiiii.skyblockdragons.player.accessorybag.AccessoryBagMenu;
@@ -38,12 +39,12 @@ public class SkyblockMenu extends Menu {
 
     @Override
     public void update() {
-        List<String> skullLores = Functions.loreBuilder("View your equipment, stats, and more!");
-        skullLores.add("");
+        List<String> skullLores = new ArrayList<>();
         skullLores.addAll(player.getStats().toCombatList().stream().map(Stat::toStringLore).collect(Collectors.toList()));
         skullLores.addAll(player.getStats().toMiscList().stream().map(Stat::toStringLore).collect(Collectors.toList()));
         skullLores.add("");
         skullLores.add(ChatColor.YELLOW + "Click to view!");
+        skullLores.add(8, ChatColor.RED + player.getStats().getHealth().getType().getIcon() + " " + ChatColor.WHITE + Functions.getNumberFormat(player.getStats().getEffectiveHealth()) + (player.getStats().getHealth().getType() instanceof PercentageStat ? "%" : ""));
 
         this.setItem(13, Functions.applyHead(createItem(Material.SKULL_ITEM, 3, ChatColor.GREEN + "Your Skyblock Profile", "PROFILE", skullLores), this.player.getPlayer()));
         this.setItem(19, createItem(Material.DIAMOND_SWORD, ChatColor.GREEN + "Your Skills", "SKILLS", ChatColor.GRAY + "View your Skill progression and", ChatColor.GRAY + "rewards.", "", ChatColor.GRAY + "Skill Average: " + ChatColor.GOLD + (player.getSkills().getAverage() + "").replace(".0", ""), "", ChatColor.YELLOW + "Click to view!"));

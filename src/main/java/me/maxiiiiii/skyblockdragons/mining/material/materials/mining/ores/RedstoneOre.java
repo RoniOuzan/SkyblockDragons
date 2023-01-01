@@ -14,7 +14,7 @@ public class RedstoneOre extends OreMaterial {
                 2,
                 3,
                 6,
-                new BlockItemDrop(Items.get("REDSTONE"), 1)
+                new BlockItemDrop(Items.get("REDSTONE"), 1, 2, 100)
         );
     }
 }

@@ -14,10 +14,8 @@ import me.maxiiiiii.skyblockdragons.item.enchants.EnchantType;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemRequirementAble;
 import me.maxiiiiii.skyblockdragons.item.material.materials.nfa.powerorbs.PowerOrbDeployAbility;
-import me.maxiiiiii.skyblockdragons.item.material.types.BowMaterial;
-import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
-import me.maxiiiiii.skyblockdragons.item.material.types.MiningMaterial;
-import me.maxiiiiii.skyblockdragons.item.material.types.PetMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.*;
+import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.pet.PlayerPet;
 import me.maxiiiiii.skyblockdragons.item.stats.StatAdderType;
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
@@ -384,18 +382,22 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
             this.stats.add(skill.getRewards().getStat(), skill.getRewards().getStatAmount() * skill.getLevel(), StatAdderType.SKILL, skill);
         }
 
+        List<ItemFamily> families = new ArrayList<>();
         for (Item item : equipment) {
-            if (item.getStats().isEmpty() || item.getMaterial().name().equals("NULL") ||
+            if ((item.getMaterial() instanceof AccessoryMaterial && families.contains(item.getMaterial().getFamily())) ||
+                    item.getStats().isEmpty() ||
+                    item.getMaterial().name().equals("NULL") ||
                     (item.getMaterial() instanceof ItemRequirementAble &&
                             !((ItemRequirementAble) item.getMaterial()).getRequirements().hasRequirements(this)))
                 continue;
 
+            if (item.getMaterial().getFamily() != ItemFamily.NULL && item.getMaterial() instanceof AccessoryMaterial)
+                families.add(item.getMaterial().getFamily());
             stats.add(item.getStats(), StatAdderType.ITEM, item);
         }
         equipment.getAccessoryBag().applyStats();
 
-        UpdateStatsEvent event = new UpdateStatsEvent(stats);
-        Bukkit.getPluginManager().callEvent(event);
+        Bukkit.getPluginManager().callEvent(new UpdateStatsEvent(stats));
 
         stats.update();
 

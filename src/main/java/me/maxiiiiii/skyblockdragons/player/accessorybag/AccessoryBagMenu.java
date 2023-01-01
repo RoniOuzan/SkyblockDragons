@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.player.accessorybag;
 import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
 import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.AccessoryMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
@@ -33,7 +34,7 @@ public class AccessoryBagMenu extends Menu {
 
     @Override
     public void onInventoryClick(InventoryClickEvent e) {
-        if (e.getSlot() < 45) e.setCancelled(false);
+        if (e.getSlot() < 45 && Items.get(e.getCurrentItem()) instanceof AccessoryMaterial) e.setCancelled(false);
     }
 
     @Override

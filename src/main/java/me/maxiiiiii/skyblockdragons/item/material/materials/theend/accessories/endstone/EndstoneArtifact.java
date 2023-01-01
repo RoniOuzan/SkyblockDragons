@@ -9,10 +9,10 @@ import org.bukkit.Material;
 
 public class EndstoneArtifact extends AccessoryMaterial {
     public EndstoneArtifact() {
-        super("ENDSTONE_TALISMAN",
+        super("ENDSTONE_ARTIFACT",
                 Material.SKULL_ITEM,
                 ItemFamily.ENDSTONE,
-                "Endstone Talisman",
+                "Endstone Artifact",
                 Rarity.COMMON,
                 new DamageStats(0, 6, 6, 0, 0, 0),
                 ""
