@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.inventory.Menu;
 import me.maxiiiiii.skyblockdragons.inventory.enums.InventoryGlassType;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
+import me.maxiiiiii.skyblockdragons.item.material.interfaces.ItemStatsAble;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.item.modifiers.EnchantModifier;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
@@ -20,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -56,9 +58,9 @@ public class EnchantingTableMenu extends Menu {
     public void update() {
         this.item = this.getItem(19);
 
-        if (Functions.isNotAir(this.getItem(19))) {
+        if (Items.get(this.getItem(19)) instanceof ItemStatsAble) {
             ItemMaterial material = Items.get(this.item);
-            List<EnchantType> enchants = EnchantType.enchants.values().stream().filter(e -> e.isInEnchantingTable() && e.getTypes().contains(material.getType())).collect(Collectors.toList());
+            List<EnchantType> enchants = EnchantType.enchants.values().stream().sorted(Comparator.comparing(e -> e.getRequirements().hasRequirements(player))).filter(e -> e.isInEnchantingTable() && e.getTypes().contains(material.getType())).collect(Collectors.toList());
 
             for (int i = (this.page - 1) * 15; i < this.page * 15; i++) {
                 if (i >= enchants.size()) {
@@ -71,6 +73,9 @@ public class EnchantingTableMenu extends Menu {
                 List<String> lores = Functions.loreBuilder(enchant.getDescription(1));
                 lores.add("");
                 lores.add(ChatColor.YELLOW + "Click to view!");
+                if (enchant.getRequirements().hasRequirements(player)) {
+                    lores.addAll(enchant.getRequirements().getRequirements().stream().map(Requirement::toString).collect(Collectors.toList()));
+                }
                 this.setItem(convertIndexToSlot(12, 5, 15, i), createItem(Material.ENCHANTED_BOOK, ChatColor.GREEN + enchant.getName(), "ENCHANT_" + enchant.name(), lores));
             }
 
@@ -110,7 +115,7 @@ public class EnchantingTableMenu extends Menu {
     @Override
     public void onInventoryClose(InventoryCloseEvent e) {
         Functions.Wait(1L, () -> {
-            if (player.getOpenInventory().getTopInventory() instanceof CraftInventoryCrafting) {
+            if (player.getOpenInventory().getTopInventory() instanceof CraftInventoryCrafting && this.item != null) {
                 player.getInventory().addItem(this.item);
             }
         });
