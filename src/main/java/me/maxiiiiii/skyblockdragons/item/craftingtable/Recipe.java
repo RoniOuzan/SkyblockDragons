@@ -118,7 +118,7 @@ public class Recipe extends RecipeRegister implements Comparable<Recipe> {
 
         @Override
         public List<Argument> tabComplete(PlayerSD player, List<Argument> tabs) {
-            tabs.add(new Argument(0, "", Recipe.recipes.keySet()));
+            tabs.add(new Argument(0, "", recipes.keySet()));
             return tabs;
         }
     }

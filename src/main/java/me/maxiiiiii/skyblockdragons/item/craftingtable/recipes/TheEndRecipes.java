@@ -8,10 +8,10 @@ public class TheEndRecipes extends RecipeRegister {
     public static void registerRecipes() {
         recipes.put("ASPECT_OF_THE_END", new Recipe(new Item(Items.get("ASPECT_OF_THE_END")), getItems(
                 null,
-                new Item(Items.get("ENCHANTED_EYE_OF_ENDER"), 16),
+                new Item(Items.get("EYE_OF_ENDERMAN"), 16),
                 null,
                 null,
-                new Item(Items.get("ENCHANTED_EYE_OF_ENDER"), 16),
+                new Item(Items.get("EYE_OF_ENDERMAN"), 16),
                 null,
                 null,
                 new Item(Items.get("ENCHANTED_DIAMOND")),

@@ -24,6 +24,7 @@ public class EndermanTier2 extends EntityMaterial {
                 750,
                 12,
                 new EntityItemDrop(Items.get("ENDER_PEARL"), 1, 2),
+                new EntityItemRareDrop(Items.get("EYE_OF_ENDERMAN"), 1, 2),
                 new EntityItemRareDrop(Items.get("ENDERMAN_TALISMAN_COMMON"), 1, 0.5),
                 new EntityItemRareDrop(Items.get("ENDERMAN_TALISMAN_UNCOMMON"), 1, 0.2),
                 new EntityItemRareDrop(Items.get("ENDERMAN_TALISMAN_RARE"), 1, 0.05),
