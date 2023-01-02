@@ -10,17 +10,22 @@ import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSource;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillXpSourceType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class EntityDeathListener implements Listener {
+    private final Cooldown<Player> voidCD = new Cooldown<>();
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
         e.getEntity().kill();
@@ -63,5 +68,14 @@ public class EntityDeathListener implements Listener {
         PlayerSD player = SkyblockDragons.getPlayer(e.getEntity());
 
         Bukkit.getPluginManager().callEvent(new PlayerDeathEvent(player));
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onPlayerVoid(PlayerMoveEvent e) {
+        if (Functions.cooldown(e.getPlayer(), voidCD, 400, false)) return;
+
+        if (e.getPlayer().getLocation().getY() < 0) {
+            SkyblockDragons.getPlayer(e.getPlayer()).kill();
+        }
     }
 }
