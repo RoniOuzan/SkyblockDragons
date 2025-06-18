@@ -916,11 +916,8 @@ public class Functions {
         for (int i = 0; i < max; i++) {
             Location loc = location.clone().add(location.clone().getDirection().multiply(i));
 
-
             for (Entity entity : loc.getWorld().getNearbyEntities(loc, 1.5, 1.5, 1.5)) {
-                if (entity instanceof Creature) {
-                    return entity;
-                }
+                return entity;
             }
             if (loc.getBlock().getType() != Material.AIR && stopAtBlock) break;
         }

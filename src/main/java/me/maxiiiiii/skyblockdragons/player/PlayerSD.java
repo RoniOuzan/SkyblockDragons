@@ -62,6 +62,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -509,16 +510,14 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         this.sendActionBar(message, false);
     }
 
-    public Creature getTargetEntity(int maxDistance) {
+    public LivingEntity getTargetEntity(int maxDistance) {
         Location location = player.getLocation();
 
         for (int i = 0; i <= maxDistance; i++) {
             Location loc = location.clone().add(location.clone().getDirection().multiply(i));
 
-            for (Entity entity : Functions.loopEntities(loc, 1.5)) {
-                if (entity instanceof Creature) {
-                    return (Creature) entity;
-                }
+            for (EntitySD entity : Functions.loopEntities(loc, 1.5)) {
+                return entity;
             }
 
             if (loc.getBlock().getType() != Material.AIR) break;

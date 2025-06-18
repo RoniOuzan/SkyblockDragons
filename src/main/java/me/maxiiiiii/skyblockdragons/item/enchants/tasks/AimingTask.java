@@ -23,7 +23,7 @@ public class AimingTask extends BukkitRunnable {
         double distance = Double.MAX_VALUE;
         double d;
         for (Entity entity : projectile.getNearbyEntities(radius, radius, radius)) {
-            if (entity instanceof Creature && !(entity instanceof Enderman) || entity instanceof EnderDragon) {
+            if (!(entity instanceof Enderman) || entity instanceof EnderDragon) {
                 d = projectile.getLocation().distance(entity.getLocation());
                 if (d < distance) {
                     distance = d;

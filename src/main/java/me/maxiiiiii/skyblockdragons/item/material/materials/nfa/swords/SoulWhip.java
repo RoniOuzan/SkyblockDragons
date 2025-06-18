@@ -1,6 +1,8 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.swords;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.MeleeEntityDamageEntity;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
@@ -9,6 +11,7 @@ import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -57,7 +60,7 @@ public class SoulWhip extends SwordMaterial {
         @Override
         public PlayerAbilityRunnable setupAbility() {
             return e -> {
-                Player player = e.getPlayer();
+                PlayerSD player = e.getPlayer();
                 Location location = player.getEyeLocation().add(0, -0.5, 0);
 
                 new BukkitRunnable() {
@@ -74,12 +77,10 @@ public class SoulWhip extends SwordMaterial {
                                     0
                             );
 
-                            location.getWorld().spawnParticle(Particle.REDSTONE, newLocation, 0, 0.3, 0, 0);
-                            location.getWorld().spawnParticle(Particle.REDSTONE, newLocation, 0, 0.000001, 0.000001, 0.000001);
-                            for (Entity entity : newLocation.getWorld().getNearbyEntities(newLocation, 1.5, 1.5, 1.5)) {
-                                if (entity instanceof Creature) {
-                                    ((Creature) entity).damage(1, player);
-                                }
+                            newLocation.getWorld().spawnParticle(Particle.REDSTONE, newLocation, 0, 0.3, 0, 0);
+                            newLocation.getWorld().spawnParticle(Particle.REDSTONE, newLocation, 0, 0.000001, 0.000001, 0.000001);
+                            for (EntitySD entity : Functions.loopEntities(newLocation, 2)) {
+                                player.damage(new MeleeEntityDamageEntity(player, entity));
                             }
                         }
                         i += AMOUNT;

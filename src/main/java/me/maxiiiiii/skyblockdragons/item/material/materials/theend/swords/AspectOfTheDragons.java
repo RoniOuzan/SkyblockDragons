@@ -89,7 +89,7 @@ public class AspectOfTheDragons extends SwordMaterial {
                     Location newLocation = location.clone().add(location.getDirection().multiply(i));
                     location.getWorld().spawnParticle(Particle.LAVA, newLocation, 3, 0, 0, 0, 1);
 
-                    Functions.loopEntities(newLocation, 2).stream().filter(entity -> !(entity instanceof PlayerSD)).forEach(entity -> {
+                    Functions.loopEntities(newLocation, 2).forEach(entity -> {
                         if (!damaged.contains(entity)) {
                             player.damage(new MagicEntityDamageEntity(player, entity, this));
                             damaged.add(entity);

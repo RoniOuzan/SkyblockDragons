@@ -60,8 +60,10 @@ public class AxeOfTheShredded extends SwordMaterial {
 
             ThrowRunnable runnable = ((ThrowRunnable) getAbilityOfPlayer(player).getRunnable());
 
-            if (SkyblockDragons.getCurrentTimeInSeconds() - runnable.lastTimeUsed >= 5)
+            if (SkyblockDragons.getCurrentTimeInSeconds() - runnable.lastTimeUsed >= 5) {
                 runnable.manaCost = 20;
+                runnable.damageMultiplier = 10;
+            }
 
             return runnable.manaCost;
         }
@@ -78,6 +80,7 @@ public class AxeOfTheShredded extends SwordMaterial {
 
         private static class ThrowRunnable implements PlayerAbilityRunnable {
             private int manaCost = 20;
+            private int damageMultiplier = 10;
             private double lastTimeUsed = 0;
 
             @Override
@@ -85,8 +88,13 @@ public class AxeOfTheShredded extends SwordMaterial {
                 PlayerSD player = e.getPlayer();
                 Location location = player.getLocation();
 
-                if (manaCost < 320)
+                if (manaCost < 320) {
                     manaCost *= 2;
+                }
+
+                if (damageMultiplier < 160) {
+                    damageMultiplier *= 2;
+                }
 
                 lastTimeUsed = SkyblockDragons.getCurrentTimeInSeconds();
 
@@ -108,7 +116,9 @@ public class AxeOfTheShredded extends SwordMaterial {
                     for (EntitySD entity : loopEntities(newLocation, 1)) {
                         if (!damagedEntities.contains(entity)) {
                             damagedEntities.add(entity);
-                            Bukkit.getPluginManager().callEvent(new EntityDamageEvent(new MeleeEntityDamageEntity(player, entity)));
+                            MeleeEntityDamageEntity damage = new MeleeEntityDamageEntity(player, entity);
+                            damage.getMultiplier().addPost(-100 + damageMultiplier);
+                            player.damage(damage);
                         }
                     }
                 }, (i) -> stand.remove());

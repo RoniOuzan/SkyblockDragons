@@ -96,7 +96,7 @@ public class MoodyGrappleshot extends ToolMaterial {
 
                     Functions.loopEntities(stand.getLocation().add(0, 1, 0), 2)
                             .stream()
-                            .filter(en -> en instanceof Creature && !en.getScoreboardTags().contains("MOODY_GRAPPLESHOT"))
+                            .filter(en -> !en.getScoreboardTags().contains("MOODY_GRAPPLESHOT"))
                             .forEach(creature -> creature.teleport(stand.getLocation().add(0, 2, 0)));
                 });
 

@@ -1,13 +1,13 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.swords;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.MagicEntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
-import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.ItemAbilityManaCost;
@@ -56,7 +56,7 @@ public class SpiritSpectre extends SwordMaterial {
         @Override
         public PlayerAbilityRunnable setupAbility() {
             return e -> {
-                Player player = e.getPlayer();
+                PlayerSD player = e.getPlayer();
 
                 Bat bat = (Bat) player.getWorld().spawnEntity(player.getLocation(), EntityType.BAT);
                 bat.setGravity(false);
@@ -77,9 +77,7 @@ public class SpiritSpectre extends SwordMaterial {
                             List<EntitySD> entities = Functions.loopEntities(player.getLocation(), 6);
 
                             for (EntitySD entity : entities) {
-                                if (entity instanceof Creature) {
-                                    ((Creature) entity).damage(1, player);
-                                }
+                                player.damage(new MagicEntityDamageEntity(player, entity, GuidedBat.this));
                             }
 
                             bat.remove();

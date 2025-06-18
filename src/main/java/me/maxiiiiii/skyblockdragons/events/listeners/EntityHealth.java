@@ -51,7 +51,7 @@ public class EntityHealth implements Listener {
 
     @EventHandler
     public void onSpawn(EntitySpawnEvent e) {
-        if (e.getEntity() instanceof Creature) {
+        if (e.getEntity() instanceof LivingEntity) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -63,7 +63,7 @@ public class EntityHealth implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Player && e.getEntity() instanceof Creature) {
+        if (e.getDamager() instanceof Player && e.getEntity() instanceof LivingEntity) {
             Functions.Wait(1L, () -> addHealth((LivingEntity) e.getEntity()));
         }
     }

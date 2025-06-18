@@ -1,6 +1,7 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.wands;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.types.ToolMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
@@ -96,7 +97,7 @@ public class GyrokineticWand extends ToolMaterial {
                     public void run() {
                         if (i >= 60) {
                             Bukkit.getScheduler().runTaskLater(SkyblockDragons.plugin, () -> {
-                                for (Entity entity : Functions.loopEntities(block.getLocation(), 4)) {
+                                for (EntitySD entity : Functions.loopEntities(block.getLocation(), 4)) {
                                     entity.setVelocity(new Vector(0, 2, 0));
                                 }
                             }, 1L);
@@ -165,9 +166,7 @@ public class GyrokineticWand extends ToolMaterial {
                             }
                         }
                         for (Entity entity : Functions.loopEntitiesScope(block.getLocation(), size, size2, size3)) {
-                            if (entity instanceof Creature) {
-                                entity.setVelocity(new Vector((block.getX() - entity.getLocation().getX()) / 5, (block.getY() - entity.getLocation().getY()) / 10 - 0.1, (block.getZ() - entity.getLocation().getZ()) / 5));
-                            }
+                            entity.setVelocity(new Vector((block.getX() - entity.getLocation().getX()) / 5, (block.getY() - entity.getLocation().getY()) / 10 - 0.1, (block.getZ() - entity.getLocation().getZ()) / 5));
                         }
                         i++;
                     }

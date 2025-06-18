@@ -1,8 +1,13 @@
 package me.maxiiiiii.skyblockdragons.item.abilities;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.MagicEntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
+import me.maxiiiiii.skyblockdragons.item.material.Items;
 import me.maxiiiiii.skyblockdragons.item.material.types.NecronBladeMaterial;
+import me.maxiiiiii.skyblockdragons.item.material.types.ToolMaterial;
 import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -40,7 +45,7 @@ public class Wither_Impact implements Listener {
         if (!(getItemMaterial(item) instanceof NecronBladeMaterial)) return;
         if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
-        Player player = e.getPlayer();
+        PlayerSD player = SkyblockDragons.getPlayer(e.getPlayer());
 
         List<NecronBladeMaterial.NecronBladeAbility> scrolls = ItemModifiers.getModifiers(item).getNecronBladeScrolls();
 
@@ -60,10 +65,8 @@ public class Wither_Impact implements Listener {
 
             List<EntitySD> entities = loopEntities(player.getLocation(), 6);
 
-            for (Entity entity : entities) {
-                if (entity instanceof Creature) {
-                    ((Creature) entity).damage(1, player);
-                }
+            for (EntitySD entity : entities) {
+                player.damage(new MagicEntityDamageEntity(player, entity, NecronBladeMaterial.NecronBladeAbility.IMPLOSION.getAbility()));
             }
             player.getLocation().getWorld().spawnParticle(Particle.EXPLOSION_HUGE, player.getLocation(), 1, 3, 3, 3, 1);
 
@@ -83,11 +86,9 @@ public class Wither_Impact implements Listener {
                     if ((System.currentTimeMillis() - cooldown.getCooldown(player)) <= 5000) {
                         List<EntitySD> entities = loopEntities(player.getLocation(), 6);
 
-                        for (Entity entity : entities) {
-                            if (entity instanceof Creature) {
-                                ((Creature) entity).damage(1, player);
-                            }
-                        }
+//                        for (EntitySD entity : entities) {
+//                            ((Creature) entity).damage(1, player);
+//                        }
                         player.getLocation().getWorld().spawnParticle(Particle.EXPLOSION_HUGE, player.getLocation(), 1, 0, 0, 0, 10);
                     }
                 }
@@ -107,13 +108,11 @@ public class Wither_Impact implements Listener {
                 List<EntitySD> entities = loopEntities(player.getLocation(), 6);
 
                 for (EntitySD entity : entities) {
-                    if (entity instanceof Creature) {
-                        entity.setVelocity(new Vector(
-                                (player.getLocation().getX() - entity.getLocation().getX()) / 3,
-                                (player.getLocation().getY() - entity.getLocation().getY()) / 3,
-                                (player.getLocation().getZ() - entity.getLocation().getZ()) / 3
-                        ));
-                    }
+                    entity.setVelocity(new Vector(
+                            (player.getLocation().getX() - entity.getLocation().getX()) / 3,
+                            (player.getLocation().getY() - entity.getLocation().getY()) / 3,
+                            (player.getLocation().getZ() - entity.getLocation().getZ()) / 3
+                    ));
                 }
             }
 
@@ -132,10 +131,8 @@ public class Wither_Impact implements Listener {
                 player.getLocation().getWorld().spawnParticle(Particle.EXPLOSION_HUGE, player.getLocation(), 1, 0, 0, 0, 10);
                 List<EntitySD> entities = loopEntities(player.getLocation(), 6);
 
-                for (Entity entity : entities) {
-                    if (entity instanceof Creature) {
-                        ((Creature) entity).damage(1, player);
-                    }
+                for (EntitySD entity : entities) {
+                    player.damage(new MagicEntityDamageEntity(player, entity, NecronBladeMaterial.NecronBladeAbility.IMPLOSION.getAbility()));
                 }
             }
         }

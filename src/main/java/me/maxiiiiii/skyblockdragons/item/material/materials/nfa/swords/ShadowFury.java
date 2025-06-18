@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.swords;
 
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
@@ -45,7 +46,7 @@ public class ShadowFury extends SwordMaterial {
 
         @Override
         public double getBaseCooldown(PlayerSD player) {
-            return 15;
+            return 5;
         }
 
         @Override
@@ -53,31 +54,26 @@ public class ShadowFury extends SwordMaterial {
             return e -> {
                 PlayerSD player = e.getPlayer();
 
-                List<Entity> nearbyEntities = player.getNearbyEntities(10, 10, 10);
-                ArrayList<Entity> entities = new ArrayList<>();
-                for (Entity entity : nearbyEntities) {
-                    if (entity instanceof Creature) {
-                        entities.add(entity);
-                    }
-                }
+                List<EntitySD> entities = player.getEntities(10);
+                List<EntitySD> teleportedEntities = new ArrayList<>();
                 if (entities.size() == 0) return;
 
                 new BukkitRunnable() {
                     int i = 0;
                     @Override
                     public void run() {
-                        if (i >= 5) return;
-                        Entity nearestEntity = entities.get(0);
-                        for (Entity entity : entities) {
-                            if (player.getLocation().distance(entity.getLocation()) < player.getLocation().distance(nearestEntity.getLocation())) {
+                        if (i >= 5 || entities.size() <= i) return;
+                        EntitySD nearestEntity = entities.get(0);
+                        for (EntitySD entity : entities) {
+                            if (!teleportedEntities.contains(nearestEntity) &&
+                                    player.getLocation().distance(entity.getLocation()) < player.getLocation().distance(nearestEntity.getLocation())) {
                                 nearestEntity = entity;
                             }
                         }
                         Location l = nearestEntity.getLocation().add(nearestEntity.getLocation().getDirection().multiply(-1));
                         l.setY(nearestEntity.getLocation().getY() + 0.2);
+                        teleportedEntities.add(nearestEntity);
                         player.teleport(l);
-                        entities.remove(nearestEntity);
-                        if (entities.size() == 0) return;
                         i++;
                     }
                 }.runTaskTimer(plugin, 0L, 10L);

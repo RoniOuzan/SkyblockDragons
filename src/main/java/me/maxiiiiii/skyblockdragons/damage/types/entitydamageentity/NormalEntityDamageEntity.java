@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.damage.suppliers.FerocitySupplier;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 
 public abstract class NormalEntityDamageEntity extends EntityDamageEntity implements DamageCritable {
+
     public NormalEntityDamageEntity(EntitySD attacker, EntitySD victim, FerocitySupplier isFerocity) {
         super(attacker, victim, isFerocity);
     }

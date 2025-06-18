@@ -87,14 +87,12 @@ public class FlowerOfTruth extends SwordMaterial {
 
                     for (Entity entity : loopEntities(location, 5)) {
                         if (damagedAmount[0] >= 5) return;
-                        if (entity instanceof Creature) {
-                            isStopped[0] = true;
-                            if (!damagedEntities.contains(entity)) {
-                                damagedEntities.add(entity);
-                                damagedAmount[0]++;
-                                new AIFly(stand, entity, 500).runTaskTimer(SkyblockDragons.plugin, 0L, 1L);
-                                Wait(10L, () -> ((Creature) entity).damage(1, player));
-                            }
+                        isStopped[0] = true;
+                        if (!damagedEntities.contains(entity)) {
+                            damagedEntities.add(entity);
+                            damagedAmount[0]++;
+                            new AIFly(stand, entity, 500).runTaskTimer(SkyblockDragons.plugin, 0L, 1L);
+                            Wait(10L, () -> ((Creature) entity).damage(1, player));
                         }
                     }
                 }, (i) -> stand.remove());

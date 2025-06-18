@@ -81,7 +81,7 @@ public class PigmanDagger extends SwordMaterial {
                     location.getWorld().spawnParticle(Particle.LAVA, newLocation, 3, 0, 0, 0, 1);
 
                     for (EntitySD entity : Functions.loopEntities(newLocation, 2)) {
-                        if (entity instanceof Creature && !damaged.contains(entity)) {
+                        if (!damaged.contains(entity)) {
                             player.damage(new MagicEntityDamageEntity(player, entity, this));
                             damaged.add(entity);
                         }
