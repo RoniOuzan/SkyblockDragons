@@ -423,7 +423,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
             regainHealthEvent.setCancelled(true);
         Bukkit.getPluginManager().callEvent(regainHealthEvent);
 
-        this.setWalkSpeed((float) Math.min((this.stats.getSpeed().get() / 500), 500));
+        this.setWalkSpeed((float) Math.min((this.stats.getSpeed().get() / 500), 1));
     }
 
     public void sendActionBar() {

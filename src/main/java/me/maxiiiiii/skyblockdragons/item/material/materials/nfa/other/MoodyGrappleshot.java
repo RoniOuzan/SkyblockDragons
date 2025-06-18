@@ -94,7 +94,10 @@ public class MoodyGrappleshot extends ToolMaterial {
                     );
                     stand.setHeadPose(angle);
 
-                    Functions.loopEntities(stand.getLocation().add(0, 1, 0), 2).stream().filter(en -> en instanceof Creature && !en.getScoreboardTags().contains("MOODY_GRAPPLESHOT")).forEach(creature -> creature.teleport(stand.getLocation().add(0, 2, 0)));
+                    Functions.loopEntities(stand.getLocation().add(0, 1, 0), 2)
+                            .stream()
+                            .filter(en -> en instanceof Creature && !en.getScoreboardTags().contains("MOODY_GRAPPLESHOT"))
+                            .forEach(creature -> creature.teleport(stand.getLocation().add(0, 2, 0)));
                 });
 
             };

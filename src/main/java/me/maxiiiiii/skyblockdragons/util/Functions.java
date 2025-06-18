@@ -154,7 +154,7 @@ public class Functions {
         List<Entity> entities = center.getWorld().getEntities();
         List<EntitySD> output = new ArrayList<>();
         for (Entity value : entities) {
-            if (center.distance(value.getLocation()) <= size) {
+            if (center.distance(value.getLocation()) <= size && !(value instanceof Player)) {
                 output.add(EntitySD.get(value));
             }
         }

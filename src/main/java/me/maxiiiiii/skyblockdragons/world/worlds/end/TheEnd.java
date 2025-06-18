@@ -188,7 +188,7 @@ public class TheEnd extends WorldSD implements Listener {
                 }
                 time = System.currentTimeMillis();
                 Functions.Wait(1L, () -> {
-                    DragonKillEvent event = new DragonKillEvent(EntitySD.get(e.getEntity()), dragonDamage);
+                    DragonKillEvent event = new DragonKillEvent(TheEnd.dragon, dragonDamage);
                     Bukkit.getServer().getPluginManager().callEvent(event);
                 });
             }

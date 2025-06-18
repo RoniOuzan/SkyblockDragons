@@ -1,6 +1,11 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.swords;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.damage.events.EntityDamageEvent;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.EntityDamageEntity;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.MeleeEntityDamageEntity;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.NormalEntityDamageEntity;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
@@ -13,16 +18,18 @@ import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.manacosts.I
 import me.maxiiiiii.skyblockdragons.item.stats.StatTypes;
 import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import me.maxiiiiii.skyblockdragons.util.objects.AIFly;
+import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.EulerAngle;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.Loop;
+import java.util.ArrayList;
+
+import static me.maxiiiiii.skyblockdragons.util.Functions.*;
 
 public class AxeOfTheShredded extends SwordMaterial {
     public AxeOfTheShredded() {
@@ -47,7 +54,16 @@ public class AxeOfTheShredded extends SwordMaterial {
 
         @Override
         public double getBaseManaCost(PlayerSD player) {
-            return users.containsKey(player) ? ((ThrowRunnable) getAbilityOfPlayer(player).getRunnable()).manaCost : 20;
+            if (!users.containsKey(player)) {
+                return 20;
+            }
+
+            ThrowRunnable runnable = ((ThrowRunnable) getAbilityOfPlayer(player).getRunnable());
+
+            if (SkyblockDragons.getCurrentTimeInSeconds() - runnable.lastTimeUsed >= 5)
+                runnable.manaCost = 20;
+
+            return runnable.manaCost;
         }
 
         @Override
@@ -69,8 +85,8 @@ public class AxeOfTheShredded extends SwordMaterial {
                 PlayerSD player = e.getPlayer();
                 Location location = player.getLocation();
 
-                if (SkyblockDragons.getCurrentTimeInSeconds() - lastTimeUsed >= 5) manaCost = 20;
-                else if (manaCost < 320) manaCost *= 2;
+                if (manaCost < 320)
+                    manaCost *= 2;
 
                 lastTimeUsed = SkyblockDragons.getCurrentTimeInSeconds();
 
@@ -78,13 +94,7 @@ public class AxeOfTheShredded extends SwordMaterial {
                 ArmorStand stand = (ArmorStand) player.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
 
                 stand.setVisible(false);
-                stand.setGravity(false);
-                stand.setMarker(true);
-                stand.addScoreboardTag("AxeOfTheShredded");
-
-                ItemStack axe = new ItemStack(Material.DIAMOND_AXE);
-                stand.setItemInHand(axe);
-
+                final ArrayList<EntitySD> damagedEntities = new ArrayList<>();
                 Loop(50, 1L, (i) -> {
                     if (stand.getLocation().add(0, 1, 0).getBlock().getType().isSolid()) {
                         stand.remove();
@@ -94,7 +104,22 @@ public class AxeOfTheShredded extends SwordMaterial {
                     Location newLocation = location.clone().add(location.clone().getDirection().multiply(i));
                     stand.teleport(newLocation);
                     stand.setRightArmPose(new EulerAngle(Math.toRadians(i * 40), 0, 0));
+
+                    for (EntitySD entity : loopEntities(newLocation, 1)) {
+                        if (!damagedEntities.contains(entity)) {
+                            damagedEntities.add(entity);
+                            Bukkit.getPluginManager().callEvent(new EntityDamageEvent(new MeleeEntityDamageEntity(player, entity)));
+                        }
+                    }
                 }, (i) -> stand.remove());
+                stand.setGravity(false);
+                stand.setMarker(true);
+                stand.addScoreboardTag("AxeOfTheShredded");
+
+                ItemStack axe = new ItemStack(Material.DIAMOND_AXE);
+                stand.setItemInHand(axe);
+
+
             }
         }
     }
