@@ -151,10 +151,10 @@ public class Functions {
     }
 
     public static List<EntitySD> loopEntities(Location center, double size) {
-        List<Entity> entities = center.getWorld().getEntities();
+        List<LivingEntity> entities = center.getWorld().getLivingEntities();
         List<EntitySD> output = new ArrayList<>();
-        for (Entity value : entities) {
-            if (center.distance(value.getLocation()) <= size && !(value instanceof Player)) {
+        for (LivingEntity value : entities) {
+            if (center.distance(value.getLocation().add(new Vector(0, 1, 0))) <= size && !(value instanceof Player)) {
                 output.add(EntitySD.get(value));
             }
         }

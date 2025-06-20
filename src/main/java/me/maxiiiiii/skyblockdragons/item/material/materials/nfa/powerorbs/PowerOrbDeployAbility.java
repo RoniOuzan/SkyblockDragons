@@ -91,6 +91,7 @@ public class PowerOrbDeployAbility extends ItemAbility implements ItemAbilityMan
         public void run(PlayerAbilityUsage e) {
             uuid = UUID.randomUUID();
 
+            PlayerSD deployer = e.getPlayer();
             Location location = e.getPlayer().getLocation().add(e.getPlayer().getLocation().getDirection().setY(0)).subtract(0, 1, 0);
 
             ArmorStand stand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);

@@ -115,7 +115,7 @@ public class SwordOfTheFlame extends SwordMaterial {
                 Flame flame = new Flame(locations);
                 uses.add(flame);
 
-                Functions.While(() -> uses.contains(flame), 5L, i -> flame.spawn(1));
+                Functions.While(() -> uses.contains(flame), 5L, i -> flame.spawn());
             }
         }
 
@@ -144,7 +144,9 @@ public class SwordOfTheFlame extends SwordMaterial {
                     }
                     flame.locations.removeAll(flame.locations.stream()
                             .filter(l -> l.getBlock().getType().isOccluding()).collect(Collectors.toList()));
-                    flame.spawn(1);
+                    flame.spawn(0.05, -FlamerRunnable.VELOCITY * 0.2);
+                    flame.spawn(0.3, -FlamerRunnable.VELOCITY * 0.1);
+                    flame.spawn();
                 }
             });
         }
@@ -156,12 +158,16 @@ public class SwordOfTheFlame extends SwordMaterial {
                 this.locations = locations;
             }
 
-            public void spawn(int every) {
-                for (int i = 0; i < this.locations.size(); i++) {
-                    if (i % every != 0) continue;
-                    Location location = this.locations.get(i);
-                    location.getWorld().spawnParticle(Particle.FLAME, location, 3, 0, 0, 0, 0);
+            public void spawn(double chances, double offset) {
+                for (Location location : this.locations) {
+                    if (Math.random() > chances) continue;
+                    location = location.clone().add(location.getDirection().multiply(offset));
+                    location.getWorld().spawnParticle(Particle.FLAME, location, 1, 0, 0, 0, 0);
                 }
+            }
+
+            public void spawn() {
+                this.spawn(1, 0);
             }
         }
     }

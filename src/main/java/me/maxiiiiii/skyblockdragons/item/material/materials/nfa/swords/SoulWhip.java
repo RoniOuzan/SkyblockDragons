@@ -24,6 +24,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 public class SoulWhip extends SwordMaterial {
     public SoulWhip() {
@@ -60,32 +61,24 @@ public class SoulWhip extends SwordMaterial {
         @Override
         public PlayerAbilityRunnable setupAbility() {
             return e -> {
+                final double VELOCITY = 10;
+                final long DELAY = 1L;
+                final double PERIOD = DELAY / 20.0;
                 PlayerSD player = e.getPlayer();
                 Location location = player.getEyeLocation().add(0, -0.5, 0);
+                Vector v = location.getDirection().clone().add(new Vector(0, 0.5, 0)).multiply(VELOCITY);
 
-                new BukkitRunnable() {
-                    double i = 0;
-                    @Override
-                    public void run() {
-                        if (i >= 180) cancel();
-                        for (double j = i; j < i + AMOUNT; j++) {
-                            double rad = Math.toRadians(j);
-                            Location newLocation = location.clone().add(location.getDirection().multiply(j / 15));
-                            newLocation.add(
-                                    0,
-                                    Math.sin(rad) * 1.5,
-                                    0
-                            );
+                long started = System.currentTimeMillis();
+                Functions.While(() -> System.currentTimeMillis() - started <= 5000, DELAY, i -> {
+                    v.add(new Vector(0, -12 * PERIOD, 0));
+                    location.add(v.clone().multiply(PERIOD));
 
-                            newLocation.getWorld().spawnParticle(Particle.REDSTONE, newLocation, 0, 0.3, 0, 0);
-                            newLocation.getWorld().spawnParticle(Particle.REDSTONE, newLocation, 0, 0.000001, 0.000001, 0.000001);
-                            for (EntitySD entity : Functions.loopEntities(newLocation, 2)) {
-                                player.damage(new MeleeEntityDamageEntity(player, entity));
-                            }
-                        }
-                        i += AMOUNT;
+                    location.getWorld().spawnParticle(Particle.REDSTONE, location, 0, 0.3, 0, 0);
+                    location.getWorld().spawnParticle(Particle.REDSTONE, location, 0, 0.000001, 0.000001, 0.000001);
+                    for (EntitySD entity : Functions.loopEntities(location, 1.5)) {
+                        player.damage(new MeleeEntityDamageEntity(player, entity));
                     }
-                }.runTaskTimer(SkyblockDragons.plugin, 0L, 1L);
+                });
             };
         }
     }
