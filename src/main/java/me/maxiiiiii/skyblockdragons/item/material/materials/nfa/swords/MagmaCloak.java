@@ -1,15 +1,17 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.swords;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.MagicEntityDamageEntity;
+import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
 import me.maxiiiiii.skyblockdragons.item.objects.Rarity;
-import me.maxiiiiii.skyblockdragons.item.stats.Stats;
-import me.maxiiiiii.skyblockdragons.item.stats.constructors.DamageStats;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.ItemAbility;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityRunnable;
 import me.maxiiiiii.skyblockdragons.item.objects.abilities.PlayerAbilityUsage;
+import me.maxiiiiii.skyblockdragons.item.objects.abilities.modifiers.ItemAbilityMagicDamage;
+import me.maxiiiiii.skyblockdragons.item.stats.Stats;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
@@ -36,12 +38,22 @@ public class MagmaCloak extends SwordMaterial {
         );
     }
 
-    public static class MagmaVeil extends ItemAbility {
+    public static class MagmaVeil extends ItemAbility implements ItemAbilityMagicDamage {
         public MagmaVeil() {
             super(AbilityAction.RIGHT_CLICK,
                     "Magma Veil",
                     "Spawns a veil around you that grants you immunity from damage. Costs " + ChatColor.RED + "10% " + ChatColor.GRAY + "of your maximum mana each time you block a hit. Click again to de-activate."
             );
+        }
+
+        @Override
+        public double getBaseAbilityDamage(PlayerSD player) {
+            return 7_000;
+        }
+
+        @Override
+        public double getBaseAbilityScaling(PlayerSD player) {
+            return 0.3;
         }
 
         @Override
@@ -66,7 +78,7 @@ public class MagmaCloak extends SwordMaterial {
             };
         }
 
-        public static class MagmaVeils {
+        public class MagmaVeils {
             private final PlayerSD player;
             private final List<ArmorStand> stands;
 
@@ -107,7 +119,11 @@ public class MagmaCloak extends SwordMaterial {
                         double xP = Math.sin(Math.toRadians(angle - 20)) * 2.5;
                         double zP = Math.cos(Math.toRadians(angle - 20)) * 2.5;
 
+                        Location location = player.getLocation().add(new Vector(xP, 1.2, zP));
                         player.getWorld().spawnParticle(Particle.DRIP_LAVA, player.getLocation().getX() + xP, player.getLocation().getY() + 1.2, player.getLocation().getZ() + zP, 1, 0, 0, 0, 0);
+                        for (EntitySD entity : Functions.loopEntities(location, 1)) {
+                            player.damage(new MagicEntityDamageEntity(player, entity, MagmaVeil.this));
+                        }
 
                         j++;
                     }

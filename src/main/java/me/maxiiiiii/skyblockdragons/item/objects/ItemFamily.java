@@ -91,5 +91,6 @@ public enum ItemFamily {
     COBBLESTONE_PICKAXE,
     COBBLESTONE,
     PORTAL,
+    VOID_SWORD,
     NULL
 }

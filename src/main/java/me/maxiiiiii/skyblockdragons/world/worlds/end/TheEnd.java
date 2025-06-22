@@ -113,7 +113,7 @@ public class TheEnd extends WorldSD implements Listener {
         NBTEntity nbtEntity = new NBTEntity(dragon.entity);
         nbtEntity.setInteger("DragonPhase", 1);
 
-        Functions.While(() -> !dragon.isDead(), 5L, i -> {
+        Functions.While(() -> dragon != null && !dragon.isDead(), 5L, i -> {
             for (Entity entity : dragon.getNearbyEntities(1)) {
                 if (entity instanceof Arrow && ((Arrow) entity).getShooter() != null) {
                     entity.remove();
