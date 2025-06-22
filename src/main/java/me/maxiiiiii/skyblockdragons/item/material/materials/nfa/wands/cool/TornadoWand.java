@@ -129,6 +129,7 @@ public class TornadoWand extends ToolMaterial {
                 this.height = height;
                 this.radius = radius;
                 this.rad = rad;
+                SkyblockDragons.entitiesToKill.add(stand);
             }
         }
     }

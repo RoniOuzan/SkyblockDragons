@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.wands.cool;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.material.types.ToolMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
@@ -129,6 +130,7 @@ public class TwisterWand extends ToolMaterial {
                 this.height = height;
                 this.radius = radius;
                 this.rad = rad;
+                SkyblockDragons.entitiesToKill.add(stand);
             }
         }
     }
