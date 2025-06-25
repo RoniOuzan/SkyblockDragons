@@ -27,6 +27,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MagicSpeller extends ToolMaterial {
@@ -85,7 +86,8 @@ public class MagicSpeller extends ToolMaterial {
             private final ParticleUtil coreParticle = new ParticleUtil(Particle.REDSTONE, 0.34, 0.15, 0.3, 1, 5);
 
             private boolean isLevitating = false;
-            private List<EntitySD> entities;
+            private List<EntitySD> entities = new ArrayList<>();
+            private Location location;
 
             @Override
             public void run(PlayerAbilityUsage e) {
@@ -96,11 +98,11 @@ public class MagicSpeller extends ToolMaterial {
                 }
 
                 this.isLevitating = true;
-                this.entities = Functions.loopEntities(player.getLocation(), 30);
+                this.location = player.getEyeLocation();
+                this.entities = Functions.loopEntities(this.location, 30);
                 for (EntitySD entity : entities) {
                     Functions.Loop(10, 2L, i -> {
-                        Location location = entity.getEyeLocation().add(OFFSET);
-                        particle.spawn(location);
+                        particle.spawn(entity.getEyeLocation().add(OFFSET));
                     }, i -> {
                         double totalHeight = entity.getEyeHeight() + (OFFSET.getY() * 2);
                         double hDX = totalHeight / TRAIL_LENGTH;
@@ -119,30 +121,32 @@ public class MagicSpeller extends ToolMaterial {
                             entity.setVelocity(new Vector(0, VELOCITY_Y, 0));
                         }, j -> Functions.While(() -> this.isLevitating, 1L, k -> entity.setVelocity(new Vector())));
                     });
-
                 }
+
+                Functions.While(() -> !this.entities.isEmpty(), 2L, i -> {
+                    Particles.sphere(particle, this.location, 0.7, 6);
+                    Particles.sphere(coreParticle, this.location, 0.5, 6);
+                });
             }
 
             private void onLeftClick(PlayerSD player) {
                 this.isLevitating = false;
 
-                Location center = player.getEyeLocation();
                 Bukkit.getScheduler().runTaskAsynchronously(SkyblockDragons.plugin, () -> {
                     long startedAt = System.currentTimeMillis();
                     Functions.While(() -> !this.entities.isEmpty() && System.currentTimeMillis() - startedAt <= 15_000, 2L, i -> {
-                        Particles.sphere(particle, center, 0.7, 6);
-                        Particles.sphere(coreParticle, center, 0.5, 6);
-
-                        for (EntitySD entity : entities) {
-                            if (entity.getLocation().distance(center) <= 1) {
-                                this.entities.remove(entity);
+                        List<EntitySD> toRemove = new ArrayList<>();
+                        for (EntitySD entity : this.entities) {
+                            if (entity.getLocation().distance(this.location) <= 1) {
+                                toRemove.add(entity);
                                 player.damage(new MagicEntityDamageEntity(player, entity, Spell.this));
                             }
 
-                            entity.setVelocity(center.clone().subtract(entity.getLocation()).toVector().normalize().multiply(VELOCITY_CENTER));
+                            entity.setVelocity(this.location.clone().subtract(entity.getLocation()).toVector().normalize().multiply(VELOCITY_CENTER));
                             particle.spawn(entity.getLocation());
                         }
-                    });
+                        this.entities.removeAll(toRemove);
+                    }, i -> this.entities.clear());
                 });
             }
         }

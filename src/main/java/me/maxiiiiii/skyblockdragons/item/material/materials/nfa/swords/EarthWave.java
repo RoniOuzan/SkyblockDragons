@@ -69,7 +69,7 @@ public class EarthWave extends ToolMaterial {
 
         private static class AbilityRunnable implements PlayerAbilityRunnable {
             private static final int LENGTH = 14;
-            private static final double AMOUNT_OF_BLOCKS_MULTIPLIER = 0.5;
+            private static final double AMOUNT_OF_BLOCKS_MULTIPLIER = 1;
 
             @Override
             public void run(PlayerAbilityUsage e) {
@@ -81,15 +81,15 @@ public class EarthWave extends ToolMaterial {
 
                 Functions.Loop(LENGTH, 3L, i -> {
                     double amountOfBlocks = i * AMOUNT_OF_BLOCKS_MULTIPLIER;
-                    amountOfBlocks = Math.round(amountOfBlocks * 2) / 2.0;
+//                    amountOfBlocks = Math.round(amountOfBlocks * 2) / 2.0;
                     Location centerLocation = location.clone().add(direction.clone().multiply(i));
 
                     for (double j = -amountOfBlocks / 2; j <= amountOfBlocks / 2; j++) {
-                        Location newLocation = centerLocation.clone().add(horizontal.clone().multiply(0));
+                        Location newLocation = centerLocation.clone().add(horizontal.clone().multiply(j));
                         MaterialData material = Functions.getLowestBlock(newLocation).getState().getData();
                         spawnBlock(newLocation, material);
 
-                        Functions.loopEntities(newLocation, 12).forEach(en ->
+                        Functions.loopEntities(newLocation.subtract(new Vector(0, -3, 0)), 1.2, 7).forEach(en ->
                                 player.damage(new MeleeEntityDamageEntity(player, en)));
                     }
                 });

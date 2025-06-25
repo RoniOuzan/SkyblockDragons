@@ -152,6 +152,19 @@ public class Functions {
         return setLore(item, lores);
     }
 
+    public static List<EntitySD> loopEntities(Location center, double horizontal, double vertical) {
+        List<LivingEntity> entities = center.getWorld().getLivingEntities();
+        List<EntitySD> output = new ArrayList<>();
+        for (LivingEntity value : entities) {
+            Location location = value.getLocation();
+            if (Math.hypot(center.getX() - location.getX(), center.getZ() - location.getZ()) <= horizontal &&
+                    Math.abs(center.getY() - location.getY()) <= vertical && !(value instanceof Player)) {
+                output.add(EntitySD.get(value));
+            }
+        }
+        return output.stream().filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
     public static List<EntitySD> loopEntities(Location center, double size) {
         List<LivingEntity> entities = center.getWorld().getLivingEntities();
         List<EntitySD> output = new ArrayList<>();

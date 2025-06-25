@@ -111,7 +111,7 @@ public class VoidSword extends SwordMaterial {
                                 }
                             }
 
-                            Functions.Wait(6L, () -> {
+                            Functions.Wait(7L, () -> {
                                 for (Trail trail : trails) {
                                     for (EntitySD entity : trail.entities) {
                                         player.damage(new MagicEntityDamageEntity(player, entity, BlackHole.this));
