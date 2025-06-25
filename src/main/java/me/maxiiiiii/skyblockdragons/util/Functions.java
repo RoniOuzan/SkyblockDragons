@@ -28,6 +28,7 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.Entry;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.SlotCooldown;
+import me.maxiiiiii.skyblockdragons.util.particle.Particles;
 import me.maxiiiiii.skyblockdragons.util.reflection.MinecraftReflectionProvider;
 import me.maxiiiiii.skyblockdragons.util.reflection.ReflectionUtil;
 import org.bukkit.*;
@@ -54,6 +55,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static me.maxiiiiii.skyblockdragons.item.material.Items.*;
 
@@ -1267,7 +1269,16 @@ public class Functions {
     }
 
     public static void While(Supplier<Boolean> condition, long delay, Consumer<Integer> loop) {
-        While(condition, delay, loop, (i) -> {});
+        While(condition, delay, loop, i -> {});
+    }
+
+    public static void While(double time, long delay, Consumer<Integer> loop, Consumer<Integer> onCancel) {
+        long startedAt = System.currentTimeMillis();
+        While(() -> System.currentTimeMillis() - startedAt <= time * 1000, delay, loop, onCancel);
+    }
+
+    public static void While(double time, long delay, Consumer<Integer> loop) {
+        While(time, delay, loop, i -> {});
     }
 
     public static void particleCircle(Location location, Particle particle, double radius) {
@@ -1280,8 +1291,7 @@ public class Functions {
         }
     }
 
-    public static void particleSphere(Location location, String particleName, double radius) {
-        Particle particle = Particle.valueOf(particleName.toUpperCase());
+    public static void particleSphere(Location location, Particle particle, double radius) {
         Bukkit.getScheduler().runTaskAsynchronously(SkyblockDragons.plugin, () -> {
             for (double i = 0; i <= Math.PI; i += Math.PI / radius / 4) {
                 double sphereRadius = Math.sin(i) * radius;

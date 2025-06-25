@@ -20,7 +20,9 @@ import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.TextMessage;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -64,7 +66,7 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
             type.blueExplodeAbility(wither, phase);
         }));
         addSubCommand(new QuickSubCommand("spawn-dragon", (player, args) -> {
-            var dragon = player.getWorld().spawnEntity(player.getLocation(), EntityType.ENDER_DRAGON);
+            Entity dragon = player.getWorld().spawnEntity(player.getLocation(), EntityType.ENDER_DRAGON);
             NBTEntity nbtEntity = new NBTEntity(dragon);
             nbtEntity.setInteger("DragonPhase", 1);
             player.sendMessage("Dragon scam scam spawn!");
@@ -111,14 +113,14 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
             player.sendMessage(String.format("You got Mining fatigue %s", player.getPotionEffect(PotionEffectType.SLOW_DIGGING)));
         }));
         addSubCommand(new QuickSubCommand("test-crystals", (player, args) -> {
-            var item1 = player.getEquipment().getItemInMainHand();
+            ItemStack item1 = player.getEquipment().getItemInMainHand();
             ItemMaterial material1 = Functions.getItemMaterial(item1);
             ItemModifiers modifiers = ItemModifiers.getModifiers(item1);
             Crystals crystals = modifiers.getCrystals();
             player.sendMessage("Crystals Before: " + crystals);
             crystals.add(CrystalType.ARES, 1);
             player.sendMessage("Crystals Put: " + crystals);
-            var item = new Item(player, material1, modifiers, new CrystalModifier(crystals), new HotPotatoModifier(5));
+            Item item = new Item(player, material1, modifiers, new CrystalModifier(crystals), new HotPotatoModifier(5));
             player.getEquipment().setItemInMainHand(item);
 
             modifiers = ItemModifiers.getModifiers(item);

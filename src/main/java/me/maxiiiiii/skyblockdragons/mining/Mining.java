@@ -58,6 +58,7 @@ public class Mining implements Listener {
 
         Block block = e.getBlock();
         BlockMaterial blockMaterial = BlockMaterial.get(player.getWorldSD(), block.getType(), block.getData());
+        player.sendMessage(block.getType(), block.getData());
         if (blockMaterial == null) return;
 
         if (player.getBreakingPower() >= blockMaterial.getBreakingPower() && blockMaterial.getRequiredTools().contains(player.getItems().getToolMaterial().getType())) {

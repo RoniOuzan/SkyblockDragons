@@ -90,20 +90,20 @@ public class TheEnd extends WorldSD implements Listener {
     }
 
     public static EntityMaterial getRandomDragon() {
-        double random = Math.random() * 100;
-        if (random >= 84)
+        double random = Math.random();
+        if (random >= 0.84)
             return EntityMaterial.get("OLD_DRAGON");
-        if (random >= 68)
+        if (random >= 0.68)
             return EntityMaterial.get("PROTECTOR_DRAGON");
-        if (random >= 52)
+        if (random >= 0.52)
             return EntityMaterial.get("WISE_DRAGON");
-        if (random >= 36)
+        if (random >= 0.36)
             return EntityMaterial.get("UNSTABLE_DRAGON");
-        if (random >= 20)
+        if (random >= 0.20)
             return EntityMaterial.get("YOUNG_DRAGON");
-        if (random >= 4)
+        if (random >= 0.04)
             return EntityMaterial.get("STRONG_DRAGON");
-        if (random >= 1)
+        if (random >= 0.01)
             return EntityMaterial.get("SUPERIOR_DRAGON");
         return EntityMaterial.get("ERROR_DRAGON");
     }

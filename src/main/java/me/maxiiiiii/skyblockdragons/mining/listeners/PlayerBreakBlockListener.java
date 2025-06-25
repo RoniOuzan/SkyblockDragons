@@ -50,14 +50,18 @@ public class PlayerBreakBlockListener implements Listener {
             Material material = block.getType();
             byte data = block.getData();
             blocks.put(block.getLocation(), new Entry<>(block.getType(), block.getData()));
-            Entry<Material, Integer> whenBreaks = respawnBlock.getBlockWhenBreaks(player, block);
-            Entry<Material, Integer> respawnsTo = respawnBlock.getRespawnsTo(player, block, material, data);
-            Functions.Wait(1L, () -> {
-                e.getBlock().setType(whenBreaks.getA());
-                e.getBlock().setData(whenBreaks.getB().byteValue());
-            });
 
-            Functions.Wait(respawnBlock.getTimeToRespawn(player, block), () -> {
+            long respawnTime = respawnBlock.getTimeToRespawn(player, block);
+            if (respawnTime > 1L) {
+                Entry<Material, Integer> whenBreaks = respawnBlock.getBlockWhenBreaks(player, block);
+                Functions.Wait(1L, () -> {
+                    e.getBlock().setType(whenBreaks.getA());
+                    e.getBlock().setData(whenBreaks.getB().byteValue());
+                });
+            }
+
+            Entry<Material, Integer> respawnsTo = respawnBlock.getRespawnsTo(player, block, material, data);
+            Functions.Wait(respawnTime, () -> {
                 blocks.remove(block.getLocation());
                 e.getBlock().setType(respawnsTo.getA());
                 e.getBlock().setData(respawnsTo.getB().byteValue());

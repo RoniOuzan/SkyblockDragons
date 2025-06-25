@@ -79,7 +79,7 @@ public class DragonKillListener implements Listener {
             double quality = placeQuality + (eyes * 100);
             playerQuality.put(player, quality);
 
-            ItemStack uniqueDrop = getPlayerUniqueDrop(dragonType, eyes, quality);
+            Item uniqueDrop = getPlayerUniqueDrop(dragonType, eyes, quality);
 
             int normalAmount = Functions.randomInt((int) (eyes * 0.5), eyes * 2);
             if (uniqueDrop != null) {
@@ -139,8 +139,8 @@ public class DragonKillListener implements Listener {
     }
 
     @Nullable
-    public ItemStack getPlayerUniqueDrop(DragonType dragonType, int eyes, double quality) {
-        ItemStack uniqueDrop = null;
+    public Item getPlayerUniqueDrop(DragonType dragonType, int eyes, double quality) {
+        Item uniqueDrop = null;
         if (quality >= 450) {
             if (Functions.chanceOf(0.05 * eyes)) {
                 uniqueDrop = new Item(Items.get("ENDER_DRAGON"), new PetModifier(new PetSupplier(Rarity.EPIC, 1, 0)));
@@ -148,8 +148,8 @@ public class DragonKillListener implements Listener {
                 uniqueDrop = new Item(Items.get("ENDER_DRAGON"), new PetModifier(new PetSupplier(Rarity.LEGENDARY, 1, 0)));
             } else if (Functions.chanceOf(5 * eyes) && dragonType == DragonType.SUPERIOR) {
                 uniqueDrop = new Item(Items.get("DRAGON_HORN"), 1);
-//            } else if (Functions.chanceOf(2 * eyes) && dragonType == DragonType.ERROR) {
-//                uniqueDrop = new Item(Items.get("ERROR_SCYTHE"), 1);
+            } else if (Functions.chanceOf(2 * eyes) && dragonType == DragonType.ERROR) {
+                uniqueDrop = new Item(Items.get("ERROR_SCYTHE"), 1);
             } else if (Functions.chanceOf(2 * eyes)) {
                 uniqueDrop = new Item(Items.get("DRAGON_CLAW"), 1);
             } else if (Functions.chanceOf(3 * eyes)) {

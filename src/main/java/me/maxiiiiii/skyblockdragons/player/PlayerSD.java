@@ -78,9 +78,9 @@ import static me.maxiiiiii.skyblockdragons.util.Functions.cooldown;
 @Getter
 @Setter
 public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
-    public PlayerStats stats;
+    public final PlayerStats stats;
 
-    private ScoreboardSD scoreboardSD;
+    private final ScoreboardSD scoreboardSD;
 
     private ChatChannel chatChannel;
 
@@ -92,15 +92,15 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
     public int playTime;
     public int bits;
 
-    public Skills skills;
-    public Slayers slayers;
-    public Wardrobe wardrobe;
-    public BankAccount bank;
-    public PlayerPet playerPet;
-    public EnderChest enderChestSD;
+    public final Skills skills;
+    public final Slayers slayers;
+    public final Wardrobe wardrobe;
+    public final BankAccount bank;
+    public final PlayerPet playerPet;
+    public final EnderChest enderChestSD;
 
-    public Forge forge;
-    public Griffin griffin;
+    public final Forge forge;
+    public final Griffin griffin;
 
     private final PlayerQuests quests;
 

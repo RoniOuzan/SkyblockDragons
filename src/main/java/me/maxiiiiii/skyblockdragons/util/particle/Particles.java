@@ -23,6 +23,22 @@ public class Particles {
         }
     }
 
+    public static void sphere(AbstractParticle particle, Location center, double radius, double density, Object... objects) {
+        double step = Math.PI / density;
+
+        for (double theta = 0; theta < Math.PI; theta += step) {
+            for (double phi = 0; phi < 2 * Math.PI; phi += step) {
+                double x = radius * Math.sin(theta) * Math.cos(phi);
+                double y = radius * Math.cos(theta);
+                double z = radius * Math.sin(theta) * Math.sin(phi);
+
+                Location location = center.clone().add(x, y, z);
+                particle.spawn(location, objects);
+                runRunnables(theta + phi, location, objects);
+            }
+        }
+    }
+
     public static void line(AbstractParticle particle, Location loc1, Location loc2, double gapBetween, Object... objects) {
         Vector vector = new Vector(
                 loc2.getX() - loc1.getX(),

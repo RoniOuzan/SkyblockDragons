@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.swords;
 
+import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.item.material.types.SwordMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;
@@ -96,6 +97,8 @@ public class MidasStaff extends SwordMaterial {
             block.setDropItem(false);
             block.setCustomName("MidasStaff");
             block.setHurtEntities(false);
+
+            SkyblockDragons.entitiesToKill.add(block);
         }
     }
 }
