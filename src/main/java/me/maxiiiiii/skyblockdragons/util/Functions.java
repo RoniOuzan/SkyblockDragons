@@ -60,6 +60,11 @@ import java.util.stream.StreamSupport;
 import static me.maxiiiiii.skyblockdragons.item.material.Items.*;
 
 public class Functions {
+    public static final double k360 = Math.PI * 2.0;
+    public static final double k180 = Math.PI;
+    public static final double k90 = Math.PI / 2.0;
+    public static final double k45 = Math.PI / 4.0;
+
     public static ItemStack applySkull(ItemStack item, String id, String value) {
         if (value.isEmpty()) return item;
 

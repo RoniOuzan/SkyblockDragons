@@ -10,10 +10,10 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Killer;
 import me.maxiiiiii.skyblockdragons.util.objects.PickableItem;
+import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.DragonType;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.events.DragonKillEvent;
-import me.maxiiiiii.skyblockdragons.world.worlds.end.events.PlayerPlaceEyeEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -22,8 +22,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -121,12 +119,7 @@ public class DragonKillListener implements Listener {
             player.sendMessage(ChatColor.RESET + "" + ChatColor.GREEN + "" + ChatColor.BOLD + "----------------------------------------");
         }
 
-        TheEnd.dragonDamage.clear();
-        TheEnd.dragon = null;
-        PlayerPlaceEyeListener.amountOfPlacedEyes.clear();
-        PlayerPlaceEyeEvent.resetAmountOfEyes();
-
-        Functions.Wait(100L, TheEnd::resetEyes);
+        WorldSD.THE_END.reset();
 
         for (Block block : Functions.loopBlocksHorizontally(TheEnd.MIDDLE_OF_LOOT, 5.5)) {
             block.setType(Material.OBSIDIAN);
@@ -138,7 +131,6 @@ public class DragonKillListener implements Listener {
         });
     }
 
-    @Nullable
     public Item getPlayerUniqueDrop(DragonType dragonType, int eyes, double quality) {
         Item uniqueDrop = null;
         if (quality >= 450) {

@@ -25,13 +25,11 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class EntityWither extends EntityMaterial {
+    private static final int TICKS_TO_SECONDS = 20;
 
-    public static final int TICKS_TO_SECONDS = 20;
     public int moveRate = 80;
     public int phase = 0;
     public int i = 0;
-    public UUID uuid = null;
-    public EntitySD entitySD;
     public FlyToLocation flyToLocation;
     public String color = "§8";
     public ItemMaterial crystal = null;
@@ -57,16 +55,10 @@ public abstract class EntityWither extends EntityMaterial {
 
     @Override
     public void onSpawn(EntitySD entity) {
-        if (entity.entity instanceof Wither){
-            WitherIsland.wither = entity;
-            WitherIsland.witherDamage.clear();
-            uuid = entity.entity.getUniqueId();
-            entitySD = entity;
-            entity.entity.setMaximumNoDamageTicks(0);
-            entity.entity.setNoDamageTicks(0);
-            entity.entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
-            blueExplodeAbility(entity, 200);
-        }
+        entity.setMaximumNoDamageTicks(0);
+        entity.setNoDamageTicks(0);
+        entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
+        blueExplodeAbility(entity, 200);
     }
 
     public void blueExplodeAbility(EntitySD entity, int value) {

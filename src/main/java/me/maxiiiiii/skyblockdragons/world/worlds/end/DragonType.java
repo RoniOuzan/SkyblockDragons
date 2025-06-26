@@ -1,5 +1,6 @@
 package me.maxiiiiii.skyblockdragons.world.worlds.end;
 
+import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
 
@@ -18,6 +19,10 @@ public enum DragonType {
 
     DragonType(ChatColor color) {
         this.color = color;
+    }
+
+    public EntityMaterial getMaterial() {
+        return EntityMaterial.get(this.name() + "_DRAGON");
     }
 
     public static DragonType getDragonType(String name) {

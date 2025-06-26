@@ -40,8 +40,9 @@ public class EntitySD extends EntityClass {
 
     public final Cooldown<Player> actionBarCooldown = new Cooldown<>();
 
-    public EntitySD(Location location, EntityMaterial material) {
-        super((LivingEntity) location.getWorld().spawnEntity(location, material.entityType));
+    public EntitySD(LivingEntity entity, EntityMaterial material) {
+        super(entity);
+
         this.material = material;
 
         if (this.material.equipment.helmet != null)
@@ -94,12 +95,16 @@ public class EntitySD extends EntityClass {
             }
         });
 
-        this.location = location;
+        this.location = super.entity.getLocation();
         this.equipment = new Equipment(this);
 
         this.attacker = null;
 
         entities.put(this.entity.getUniqueId(), this);
+    }
+
+    public EntitySD(Location location, EntityMaterial material) {
+        this((LivingEntity) location.getWorld().spawnEntity(location, material.entityType), material);
     }
 
     @Override

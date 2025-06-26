@@ -1,5 +1,8 @@
 package me.maxiiiiii.skyblockdragons.entity.types.theend;
 
+import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.disguisetypes.DisguiseType;
+import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.events.EntityDamageEvent;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.PercentEntityDamageEntity;
@@ -8,18 +11,19 @@ import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.events.EntityDeathEvent;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.objects.Equipment;
-import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
+import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import org.bukkit.GameMode;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.util.Vector;
 
 import java.util.stream.Collectors;
 
 public abstract class EntityDragon extends EntityMaterial {
     public EntityDragon(String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance) {
-        super(EntityType.ENDER_DRAGON, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, false, 0, 0);
+        super(EntityType.WITHER, name, level, health, defense, damage, trueDamage, equipment, speed, knockbackResistance, true, 0, 0);
     }
 
     public void strikeAbility(EntitySD entity) {
@@ -35,11 +39,18 @@ public abstract class EntityDragon extends EntityMaterial {
         }
     }
 
+    @Override
+    public void onSpawn(EntitySD entity) {
+        entity.setSilent(true);
+        DisguiseAPI.disguiseToAll(entity, new MobDisguise(DisguiseType.ENDER_DRAGON));
+        new DragonAI(entity);
+    }
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onDamage(EntityDamageEvent e) {
         if (e.getVictim().getMaterial() == this && e.getAttacker() instanceof PlayerSD) {
             PlayerSD attacker = (PlayerSD) e.getAttacker();
-            TheEnd.dragonDamage.put(attacker, TheEnd.dragonDamage.getOrDefault(attacker, 0d) + e.getFinalDamage());
+            WorldSD.THE_END.getDragonDamage().put(attacker, WorldSD.THE_END.getDragonDamage().getOrDefault(attacker, 0d) + e.getFinalDamage());
         }
     }
 

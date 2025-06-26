@@ -4,6 +4,7 @@ import me.maxiiiiii.skyblockdragons.commands.manager.QuickCommand;
 import me.maxiiiiii.skyblockdragons.commands.manager.QuickSubCommand;
 import me.maxiiiiii.skyblockdragons.events.listeners.JoinQuitListener;
 import me.maxiiiiii.skyblockdragons.item.Item;
+import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 import org.bukkit.ChatColor;
 
@@ -15,7 +16,7 @@ public class SkyblockDragonsAlphaCommand extends QuickCommand {
         }));
         addSubCommand(new QuickSubCommand("breakPiece", (player, args) -> {
             Item toolItem = player.getItems().getTool();
-            Item item = TheEnd.breakArmorPiece(toolItem);
+            Item item = WorldSD.THE_END.breakArmorPiece(toolItem);
             player.getInventory().setItemInMainHand(item);
             player.sendMessageFormat(ChatColor.RED + "[SBD ALPHA] You BROKE ", toolItem.getItemMeta().getDisplayName(), " -> ",item.getAmount() , "x ", item.getItemMeta().getDisplayName(), "!");
         }));

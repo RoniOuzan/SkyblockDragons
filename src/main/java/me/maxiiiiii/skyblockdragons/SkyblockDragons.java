@@ -132,7 +132,6 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
         CitizensAPI.getNPCRegistry().deregisterAll();
 
-        Bukkit.getScheduler().runTask(this, TheEnd::resetEyes);
 
         ConfigurationSerialization.registerClass(EntityMaterial.class);
         ConfigurationSerialization.registerClass(EntitySpawn.class);
@@ -473,6 +472,10 @@ public final class SkyblockDragons extends JavaPlugin implements Listener {
 
     public static PlayerSD getPlayer(Player player) {
         return getPlayer(player.getUniqueId());
+    }
+
+    public static PlayerSD me() {
+        return getPlayer("HadarHashuah");
     }
 
     public static double getCurrentTimeInSeconds() {

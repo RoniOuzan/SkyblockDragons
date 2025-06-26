@@ -2,6 +2,7 @@ package me.maxiiiiii.skyblockdragons.world.worlds.end.listeners;
 
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
+import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.events.PlayerPlaceEyeEvent;
 import org.bukkit.Bukkit;
@@ -26,9 +27,8 @@ public class PlayerPlaceEyeListener implements Listener {
             player.sendMessage(ChatColor.DARK_PURPLE + "☬ " + e.getPlayer().getDisplayName() + ChatColor.LIGHT_PURPLE + " placed an eye! (" + e.getAmountOfEyes() + "/8)");
         }
 
-
         if (e.getAmountOfEyes() >= 8) {
-            Functions.Wait(20L, TheEnd::spawnDragon);
+            Functions.Wait(20L, WorldSD.THE_END::spawnDragon);
         }
     }
 

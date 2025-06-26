@@ -1,11 +1,9 @@
 package me.maxiiiiii.skyblockdragons.world.worlds.end;
 
-import de.tr7zw.changeme.nbtapi.NBTEntity;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.ProjectileEntityDamageEntity;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.entity.types.theend.EntityDragon;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.craftingtable.Recipe;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
@@ -13,7 +11,6 @@ import me.maxiiiiii.skyblockdragons.item.material.types.ArmorMaterial;
 import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
-import me.maxiiiiii.skyblockdragons.util.objects.FlyToLocation;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import me.maxiiiiii.skyblockdragons.world.WorldType;
 import me.maxiiiiii.skyblockdragons.world.attributes.EntityWorldSpawn;
@@ -36,7 +33,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,10 +42,9 @@ public class TheEnd extends WorldSD implements Listener {
     public static final Location MIDDLE_OF_LOOT = new Location(world, 1, 61, 15);
     public static final Location DRAGON_SPAWN = new Location(world, 0, 80, 0);
     public static final Location MIDDLE = new Location(world, 0, 64, 0);
-    public static final Map<PlayerSD, Double> dragonDamage = new HashMap<>();
-    public static final double DRAGON_VELOCITY = 20 * (1.0 / 20.0);
-    public static EntitySD dragon = null;
-    public static long time = 0;
+    public final Map<PlayerSD, Double> dragonDamage = new HashMap<>();
+
+    private EntitySD dragon = null;
 
     public TheEnd(JavaPlugin plugin) {
         super(world, "The End", Warp.THE_END, WorldType.COMBAT, WorldType.MINING);
@@ -64,9 +59,19 @@ public class TheEnd extends WorldSD implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         plugin.getServer().getPluginManager().registerEvents(new PlayerPlaceEyeListener(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new DragonKillListener(), plugin);
+
+        Functions.Wait(1L, this::resetEyes);
     }
 
-    public static Item breakArmorPiece(Item item) {
+    public EntitySD getDragon() {
+        return dragon;
+    }
+
+    public Map<PlayerSD, Double> getDragonDamage() {
+        return dragonDamage;
+    }
+
+    public Item breakArmorPiece(Item item) {
         ItemMaterial itemMaterial = item.getMaterial();
         if (itemMaterial.name().contains("_DRAGON_") && itemMaterial instanceof ArmorMaterial) {
             ItemStack[] items = Recipe.get(itemMaterial.name()).getItems();
@@ -83,7 +88,16 @@ public class TheEnd extends WorldSD implements Listener {
         return item;
     }
 
-    public static void resetEyes() {
+    public void reset() {
+        this.dragonDamage.clear();
+        this.dragon = null;
+        PlayerPlaceEyeListener.amountOfPlacedEyes.clear();
+        PlayerPlaceEyeEvent.resetAmountOfEyes();
+
+        Functions.Wait(100L, this::resetEyes);
+    }
+
+    private void resetEyes() {
         for (Block block : Functions.loopBlocksHorizontally(MIDDLE, 10)) {
             if (block.getType() == Material.ENDER_PORTAL_FRAME && block.getData() > 3) {
                 block.setData((byte) (block.getData() - 4));
@@ -91,29 +105,27 @@ public class TheEnd extends WorldSD implements Listener {
         }
     }
 
-    public static EntityMaterial getRandomDragon() {
+    private static DragonType getRandomDragon() {
         double random = Math.random();
         if (random >= 0.84)
-            return EntityMaterial.get("OLD_DRAGON");
+            return DragonType.OLD;
         if (random >= 0.68)
-            return EntityMaterial.get("PROTECTOR_DRAGON");
+            return DragonType.PROTECTOR;
         if (random >= 0.52)
-            return EntityMaterial.get("WISE_DRAGON");
+            return DragonType.WISE;
         if (random >= 0.36)
-            return EntityMaterial.get("UNSTABLE_DRAGON");
+            return DragonType.UNSTABLE;
         if (random >= 0.20)
-            return EntityMaterial.get("YOUNG_DRAGON");
+            return DragonType.YOUNG;
         if (random >= 0.04)
-            return EntityMaterial.get("STRONG_DRAGON");
+            return DragonType.STRONG;
         if (random >= 0.01)
-            return EntityMaterial.get("SUPERIOR_DRAGON");
-        return EntityMaterial.get("ERROR_DRAGON");
+            return DragonType.SUPERIOR;
+        return DragonType.ERROR;
     }
 
-    public static void spawnDragon() {
-        dragon = new EntitySD(DRAGON_SPAWN, getRandomDragon());
-        NBTEntity nbtEntity = new NBTEntity(dragon.entity);
-        nbtEntity.setInteger("DragonPhase", 1);
+    public void spawnDragon() {
+        dragon = new EntitySD(DRAGON_SPAWN, getRandomDragon().getMaterial());
 
         Functions.While(() -> dragon != null && !dragon.isDead(), 5L, i -> {
             for (Entity entity : dragon.getNearbyEntities(1)) {
@@ -123,24 +135,11 @@ public class TheEnd extends WorldSD implements Listener {
                     player.damage(new ProjectileEntityDamageEntity(player, dragon, (Projectile) entity));
                 }
             }
-        });
-        Functions.While(() -> dragon != null && !dragon.isDead(), 40L, i -> {
-            if (i % 6 == 4) {
-                return;
-            } else if (i % 6 == 5) {
-                ((EntityDragon) dragon.material).strikeAbility(dragon);
-                return;
-            }
-            double x = Functions.randomDouble(-40, 40);
-            double y = Functions.randomDouble(75, 120);
-            double z = Functions.randomDouble(-40, 40);
-            Location location = new Location(world, x, y, z);
-
-            new FlyToLocation(dragon, location, 40, 10, true);
+            ((Wither) this.dragon.entity).setTarget(null);
         });
     }
 
-    public static TheEnd deserialize(Map<String, Object> args) {
+    public TheEnd deserialize(Map<String, Object> args) {
         return WorldSD.THE_END;
     }
 
@@ -180,17 +179,11 @@ public class TheEnd extends WorldSD implements Listener {
 
     @EventHandler
     public void onDeath(EntityDeathEvent e) {
-        if (e.getEntity() instanceof EnderDragon) {
-            EnderDragon dragon = (EnderDragon) e.getEntity();
-            if (dragon.getWorld().getName().equals("TheEnd")) {
-                long diff = System.currentTimeMillis() - time;
-                if (diff <= 2000) {
-                    SkyblockDragons.logger.warning("Dragon died too quick to count! " + diff);
-                    return;
-                }
-                time = System.currentTimeMillis();
+        if (e.getEntity() instanceof Wither) {
+            Wither dragon = (Wither) e.getEntity();
+            if (dragon.getWorld() == world) {
                 Functions.Wait(1L, () -> {
-                    DragonKillEvent event = new DragonKillEvent(TheEnd.dragon, dragonDamage);
+                    DragonKillEvent event = new DragonKillEvent(this.dragon, dragonDamage);
                     Bukkit.getServer().getPluginManager().callEvent(event);
                 });
             }

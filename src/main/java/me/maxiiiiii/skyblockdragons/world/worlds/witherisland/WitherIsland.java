@@ -76,7 +76,7 @@ public class WitherIsland extends WorldSD implements Listener {
         for (UUID uuid : sortedWitherDamage) {
             PlayerSD target = SkyblockDragons.getPlayer(uuid);
             if (target != null && target.isOnline()) {
-                Location location = wither.entity.getLocation();
+                Location location = wither.getLocation();
                 if (location.getWorld().equals(target.getWorld()) && location.distance(target.getLocation()) <= 70) {
                     return target;
                 }
@@ -140,6 +140,7 @@ public class WitherIsland extends WorldSD implements Listener {
 
     public void spawnWither() {
         wither = new EntitySD(WITHER_SPAWN, getRandomWither());
+        witherDamage.clear();
         clearWitherArea();
     }
 
@@ -163,14 +164,13 @@ public class WitherIsland extends WorldSD implements Listener {
 
     public Location getSoulSand(int num) {
         switch (num) {
-            case 1:
-                return new Location(world, -64, 71, 63);
             case 2:
                 return new Location(world, -65, 72, 63);
             case 3:
                 return new Location(world, -64, 72, 63);
             case 4:
                 return new Location(world, -63, 72, 63);
+            case 1:
             default:
                 return new Location(world, -64, 71, 63);
         }
