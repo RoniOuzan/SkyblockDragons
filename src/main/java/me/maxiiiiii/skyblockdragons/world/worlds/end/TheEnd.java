@@ -36,6 +36,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +47,7 @@ public class TheEnd extends WorldSD implements Listener {
     public static final Location DRAGON_SPAWN = new Location(world, 0, 80, 0);
     public static final Location MIDDLE = new Location(world, 0, 64, 0);
     public static final Map<PlayerSD, Double> dragonDamage = new HashMap<>();
+    public static final double DRAGON_VELOCITY = 20 * (1.0 / 20.0);
     public static EntitySD dragon = null;
     public static long time = 0;
 

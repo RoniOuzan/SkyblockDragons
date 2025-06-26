@@ -5,6 +5,7 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.player.skill.SkillType;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 
 @Getter
 public class SkillRequirement extends Requirement {
@@ -21,7 +22,11 @@ public class SkillRequirement extends Requirement {
 
     @Override
     public boolean hasRequirement(PlayerSD player) {
-        if (player == null || player.getSkills() == null) return false;
+        if (player == null) return false;
+
+        if (player.shouldIgnoreRequirements()) {
+            return true;
+        }
 
         return player.getSkills().get(skillType).getLevel() >= this.level;
     }

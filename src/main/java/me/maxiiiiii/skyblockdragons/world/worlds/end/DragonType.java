@@ -12,14 +12,9 @@ public enum DragonType {
     STRONG(ChatColor.RED),
     SUPERIOR(ChatColor.GOLD),
     ERROR(ChatColor.RED),
-    RAINBOW(ChatColor.AQUA),
-    FROZEN(ChatColor.BLUE),
-    NATURE(ChatColor.GREEN),
-    DARK(ChatColor.BLACK),
-    Volcano(ChatColor.DARK_RED),
     ;
 
-    public ChatColor color;
+    public final ChatColor color;
 
     DragonType(ChatColor color) {
         this.color = color;

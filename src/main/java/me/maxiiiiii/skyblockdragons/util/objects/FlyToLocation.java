@@ -44,6 +44,10 @@ public class FlyToLocation extends BukkitRunnable {
 
     @Override
     public void run() {
+        if (entity == null) {
+            return;
+        }
+
         if (target.distance(entity.getLocation()) <= this.stopAt || System.currentTimeMillis() - this.startedAt > this.ticks * 50) {
             this.cancel();
             return;

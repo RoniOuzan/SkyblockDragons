@@ -2,7 +2,6 @@ package me.maxiiiiii.skyblockdragons.item.material.materials.nfa.swords;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.MeleeEntityDamageEntity;
-import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.item.material.types.ToolMaterial;
 import me.maxiiiiii.skyblockdragons.item.objects.AbilityAction;
 import me.maxiiiiii.skyblockdragons.item.objects.ItemFamily;

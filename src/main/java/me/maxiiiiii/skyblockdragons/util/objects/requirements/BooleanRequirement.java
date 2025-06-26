@@ -15,7 +15,7 @@ public class BooleanRequirement extends Requirement {
 
     @Override
     public boolean hasRequirement(PlayerSD player) {
-        return this.supplier.apply(player);
+        return this.supplier.apply(player) || player.shouldIgnoreRequirements();
     }
 
     @Override

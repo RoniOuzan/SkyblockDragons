@@ -60,7 +60,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
-import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -601,7 +600,7 @@ public class PlayerSD extends PlayerClass implements ConfigurationSerializable {
         }
     }
 
-    public boolean ignoreRequirements() {
+    public boolean shouldIgnoreRequirements() {
         return this.getGameMode() == GameMode.CREATIVE || this.getGameMode() == GameMode.SPECTATOR;
     }
 

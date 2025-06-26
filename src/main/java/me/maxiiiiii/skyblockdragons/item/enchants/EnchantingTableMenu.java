@@ -168,7 +168,7 @@ public class EnchantingTableMenu extends Menu {
 
                 short level = Short.parseShort(nbt.replace("LEVEL_", ""));
                 int cost = level * 5;
-                if (!player.ignoreRequirements()) {
+                if (!player.shouldIgnoreRequirements()) {
                     if (player.getLevel() < cost) {
                         player.sendMessage(ChatColor.RED + "You don't have enough experience to apply this enchant!");
                         return;

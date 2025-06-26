@@ -18,8 +18,13 @@ public class Requirements {
         this(Arrays.asList(requirements));
     }
 
+    public Requirements add(Requirement requirement) {
+        this.requirements.add(requirement);
+        return this;
+    }
+
     public boolean hasRequirements(PlayerSD player) {
-        return player.ignoreRequirements() ||
+        return player.shouldIgnoreRequirements() ||
                 this.requirements.stream().allMatch(r -> r.hasRequirement(player));
     }
 

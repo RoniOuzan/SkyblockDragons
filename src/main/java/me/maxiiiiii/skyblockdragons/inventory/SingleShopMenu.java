@@ -26,11 +26,11 @@ public class SingleShopMenu extends Menu {
     @Override
     public void onInventoryClick(InventoryClickEvent e) {
         if (this.getNBT(e.getCurrentItem()).equals("ITEM")) {
-            if (player.ignoreRequirements() || player.getCoins() >= this.cost) {
+            if (player.shouldIgnoreRequirements() || player.getCoins() >= this.cost) {
                 player.give(new Item(player, this.item));
                 player.sendMessage(ChatColor.GREEN + "You have bought " + e.getCurrentItem().getItemMeta().getDisplayName() + ChatColor.GREEN + " for " + Functions.getNumberFormat(cost) + ".");
                 player.playSound(Sound.BLOCK_NOTE_HARP);
-                if (!player.ignoreRequirements())
+                if (!player.shouldIgnoreRequirements())
                     player.removeCoins(this.cost);
             } else {
                 player.sendMessage(ChatColor.RED + "You don't have enough coins to buy this item!");

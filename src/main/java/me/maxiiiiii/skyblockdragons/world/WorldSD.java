@@ -6,6 +6,7 @@ import me.maxiiiiii.skyblockdragons.mining.Mining;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
+import me.maxiiiiii.skyblockdragons.util.objects.requirements.BooleanRequirement;
 import me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirements;
 import me.maxiiiiii.skyblockdragons.world.attributes.ClickableBlock;
 import me.maxiiiiii.skyblockdragons.world.attributes.ItemDisplay;
@@ -65,6 +66,7 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
         this.name = name;
         this.warp = warp;
         this.requirements = new Requirements(Functions.splitList("me.maxiiiiii.skyblockdragons.util.objects.requirements.Requirement", modifiers));
+        this.requirements.add(new BooleanRequirement(p -> p.getVisitedWorlds().contains(this)));
         this.worldType = Functions.splitList("me.maxiiiiii.skyblockdragons.world.WorldType", modifiers);
 
         this.region = new AllWorldRegion(name, this);
@@ -75,7 +77,7 @@ public abstract class WorldSD implements Listener, ConfigurationSerializable {
     }
 
     public boolean hasRequirements(PlayerSD player) {
-        return this.requirements.hasRequirements(player) && player.getVisitedWorlds().contains(this);
+        return this.requirements.hasRequirements(player);
     }
 
     public void addRegion(WorldRegion region) {
