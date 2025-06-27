@@ -31,6 +31,8 @@ import org.bukkit.Utility;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Consumer;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -52,13 +54,13 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
     public Equipment equipment;
     public double speed;
     public double knockbackResistance;
-    public boolean ai;
+    public boolean vanillaAI;
     public double combatXp;
     public double coins;
 
     public EntityDrop[] drops;
 
-    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance, boolean ai, double combatXp, double coins, EntityDrop... drops) {
+    public EntityMaterial(EntityType entityType, String name, int level, double health, double defense, double damage, double trueDamage, Equipment equipment, double speed, double knockbackResistance, boolean vanillaAI, double combatXp, double coins, EntityDrop... drops) {
         this.entityType = entityType;
         this.name = name;
         this.level = level;
@@ -69,7 +71,7 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
         this.equipment = equipment;
         this.speed = speed;
         this.knockbackResistance = knockbackResistance;
-        this.ai = ai;
+        this.vanillaAI = vanillaAI;
         this.combatXp = combatXp;
         this.coins = coins;
         this.drops = drops;
@@ -88,7 +90,8 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
     public void onSpawn(EntitySD entity) {
     }
 
-    public void onTick(EntitySD entity){
+    protected EntityAI getAI(EntitySD entity) {
+        return null;
     }
 
     public static void registerEntities() {
@@ -195,7 +198,7 @@ public abstract class EntityMaterial implements ConfigurationSerializable, Liste
                 "equipment=" + equipment +
                 "speed=" + speed +
                 "knockbackResistance=" + knockbackResistance +
-                "ai=" + ai +
+                "ai=" + vanillaAI +
                 "combatXp=" + combatXp +
                 "drops=" + Arrays.toString(drops) +
         '}';

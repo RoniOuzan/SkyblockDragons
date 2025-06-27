@@ -73,10 +73,10 @@ public class ScoreboardSD {
             scores.add("  " + ChatColor.WHITE + "Dragon's Health: " + ChatColor.GREEN + Functions.getShortNumber(WorldSD.THE_END.getDragon().getHealth()) + StatTypes.HEALTH.getIcon());
             scores.add("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getShortNumber(WorldSD.THE_END.getDragonDamage().getOrDefault(this.player, 0d)));
             scores.add("   "); // 3
-        } else if(WitherIsland.wither != null && player.getWorldSD() == WorldSD.WITHER_ISLAND) {
-            scores.add(WitherIsland.wither.getMaterial().getName());
-            scores.add("  " + ChatColor.WHITE + "Wither's Health: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.wither.getHealth()) + StatTypes.HEALTH.getIcon());
-            scores.add("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getShortNumber(WitherIsland.witherDamage.getOrDefault(player.getUniqueId(), 0d)));
+        } else if(WorldSD.WITHER_ISLAND.wither != null && player.getWorldSD() == WorldSD.WITHER_ISLAND) {
+            scores.add(WorldSD.WITHER_ISLAND.wither.getMaterial().getName());
+            scores.add("  " + ChatColor.WHITE + "Wither's Health: " + ChatColor.GREEN + Functions.getShortNumber(WorldSD.WITHER_ISLAND.wither.getHealth()) + StatTypes.HEALTH.getIcon());
+            scores.add("  " + ChatColor.WHITE + "Your Damage: " + ChatColor.GREEN + Functions.getShortNumber(WorldSD.WITHER_ISLAND.witherDamage.getOrDefault(player.getUniqueId(), 0d)));
             scores.add("   "); // 3
         } else if (player.getSlayers().getQuest().isActive()) {
             SlayerQuest quest = player.getSlayers().getQuest();

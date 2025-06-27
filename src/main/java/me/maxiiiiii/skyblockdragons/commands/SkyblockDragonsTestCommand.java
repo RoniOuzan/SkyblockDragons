@@ -1,13 +1,12 @@
 package me.maxiiiiii.skyblockdragons.commands;
 
 import de.tr7zw.changeme.nbtapi.NBTEntity;
-import lombok.var;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.commands.manager.QuickCommand;
 import me.maxiiiiii.skyblockdragons.commands.manager.QuickSubCommand;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
-import me.maxiiiiii.skyblockdragons.entity.types.witherisland.EntityWither;
+import me.maxiiiiii.skyblockdragons.entity.types.witherisland.WitherAI;
 import me.maxiiiiii.skyblockdragons.events.listeners.JoinQuitListener;
 import me.maxiiiiii.skyblockdragons.item.Item;
 import me.maxiiiiii.skyblockdragons.item.crystals.CrystalType;
@@ -19,6 +18,7 @@ import me.maxiiiiii.skyblockdragons.item.modifiers.ItemModifiers;
 import me.maxiiiiii.skyblockdragons.storage.Variables;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.TextMessage;
+import me.maxiiiiii.skyblockdragons.world.WorldSD;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -26,25 +26,23 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import static me.maxiiiiii.skyblockdragons.world.worlds.witherisland.WitherIsland.wither;
-
 public class SkyblockDragonsTestCommand extends QuickCommand {
     public SkyblockDragonsTestCommand() {
         addSubCommand(new QuickSubCommand("skull-rain", (player, args) -> {
-            EntityWither type = (EntityWither) wither.material;
-            type.skullRainAbility(wither, player);
+            WitherAI ai = (WitherAI) WorldSD.WITHER_ISLAND.wither.getAI();
+            ai.skullRainAbility(player);
         }));
         addSubCommand(new QuickSubCommand("super-skull", (player, args) -> {
-            EntityWither type = (EntityWither) wither.material;
-            type.superSkull(wither, player);
+            WitherAI ai = (WitherAI) WorldSD.WITHER_ISLAND.wither.getAI();
+            ai.superSkull(player);
         }));
         addSubCommand(new QuickSubCommand("skull-everywhere", (player, args) -> {
-            EntityWither type = (EntityWither) wither.material;
-            type.skullEverywhere(wither);
+            WitherAI ai = (WitherAI) WorldSD.WITHER_ISLAND.wither.getAI();
+            ai.skullEverywhere();
         }));
         addSubCommand(new QuickSubCommand("dash", (player, args) -> {
-            EntityWither type = (EntityWither) wither.material;
-            type.dashToPlayer(wither, player);
+            WitherAI ai = (WitherAI) WorldSD.WITHER_ISLAND.wither.getAI();
+            ai.dashToPlayer(player);
         }));
         addSubCommand(new QuickSubCommand("set-phase", (player, args) -> {
             if (args.length < 2){
@@ -52,8 +50,8 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
                 return;
             }
             int phase = Integer.parseInt(args[1]);
-            EntityWither type = (EntityWither) wither.material;
-            type.phase = phase;
+            WitherAI ai = (WitherAI) WorldSD.WITHER_ISLAND.wither.getAI();
+            ai.phase = phase;
             player.sendMessage(String.format("set phase to %s", phase));
         }));
         addSubCommand(new QuickSubCommand("blue-explode", (player, args) -> {
@@ -62,8 +60,8 @@ public class SkyblockDragonsTestCommand extends QuickCommand {
                 return;
             }
             int phase = Integer.parseInt(args[1]);
-            EntityWither type = (EntityWither) wither.material;
-            type.blueExplodeAbility(wither, phase);
+            WitherAI ai = (WitherAI) WorldSD.WITHER_ISLAND.wither.getAI();
+            ai.blueExplodeAbility(phase);
         }));
         addSubCommand(new QuickSubCommand("spawn-dragon", (player, args) -> {
             Entity dragon = player.getWorld().spawnEntity(player.getLocation(), EntityType.ENDER_DRAGON);

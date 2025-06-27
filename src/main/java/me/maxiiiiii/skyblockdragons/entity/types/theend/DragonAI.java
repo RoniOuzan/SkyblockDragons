@@ -1,75 +1,68 @@
 package me.maxiiiiii.skyblockdragons.entity.types.theend;
 
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
+import me.maxiiiiii.skyblockdragons.entity.EntityAI;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Fireball;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DragonAI extends BukkitRunnable {
+public class DragonAI extends EntityAI {
     public enum Phase {
         CIRCLING, WAITING
     }
 
-    private final EntitySD dragon;
-
     private Phase phase;
     private double waitingStartTime;
-
     private Circling circling;
     private final Cooldown<EntitySD> fireballCooldown;
 
-    public DragonAI(EntitySD dragon) {
-        this.dragon = dragon;
+    public DragonAI(EntitySD entity) {
+        super(entity, 2);
+        this.fireballCooldown = new Cooldown<>();
+    }
+
+    @Override
+    public void initialize() {
         this.phase = Phase.CIRCLING;
         this.waitingStartTime = SkyblockDragons.getCurrentTimeInSeconds();
-        this.circling = new Circling(dragon);
-
-        this.fireballCooldown = new Cooldown<>();
-
-        this.runTaskTimer(SkyblockDragons.plugin, 0L, 2L);
+        this.circling = new Circling(this.entity);
     }
 
     @Override
     public void run() {
-        if (this.dragon == null || this.dragon.isDead()) {
-            this.cancel();
-            return;
-        }
-
         if (this.phase == Phase.CIRCLING && this.circling != null && this.circling.isFinished()) {
             this.phase = Phase.WAITING;
-
             this.circling = null;
             this.waitingStartTime = SkyblockDragons.getCurrentTimeInSeconds();
-            Functions.While(() -> this.phase == Phase.WAITING, 1L, i -> dragon.setVelocity(new Vector()));
+            Functions.While(() -> this.phase == Phase.WAITING, 1L, i -> this.entity.setVelocity(new Vector()));
         } else if (this.phase == Phase.WAITING && SkyblockDragons.getCurrentTimeInSeconds() - this.waitingStartTime >= 8) {
             this.phase = Phase.CIRCLING;
-            this.circling = new Circling(this.dragon);
-
-            ((EntityDragon) this.dragon.getMaterial()).strikeAbility(this.dragon);
+            this.circling = new Circling(this.entity);
+            ((EntityDragon) this.entity.getMaterial()).strikeAbility(this.entity);
         }
 
         switch (this.phase) {
             case CIRCLING:
                 if (this.circling != null) {
+                    this.circling.debugParticles();
                     this.circling.update();
                 }
                 break;
             case WAITING:
-                if (!Functions.cooldown(dragon, fireballCooldown, 300, false)) {
-                    Fireball fireball = dragon.getWorld().spawn(dragon.getLocation().add(dragon.getLocation().getDirection().multiply(5)), Fireball.class);
-                    fireball.setVelocity(dragon.getLocation().getDirection().multiply(2));
-                    fireball.setShooter(dragon); // Optional, useful for damage attribution
-                    fireball.setIsIncendiary(false); // Prevent fire spread
-                    fireball.setYield(2F); // Explosion size
+                if (!Functions.cooldown(this.entity, fireballCooldown, 300, false)) {
+                    Fireball fireball = this.entity.getWorld().spawn(this.entity.getLocation().add(this.entity.getLocation().getDirection().multiply(5)), Fireball.class);
+                    fireball.setVelocity(this.entity.getLocation().getDirection().multiply(2));
+                    fireball.setShooter(this.entity);
+                    fireball.setIsIncendiary(false);
+                    fireball.setYield(2F);
                 }
                 break;
         }
@@ -82,10 +75,10 @@ public class DragonAI extends BukkitRunnable {
         private final Location center;
         private final EntitySD dragon;
 
-        private final static int ORBIT_DURATION_TICKS = 60;
-        private final static double ORBIT_RADIUS = 30;
-        private final static int SPIRAL_ROTATIONS = 2;
-        private final static double VELOCITY = 24 * (1.0 / 20.0); // blocks per tick
+        private static final int ORBIT_DURATION_TICKS = 60;
+        private static final double ORBIT_RADIUS = 30;
+        private static final int SPIRAL_ROTATIONS = 2;
+        private static final double VELOCITY = 1.2; // blocks per tick
 
         public Circling(EntitySD dragon) {
             this.index = 0;
@@ -107,7 +100,6 @@ public class DragonAI extends BukkitRunnable {
 
             if (orbitTicks < ORBIT_DURATION_TICKS) {
                 double angle = 2 * Math.PI * orbitTicks / ORBIT_DURATION_TICKS;
-
                 double ox = Math.cos(angle) * ORBIT_RADIUS;
                 double oz = Math.sin(angle) * ORBIT_RADIUS;
                 double oy = center.getY() + 10;
@@ -118,14 +110,11 @@ public class DragonAI extends BukkitRunnable {
             } else {
                 if (index >= spiralPath.size()) return;
                 next = spiralPath.get(index);
-
                 index++;
             }
 
             Vector velocity = next.toVector().subtract(current.toVector()).normalize().multiply(VELOCITY);
             this.dragon.setVelocity(velocity);
-
-            // Rotate dragon to face movement direction
             this.dragon.teleport(this.dragon.getLocation().setDirection(velocity));
         }
 
@@ -134,25 +123,26 @@ public class DragonAI extends BukkitRunnable {
                     dragon.getLocation().distance(spiralPath.get(spiralPath.size() - 1)) <= 5;
         }
 
+        public void debugParticles() {
+            for (Location location : this.spiralPath) {
+                location.getWorld().spawnParticle(Particle.SPELL_WITCH, location, 5, 0, 0, 0, 0);
+            }
+        }
+
         public List<Location> generateInwardSpiral(Location start, Location end, double maxRadius, int rotations, int points) {
             List<Location> path = new ArrayList<>();
-
             Vector mainDirection = end.toVector().subtract(start.toVector());
             double totalDistance = mainDirection.length();
             mainDirection.normalize();
-
-            // Perpendicular vector in XZ for spiraling
             Vector perp = new Vector(-mainDirection.getZ(), 0, mainDirection.getX());
 
             for (int i = 0; i <= points; i++) {
                 double t = (double) i / points;
-
                 double radius = (1 - t) * maxRadius;
                 double angle = t * rotations * 2 * Math.PI;
 
                 Vector spiralOffset;
                 if (t == 1) {
-                    // Ensure exact start and end
                     spiralOffset = new Vector(0, 0, 0);
                 } else {
                     spiralOffset = perp.clone().multiply(Math.cos(angle))
@@ -162,54 +152,11 @@ public class DragonAI extends BukkitRunnable {
 
                 Vector along = mainDirection.clone().multiply(t * totalDistance);
                 Vector finalPos = start.toVector().add(along).add(spiralOffset);
-
                 double y = start.getY() + t * (end.getY() - start.getY());
-                Location loc = new Location(start.getWorld(), finalPos.getX(), y, finalPos.getZ());
-                path.add(loc);
+                path.add(new Location(start.getWorld(), finalPos.getX(), y, finalPos.getZ()));
             }
 
             return path;
         }
-
     }
-
 }
-
-/*
-@Override
-    public void run() {
-        if (this.dragon == null || this.dragon.isDead()) {
-            this.cancel();
-            return;
-        }
-
-        Location location = this.dragon.getLocation();
-        Vector acceleration = getRandomAcceleration(location);
-        this.velocity.add(acceleration.multiply(PERIOD));
-        if (this.velocity.length() > MAX_VELOCITY) {
-            this.velocity.multiply(MAX_VELOCITY / this.velocity.length());
-        }
-        location.add(this.velocity.clone().multiply(PERIOD));
-
-        this.dragon.teleport(location);
-    }
-
-    private Vector getRandomAcceleration(Location location) {
-        double accelAngle = getAccelerationDirection(location);
-        return new Vector(Math.cos(accelAngle), 0, Math.sin(accelAngle)).multiply(ACCELERATION);
-    }
-
-    private double getAccelerationDirection(Location location) {
-        double distance = location.length();
-        double percent = distance / MAX_DISTANCE;
-        if (percent < 0.5) {
-            return Math.atan2(this.velocity.getZ(), this.velocity.getX());
-        }
-
-        percent = 1 - Math.max((percent * 2) - 1, 0);
-        double range = Functions.k90 + (Functions.k90 * percent);
-        double offset = Math.atan2(location.getZ(), location.getX());
-
-        return (Functions.k180 - Functions.randomDouble(-range, range)) + offset;
-    }
- */

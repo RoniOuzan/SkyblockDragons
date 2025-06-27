@@ -38,6 +38,8 @@ public class EntitySD extends EntityClass {
     public Location location;
     protected Equipment equipment;
 
+    private final EntityAI ai;
+
     public final Cooldown<Player> actionBarCooldown = new Cooldown<>();
 
     public EntitySD(LivingEntity entity, EntityMaterial material) {
@@ -75,7 +77,7 @@ public class EntitySD extends EntityClass {
         if (this.material instanceof EntityDragon)
             this.entity.setCustomName(this.getCustomName());
         this.entity.setCustomNameVisible(false);
-        this.entity.setAI(this.material.ai);
+        this.entity.setAI(this.material.vanillaAI);
         this.entity.setCanPickupItems(false);
         this.entity.addScoreboardTag("EntitySD");
 
@@ -89,11 +91,11 @@ public class EntitySD extends EntityClass {
             this.entity.getVehicle().remove();
 
         this.material.onSpawn(this);
-        Functions.While(() -> !this.entity.isDead(), 1, i -> this.material.onTick(this), i -> {
-            if (!this.hologram.getStand().isDead()){
-                this.hologram.remove();
-            }
-        });
+        this.ai = this.material.getAI(this);
+        if (this.ai != null) {
+            Functions.Wait(1L, this.ai::initialize);
+            Functions.While(() -> !this.entity.isDead(), this.ai.getPeriod(), i -> this.ai.run());
+        }
 
         this.location = super.entity.getLocation();
         this.equipment = new Equipment(this);
@@ -128,6 +130,7 @@ public class EntitySD extends EntityClass {
 
         this.material = Functions.getEntityMaterial(entity);
         this.equipment = new Equipment(this);
+        this.ai = this.material.getAI(this);
 
         entities.put(this.entity.getUniqueId(), this);
     }
@@ -264,6 +267,10 @@ public class EntitySD extends EntityClass {
 
     public double getHealthPercentage() {
         return this.getHealth() / this.getMaxHealth();
+    }
+
+    public EntityAI getAI() {
+        return this.ai;
     }
 
     @Override

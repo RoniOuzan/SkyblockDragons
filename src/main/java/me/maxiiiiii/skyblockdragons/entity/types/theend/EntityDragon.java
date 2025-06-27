@@ -6,6 +6,7 @@ import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.damage.events.EntityDamageEvent;
 import me.maxiiiiii.skyblockdragons.damage.types.entitydamageentity.PercentEntityDamageEntity;
+import me.maxiiiiii.skyblockdragons.entity.EntityAI;
 import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.events.EntityDeathEvent;
@@ -40,10 +41,14 @@ public abstract class EntityDragon extends EntityMaterial {
     }
 
     @Override
+    protected EntityAI getAI(EntitySD entity) {
+        return new DragonAI(entity);
+    }
+
+    @Override
     public void onSpawn(EntitySD entity) {
         entity.setSilent(true);
         DisguiseAPI.disguiseToAll(entity, new MobDisguise(DisguiseType.ENDER_DRAGON));
-        new DragonAI(entity);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
