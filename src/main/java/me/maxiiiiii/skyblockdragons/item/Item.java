@@ -325,9 +325,7 @@ public class Item extends ItemStack implements Comparable<Item>, ConfigurationSe
 
         ItemStatsAble statsAble = (ItemStatsAble) this.material;
         ItemStats stats = new ItemStats(statsAble.getStats(), this);
-        for (Stat stat : stats) {
-            stat.multiply(level);
-        }
+        stats.multiply(level);
 
         if (player != null) {
             UpdateItemStatsEvent event = new  UpdateItemStatsEvent(player, stats);

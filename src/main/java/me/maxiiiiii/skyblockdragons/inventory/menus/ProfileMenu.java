@@ -110,7 +110,7 @@ public class ProfileMenu extends Menu {
                 super(ProfileMenu.this.player,
                         "Your " + statType.getName() + " Breakdown",
                         6,
-                        InventoryGlassType.ALL,
+                        InventoryGlassType.SURROUND,
                         ProfileMenu.this.player.getStats().get(statType).getStatAdders().stream().sorted().map(s -> s.getItem(statType)).collect(Collectors.toList()),
                         true
                 );

@@ -1211,22 +1211,6 @@ public class Functions {
         return (slot % 9) + (peace * 9);
     }
 
-    public static Vector getVector(Entity player, double yawDegrees, double pitchDegrees, double multiplayer) {
-        Vector vector = new Vector();
-
-        double rotX = player.getLocation().getYaw() + yawDegrees;
-        double rotY = player.getLocation().getPitch() + pitchDegrees;
-
-        vector.setY(-Math.sin(Math.toRadians(rotY)));
-
-        double xz = Math.cos(Math.toRadians(rotY));
-
-        vector.setX(-xz * Math.sin(Math.toRadians(rotX)));
-        vector.setZ(xz * Math.cos(Math.toRadians(rotX)));
-
-        return vector.multiply(multiplayer);
-    }
-
     public static void Wait(long delay, Runnable task) {
         new BukkitRunnable() {
             @Override
@@ -1604,6 +1588,19 @@ public class Functions {
         return new Vector(x * Math.cos(degrees) - z * Math.sin(degrees), y, x * Math.sin(degrees) + y * Math.cos(degrees));
     }
 
+    public static Vector rotateAroundAxis(Vector v, Vector axis, double degrees) {
+        double radians = Math.toRadians(degrees);
+
+        Vector k = axis.clone().normalize();
+        double cos = Math.cos(radians);
+        double sin = Math.sin(radians);
+
+        // Rodrigues' formula
+        return v.clone().multiply(cos)
+                .add(k.clone().crossProduct(v).multiply(sin))
+                .add(k.clone().multiply(k.dot(v)).multiply(1 - cos));
+    }
+
     public static double ln(double num) {
         return Math.log(num) / Math.log(Math.E);
     }
@@ -1668,5 +1665,28 @@ public class Functions {
         }
 
         return blocks;
+    }
+
+    public static PlayerSD getNearestPlayer(EntitySD entity, int radius) {
+        List<PlayerSD> players = entity.getNearbyEntities(radius).stream()
+                .filter(e -> e instanceof Player)
+                .map(e -> SkyblockDragons.getPlayer((Player) e))
+                .collect(Collectors.toList());
+
+        if (players.size() == 0) {
+            return null;
+        }
+
+        double minDistance = -1;
+        PlayerSD closestPlayer = null;
+        for (PlayerSD player : players) {
+            double distance = player.getLocation().distance(entity.getLocation());
+            if (closestPlayer == null || distance <= minDistance) {
+                closestPlayer = player;
+                minDistance = distance;
+            }
+        }
+
+        return closestPlayer;
     }
 }

@@ -213,7 +213,7 @@ public class EnchantListeners implements Listener {
             if (player.getActivePet() == null) return;
 
             Stats petStats = new Stats(player.getActivePet().getStats().toList());
-            petStats.multiply(s);
+            petStats.multiply(s / 100);
             stats.add(petStats, StatAdderType.ITEM, player.getActivePet());
         });
     }

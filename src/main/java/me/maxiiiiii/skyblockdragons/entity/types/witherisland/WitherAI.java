@@ -8,7 +8,6 @@ import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.FlyToLocation;
 import me.maxiiiiii.skyblockdragons.world.WorldSD;
-import me.maxiiiiii.skyblockdragons.world.worlds.witherisland.WitherIsland;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;

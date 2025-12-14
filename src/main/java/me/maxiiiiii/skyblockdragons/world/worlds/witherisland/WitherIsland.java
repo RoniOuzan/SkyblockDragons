@@ -6,7 +6,6 @@ import me.maxiiiiii.skyblockdragons.entity.EntityMaterial;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
 import me.maxiiiiii.skyblockdragons.entity.types.witherisland.EntityWither;
 import me.maxiiiiii.skyblockdragons.item.material.Items;
-import me.maxiiiiii.skyblockdragons.item.material.types.ItemMaterial;
 import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.Cuboid;
@@ -16,14 +15,16 @@ import me.maxiiiiii.skyblockdragons.world.WorldType;
 import me.maxiiiiii.skyblockdragons.world.warp.Warp;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Skull;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
@@ -41,8 +42,13 @@ public class WitherIsland extends WorldSD implements Listener {
 
     public EntitySD wither = null;
 
+    private final Cuboid cuboid;
+
     public WitherIsland(JavaPlugin plugin) {
         super(world, "Wither Island", Warp.WITHER_ISLAND, WorldType.COMBAT);
+
+        this.cuboid = new Cuboid(new Location(world, -65, 71, 63), new Location(world, -63, 73, 63));
+
         clearWitherArea();
         buildAllSoulSand();
     }
@@ -91,30 +97,39 @@ public class WitherIsland extends WorldSD implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onBlockPlace(BlockPlaceEvent event) {
-        Block block = event.getBlock();
-        if (block.getWorld() == world) {
-            ItemStack item = event.getItemInHand();
-            ItemMaterial material = Functions.getItemMaterial(item);
-            if (material == Items.get("WITHER_SKULL")) {
-                if (block.getY() == 73 && block.getZ() == 63) {
-                    if (block.getX() <= -63 && block.getX() >= -65) {
-                        onSkullPlace(event);
-                    }
+    @EventHandler
+    public void onClick(PlayerInteractEvent event) {
+        if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) return;
+
+        PlayerSD player = SkyblockDragons.getPlayer(event.getPlayer());
+        if (player.getWorldSD() == this) {
+            if (player.getItems().getToolMaterial() == Items.get("WITHER_SKULL")) {
+                if (event.getClickedBlock().getType() == Material.SOUL_SAND && this.cuboid.contains(event.getClickedBlock())) {
+                    placeSkull(player);
                 }
             }
         }
     }
 
-    public void onSkullPlace(BlockPlaceEvent event) {
-        PlayerSD player = SkyblockDragons.getPlayer(event.getPlayer());
-        UUID uuid = player.getUniqueId();
-        event.setCancelled(false);
-        Integer eyes = amountOfPlacedEyes.getOrDefault(uuid, 0);
-        amountOfPlacedEyes.put(uuid, eyes + 1);
-        for (Player loop_player : player.getWorld().getPlayers()) {
-            loop_player.sendMessage(ChatColor.DARK_PURPLE + "☬ " + player.getDisplayName() + ChatColor.LIGHT_PURPLE + " placed a skull! (" + getAmountOfEyes() + "/3)");
+    private void placeSkull(PlayerSD player) {
+        int eyes = amountOfPlacedEyes.getOrDefault(player.getUniqueId(), 0);
+        amountOfPlacedEyes.put(player.getUniqueId(), ++eyes);
+
+        if (player.getGameMode() != GameMode.CREATIVE) {
+            player.removeItems(Items.get("WITHER_SKULL"), 1);
+        }
+
+        Block block = getWitherSkullLocation(eyes).getBlock();
+        block.setType(Material.SKULL);
+        block.setData((byte) 1);
+
+        Skull skull = (Skull) block.getState();
+        skull.setSkullType(SkullType.WITHER);
+        skull.setRotation(BlockFace.SOUTH);
+        skull.update();
+
+        for (Player p : player.getWorld().getPlayers()) {
+            p.sendMessage(ChatColor.DARK_PURPLE + "☬ " + player.getDisplayName() + ChatColor.LIGHT_PURPLE + " placed a skull! (" + eyes + "/3)");
         }
 
         if (getAmountOfEyes() >= 3) {
@@ -123,16 +138,46 @@ public class WitherIsland extends WorldSD implements Listener {
     }
 
     public void spawnWither() {
-        wither = new EntitySD(WITHER_SPAWN, getRandomWither());
-        witherDamage.clear();
-        clearWitherArea();
+        displaySpawningEffect();
+        Functions.Wait(60, () -> {
+            clearWitherArea();
+
+            wither = new EntitySD(WITHER_SPAWN, getRandomWither());
+            witherDamage.clear();
+
+            displaySpawnedEffect();
+        });
+    }
+
+    private void displaySpawningEffect() {
+        Location loc = WITHER_SPAWN.clone();
+        Functions.Loop(12, 5, i -> {
+            double radius = 2.0;
+            for (double angle = 0; angle < 2 * Math.PI; angle += Math.PI / 8) {
+                double x = Math.cos(angle) * radius;
+                double z = Math.sin(angle) * radius;
+                Location particleLoc = loc.clone().add(x, 1, z);
+
+                // You can mix & match particles here:
+                world.spawnParticle(Particle.SMOKE_LARGE, particleLoc, 3, 0, 0, 0, 0.01);
+                world.spawnParticle(Particle.FLAME, particleLoc, 2, 0, 0, 0, 0.02);
+                world.spawnParticle(Particle.SPELL_INSTANT, particleLoc, 1, 0, 0, 0, 0.01);
+            }
+        });
+    }
+
+    private void displaySpawnedEffect() {
+        Functions.Loop(40, 5L, i -> {
+            Location loc = wither.getLocation();
+            world.spawnParticle(Particle.SMOKE_NORMAL, loc, 30, 1, 1, 1, 0.05);
+            world.spawnParticle(Particle.SPELL_MOB_AMBIENT, loc, 20, 1, 1, 1, 0.1);
+            world.spawnParticle(Particle.CRIT_MAGIC, loc, 15, 1, 2, 1, 0.1);
+            world.spawnParticle(Particle.PORTAL, loc, 10, 1, 1, 1, 0.2);
+        });
     }
 
     public void clearWitherArea() {
-        Cuboid cuboid = new Cuboid(new Location(world, -65, 71, 63), new Location(world, -63, 73, 63));
-        cuboid.forEach(block -> {
-            block.setType(Material.AIR);
-        });
+        cuboid.forEach(block -> block.setType(Material.AIR));
     }
 
     public void buildAllSoulSand() {
@@ -149,14 +194,26 @@ public class WitherIsland extends WorldSD implements Listener {
     public Location getSoulSand(int num) {
         switch (num) {
             case 2:
-                return new Location(world, -65, 72, 63);
-            case 3:
                 return new Location(world, -64, 72, 63);
+            case 3:
+                return new Location(world, -65, 72, 63);
             case 4:
                 return new Location(world, -63, 72, 63);
             case 1:
             default:
                 return new Location(world, -64, 71, 63);
+        }
+    }
+
+    private Location getWitherSkullLocation(int num) {
+        switch (num) {
+            case 2:
+                return new Location(world, -64, 73, 63);
+            case 3:
+                return new Location(world, -65, 73, 63);
+            case 1:
+            default:
+                return new Location(world, -63, 73, 63);
         }
     }
 

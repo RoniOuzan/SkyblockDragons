@@ -18,8 +18,6 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
-import static me.maxiiiiii.skyblockdragons.util.Functions.getVector;
-
 @Getter
 public class MultiShot extends ItemAbility implements Listener {
     private static final double DEFAULT_MAX_POWER_TIME = 1;
@@ -120,13 +118,24 @@ public class MultiShot extends ItemAbility implements Listener {
             } else {
                 double angleDifference = getAngleDifference();
                 for (double i = -spread; i <= spread; i += angleDifference) {
-                    Vector vector = getVector(player, i, 0, multiplier);
+                    Vector vector = getShootingVector(player, i).multiply(multiplier);
                     Arrow arrow = player.launchProjectile(Arrow.class, vector);
                     arrow.addScoreboardTag("UNEVENTABLE");
                 }
             }
         }
     }
+
+    private static Vector getShootingVector(PlayerSD player, double angleOffset) {
+        Vector dir = player.getLocation().getDirection().normalize();
+        Vector up = new Vector(0, 1, 0);
+
+        // Project 'up' onto the plane perpendicular to 'dir' to get the rotation axis
+        Vector axis = up.clone().subtract(dir.clone().multiply(up.dot(dir))).normalize();
+
+        return Functions.rotateAroundAxis(dir, axis, angleOffset);
+    }
+
 
     private static double calculateSpread(double amountOfArrows) {
         return Math.sqrt(15 * (amountOfArrows - 1));

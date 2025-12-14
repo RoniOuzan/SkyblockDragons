@@ -3,6 +3,7 @@ package me.maxiiiiii.skyblockdragons.entity.types.theend;
 import me.maxiiiiii.skyblockdragons.SkyblockDragons;
 import me.maxiiiiii.skyblockdragons.entity.EntityAI;
 import me.maxiiiiii.skyblockdragons.entity.EntitySD;
+import me.maxiiiiii.skyblockdragons.player.PlayerSD;
 import me.maxiiiiii.skyblockdragons.util.Functions;
 import me.maxiiiiii.skyblockdragons.util.objects.cooldowns.Cooldown;
 import me.maxiiiiii.skyblockdragons.world.worlds.end.TheEnd;
@@ -25,7 +26,7 @@ public class DragonAI extends EntityAI {
     private final Cooldown<EntitySD> fireballCooldown;
 
     public DragonAI(EntitySD entity) {
-        super(entity, 2);
+        super(entity, 1);
         this.fireballCooldown = new Cooldown<>();
     }
 
@@ -43,7 +44,7 @@ public class DragonAI extends EntityAI {
             this.circling = null;
             this.waitingStartTime = SkyblockDragons.getCurrentTimeInSeconds();
             Functions.While(() -> this.phase == Phase.WAITING, 1L, i -> this.entity.setVelocity(new Vector()));
-        } else if (this.phase == Phase.WAITING && SkyblockDragons.getCurrentTimeInSeconds() - this.waitingStartTime >= 8) {
+        } else if (this.phase == Phase.WAITING && SkyblockDragons.getCurrentTimeInSeconds() - this.waitingStartTime >= 6) {
             this.phase = Phase.CIRCLING;
             this.circling = new Circling(this.entity);
             ((EntityDragon) this.entity.getMaterial()).strikeAbility(this.entity);
@@ -52,33 +53,40 @@ public class DragonAI extends EntityAI {
         switch (this.phase) {
             case CIRCLING:
                 if (this.circling != null) {
-                    this.circling.debugParticles();
+//                    this.circling.debugParticles();
                     this.circling.update();
                 }
                 break;
             case WAITING:
-                if (!Functions.cooldown(this.entity, fireballCooldown, 300, false)) {
-                    Fireball fireball = this.entity.getWorld().spawn(this.entity.getLocation().add(this.entity.getLocation().getDirection().multiply(5)), Fireball.class);
-                    fireball.setVelocity(this.entity.getLocation().getDirection().multiply(2));
-                    fireball.setShooter(this.entity);
-                    fireball.setIsIncendiary(false);
-                    fireball.setYield(2F);
+                if (!Functions.cooldown(this.entity, fireballCooldown, 400, false)) {
+                    Location start = this.entity.getLocation().add(0, 1.5, 0);
+                    PlayerSD target = Functions.getNearestPlayer(this.entity, 64);
+                    if (target != null) {
+                        Vector dir = target.getLocation().toVector().subtract(start.toVector()).normalize();
+                        Fireball fireball = this.entity.getWorld().spawn(start.add(dir.multiply(5)), Fireball.class);
+                        fireball.setVelocity(dir);
+                        fireball.setShooter(this.entity);
+                        fireball.setIsIncendiary(false);
+                        fireball.setYield(2F);
+
+                        this.entity.teleport(this.entity.getLocation().setDirection(dir));
+                    }
                 }
                 break;
         }
     }
 
     private static class Circling {
+        private static final int ORBIT_DURATION_TICKS = 60;
+        private static final double ORBIT_RADIUS = 20;
+        private static final int SPIRAL_ROTATIONS = 3;
+        private static final double VELOCITY = 1.5;
+
         private int index;
         private int orbitTicks;
         private final List<Location> spiralPath;
         private final Location center;
         private final EntitySD dragon;
-
-        private static final int ORBIT_DURATION_TICKS = 60;
-        private static final double ORBIT_RADIUS = 30;
-        private static final int SPIRAL_ROTATIONS = 2;
-        private static final double VELOCITY = 1.2; // blocks per tick
 
         public Circling(EntitySD dragon) {
             this.index = 0;
@@ -91,7 +99,7 @@ public class DragonAI extends EntityAI {
             double z = Functions.randomDouble(-40, 40);
             Location target = new Location(this.center.getWorld(), x, y, z);
 
-            this.spiralPath = generateInwardSpiral(dragon.getLocation(), target, 45, SPIRAL_ROTATIONS, 80);
+            this.spiralPath = generateBezierSpiral(this.center, target, 45, SPIRAL_ROTATIONS, 160);
         }
 
         public void update() {
@@ -109,13 +117,16 @@ public class DragonAI extends EntityAI {
                 orbitTicks++;
             } else {
                 if (index >= spiralPath.size()) return;
-                next = spiralPath.get(index);
-                index++;
+                next = spiralPath.get(index++);
             }
 
-            Vector velocity = next.toVector().subtract(current.toVector()).normalize().multiply(VELOCITY);
-            this.dragon.setVelocity(velocity);
-            this.dragon.teleport(this.dragon.getLocation().setDirection(velocity));
+            Vector velocity = next.toVector().subtract(current.toVector());
+            Vector smoothed = velocity.clone().normalize().multiply(VELOCITY);
+            this.dragon.setVelocity(smoothed);
+
+            Location newLoc = this.dragon.getLocation().clone();
+            newLoc.setDirection(velocity);
+            this.dragon.teleport(newLoc);
         }
 
         public boolean isFinished() {
@@ -129,31 +140,29 @@ public class DragonAI extends EntityAI {
             }
         }
 
-        public List<Location> generateInwardSpiral(Location start, Location end, double maxRadius, int rotations, int points) {
+        public List<Location> generateBezierSpiral(Location start, Location end, double maxRadius, int rotations, int points) {
             List<Location> path = new ArrayList<>();
-            Vector mainDirection = end.toVector().subtract(start.toVector());
-            double totalDistance = mainDirection.length();
-            mainDirection.normalize();
-            Vector perp = new Vector(-mainDirection.getZ(), 0, mainDirection.getX());
+
+            Vector mainDir = end.toVector().subtract(start.toVector());
+            double totalLength = mainDir.length();
+            mainDir.normalize();
+            Vector perp = new Vector(-mainDir.getZ(), 0, mainDir.getX());
 
             for (int i = 0; i <= points; i++) {
                 double t = (double) i / points;
-                double radius = (1 - t) * maxRadius;
+                double radius = maxRadius;
                 double angle = t * rotations * 2 * Math.PI;
 
-                Vector spiralOffset;
-                if (t == 1) {
-                    spiralOffset = new Vector(0, 0, 0);
-                } else {
-                    spiralOffset = perp.clone().multiply(Math.cos(angle))
-                            .add(mainDirection.clone().crossProduct(perp).multiply(Math.sin(angle)))
-                            .normalize().multiply(radius);
-                }
+                Vector offset = (t == 1) ? new Vector(0, 0, 0) :
+                        perp.clone().multiply(Math.cos(angle))
+                                .add(mainDir.clone().crossProduct(perp).multiply(Math.sin(angle)))
+                                .normalize().multiply(radius);
 
-                Vector along = mainDirection.clone().multiply(t * totalDistance);
-                Vector finalPos = start.toVector().add(along).add(spiralOffset);
+                Vector along = mainDir.clone().multiply(t * totalLength);
+                Vector control = start.toVector().add(along).add(offset);
+
                 double y = start.getY() + t * (end.getY() - start.getY());
-                path.add(new Location(start.getWorld(), finalPos.getX(), y, finalPos.getZ()));
+                path.add(new Location(start.getWorld(), control.getX(), y, control.getZ()));
             }
 
             return path;

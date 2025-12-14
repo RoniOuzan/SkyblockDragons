@@ -371,6 +371,7 @@ public class Cuboid implements Iterable<Block>, Cloneable, ConfigurationSerializ
      * @return true if the Block is within this Cuboid, false otherwise
      */
     public boolean contains(Block b) {
+        if (b == null) return false;
         return this.contains(b.getLocation());
     }
 
